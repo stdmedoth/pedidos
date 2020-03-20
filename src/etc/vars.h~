@@ -1,0 +1,24 @@
+#define SERVER "localhost"
+#define USER "calistu"
+#define PASS "1234"
+#define DATABASE "erp"
+#ifdef WIN32
+#define LOGGER       "/erp/data/logger"
+#define LOGO         "/erp/data/logo.png"
+#define INIT_IMAGE   "/erp/data/desktop.jpg"
+#define BACKUP       "/erp/data/backup"
+#define BANNER       "/erp/data/princ_imgs/banner.png"
+#define MSG_PRINC    "/erp/data/files/msg"
+#define BARRA_IMG    "/erp/data/princ_imgs/barra.png"
+#define DESKTOP      "/erp/data/desktop.jpg"
+#endif
+#ifdef __linux__
+#define DESKTOP      "/usr/share/calisto/files/desktop.jpg"
+#define INIT_IMAGE   "/usr/share/calisto/files/init.jpg"
+#define LOGGER       "/usr/share/calisto/files/logger"
+#define BACKUP       "/usr/share/calisto/files/backup"
+#define BANNER       "/usr/share/calisto/files/princ_imgs/banner.png"
+#define MSG_PRINC    "/usr/share/calisto/files/msg"
+#define BARRA_IMG    "/usr/share/calisto/files/princ_imgs/barra.png"
+  
+#endif

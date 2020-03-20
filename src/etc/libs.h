@@ -1,0 +1,13 @@
+#include "../etc/css.c"
+#include "../etc/vars.h"
+#include "../etc/stoi.h"
+#include "../etc/tools.c"
+#include "../etc/criticas.c"
+#include "../Terceiros/cadastro_terceiros.c"
+#include "../Produtos/cadastro_produtos.c"
+#include "../Unidades/cadastro_unidades.c"
+#include "../Compras/cadastro_compras.c"
+#include "../Vendas/cadastro_vendas.c"
+#include "../Estoque/estoque.c"
+#include "../Listagens/relatorios.c"
+
