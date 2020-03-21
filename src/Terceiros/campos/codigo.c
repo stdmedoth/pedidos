@@ -6,7 +6,7 @@ int code_terc()
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 	if(strlen(codigos_ter)<1)
 	{
-		g_print("Codigo terceiro deve ser inserido %s\n",codigos_ter);
+		g_print("Codigo terceiro deve ser inserido\n");
 		popup(NULL,"Por favor, insira um Código para o terceiro!");
                 sprintf(code,"%i",tasker("terceiros"));
 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
@@ -27,7 +27,7 @@ int code_terc()
 			g_print("Codigo do terceiro incorreto %s\n",codigos_ter);
 			popup(NULL,"Codigo terceiro deve ser numérico\nCaso não seja necessário, não mude o código padrão");
 			code[0] = '\0';
-			sprintf(code,"%i",tasker("terceiros"));
+			sprintf(code,"%i",tasker("terceiros")+1);
 			gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 			gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");

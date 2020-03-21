@@ -1,3 +1,4 @@
+GtkWidget *win_tipo_ter;
 int set_cliente()
 {
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"cliente");
@@ -13,7 +14,7 @@ int set_cliente()
 	else
 	{
 		tipo_ter_err=0;
-		gtk_widget_grab_focus(concluir);
+		gtk_widget_grab_focus(celular1_entry);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));
@@ -34,7 +35,7 @@ int set_fornecedor()
 	else
 	{
 		tipo_ter_err=0;
-		gtk_widget_grab_focus(concluir);
+		gtk_widget_grab_focus(celular1_entry);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));

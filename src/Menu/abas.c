@@ -93,7 +93,6 @@ int menu()
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(cadastros),cadastrosl[cont],0,0,20);
 	gtk_box_pack_start(GTK_BOX(compras),comprasl[0],0,0,20);
-	gtk_widget_grab_focus(lista_abas);	
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
 	return 0;
 }

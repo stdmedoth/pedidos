@@ -19,8 +19,8 @@ int codigos_prod_err=0,
     fornecedor_prod_err=0,
     unidade_prod_err=0;
 
-#include "codigo.c"
-#include "nome.c"
-#include "preco.c"
-#include "fornecedor.c"
-#include "unidade.c"
+#include "campos/codigo.c"
+#include "campos/nome.c"
+#include "campos/preco.c"
+#include "campos/fornecedor.c"
+#include "campos/unidade.c"

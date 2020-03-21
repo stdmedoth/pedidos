@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <time.h>
+GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
+GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
 int tecla_close_window(GtkWidget *widget,GdkEventKey *evento)
 {
@@ -15,19 +17,68 @@ int clique_close_window(GtkWidget *widget,GdkEventButton *evento)
 	return 0;
 }
 
+int conexao()
+{
+	char *infos(int), *string;
+	int conectado=0,tentativas=0;
+	while(conectado==0)
+	{
+		string = infos(0);
+		if(string==NULL)
+		{
+			razao = gtk_button_new_with_label("offline");
+			autologger("A razao social veio vazia");
+			conectado = 0;
+		}
+		else
+		{
+			razao = gtk_label_new(infos(0));
+			conectado = 1;
+		}
+		string = infos(1);
+		if(string == NULL)
+		{
+			endereco = gtk_button_new_with_label("offline");
+			autologger("o endereco veio vazio");
+			conectado = 0;
+		}	
+		else
+		{
+			endereco = gtk_label_new(string);
+			conectado = 1;
+		}
+		string = infos(2);
+		if(string == NULL)
+		{
+			cnpj = gtk_button_new_with_label("offline");
+			autologger("O cnpj esta vazio");
+			conectado = 0;
+		}
+		else
+		{
+			cnpj = gtk_label_new(string);
+			conectado = 1;
+		}
+		if(tentativas>CONECT_QNT)
+		{
+			return 1;
+		}
+		tentativas++;
+	}
+	return 0;
+}
+
 int desktop()
 {
-	char *infos(int), *string, *teste;
-	MYSQL conector;
-	
+	int err=0;
 	GtkWidget  *juncao;
 	GtkWidget  *layout, *imagem_fundo;
-	GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
-	GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 		
+	g_print("Fechando janela init\n");
+	gtk_widget_destroy(janela_inicializacao);
 	layout = gtk_layout_new(NULL,NULL);
 	imagem_fundo = gtk_image_new_from_file(DESKTOP);
-	gtk_widget_set_name(barra,"barra");
+
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
@@ -42,9 +93,14 @@ int desktop()
 	
 	g_signal_connect(GTK_WINDOW(janela_principal),"delete-event",G_CALLBACK(gtk_main_quit),NULL);
 		
-
+	err = conexao();
+	if(err!=0)
+	{
+			popup(NULL,"Não foi posivel conectar");
+	}
 	//criacao	
 	caixa_infos = gtk_box_new(1,0);
+	
 	
 	superior = gtk_box_new(0,0);
 	superior_1 = gtk_box_new(1,0);
@@ -55,95 +111,15 @@ int desktop()
 	inferior_2 = gtk_box_new(1,0);
 
 	barra = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);	
+	gtk_widget_set_name(barra,"barra");
+	
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
 	//fixed_sup_border = gtk_fixed_new();
 	fixed_razao = gtk_fixed_new();	
 	fixed_endereco = gtk_fixed_new();	
 	fixed_cnpj = gtk_fixed_new();
-	
-	teste = infos(0);
-	if(teste == NULL)
-	{
-		popup(NULL,"Abrindo Banco de dados...");
-		if(!mysql_init(&conector))
-		{
-			popup(NULL,"Não foi possivel abrir");
-			autologger((char*)mysql_error(&conector));
-			autologger("instalacao: mysql_init\n");
-			#ifdef __linux__
-				sleep(10);
-			#endif
-			#ifdef WIN32
-				Sleep(1000);
-			#endif
-			return 1;
-		}
-		if(!mysql_real_connect(&conector,SERVER,USER,PASS,NULL,0,NULL,0))
-		{
-			popup(NULL,"Não foi possivel conectar");
-			autologger((char*)mysql_error(&conector));
-			autologger("instalacao: mysql_real_connect\n");
-			#ifdef __linux__
-				sleep(10);
-			#endif
-			#ifdef WIN32
-				Sleep(1000);
-			#endif
-			return 1;
-		}
-		if(mysql_query(&conector,"source /usr/share/calisto/files/instalar.sql")!=0)
-		{
-			popup(NULL,"Não foi possivel instalar");
-			autologger("instalacao: mysql_query\n");
-			autologger("Query de instalacao source /usr/share/calisto/files/instalar.sql\n");
-			autologger((char*)mysql_error(&conector));
-			#ifdef __linux__
-				sleep(10);
-			#endif
-			#ifdef WIN32
-				Sleep(1000);
-			#endif
-			return 1;
-		}
-	}
-	string = infos(0);
-	if(string==NULL)
-	{
-		razao = gtk_button_new_with_label("offline");
-		autologger("A razao social veio vazia");
-		//popup(NULL,"Não foi possivel encontrar sua razao social\n");
-	}
-	else
-	{
-		//razao = gtk_button_new_with_label(infos(0));
-		razao = gtk_label_new(infos(0));
-	}
-	string = infos(1);
-	if(string == NULL)
-	{
-		endereco = gtk_button_new_with_label("offline");
-		autologger("o endereco veio vazio");
-		//popup(NULL,"Não foi possivel encontrar seu endereco\n");
-	}	
-	else
-	{
-		//endereco = gtk_button_new_with_label(infos(1));
-		endereco = gtk_label_new(string);
-	}
-	string = infos(2);
-	if(string == NULL)
-	{
-		cnpj = gtk_button_new_with_label("offline");
-		autologger("O cnpj esta vazio");
-		//popup(NULL,"Não foi possivel encontrar seu cnpj\n");
-	}
-	else
-	{
-		//cnpj = gtk_button_new_with_label(infos(2));
-		cnpj = gtk_label_new(string);
-	}
-	
+
 	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,60,250);
 	gtk_widget_set_name(razao,"infos");
 	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,60,5);
@@ -155,7 +131,7 @@ int desktop()
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_cnpj,0,0,0);	
 	
-        gtk_box_pack_start(GTK_BOX(superior_1),caixa_infos,0,0,0);
+    gtk_box_pack_start(GTK_BOX(superior_1),caixa_infos,0,0,0);
 		
 	gtk_box_pack_start(GTK_BOX(superior),superior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(superior),superior_2,0,0,0);	
@@ -198,6 +174,10 @@ int desktop()
 	menu();	
 	gtk_box_pack_end(GTK_BOX(superior_2),lista_abas,0,0,0);
 
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
+	
+
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
 	gtk_widget_show_all(janela_principal);
@@ -225,11 +205,7 @@ int init()
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
 	gtk_container_add(GTK_CONTAINER(event),imagem_inicializacao);
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),event);
-	g_signal_connect(janela_inicializacao,"delete-event",G_CALLBACK(tecla_close_window),NULL);
-	g_signal_connect(janela_inicializacao,"key_press_event",G_CALLBACK(tecla_close_window),NULL);
-	g_signal_connect(janela_inicializacao,"button_press_event",G_CALLBACK(clique_close_window),NULL);
 	
-	g_signal_connect(janela_inicializacao,"delete-event",G_CALLBACK(desktop),NULL);
 	g_signal_connect(janela_inicializacao,"key_press_event",G_CALLBACK(desktop),NULL);
 	g_signal_connect(janela_inicializacao,"button_press_event",G_CALLBACK(desktop),NULL);
 	

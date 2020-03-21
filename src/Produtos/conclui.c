@@ -28,7 +28,8 @@ int concluido_prod()
 			fornecedor_prod_err!=1&&
 			unidade_prod_err!=1)
 	{
-		sprintf(query,"insert into produtos(code,name,price,supplier) values('%s','%s','%s','%s');",codigos_prod,nomes_prod,preco_prod,fornecedor_prod);
+		sprintf(query,"insert into produtos(name,price,supplier) values('%s','%s','%s',%s);",
+		nomes_prod, preco_prod, fornecedor_prod, unidade_prod);
 		resultado = consultar(query);
 		if(stoi(codigos_prod)==-1)
 		{
