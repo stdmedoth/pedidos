@@ -5,11 +5,13 @@ GtkWidget *concluir, *alterar, *listar, *excluir;
 #include "lista.c"
 #include "conclui.c"
 
+
+
 #define MARGEM_D 50
 int  cad_terc()
 {
 	char task[20];
-	sprintf(task,"%i",tasker("terceiros")+1);
+	sprintf(task,"%i",tasker("terceiros"));
 	g_print("task %s\n",task);	
 	
 	//linhas
@@ -22,8 +24,8 @@ int  cad_terc()
 	
 	//container/visual
 	GtkWidget *fixed, *fixed2, *vertical_box, *separator;
-	GtkWidget *code, *cnpj, *name, *address, *type;
-	GtkWidget *celular1, *telefone1;
+	GtkWidget *code, *doc, *name, *address, *type;
+	GtkWidget *celular, *telefone;
 	
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
@@ -32,7 +34,7 @@ int  cad_terc()
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
-	gtk_widget_set_size_request(janela,1200,600);
+	gtk_widget_set_size_request(janela,800,600);
 	
 	fixed = gtk_fixed_new();
 	fixed2 = gtk_fixed_new();
@@ -48,16 +50,16 @@ int  cad_terc()
 	separator = gtk_separator_new(0);
 	
 	code_label = gtk_label_new("Codigo: ");
-	cnpj_label = gtk_label_new("CNPJ:");
+	doc_label = gtk_label_new("CNPJ:");
 	name_label = gtk_label_new("Nome: ");
 	address_label= gtk_label_new("Endereco: ");
 	type_label = gtk_label_new("Tipo Terceiro: ");
 	
-	celular1_label = gtk_label_new("Celular");
-	contatoc1_label = gtk_label_new("Contato");
+	celular_label = gtk_label_new("Celular");
+	contatoc_label = gtk_label_new("Contato");
 	
-	telefone1_label = gtk_label_new("Telefone");
-	contatot1_label = gtk_label_new("Contato");
+	telefone_label = gtk_label_new("Telefone");
+	contatot_label = gtk_label_new("Contato");
 	
 	concluir = gtk_button_new_with_label("Concluir");
 	alterar = gtk_button_new_with_label("Alterar");
@@ -65,16 +67,16 @@ int  cad_terc()
 	excluir = gtk_button_new_with_label("Excluir");
 	
 	code_ter_field = gtk_entry_new();
-	cnpj_ter_field = gtk_entry_new();
+	doc_ter_field = gtk_entry_new();
 	name_ter_field = gtk_entry_new();
 	address_ter_field = gtk_entry_new();
 	type_ter_field = gtk_entry_new();
 	
-	celular1_entry = gtk_entry_new();
-	contatoc1_entry = gtk_entry_new();
+	celular_entry = gtk_entry_new();
+	contatoc_entry = gtk_entry_new();
 	
-	telefone1_entry = gtk_entry_new();
-	contatot1_entry = gtk_entry_new();
+	telefone_entry = gtk_entry_new();
+	contatot_entry = gtk_entry_new();
 	
 	code = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(code),code_label,0,0,0);
@@ -82,10 +84,10 @@ int  cad_terc()
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
 	gtk_widget_set_size_request(code,50,50);
 
-	cnpj = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(cnpj),cnpj_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cnpj),cnpj_ter_field,0,0,0);
-	gtk_widget_set_size_request(cnpj,240,50);
+	doc = gtk_box_new(1,0);
+	gtk_box_pack_start(GTK_BOX(doc),doc_label,0,0,0);
+	gtk_box_pack_end(GTK_BOX(doc),doc_ter_field,0,0,0);
+	gtk_widget_set_size_request(doc,240,50);
 		
 	name = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(name),name_label,0,0,0);
@@ -103,28 +105,28 @@ int  cad_terc()
 	gtk_widget_set_size_request(type,50,50);
 	
 
-	celular1  = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(celular1),celular1_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(celular1),celular1_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(celular1),contatoc1_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(celular1),contatoc1_entry,0,0,0);
+	celular  = gtk_box_new(1,0);
+	gtk_box_pack_start(GTK_BOX(celular),celular_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(celular),celular_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(celular),contatoc_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(celular),contatoc_entry,0,0,0);
 
-	telefone1 = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(telefone1),telefone1_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(telefone1),telefone1_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(telefone1),contatot1_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(telefone1),contatot1_entry,0,0,0);
+	telefone = gtk_box_new(1,0);
+	gtk_box_pack_start(GTK_BOX(telefone),telefone_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(telefone),telefone_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(telefone),contatot_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(telefone),contatot_entry,0,0,0);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_one),cnpj,0,0,20);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,20);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),name,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),address,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),type,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),celular1,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),telefone1,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),celular,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),telefone,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),concluir,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),alterar,0,0,10);
@@ -137,23 +139,30 @@ int  cad_terc()
 	gtk_widget_set_size_request(GTK_WIDGET(excluir),100,50);
 	
 	g_signal_connect(GTK_ENTRY(code_ter_field),"activate",G_CALLBACK(code_terc),code_ter_field);
-	g_signal_connect(GTK_ENTRY(cnpj_ter_field),"activate",G_CALLBACK(cnpj_terc),cnpj_ter_field);
+	
+	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(cnpj_terc),doc_ter_field);
+	
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),address_ter_field);
 	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
 	
-	g_signal_connect(GTK_ENTRY(celular1_entry),"focus-in-event",G_CALLBACK(mostrar_contatoc1),celular1_entry);
-	g_signal_connect(GTK_ENTRY(telefone1_entry),"focus-in-event",G_CALLBACK(mostrar_contatot1),telefone1_entry);
-	g_signal_connect(GTK_ENTRY(celular1_entry),"activate",G_CALLBACK(cel1),NULL);
-	g_signal_connect(GTK_ENTRY(telefone1_entry),"activate",G_CALLBACK(tel1),NULL);
-	g_signal_connect(GTK_ENTRY(contatoc1_entry),"activate",G_CALLBACK(contc1),NULL);
-	g_signal_connect(GTK_ENTRY(contatot1_entry),"activate",G_CALLBACK(contt1),NULL);
+	g_signal_connect(GTK_ENTRY(celular_entry),"focus-in-event",G_CALLBACK(mostrar_contatoc),celular_entry);
+	g_signal_connect(GTK_ENTRY(telefone_entry),"focus-in-event",G_CALLBACK(mostrar_contatot),telefone_entry);
+	
+	g_signal_connect(GTK_ENTRY(celular_entry),"activate",G_CALLBACK(cel),NULL);
+	g_signal_connect(GTK_ENTRY(telefone_entry),"activate",G_CALLBACK(tel),NULL);
+	g_signal_connect(GTK_ENTRY(contatoc_entry),"activate",G_CALLBACK(contc),NULL);
+	g_signal_connect(GTK_ENTRY(contatot_entry),"activate",G_CALLBACK(contt),NULL);
 	
 	
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(code_terc),code_ter_field);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(name_terc),name_ter_field);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(address_terc),address_ter_field);
-	gtk_widget_grab_focus(GTK_WIDGET(cnpj_ter_field));
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(code_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(name_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(address_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(cel),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(tel),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contt),NULL);
+	gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_ter),concluir);
 	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_ter),alterar);
@@ -173,10 +182,10 @@ int  cad_terc()
 	gtk_box_pack_end(GTK_BOX(vertical_box),fixed2,0,0,20);
 	gtk_container_add(GTK_CONTAINER(janela),vertical_box);
 	gtk_widget_show_all(janela);
-	gtk_widget_hide(contatoc1_label);
-	gtk_widget_hide(contatoc1_entry);
-	gtk_widget_hide(contatot1_label);
-	gtk_widget_hide(contatot1_entry);
+	gtk_widget_hide(contatoc_label);
+	gtk_widget_hide(contatoc_entry);
+	gtk_widget_hide(contatot_label);
+	gtk_widget_hide(contatot_entry);
 	
 	return 0;
 }

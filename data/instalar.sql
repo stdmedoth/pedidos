@@ -21,10 +21,10 @@ tipoc varchar(100) not null,
 tipo int not null,
 endereco varchar(100),
 cep varchar(10),
-telefone1 varchar(15),
-telefone2 varchar(15),
-celular1 varchar(15),
-celular2 varchar(15),
+telefone varchar(15),
+contatot varchar(15),
+celular varchar(15),
+contatoc varchar(15),
 email varchar(100),
 contato varchar(20),
 obs varchar(500));
@@ -38,7 +38,7 @@ tabela3 float,
 unidade int not null,
 fornecedor int not null,
 foreign key(unidade) references unidades(code),
-foreign key(fornecedor) references terceiro(code));
+foreign key(fornecedor) references terceiros(code));
 
 create table precos(
 code int primary key auto_increment not null,

@@ -2,12 +2,11 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 {
 	char task[10];
 	char query[100];
-	gchar *cod_delel,*nome_delel;
+	gchar *cod;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
-	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
-	nome_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(name_ter_field));
-	sprintf(query,"select * from terceiros where code = '%s' or name = '%s';",cod_delel,nome_delel);
+	cod= (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
+	sprintf(query,"select * from terceiros where code = '%s';",cod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	estado = consultar(query);
@@ -33,18 +32,7 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 	address_terc();
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),campo[3]);
 	set_cliente();
-	sprintf(query,"delete from terceiros where code = '%s' or name = '%s';",cod_delel,nome_delel);
-	autologger("Alterou o produto abaixo");
-	autologger(query);
-	consultar(query);
-	query[0] = '\0';
-	sprintf(query,"select * from terceiros where code = '%s' or name = '%s';",cod_delel,nome_delel);
-	estado = consultar(query);
-	campo = mysql_fetch_row(estado);
-	if(campo!=NULL)
-	{
-		popup(NULL,"Não será possivel alterar");
-		return 1;
-	}
+	memset(query,0x0,strlen(query));
+	alterando=1;
 	return 0;
 }

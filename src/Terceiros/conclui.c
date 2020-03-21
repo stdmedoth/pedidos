@@ -1,9 +1,22 @@
+#define INSERT_QUERY 96
+#define QUERY_LEN (strlen(codigos_ter)+strlen(nomes_ter)+strlen(endereco_ter)+strlen(tipo_ter)+strlen(celular_ter)+strlen(contatoc_ter)+strlen(telefone_ter)+strlen(contatot_ter))*2
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
 	int err;
 	MYSQL_RES *resultado;
 	MYSQL_ROW campos;
-	char query[110],code[30];
+	char code[30];
+	
+	char *query;
+	
+	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
+	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
+	if(query==NULL)
+	{
+			popup(NULL,"Erro de memoria");
+			autologger("Erro de memoria");
+			return 1;
+	}
 	g_print("iniciando concluir_ter()\n");
 	
 	if(strlen(codigos_ter)<1||strlen(nomes_ter)<1||strlen(endereco_ter)<1||strlen(tipo_ter)<1)
@@ -18,7 +31,17 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(code_ter_field);
 		return 1;
 	}
-	sprintf(query,"insert into terceiros(code,name,address,type) values('%s','%s','%s','%s');",codigos_ter,nomes_ter,endereco_ter,tipo_ter);
+	if(alterando==0)
+	{
+		sprintf(query,
+		"insert into terceiros(razao,cnpj,tipoc,tipo,endereco,celular,contatoc,telefone,contatot) values('%s','%s','%s',%i,'%s','%s','%s','%s','%s');",	
+		nomes_ter,doc_ter,tipo_ter,terci_tipo,endereco_ter,/*cep,*/celular_ter,contatoc_ter,telefone_ter,contatot_ter);	
+	}
+	else
+	{
+		sprintf(query,"update terceiros set code = '%s', razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i ;"
+		,codigos_ter,nomes_ter,doc_ter,tipo_ter,terci_tipo);	
+	}
 	g_print("[...] Criando conexão com o banco\n\n");
 	MYSQL connect;
 	mysql_init(&connect);
@@ -30,7 +53,10 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	else
 	{
 		popup(NULL,"Algum erro no servidor\nLigue para suporte");
+		
 		g_print("[!] Erro ao tentar se conectar %s\n",mysql_error(&connect));
+		autologger("[!] Erro ao tentar se conectar\n");
+		autologger((char*)mysql_error(&connect));
 		return 1;
 	}	
 	if(stoi(codigos_ter)==-1)
@@ -38,6 +64,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		if(strlen(codigos_ter)>8)
 		{
 			g_print("Codigo terceiro muito grande %s\n",codigos_ter);
+			autologger("Codigo terceiro muito grande %s");
 			popup(NULL,"O código do terceiro deve ser menor\n");
 			return -1;
 		}
@@ -49,18 +76,24 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			return 1;
 		}
 	}
+	g_print("%s\n",query);
+	autologger(query);
 	err = mysql_query(&connect,query);
 	if(err!=0)
 	{
 		g_print("Query para tabela terceiros\n");
+		autologger("Query para tabela terceiros");
 		g_print("codigo do erro %i\n",err);
-		g_print("%s\n\n",mysql_error(&connect));
+		g_print("%s\n",mysql_error(&connect));
+		g_print("%s\n\n",query);
+		autologger(query);
 		gtk_button_set_label(GTK_BUTTON(botao),"erro");
 		popup(NULL,(gchar*)mysql_error(&connect));
 		return 1;
 	}
 	else
 	{
+		alterar=0;
 		autologger(query);
 		g_print("Query para tabela terceiros\n");
 		g_print("Query envida com sucesso\n");
