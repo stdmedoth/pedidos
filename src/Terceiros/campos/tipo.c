@@ -4,7 +4,6 @@ int terci_tipo=0;
 int set_cliente()
 {
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"cliente");
-	tipo_ter = malloc(MAX_TIPO_LEN);
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	if(strlen(tipo_ter)>=MAX_TIPO_LEN)
 	{
@@ -17,7 +16,7 @@ int set_cliente()
 	{
 		tipo_ter_err=0;
 		terci_tipo=1;
-		gtk_widget_grab_focus(celular_entry);
+		gtk_widget_grab_focus(celular_ter_field);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));
@@ -26,7 +25,6 @@ int set_cliente()
 int set_fornecedor()
 {
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"fornecedor");
-	tipo_ter = malloc(MAX_TIPO_LEN);
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	if(strlen(tipo_ter)>MAX_TIPO_LEN)
 	{
@@ -39,7 +37,7 @@ int set_fornecedor()
 	{
 		tipo_ter_err=0;
 		terci_tipo=2;
-		gtk_widget_grab_focus(celular_entry);
+		gtk_widget_grab_focus(celular_ter_field);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));

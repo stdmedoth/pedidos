@@ -21,18 +21,29 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
+		gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
+		gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
+		gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
 		gtk_widget_grab_focus (GTK_WIDGET(code_ter_field));
 		return 1;
 	}
-	gtk_entry_set_text(GTK_ENTRY(code_ter_field),campo[0]);
-	code_terc();
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),campo[1]);
-	name_terc();
-	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[2]);
-	address_terc();
+	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[2]);
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),campo[3]);
-	set_cliente();
+	//tipo em inteiro campo[4]
+	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[5]);
+	//gtk_entry_set_text(GTK_ENTRY(cep),campo[6]);
+	gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),campo[7]);
+	gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),campo[8]);
+	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),campo[9]);
+	gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),campo[10]);
+	/*
+	 * email
+	 * contato
+	 * obs*/
 	memset(query,0x0,strlen(query));
 	alterando=1;
+	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
 }

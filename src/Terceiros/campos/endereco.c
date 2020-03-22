@@ -1,6 +1,7 @@
+#define MAX_ADR_LEN 50
+#define CEP_LEN 9
 int address_terc()
 {
-	endereco_ter = malloc(51);
 	endereco_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(address_ter_field));
 	if(strlen(endereco_ter)<1)
 	{
@@ -9,7 +10,7 @@ int address_terc()
 		endereco_ter_err = 1;
 		return 1;		
 	}
-	if(strlen(endereco_ter)>50)
+	if(strlen(endereco_ter)>MAX_ADR_LEN)
 	{
 		popup(NULL,"Endereco muito grande\nPor favor use abreviações");
 		gtk_widget_grab_focus(address_ter_field);
@@ -19,13 +20,13 @@ int address_terc()
 	else
 	{
 		endereco_ter_err=0;
-		if(tipo_ter==NULL)
+		if((strlen(tipo_ter))<=0)
 		{
 			gtk_widget_grab_focus(type_ter_field);
 		}
 		else
 		{
-			gtk_widget_grab_focus(concluir);
+			gtk_widget_grab_focus(celular_ter_field);
 		}
 	}
 	g_print("endereco: %s\n",endereco_ter);

@@ -2,14 +2,15 @@ int cnpj_terc()
 {
 	int len,cont,cont2=0;
 	char formatar[20];
-	memset(formatar,0x0,20);	
-	doc_ter = malloc(20);
-	memset(doc_ter,0x0,20);	
+	memset(formatar,0x0,20);
 	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
 	len = strlen(doc_ter);
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
-	if(len<1)
+	if(len<=0)
 	{
+//		gtk_widget_grab_focus(name_ter_field);	
+//		return 0;
+
 		g_print("CNPJ terceiro deve ser inserido\n");
 		popup(NULL,"Por favor, insira um CNPJ para o terceiro!");
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
@@ -17,6 +18,7 @@ int cnpj_terc()
 		doc_ter_err=1;
 		return 1;
 	}
+	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
 	if(len==CNPJ_N_LEN)
 	{
 			for(cont=0;cont<CNPJ_N_LEN;cont++)

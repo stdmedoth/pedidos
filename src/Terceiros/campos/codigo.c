@@ -2,7 +2,6 @@ int code_terc()
 {
 	char code[10];
 	char task[8];
-	codigos_ter = malloc(21);
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 	if(strlen(codigos_ter)<1)
 	{
@@ -48,7 +47,7 @@ int code_terc()
 	else
 	{
 		codigos_ter_err=0;
-		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
+		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 	}
 	g_print("codigo: %s\n",codigos_ter);
 	return 0;

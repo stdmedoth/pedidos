@@ -5,8 +5,8 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	int err;
 	MYSQL_RES *resultado;
 	MYSQL_ROW campos;
-	char code[30];
-	
+	char *code;
+	code = malloc(10);
 	char *query;
 	
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
@@ -19,18 +19,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	}
 	g_print("iniciando concluir_ter()\n");
 	
-	if(strlen(codigos_ter)<1||strlen(nomes_ter)<1||strlen(endereco_ter)<1||strlen(tipo_ter)<1)
-	{
-	//	code[0] = '\0';
-	//	sprintf(code,"%i",tasker("terceiros"));
-	//	gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
-	//	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
-	//	gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-	//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
-		popup(NULL,"Voce deve preencher todos os campos");	
-		gtk_widget_grab_focus(code_ter_field);
-		return 1;
-	}
 	if(alterando==0)
 	{
 		sprintf(query,
@@ -39,8 +27,8 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	}
 	else
 	{
-		sprintf(query,"update terceiros set code = '%s', razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i ;"
-		,codigos_ter,nomes_ter,doc_ter,tipo_ter,terci_tipo);	
+		sprintf(query,"update terceiros set razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i where code = %s;"
+		,nomes_ter,doc_ter,tipo_ter,terci_tipo,codigos_ter);	
 	}
 	g_print("[...] Criando conexão com o banco\n\n");
 	MYSQL connect;
@@ -93,7 +81,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	}
 	else
 	{
-		alterar=0;
 		autologger(query);
 		g_print("Query para tabela terceiros\n");
 		g_print("Query envida com sucesso\n");
@@ -106,29 +93,30 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			g_print("Query envida com sucesso\n");
 			gtk_button_set_label(GTK_BUTTON(botao),"concluido");
 			popup(NULL,"Concluido");
+			gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
+			alterar=0;
 			code[0] = '\0';
 			sprintf(code,"%i",tasker("terceiros"));
 			gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 			gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
+			
 		//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
 			gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
-		//	gtk_widget_destroy(janela);
-			memset(nomes_ter,0x0,strlen(nomes_ter));
-		//	memset(codigos_ter,0x0,strlen(codigos_ter));
-		//	memset(endereco_ter,0x0,strlen(endereco_ter));
-		//	memset(tipo_ter,0x0,strlen(tipo_ter));
 		}
 		else
 		{
 			popup(NULL,"O cadastro nao foi feito\nverifique os campos");
+			autologger("O cadastro nao foi feito\nverifique os campos");
 		}
 		return 0;
 	}
-	if(tipo_ter!=NULL)
-	{
-		tipo_ter = NULL;
-	}
 	return 0;
 	printf("finalizando conclui_ter()\n");
+	autologger("O cadastro nao foi feito\nverifique os campos");
 }

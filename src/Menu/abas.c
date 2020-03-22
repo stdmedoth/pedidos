@@ -1,9 +1,25 @@
 GtkWidget *lista_abas;
 GtkWidget *botao_iniciar;
 int controle_menu=0;
-
+//modulos ativos
+struct modulos
+{
+	int cadastro;
+	int compras;
+	int faturamento;
+	int estoque;
+	int financeiro;
+	int relatorios;
+}ativar;
 int menu()
 {	
+	
+	ativar.cadastro=1;
+	ativar.compras=0;
+	ativar.faturamento=1;
+	ativar.estoque=1;
+	ativar.financeiro=0;
+	ativar.relatorios=1;
 	
 	GtkWidget *principal,  *principal_label;
 	GtkWidget *cadastros,  *cadastros_label;
@@ -79,13 +95,20 @@ int menu()
 	gtk_fixed_put(GTK_FIXED(lembrete_fixed),lembrete_box,200,100);
 	
 	//inserindo abas
+
 	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),principal,principal_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),cadastros,cadastros_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),compras,compras_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),faturamento,faturamento_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),estoque,estoque_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label); 
+	if(ativar.cadastro)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),cadastros,cadastros_label);
+	if(ativar.compras)	
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),compras,compras_label);
+	if(ativar.faturamento)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),faturamento,faturamento_label);
+	if(ativar.estoque)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),estoque,estoque_label);
+	if(ativar.financeiro)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
+	if(ativar.relatorios)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label); 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 	gtk_box_pack_start(GTK_BOX(principal),texto_principal,0,0,0);
 	gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
@@ -94,6 +117,7 @@ int menu()
 		gtk_box_pack_start(GTK_BOX(cadastros),cadastrosl[cont],0,0,20);
 	gtk_box_pack_start(GTK_BOX(compras),comprasl[0],0,0,20);
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
+	
 	return 0;
 }
 

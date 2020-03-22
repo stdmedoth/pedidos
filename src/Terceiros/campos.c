@@ -2,23 +2,31 @@ gchar *codigos_ter=NULL;
 gchar *doc_ter=NULL;
 gchar *nomes_ter=NULL;
 gchar *endereco_ter=NULL;
+gchar *cep_ter=NULL;
 gchar *tipo_ter=NULL;
 gchar *celular_ter=NULL;
 gchar *telefone_ter=NULL;
 gchar *contatot_ter=NULL;
 gchar *contatoc_ter=NULL;
 
-GtkWidget *code_ter_field, *doc_ter_field, *name_ter_field, *address_ter_field, *type_ter_field;
-GtkWidget *code_label, *doc_label, *name_label, *address_label, *type_label,
+GtkWidget *code_ter_field, *doc_ter_field, *name_ter_field, *address_ter_field, *cep_ter_field, *type_ter_field,
+*telefone_ter_field, *contatot_ter_field,
+*celular_ter_field, *contatoc_ter_field;
+
+GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*type_label,
 *telefone_label, *contatot_label,
 *celular_label, *contatoc_label;
-GtkWidget *code_entry, *doc_entry, *name_entry, *address_entry, *type_entry,
-*celular_entry, *contatoc_entry,
-*telefone_entry, *contatot_entry;
+
+/*
+GtkWidget *code_entry, *doc_ter_field, *name_entry, *address_entry, *type_entry,
+*celular_ter_field, *contatoc_ter_field,
+*telefone_ter_field, *contatot_ter_field;
+*/
 
 static int codigos_ter_err=0, doc_ter_err=0, nomes_ter_err=0,endereco_ter_err=0,tipo_ter_err=0;
 
 GtkWidget *janela;
+GtkWidget *acao_atual,*acao_atual2;
 GtkWidget *win_tipo_ter;
 
 #define CONECT_QNT 1
@@ -37,3 +45,4 @@ int alterando=0;
 #include "campos/endereco.c"
 #include "campos/tipo.c"
 #include "campos/contatos.c"
+

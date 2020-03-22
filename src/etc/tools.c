@@ -96,6 +96,7 @@ int tasker(char *table)
 	MYSQL_ROW campos;
 	int err=0,task_num=0;
 	char query[100];
+	printf("Iniciando Tasker()\n");
 	sprintf(query,"select MAX(code) from %s;",table);
 	mysql_real_connect(&connect,SERVER,USER,PASS,DATABASE,0,NULL,0);
 	err = mysql_query(&connect,query);
@@ -136,6 +137,7 @@ int tasker(char *table)
 		return 1;
 	}
 	g_print("Query_code recebida com sucesso\n");
+	g_print("Tasker Finalizado\n");
 	return (task_num+1);
 }
 
