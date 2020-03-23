@@ -1,5 +1,5 @@
 #define INSERT_QUERY 96
-#define QUERY_LEN (strlen(codigos_ter)+strlen(nomes_ter)+strlen(endereco_ter)+strlen(tipo_ter)+strlen(celular_ter)+strlen(contatoc_ter)+strlen(telefone_ter)+strlen(contatot_ter))*2
+#define QUERY_LEN (strlen(codigos_ter)+strlen(nomes_ter)+strlen(endereco_ter)+strlen(tipo_ter)+strlen(celular_ter)+strlen(contatoc_ter)+strlen(telefone_ter)+strlen(contatot_ter)+strlen(email_ter)+strlen(observacoes_ter))*2
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
 	int err;
@@ -8,7 +8,16 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	char *code;
 	code = malloc(10);
 	char *query;
-	
+	int cont;
+	for(cont=0;cont<=CAMPOS_QNT;cont++)
+	{
+		if(vet_erro[cont]!=0)
+		{
+			g_print("Tentou concluir cadastro com campos incorretos: campo %i\n",cont);
+			autologger("Tentou concluir cadastro com campos incorretos");
+			return 1;
+		}
+	}
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)
@@ -22,13 +31,13 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	if(alterando==0)
 	{
 		sprintf(query,
-		"insert into terceiros(razao,cnpj,tipoc,tipo,endereco,celular,contatoc,telefone,contatot) values('%s','%s','%s',%i,'%s','%s','%s','%s','%s');",	
-		nomes_ter,doc_ter,tipo_ter,terci_tipo,endereco_ter,/*cep,*/celular_ter,contatoc_ter,telefone_ter,contatot_ter);	
+		"insert into terceiros(razao,doc,tipo_doc,tipoc,tipo,endereco,celular,contatoc,telefone,contatot,email,contatoe,obs) values('%s','%s',%i,'%s',%i,'%s','%s','%s','%s','%s','%s','%s','%s');",	
+		nomes_ter,doc_ter,tipo_doc,tipo_ter,terci_tipo,endereco_ter,/*cep,*/celular_ter,contatoc_ter,telefone_ter,contatot_ter,email_ter,contatoe_ter,observacoes_ter);	
 	}
 	else
 	{
-		sprintf(query,"update terceiros set razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i where code = %s;"
-		,nomes_ter,doc_ter,tipo_ter,terci_tipo,codigos_ter);	
+		sprintf(query,"update terceiros set razao = '%s', doc = '%s', tipo_doc = %i, tipoc = '%s', tipo = %i,telefone = '%s',contatot = '%s',celular = '%s',contatoc = '%s', email = '%s',obs = '%s' where code = %s;"
+		,nomes_ter,doc_ter,tipo_doc,tipo_ter,terci_tipo,telefone_ter,contatot_ter,celular_ter,contatoc_ter,email_ter,observacoes_ter,codigos_ter);	
 	}
 	g_print("[...] Criando conexão com o banco\n\n");
 	MYSQL connect;
@@ -105,6 +114,11 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(email_ter_field),"");
+			gtk_text_buffer_get_start_iter (buffer,&inicio);
+			gtk_text_buffer_get_end_iter (buffer,&fim);
+			gtk_text_buffer_delete (buffer,&inicio,&fim);
+			
 			
 		//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
 			gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));

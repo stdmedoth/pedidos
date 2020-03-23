@@ -1,0 +1,786 @@
+diff --git a/data/desktop/style.css b/data/desktop/style.css
+index 9390abf..91f3317 100644
+--- a/data/desktop/style.css
++++ b/data/desktop/style.css
+@@ -3,6 +3,20 @@
+ 	background: Grey;
+ 	border: solid 1px Gainsboro;
+ }
++#borda
++{
++	border: solid 1px Gainsboro;
++}
++#caixa
++{
++	border-radius: 10px;
++	background: Lightgrey;
++}
++
++#acao_atual
++{
++	color: green;
++}
+ #infos
+ {
+ 	color: white;
+diff --git a/data/instalar.sql b/data/instalar.sql
+index d8b1bf0..b905669 100644
+--- a/data/instalar.sql
++++ b/data/instalar.sql
+@@ -17,7 +17,7 @@ terceiros (
+ code int primary key auto_increment not null,
+ razao varchar(100) not null,
+ cnpj varchar(20),
+-tipoc varchar(100) not null,
++tipoc varchar(20) not null,
+ tipo int not null,
+ endereco varchar(100),
+ cep varchar(10),
+@@ -48,6 +48,13 @@ valor float not null,
+ foreign key(terceiro) references terceiros(code),
+ foreign key(produto) references produtos(code));
+ 
++create table estoque(
++produto int primary key not null,
++terceiro int not null,
++quantidade real not null,
++foreign key(produto) references produtos(code),
++foreign key(terceiro) references terceiros(code));
++
+ create user if not exists 'petitto'@'%' identified with mysql_native_password by '1234';
+ grant all privileges on *.* to 'petitto'@'%';
+ 
+diff --git a/src/Menu/abas.c b/src/Menu/abas.c
+index bd28640..6554fa7 100644
+--- a/src/Menu/abas.c
++++ b/src/Menu/abas.c
+@@ -15,10 +15,10 @@ int menu()
+ {	
+ 	
+ 	ativar.cadastro=1;
+-	ativar.compras=1;
++	ativar.compras=0;
+ 	ativar.faturamento=1;
+ 	ativar.estoque=1;
+-	ativar.financeiro=1;
++	ativar.financeiro=0;
+ 	ativar.relatorios=1;
+ 	
+ 	GtkWidget *principal,  *principal_label;
+diff --git a/src/Menu/cad_ico.c b/src/Menu/cad_ico.c
+index 54e87bc..d55a007 100644
+--- a/src/Menu/cad_ico.c
++++ b/src/Menu/cad_ico.c
+@@ -6,9 +6,9 @@ int cad_ico()
+ 	int cont,linha=0;
+ 	
+ 	//imagem dos icones
+-        prd_ico = gtk_image_new_from_file(PROD_IMG);
+-        ter_ico = gtk_image_new_from_file(TERC_IMG);
+-        est_ico = gtk_image_new_from_file(ESTO_IMG);
++   prd_ico = gtk_image_new_from_file(PROD_IMG);
++   ter_ico = gtk_image_new_from_file(TERC_IMG);
++   est_ico = gtk_image_new_from_file(ESTO_IMG);
+ 	opr_ico = gtk_image_new_from_file(OPR_IMG);
+ 	trs_ico = gtk_image_new_from_file(TRS_IMG);
+ 	und_ico = gtk_image_new_from_file(UND_IMG);
+diff --git a/src/Menu/variaveis.h b/src/Menu/variaveis.h
+index 831f6f7..fec7102 100644
+--- a/src/Menu/variaveis.h
++++ b/src/Menu/variaveis.h
+@@ -1,7 +1,7 @@
+ #define MAX_ICO_QNT 24
+ #define LINE_ICO_QNT 2
+ #define ICOL 5
+-#define CAD_ICO_QNT 6
++#define CAD_ICO_QNT 5
+ #define CMP_ICO_QNT 4
+ 
+ //cadastros 
+diff --git a/src/Terceiros/cadastro_terceiros.c b/src/Terceiros/cadastro_terceiros.c
+index df1749b..90f419b 100644
+--- a/src/Terceiros/cadastro_terceiros.c
++++ b/src/Terceiros/cadastro_terceiros.c
+@@ -4,10 +4,20 @@ GtkWidget *concluir, *alterar, *listar, *excluir;
+ #include "exclui.c"
+ #include "lista.c"
+ #include "conclui.c"
++#define MARGEM_D 10
+ 
+-#define MARGEM_D 50
+ int inicializar_ter()
+ {
++	criticar.doc = 1;
++	criticar.endereco = 1;
++	criticar.nome = 1;
++	criticar.tipo = 1;
++	criticar.celular = 1;
++	criticar.telefone = 1;
++	criticar.contatoc = 1;
++	criticar.contatot = 1;
++	
++	
+ 	codigos_ter = malloc(10);
+ 	doc_ter = malloc(CNPJ_S_LEN);
+ 	nomes_ter = malloc(MAX_RAZ_LEN);	
+@@ -19,6 +29,8 @@ int inicializar_ter()
+ 	telefone_ter = malloc(MAX_TEL_LEN);
+ 	contatoc_ter = malloc(MAX_CONT_LEN);
+ 	contatot_ter = malloc(MAX_CONT_LEN);
++	email_ter = malloc(MAX_EMAIL_LEN);
++	observacoes_ter = malloc(MAX_OBS_LEN);
+ 	return 0;
+ }
+ int  cad_terc()
+@@ -32,23 +44,25 @@ int  cad_terc()
+ 	*horizontal_box_three, 
+ 	*horizontal_box_four, 
+ 	*horizontal_box_five, 
+-	*horizontal_box_six;
++	*horizontal_box_six,
++	*horizontal_box_seven;
+ 	
+ 	//container/visual
+ 	GtkWidget *fixed, *fixed2, *vertical_box, *separator;
+ 	GtkWidget *code, *doc, *name, *address, *type;
+-	GtkWidget *celular, *telefone,*acao;
++	GtkWidget *celular, *telefone,*acao, *email, *observacoes;
+ 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
++	gtk_widget_set_name(janela,"terceiros");
+ 	gtk_window_set_position(GTK_WINDOW(janela),3);
+ 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
+ 	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO TERCEIROS");
+ 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+ 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+ 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
+-	gtk_widget_set_size_request(janela,800,600);
++	gtk_widget_set_size_request(janela,800,400);
+ 	
+ 	acao = gtk_box_new(0,0);
+-	acao_atual = gtk_label_new("Acao atual: ");
++	acao_atual = gtk_label_new("Ação atual: ");
+ 	acao_atual2 = gtk_label_new("Cadastrando");
+ 	gtk_widget_set_name(acao_atual2,"acao_atual");
+ 	gtk_box_pack_start(GTK_BOX(acao),acao_atual,0,0,0);
+@@ -63,6 +77,7 @@ int  cad_terc()
+ 	horizontal_box_four = gtk_box_new(0,0);
+ 	horizontal_box_five = gtk_box_new(0,0);
+ 	horizontal_box_six = gtk_box_new(0,0);
++	horizontal_box_seven = gtk_box_new(0,0);
+ 	
+ 	vertical_box = gtk_box_new(1,0);
+ 	separator = gtk_separator_new(0);
+@@ -79,6 +94,10 @@ int  cad_terc()
+ 	telefone_label = gtk_label_new("Telefone");
+ 	contatot_label = gtk_label_new("Contato");
+ 	
++	email_label = gtk_label_new("Email");
++
++	observacoes_label = gtk_label_new("Observações");
++	
+ 	concluir = gtk_button_new_with_label("Concluir");
+ 	alterar = gtk_button_new_with_label("Alterar");
+ 	listar = gtk_button_new_with_label("Listar");
+@@ -89,51 +108,70 @@ int  cad_terc()
+ 	name_ter_field = gtk_entry_new();
+ 	address_ter_field = gtk_entry_new();
+ 	type_ter_field = gtk_entry_new();
+-	
+ 	celular_ter_field = gtk_entry_new();
+ 	contatoc_ter_field = gtk_entry_new();
+-	
+ 	telefone_ter_field = gtk_entry_new();
+ 	contatot_ter_field = gtk_entry_new();
++	email_ter_field = gtk_entry_new();
++	observacoes_ter_field = gtk_text_view_new();
+ 	
+ 	code = gtk_box_new(1,0);
++	gtk_widget_set_name(code,"caixa");
+ 	gtk_box_pack_start(GTK_BOX(code),code_label,0,0,0);
+ 	gtk_box_pack_end(GTK_BOX(code),code_ter_field,0,0,0);
+ 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
+ 	gtk_widget_set_size_request(code,50,50);
+ 
+ 	doc = gtk_box_new(1,0);
++	gtk_widget_set_name(doc,"caixa");
+ 	gtk_box_pack_start(GTK_BOX(doc),doc_label,0,0,0);
+ 	gtk_box_pack_end(GTK_BOX(doc),doc_ter_field,0,0,0);
+ 	gtk_widget_set_size_request(doc,240,50);
+ 		
+ 	name = gtk_box_new(1,0);
++	gtk_widget_set_name(name,"caixa");
+ 	gtk_box_pack_start(GTK_BOX(name),name_label,0,0,0);
+ 	gtk_box_pack_end(GTK_BOX(name),name_ter_field,0,0,0);
+ 	gtk_widget_set_size_request(name,440,50);
+ 	
+ 	address = gtk_box_new(1,0);
++	gtk_widget_set_name(address,"caixa");
+ 	gtk_box_pack_start(GTK_BOX(address),address_label,0,0,0);
+ 	gtk_box_pack_end(GTK_BOX(address),address_ter_field,0,0,0);
+ 	gtk_widget_set_size_request(address,250,50);
+ 	
+ 	type = gtk_box_new(1,0);
++	gtk_widget_set_name(type,"caixa");
+ 	gtk_box_pack_start(GTK_BOX(type),type_label,0,0,0);
+ 	gtk_box_pack_end(GTK_BOX(type),type_ter_field,0,0,0);
+ 	gtk_widget_set_size_request(type,50,50);
+ 	
+ 	celular  = gtk_box_new(1,0);
++	gtk_widget_set_name(celular,"borda");
+ 	gtk_box_pack_start(GTK_BOX(celular),celular_label,0,0,0);
+ 	gtk_box_pack_start(GTK_BOX(celular),celular_ter_field,0,0,0);
+ 	gtk_box_pack_start(GTK_BOX(celular),contatoc_label,0,0,10);
+ 	gtk_box_pack_start(GTK_BOX(celular),contatoc_ter_field,0,0,0);
+ 
+ 	telefone = gtk_box_new(1,0);
++	gtk_widget_set_name(telefone,"borda");
+ 	gtk_box_pack_start(GTK_BOX(telefone),telefone_label,0,0,0);
+ 	gtk_box_pack_start(GTK_BOX(telefone),telefone_ter_field,0,0,0);
+ 	gtk_box_pack_start(GTK_BOX(telefone),contatot_label,0,0,10);
+ 	gtk_box_pack_start(GTK_BOX(telefone),contatot_ter_field,0,0,0);
+ 	
++	email = gtk_box_new(1,0);
++	gtk_widget_set_name(email,"caixa");
++	gtk_box_pack_start(GTK_BOX(email),email_label,0,0,0);
++	gtk_box_pack_start(GTK_BOX(email),email_ter_field,0,0,0);
++	gtk_widget_set_size_request(email_ter_field,360,30);
++		
++	observacoes = gtk_box_new(1,0);
++	gtk_widget_set_name(observacoes,"caixa");
++	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_label,0,0,10);
++	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_ter_field,0,0,10);
++	gtk_widget_set_size_request(observacoes_ter_field,440,60);
++	
+ 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
+ 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,20);
+ 	
+@@ -145,10 +183,14 @@ int  cad_terc()
+ 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),celular,0,0,10);
+ 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),telefone,0,0,10);
+ 	
+-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),concluir,0,0,10);
+-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),alterar,0,0,10);
+-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),listar,0,0,10);
+-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),excluir,0,0,10);
++	gtk_box_pack_start(GTK_BOX(horizontal_box_five),email,0,0,10);
++	
++	gtk_box_pack_start(GTK_BOX(horizontal_box_six),observacoes,0,0,10);
++	
++	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),concluir,0,0,10);
++	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),alterar,0,0,10);
++	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),listar,0,0,10);
++	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),excluir,0,0,10);
+ 
+ 	gtk_widget_set_size_request(GTK_WIDGET(concluir),100,50);
+ 	gtk_widget_set_size_request(GTK_WIDGET(alterar),100,50);
+@@ -161,8 +203,6 @@ int  cad_terc()
+ 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
+ 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),address_ter_field);
+ 	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
+-	g_signal_connect(GTK_ENTRY(celular_ter_field),"focus-in-event",G_CALLBACK(mostrar_contatoc),celular_ter_field);
+-	g_signal_connect(GTK_ENTRY(telefone_ter_field),"focus-in-event",G_CALLBACK(mostrar_contatot),telefone_ter_field);
+ 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
+ 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);
+ 	g_signal_connect(GTK_ENTRY(contatoc_ter_field),"activate",G_CALLBACK(contc),NULL);
+@@ -176,6 +216,7 @@ int  cad_terc()
+ 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(tel),NULL);
+ 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contc),NULL);
+ 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contt),NULL);
++	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs),observacoes_ter_field);
+ 
+ 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_ter),concluir);
+ 	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_ter),alterar);
+@@ -185,21 +226,22 @@ int  cad_terc()
+ 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
+ 	
+ 	gtk_container_add(GTK_CONTAINER(fixed),separator);
+-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);
+-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);
+-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140);
+-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,200);
+-	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,0);
++	gtk_widget_set_name(vertical_box,"vertical_box");
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);    //nome
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //endereco tipo ter
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,200);  //celular telefone contato contato
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,330);  //email
++	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_six,MARGEM_D,390);    //observacoes
++	
++	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_seven,MARGEM_D,30); //opcoes
+ 			
+ 	gtk_box_pack_start(GTK_BOX(vertical_box),acao,0,0,0);
+ 	gtk_box_pack_start(GTK_BOX(vertical_box),fixed,0,0,0);
+-	gtk_box_pack_end(GTK_BOX(vertical_box),fixed2,0,0,20);
++	gtk_box_pack_end(GTK_BOX(vertical_box),fixed2,0,0,10);
+ 	gtk_container_add(GTK_CONTAINER(janela),vertical_box);
+ 	gtk_widget_show_all(janela);
+-	gtk_widget_hide(contatoc_label);
+-	gtk_widget_hide(contatoc_ter_field);
+-	gtk_widget_hide(contatot_label);
+-	gtk_widget_hide(contatot_ter_field);
+ 	gtk_widget_grab_focus(doc_ter_field);	
++
+ 	return 0;
+ }
+diff --git a/src/Terceiros/campos.c b/src/Terceiros/campos.c
+index b3c3996..4aab863 100644
+--- a/src/Terceiros/campos.c
++++ b/src/Terceiros/campos.c
+@@ -8,22 +8,42 @@ gchar *celular_ter=NULL;
+ gchar *telefone_ter=NULL;
+ gchar *contatot_ter=NULL;
+ gchar *contatoc_ter=NULL;
+-
++gchar *email_ter=NULL;
++gchar *observacoes_ter=NULL;
++#define MAX_EMAIL_LEN 100
++#define MAX_OBS_LEN 500
+ GtkWidget *code_ter_field, *doc_ter_field, *name_ter_field, *address_ter_field, *cep_ter_field, *type_ter_field,
+-*telefone_ter_field, *contatot_ter_field,
+-*celular_ter_field, *contatoc_ter_field;
++*telefone_ter_field, *contatot_ter_field, *celular_ter_field, *contatoc_ter_field, 
++*email_ter_field, *observacoes_ter_field;
+ 
+ GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*type_label,
+-*telefone_label, *contatot_label,
+-*celular_label, *contatoc_label;
++*telefone_label, *contatot_label, *celular_label, *contatoc_label, 
++*email_label, *observacoes_label;
+ 
+-/*
+-GtkWidget *code_entry, *doc_ter_field, *name_entry, *address_entry, *type_entry,
+-*celular_ter_field, *contatoc_ter_field,
+-*telefone_ter_field, *contatot_ter_field;
+-*/
++struct parametros
++{
++	int doc;
++	int nome;
++	int endereco;
++	int tipo;
++	int celular;
++	int contatoc;
++	int telefone;
++	int contatot;
++	int email;
++	int observacoes;
++}criticar;
+ 
+-static int codigos_ter_err=0, doc_ter_err=0, nomes_ter_err=0,endereco_ter_err=0,tipo_ter_err=0;
++int vet_erro[9];
++//cod
++//doc
++//nome
++//endereco
++//tipo
++//celular
++//contatoc
++//telefone
++//contatot
+ 
+ GtkWidget *janela;
+ GtkWidget *acao_atual,*acao_atual2;
+@@ -45,4 +65,4 @@ int alterando=0;
+ #include "campos/endereco.c"
+ #include "campos/tipo.c"
+ #include "campos/contatos.c"
+-
++#include "campos/observacoes.c"
+diff --git a/src/Terceiros/campos/cnpj.c b/src/Terceiros/campos/cnpj.c
+index d28abe5..2de416a 100644
+--- a/src/Terceiros/campos/cnpj.c
++++ b/src/Terceiros/campos/cnpj.c
+@@ -8,14 +8,18 @@ int cnpj_terc()
+ 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
+ 	if(len<=0)
+ 	{
++		if(criticar.doc==0)
++		{
++			gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
++			return 0;
++		}
+ //		gtk_widget_grab_focus(name_ter_field);	
+ //		return 0;
+-
+ 		g_print("CNPJ terceiro deve ser inserido\n");
+ 		popup(NULL,"Por favor, insira um CNPJ para o terceiro!");
+ 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+ 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-		doc_ter_err=1;
++		vet_erro[1]=1;
+ 		return 1;
+ 	}
+ 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
+@@ -51,6 +55,7 @@ int cnpj_terc()
+ 				cont2++;	
+ 			}
+ 			formatar[cont2] = '\0';
++			vet_erro[1] = 0;
+ 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),formatar);
+ 	}
+ 	else
+@@ -62,9 +67,10 @@ int cnpj_terc()
+ 			popup(NULL,"Formato incorreto para CNPJ!");
+ 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+ 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-			doc_ter_err=1;
++			vet_erro[1]=1;
+ 			return 1;		
+ 		}
++		vet_erro[1] = 0;
+ 		gtk_widget_grab_focus(name_ter_field);
+ 	}
+ 	else
+@@ -73,7 +79,7 @@ int cnpj_terc()
+ 		popup(NULL,"Formato incorreto para CNPJ!");
+ 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+ 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-		doc_ter_err=1;
++		vet_erro[1]=1;
+ 		return 1;		
+ 	}
+ 	
+diff --git a/src/Terceiros/campos/codigo.c b/src/Terceiros/campos/codigo.c
+index 700b9a0..be567b1 100644
+--- a/src/Terceiros/campos/codigo.c
++++ b/src/Terceiros/campos/codigo.c
+@@ -3,14 +3,14 @@ int code_terc()
+ 	char code[10];
+ 	char task[8];
+ 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
+-	if(strlen(codigos_ter)<1)
++	if(strlen(codigos_ter)<=0)
+ 	{
+ 		g_print("Codigo terceiro deve ser inserido\n");
+ 		popup(NULL,"Por favor, insira um Código para o terceiro!");
+                 sprintf(code,"%i",tasker("terceiros"));
+ 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
+ 		gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
+-		codigos_ter_err=1;
++		vet_erro[0]=1;
+ 		return 1;
+ 	}
+ 	if(stoi(codigos_ter)==-1)
+@@ -46,7 +46,7 @@ int code_terc()
+ 	}
+ 	else
+ 	{
+-		codigos_ter_err=0;
++		vet_erro[0]=0;
+ 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+ 	}
+ 	g_print("codigo: %s\n",codigos_ter);
+diff --git a/src/Terceiros/campos/contatos.c b/src/Terceiros/campos/contatos.c
+index 0f48cff..1c1416d 100644
+--- a/src/Terceiros/campos/contatos.c
++++ b/src/Terceiros/campos/contatos.c
+@@ -9,36 +9,55 @@ int mostrar_contatoc()
+ 	return 0;
+ }
+ 
+-int mostrar_contatot()
++int mostrar_telefone(GtkWidget *widget,GdkEvent *focar,gpointer telefone)
+ {
+-	g_print("mostrando contatot\n");
+-	gtk_widget_show(contatot_label);
+-	gtk_widget_show(contatot_ter_field);
++	g_print("mostrando telefone\n");
++	gtk_widget_show_all(GTK_WIDGET(telefone));
+ 	return 0;
+ }
+ int cel()
+ {
+ 	celular_ter = (char *) gtk_entry_get_text(GTK_ENTRY(celular_ter_field));
++	if(strlen(celular_ter)<=0&&criticar.celular!=0)
++	{
++		popup(NULL,"O numero de celular deve ser inserido");
++		g_print("O numero de celular deve ser inserido\n");
++		autologger("O numero de celular deve ser inserido");
++		vet_erro[5] = 1;
++		return 1;
++	}
+ 	if(strlen(celular_ter)>=MAX_CEL_LEN)
+ 	{
+ 		popup(NULL,"O numero está muito grande");
+ 		g_print("O numero está muito grande");
+ 		autologger("O numero está muito grande");
++		vet_erro[5] = 1;
+ 		return 1;
+ 	}
++	vet_erro[5] = 0;
+ 	gtk_widget_grab_focus(contatoc_ter_field);
+ 	return 0;
+ }
+ int contc()
+ {
+ 	contatoc_ter =(char *) gtk_entry_get_text(GTK_ENTRY(contatoc_ter_field));
++	if(strlen(contatoc_ter)<1&&strlen(celular_ter)>0&&criticar.contatoc!=0)
++	{
++		popup(NULL,"O nome do contato deve ser inserido");
++		g_print("O nome do contato deve ser inserido\n");
++		autologger("O nome do contato deve ser inserido");
++		vet_erro[6] = 1;
++		return 1;
++	}
+ 	if(strlen(contatoc_ter)>=MAX_CONT_LEN)
+ 	{
+ 		popup(NULL,"O nome do contato está muito grande");
+ 		g_print("O nome do contato está muito grande");
+ 		autologger("O nome do contato está muito grande");
++		vet_erro[6] = 1;
+ 		return 1;
+ 	}
++	vet_erro[6] = 0;
+ 	gtk_widget_grab_focus(telefone_ter_field);
+ 	return 0;
+ }
+@@ -46,13 +65,23 @@ int contc()
+ int tel()
+ {
+ 	telefone_ter =(char *) gtk_entry_get_text(GTK_ENTRY(telefone_ter_field));
++	if(strlen(telefone_ter)<=0&&criticar.telefone!=0)
++	{
++		popup(NULL,"O numero de telefone deve ser inserido");
++		g_print("O numero de telefone deve ser inserido\n");
++		autologger("O numero de telefone deve ser inserido");
++		vet_erro[7] = 1;
++		return 1;
++	}
+ 	if(strlen(telefone_ter)>=MAX_TEL_LEN)
+ 	{
+ 		popup(NULL,"O numero de telefone está muito grande");
+-		g_print("O numero de telefone está muito grande");
++		g_print("O numero de telefone está muito grande\n");
+ 		autologger("O numero de telefone está muito grande");
++		vet_erro[7] = 1;
+ 		return 1;
+ 	}
++	vet_erro[7] = 0;
+ 	gtk_widget_grab_focus(contatot_ter_field);
+ 	return 0;
+ }
+@@ -60,13 +89,23 @@ int tel()
+ int contt()
+ {
+ 	contatot_ter =(char *) gtk_entry_get_text(GTK_ENTRY(contatot_ter_field));
++	if(strlen(contatot_ter)<=0&&strlen(telefone_ter)>0&&criticar.contatot!=0)
++	{
++		popup(NULL,"O nome do contato deve ser inserido");
++		g_print("O nome do contato não foi inserido\n");
++		autologger("O nome do contato deve ser inserido");
++		vet_erro[8] = 1;
++		return 1;
++	}
+ 	if(strlen(contatot_ter)>=MAX_CEL_LEN)
+ 	{
+ 		popup(NULL,"O nome do contato está muito grande");
+-		g_print("O nome do contato está muito grande");
++		g_print("O nome do contato está muito grande\n");
+ 		autologger("O nome do contato está muito grande");
++		vet_erro[8] = 1;
+ 		return 1;
+ 	}
+-	gtk_widget_grab_focus(concluir);
++	vet_erro[8] = 0;
++	gtk_widget_grab_focus(email_ter_field);
+ 	return 0;
+ }
+diff --git a/src/Terceiros/campos/cpf.c b/src/Terceiros/campos/cpf.c
+index eadc835..d0e9cfb 100644
+--- a/src/Terceiros/campos/cpf.c
++++ b/src/Terceiros/campos/cpf.c
+@@ -8,13 +8,13 @@ int cpf_terc()
+ 	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
+ 	len = strlen(doc_ter);
+ 	g_print("CPF %s\ncom %i digitos\n",doc_ter,len);
+-	if(len<1)
++	if(len<1&&criticar.doc!=0)
+ 	{
+ 		g_print("CPF terceiro deve ser inserido\n");
+ 		popup(NULL,"Por favor, insira um CPF para o terceiro!");
+ 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
+ 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-		doc_ter_err=1;
++		vet_erro[1]=1;
+ 		return 1;
+ 	}
+ 	if(len==CPF_N_LEN)
+@@ -43,6 +43,7 @@ int cpf_terc()
+ 				cont2++;	
+ 			}
+ 			formatar[cont2] = '\0';
++			vet_erro[1] = 0;
+ 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),formatar);
+ 	}
+ 	else
+@@ -54,9 +55,10 @@ int cpf_terc()
+ 			popup(NULL,"Formato incorreto para CPF!");
+ 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
+ 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-			doc_ter_err=1;
++			vet_erro[1]=1;
+ 			return 1;		
+ 		}
++		vet_erro[1] = 0;
+ 		gtk_widget_grab_focus(name_ter_field);
+ 	}
+ 	else
+@@ -65,7 +67,7 @@ int cpf_terc()
+ 		popup(NULL,"Formato incorreto para CPF!");
+ 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
+ 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
+-		doc_ter_err=1;
++		vet_erro[1]=1;
+ 		return 1;		
+ 	}
+ 	
+diff --git a/src/Terceiros/campos/endereco.c b/src/Terceiros/campos/endereco.c
+index 36d8091..a4458ab 100644
+--- a/src/Terceiros/campos/endereco.c
++++ b/src/Terceiros/campos/endereco.c
+@@ -1,25 +1,25 @@
+-#define MAX_ADR_LEN 50
++#define MAX_ADR_LEN 100
+ #define CEP_LEN 9
+ int address_terc()
+ {
+ 	endereco_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(address_ter_field));
+-	if(strlen(endereco_ter)<1)
++	if(strlen(endereco_ter)<=0&&criticar.endereco!=0)
+ 	{
+ 		popup(NULL,"Por favor insira o endereco do terceiro");
+ 		gtk_widget_grab_focus(GTK_WIDGET(address_ter_field));
+-		endereco_ter_err = 1;
++		vet_erro[3] = 1;
+ 		return 1;		
+ 	}
+ 	if(strlen(endereco_ter)>MAX_ADR_LEN)
+ 	{
+ 		popup(NULL,"Endereco muito grande\nPor favor use abreviações");
+ 		gtk_widget_grab_focus(address_ter_field);
+-		endereco_ter_err=1;
++		vet_erro[3]=1;
+ 		return 1;
+ 	}
+ 	else
+ 	{
+-		endereco_ter_err=0;
++		vet_erro[3]=0;
+ 		if((strlen(tipo_ter))<=0)
+ 		{
+ 			gtk_widget_grab_focus(type_ter_field);
+diff --git a/src/Terceiros/campos/nome.c b/src/Terceiros/campos/nome.c
+index 42c6739..b6e90d8 100644
+--- a/src/Terceiros/campos/nome.c
++++ b/src/Terceiros/campos/nome.c
+@@ -1,4 +1,4 @@
+-#define MAX_RAZ_LEN 50
++#define MAX_RAZ_LEN 100
+ int name_terc()
+ {
+ 	nomes_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_ter_field));
+@@ -6,27 +6,19 @@ int name_terc()
+ 	{
+ 		popup(NULL,"Nome muito grande\nPor favor diminua");
+ 		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
+-		nomes_ter_err=1;
++		vet_erro[2]=1;
+ 		return 1;
+ 	}
+-	if(strlen(nomes_ter)<1)
++	if(strlen(nomes_ter)<1&&criticar.nome!=0)
+ 	{
+ 		popup(NULL,"Por favor insira um nome para o terceiro");
+ 		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
+-		nomes_ter_err=1;
++		vet_erro[2]=1;
+ 		return 1;
+ 	}
+-	if(strlen(nomes_ter)<1)
+-	{
+-		popup(NULL,"Por favor insira o nome do terceiro");
+-		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
+-		nomes_ter_err=1;
+-		return 1;
+-	
+-	}
+ 	else
+ 	{
+-		nomes_ter_err=0;
++		vet_erro[2]=0;
+ 		gtk_widget_grab_focus(address_ter_field);
+ 	}
+ 	g_print("nome: %s\n",nomes_ter);
+diff --git a/src/Terceiros/campos/tipo.c b/src/Terceiros/campos/tipo.c
+index 27178ed..7b41ba7 100644
+--- a/src/Terceiros/campos/tipo.c
++++ b/src/Terceiros/campos/tipo.c
+@@ -5,16 +5,17 @@ int set_cliente()
+ {
+ 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"cliente");
+ 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
++	
+ 	if(strlen(tipo_ter)>=MAX_TIPO_LEN)
+ 	{
+ 		popup(NULL,"Tipo de terceiro muito grande\nPor favor use poucos caracteres");
+ 		gtk_widget_grab_focus(type_ter_field);
+-		tipo_ter_err=1;
++		vet_erro[4]=1;
+ 		return 1;
+ 	}
+ 	else
+ 	{
+-		tipo_ter_err=0;
++		vet_erro[4]=0;
+ 		terci_tipo=1;
+ 		gtk_widget_grab_focus(celular_ter_field);
+ 	}
+@@ -30,12 +31,12 @@ int set_fornecedor()
+ 	{
+ 		popup(NULL,"Tipo de terceiro muito grande\nPor favor use poucos caracteres");
+ 		gtk_widget_grab_focus(type_ter_field);
+-		tipo_ter_err=1;
++		vet_erro[4]=1;
+ 		return 1;
+ 	}
+ 	else
+ 	{
+-		tipo_ter_err=0;
++		vet_erro[4]=0;
+ 		terci_tipo=2;
+ 		gtk_widget_grab_focus(celular_ter_field);
+ 	}
+diff --git a/src/Terceiros/conclui.c b/src/Terceiros/conclui.c
+index a6972ec..898241a 100644
+--- a/src/Terceiros/conclui.c
++++ b/src/Terceiros/conclui.c
+@@ -8,7 +8,16 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
+ 	char *code;
+ 	code = malloc(10);
+ 	char *query;
+-	
++	int cont;
++	for(cont=0;cont<=9;cont++)
++	{
++		if(vet_erro[cont]!=0)
++		{
++			g_print("Tentou concluir cadastro com campos incorretos: campo %i\n",cont);
++			autologger("Tentou concluir cadastro com campos incorretos");
++			return 1;
++		}
++	}
+ 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
+ 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
+ 	if(query==NULL)
+@@ -27,8 +36,8 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
+ 	}
+ 	else
+ 	{
+-		sprintf(query,"update terceiros set razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i where code = %s;"
+-		,nomes_ter,doc_ter,tipo_ter,terci_tipo,codigos_ter);	
++		sprintf(query,"update terceiros set razao = '%s', cnpj = '%s', tipoc = '%s', tipo = %i,telefone = '%s',contatot = '%s',celular = '%s',contatoc = '%s' where code = %s;"
++		,nomes_ter,doc_ter,tipo_ter,terci_tipo,telefone_ter,contatot_ter,celular_ter,contatoc_ter,codigos_ter);	
+ 	}
+ 	g_print("[...] Criando conexão com o banco\n\n");
+ 	MYSQL connect;

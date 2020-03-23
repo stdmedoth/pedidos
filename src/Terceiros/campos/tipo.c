@@ -5,16 +5,17 @@ int set_cliente()
 {
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"cliente");
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
+	
 	if(strlen(tipo_ter)>=MAX_TIPO_LEN)
 	{
 		popup(NULL,"Tipo de terceiro muito grande\nPor favor use poucos caracteres");
 		gtk_widget_grab_focus(type_ter_field);
-		tipo_ter_err=1;
+		vet_erro[TIP_ERR]=1;
 		return 1;
 	}
 	else
 	{
-		tipo_ter_err=0;
+		vet_erro[TIP_ERR]=0;
 		terci_tipo=1;
 		gtk_widget_grab_focus(celular_ter_field);
 	}
@@ -30,12 +31,12 @@ int set_fornecedor()
 	{
 		popup(NULL,"Tipo de terceiro muito grande\nPor favor use poucos caracteres");
 		gtk_widget_grab_focus(type_ter_field);
-		tipo_ter_err=1;
+		vet_erro[TIP_ERR]=1;
 		return 1;
 	}
 	else
 	{
-		tipo_ter_err=0;
+		vet_erro[TIP_ERR]=0;
 		terci_tipo=2;
 		gtk_widget_grab_focus(celular_ter_field);
 	}

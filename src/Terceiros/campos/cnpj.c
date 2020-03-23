@@ -8,14 +8,17 @@ int cnpj_terc()
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
 	if(len<=0)
 	{
-//		gtk_widget_grab_focus(name_ter_field);	
-//		return 0;
-
+		if(criticar.doc==0)
+		{
+			gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
+			return 0;
+		}
 		g_print("CNPJ terceiro deve ser inserido\n");
 		popup(NULL,"Por favor, insira um CNPJ para o terceiro!");
-		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+		gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		doc_ter_err=1;
+		vet_erro[DOC_ERR]=1;
 		return 1;
 	}
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
@@ -51,6 +54,7 @@ int cnpj_terc()
 				cont2++;	
 			}
 			formatar[cont2] = '\0';
+			vet_erro[DOC_ERR] = 0;
 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),formatar);
 	}
 	else
@@ -60,20 +64,23 @@ int cnpj_terc()
 		{
 			g_print("CNPJ incorreto\n");
 			popup(NULL,"Formato incorreto para CNPJ!");
-			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+			gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-			doc_ter_err=1;
+			vet_erro[DOC_ERR]=1;
 			return 1;		
 		}
+		vet_erro[DOC_ERR] = 0;
 		gtk_widget_grab_focus(name_ter_field);
 	}
 	else
 	{
 		g_print("CNPJ incorreto\n");
 		popup(NULL,"Formato incorreto para CNPJ!");
-		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
+		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+		gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-xx");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		doc_ter_err=1;
+		vet_erro[DOC_ERR]=1;
 		return 1;		
 	}
 	

@@ -3,14 +3,14 @@ int code_terc()
 	char code[10];
 	char task[8];
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
-	if(strlen(codigos_ter)<1)
+	if(strlen(codigos_ter)<=0)
 	{
 		g_print("Codigo terceiro deve ser inserido\n");
 		popup(NULL,"Por favor, insira um Código para o terceiro!");
                 sprintf(code,"%i",tasker("terceiros"));
 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 		gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
-		codigos_ter_err=1;
+		vet_erro[COD_ERR]=1;
 		return 1;
 	}
 	if(stoi(codigos_ter)==-1)
@@ -46,7 +46,7 @@ int code_terc()
 	}
 	else
 	{
-		codigos_ter_err=0;
+		vet_erro[COD_ERR]=0;
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 	}
 	g_print("codigo: %s\n",codigos_ter);

@@ -1,7 +1,7 @@
 #define MAX_ICO_QNT 24
 #define LINE_ICO_QNT 2
 #define ICOL 5
-#define CAD_ICO_QNT 6
+#define CAD_ICO_QNT 5
 #define CMP_ICO_QNT 4
 
 //cadastros 
