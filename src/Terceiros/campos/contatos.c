@@ -1,6 +1,6 @@
-#define MAX_CEL_LEN 15
-#define MAX_TEL_LEN 15
-#define MAX_CONT_LEN 15
+#define MAX_CEL_LEN 20
+#define MAX_TEL_LEN 20
+#define MAX_CONT_LEN 20
 int mostrar_contatoc()
 {
 	g_print("mostrando contatoc\n");

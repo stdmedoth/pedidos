@@ -52,7 +52,7 @@ int email_fun()
 			ponto=1;
 		}
 	}
-	if(ponto!=1||arroba!=1)
+	if((ponto!=1||arroba!=1)&&criticar.email!=0)
 	{
 		popup(NULL,"Email incorreto, por favor verifique");
 		vet_erro[EML_ERR] = 1;

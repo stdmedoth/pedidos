@@ -35,8 +35,8 @@ int inicializar_ter()
 	contatot_ter = malloc(MAX_CONT_LEN);
 	email_ter = malloc(MAX_EMAIL_LEN);
 	contatoe_ter = malloc(MAX_CONT_LEN);
-	buffer = gtk_text_buffer_new(NULL);
 	observacoes_ter = malloc(MAX_OBS_LEN);
+	buffer = malloc(sizeof(GtkTextBuffer*));
 	return 0;
 }
 int  cad_terc()
@@ -50,8 +50,7 @@ int  cad_terc()
 	*horizontal_box_three, 
 	*horizontal_box_four, 
 	*horizontal_box_five, 
-	*horizontal_box_six,
-	*horizontal_box_seven;
+	*horizontal_box_six;
 	
 	//container/visual
 	GtkWidget *fixed, *fixed2, *box,*vertical_box1, *vertical_box2, *separator;
@@ -96,7 +95,6 @@ int  cad_terc()
 	horizontal_box_four = gtk_box_new(0,0);
 	horizontal_box_five = gtk_box_new(0,0);
 	horizontal_box_six = gtk_box_new(0,0);
-	horizontal_box_seven = gtk_box_new(0,0);
 	
 	box = gtk_box_new(0,0);
 	vertical_box1 = gtk_box_new(1,0);
@@ -253,7 +251,7 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contt),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(email_fun),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contato_email),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs),observacoes_ter_field);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs),NULL);
 
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_ter),concluir);
 	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_ter),alterar);

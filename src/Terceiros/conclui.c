@@ -2,6 +2,7 @@
 #define QUERY_LEN (strlen(codigos_ter)+strlen(nomes_ter)+strlen(endereco_ter)+strlen(tipo_ter)+strlen(celular_ter)+strlen(contatoc_ter)+strlen(telefone_ter)+strlen(contatot_ter)+strlen(email_ter)+strlen(observacoes_ter))*2
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
+	
 	int err;
 	MYSQL_RES *resultado;
 	MYSQL_ROW campos;
@@ -115,11 +116,10 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(email_ter_field),"");
+			buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 			gtk_text_buffer_get_start_iter (buffer,&inicio);
 			gtk_text_buffer_get_end_iter (buffer,&fim);
-			gtk_text_buffer_delete (buffer,&inicio,&fim);
-			
-			
+			gtk_text_buffer_delete (buffer,&inicio,&fim);			
 		//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
 			gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
 		}
