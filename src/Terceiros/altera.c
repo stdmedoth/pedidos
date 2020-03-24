@@ -2,6 +2,7 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 {
 	char task[10];
 	char query[100];
+	int pos=0;
 	gchar *cod;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
@@ -59,6 +60,11 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 	strcpy(observacoes_ter,campo[14]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
+	if(alterando==1)
+	{
+		for(pos=0;pos<bloco_qnt;pos++)
+			gtk_widget_destroy(precos_caixas[pos]);
+	}
 	rec_precos();
 	/*
 	 * email

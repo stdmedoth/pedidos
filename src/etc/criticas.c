@@ -3,6 +3,7 @@ int critica_preco(char *preco,GtkWidget *entrada)
 	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
 	mensagem = malloc(50);
+	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
 	for(pos=0;pos<=strlen(preco);pos++)
 	{

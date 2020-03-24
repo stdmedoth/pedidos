@@ -42,6 +42,7 @@ int inicializar_ter()
 	precos_caixas = malloc(sizeof(GtkBox*)*MAX_PROD);
 	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
+	vet_cod = malloc(sizeof(gint*)*MAX_PROD);
 	return 0;
 }
 int  cad_terc()

@@ -115,12 +115,12 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(email_ter_field),"");
+			gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),"");
 			buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 			gtk_text_buffer_get_start_iter (buffer,&inicio);
 			gtk_text_buffer_get_end_iter (buffer,&fim);
 			gtk_text_buffer_delete (buffer,&inicio,&fim);			
 		//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
-			gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
 		}
 		else
 		{
@@ -129,7 +129,9 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		}
 		return 0;
 	}
-	return 0;
+	
 	printf("finalizando conclui_ter()\n");
 	autologger("O cadastro nao foi feito\nverifique os campos");
+//	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
+	return 0;
 }

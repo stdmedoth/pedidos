@@ -8,7 +8,7 @@
 #define CPF_N_LEN 11
 #define CPF_S_LEN 14
 #define INSERT_QUERY 96
-
+#define VLR_MAX_LEN 15
 gchar *codigos_ter=NULL;
 gchar *doc_ter=NULL;
 gchar *nomes_ter=NULL;

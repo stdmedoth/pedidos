@@ -87,7 +87,28 @@ MYSQL_RES *consultar(char *query)
 	}
 	return vetor;
 }
-
+int enviar_query(char *query)
+{
+	int err=1;
+	if(!mysql_init(&conectar))
+	{
+		popup(NULL,"Não foi possivel conectar ao servidor");	
+		autologger("Não foi possivel conectar ao servidor");
+		return 1;
+	}
+	g_print("%s\n",query);
+	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0));
+	err = mysql_query(&conectar,query);
+	if(err!=0)
+	{
+		autologger(query);
+		autologger((char*)mysql_error(&conectar));
+		g_print("%s\n",mysql_error(&conectar));
+		popup(NULL,"Erro de formato\n");
+		return 1;
+	}
+	return 0;
+}
 int tasker(char *table)
 {
 	char task[8];
