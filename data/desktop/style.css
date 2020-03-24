@@ -1,23 +1,23 @@
 #barra
 {
-	background: Grey;
-	border: solid 1px Gainsboro;
+        background: Grey;
+        border: solid 1px Gainsboro;
 }
 #borda
 {
-	border: solid 1px Gainsboro;
+        border: solid 1px Gainsboro;
 }
 #caixa
 {
-	border-radius: 10px;
-	background: Lightgrey;
+        border-radius: 10px;
+        background: Lightgrey;
 }
 
 #acao_atual
 {
-	color: green;
+        color: green;
 }
 #infos
 {
-	color: white;
+        color: white;
 }

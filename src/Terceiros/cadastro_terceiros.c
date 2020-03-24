@@ -37,6 +37,11 @@ int inicializar_ter()
 	contatoe_ter = malloc(MAX_CONT_LEN);
 	observacoes_ter = malloc(MAX_OBS_LEN);
 	buffer = malloc(sizeof(GtkTextBuffer*));
+	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
+	preco_entry = malloc(sizeof(GtkEntry*)*MAX_PROD);
+	precos_caixas = malloc(sizeof(GtkBox*)*MAX_PROD);
+	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
+	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	return 0;
 }
 int  cad_terc()
@@ -74,17 +79,20 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(acao),acao_atual,0,0,0);
 	gtk_box_pack_start(GTK_BOX(acao),acao_atual2,0,0,5);
 	
+	
+	//coluna de precos													*/
 	lista_prod_label = gtk_label_new("Produtos Vinculados");
  	precos_scroll_caixa	 = gtk_box_new(1,0);
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(precos_window),precos_scroll_caixa);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(precos_scroll_window),precos_scroll_caixa);
 	#endif
 	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(precos_scroll_window),precos_scroll_caixa);
 	#endif
 	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_prod_label,0,0,0);
-	
+	/*																	*/
+	gtk_widget_set_size_request(precos_scroll_window,200,500);
 	
 	fixed = gtk_fixed_new();
 	fixed2 = gtk_fixed_new();
@@ -102,14 +110,14 @@ int  cad_terc()
 	separator = gtk_separator_new(1);
 	
 	doc_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Escolha o Documento:");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","CNPJ");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","CPF");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"3","Sem Documento");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Pessoa:");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurica");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","Fisica");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"3","Sem CNPJ/CPF");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),0);
 	
 	code_label = gtk_label_new("Codigo: ");
-	doc_label = gtk_label_new("CNPJ:");
+	doc_label = gtk_label_new("Documento:");
 	name_label = gtk_label_new("Nome: ");
 	address_label= gtk_label_new("Endereco: ");
 	type_label = gtk_label_new("Tipo Terceiro: ");
@@ -147,31 +155,31 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(code),code_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(code),code_ter_field,0,0,0);
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
-	gtk_widget_set_size_request(code,50,50);
+	gtk_widget_set_size_request(code_ter_field,50,30);
 
 	doc = gtk_box_new(0,0);
 	gtk_widget_set_name(doc,"caixa");
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
 	gtk_box_pack_end(GTK_BOX(doc),doc_ter_field,0,0,0);
-	gtk_widget_set_size_request(doc,220,50);
+	gtk_widget_set_size_request(doc_ter_field,220,30);
 		
 	name = gtk_box_new(1,0);
 	gtk_widget_set_name(name,"caixa");
 	gtk_box_pack_start(GTK_BOX(name),name_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(name),name_ter_field,0,0,0);
-	gtk_widget_set_size_request(name,530,50);
+	gtk_widget_set_size_request(name_ter_field,500,30);
 	
 	address = gtk_box_new(1,0);
 	gtk_widget_set_name(address,"caixa");
 	gtk_box_pack_start(GTK_BOX(address),address_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(address),address_ter_field,0,0,0);
-	gtk_widget_set_size_request(address,350,50);
+	gtk_widget_set_size_request(address_ter_field,325,30);
 	
 	type = gtk_box_new(1,0);
 	gtk_widget_set_name(type,"caixa");
 	gtk_box_pack_start(GTK_BOX(type),type_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(type),type_ter_field,0,0,0);
-	gtk_widget_set_size_request(type,50,50);
+	gtk_widget_set_size_request(type_ter_field,100,30);
 	
 	celular  = gtk_box_new(1,0);
 	gtk_widget_set_name(celular,"borda");
@@ -179,6 +187,8 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(celular),celular_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(celular),contatoc_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(celular),contatoc_ter_field,0,0,0);
+	gtk_widget_set_size_request(celular_ter_field,100,30);
+	gtk_widget_set_size_request(contatoc_ter_field,100,30);
 
 	telefone = gtk_box_new(1,0);
 	gtk_widget_set_name(telefone,"borda");
@@ -186,6 +196,8 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(telefone),telefone_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(telefone),contatot_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(telefone),contatot_ter_field,0,0,0);
+	gtk_widget_set_size_request(telefone_ter_field,100,30);
+	gtk_widget_set_size_request(contatot_ter_field,100,30);
 	
 	email = gtk_box_new(1,0);
 	gtk_widget_set_name(email,"borda");
@@ -194,12 +206,13 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(email),contatoe_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(email),contatoe_ter_field,0,0,0);
 	gtk_widget_set_size_request(email_ter_field,100,30);
+	gtk_widget_set_size_request(contatoe_ter_field,100,30);
 		
 	observacoes = gtk_box_new(1,0);
 	gtk_widget_set_name(observacoes,"caixa");
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_ter_field,0,0,10);
-	gtk_widget_set_size_request(observacoes_ter_field,530,60);
+	gtk_widget_set_size_request(observacoes_ter_field,500,100);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
@@ -282,7 +295,8 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela),box);
-
+	abrir_css(DESKTOP_STYLE);
+	rec_precos();
 	gtk_widget_show_all(janela);
 	gtk_widget_grab_focus(doc_ter_field);	
 

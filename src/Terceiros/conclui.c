@@ -1,5 +1,4 @@
-#define INSERT_QUERY 96
-#define QUERY_LEN (strlen(codigos_ter)+strlen(nomes_ter)+strlen(endereco_ter)+strlen(tipo_ter)+strlen(celular_ter)+strlen(contatoc_ter)+strlen(telefone_ter)+strlen(contatot_ter)+strlen(email_ter)+strlen(observacoes_ter))*2
+
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
 	

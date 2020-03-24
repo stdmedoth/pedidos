@@ -59,6 +59,7 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 	strcpy(observacoes_ter,campo[14]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
+	rec_precos();
 	/*
 	 * email
 	 * contato

@@ -2,6 +2,13 @@
 #define MAX_OBS_LEN 500
 #define CAMPOS_QNT 11
 #define MAX_PROD 100
+#define CONECT_QNT 1
+#define CNPJ_N_LEN 14
+#define CNPJ_S_LEN 18
+#define CPF_N_LEN 11
+#define CPF_S_LEN 14
+#define INSERT_QUERY 96
+
 gchar *codigos_ter=NULL;
 gchar *doc_ter=NULL;
 gchar *nomes_ter=NULL;
@@ -29,7 +36,14 @@ GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*
 
 int codigos_ter_prod[MAX_PROD];
 GtkWidget *lista_prod_label;
-GtkWidget **produto_label,**preco_entry,*precos_scroll_caixa,*precos_scroll_window;
+GtkWidget **produto_label,
+**preco_entry, 
+**precos_caixas, 
+**atualizar_preco, 
+**remover_preco,
+*precos_scroll_caixa,
+*precos_scroll_window;
+
 
 struct parametros
 {
@@ -76,12 +90,6 @@ GtkWidget *janela;
 GtkWidget *acao_atual,*acao_atual2;
 GtkWidget *win_tipo_ter;
 
-#define CONECT_QNT 1
-#define CNPJ_N_LEN 14
-#define CNPJ_S_LEN 18
-
-#define CPF_N_LEN 11
-#define CPF_S_LEN 14
 
 int alterando=0;
 
@@ -95,3 +103,4 @@ int alterando=0;
 #include "campos/contatos.c"
 #include "campos/observacoes.c"
 #include "campos/email.c"
+#include "campos/precos.c"

@@ -95,21 +95,21 @@ int lista_ter(GtkWidget *botao,gpointer *ponteiro)
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		codigo[cont] = gtk_label_new(campos[pos]);
+		codigo[cont] = gtk_label_new(campos[0]);
 		separadorh1[cont] = gtk_separator_new(0);
 		
-		nome[cont] =  gtk_label_new(campos[pos+1]);
+		nome[cont] =  gtk_label_new(campos[1]);
 		separadorh2[cont] = gtk_separator_new(0);
 		
-		address[cont] = gtk_label_new(campos[pos+2]);
+		address[cont] = gtk_label_new(campos[2]);
 		separadorh3[cont] = gtk_separator_new(0);
 		
-		type[cont] = gtk_label_new(campos[pos+3]);
+		type[cont] = gtk_label_new(campos[3]);
 		separadorh4[cont] = gtk_separator_new(0);
 		
 		cont++;
-		pos = 0;
 	}
+	pos=0;
 	
 	while(pos<cont)
 	{
@@ -126,7 +126,6 @@ int lista_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_box_pack_start(GTK_BOX(type_ter_list),separadorh4[pos],0,0,0);
 		pos++;
 	}
-	
 	gtk_box_pack_start(GTK_BOX(colunas),codigo_ter_list,0,0,0);
 	gtk_box_pack_start(GTK_BOX(colunas),separadorv1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(colunas),nome_ter_list,0,0,0);
@@ -149,7 +148,7 @@ int lista_ter(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_resizable(GTK_WINDOW(lista_ter),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"LISTAGEM TERCEIROS");
 	gtk_widget_set_size_request(lista_ter,1200,600);
-
+	abrir_css(DESKTOP_STYLE);
 	gtk_widget_show_all(lista_ter);
 	return 0;
 	

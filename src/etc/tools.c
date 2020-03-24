@@ -1,3 +1,4 @@
+#define QUERY_LEN 1000
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {	
 	gtk_widget_destroy(GTK_WIDGET(ponteiro));
@@ -65,6 +66,7 @@ MYSQL_RES *consultar(char *query)
 		autologger("Não foi possivel conectar ao servidor");
 		return NULL;
 	}
+	g_print("%s\n",query);
 	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0));
 	err = mysql_query(&conectar,query);
 	if(err!=0)
