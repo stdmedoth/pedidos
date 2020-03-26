@@ -1,14 +1,16 @@
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define CAMPOS_QNT 11
+#define CAMPOS_QNT 12
 #define MAX_PROD 100
 #define CONECT_QNT 1
+#define CODE_LEN 10
 #define CNPJ_N_LEN 14
 #define CNPJ_S_LEN 18
 #define CPF_N_LEN 11
 #define CPF_S_LEN 14
 #define INSERT_QUERY 96
 #define VLR_MAX_LEN 15
+
 gchar *codigos_ter=NULL;
 gchar *doc_ter=NULL;
 gchar *nomes_ter=NULL;
@@ -34,7 +36,11 @@ GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*
 *telefone_label, *contatot_label, *celular_label, *contatoc_label, 
 *email_label, *contatoe_label, *observacoes_label;
 
+GtkWidget *botao_mais;
+GtkWidget *imagem_mais;
+
 int codigos_ter_prod[MAX_PROD];
+int *codigo_preco;
 GtkWidget *lista_prod_label;
 GtkWidget **produto_label,
 **preco_entry, 
@@ -42,8 +48,9 @@ GtkWidget **produto_label,
 **atualizar_preco, 
 **remover_preco,
 *precos_scroll_caixa,
-*precos_scroll_window;
-
+*precos_scroll_window,
+**imagem_ok,
+**imagem_cancel;
 
 struct parametros
 {
@@ -58,6 +65,7 @@ struct parametros
 	int email;
 	int contatoe;
 	int observacoes;
+	int vincula_prod_obs;
 }criticar;
 
 int vet_erro[CAMPOS_QNT];
@@ -73,6 +81,8 @@ int vet_erro[CAMPOS_QNT];
 #define EML_ERR 9
 #define CNE_ERR 10
 #define OBS_ERR 11
+#define PRC_ERR 12
+#define VIN_ERR 13
 //cod
 //doc
 //nome

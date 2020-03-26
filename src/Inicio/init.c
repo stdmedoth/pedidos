@@ -4,18 +4,7 @@
 GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
-int tecla_close_window(GtkWidget *widget,GdkEventKey *evento)
-{
-	if(evento->keyval)
-		gtk_widget_destroy(GTK_WIDGET(janela_inicializacao));
-	return 0;
-}
 
-int clique_close_window(GtkWidget *widget,GdkEventButton *evento)
-{
-	gtk_widget_destroy(GTK_WIDGET(janela_inicializacao));
-	return 0;
-}
 
 int conexao()
 {
@@ -76,6 +65,7 @@ int desktop()
 		
 	g_print("Fechando janela init\n");
 	gtk_widget_destroy(janela_inicializacao);
+	
 	layout = gtk_layout_new(NULL,NULL);
 	imagem_fundo = gtk_image_new_from_file(DESKTOP);
 
@@ -91,13 +81,7 @@ int desktop()
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),1);	
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 	
-	g_signal_connect(GTK_WINDOW(janela_principal),"delete-event",G_CALLBACK(gtk_main_quit),NULL);
 		
-	err = conexao();
-	if(err!=0)
-	{
-			popup(NULL,"Não foi posivel conectar");
-	}
 	//criacao	
 	caixa_infos = gtk_box_new(1,0);
 	
@@ -119,13 +103,6 @@ int desktop()
 	fixed_razao = gtk_fixed_new();	
 	fixed_endereco = gtk_fixed_new();	
 	fixed_cnpj = gtk_fixed_new();
-
-	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,60,250);
-	gtk_widget_set_name(razao,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,60,5);
-	gtk_widget_set_name(endereco,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,60,5);
-	gtk_widget_set_name(cnpj,"infos");
 	
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
@@ -176,10 +153,22 @@ int desktop()
 
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
-	
+	g_signal_connect(GTK_WINDOW(janela_principal),"delete-event",G_CALLBACK(gtk_main_quit),NULL);
 
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
+	err = conexao();
+	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,60,250);
+	gtk_widget_set_name(razao,"infos");
+	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,60,5);
+	gtk_widget_set_name(endereco,"infos");
+	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,60,5);
+	gtk_widget_set_name(cnpj,"infos");
+	if(err!=0)
+	{
+		popup(NULL,"Não foi posivel conectar");
+		return 1;
+	}
 	gtk_widget_show_all(janela_principal);
 	gtk_widget_hide(lista_abas);	
 	return 0;
@@ -196,19 +185,17 @@ int init()
 	sprintf(msg,"inicializando as %i:%i do dia %i/%i\n",estrutura_tempo->tm_hour,estrutura_tempo->tm_min,estrutura_tempo->tm_mday,estrutura_tempo->tm_mon);
 	autologger(msg);
 	GtkWidget *imagem_inicializacao;
-	GtkWidget *event;
-	event = gtk_event_box_new();
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	imagem_inicializacao = gtk_image_new_from_file(INIT_IMAGE);
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
-	gtk_container_add(GTK_CONTAINER(event),imagem_inicializacao);
-	gtk_container_add(GTK_CONTAINER(janela_inicializacao),event);
+	
+	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	
 	g_signal_connect(janela_inicializacao,"key_press_event",G_CALLBACK(desktop),NULL);
 	g_signal_connect(janela_inicializacao,"button_press_event",G_CALLBACK(desktop),NULL);
-	
+
 	g_print("abrindo janela de inicio...\n");
 	gtk_widget_show_all(janela_inicializacao);
 	

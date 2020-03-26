@@ -1,4 +1,9 @@
 #define QUERY_LEN 1000
+void get_text(GtkWidget *widget,gchar *string)
+{
+	string = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
+	return ;
+}
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {	
 	gtk_widget_destroy(GTK_WIDGET(ponteiro));
@@ -67,7 +72,12 @@ MYSQL_RES *consultar(char *query)
 		return NULL;
 	}
 	g_print("%s\n",query);
-	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0));
+	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
+	{
+		g_print("%s\n",mysql_error(&conectar));
+		autologger((char*)mysql_error(&conectar));
+		return NULL;
+	}
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
@@ -180,7 +190,7 @@ char *infos(int pos)
 	if(campos!=NULL)
 	{	
 		g_print("%s encontrado\n",info[pos]);
-		retorno = malloc(30);
+		retorno = malloc(200);
 		g_print("%s\n",campos[pos]);
 		sprintf(retorno,"%s: %s",info[pos],campos[pos]);
 	}

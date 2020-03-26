@@ -6,6 +6,14 @@ cnpj varchar(20) primary key not null,
 razao varchar(150) not null,
 endereco varchar(200) not null);
 
+create table ceps(codigo varchar(15),
+estado varchar(200),
+cidade varchar (20),
+bairro varchar(30),
+logradouro varchar(100),
+Nome_Edificio varchar(30));
+
+
 create table unidades( 
 code int primary key auto_increment not null,
 nome varchar(20) not null,
@@ -62,4 +70,4 @@ flush privileges;
 
 insert into 
 empresa(razao,endereco,cnpj) 
-values('empresa','endereco','cnpj');
+values('Petitto Materiais para encadernação e cartonagem','R. Dna Amélia de Paula, 100 - Jardim Leonor, Campinas ','cnpj');

@@ -1,4 +1,3 @@
-
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
 	
@@ -119,15 +118,14 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 			gtk_text_buffer_get_start_iter (buffer,&inicio);
 			gtk_text_buffer_get_end_iter (buffer,&fim);
-			gtk_text_buffer_delete (buffer,&inicio,&fim);			
-		//	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+			gtk_text_buffer_delete (buffer,&inicio,&fim);	
+			//gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
 		}
 		else
 		{
 			popup(NULL,"O cadastro nao foi feito\nverifique os campos");
 			autologger("O cadastro nao foi feito\nverifique os campos");
 		}
-		return 0;
 	}
 	
 	printf("finalizando conclui_ter()\n");

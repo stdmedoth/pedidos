@@ -1,4 +1,4 @@
-int altera_ter(GtkWidget *botao,gpointer *ponteiro)
+int altera_ter()
 {
 	char task[10];
 	char query[100];
@@ -72,6 +72,7 @@ int altera_ter(GtkWidget *botao,gpointer *ponteiro)
 	 * obs*/
 	memset(query,0x0,strlen(query));
 	alterando=1;
+	//gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
 }

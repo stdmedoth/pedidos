@@ -57,13 +57,14 @@ int menu()
 	}
 	else
 	{
-		texto = "\n\n\n\n\
- O ERP Calisto é um software responsável por auxiliar\n\
- no gerenciamento de sua empresa,o sistema tem como\n\
- intuito, te dar uma melhor visão do que ocorre na sua empresa,\n\
- fornecer previsões e analisar os resultados, com o Calisto\n\
- a gestão da sua empresa estará bem organizada, de maneira segura e previsivel\n";	
+		texto = "\n\n\n\n\n\n"
+				"\tA PETITTO é uma empresa de venda de materiais e máquinas para encadernação fundada em 1995.\n"
+				"\tSomos uma empresa que tem como princípio a perseverança, fé, seriedade e verdadeiro compromisso\n"
+				"\tde parceria com nossos clientes e fornecedores.\n\n"
+				"\tA mais de 20 anos no mercado, a PETITTO buscar priorizar três principais objetivos:\n"
+				"\tBom atendimento ao cliente, qualidade em nossos produtos e rapidez em nossas entregas.";
 	}
+	
 	principal    = gtk_box_new(1,0);
 	cadastros    = gtk_box_new(1,0);
 	compras      = gtk_box_new(1,0);
@@ -95,7 +96,7 @@ int menu()
 	gtk_fixed_put(GTK_FIXED(lembrete_fixed),lembrete_box,200,100);
 	
 	//inserindo abas
-
+	gtk_widget_set_name(lista_abas,"menu");
 	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),principal,principal_label);
 	if(ativar.cadastro)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),cadastros,cadastros_label);

@@ -3,6 +3,7 @@
 #include "stoi.h"
 #include "tools.c"
 #include "criticas.c"
+#include "pesquisador.c"
 #include "../Terceiros/cadastro_terceiros.c"
 #include "../Produtos/cadastro_produtos.c"
 #include "../Unidades/cadastro_unidades.c"

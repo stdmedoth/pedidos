@@ -6,9 +6,9 @@ int cad_ico()
 	int cont,linha=0;
 	
 	//imagem dos icones
-   prd_ico = gtk_image_new_from_file(PROD_IMG);
-   ter_ico = gtk_image_new_from_file(TERC_IMG);
-   est_ico = gtk_image_new_from_file(ESTO_IMG);
+	prd_ico = gtk_image_new_from_file(PROD_IMG);
+	ter_ico = gtk_image_new_from_file(TERC_IMG);
+	est_ico = gtk_image_new_from_file(ESTO_IMG);
 	opr_ico = gtk_image_new_from_file(OPR_IMG);
 	trs_ico = gtk_image_new_from_file(TRS_IMG);
 	und_ico = gtk_image_new_from_file(UND_IMG);
