@@ -1,35 +1,35 @@
-int price_prod()
+int preco_prod()
 {
 	int critica;
-	preco_prod = malloc(51);
-	preco_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(price_field));
-	if(strlen(preco_prod)>50)
+	precos_prod = malloc(51);
+	precos_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(preco_prod_field));
+	if(strlen(precos_prod)>50)
 	{
 		popup(NULL,"Preço muito grande");
-		gtk_widget_grab_focus(price_field);
-		preco_prod_err=1;
+		gtk_widget_grab_focus(preco_prod_field);
+		vet_erro[PRC_ERR] = 1;
 		return 1;
 	}
 	else
-	if(strlen(preco_prod)<1)
+	if(strlen(precos_prod)<=0&&criticar.preco!=0)
 	{	
 		popup(NULL,"Por favor, insira um Preço");
-		gtk_widget_grab_focus(price_field);
-		preco_prod_err=1;
+		gtk_widget_grab_focus(preco_prod_field);
+		vet_erro[PRC_ERR] = 1;
 		return 1;
 	}
 	else
 	{
-		critica = critica_preco(preco_prod,price_field);
+		critica = critica_real(precos_prod, preco_prod_field);
 		if(critica!=0)
 		{
-			gtk_widget_grab_focus(price_field);
-			preco_prod_err=1;
+			gtk_widget_grab_focus(preco_prod_field);
+			vet_erro[PRC_ERR] = 1;
 			return 1;
 		}
-		preco_prod_err=0;
-		gtk_widget_grab_focus(supp_field);
+		vet_erro[PRC_ERR] = 0;
+		gtk_widget_grab_focus(peso_prod_field);
 	}
-	g_print("preco: %s\n",preco_prod);
+	g_print("preco: %s\n",precos_prod);
 	return 0;
 }

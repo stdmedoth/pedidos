@@ -62,12 +62,13 @@ int cad_ico()
 	gtk_box_pack_end(GTK_BOX(cad_box[5]),und_ico,0,0,0);
 	
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
+	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
 	
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_terc),NULL);
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_ter),NULL);
 	
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(cad_est),NULL);
 
-	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
+//	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
 	return 0;
 }

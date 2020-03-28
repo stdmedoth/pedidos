@@ -1,5 +1,19 @@
 int mover_para_doc()
 {
+	int opcao=0;
+	opcao = gtk_combo_box_get_active(GTK_COMBO_BOX(doc_combo));
+	switch(opcao)
+	{
+		case 1:
+			gtk_label_set_text(GTK_LABEL(name_label),"Razão");
+			break;
+		case 2:
+			gtk_label_set_text(GTK_LABEL(name_label),"Nome");
+			break;
+		case 3:
+			gtk_label_set_text(GTK_LABEL(name_label),"Nome");
+			break;
+	}
 	gtk_widget_grab_focus(doc_ter_field);
 	return 0;
 }

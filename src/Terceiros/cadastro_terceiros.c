@@ -4,7 +4,6 @@ GtkWidget *concluir, *alterar, *listar, *excluir;
 #include "exclui.c"
 #include "lista.c"
 #include "conclui.c"
-#define MARGEM_D 10
 
 int inicializar_ter()
 {
@@ -121,8 +120,8 @@ int  cad_terc()
 	
 	doc_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Pessoa:");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurica");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","Fisica");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurídica");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","Física");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"3","Sem CNPJ/CPF");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),0);
 	
@@ -310,7 +309,7 @@ int  cad_terc()
 	gtk_container_add(GTK_CONTAINER(janela),box);
 	abrir_css(DESKTOP_STYLE);
 	rec_precos();
-	//gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
 	gtk_widget_show_all(janela);
 	gtk_widget_grab_focus(doc_ter_field);	
 

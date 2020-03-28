@@ -72,7 +72,7 @@ int altera_ter()
 	 * obs*/
 	memset(query,0x0,strlen(query));
 	alterando=1;
-	//gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
 }

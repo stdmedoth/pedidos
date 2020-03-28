@@ -1,10 +1,5 @@
-#define TERC_QNT  10000
-#define ROWS_QNT 16
-#define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
-#define ENTRADA 200
 MYSQL_RES *vetor;
 MYSQL_ROW campos;
-int cont=0,pos=0;
 char **vet_codigos;
 GtkWidget *filas;
 GtkWidget **separadoresv[5];
@@ -51,7 +46,7 @@ GtkWidget **codigo,**nome,**doc,**tipodoc,**type,**address,**cep,**telefone,**co
 GtkWidget *lista_scroll_caixa,*lista_scroll_window,*lista_ter_label;
 /*entrys de terceiros*/
 
-int chama_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
+int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),pcodigo);
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",pcodigo);
@@ -90,7 +85,7 @@ int rec(GtkWidget *widget)
 	contatoe = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	_obs =  malloc(sizeof(GtkLabel*)*MAX_OBS_LEN);
 	
-	if(colunas!=NULL)
+	if(GTK_IS_WIDGET(colunas))
 		gtk_widget_destroy(colunas);
 
 
@@ -105,7 +100,10 @@ int rec(GtkWidget *widget)
 	{
 		separadoresv[cont] = malloc(MAX_LINHAS*ROWS_QNT);
 		evento[cont] = gtk_event_box_new();
-	
+		
+		vet_codigos[cont] = malloc(CODE_LEN);	
+		strcpy(vet_codigos[cont],campos[0]);
+
 		codigo[cont] = gtk_label_new(campos[0]);
 		separadoresv[cont][0] = gtk_separator_new(0);
 		
@@ -149,7 +147,9 @@ int rec(GtkWidget *widget)
 		separadoresv[cont][14] = gtk_separator_new(0);
 		cont++;
 	}
-
+	if(cont==0)
+		return 0;
+		
 	colunas = gtk_box_new(0,0);
 	codigo_ter_list = gtk_box_new(1,0);
 	nome_ter_list = gtk_box_new(1,0);
@@ -195,16 +195,8 @@ int rec(GtkWidget *widget)
 	gtk_box_pack_start(GTK_BOX(email_ter_list),email_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(obs_ter_list),obs_list_label,0,0,0);
-	
 	while(pos<cont)
 	{
-
-		
-		if(pos==4)
-			pos++;
-		vet_codigos[pos] = malloc(CODE_LEN);	
-		strcpy(vet_codigos[pos],gtk_label_get_text(GTK_LABEL(codigo[pos])));
-	
 		gtk_container_add(GTK_CONTAINER(evento[pos]),codigo[pos]);
 		gtk_box_pack_start(GTK_BOX(codigo_ter_list),evento[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(codigo_ter_list),separadoresv[pos][0],0,0,10);
@@ -248,7 +240,7 @@ int rec(GtkWidget *widget)
 		gtk_box_pack_start(GTK_BOX(obs_ter_list),_obs[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresv[pos][14],0,0,10);
 	
-		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_codigo),vet_codigos[pos]);
+		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_ter_codigo),vet_codigos[pos]);
 		pos++;
 	}
 	
@@ -289,9 +281,6 @@ int rec(GtkWidget *widget)
 
 int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {
-	GtkWidget *pesquisa_label,*pesquisa_entry;
-
-	
 	pesquisa = gtk_search_entry_new();
 	lista_ter_label = gtk_label_new("Terceiros");
 	lista_scroll_caixa = gtk_box_new(1,0);

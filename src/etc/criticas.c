@@ -1,4 +1,4 @@
-int critica_preco(char *preco,GtkWidget *entrada)
+int critica_real(char *preco,GtkWidget *entrada)
 {
 	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
@@ -12,7 +12,7 @@ int critica_preco(char *preco,GtkWidget *entrada)
 			qnt++;
 			if(preco[pos+1]==46||qnt>1)
 			{
-				sprintf(mensagem,"Virgula duplicada para preço");
+				sprintf(mensagem,"Inserido Virgula duplicada");
 				g_print(mensagem);
 				popup(NULL,mensagem);
 				return 1;
@@ -23,15 +23,13 @@ int critica_preco(char *preco,GtkWidget *entrada)
 		}
 	}
 	//verifica se é formado apenas de numeros e virgula
-	for(pos=0;pos<=strlen(preco);pos++)
-	{
+	g_print("strlen %li\n",strlen(preco));
+	ok=1;
+	for(pos=0;pos<strlen(preco);pos++)
+	{	
 		for(cont=48;cont<=57;cont++)
 		{
-			
-		}
-		for(cont=48;cont<=57;cont++)
-		{
-			g_print("strlen %li\n",strlen(preco));
+		
 			g_print("%c %c\n",preco[pos],cont);
 			if(preco[pos]==cont)
 			{
@@ -43,11 +41,11 @@ int critica_preco(char *preco,GtkWidget *entrada)
 				ok = 0;
 				break;
 			}
-			ok++;
+			ok++;	
 		}
-		if(ok>10)
+		if(ok!=0)
 		{
-			sprintf(mensagem,"Caracter '%c' incorreto para preço",preco[pos-1]);
+			sprintf(mensagem,"Caracter '%c' incorreto",preco[pos]);
 			popup(NULL,mensagem);
 			return 1;
 		}

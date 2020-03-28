@@ -1,5 +1,5 @@
 @ECHO OFF
-C:\windows\system32\Xcopy /E /I data C:\petitto\data
+C:\windows\system32\Xcopy /E /I data C:\petitto\files
 IF NOT EXIST C:\petitto\data\var.txt (
 ECHO variavel ja criada > C:\petitto\data\var.txt
 setx PATH "%PATH%;C:\petitto\gnu\lib\pkgconfig;C:\petitto\gnu\bin;C:\petitto\gnu\include;C:\petitto\gnu\lib;C:\petitto\gtk\bin;"

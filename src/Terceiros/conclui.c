@@ -119,7 +119,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			gtk_text_buffer_get_start_iter (buffer,&inicio);
 			gtk_text_buffer_get_end_iter (buffer,&fim);
 			gtk_text_buffer_delete (buffer,&inicio,&fim);	
-			//gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
+			gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
 		}
 		else
 		{

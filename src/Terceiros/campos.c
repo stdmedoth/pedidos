@@ -1,16 +1,3 @@
-#define MAX_EMAIL_LEN 100
-#define MAX_OBS_LEN 500
-#define CAMPOS_QNT 12
-#define MAX_PROD 100
-#define CONECT_QNT 1
-#define CODE_LEN 10
-#define CNPJ_N_LEN 14
-#define CNPJ_S_LEN 18
-#define CPF_N_LEN 11
-#define CPF_S_LEN 14
-#define INSERT_QUERY 96
-#define VLR_MAX_LEN 15
-
 gchar *codigos_ter=NULL;
 gchar *doc_ter=NULL;
 gchar *nomes_ter=NULL;
@@ -52,37 +39,7 @@ GtkWidget **produto_label,
 **imagem_ok,
 **imagem_cancel;
 
-struct parametros
-{
-	int doc;
-	int nome;
-	int endereco;
-	int tipo;
-	int celular;
-	int contatoc;
-	int telefone;
-	int contatot;
-	int email;
-	int contatoe;
-	int observacoes;
-	int vincula_prod_obs;
-}criticar;
 
-int vet_erro[CAMPOS_QNT];
-#define COD_ERR 0
-#define DOC_ERR 1
-#define NOM_ERR 2
-#define END_ERR 3
-#define TIP_ERR 4
-#define CEL_ERR 5
-#define CNC_ERR 6
-#define TEL_ERR 7
-#define CNT_ERR 8
-#define EML_ERR 9
-#define CNE_ERR 10
-#define OBS_ERR 11
-#define PRC_ERR 12
-#define VIN_ERR 13
 //cod
 //doc
 //nome
@@ -99,9 +56,6 @@ int vet_erro[CAMPOS_QNT];
 GtkWidget *janela;
 GtkWidget *acao_atual,*acao_atual2;
 GtkWidget *win_tipo_ter;
-
-
-int alterando=0;
 
 #include "campos/codigo.c"
 #include "campos/cnpj.c"

@@ -55,5 +55,24 @@
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
 #endif
-
-
+#define MAX_EMAIL_LEN 100
+#define MAX_OBS_LEN 500
+#define CAMPOS_QNT 14
+#define MAX_PROD 100
+#define CONECT_QNT 1
+#define CODE_LEN 10
+#define CNPJ_N_LEN 14
+#define CNPJ_S_LEN 18
+#define CPF_N_LEN 11
+#define CPF_S_LEN 14
+#define INSERT_QUERY 96
+#define VLR_MAX_LEN 15
+#define TERC_QNT  10000
+#define PROD_QNT  10000
+#define ROWS_QNT 16
+#define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
+#define ENTRADA 200
+#define MARGEM_D 10
+char **vet_codigos;
+int cont=0,pos=0;
+int alterando=0;
