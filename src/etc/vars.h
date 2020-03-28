@@ -57,7 +57,7 @@
 #endif
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define CAMPOS_QNT 14
+#define CAMPOS_QNT 16
 #define MAX_PROD 100
 #define CONECT_QNT 1
 #define CODE_LEN 10
@@ -70,9 +70,26 @@
 #define TERC_QNT  10000
 #define PROD_QNT  10000
 #define ROWS_QNT 16
+#define MAX_PRECO_LEN 10
+#define MAX_CODE_LEN 10
+#define MAX_NAME_LEN 100
+#define MAX_RAZ_LEN 100	
+#define MAX_PRECO_LEN 10
+#define MAX_UND_LEN 10
+#define MAX_GRP_LEN 20
+#define MAX_MRC_LEN 20
+#define MAX_FOR_LEN 100
+#define MAX_OBS_LEN 500
+#define MAX_SIGLA 10
+#define MAX_GRP 20
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 200
 #define MARGEM_D 10
 char **vet_codigos;
 int cont=0,pos=0;
 int alterando=0;
+
+#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values('%s',%s,%s,(select code from unidades where sigla = '%s'),%s,'%s','%s','%s');"
+#define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod
+#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = %s, fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s'"
+

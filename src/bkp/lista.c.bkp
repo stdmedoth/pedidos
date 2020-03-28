@@ -1,0 +1,141 @@
+#define TERC_QNT  10000
+#define COLUMNS_QNT 15
+#define MAX_ROWS 10000
+#define MAX_LINHAS (sizeof(GtkBox*)*COLUMNS_QNT)*TERC_QNT
+#define ENTRADA 2000
+MYSQL_RES *vetor;
+MYSQL_ROW campos;
+int cont=0,pos=0;
+
+char *labels[] = {"Código","Razao/Nome","Numero Documento","Tipo Documento","Tipo","Tipo Int","Endereco","CEP","Telefone","Contato","Celular","Contato","Email","Contato","Observacoes"};
+GtkWidget ***separadoresv;
+GtkWidget *lista_ter, **separadoresh;
+GtkWidget *pesquisa;
+
+GtkWidget  **Labels,**List_Labels,**List_Rows,***Rows;
+ 	
+GtkWidget *colunas; //visual
+
+GtkWidget *lista_scroll_caixa,*lista_scroll_window,*lista_ter_label;
+/*entrys de terceiros*/
+
+int rec(GtkWidget *widget)
+{
+
+	int tip;
+	char query[QUERY_LEN];
+	gchar *entrada;
+	int ascii = 37;
+	cont=0;
+	pos=0;	
+	
+	separadoresv = malloc(sizeof(GtkLabel*)*COLUMNS_QNT*MAX_ROWS);
+	List_Labels = malloc(sizeof(GtkBox*)*COLUMNS_QNT);
+	List_Rows = malloc(sizeof(GtkBox*)*COLUMNS_QNT);
+	Labels = malloc(sizeof(GtkLabel*)*COLUMNS_QNT);
+	Rows = malloc(sizeof(GtkLabel*)*COLUMNS_QNT*MAX_ROWS);
+	
+	
+	if(colunas!=NULL)
+		gtk_widget_destroy(colunas);
+	
+	entrada = malloc(ENTRADA);
+	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
+	
+	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
+	vetor = consultar(query);
+	if(vetor==NULL)
+	{
+		return 1;
+	}
+	
+	while((campos = mysql_fetch_row(vetor))!=NULL)
+	{
+		Rows[cont] = malloc(sizeof(GtkLabel*)*COLUMNS_QNT);
+		separadoresv[cont] = malloc(sizeof(GtkSeparator*)*COLUMNS_QNT);
+		
+		for(tip=0;tip<COLUMNS_QNT;tip++)
+		{
+			g_print("%i : %s\n",tip,campos[tip]);
+			Rows[cont][tip] = gtk_label_new(campos[tip]);
+			separadoresv[cont][tip] = gtk_separator_new(1);
+		}
+		cont++;
+		if(cont>=MAX_ROWS)
+			break;
+	}
+	
+	if(cont==0)
+		return 0;
+		
+	while(pos<cont)
+	{
+
+		for(tip=0;tip<COLUMNS_QNT;tip++)
+		{
+			List_Rows[pos] = gtk_box_new(0,0);
+			if(tip==0)
+			{
+				Labels[pos] = gtk_label_new(labels[pos]);
+				gtk_box_pack_start(GTK_BOX(List_Rows[pos]),Labels[pos],0,0,0);	
+			}
+			gtk_box_pack_start(GTK_BOX(List_Rows[pos]),Rows[pos][tip],0,0,0);
+			//g_print("GtkBox contendo %s na posicao %i\n",gtk_label_get_text(GTK_LABEL(Rows[pos][tip])),tip);
+			gtk_box_pack_start(GTK_BOX(List_Rows[pos]),separadoresv[pos][tip],0,0,0);
+		}
+		pos++;
+	}
+
+	colunas = gtk_box_new(1,0);
+	for(pos=0;pos<cont;pos++)
+	{
+		gtk_box_pack_start(GTK_BOX(colunas),List_Rows[pos],0,0,10);
+		g_print("GtkBox contendo %s na posicao\n",gtk_label_get_text(GTK_LABEL(Rows[pos][1])));
+	}
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),colunas,0,0,0);
+	
+	gtk_widget_show_all(colunas);
+	return 0;
+}
+
+int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
+{
+	GtkWidget *pesquisa_label,*pesquisa_entry;
+	GtkWidget *filas;
+	
+	pesquisa = gtk_search_entry_new();
+	lista_ter_label = gtk_label_new("Terceiros");
+
+	lista_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
+	gtk_window_set_keep_above(GTK_WINDOW(lista_ter), TRUE);
+	gtk_window_set_title(GTK_WINDOW(lista_ter),"Lista de Terceiros");
+		
+	lista_scroll_caixa = gtk_box_new(1,0);
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),pesquisa,0,0,20);
+	
+	filas = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),lista_ter_label,0,0,0);
+		
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),filas,0,0,20);
+	
+	lista_scroll_window = gtk_scrolled_window_new(NULL,NULL);
+	#ifdef WIN32
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_window),lista_scroll_caixa);
+	#endif
+	#ifdef __linux__
+	gtk_container_add(GTK_CONTAINER(lista_scroll_window),lista_scroll_caixa);
+	#endif	
+	
+	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
+	gtk_window_set_resizable(GTK_WINDOW(lista_ter),FALSE);
+	gtk_window_set_title(GTK_WINDOW(janela),"LISTAGEM TERCEIROS");
+	gtk_widget_set_size_request(lista_ter,1200,600);
+	abrir_css(DESKTOP_STYLE);
+		
+	gtk_container_add(GTK_CONTAINER(lista_ter),lista_scroll_window);
+	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec),pesquisa);
+	gtk_widget_show_all(lista_ter);
+	
+	return 0;
+}

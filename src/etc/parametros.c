@@ -16,10 +16,13 @@ struct parametros
 	int grupo;
 	int preco;
 	int peso;
+	int unidade;
+	int marca;
 	int vincula_prod_obs;
 }criticar;
 
 int vet_erro[CAMPOS_QNT+1];
+
 #define COD_ERR 0
 #define DOC_ERR 1
 #define NOM_ERR 2
@@ -35,3 +38,7 @@ int vet_erro[CAMPOS_QNT+1];
 #define PRC_ERR 12
 #define VIN_ERR 13
 #define PES_ERR 14
+#define FOR_ERR 15
+#define UND_ERR 16
+#define GRP_ERR 17
+#define MRC_ERR 18

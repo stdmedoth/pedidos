@@ -1,6 +1,5 @@
 int nome_prod()
 {
-	nomes_prod = malloc(51);
 	nomes_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(nome_prod_field));
 	if(strlen(nomes_prod)>50)
 	{

@@ -1,9 +1,8 @@
 int preco_prod()
 {
 	int critica;
-	precos_prod = malloc(51);
 	precos_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(preco_prod_field));
-	if(strlen(precos_prod)>50)
+	if(strlen(precos_prod)>MAX_PRECO_LEN)
 	{
 		popup(NULL,"Preço muito grande");
 		gtk_widget_grab_focus(preco_prod_field);
@@ -29,7 +28,8 @@ int preco_prod()
 		}
 		vet_erro[PRC_ERR] = 0;
 		gtk_widget_grab_focus(peso_prod_field);
+		g_print("preco: %s\n",precos_prod);
 	}
-	g_print("preco: %s\n",precos_prod);
+	
 	return 0;
 }

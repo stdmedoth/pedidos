@@ -12,6 +12,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	{
 		if(vet_erro[cont]!=0)
 		{
+			popup(NULL,"Você tem campos incorretos\n\tRepasse com tecla ENTER");
 			g_print("Tentou concluir cadastro com campos incorretos: campo %i\n",cont);
 			autologger("Tentou concluir cadastro com campos incorretos");
 			return 1;

@@ -1,28 +1,44 @@
 int und_prod()
 {
-	unidade_prod = malloc(51);
-	unidade_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(und_field));
-	if(strlen(nomes_prod)>50)
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
+	char query[50];
+	unidades_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(unidade_prod_field));
+	if(strlen(unidades_prod)<=0&&criticar.unidade==1)
 	{
-		popup(NULL,"Unidade inserida é muito grande");
-		gtk_widget_grab_focus(GTK_WIDGET(und_field));
-		unidade_prod_err=1;
+		g_print("Inserir uma unidade para o produto");
+		popup(NULL,"Por favor, Insira uma unidade para o produto");
 		return 1;
 	}
 	else
-	if(strlen(unidade_prod)<1)
+	if(strlen(unidades_prod)>=MAX_UND_LEN)
 	{
-		popup(NULL,"Por favor, insira uma Unidade");
-		gtk_widget_grab_focus(GTK_WIDGET(und_field));
-		unidade_prod_err=1;
-		return 1;		
+		g_print("Sigla muito grande inserida: %s\n",unidades_prod);
+		popup(NULL,"Sigla muito grande");
+		vet_erro[UND_ERR] = 1;
+		return 1;
+	}
+	sprintf(query,"select code from unidades where sigla = '%s'",unidades_prod);
+	if((vetor = consultar(query))!=NULL)
+	{
+		campos = mysql_fetch_row(vetor);
+		if(campos==NULL)
+		{
+			popup(NULL,"Esta sigla ainda não existe\nUse a pesquisa");
+			g_print("Esta sigla ainda não existe\nUse a pesquisa :%s\n",unidades_prod);
+			vet_erro[UND_ERR] = 1;
+			return 1;
+		}
 	}
 	else
 	{
-		unidade_prod_err=0;
-		gtk_widget_grab_focus(und_field);
+		g_print("Erro no MYSQL_RES* para unidades\n");
+		return 1;
 	}
-	g_print("nome: %s\n",unidade_prod);
-	
+	vet_erro[UND_ERR] = 0;
+	g_print("unidade: %s\n",unidades_prod);
+	gtk_widget_grab_focus(GTK_WIDGET(grupo_prod_field));
 	return 0;
 }
+
+
