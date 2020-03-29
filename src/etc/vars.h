@@ -54,6 +54,7 @@
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
+#define IMG_MONEY      "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
 #endif
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500

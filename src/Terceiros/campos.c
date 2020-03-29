@@ -23,8 +23,7 @@ GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*
 *telefone_label, *contatot_label, *celular_label, *contatoc_label, 
 *email_label, *contatoe_label, *observacoes_label;
 
-GtkWidget *botao_mais;
-GtkWidget *imagem_mais;
+GtkWidget *botao_mais, *imagem_mais;
 
 int codigos_ter_prod[MAX_PROD];
 int *codigo_preco;
@@ -37,7 +36,8 @@ GtkWidget **produto_label,
 *precos_scroll_caixa,
 *precos_scroll_window,
 **imagem_ok,
-**imagem_cancel;
+**imagem_cancel,
+**imagem_dinheiro,**juncao_preco_img;
 
 
 //cod

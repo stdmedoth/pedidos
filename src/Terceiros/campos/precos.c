@@ -63,7 +63,11 @@ int atualiza_preco(GtkWidget *widget,int *pos)
 		return 1;
 	}
 	valor = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_entry[posicao_do_envio]));
-
+	if(critica_real((char*)valor,preco_entry[posicao_do_envio])!=0)
+	{
+			popup(NULL,"Valor incorreto para campo preço");
+			return 0;
+	}
 	sprintf(query,"update precos set valor = %s where code = %i;",valor,codigo_preco[posicao_do_envio]);
 	g_print("%s\n",query);
 	erro = enviar_query(query);
@@ -140,7 +144,8 @@ int add_vinc_prod_cli(int codigo)
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_widget_set_size_request(janela,200,400);
+	gtk_window_set_title(GTK_WINDOW(janela),"Vínculo");
+	gtk_widget_set_size_request(janela,200,320);
 	
 	fixed   = gtk_fixed_new();
 	caixa     = gtk_box_new(1,0);
@@ -150,23 +155,25 @@ int add_vinc_prod_cli(int codigo)
 	cli_box   = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(cli_box),cli_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cli_box),cli_entry,0,0,10);
-	gtk_fixed_put(GTK_FIXED(fixed),cli_box,MARGEM_VIN_D,0);
+	gtk_fixed_put(GTK_FIXED(fixed),cli_box,MARGEM_VIN_D,5);
 	
 	prod_label = gtk_label_new("Produto");
 	prod_entry = gtk_entry_new();
 	campo_nome_prod = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod),"Insira o código");
+	
 	prod_box   = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(prod_box),prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_box),campo_nome_prod,0,0,0);	
 	gtk_box_pack_start(GTK_BOX(prod_box),prod_entry,0,0,5);	
-	gtk_fixed_put(GTK_FIXED(fixed),prod_box,MARGEM_VIN_D,60);
+	gtk_fixed_put(GTK_FIXED(fixed),prod_box,MARGEM_VIN_D,80);
 	
 	preco_label = gtk_label_new("Preço");
 	preco_entry = gtk_entry_new();
 	preco_box   = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(preco_box),preco_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(preco_box),preco_entry,0,0,5);	
-	gtk_fixed_put(GTK_FIXED(fixed),preco_box,MARGEM_VIN_D,150);
+	gtk_fixed_put(GTK_FIXED(fixed),preco_box,MARGEM_VIN_D,180);
 	
 	opcoes_box   = gtk_box_new(0,0);
 	confirma_img = gtk_image_new_from_file(IMG_OK);
@@ -237,12 +244,14 @@ int rec_precos()
 	{	
 		precos_caixas[bloco_qnt] = gtk_box_new(1,0);
 		gtk_widget_set_name(precos_caixas[bloco_qnt],"caixa");
+	
 		codigo_preco[bloco_qnt] = atoi(campos[0]);
 		produto_label[bloco_qnt] = gtk_label_new(campos[1]);
 		preco_entry[bloco_qnt] = gtk_entry_new();
+		
+		imagem_dinheiro[bloco_qnt] = gtk_image_new_from_file(IMG_MONEY);
 		imagem_ok[bloco_qnt] = gtk_image_new_from_file(IMG_OK);
 		imagem_cancel[bloco_qnt] = gtk_image_new_from_file(IMG_CANCEL);
-		
 		atualizar_preco[bloco_qnt] = gtk_button_new_with_label("Atualizar");
 		remover_preco[bloco_qnt] = gtk_button_new_with_label("Remover");
 		
@@ -250,6 +259,7 @@ int rec_precos()
 		gtk_button_set_image(GTK_BUTTON(remover_preco[bloco_qnt]),imagem_cancel[bloco_qnt]);
 		
 		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),produto_label[bloco_qnt],0,0,0);
+		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),imagem_dinheiro[bloco_qnt],0,0,0);
 		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),preco_entry[bloco_qnt],0,0,0);
 		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),atualizar_preco[bloco_qnt],0,0,0);
 		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),remover_preco[bloco_qnt],0,0,0);

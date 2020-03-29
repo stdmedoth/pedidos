@@ -2,6 +2,8 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 {
 	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
+	char *formatar;
+	formatar = malloc(50);
 	mensagem = malloc(50);
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
@@ -17,7 +19,7 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 				return 1;
 			}
 			valor[pos] = 46;
-			gtk_entry_set_text(GTK_ENTRY(entrada),valor);
+			
 			qnt++;
 		}
 	}
@@ -49,5 +51,7 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 			return 1;
 		}
 	}
+	sprintf(formatar,"%.2f",atof(valor));
+	gtk_entry_set_text(GTK_ENTRY(entrada),formatar);
 	return 0;
 }

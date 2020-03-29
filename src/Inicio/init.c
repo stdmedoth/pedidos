@@ -77,14 +77,12 @@ int desktop()
 	gtk_widget_set_name(GTK_WIDGET(botao_iniciar),"botao");
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(janela_principal),"Calisto");
+	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),1);	
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
-	
-		
+			
 	//criacao	
 	caixa_infos = gtk_box_new(1,0);
-	
 	
 	superior = gtk_box_new(0,0);
 	superior_1 = gtk_box_new(1,0);

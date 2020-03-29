@@ -44,6 +44,7 @@ int inicializar_ter()
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	imagem_ok = malloc(sizeof(GtkImage*)*MAX_PROD);
 	imagem_cancel = malloc(sizeof(GtkImage*)*MAX_PROD);
+	imagem_dinheiro = malloc(sizeof(GtkImage*)*MAX_PROD);
 	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	
@@ -87,10 +88,10 @@ int  cad_terc()
 	
 	//coluna de precos	
 	imagem_mais = gtk_image_new_from_file(IMG_MAIS);												
-	botao_mais = gtk_button_new_with_label("Vincular um Produto");
+	botao_mais = gtk_button_new_with_label("Vincular um Preço/Produto");
 	gtk_button_set_image(GTK_BUTTON(botao_mais),imagem_mais);
 	
-	lista_prod_label = gtk_label_new("Produtos Vinculados:");
+	lista_prod_label = gtk_label_new("Preços Vinculados:");
  	precos_scroll_caixa	 = gtk_box_new(1,0);
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	#ifdef WIN32
@@ -147,16 +148,38 @@ int  cad_terc()
 	excluir = gtk_button_new_with_label("Excluir");
 	
 	code_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
+	
 	doc_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(doc_ter_field),GTK_ENTRY_ICON_PRIMARY,"user-info");
+	
 	name_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(name_ter_field),GTK_ENTRY_ICON_PRIMARY,"avatar-default");
+	
 	address_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
+	
 	type_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(type_ter_field),GTK_ENTRY_ICON_PRIMARY,"system-users");
+	
 	celular_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(celular_ter_field),GTK_ENTRY_ICON_PRIMARY,"pda");
+	
 	contatoc_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(contatoc_ter_field),GTK_ENTRY_ICON_PRIMARY,"contact-new");
+	
 	telefone_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(telefone_ter_field),GTK_ENTRY_ICON_PRIMARY,"modem");
+	
 	contatot_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(contatot_ter_field),GTK_ENTRY_ICON_PRIMARY,"contact-new");
+	
 	email_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(email_ter_field),GTK_ENTRY_ICON_PRIMARY,"mail-read");
+	
 	contatoe_ter_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(contatoe_ter_field),GTK_ENTRY_ICON_PRIMARY,"contact-new");
+	
 	observacoes_ter_field = gtk_text_view_new();
 	
 	code = gtk_box_new(1,0);
@@ -249,10 +272,8 @@ int  cad_terc()
 	
 	
 	g_signal_connect(GTK_ENTRY(code_ter_field),"activate",G_CALLBACK(code_terc),code_ter_field);
-	
 	g_signal_connect(doc_combo,"changed",G_CALLBACK(mover_para_doc),NULL);
 	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(escolha_doc),doc_ter_field);
-	
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),address_ter_field);
 	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
