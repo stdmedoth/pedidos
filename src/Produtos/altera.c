@@ -3,7 +3,7 @@ int altera_prod()
 	char task[10];
 	char query[100];
 	char *row;
-	row = malloc(MAX_INPUT);
+	row = malloc(ENTRADA);
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));

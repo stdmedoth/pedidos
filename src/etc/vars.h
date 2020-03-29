@@ -3,6 +3,7 @@
 #define PASS "1234"
 #define DATABASE "erp"
 #ifdef WIN32
+#define IMG_MONEY     "/petitto/files/opcoes_padrao/cash-outline.png"
 #define IMG_OK        "/petitto/files/opcoes_padrao/ok.png"
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/petitto/files/opcoes_padrao/mais.png"

@@ -232,7 +232,7 @@ int rec_precos()
 	char *query;
 	char *entry_text;
 	char *frow;
-	frow = malloc(MAX_INPUT);
+	frow = malloc(ENTRADA);
 	bloco_qnt=0;
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);
