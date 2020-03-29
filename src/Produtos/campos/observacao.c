@@ -11,8 +11,7 @@ int obs_prod()
 		return 1;
 	}
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffer),&inicio,&fim);
-	
-	observacoes_ter = (gchar*)gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer),&inicio,&fim,FALSE);
+	observacoes_prod = (gchar*)gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer),&inicio,&fim,FALSE);
 	if(strlen(observacoes_prod)>=OBS_MAX_LEN)
 	{
 			popup(NULL,"As observações podem ter até 500 caracteres");

@@ -82,8 +82,13 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		autologger(query);
 		g_print("Query para tabela produtos\n");
 		g_print("Query envida com sucesso\n");
-		sprintf(query,"select code from produtos where code = '%s'",codigos_prod);
+		sprintf(query,"select code from produtos where code = %s",codigos_prod);
 		resultado = consultar(query);
+		if(resultado==NULL)
+		{	
+			popup(NULL,"Erro na confirmação do envio");
+			return 1;
+		}
 		campos = mysql_fetch_row(resultado);
 		if(campos!=NULL)
 		{

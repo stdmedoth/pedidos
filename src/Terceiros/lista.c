@@ -1,3 +1,4 @@
+#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c';"
 MYSQL_RES *vetor;
 MYSQL_ROW campos;
 char **vet_codigos;
@@ -43,7 +44,7 @@ GtkWidget *colunas; //visual
 //vetores como as linhas
 GtkWidget **codigo,**nome,**doc,**tipodoc,**type,**address,**cep,**telefone,**contatot,**celular,**contatoc,**email,**contatoe,**_obs;
 
-GtkWidget *lista_scroll_caixa,*lista_scroll_window,*lista_ter_label;
+GtkWidget *lista_scroll_caixah, *lista_scroll_caixav, *lista_scroll_windowv, *lista_scroll_windowh, *lista_ter_label;
 /*entrys de terceiros*/
 
 int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
@@ -55,7 +56,7 @@ int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 	return 0;
 }
 
-int rec(GtkWidget *widget)
+int rec_ter_list(GtkWidget *widget)
 {
 	cont=0;
 	pos=0;
@@ -116,7 +117,15 @@ int rec(GtkWidget *widget)
 		tipodoc[cont] = gtk_label_new(campos[3]);
 		separadoresv[cont][3] = gtk_separator_new(0);
 		
-		type[cont] = gtk_label_new(campos[5]);
+		switch(atoi(campos[5]))
+		{	
+			case 1:
+				type[cont] = gtk_label_new("Cliente");
+				break;
+			case 2:
+				type[cont] = gtk_label_new("Fornecedor");
+				break;
+		}
 		separadoresv[cont][5] = gtk_separator_new(0);
 		
 		address[cont] = gtk_label_new(campos[6]);
@@ -195,6 +204,7 @@ int rec(GtkWidget *widget)
 	gtk_box_pack_start(GTK_BOX(email_ter_list),email_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(obs_ter_list),obs_list_label,0,0,0);
+
 	while(pos<cont)
 	{
 		gtk_container_add(GTK_CONTAINER(evento[pos]),codigo[pos]);
@@ -274,7 +284,7 @@ int rec(GtkWidget *widget)
 	gtk_box_pack_start(GTK_BOX(colunas),contatoe_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunas),obs_ter_list,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),colunas,0,0,20);
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunas,0,0,20);
 	gtk_widget_show_all(colunas);
 	return 0;
 }
@@ -283,8 +293,10 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {
 	pesquisa = gtk_search_entry_new();
 	lista_ter_label = gtk_label_new("Terceiros");
-	lista_scroll_caixa = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixa),pesquisa,0,0,20);
+	lista_scroll_caixav = gtk_box_new(1,0);
+	lista_scroll_caixah = gtk_box_new(0,0);
+	
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),pesquisa,0,0,20);
 	
 	lista_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
@@ -294,21 +306,39 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
 	gtk_window_set_resizable(GTK_WINDOW(lista_ter),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"LISTAGEM TERCEIROS");
+	
 	gtk_widget_set_size_request(lista_ter,1000,600);
 	abrir_css(DESKTOP_STYLE);
 
-	lista_scroll_window = gtk_scrolled_window_new(NULL,NULL);
-
+	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
+	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
+	
+	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
+	gtk_widget_set_size_request(lista_scroll_windowv,1800,600);
+	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
+	gtk_widget_set_size_request(lista_scroll_windowh,1000,600);
+	
+	
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_window),lista_scroll_caixa);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowv),lista_scroll_caixav);
 	#endif
 	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_window),lista_scroll_caixa);
+	gtk_container_add(GTK_CONTAINER(lista_scroll_windowv),lista_scroll_caixav);
 	#endif	
 	
 			
-	gtk_container_add(GTK_CONTAINER(lista_ter),lista_scroll_window);
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec),pesquisa);
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_windowv,0,0,20);
+	
+	#ifdef WIN32
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixah);
+	#endif
+	#ifdef __linux__
+	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
+	#endif	
+
+
+	gtk_container_add(GTK_CONTAINER(lista_ter),lista_scroll_windowh);
+	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec_ter_list),pesquisa);
 	gtk_widget_show_all(lista_ter);
 	
 	return 0;

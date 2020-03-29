@@ -47,6 +47,7 @@ int popup(GtkWidget *widget,gchar *string)
 	if(len<10)
 		len=30;
 	g_print("%s\n",string);
+	autologger(string);
 	gtk_widget_set_size_request(fields,8*len,len*3);
 	gtk_widget_set_size_request(popup,8*len,len*3);
 	gtk_box_pack_start(GTK_BOX(fields),mensagem,0,0,20);
@@ -55,8 +56,7 @@ int popup(GtkWidget *widget,gchar *string)
 	gtk_container_add(GTK_CONTAINER(popup),fixar);
 	gtk_widget_grab_focus(popup_fechar);
 	g_signal_connect(GTK_WINDOW(popup),"delete-event",G_CALLBACK(gtk_widget_destroy),NULL);
-	g_signal_connect(GTK_BUTTON(popup_fechar),"clicked",G_CALLBACK(close_window_callback),popup);
-	
+	g_signal_connect(GTK_BUTTON(popup_fechar),"clicked",G_CALLBACK(close_window_callback),popup);	
 	gtk_widget_show_all(popup);
 	return 0;
 }

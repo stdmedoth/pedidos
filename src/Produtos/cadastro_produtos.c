@@ -1,9 +1,9 @@
 GtkWidget *concluir, *alterar, *listar, *excluir;
 #include "campos.c"
 #include "conclui.c"
-//#include "altera.c"
-//#include "exclui.c"
-//#include "lista.c"
+#include "altera.c"
+#include "exclui.c"
+#include "lista.c"
 
 int inicializar_prod()
 {
@@ -136,6 +136,7 @@ int  cad_prod()
 	gtk_widget_set_name(code,"caixa");
 	gtk_box_pack_start(GTK_BOX(code),code_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(code),codigo_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(codigo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
 	gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
 	gtk_widget_set_size_request(codigo_prod_field,50,30);
 		
@@ -143,24 +144,30 @@ int  cad_prod()
 	gtk_widget_set_name(name,"caixa");
 	gtk_box_pack_start(GTK_BOX(name),nome_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(name),nome_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_prod_field),GTK_ENTRY_ICON_PRIMARY,"tools-check-spelling");
 	gtk_widget_set_size_request(nome_prod_field,500,30);
 		
 	preco = gtk_box_new(1,0);
 	gtk_widget_set_name(preco,"caixa");
 	gtk_box_pack_start(GTK_BOX(preco),preco_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(preco),preco_prod_field,0,0,0);
+	gtk_entry_set_placeholder_text(GTK_ENTRY(preco_prod_field),"R$ 00,00");
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"");
 	gtk_widget_set_size_request(preco_prod_field,100,30);
 
 	peso = gtk_box_new(1,0);
 	gtk_widget_set_name(peso,"caixa");
 	gtk_box_pack_start(GTK_BOX(peso),peso_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(peso),peso_prod_field,0,0,0);
+	gtk_entry_set_placeholder_text(GTK_ENTRY(peso_prod_field),"00,00 KG");
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(peso_prod_field),GTK_ENTRY_ICON_PRIMARY,"insert-object");
 	gtk_widget_set_size_request(peso_prod_field,100,30);
 	
 	unidade = gtk_box_new(1,0);
 	gtk_widget_set_name(unidade,"caixa");
 	gtk_box_pack_start(GTK_BOX(unidade),unidade_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(unidade),unidade_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(unidade_prod_field),GTK_ENTRY_ICON_PRIMARY,"system-software-install");
 	gtk_widget_set_size_request(unidade_prod_field,100,30);
 
 	fornecedor = gtk_box_new(1,0);
@@ -168,6 +175,7 @@ int  cad_prod()
 	gtk_box_pack_start(GTK_BOX(fornecedor),fornecedor_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(fornecedor),campo_nome_fornecedor,0,0,0);
 	gtk_box_pack_start(GTK_BOX(fornecedor),fornecedor_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(fornecedor_prod_field),GTK_ENTRY_ICON_PRIMARY,"x-package-repository");
 	gtk_widget_set_size_request(fornecedor_prod_field,100,30);
 	gtk_widget_set_size_request(campo_nome_fornecedor,100,30);
 
@@ -176,12 +184,14 @@ int  cad_prod()
 	gtk_box_pack_start(GTK_BOX(grupo),grupo_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo),campo_nome_grupo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo),grupo_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 	gtk_widget_set_size_request(grupo_prod_field,100,30);
 	
 	marca = gtk_box_new(1,0);
 	gtk_widget_set_name(marca,"caixa");
 	gtk_box_pack_start(GTK_BOX(marca),marca_prod_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(marca),marca_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(marca_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-generic");
 	gtk_widget_set_size_request(marca_prod_field,100,30);
 	
 	observacoes = gtk_box_new(1,0);
@@ -233,15 +243,15 @@ int  cad_prod()
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(preco_prod),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(peso_prod),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(und_prod),NULL);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(fornecedor_prod),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(grupo_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(marca_prod),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(marca_prod),NULL);
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs_prod),NULL);
 
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_prod),concluir);
-//	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),alterar);
-//	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(pesquisar_prodceiros),listar);
-//	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),excluir);
+	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),alterar);
+	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(pesquisar_produtos),listar);
+	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),excluir);
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 	

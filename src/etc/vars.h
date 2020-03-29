@@ -60,6 +60,7 @@
 #define MAX_OBS_LEN 500
 #define CAMPOS_QNT 16
 #define MAX_PROD 100
+#define MAX_QUERY_LEN 1000
 #define CONECT_QNT 1
 #define CODE_LEN 10
 #define CNPJ_N_LEN 14
@@ -90,7 +91,7 @@ char **vet_codigos;
 int cont=0,pos=0;
 int alterando=0;
 
-#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values('%s',%s,%s,(select code from unidades where sigla = '%s'),%s,'%s','%s','%s');"
+#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
 #define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = %s, fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s'"
+#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s'"
 

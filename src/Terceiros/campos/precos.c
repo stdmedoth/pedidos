@@ -1,6 +1,6 @@
 int bloco_qnt=0;
 int posicoes[MAX_PROD];
-GtkWidget *confirmar,*cancelar;
+GtkWidget *confirmar,*cancelar,*campo_nome_prod;
 #define MARGEM_VIN_D 30
 struct campo_vinc
 {
@@ -31,7 +31,6 @@ int rec_prod(GtkWidget *widget,GtkWidget *nome)
 	}
 	strcpy(prod_nome,campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(nome),prod_nome);
-	
 	gtk_widget_grab_focus(GTK_WIDGET(vinculo.preco));
 	return 0;
 }
@@ -98,6 +97,8 @@ int verificar_entrada(GtkWidget *widget,int *pos)
 	return 0;
 }
 int rec_precos();
+
+
 void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 {
 	char *query;
@@ -110,7 +111,7 @@ void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 	g_print("Valor prod: %s\n",prod);
 	gchar *valor = (gchar*) gtk_entry_get_text(GTK_ENTRY(vinculo->preco));
 	g_print("Valor valor: %s",valor);
-	if(critica_real(valor,vinculo->produto)!=0)
+	if(critica_real(valor,vinculo->preco)!=0)
 	{
 		vet_erro[PRC_ERR] = 1;
 		return;
@@ -126,6 +127,9 @@ void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 	}
 	popup(NULL,"Concluido");
 	altera_ter();
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod),"Insira o código");
+	gtk_entry_set_text(GTK_ENTRY(vinculo->produto),"");
+	gtk_entry_set_text(GTK_ENTRY(vinculo->preco),"");
 }
 
 int add_vinc_prod_cli(int codigo)
@@ -133,7 +137,7 @@ int add_vinc_prod_cli(int codigo)
 	
 	GtkWidget *janela,*caixa;
 	GtkWidget *cli_label,*cli_entry,*cli_box,*fixed;
-	GtkWidget *prod_label,*campo_nome_prod,*prod_entry,*prod_box;
+	GtkWidget *prod_label,*prod_entry,*prod_box;
 	GtkWidget *preco_label,*preco_entry,*preco_box;
 	GtkWidget *confirma_img,*cancela_img,*opcoes_box;
 	char *query,*msg,*razao;
@@ -227,6 +231,8 @@ int rec_precos()
 
 	char *query;
 	char *entry_text;
+	char *frow;
+	frow = malloc(MAX_INPUT);
 	bloco_qnt=0;
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);
@@ -246,8 +252,10 @@ int rec_precos()
 		gtk_widget_set_name(precos_caixas[bloco_qnt],"caixa");
 	
 		codigo_preco[bloco_qnt] = atoi(campos[0]);
-		produto_label[bloco_qnt] = gtk_label_new(campos[1]);
+		sprintf(frow,"%.2f",atof(campos[1]));
+		produto_label[bloco_qnt] = gtk_label_new(frow);
 		preco_entry[bloco_qnt] = gtk_entry_new();
+		gtk_entry_set_placeholder_text(GTK_ENTRY(preco_entry),"R$ 00,00");
 		
 		imagem_dinheiro[bloco_qnt] = gtk_image_new_from_file(IMG_MONEY);
 		imagem_ok[bloco_qnt] = gtk_image_new_from_file(IMG_OK);
