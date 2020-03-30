@@ -1,18 +1,8 @@
-gchar *codigos_ter=NULL;
-gchar *doc_ter=NULL;
-gchar *nomes_ter=NULL;
-gchar *endereco_ter=NULL;
-gchar *cep_ter=NULL;
-gchar *tipo_ter=NULL;
-gchar *celular_ter=NULL;
-gchar *telefone_ter=NULL;
-gchar *contatot_ter=NULL;
-gchar *contatoc_ter=NULL;
-gchar *email_ter=NULL;
-gchar *contatoe_ter=NULL;
-gchar *observacoes_ter=NULL;
-
-
+MYSQL_ROW campos;
+GtkWidget *filas;
+#include "campos/vars/campos_ter.h"
+#include "campos/vars/vinculo_precos.h"
+#include "campos/vars/listagem_ter.h"
 #include "campos/codigo.c"
 #include "campos/cnpj.c"
 #include "campos/cpf.c"

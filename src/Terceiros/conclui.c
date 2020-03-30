@@ -103,7 +103,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			gtk_button_set_label(GTK_BUTTON(botao),"concluido");
 			popup(NULL,"Concluido");
 			gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
-			alterar=0;
+			alterando=0;
 			code[0] = '\0';
 			sprintf(code,"%i",tasker("terceiros"));
 			gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);

@@ -1,5 +1,3 @@
-#include "variaveis.h"
-
 int cmp_ico()
 {
 

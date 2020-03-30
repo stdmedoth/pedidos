@@ -7,7 +7,7 @@ GtkWidget *concluir, *alterar, *listar, *excluir;
 
 int inicializar_prod()
 {
-	int i;
+	int i,cont;
 	criticar.codigo = 1;
 	criticar.nome = 1;
 	criticar.preco = 1;
@@ -25,7 +25,6 @@ int inicializar_prod()
 	for(i=0;i<=CAMPOS_QNT;i++)
 		vet_erro[i] = 0;
 	
-	vet_codigos = malloc(MAX_CODE_LEN*MAX_PROD);
 	codigos_prod = malloc(MAX_CODE_LEN);
 	nomes_prod = malloc(MAX_NAME_LEN);	
 	precos_prod = malloc(MAX_PRECO_LEN);	
@@ -83,7 +82,6 @@ int  cad_prod()
 	botao_mais = gtk_button_new_with_label("");
 	gtk_button_set_image(GTK_BUTTON(botao_mais),imagem_mais);
 	
-	lista_prod_label = gtk_label_new("");
  	precos_scroll_caixa	 = gtk_box_new(1,0);
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	#ifdef WIN32
@@ -92,7 +90,7 @@ int  cad_prod()
 	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(precos_scroll_window),precos_scroll_caixa);
 	#endif
-	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_prod_label,0,0,20);
+	//gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_prod_label,0,0,20);
 	/*																	*/
 	gtk_widget_set_size_request(precos_scroll_window,200,500);
 	

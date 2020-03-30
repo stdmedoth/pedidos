@@ -1,6 +1,6 @@
 int bloco_qnt=0;
 int posicoes[MAX_PROD];
-GtkWidget *confirmar,*cancelar,*campo_nome_prod;
+GtkWidget *confirmar_preco_buttom,*cancelar_preco_buttom,*campo_nome_prod;
 #define MARGEM_VIN_D 30
 struct campo_vinc
 {
@@ -40,7 +40,7 @@ int validar_preco(GtkWidget *widget,struct campo_vinc *vinculo)
 	(char*)gtk_entry_get_text(GTK_ENTRY(vinculo->preco)),
 	(GtkWidget*)vinculo->preco)!=0)
 		return 1;
-	gtk_widget_grab_focus(GTK_WIDGET(concluir));
+	gtk_widget_grab_focus(GTK_WIDGET(concluir_ter_buttom));
 	return 0;		
 }
 int atualiza_preco(GtkWidget *widget,int *pos)
@@ -182,12 +182,12 @@ int add_vinc_prod_cli(int codigo)
 	opcoes_box   = gtk_box_new(0,0);
 	confirma_img = gtk_image_new_from_file(IMG_OK);
 	cancela_img = gtk_image_new_from_file(IMG_CANCEL);
-	confirmar = gtk_button_new_with_label("Confirmar");	
-	cancelar = gtk_button_new_with_label("Cancelar");
-	gtk_button_set_image(GTK_BUTTON(confirmar),confirma_img);
-	gtk_button_set_image(GTK_BUTTON(cancelar),cancela_img);
-	gtk_box_pack_start(GTK_BOX(opcoes_box),confirmar,0,0,0);
-	gtk_box_pack_start(GTK_BOX(opcoes_box),cancelar,0,0,5);	
+	confirmar_preco_buttom = gtk_button_new_with_label("Confirmar");	
+	cancelar_preco_buttom = gtk_button_new_with_label("Cancelar");
+	gtk_button_set_image(GTK_BUTTON(confirmar_preco_buttom),confirma_img);
+	gtk_button_set_image(GTK_BUTTON(cancelar_preco_buttom),cancela_img);
+	gtk_box_pack_start(GTK_BOX(opcoes_box),confirmar_preco_buttom,0,0,0);
+	gtk_box_pack_start(GTK_BOX(opcoes_box),cancelar_preco_buttom,0,0,5);	
 	gtk_fixed_put(GTK_FIXED(fixed),opcoes_box,5,250);
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 	sprintf(query,"select razao from terceiros where code = '%s'",codigos_ter);
@@ -216,7 +216,7 @@ int add_vinc_prod_cli(int codigo)
 	
 	g_signal_connect(prod_entry,"activate",G_CALLBACK(rec_prod),campo_nome_prod);
 	g_signal_connect(preco_entry,"activate",G_CALLBACK(validar_preco),&vinculo);
-	g_signal_connect(confirmar,"clicked",G_CALLBACK(criar_vinc),&vinculo);
+	g_signal_connect(confirmar_preco_buttom,"clicked",G_CALLBACK(criar_vinc),&vinculo);
 	
 	gtk_box_pack_start(GTK_BOX(caixa),fixed,0,0,0);
 

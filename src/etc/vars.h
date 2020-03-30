@@ -59,7 +59,7 @@
 #endif
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define CAMPOS_QNT 16
+#define CAMPOS_QNT 17
 #define MAX_PROD 100
 #define MAX_QUERY_LEN 1000
 #define CONECT_QNT 1
@@ -72,7 +72,7 @@
 #define VLR_MAX_LEN 15
 #define TERC_QNT  10000
 #define PROD_QNT  10000
-#define ROWS_QNT 16
+#define ROWS_QNT 17
 #define MAX_PRECO_LEN 10
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 100
@@ -86,90 +86,18 @@
 #define MAX_SIGLA 10
 #define MAX_GRP 20
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
-#define ENTRADA 200
+#define ENTRADA 300
 #define MARGEM_D 10
 
-char **vet_codigos;
-int cont=0,pos=0;
+
 int alterando=0;
-// **separadoresh
-GtkWidget *lista_ter;
-
-//terceiros
-int codigos_ter_prod[MAX_PROD];
-int *codigo_preco;
-GtkWidget *lista_prod_label;
-GtkWidget **produto_label,
-**preco_entry, 
-**precos_caixas, 
-**atualizar_preco, 
-**remover_preco,
-*precos_scroll_caixa,
-*precos_scroll_window,
-**imagem_ok,
-**imagem_cancel,
-**imagem_dinheiro,
-**juncao_preco_img;
-
-int tipo_doc;
-GtkWidget **evento;
-GtkWidget **separadoresv[30];
-GtkWidget *doc_combo;
-
-GtkWidget *code_ter_field, 
-*doc_ter_field, *name_ter_field, 
-*address_ter_field, *cep_ter_field, 
-*type_ter_field,
-*telefone_ter_field, *contatot_ter_field, 
-*celular_ter_field, *contatoc_ter_field, 
-*email_ter_field, *contatoe_ter_field, 
-*observacoes_ter_field;
 
 GtkWidget *janela;
 GtkWidget *acao_atual,*acao_atual2;
-GtkWidget *win_tipo_ter;
 
-//lista terceiros
-GtkWidget *colunas;
-GtkWidget **codigo,**nome,**doc,
-**tipodoc,**type,**address,
-**cep,**telefone,**contatot,
-**celular,**contatoc,**email,
-**contatoe,**_obs;
+GtkTextBuffer *buffer;
+GtkTextIter inicio,fim;	
 
-GtkWidget *lista_scroll_caixah, 
-*lista_scroll_caixav, *lista_scroll_windowv, 
-*lista_scroll_windowh, *lista_ter_label;
-
-char **vet_codigos;
-MYSQL_RES *vetor;
-MYSQL_ROW campos;
-GtkWidget *filas;
-
-//produtos
-GtkWidget *codigo_prod_field, *nome_prod_field, 
-*preco_prod_field,  *peso_prod_field, *unidade_prod_field,
-*fornecedor_prod_field, *grupo_prod_field, 
-*marca_prod_field, *observacao_prod_field;
-GtkWidget *code_prod_label,  *nome_prod_label, 
-*preco_prod_label, *peso_prod_label , *unidade_prod_label,
-*fornecedor_prod_label, *grupo_prod_label, 
-*marca_prod_label,  *observacao_prod_label;
-GtkWidget *botao_mais;
-GtkWidget *imagem_mais;
-GtkWidget *campo_nome_fornecedor,
-*campo_nome_grupo;
-
-int *codigo_preco;
-
-//lista terceiros
-GtkWidget **preco,**peso,**unidade,**fornecedor,**grupo,**marca,**observacoes;
-GtkWidget *lista_scroll_caixah, *lista_scroll_caixav, *lista_scroll_windowv, *lista_scroll_windowh, *lista_ter_label;
-GtkWidget *lista_prod;
-GtkWidget *pesquisa;
-GtkWidget *code_label, *doc_label, *name_label, *address_label, *cep_ter_label,*type_label,
-*telefone_label, *contatot_label, *celular_label, *contatoc_label, 
-*email_label, *contatoe_label, *observacoes_label;
 
 #define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
 #define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod

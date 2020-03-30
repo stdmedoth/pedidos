@@ -1,4 +1,4 @@
-GtkWidget *concluir, *alterar, *listar, *excluir;
+GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *excluir_ter_buttom;
 #include "campos.c"
 #include "altera.c"
 #include "exclui.c"
@@ -23,7 +23,6 @@ int inicializar_ter()
 		vet_erro[i] = 0;
 	
 	//char *
-	vet_codigos =  malloc(CODE_LEN*ROWS_QNT);
 	codigos_ter = malloc(CODE_LEN);
 	doc_ter = malloc(CNPJ_S_LEN);
 	nomes_ter = malloc(MAX_RAZ_LEN);	
@@ -96,7 +95,7 @@ int  cad_terc()
 	botao_mais = gtk_button_new_with_label("Vincular um Preço/Produto");
 	gtk_button_set_image(GTK_BUTTON(botao_mais),imagem_mais);
 	
-	lista_prod_label = gtk_label_new("Preços Vinculados:");
+	lista_vinc_label = gtk_label_new("Preços Vinculados:");
  	precos_scroll_caixa	 = gtk_box_new(1,0);
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	#ifdef WIN32
@@ -105,7 +104,7 @@ int  cad_terc()
 	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(precos_scroll_window),precos_scroll_caixa);
 	#endif
-	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_prod_label,0,0,20);
+	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_vinc_label,0,0,20);
 	/*																	*/
 	gtk_widget_set_size_request(precos_scroll_window,200,500);
 	
@@ -147,10 +146,10 @@ int  cad_terc()
 
 	observacoes_label = gtk_label_new("Observações");
 	
-	concluir = gtk_button_new_with_label("Concluir");
-	alterar = gtk_button_new_with_label("Alterar");
-	listar = gtk_button_new_with_label("Pesquisar");
-	excluir = gtk_button_new_with_label("Excluir");
+	concluir_ter_buttom = gtk_button_new_with_label("Concluir");
+	alterar_ter_buttom = gtk_button_new_with_label("Alterar");
+	listar_ter_buttom = gtk_button_new_with_label("Pesquisar");
+	excluir_ter_buttom = gtk_button_new_with_label("Excluir");
 	
 	code_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
@@ -265,15 +264,15 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),concluir,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),alterar,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),listar,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),excluir,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),concluir_ter_buttom,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),alterar_ter_buttom,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),listar_ter_buttom,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),excluir_ter_buttom,0,0,10);
 
-	gtk_widget_set_size_request(GTK_WIDGET(concluir),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(alterar),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(listar),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(excluir),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(concluir_ter_buttom),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(alterar_ter_buttom),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(listar_ter_buttom),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(excluir_ter_buttom),100,50);
 	
 	
 	g_signal_connect(GTK_ENTRY(code_ter_field),"activate",G_CALLBACK(code_terc),code_ter_field);
@@ -289,24 +288,24 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(email_ter_field),"activate",G_CALLBACK(email_fun),NULL);
 	g_signal_connect(GTK_ENTRY(contatoe_ter_field),"activate",G_CALLBACK(contato_email),NULL);
 	
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(code_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(name_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(escolha_doc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(address_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(cel),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(tel),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contt),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(email_fun),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(contato_email),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(code_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(name_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(escolha_doc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(address_terc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(cel),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(tel),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contt),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(email_fun),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contato_email),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(obs),NULL);
 
 	g_signal_connect(GTK_BUTTON(botao_mais),"clicked",G_CALLBACK(add_vinc_prod_cli),NULL);
 
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_ter),concluir);
-	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_ter),alterar);
-	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(pesquisar_terceiros),listar);
-	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_ter),excluir);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),concluir_ter_buttom);
+	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),alterar_ter_buttom);
+	g_signal_connect(GTK_BUTTON(listar_ter_buttom),"clicked",G_CALLBACK(pesquisar_terceiros),listar_ter_buttom);
+	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),excluir_ter_buttom);
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 	

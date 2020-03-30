@@ -8,7 +8,7 @@ GtkWidget *janela_inicializacao;
 
 int conexao()
 {
-	char *infos(int), *string;
+	char *string;
 	int conectado=0,tentativas=0;
 	while(conectado==0)
 	{

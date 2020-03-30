@@ -1,5 +1,3 @@
-GtkTextBuffer *buffer;
-GtkTextIter inicio,fim;
 #define OBS_MAX_LEN 500
 int obs_prod()
 {

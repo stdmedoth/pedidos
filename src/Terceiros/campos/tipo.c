@@ -1,4 +1,3 @@
-GtkWidget *win_tipo_ter;
 #define MAX_TIPO_LEN 20
 int terci_tipo=0;
 int set_cliente()

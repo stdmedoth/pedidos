@@ -1,5 +1,3 @@
-GtkTextBuffer *buffer;
-GtkTextIter inicio,fim;
 #define OBS_MAX_LEN 500
 int obs()
 {
@@ -19,6 +17,6 @@ int obs()
 			vet_erro[OBS_ERR] = 1;
 			return 1;
 	}
-	gtk_widget_grab_focus(concluir);
+	gtk_widget_grab_focus(concluir_ter_buttom);
 	return 0;
 }

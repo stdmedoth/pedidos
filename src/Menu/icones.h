@@ -1,4 +1,5 @@
 GtkWidget **eventos;
+#include "variaveis.h"
 #include "cad_ico.c"
 #include "cmp_ico.c"
 

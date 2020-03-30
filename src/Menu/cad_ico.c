@@ -1,5 +1,3 @@
-#include "variaveis.h"
-
 int cad_ico()
 {
 

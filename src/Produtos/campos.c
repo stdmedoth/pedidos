@@ -1,13 +1,5 @@
-gchar *codigos_prod=NULL;
-gchar *nomes_prod=NULL;
-gchar *precos_prod=NULL;
-gchar *pesos_prod=NULL;
-gchar *unidades_prod=NULL;
-gchar *fornecedores_prod=NULL;
-gchar *grupos_prod=NULL;;
-gchar *marcas_prod=NULL;;
-gchar *observacoes_prod=NULL;
-
+#include "campos/vars/campos_prod.h"
+#include "campos/vars/listagem_prod.h"
 #include "campos/codigo.c"
 #include "campos/nome.c"
 #include "campos/preco.c"
