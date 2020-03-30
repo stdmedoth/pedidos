@@ -1,12 +1,6 @@
 #undef PSQ_TER_QUERY
 #define PSQ_TER_QUERY "select * from produtos where razao like '%c%s%c';"
-MYSQL_RES *vetor;
-MYSQL_ROW campos;
-char **vet_codigos;
-GtkWidget *filas;
-GtkWidget **separadoresv[5];
-GtkWidget *lista_prod, **separadoresh;
-GtkWidget *pesquisa;
+
 GtkWidget 
 *codigo_prod_list,
 *nome_prod_list,
@@ -29,12 +23,6 @@ GtkWidget
 *marca_list_label,
 *observacoes_list_label;
 
-GtkWidget *colunas; //visual
-//vetores como as linhas
-GtkWidget **codigo,**nome,**preco,**peso,**unidade,**fornecedor,**grupo,**marca,**observacoes;
-
-GtkWidget *lista_scroll_caixah, *lista_scroll_caixav, *lista_scroll_windowv, *lista_scroll_windowh, *lista_ter_label;
-/*entrys de terceiros*/
 
 int chama_prod_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
@@ -49,25 +37,12 @@ int rec_prod_list(GtkWidget *widget)
 {
 	cont=0;
 	pos=0;
-	GtkWidget **evento;
 	char query[QUERY_LEN];
 	gchar *entrada;
 	int ascii = 37;
-	char **vet_codigos;
-	vet_codigos = malloc(CODE_LEN*MAX_LINHAS);
+	
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
-	
-	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
-	codigo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	nome = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	preco = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	peso = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	unidade = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	fornecedor = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	grupo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	marca = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	observacoes = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	
 	if(GTK_IS_WIDGET(colunas))
 		gtk_widget_destroy(colunas);
@@ -100,19 +75,19 @@ int rec_prod_list(GtkWidget *widget)
 		separadoresv[cont][3] = gtk_separator_new(0);
 		
 		unidade[cont] = gtk_label_new(campos[4]);
-		separadoresv[cont][5] = gtk_separator_new(0);
+		separadoresv[cont][4] = gtk_separator_new(0);
 		
 		fornecedor[cont] = gtk_label_new(campos[5]);
-		separadoresv[cont][6] = gtk_separator_new(0);
+		separadoresv[cont][5] = gtk_separator_new(0);
 
 		grupo[cont] = gtk_label_new(campos[6]);
-		separadoresv[cont][7] = gtk_separator_new(0);
+		separadoresv[cont][6] = gtk_separator_new(0);
 		
 		marca[cont] = gtk_label_new(campos[7]);
-		separadoresv[cont][8] = gtk_separator_new(0);
+		separadoresv[cont][7] = gtk_separator_new(0);
 		
 		observacoes[cont] = gtk_label_new(campos[8]);
-		separadoresv[cont][9] = gtk_separator_new(0);
+		separadoresv[cont][8] = gtk_separator_new(0);
 		
 		cont++;
 	}
@@ -211,6 +186,17 @@ int rec_prod_list(GtkWidget *widget)
 
 int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 {
+	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
+	codigo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	nome = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	preco = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	peso = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	unidade = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	fornecedor = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	grupo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	marca = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	observacoes = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	vet_codigos = malloc(CODE_LEN*MAX_LINHAS);
 	pesquisa = gtk_search_entry_new();
 	lista_ter_label = gtk_label_new("Terceiros");
 	lista_scroll_caixav = gtk_box_new(1,0);

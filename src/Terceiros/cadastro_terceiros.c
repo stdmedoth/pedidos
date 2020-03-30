@@ -21,6 +21,9 @@ int inicializar_ter()
 	
 	for(i=0;i<=CAMPOS_QNT;i++)
 		vet_erro[i] = 0;
+	
+	//char *
+	vet_codigos =  malloc(CODE_LEN*ROWS_QNT);
 	codigos_ter = malloc(CODE_LEN);
 	doc_ter = malloc(CNPJ_S_LEN);
 	nomes_ter = malloc(MAX_RAZ_LEN);	
@@ -35,6 +38,8 @@ int inicializar_ter()
 	email_ter = malloc(MAX_EMAIL_LEN);
 	contatoe_ter = malloc(MAX_CONT_LEN);
 	observacoes_ter = malloc(MAX_OBS_LEN);
+
+	//GtkWidget *
 	buffer = malloc(sizeof(GtkTextBuffer*));
 	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
 	codigo_preco = malloc(sizeof(int*)*MAX_PROD);

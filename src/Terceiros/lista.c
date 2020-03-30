@@ -1,16 +1,12 @@
 #define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c';"
-MYSQL_RES *vetor;
-MYSQL_ROW campos;
-char **vet_codigos;
-GtkWidget *filas;
-GtkWidget **separadoresv[5];
-GtkWidget *lista_ter, **separadoresh;
+
+
 GtkWidget *pesquisa;
 GtkWidget 
-*codigo_ter_list,  //codigo
-*nome_ter_list,    //razao
-*address_ter_list, //endereco
-*type_ter_list,    //tipo
+*codigo_ter_list,  
+*nome_ter_list,    
+*address_ter_list, 
+*type_ter_list,    
 *doc_ter_list,
 *tipodoc_ter_list,
 *address_ter_list,
@@ -24,10 +20,10 @@ GtkWidget
 *obs_ter_list;
 
 GtkWidget          
-*codigo_list_label, //codigo label
-*nome_list_label,   //razao label
-*address_list_label,//endereco label
-*type_list_label,   //tipo label
+*codigo_list_label,
+*nome_list_label,  
+*address_list_label,
+*type_list_label,   
 *doc_list_label,
 *tipodoc_list_label,
 *address_list_label,
@@ -40,12 +36,6 @@ GtkWidget
 *contatoe_list_label,
 *obs_list_label;
 
-GtkWidget *colunas; //visual
-//vetores como as linhas
-GtkWidget **codigo,**nome,**doc,**tipodoc,**type,**address,**cep,**telefone,**contatot,**celular,**contatoc,**email,**contatoe,**_obs;
-
-GtkWidget *lista_scroll_caixah, *lista_scroll_caixav, *lista_scroll_windowv, *lista_scroll_windowh, *lista_ter_label;
-/*entrys de terceiros*/
 
 int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
@@ -60,43 +50,22 @@ int rec_ter_list(GtkWidget *widget)
 {
 	cont=0;
 	pos=0;
-	GtkWidget **evento;
+	
 	char query[QUERY_LEN];
 	gchar *entrada;
 	int ascii = 37;
-	char **vet_codigos;
-	vet_codigos = malloc(CODE_LEN*MAX_LINHAS);
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	
-	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
-	codigo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	nome = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	doc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	address = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	tipodoc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	type = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	address = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	cep = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	telefone = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	contatot = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	celular = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	contatoc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	email = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	contatoe = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	_obs =  malloc(sizeof(GtkLabel*)*MAX_OBS_LEN);
-	
 	if(GTK_IS_WIDGET(colunas))
 		gtk_widget_destroy(colunas);
-
 
 	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
-		return 1;
+		return 0;
 	}
-	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
 		separadoresv[cont] = malloc(MAX_LINHAS*ROWS_QNT);
@@ -117,7 +86,7 @@ int rec_ter_list(GtkWidget *widget)
 		tipodoc[cont] = gtk_label_new(campos[3]);
 		separadoresv[cont][3] = gtk_separator_new(0);
 		
-		switch(atoi(campos[5]))
+		switch(atoi(campos[4]))
 		{	
 			case 1:
 				type[cont] = gtk_label_new("Cliente");
@@ -126,7 +95,9 @@ int rec_ter_list(GtkWidget *widget)
 				type[cont] = gtk_label_new("Fornecedor");
 				break;
 		}
-		separadoresv[cont][5] = gtk_separator_new(0);
+		separadoresv[cont][4] = gtk_separator_new(0);
+		
+		//tipo terceiro int campo[5]
 		
 		address[cont] = gtk_label_new(campos[6]);
 		separadoresv[cont][6] = gtk_separator_new(0);
@@ -158,7 +129,7 @@ int rec_ter_list(GtkWidget *widget)
 	}
 	if(cont==0)
 		return 0;
-		
+	
 	colunas = gtk_box_new(0,0);
 	codigo_ter_list = gtk_box_new(1,0);
 	nome_ter_list = gtk_box_new(1,0);
@@ -291,6 +262,25 @@ int rec_ter_list(GtkWidget *widget)
 
 int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {
+	
+	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
+	codigo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	nome = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	doc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	address = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	tipodoc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	type = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	address = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	cep = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	telefone = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	contatot = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	celular = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	contatoc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	email = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	contatoe = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	_obs =  malloc(sizeof(GtkLabel*)*MAX_OBS_LEN);
+	vet_codigos = malloc(CODE_LEN*MAX_LINHAS);
+	
 	pesquisa = gtk_search_entry_new();
 	lista_ter_label = gtk_label_new("Terceiros");
 	lista_scroll_caixav = gtk_box_new(1,0);

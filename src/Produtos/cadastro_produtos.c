@@ -24,6 +24,8 @@ int inicializar_prod()
 	
 	for(i=0;i<=CAMPOS_QNT;i++)
 		vet_erro[i] = 0;
+	
+	vet_codigos = malloc(MAX_CODE_LEN*MAX_PROD);
 	codigos_prod = malloc(MAX_CODE_LEN);
 	nomes_prod = malloc(MAX_NAME_LEN);	
 	precos_prod = malloc(MAX_PRECO_LEN);	

@@ -1,7 +1,12 @@
 GtkEntry
 {
-	color: grey;
+	color: Black;
 
+}
+#menu
+{
+        border-radius: 10px;
+        background: grey;
 }
 #barra
 {
