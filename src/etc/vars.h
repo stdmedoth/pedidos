@@ -6,7 +6,8 @@
 #define IMG_MONEY     "/petitto/files/opcoes_padrao/cash-outline.png"
 #define IMG_OK        "/petitto/files/opcoes_padrao/ok.png"
 #define IMG_PESQ      "/petitto/files/opcoes_padrao/pesquisar.png"
-#define IMG_EXCLUI      "/petitto/files/opcoes_padrao/excluir.png"
+#define IMG_EXCLUI    "/petitto/files/opcoes_padrao/excluir.png"
+#define IMG_ALTER     "/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/petitto/files/opcoes_padrao/menos.png" 
@@ -65,6 +66,7 @@
 #define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"  
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
+#define IMG_ALTER     "/usr/share/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_PESQ      "/usr/share/petitto/files/opcoes_padrao/pesquisar.png"
 #define IMG_EXCLUI    "/usr/share/petitto/files/opcoes_padrao/excluir.png"
@@ -117,5 +119,10 @@ GtkTextIter inicio,fim;
 
 #define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
 #define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s'"
+#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s' where code = %s"
+#define ARGS_PROD_UPD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod,codigos_prod
 
+#define FTR_CAD_QUERY "insert into fatores(nome,observacoes) values('%s','%s');"
+#define ARGS_FTR_CAD_QUERY nomes_ftr,observacoes_ftr
+#define FTR_UPD_QUERY "update fatores set nome = '%s',observacoes = '%s' where code = %s"
+#define ARGS_FTR_UPD_QUERY nomes_ftr,observacoes_ftr,codigos_ftr

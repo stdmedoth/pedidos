@@ -34,7 +34,7 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	}
 	else
 	{
-		sprintf(query,PROD_UPD_QUERY,ARGS_PROD_CAD_QUERY);
+		sprintf(query,PROD_UPD_QUERY,ARGS_PROD_UPD_QUERY);
 	}
 	g_print("[...] Criando conexão com o banco\n\n");
 	MYSQL connect;
