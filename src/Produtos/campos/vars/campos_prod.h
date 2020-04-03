@@ -18,6 +18,7 @@ GtkWidget *codigo_prod_field, *nome_prod_field,
 *fornecedor_prod_field, *grupo_prod_field, 
 *marca_prod_field, *observacao_prod_field;
 
+GtkWidget *tipos_scroll_window, *tipos_scroll_caixa;
 
 GtkWidget *campo_nome_fornecedor,
 *campo_nome_grupo;

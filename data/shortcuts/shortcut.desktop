@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/usr/share/petitto/bin/Petitto
+Icon=/usr/share/petitto/files/ico.png
+Name=Petitto

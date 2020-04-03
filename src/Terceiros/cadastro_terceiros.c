@@ -9,6 +9,7 @@ int inicializar_ter()
 {
 	int i;
 	criticar.doc = 1;
+	criticar.cep = 1;
 	criticar.endereco = 1;
 	criticar.nome = 1;
 	criticar.tipo = 1;
@@ -27,7 +28,7 @@ int inicializar_ter()
 	doc_ter = malloc(CNPJ_S_LEN);
 	nomes_ter = malloc(MAX_RAZ_LEN);	
 	endereco_ter = malloc(MAX_ADR_LEN);
-	cep_ter = malloc(CEP_LEN);
+	cep_ter = malloc(MAX_CEP_LEN);
 	tipo_ter = malloc(MAX_TIPO_LEN);
 	memset(tipo_ter,0x0,strlen(tipo_ter));
 	celular_ter = malloc(MAX_CEL_LEN);
@@ -60,6 +61,8 @@ int  cad_terc()
 	sprintf(task,"%i",tasker("terceiros"));
 	g_print("task %s\n",task);	
 	//linhas
+
+	GtkWidget *janela;
 	GtkWidget *horizontal_box_one, 
 	*horizontal_box_two, 
 	*horizontal_box_three, 
@@ -69,7 +72,7 @@ int  cad_terc()
 	
 	//container/visual
 	GtkWidget *fixed, *fixed2, *box,*vertical_box1, *vertical_box2, *separator;
-	GtkWidget *code, *doc, *name, *address, *type;
+	GtkWidget *code, *doc, *name, *address, *cep,*type;
 	GtkWidget *celular, *telefone,*acao, *email, *observacoes;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -80,7 +83,7 @@ int  cad_terc()
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
-	gtk_widget_set_size_request(janela,900,600);
+	gtk_widget_set_size_request(janela,800,600);
 	
 	acao = gtk_box_new(0,0);
 	acao_atual = gtk_label_new("Ação atual: ");
@@ -133,9 +136,22 @@ int  cad_terc()
 	code_label = gtk_label_new("Codigo: ");
 	doc_label = gtk_label_new("Documento:");
 	name_label = gtk_label_new("Nome: ");
-	address_label= gtk_label_new("Endereco: ");
-	type_label = gtk_label_new("Tipo Terceiro: ");
 	
+	cep_label = gtk_label_new("Cep: ");
+	address_label= gtk_label_new("Endereco: ");
+	
+	rua_combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(rua_combo),0,("Tipo:"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"1",(tip_logds[0]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"2",(tip_logds[1]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"3",(tip_logds[2]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"4",(tip_logds[3]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"5",(tip_logds[4]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"6",(tip_logds[5]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"7",("Outros"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),0);
+	
+	type_label = gtk_label_new("Tipo Terceiro: ");	
 	celular_label = gtk_label_new("Celular");
 	contatoc_label = gtk_label_new("Contato");
 	
@@ -160,6 +176,7 @@ int  cad_terc()
 	name_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(name_ter_field),GTK_ENTRY_ICON_PRIMARY,"avatar-default");
 	
+	cep_ter_field = gtk_entry_new();
 	address_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
 	
@@ -207,14 +224,21 @@ int  cad_terc()
 	
 	address = gtk_box_new(1,0);
 	gtk_widget_set_name(address,"caixa");
+	
+	cep = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(cep),cep_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(cep),cep_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(cep),rua_combo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(address),cep,0,0,5);
+	
 	gtk_box_pack_start(GTK_BOX(address),address_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(address),address_ter_field,0,0,0);
 	gtk_widget_set_size_request(address_ter_field,325,30);
-	
+		
 	type = gtk_box_new(1,0);
 	gtk_widget_set_name(type,"caixa");
 	gtk_box_pack_start(GTK_BOX(type),type_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(type),type_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(type),type_ter_field,0,0,0);
 	gtk_widget_set_size_request(type_ter_field,100,30);
 	
 	celular  = gtk_box_new(1,0);
@@ -279,6 +303,7 @@ int  cad_terc()
 	g_signal_connect(doc_combo,"changed",G_CALLBACK(mover_para_doc),NULL);
 	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(escolha_doc),doc_ter_field);
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
+	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),address_ter_field);
 	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
@@ -291,6 +316,7 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(code_terc),NULL);
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(name_terc),NULL);
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(escolha_doc),NULL);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(address_terc),NULL);
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(tel),NULL);
@@ -312,9 +338,9 @@ int  cad_terc()
 	gtk_widget_set_name(vertical_box1,"vertical_box1");
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);    //nome
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //endereco tipo ter
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,200);  //celular contato telefone contato email contato
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,330);  //observacoes
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //cep/endereco tipo ter
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,250);  //celular contato telefone contato email contato
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,380);  //observacoes
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,30);   //opcoess
 	
 	gtk_widget_set_name(vertical_box2,"vertical_box2");

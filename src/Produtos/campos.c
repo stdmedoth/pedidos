@@ -9,3 +9,4 @@
 #include "campos/marca.c"
 #include "campos/fornecedor.c"
 #include "campos/observacao.c"
+#include "campos/fatores.c"

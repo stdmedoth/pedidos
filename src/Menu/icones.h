@@ -1,6 +1,7 @@
 GtkWidget **eventos;
 #include "variaveis.h"
 #include "cad_ico.c"
+#include "vnd_ico.c"
 #include "cmp_ico.c"
 
 
@@ -11,11 +12,11 @@ int add_icones()
 	eventos      = malloc(sizeof(GtkEventBox*)*MAX_ICO_QNT);
 	principall   = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	cadastrosl   = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
-        comprasl     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
-        faturamentol = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
-        estoquel     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
-        financeirol  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
-        relatoriosl  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	comprasl     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	faturamentol = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	estoquel     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	financeirol  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	relatoriosl  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 	{
@@ -29,6 +30,8 @@ int add_icones()
 	}
 
 	cad_ico();
+	vnd_ico();
 	cmp_ico();
+	
 	return 0;
 }

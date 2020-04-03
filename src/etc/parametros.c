@@ -4,6 +4,7 @@ struct parametros
 	int doc;
 	int nome;
 	int endereco;
+	int cep;
 	int tipo;
 	int celular;
 	int contatoc;
@@ -20,7 +21,7 @@ struct parametros
 	int marca;
 	int vincula_prod_obs;
 }criticar;
-
+#define CAMPOS_QNT 19
 int vet_erro[CAMPOS_QNT+1];
 
 #define COD_ERR 0
@@ -42,3 +43,4 @@ int vet_erro[CAMPOS_QNT+1];
 #define UND_ERR 16
 #define GRP_ERR 17
 #define MRC_ERR 18
+#define CEP_ERR 19

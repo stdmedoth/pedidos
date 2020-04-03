@@ -9,7 +9,7 @@
 #include "../Produtos/cadastro_produtos.c"
 //#include "../Unidades/cadastro_unidades.c"
 #include "../Compras/cadastro_compras.c"
-#include "../Vendas/cadastro_vendas.c"
 #include "../Estoque/estoque.c"
+#include "../Vendas/faturamento.c"
 #include "../Listagens/relatorios.c"
 

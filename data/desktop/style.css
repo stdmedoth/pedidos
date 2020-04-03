@@ -1,7 +1,11 @@
 GtkEntry
 {
 	color: Black;
+}
+#colunas
+{
 
+	color: red;
 }
 #menu
 {
@@ -30,4 +34,14 @@ GtkEntry
 #infos
 {
         color: white;
+}
+#frame
+{
+	border: solid 1px Gainsboro;
+
+}
+#frame2
+{
+	background: White;
+
 }

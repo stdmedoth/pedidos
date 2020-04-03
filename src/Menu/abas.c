@@ -110,13 +110,17 @@ int menu()
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
 	if(ativar.relatorios)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label); 
+	
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
+	
 	gtk_box_pack_start(GTK_BOX(principal),texto_principal,0,0,0);
 	gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
+	
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(cadastros),cadastrosl[cont],0,0,20);
 	gtk_box_pack_start(GTK_BOX(compras),comprasl[0],0,0,20);
+	gtk_box_pack_start(GTK_BOX(faturamento),faturamentol[0],0,0,20);
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
 	
 	return 0;

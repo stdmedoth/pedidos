@@ -49,8 +49,8 @@ int altera_ter()
 	{
 		g_print("fornecedor\n");
 	}
-	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[6]);
-	//gtk_entry_set_text(GTK_ENTRY(cep),campo[7]);
+	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),campo[6]);
+	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[5]);
 	gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),campo[8]);
 	gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),campo[9]);
 	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),campo[10]);

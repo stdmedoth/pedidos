@@ -82,43 +82,25 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		autologger(query);
 		g_print("Query para tabela produtos\n");
 		g_print("Query envida com sucesso\n");
-		sprintf(query,"select code from produtos where code = %s",codigos_prod);
-		resultado = consultar(query);
-		if(resultado==NULL)
-		{	
-			popup(NULL,"Erro na confirmação do envio");
-			return 1;
-		}
-		campos = mysql_fetch_row(resultado);
-		if(campos!=NULL)
-		{
-			autologger(query);
-			g_print("Query envida com sucesso\n");
-			gtk_button_set_label(GTK_BUTTON(botao),"concluido");
-			popup(NULL,"Concluido");
-			gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
-			alterar=0;
-			code[0] = '\0';
-			sprintf(code,"%i",tasker("produtos"));
-			gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),code);
-			gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-			gtk_entry_set_text(GTK_ENTRY(marca_prod_field),"");
-			buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
-			gtk_text_buffer_get_start_iter (buffer,&inicio);
-			gtk_text_buffer_get_end_iter (buffer,&fim);
-			gtk_text_buffer_delete (buffer,&inicio,&fim);	
-			gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
-		}
-		else
-		{
-			popup(NULL,"O cadastro nao foi feito\nverifique os campos");
-			autologger("O cadastro nao foi feito\nverifique os campos");
-		}
+		gtk_button_set_label(GTK_BUTTON(botao),"concluido");
+		popup(NULL,"Concluido");
+		gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
+		alterar=0;
+		code[0] = '\0';
+		sprintf(code,"%i",tasker("produtos"));
+		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),code);
+		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(marca_prod_field),"");
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
+		gtk_text_buffer_get_start_iter (buffer,&inicio);
+		gtk_text_buffer_get_end_iter (buffer,&fim);
+		gtk_text_buffer_delete (buffer,&inicio,&fim);	
+		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);			
 	}
 	
 	printf("finalizando conclui_ter()\n");

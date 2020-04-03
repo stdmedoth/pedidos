@@ -1,5 +1,3 @@
-#define MAX_ADR_LEN 100
-#define CEP_LEN 9
 int address_terc()
 {
 	endereco_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(address_ter_field));

@@ -1,5 +1,6 @@
 #undef PSQ_TER_QUERY
 #define PSQ_TER_QUERY "select * from produtos where razao like '%c%s%c';"
+
 GtkWidget **separadoresvp[30];
 GtkWidget *lista_prod;	
 
@@ -11,20 +12,15 @@ int chama_prod_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 		gtk_widget_destroy(lista_prod);
 	return 0;
 }
+
 GtkWidget *colunasp;
 int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
 {
 	int cont=0;
 	int pos=0;
-
-
-
-
+	char **vet_codigosp;
 	GtkWidget **evento, **codigop, **nomep, **preco,**peso,**unidade,
 	**fornecedor, **grupo,**marca, **observacoes;
-	
-	char **vet_codigosp;
-	
 	GtkWidget          
 	*codigo_prod_list_label,
 	*nome_prod_list_label,
@@ -213,13 +209,11 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 {
 	GtkWidget *pesquisa;
-
-	GtkWidget *lista_scroll_caixah, *lista_scroll_caixav, 
-	*lista_scroll_windowv, *lista_scroll_windowh;
+	GtkWidget *lista_scroll_caixah=NULL, *lista_scroll_caixav=NULL;
+	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
 	
 	pesquisa = gtk_search_entry_new();
 
-	lista_ter_label = gtk_label_new("Produtos");
 	
 	lista_scroll_caixav = gtk_box_new(1,0);
 	lista_scroll_caixah = gtk_box_new(0,0);
@@ -233,7 +227,7 @@ int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 			
 	gtk_window_set_position(GTK_WINDOW(lista_prod),3);
 	gtk_window_set_resizable(GTK_WINDOW(lista_prod),FALSE);
-	gtk_window_set_title(GTK_WINDOW(janela),"LISTAGEM PRODUTOS");
+	gtk_window_set_title(GTK_WINDOW(lista_prod),"LISTAGEM PRODUTOS");
 	
 	gtk_widget_set_size_request(lista_prod,1000,600);
 	abrir_css(DESKTOP_STYLE);
@@ -254,7 +248,6 @@ int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 	gtk_container_add(GTK_CONTAINER(lista_scroll_windowv),lista_scroll_caixav);
 	#endif	
 	
-			
 	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_windowv,0,0,20);
 	
 	#ifdef WIN32
@@ -264,10 +257,11 @@ int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
 	#endif	
 
-
 	gtk_container_add(GTK_CONTAINER(lista_prod),lista_scroll_windowh);
+	
 	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec_prod_list),lista_scroll_caixav);
 	g_signal_connect(lista_prod,"destroy",G_CALLBACK(close_window_callback),lista_prod);
+
 	gtk_widget_show_all(lista_prod);	
 	return 0;
 }

@@ -58,6 +58,7 @@ int  cad_prod()
 	*horizontal_box_six;
 	
  	//container/visual
+	GtkWidget *janela;
 	GtkWidget *fixed, *fixed2, *box,*vertical_box1, *vertical_box2, *separator;
 	GtkWidget *code, *name, *preco, *peso, *unidade, *fornecedor, *grupo, *marca , *observacoes;
 	GtkWidget *acao;
@@ -82,17 +83,17 @@ int  cad_prod()
 	botao_mais = gtk_button_new_with_label("");
 	gtk_button_set_image(GTK_BUTTON(botao_mais),imagem_mais);
 	
- 	precos_scroll_caixa	 = gtk_box_new(1,0);
-	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
+ 	tipos_scroll_caixa	 = gtk_box_new(1,0);
+	tipos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(precos_scroll_window),precos_scroll_caixa);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tipos_scroll_window),tipos_scroll_caixa);
 	#endif
 	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(precos_scroll_window),precos_scroll_caixa);
+	gtk_container_add(GTK_CONTAINER(tipos_scroll_window),tipos_scroll_caixa);
 	#endif
-	//gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_prod_label,0,0,20);
+	//gtk_box_pack_start(GTK_BOX(tipos_scroll_caixa),lista_prod_label,0,0,20);
 	/*																	*/
-	gtk_widget_set_size_request(precos_scroll_window,200,500);
+	gtk_widget_set_size_request(tipos_scroll_window,200,500);
 	
 	fixed = gtk_fixed_new();
 	fixed2 = gtk_fixed_new();
@@ -265,7 +266,7 @@ int  cad_prod()
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,30);   //opcoes
 	
 	gtk_box_pack_start(GTK_BOX(vertical_box1),botao_mais,0,0,0);
-	gtk_box_pack_start(GTK_BOX(vertical_box1),precos_scroll_window,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),tipos_scroll_window,0,0,0);
 	
 	gtk_widget_set_size_request(vertical_box1,300,590);
 		
@@ -284,6 +285,6 @@ int  cad_prod()
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_fornecedor),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_grupo),FALSE);
 	gtk_widget_show_all(janela);
-
+	
 	return 0;
 }

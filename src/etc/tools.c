@@ -128,7 +128,7 @@ int tasker(char *table)
 	MYSQL_RES *result_vetor;
 	MYSQL_ROW campos;
 	int err=0,task_num=0;
-	char query[100];
+	char query[QUERY_LEN];
 	printf("Iniciando Tasker()\n");
 	sprintf(query,"select MAX(code) from %s;",table);
 	mysql_real_connect(&connect,SERVER,USER,PASS,DATABASE,0,NULL,0);

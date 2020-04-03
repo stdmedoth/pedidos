@@ -19,7 +19,7 @@ int name_terc()
 	else
 	{
 		vet_erro[NOM_ERR]=0;
-		gtk_widget_grab_focus(address_ter_field);
+		gtk_widget_grab_focus(cep_ter_field);
 	}
 	g_print("nome: %s\n",nomes_ter);
 	return 0;

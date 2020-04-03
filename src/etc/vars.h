@@ -5,8 +5,11 @@
 #ifdef WIN32
 #define IMG_MONEY     "/petitto/files/opcoes_padrao/cash-outline.png"
 #define IMG_OK        "/petitto/files/opcoes_padrao/ok.png"
+#define IMG_PESQ      "/petitto/files/opcoes_padrao/pesquisar.png"
+#define IMG_EXCLUI      "/petitto/files/opcoes_padrao/excluir.png"
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/petitto/files/opcoes_padrao/mais.png"
+#define IMG_MENOS     "/petitto/files/opcoes_padrao/menos.png" 
 #define LOGGER        "/petitto/files/logger.log"
 #define ICO           "/petitto/files/ico.ico"
 #define MSG_PRINC     "/petitto/files/msg"
@@ -18,6 +21,8 @@
 #define BANNER        "/petitto/files/princ_imgs/banner.png"
 #define BARRA_IMG     "/petitto/files/princ_imgs/barra.png"
 #define BOTAO_MENU    "/petitto/files/princ_imgs/botao_menu.png"  
+#define ORC_IMG		  "/petitto/files/icones_opc/orcamentos.png"
+#define PED_IMG		  "/petitto/files/icones_opc/pedidos.png"
 #define PROD_IMG      "/petitto/files/icones_opc/produtos.png"
 #define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"  
 #define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"  
@@ -28,8 +33,11 @@
 #define ORD_IMG       "/petitto/files/icones_opc/ordem_cmp.png"  
 #define ENT_IMG       "/petitto/files/icones_opc/entradas.png"  
 #define LMB_IMG       "/petitto/files/icones_opc/lembrete.png"  
-#define UND_IMG       "/petitto/files/icones_opc/unidade.png"  
+#define UND_IMG       "/petitto/files/icones_opc/unidade.png" 
+#define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
+#define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #endif
+
 #ifdef __linux__
 #define DESKTOP_STYLE "/usr/share/petitto/files/desktop/style.css"
 #define DESKTOP       "/usr/share/petitto/files/desktop.png"
@@ -41,6 +49,10 @@
 #define MSG_PRINC     "/usr/share/petitto/files/msg"
 #define BARRA_IMG     "/usr/share/petitto/files/princ_imgs/barra.png"
 #define BOTAO_MENU    "/usr/share/petitto/files/princ_imgs/botao_menu.png"  
+#define FATOR_IMG     "/usr/share/petitto/files/icones_opc/fatores.png"
+#define PRMT_IMG      "/usr/share/petitto/files/icones_opc/parametros.png"
+#define ORC_IMG		  "/usr/share/petitto/files/icones_opc/orcamentos.png"
+#define PED_IMG		  "/usr/share/petitto/files/icones_opc/pedidos.png"
 #define PROD_IMG      "/usr/share/petitto/files/icones_opc/produtos.png"
 #define TERC_IMG      "/usr/share/petitto/files/icones_opc/terceiros.png"  
 #define ESTO_IMG      "/usr/share/petitto/files/icones_opc/estoques.png"  
@@ -54,12 +66,15 @@
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
+#define IMG_PESQ      "/usr/share/petitto/files/opcoes_padrao/pesquisar.png"
+#define IMG_EXCLUI    "/usr/share/petitto/files/opcoes_padrao/excluir.png"
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
-#define IMG_MONEY      "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
+#define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
+#define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
 #endif
+
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define CAMPOS_QNT 17
 #define MAX_PROD 100
 #define MAX_QUERY_LEN 1000
 #define CONECT_QNT 1
@@ -72,7 +87,7 @@
 #define VLR_MAX_LEN 15
 #define TERC_QNT  10000
 #define PROD_QNT  10000
-#define ROWS_QNT 17
+#define ROWS_QNT 19
 #define MAX_PRECO_LEN 10
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 100
@@ -85,14 +100,15 @@
 #define MAX_OBS_LEN 500
 #define MAX_SIGLA 10
 #define MAX_GRP 20
+#define MAX_CEP_LEN 10
+#define CEP_LEN 8
+#define MAX_ADR_LEN 100
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 300
 #define MARGEM_D 10
 
 
 int alterando=0;
-
-GtkWidget *janela;
 GtkWidget *acao_atual,*acao_atual2;
 
 GtkTextBuffer *buffer;
