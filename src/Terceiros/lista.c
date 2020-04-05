@@ -1,8 +1,7 @@
 #define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c';"
-
 GtkWidget *lista_ter,*caixona,*colunasc;
 int scrolled = 0;
-
+GtkWidget *pesquisa;
 int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),pcodigo);
@@ -12,8 +11,8 @@ int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 	return 0;
 }
 GtkWidget *lista_scroll_caixah,*lista_scroll_caixav;
-GtkWidget *lista_scroll_windowv, *lista_scroll_windowh;
-int rec_ter_list(GtkWidget *widget)
+GtkWidget *lista_scroll_windowh;
+int rec_ter_list()
 {
 	int cont=0,pos=0;
 	char **vet_codigosc;
@@ -60,34 +59,48 @@ int rec_ter_list(GtkWidget *widget)
 	*contatoe_list_label,
 	*obs_list_label;
 	
-	
+	GList *children,*iter;
 	char *query;
 	int ascii = 37;	
 	
 	printf("Retirando filhos da colunasc\n");
 	if(GTK_IS_WIDGET(colunasc))
 	{
-		gtk_widget_destroy(colunasc);
-		gtk_widget_destroy(lista_scroll_caixav);
-		gtk_widget_destroy(lista_scroll_caixah);
-		gtk_widget_destroy(lista_scroll_windowv);
-		gtk_widget_destroy(lista_scroll_windowh);
-		colunasc = gtk_box_new(0,0);
-		lista_scroll_caixav = gtk_box_new(1,0);
-		lista_scroll_caixah = gtk_box_new(0,0);
-		lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
-		lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
+		children = gtk_container_get_children(GTK_CONTAINER(colunasc));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
 	}
-	else
+	if(GTK_IS_WIDGET(lista_scroll_caixav))
 	{
-		lista_scroll_caixav = gtk_box_new(1,0);
-		lista_scroll_caixah = gtk_box_new(0,0);
-		lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
-		lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);	
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_caixav));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+	}
+	if(GTK_IS_WIDGET(lista_scroll_caixah))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_caixah));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+	}
+	if(GTK_IS_WIDGET(lista_scroll_windowh))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_windowh));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+			gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+		gtk_widget_destroy(GTK_WIDGET(lista_scroll_windowh));
 	}
 
+	colunasc = gtk_box_new(0,0);
+	lista_scroll_caixav = gtk_box_new(1,0);
+	lista_scroll_caixah = gtk_box_new(0,0);
+	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);	
+	
+
 	gtk_widget_set_size_request(lista_scroll_caixav,1000,3000);
-	gtk_widget_set_size_request(lista_scroll_windowv,1800,500);
 	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
 	gtk_widget_set_size_request(lista_scroll_windowh,1000,500);
 
@@ -115,7 +128,7 @@ int rec_ter_list(GtkWidget *widget)
 	query = malloc(QUERY_LEN);
 	gchar *entrada;
 	entrada = malloc(ENTRADA);
-	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
+	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
 	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
 	mysql_res = consultar(query);
 	if(mysql_res==NULL)
@@ -380,31 +393,30 @@ int rec_ter_list(GtkWidget *widget)
 	gtk_box_pack_start(GTK_BOX(colunasc),contatoe_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),obs_ter_list,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunasc,0,0,0);	
+	gtk_box_pack_end(GTK_BOX(lista_scroll_caixah),colunasc,0,0,0);	
 	
 	g_print("Inserindo as colunas na scroll_box\n");
 	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_caixav,0,0,0);
-	
+	gtk_box_pack_end(GTK_BOX(lista_scroll_caixav),lista_scroll_caixah,0,0,0);
+
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixah);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixav);
 	#endif
-	
+
 	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
+	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixav);
 	#endif	
-	
-	gtk_box_pack_start(GTK_BOX(caixona),lista_scroll_windowh,0,0,20);
-	scrolled = 1;
-	
-	gtk_widget_show_all(lista_ter);
+
+	gtk_box_pack_end(GTK_BOX(caixona),lista_scroll_windowh,0,0,20);
+
+	gtk_widget_show_all(caixona);
 	return 0;
 }
 int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {	
-	GtkWidget *pesquisa;
+
 	scrolled = 0;
-	pesquisa = gtk_search_entry_new();
+	
 	lista_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
 	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
@@ -418,15 +430,16 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	gtk_widget_set_size_request(lista_ter,1000,600);
 	abrir_css(DESKTOP_STYLE);
 	
+	pesquisa = gtk_search_entry_new();
 	caixona = gtk_box_new(1,0);
 	colunasc = gtk_box_new(0,0);
-	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);	
+	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);		
 	gtk_container_add(GTK_CONTAINER(lista_ter),caixona);
+	g_object_ref(pesquisa);
 	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec_ter_list),NULL);	
 	
 	g_signal_connect(lista_ter,"destroy",G_CALLBACK(close_window_callback),lista_ter);
 	gtk_widget_show_all(lista_ter);
-	
 	return 0;
 }
 
