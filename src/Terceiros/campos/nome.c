@@ -1,4 +1,3 @@
-#define MAX_RAZ_LEN 100
 int name_terc()
 {
 	nomes_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_ter_field));

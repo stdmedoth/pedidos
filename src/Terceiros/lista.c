@@ -209,33 +209,33 @@ int rec_ter_list()
 		address[cont] = gtk_label_new(row);
 		separadoresvc[cont][7] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[8]);
-		telefone[cont] = gtk_label_new(row);
-		separadoresvc[cont][8] = gtk_separator_new(0);
-		
 		strcpy(row,mysql_row[9]);
-		contatot[cont] = gtk_label_new(row);
+		telefone[cont] = gtk_label_new(row);
 		separadoresvc[cont][9] = gtk_separator_new(0);
 		
 		strcpy(row,mysql_row[10]);
-		celular[cont] = gtk_label_new(row);
+		contatot[cont] = gtk_label_new(row);
 		separadoresvc[cont][10] = gtk_separator_new(0);
-	
-		strcpy(row,mysql_row[11]);
-		contatoc[cont] = gtk_label_new(row);
-		separadoresvc[cont][11] = gtk_separator_new(0);
 		
+		strcpy(row,mysql_row[11]);
+		celular[cont] = gtk_label_new(row);
+		separadoresvc[cont][11] = gtk_separator_new(0);
+	
 		strcpy(row,mysql_row[12]);
-		email[cont] = gtk_label_new(row);
+		contatoc[cont] = gtk_label_new(row);
 		separadoresvc[cont][12] = gtk_separator_new(0);
 		
 		strcpy(row,mysql_row[13]);
-		contatoe[cont] = gtk_label_new(row);
+		email[cont] = gtk_label_new(row);
 		separadoresvc[cont][13] = gtk_separator_new(0);
 		
 		strcpy(row,mysql_row[14]);
-		_obs[cont] = gtk_label_new(row);
+		contatoe[cont] = gtk_label_new(row);
 		separadoresvc[cont][14] = gtk_separator_new(0);
+		
+		strcpy(row,mysql_row[15]);
+		_obs[cont] = gtk_label_new(row);
+		separadoresvc[cont][15] = gtk_separator_new(0);
 		printf("cont :%i\n",cont);
 		cont++;
 	}
@@ -336,28 +336,30 @@ int rec_ter_list()
 		
 		gtk_box_pack_start(GTK_BOX(address_ter_list),address[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(address_ter_list),separadoresvc[pos][7],0,0,10);
+		
+		//campo 8 reservado ao numero da rua
 	
 		gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadoresvc[pos][8],0,0,10);
+		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadoresvc[pos][9],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatot_ter_list),contatot[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatot_ter_list),separadoresvc[pos][9],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatot_ter_list),separadoresvc[pos][10],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(celular_ter_list),celular[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(celular_ter_list),separadoresvc[pos][10],0,0,10);
+		gtk_box_pack_start(GTK_BOX(celular_ter_list),separadoresvc[pos][11],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),contatoc[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),separadoresvc[pos][11],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),separadoresvc[pos][12],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(email_ter_list),email[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(email_ter_list),separadoresvc[pos][12],0,0,10);
+		gtk_box_pack_start(GTK_BOX(email_ter_list),separadoresvc[pos][13],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),separadoresvc[pos][13],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),separadoresvc[pos][14],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(obs_ter_list),_obs[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][14],0,0,10);
-		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_ter_codigo),vet_codigosc[pos]);
+		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][15],0,0,10);
+		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_ter_codigo),(void*)vet_codigosc[pos]);
 		printf("pos %i\n",pos);
 		pos++;
 		

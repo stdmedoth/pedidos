@@ -2,8 +2,7 @@ GtkWidget *codigo_ftr_entry,*nome_ftr_entry,*observacao_ftr_entry;
 char *codigos_ftr,*nomes_ftr,*observacoes_ftr;
 void codigo_ftr()
 {
-	char *query,code[10];
-	query = malloc(MAX_QUERY_LEN);
+	char code[10];
 	codigos_ftr = malloc(ENTRADA);
 	codigos_ftr = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_ftr_entry));
 	if(strlen(codigos_ftr)<=0&&criticar.codigo==1)
@@ -31,8 +30,6 @@ void codigo_ftr()
 
 void nome_ftr()
 {
-	char *query,code[10];
-	query = malloc(MAX_QUERY_LEN);
 	nomes_ftr = malloc(ENTRADA);
 	nomes_ftr = (gchar*) gtk_entry_get_text(GTK_ENTRY(nome_ftr_entry));
 	if(strlen(nomes_ftr)<=0&&criticar.codigo==1)

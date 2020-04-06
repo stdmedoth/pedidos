@@ -1,3 +1,4 @@
+int msg_cep=0;
 int cep_terc()
 {
 	char *query;
@@ -37,9 +38,14 @@ int cep_terc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		popup(NULL,"CEP não encontrado,\n\tpor favor insira o endereço manualmente");
+		if(msg_cep==0)
+			popup(NULL,"CEP não encontrado,\npor favor insira o endereço manualmente");
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(cep_ter);
+		msg_cep = 1;
+		vet_erro[CEP_ERR]=0;
+		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
+		gtk_widget_grab_focus(address_ter_field);
 		return 1;
 	}
 	g_print("cep_len: %li\n",strlen(cep_ter));
@@ -49,6 +55,7 @@ int cep_terc()
 		if(strcmp(campos[1],tip_logds[cont])==0)
 		{
 			gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),cont+1);
+			tipo_log = cont+1;
 			cont2 = 1;
  		}
 	}

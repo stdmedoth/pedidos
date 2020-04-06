@@ -1,5 +1,6 @@
 int bloco_qnt=0;
 int posicoes[MAX_PROD];
+GtkWidget *vinc_janela_ter;
 GtkWidget *confirmar_preco_buttom,*cancelar_preco_buttom,*campo_nome_prod;
 #define MARGEM_VIN_D 30
 struct campo_vinc
@@ -79,8 +80,21 @@ int atualiza_preco(GtkWidget *widget,int *pos)
 	return 0;
 }
 
-int rem_preco(GtkWidget *widget,int *codigo_preco)
+int rem_preco(GtkWidget *widget,int *codigo)
 {
+	char query[MAX_QUERY_LEN];
+	int posicao = *codigo;
+	sprintf(query,"delete from precos where code = %i;",codigo_preco[posicao]);
+	if(enviar_query(query)==0)
+	{
+		gtk_widget_destroy(precos_caixas[posicao]);
+	}
+	else
+	{
+		g_print("Ocorreu erro na query para deletar preços\n");
+		autologger("Ocorreu erro na query para deletar preços\n");
+		popup(NULL,"Ocorreu algum erro ao tentar deletar\n\tConsulte com suporte");
+	}
 	g_print("codigo :%i\n",*codigo_preco);	
 	return 0;
 }
@@ -130,12 +144,13 @@ void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod),"Insira o código");
 	gtk_entry_set_text(GTK_ENTRY(vinculo->produto),"");
 	gtk_entry_set_text(GTK_ENTRY(vinculo->preco),"");
+	gtk_widget_destroy(vinc_janela_ter);
 }
 
 int add_vinc_prod_cli(int codigo)
 {
 	
-	GtkWidget *janela,*caixa;
+	GtkWidget *caixa;
 	GtkWidget *cli_label,*cli_entry,*cli_box,*fixed;
 	GtkWidget *prod_label,*prod_entry,*prod_box;
 	GtkWidget *preco_label,*preco_entry,*preco_box;
@@ -145,11 +160,11 @@ int add_vinc_prod_cli(int codigo)
 	query = malloc(QUERY_LEN);
 	msg = malloc(30);
 	razao = malloc(MAX_RAZ_LEN);
-	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
-	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_window_set_title(GTK_WINDOW(janela),"Vínculo");
-	gtk_widget_set_size_request(janela,200,320);
+	vinc_janela_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_keep_above(GTK_WINDOW(vinc_janela_ter),TRUE);
+	gtk_window_set_position(GTK_WINDOW(vinc_janela_ter),3);
+	gtk_window_set_title(GTK_WINDOW(vinc_janela_ter),"Vínculo");
+	gtk_widget_set_size_request(vinc_janela_ter,200,320);
 	
 	fixed   = gtk_fixed_new();
 	caixa     = gtk_box_new(1,0);
@@ -219,11 +234,10 @@ int add_vinc_prod_cli(int codigo)
 	g_signal_connect(confirmar_preco_buttom,"clicked",G_CALLBACK(criar_vinc),&vinculo);
 	
 	gtk_box_pack_start(GTK_BOX(caixa),fixed,0,0,0);
-
-	gtk_container_add(GTK_CONTAINER(janela),caixa);
+	gtk_container_add(GTK_CONTAINER(vinc_janela_ter),caixa);
 	gtk_widget_set_sensitive(GTK_WIDGET(cli_entry),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_prod),FALSE);
-	gtk_widget_show_all(janela);
+	gtk_widget_show_all(vinc_janela_ter);
 	return 0;
 }
 int rec_precos()
@@ -252,10 +266,10 @@ int rec_precos()
 		gtk_widget_set_name(precos_caixas[bloco_qnt],"caixa");
 	
 		codigo_preco[bloco_qnt] = atoi(campos[0]);
-		sprintf(frow,"%.2f",atof(campos[1]));
+		sprintf(frow,"%s",campos[1]);
 		produto_label[bloco_qnt] = gtk_label_new(frow);
 		preco_entry[bloco_qnt] = gtk_entry_new();
-		gtk_entry_set_placeholder_text(GTK_ENTRY(preco_entry),"R$ 00,00");
+		gtk_entry_set_placeholder_text(GTK_ENTRY(preco_entry[bloco_qnt]),"R$ 00,00");
 		
 		imagem_dinheiro[bloco_qnt] = gtk_image_new_from_file(IMG_MONEY);
 		imagem_ok[bloco_qnt] = gtk_image_new_from_file(IMG_OK);

@@ -2,7 +2,7 @@ int name_terc()
 {
 	nomes_ter = malloc(51);
 	nomes_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_ter_field));
-	if(strlen(nomes_ter)>50)
+	if(strlen(nomes_ter)>MAX_NAME_LEN)
 	{
 		popup(NULL,"Nome muito grande\nPor favor diminua");
 		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));

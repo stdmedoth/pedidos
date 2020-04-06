@@ -13,7 +13,7 @@ gchar *email_ter=NULL;
 gchar *contatoe_ter=NULL;
 gchar *observacoes_ter=NULL;
 
-int tipo_doc;
+int tipo_doc,tipo_log;
 GtkWidget *doc_combo;
 GtkWidget *rua_combo;
 

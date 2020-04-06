@@ -16,6 +16,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			return 1;
 		}
 	}
+	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)

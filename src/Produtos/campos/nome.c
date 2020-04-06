@@ -1,7 +1,7 @@
 int nome_prod()
 {
 	nomes_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(nome_prod_field));
-	if(strlen(nomes_prod)>50)
+	if(strlen(nomes_prod)>MAX_NAME_LEN)
 	{
 		popup(NULL,"Nome inserido é muito grande");
 		gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));

@@ -89,12 +89,11 @@
 #define VLR_MAX_LEN 15
 #define TERC_QNT  10000
 #define PROD_QNT  10000
-#define ROWS_QNT 19
-#define MAX_PRECO_LEN 10
+#define ROWS_QNT 20
 #define MAX_CODE_LEN 10
-#define MAX_NAME_LEN 100
-#define MAX_RAZ_LEN 100	
-#define MAX_PRECO_LEN 10
+#define MAX_NAME_LEN 300
+#define MAX_RAZ_LEN 300	
+#define MAX_PRECO_LEN 15
 #define MAX_UND_LEN 10
 #define MAX_GRP_LEN 20
 #define MAX_MRC_LEN 20

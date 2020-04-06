@@ -2,8 +2,6 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 {
 	
 	int err;
-	MYSQL_RES *resultado;
-	MYSQL_ROW campos;
 	char *code;
 	code = malloc(10);
 	char *query;
