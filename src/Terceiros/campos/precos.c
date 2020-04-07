@@ -37,9 +37,7 @@ int rec_prod(GtkWidget *widget,GtkWidget *nome)
 }
 int validar_preco(GtkWidget *widget,struct campo_vinc *vinculo)
 {
-	if(critica_real(
-	(char*)gtk_entry_get_text(GTK_ENTRY(vinculo->preco)),
-	(GtkWidget*)vinculo->preco)!=0)
+	if(critica_real((char*)gtk_entry_get_text(GTK_ENTRY(vinculo->preco)),(GtkWidget*)vinculo->preco)!=0)
 		return 1;
 	gtk_widget_grab_focus(GTK_WIDGET(concluir_ter_buttom));
 	return 0;		

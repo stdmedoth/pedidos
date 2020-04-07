@@ -1,8 +1,11 @@
 int qnt_prod_orc(GtkWidget *widget,int posicao)
 {
 	char query[MAX_QUERY_LEN];
+	float preco_f,quantidade_f,total_f;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
+	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
+	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	qnt_prod_orc_gchar = malloc(MAX_CODE_LEN);
 	qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
 	if(strlen(qnt_prod_orc_gchar)<=0)
@@ -49,19 +52,23 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			vet_erro[COD_ERR] = 1;
 			return 1;
 		}
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
+		strcpy(preco_prod_orc_gchar,campos[0]);
+		critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
+		g_print("Inserindo preco no produto pela tabela\n");
 		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"tabela");
 	}
 	else
 	{
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
+		strcpy(preco_prod_orc_gchar,campos[0]);
+		critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
+		g_print("Inserindo preco no produto pelo vinculo de cliente\n");
 		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"cliente");
 		//gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
-		
 	}
-	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
-	sprintf(total_prod_orc_gchar,"%.2f",atof(gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao])))*atof(gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]))));
-	gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[posicao]),total_prod_orc_gchar);
+	g_print("Iniciando verificação de total\n");
+	sprintf(total_prod_orc_gchar,"%.2f",atof(preco_prod_orc_gchar)*atoi(qnt_prod_orc_gchar));
+	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
+	
 	gtk_widget_grab_focus(botao_orc_mais);
 	return 0;
 }

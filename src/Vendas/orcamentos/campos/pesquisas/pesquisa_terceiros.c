@@ -3,6 +3,7 @@ static GtkWidget *alvoc;
 static int inclui_codigoc(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
 	gtk_entry_set_text(GTK_ENTRY(alvoc),pcodigo);
+	gtk_widget_activate(alvoc);
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",pcodigo);
 	gtk_widget_grab_focus(alvoc);
 	gtk_widget_destroy(listar_ter);

@@ -3,7 +3,7 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
 	char *formatar;
-	formatar = malloc(50);
+	formatar = malloc(MAX_PRECO_LEN);
 	mensagem = malloc(50);
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
@@ -18,8 +18,12 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 				popup(NULL,mensagem);
 				return 1;
 			}
+			#ifdef __linux__
 			valor[pos] = 46;
-			
+			#endif
+			#ifdef WIN32
+			valor[pos] = 44;
+			#endif
 			qnt++;
 		}
 	}
@@ -51,12 +55,17 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 			return 1;
 		}
 	}
+	g_print("de: %s\npara: ",valor);
+	memset(formatar,0x0,MAX_PRECO_LEN);
 	sprintf(formatar,"%.2f",atof(valor));
-	for(pos=0;pos<strlen(formatar);pos++)
+	for(pos=0;pos<=strlen(formatar);pos++)
 	{
-		if(formatar[pos]==',')
-			formatar[pos] = '.';
+		if(formatar[pos]==44)
+			formatar[pos] = 46;
+		valor[pos] = formatar[pos];
 	}
-	gtk_entry_set_text(GTK_ENTRY(entrada),formatar);
+	//valor[strlen(valor)] = '\0';
+	g_print("%s\n",valor);
+	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
 	return 0;
 }
