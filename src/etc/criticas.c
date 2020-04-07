@@ -52,6 +52,11 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 		}
 	}
 	sprintf(formatar,"%.2f",atof(valor));
+	for(pos=0;pos<strlen(formatar);pos++)
+	{
+		if(formatar[pos]==',')
+			formatar[pos] = '.';
+	}
 	gtk_entry_set_text(GTK_ENTRY(entrada),formatar);
 	return 0;
 }
