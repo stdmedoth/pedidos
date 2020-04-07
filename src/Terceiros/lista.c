@@ -190,13 +190,8 @@ int rec_ter_list()
 			type[cont] = gtk_label_new("Fornecedor");
 		}
 		else
-		if(atoi(row)==3)
 		{
-			type[cont] = gtk_label_new("Sem tipo");
-		}
-		else
-		{
-			type[cont] = gtk_label_new("ERRO");
+			type[cont] = gtk_label_new("Não Inserido");
 		}
 		separadoresvc[cont][5] = gtk_separator_new(0);
 		

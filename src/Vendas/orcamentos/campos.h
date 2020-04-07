@@ -7,6 +7,9 @@ int inicializar_orc()
 }
 int pressionado=0;
 
+static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
+static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
+
 static gchar *cliente_orc_gchar,
 *cliente_orc_name_gchar,
 *cliente_orc_end_gchar,
@@ -92,3 +95,5 @@ struct itens_struct
 #include "campos/total_orc.c"
 #include "campos/orig_preco_orc.c"
 #include "campos/desconto_orc.c"
+#include "campos/pesquisas/pesquisa_terceiros.c"
+#include "campos/pesquisas/pesquisa_produtos.c"
