@@ -5,6 +5,7 @@
 #include "criticas.c"
 #include "pesquisador.c"
 #include "parametros.c"
+#include "../Inicio/pega_data.c"
 #include "../Terceiros/cadastro_terceiros.c"
 #include "../Produtos/cadastro_produtos.c"
 //#include "../Unidades/cadastro_unidades.c"

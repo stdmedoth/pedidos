@@ -5,6 +5,8 @@
 #ifdef WIN32
 #define IMG_MONEY     "/petitto/files/opcoes_padrao/cash-outline.png"
 #define IMG_OK        "/petitto/files/opcoes_padrao/ok.png"
+#define IMG_IMP       "/petitto/files/opcoes_padrao/impressao.png"
+#define IMG_GERA      "/petitto/files/opcoes_padrao/geracao.png"
 #define IMG_PESQ      "/petitto/files/opcoes_padrao/pesquisar.png"
 #define IMG_EXCLUI    "/petitto/files/opcoes_padrao/excluir.png"
 #define IMG_ALTER     "/petitto/files/opcoes_padrao/alterar.png"
@@ -66,6 +68,8 @@
 #define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"  
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
+#define IMG_GERA      "/usr/share/petitto/files/opcoes_padrao/geracao.png"
+#define IMG_IMP       "/usr/share/petitto/files/opcoes_padrao/impressao.png"
 #define IMG_ALTER     "/usr/share/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_PESQ      "/usr/share/petitto/files/opcoes_padrao/pesquisar.png"

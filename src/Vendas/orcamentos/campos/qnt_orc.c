@@ -1,7 +1,6 @@
 int qnt_prod_orc(GtkWidget *widget,int posicao)
 {
 	char query[MAX_QUERY_LEN];
-	float preco_f,quantidade_f,total_f;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
@@ -66,7 +65,32 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		//gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
 	}
 	g_print("Iniciando verificação de total\n");
-	sprintf(total_prod_orc_gchar,"%.2f",atof(preco_prod_orc_gchar)*atoi(qnt_prod_orc_gchar));
+	for(int pos=0;pos<=strlen(preco_prod_orc_gchar);pos++)
+	{
+		if(preco_prod_orc_gchar[pos]==46||preco_prod_orc_gchar[pos]==44)
+		{	
+			#ifdef __linux__
+			preco_prod_orc_gchar[pos] = 46;
+			#endif
+			#ifdef WIN32
+			preco_prod_orc_gchar[pos] = 44;
+			#endif
+		}
+	}
+	for(int pos=0;pos<=strlen(qnt_prod_orc_gchar);pos++)
+	{
+		if(qnt_prod_orc_gchar[pos]==46||qnt_prod_orc_gchar[pos]==44)
+		{	
+			#ifdef __linux__
+			qnt_prod_orc_gchar[pos] = 46;
+			#endif
+			#ifdef WIN32
+			qnt_prod_orc_gchar[pos] = 44;
+			#endif
+		}
+	}
+	sprintf(total_prod_orc_gchar,"%.2f",atof(preco_prod_orc_gchar)*atof(qnt_prod_orc_gchar));
+	g_print("%.2f * %i = float - %.2f, string -%s \n",atof(preco_prod_orc_gchar),atoi(qnt_prod_orc_gchar),atof(preco_prod_orc_gchar)*atoi(qnt_prod_orc_gchar),total_prod_orc_gchar);
 	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 	
 	gtk_widget_grab_focus(botao_orc_mais);

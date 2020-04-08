@@ -52,7 +52,7 @@ static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scro
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	colunas_pesquisap = gtk_box_new(0,0);	
 
-	sprintf(query,"select * from produtos where nome like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select code,nome,preco from produtos where nome like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{

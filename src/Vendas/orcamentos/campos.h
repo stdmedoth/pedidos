@@ -7,8 +7,17 @@ int inicializar_orc()
 }
 int pressionado=0;
 
+//  BUTTONS 
+
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
+
+static GtkWidget *concluir_orc_button,*gerar_orc_button,*imprimir_orc_button,*cancelar_orc_button,*excluir_orc_button;
+static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*imprimir_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
+static GtkWidget *caixa_opcoes_orc;
+//  GCHAR
+
+static gchar *data_orc_gchar;
 
 static gchar *cliente_orc_gchar,
 *cliente_orc_name_gchar,
@@ -28,16 +37,20 @@ static gchar *codigo_prod_orc_gchar,
 *total_prod_orc_gchar;
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
+
 //  FRAMES
+static GtkWidget *data_orc_frame;
 static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,*itens_orc_frame,**linhas_prod_orc_frame;
 
 // FIXEDs
 static GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
+static GtkWidget *opcoes_orc_fixed;
 
 // LABELS
 
-static GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
+static GtkWidget *data_orc_label;
 
+static GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
 static GtkWidget **codigo_prod_orc_label,
 **descricao_prod_orc_label,
 **qnt_prod_orc_label,
@@ -58,12 +71,14 @@ static GtkWidget **codigo_prod_orc_entry,
 **desconto_prod_orc_entry,
 **total_prod_orc_entry;
 
+static GtkWidget *data_orc_entry;
+
 //  BOXES
 static GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
 static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,**linhas_prod_orc_box;
 static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
 
-//Containers
+//  CONTAINERS
 static GtkWidget *prod_scroll_window,*prod_scroll_box;
 static GtkWidget /**codigo_prod_orc_box,
 **descricao_prod_orc_box,
@@ -95,5 +110,6 @@ struct itens_struct
 #include "campos/total_orc.c"
 #include "campos/orig_preco_orc.c"
 #include "campos/desconto_orc.c"
+#include "campos/pesquisas/pesquisa_orcamentos.c"
 #include "campos/pesquisas/pesquisa_terceiros.c"
 #include "campos/pesquisas/pesquisa_produtos.c"

@@ -65,7 +65,7 @@ int desktop()
 		
 	g_print("Fechando janela init\n");
 	gtk_widget_destroy(janela_inicializacao);
-	
+	pegar_data();
 	layout = gtk_layout_new(NULL,NULL);
 	imagem_fundo = gtk_image_new_from_file(DESKTOP);
 

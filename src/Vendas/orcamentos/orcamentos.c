@@ -1,5 +1,5 @@
 #include "campos.h"
-
+#include <time.h>
 int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
 	ativos[id_ponteiro].id = 0;
@@ -10,7 +10,7 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 }
 
 int adicionar_linha_orc()
-{
+{	
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
 	gtk_widget_set_name(linhas_prod_orc_frame[itens_qnt],"frame2");
@@ -183,6 +183,13 @@ int vnd_orc()
 	gtk_container_add(GTK_CONTAINER(observacoes_orc_frame),observacoes_orc);
 	gtk_widget_set_size_request(observacoes_orc,250,150);
 	
+	data_orc_frame = gtk_frame_new("Data");
+	data_orc_entry = gtk_entry_new();
+	data_orc_gchar = malloc(sizeof(gchar*)*15);
+	sprintf(data_orc_gchar,"%s",data_sys);
+	gtk_entry_set_placeholder_text(GTK_ENTRY(data_orc_entry),data_orc_gchar);
+	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),data_orc_gchar);
+	gtk_container_add(GTK_CONTAINER(data_orc_frame),data_orc_entry);
 	
 	gtk_widget_set_size_request(codigo_orc_box,200,40);
 	gtk_widget_set_size_request(operacao_orc_box,200,40);
@@ -199,6 +206,8 @@ int vnd_orc()
 	gtk_widget_set_name(codigo_orc_frame,"frame");
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),operacao_orc_frame,0,0,30);
 	gtk_widget_set_name(operacao_orc_frame,"frame");
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,30);
+	
 	
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
 	//gtk_fixed_put(GTK_FIXED(orc_infos_fixed),operacao_orc_frame,MARGEM_D,90);
@@ -235,6 +244,40 @@ int vnd_orc()
 	
 	img_botao_menos = malloc(sizeof(GtkImage*)*MAX_PROD_ORC);
 	botao_menos = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
+	
+	//Botoes opcoes
+	concluir_orc_button = gtk_button_new_with_label("Concluir");
+	gerar_orc_button = gtk_button_new_with_label("Gerar Orçamento");
+	imprimir_orc_button = gtk_button_new_with_label("Imprimir");
+	cancelar_orc_button = gtk_button_new_with_label("Cancelar");
+	excluir_orc_button = gtk_button_new_with_label("Excluir");
+	
+	//imagens opçoes
+	concluir_orc_img_button = gtk_image_new_from_file(IMG_OK);
+	gtk_button_set_image(GTK_BUTTON(concluir_orc_button),concluir_orc_img_button);
+	
+	gerar_orc_img_button = gtk_image_new_from_file(IMG_GERA);
+	gtk_button_set_image(GTK_BUTTON(gerar_orc_button),gerar_orc_img_button);
+	
+	imprimir_orc_img_button = gtk_image_new_from_file(IMG_IMP);
+	gtk_button_set_image(GTK_BUTTON(imprimir_orc_button),imprimir_orc_img_button);
+	
+	cancelar_orc_img_button = gtk_image_new_from_file(IMG_CANCEL);
+	gtk_button_set_image(GTK_BUTTON(cancelar_orc_button),cancelar_orc_img_button);
+	
+	excluir_orc_img_button = gtk_image_new_from_file(IMG_EXCLUI);
+	gtk_button_set_image(GTK_BUTTON(excluir_orc_button),excluir_orc_img_button);
+	
+	opcoes_orc_fixed = gtk_fixed_new();
+	
+	caixa_opcoes_orc = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),concluir_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),gerar_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),imprimir_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),cancelar_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),excluir_orc_button,0,0,10);
+	
+	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,300,0);
 	
 	linhas_prod_orc_frame = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
@@ -335,7 +378,9 @@ int vnd_orc()
 	
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_orc_infos,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),itens_orc_box,0,0,10);
+	gtk_box_pack_end(GTK_BOX(caixa_grande),opcoes_orc_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(janela_orcamento),caixa_grande);
+	
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(close_window_callback),janela_orcamento);
