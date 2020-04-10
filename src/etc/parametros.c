@@ -16,12 +16,13 @@ struct parametros
 	int fornecedor;
 	int grupo;
 	int preco;
+	int total;
 	int peso;
 	int unidade;
 	int marca;
 	int vincula_prod_obs;
 }criticar;
-#define CAMPOS_QNT 19
+#define CAMPOS_QNT 22
 int vet_erro[CAMPOS_QNT+1];
 
 #define COD_ERR 0
@@ -44,3 +45,6 @@ int vet_erro[CAMPOS_QNT+1];
 #define GRP_ERR 17
 #define MRC_ERR 18
 #define CEP_ERR 19
+#define PRD_ERR 20
+#define CLI_ERR 21
+#define QNT_ERR 22

@@ -1,0 +1,88 @@
+#div-titulo
+{
+	border: solid black 1px;
+	background: #00238c;
+	height: 60px;
+}
+#div-titulo:hover
+{
+	background: #00638c;
+
+}
+#logo-img
+{
+	margin-top: 10px;
+	margin-left: 50px;
+}
+#titulo
+{
+	color:red;
+}
+#orc-infos
+{
+	text-align: left;
+	float: right;
+	margin-top: 80px;
+	margin-right: 230px;
+	border: dotted 1px gainsboro;
+}
+#orc-cliente
+{
+	border: dotted 1px blue;
+	padding: 5px;
+	color: blue;
+	text-align: left;
+	float: left;
+	margin-top: 30px;
+	margin-left: 60px;
+
+}
+#campo-itens
+{
+	padding: 10px;
+	border: dotted 1px gainsboro;
+	margin-top: 250px;
+	margin-left: 60px;
+	margin-right: 50px;
+	width: auto%;
+}
+#campo-itens:hover
+{
+	border-radius: 10px; 
+}
+table,tr,td
+{
+	padding: 10px;
+	border-collapse: collapse;
+	border: outset 1px black;
+}
+#info-row1
+{
+	background: Gainsboro;
+}
+#prod-row1
+{
+	background: Gainsboro;
+
+}
+#caixa-imp
+{
+	width: 210mm;
+	height: 297mm;
+	margin-top: 5px;
+	margin-left: 5px;
+	border: solid 1px black;
+	background: ffffff	;
+	border-radius: 10px; 
+}
+
+#string-black
+{
+	color: black;
+	text-align: right;
+}
+
+#separator
+{
+	
+}

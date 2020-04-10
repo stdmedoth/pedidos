@@ -50,7 +50,7 @@ int code_prod()
 		return -1;
 	}
 	else
-	if((vetor = consultar(query))!=NULL)
+	if((vetor = consultar(query))!=NULL&&alterando==0)
 	{
 		campos = mysql_fetch_row(vetor);
 		if(campos!=NULL)

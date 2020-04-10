@@ -45,6 +45,8 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 		gtk_widget_destroy(colunas_pesquisac);
 	
 	colunas_pesquisac = gtk_box_new(0,0);	
+	if(strlen(entrada)<=0)
+		return 0;
 
 	sprintf(query,"select code,razao,telefone from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
@@ -134,7 +136,7 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	listar_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(listar_ter),3);
 	gtk_window_set_keep_above(GTK_WINDOW(listar_ter), TRUE);
-	gtk_window_set_title(GTK_WINDOW(listar_ter),"Lista de Produtos");
+	gtk_window_set_title(GTK_WINDOW(listar_ter),"Lista de Terceiros");
 			
 	gtk_window_set_position(GTK_WINDOW(listar_ter),3);
 	gtk_window_set_resizable(GTK_WINDOW(listar_ter),FALSE);
@@ -145,9 +147,9 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
+	gtk_widget_set_size_request(lista_scroll_caixav,400,10000);
 	gtk_widget_set_size_request(lista_scroll_windowv,400,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
+	gtk_widget_set_size_request(lista_scroll_caixah,400,400);
 	gtk_widget_set_size_request(lista_scroll_windowh,400,400);
 	
 	

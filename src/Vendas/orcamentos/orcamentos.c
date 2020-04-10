@@ -2,15 +2,38 @@
 #include <time.h>
 int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
+	
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
 	g_print("linha deletada %i\n",id_ponteiro);
+	ativos_qnt--;
 	gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
 	return 0;
 }
 
 int adicionar_linha_orc()
 {	
+	
+	if(ativos[itens_qnt-1].id == 1)
+	{
+		int cont;
+		if(codigo_orc()!=0)
+			return 1;
+		if(codigo_cli_orc()!=0)
+			return 1;
+		if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+			return 1;
+		if(qnt_prod_orc(qnt_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+			return 1;
+		if(preco_prod_orc(preco_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+			return 1;
+		for(cont=0;cont<=CAMPOS_QNT;cont++)
+		{
+			if(vet_erro[cont]!=0)
+				return 1;
+		}		
+		
+	}
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
 	gtk_widget_set_name(linhas_prod_orc_frame[itens_qnt],"frame2");
@@ -85,6 +108,7 @@ int adicionar_linha_orc()
 	id_vetor[itens_qnt] = itens_qnt;
 	ativos[itens_qnt].id = 1;
 	excluidos[itens_qnt].id = 0;
+	ativos_qnt++;
 	gtk_widget_set_sensitive(botao_menos[itens_qnt-1],TRUE);
 	gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
 	
@@ -119,6 +143,7 @@ int vnd_orc()
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
 	itens_qnt = 1;
 	cont=1;
+	ativos_qnt=1;
 	item_frame_char = malloc(strlen("Item ")+10);
 	
 	orc_infos_fixed = gtk_fixed_new();
@@ -127,12 +152,16 @@ int vnd_orc()
 	
 	codigo_orc_label = gtk_label_new("Orçamento:");
 	codigo_orc_entry = gtk_entry_new();
+	pesquisa_orc = gtk_button_new();
+	img_pesquisa_orc = gtk_image_new_from_file(IMG_PROCR);
+	gtk_button_set_image(GTK_BUTTON(pesquisa_orc),img_pesquisa_orc);
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	codigo_orc_box = gtk_box_new(0,0);
 	codigo_orc_frame = gtk_frame_new("Código do Orçamento");
 	gtk_box_pack_start(GTK_BOX(codigo_orc_box),codigo_orc_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(codigo_orc_box),codigo_orc_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(codigo_orc_box),codigo_orc_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(codigo_orc_box),pesquisa_orc,0,0,5);
 	gtk_entry_set_width_chars(GTK_ENTRY(codigo_orc_entry),8);
 	gtk_container_add(GTK_CONTAINER(codigo_orc_frame),codigo_orc_box);
 	
@@ -140,7 +169,7 @@ int vnd_orc()
 	operacao_orc_entry = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(operacao_orc_entry),0,"Escolher");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(operacao_orc_entry),"1","Venda");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(operacao_orc_entry),"2","Devolucao");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(operacao_orc_entry),"2","Em desenvolvimento");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(operacao_orc_entry),0);
 	operacao_orc_box = gtk_box_new(0,0);
 	operacao_orc_frame = gtk_frame_new("Tipo de Operação");
@@ -249,6 +278,7 @@ int vnd_orc()
 	concluir_orc_button = gtk_button_new_with_label("Concluir");
 	gerar_orc_button = gtk_button_new_with_label("Gerar Orçamento");
 	imprimir_orc_button = gtk_button_new_with_label("Imprimir");
+	alterar_orc_button = gtk_button_new_with_label("Alterar");
 	cancelar_orc_button = gtk_button_new_with_label("Cancelar");
 	excluir_orc_button = gtk_button_new_with_label("Excluir");
 	
@@ -262,6 +292,9 @@ int vnd_orc()
 	imprimir_orc_img_button = gtk_image_new_from_file(IMG_IMP);
 	gtk_button_set_image(GTK_BUTTON(imprimir_orc_button),imprimir_orc_img_button);
 	
+	alterar_orc_img_button = gtk_image_new_from_file(IMG_ALTER);
+	gtk_button_set_image(GTK_BUTTON(alterar_orc_button),alterar_orc_img_button);
+	
 	cancelar_orc_img_button = gtk_image_new_from_file(IMG_CANCEL);
 	gtk_button_set_image(GTK_BUTTON(cancelar_orc_button),cancelar_orc_img_button);
 	
@@ -274,6 +307,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),concluir_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),gerar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),imprimir_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),alterar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),cancelar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),excluir_orc_button,0,0,10);
 	
@@ -343,6 +377,8 @@ int vnd_orc()
 		
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),botao_menos[cont],0,0,2);
 		id_vetor[cont] = cont; 
+		ativos[itens_qnt].id = 1;
+		excluidos[itens_qnt].id = 0;
 		#pragma GCC diagnostic ignored "-Wint-conversion"
 		g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[cont]);
 		g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[cont]);
@@ -358,7 +394,7 @@ int vnd_orc()
 		gtk_container_add(GTK_CONTAINER(linhas_prod_orc_frame[cont]),linhas_prod_orc_box[cont]);
 		gtk_widget_set_size_request(linhas_prod_orc_frame[cont],1100,30);
 		gtk_box_pack_start(GTK_BOX(prod_scroll_box),linhas_prod_orc_frame[cont],0,0,10);
-
+		
 		itens_qnt++;
 	}
 	img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
@@ -381,6 +417,12 @@ int vnd_orc()
 	gtk_box_pack_end(GTK_BOX(caixa_grande),opcoes_orc_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(janela_orcamento),caixa_grande);
 	
+	g_signal_connect(concluir_orc_button,"clicked",G_CALLBACK(concluir_orc),NULL);
+	g_signal_connect(gerar_orc_button,"clicked",G_CALLBACK(gerar_orc),NULL);
+	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(lista_orcamentos),codigo_orc_entry);
+	
+	
+	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(close_window_callback),janela_orcamento);

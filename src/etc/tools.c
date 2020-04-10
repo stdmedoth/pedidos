@@ -34,7 +34,6 @@ int popup(GtkWidget *widget,gchar *string)
 	int len;
 	GtkWidget *popup, *fields, *mensagem, *fixar;
 	popup = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_keep_above(GTK_WINDOW(popup), TRUE);
 	gtk_window_set_title(GTK_WINDOW(popup),string);	
 	autologger(string);
 	fields = gtk_box_new(1,0);
@@ -55,6 +54,7 @@ int popup(GtkWidget *widget,gchar *string)
 	gtk_container_add(GTK_CONTAINER(fixar),fields);
 	gtk_container_add(GTK_CONTAINER(popup),fixar);
 	gtk_widget_grab_focus(popup_fechar);
+	gtk_window_set_keep_above(GTK_WINDOW(popup), TRUE);
 	g_signal_connect(GTK_WINDOW(popup),"delete-event",G_CALLBACK(gtk_widget_destroy),NULL);
 	g_signal_connect(GTK_BUTTON(popup_fechar),"clicked",G_CALLBACK(close_window_callback),popup);	
 	gtk_widget_show_all(popup);

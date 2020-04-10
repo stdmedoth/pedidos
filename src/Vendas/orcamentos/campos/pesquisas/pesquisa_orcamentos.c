@@ -3,7 +3,7 @@ static GtkWidget *alvo_o;
 static int inclui_codigo_o(GtkWidget *widget,GdkEvent *evento,char *orc_codigo)
 {
 	gtk_entry_set_text(GTK_ENTRY(alvo_o),orc_codigo);
-	gtk_widget_activate(alvo_o);
+	//gtk_widget_activate(alvo_o);
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",orc_codigo);
 	gtk_widget_destroy(pesq_orc);
 	gtk_widget_grab_focus(GTK_WIDGET(alvo_o));
@@ -51,8 +51,9 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	}
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	colunas_pesquisa_o = gtk_box_new(0,0);	
-
-	sprintf(query,"select a.code,b.razao,c.total from orcamentos as a join terceiros as b join orcamentos as c where cliente like '%c%s%c';",ascii,entrada,ascii);
+	if(strlen(entrada)<=0)
+		return 0;
+	sprintf(query,"select distinct a.code,b.razao,c.total from orcamentos as a join terceiros as b join orcamentos as c where b.razao like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -76,8 +77,7 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 		
 		total[cont] = gtk_label_new(campos[2]);
 		separadoresvp[cont][2] = gtk_separator_new(0);
-		
-		
+				
 		cont++;
 	}
 	if(cont==0)
@@ -88,8 +88,8 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	cliente_prod_list = gtk_box_new(1,0);
 	total_prod_list = gtk_box_new(1,0);
 	
-	codigo_prod_list_label = gtk_label_new("Código do produto\n");	
-	cliente_prod_list_label = gtk_label_new("Nome do produto\n");
+	codigo_prod_list_label = gtk_label_new("Código do orcamento\n");	
+	cliente_prod_list_label = gtk_label_new("Nome do orcamento\n");
 	total_list_label = gtk_label_new("Preço\n");
 	
 	gtk_box_pack_start(GTK_BOX(codigo_prod_list),codigo_prod_list_label,0,0,0); //padrao de cliente de variavel
@@ -141,7 +141,7 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 	pesq_orc = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pesq_orc),3);
 	gtk_window_set_keep_above(GTK_WINDOW(pesq_orc), TRUE);
-	gtk_window_set_title(GTK_WINDOW(pesq_orc),"Lista de Produtos");
+	gtk_window_set_title(GTK_WINDOW(pesq_orc),"Lista de Orçamentos");
 			
 	gtk_window_set_position(GTK_WINDOW(pesq_orc),3);
 	gtk_window_set_resizable(GTK_WINDOW(pesq_orc),FALSE);
@@ -152,9 +152,9 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
+	gtk_widget_set_size_request(lista_scroll_caixav,400,10000);
 	gtk_widget_set_size_request(lista_scroll_windowv,400,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
+	gtk_widget_set_size_request(lista_scroll_caixah,400,400);
 	gtk_widget_set_size_request(lista_scroll_windowh,400,400);
 	
 	

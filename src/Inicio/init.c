@@ -130,8 +130,6 @@ int desktop()
 	
 	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
 	
-	
-	
 	gtk_widget_set_size_request(barra,75,765);
 	gtk_widget_set_size_request(layout_barra,75,765);
 
@@ -156,11 +154,11 @@ int desktop()
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
 	err = conexao();
-	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,60,250);
+	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,20,250);
 	gtk_widget_set_name(razao,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,60,5);
+	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,20,5);
 	gtk_widget_set_name(endereco,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,60,5);
+	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,20,5);
 	gtk_widget_set_name(cnpj,"infos");
 	if(err!=0)
 	{

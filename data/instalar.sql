@@ -10,8 +10,8 @@ create table estoques( code int primary key auto_increment not null, produto int
 create table precos( code int primary key auto_increment not null, produto int not null, terceiro int, valor float not null, foreign key(produto) references produtos(code), foreign key(terceiro) references terceiros(code));
 create table pedidos( code int primary key auto_increment not null, vendedor int not null, cliente int not null, dia date not null, total float not null,  foreign key(cliente) references terceiros(code));
 create table orcamentos( code int primary key auto_increment not null, vendedor int not null, cliente int not null, dia date not null, total float not null, foreign key(cliente) references terceiros(code));
-create table Produto_Orcamento( code int not null, produto int not null, unidades float not null, valor_unit int not null,foreign key(code) references orcamentos(code));
-create table Produto_Venda( code int auto_increment not null, produto int not null, unidades float not null, valor_unit int not null, foreign key(code) references pedidos(code),foreign key(valor_unit) references precos(code));
+create table Produto_Orcamento( code int not null, produto int not null, unidades float not null, valor_unit float not null, desconto float, total float not null,foreign key(code) references orcamentos(code));
+create table Produto_Venda( code int auto_increment not null, produto int not null, unidades float not null, valor_unit int not null,desconto float, total float not null,foreign key(code) references pedidos(code),foreign key(valor_unit) references precos(code));
 create table fatores( code int primary key auto_increment not null, nome varchar(50) not null,observacoes varchar(500) not null);
 create table Fatores_Preco( code int primary key auto_increment not null, produto int not null,fator1 int not null,fator2 int, fator3 int,  fator4 int,foreign key(produto) references produtos(code),foreign key(fator1) references fatores(code),foreign key(fator2) references fatores(code),foreign key(fator3) references fatores(code),foreign key(fator4) references fatores(code));
 CREATE TABLE cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,descricao varchar(100) DEFAULT NULL,uf varchar(2) DEFAULT NULL,codigo_ibge int(11) DEFAULT NULL,ddd varchar(2) DEFAULT NULL,PRIMARY KEY (id_cidade),KEY id (id_cidade) USING BTREE,KEY cidade (id_cidade,uf) USING BTREE,KEY cidade_estado (uf) USING BTREE);
@@ -19,6 +19,6 @@ CREATE TABLE logradouro (  CEP varchar(11) NOT NULL,id_logradouro int(10) unsign
 create user if not exists 'petitto'@'%' identified with mysql_native_password by '1234';
 grant all privileges on *.* to 'petitto'@'%';
 flush privileges;
-insert into empresa(razao, endereco, cnpj) values ( 'Petitto Materiais para encadernacaoo e cartonagem', 'R. Dna Amelia de Paula, 100 - Jardim Leonor, Campinas ', 'cnpj');
+insert into empresa(razao, endereco, cnpj) values ( 'Petitto Mat. p/ encadern. e carton.', 'R. Dna Amelia de Paula, 100\nJardim Leonor, Campinas ', '---');
 insert into grupos(nome) values('ferramentas'),('linha'),('papelao');
-insert into unidades(nome,sigla,multiplo) values('15 unidades','15 und',15),('caixa','cx',30),('unidade','und',1);
+insert into unidades(nome,sigla,multiplo) values('Caixas','CX',30),('Unidade','UND',1);

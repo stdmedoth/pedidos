@@ -51,6 +51,8 @@ static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scro
 	}
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	colunas_pesquisap = gtk_box_new(0,0);	
+	if(strlen(entrada)<=0)
+		return 0;
 
 	sprintf(query,"select code,nome,preco from produtos where nome like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
@@ -152,9 +154,9 @@ static int lista_produtos(GtkWidget *botao,gpointer *ponteiro)
 	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
+	gtk_widget_set_size_request(lista_scroll_caixav,400,10000);
 	gtk_widget_set_size_request(lista_scroll_windowv,400,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
+	gtk_widget_set_size_request(lista_scroll_caixah,400,400);
 	gtk_widget_set_size_request(lista_scroll_windowh,400,400);
 	
 	

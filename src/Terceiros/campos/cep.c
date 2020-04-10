@@ -38,7 +38,7 @@ int cep_terc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		if(msg_cep==0)
+		if(msg_cep==0&&alterando==0)
 			popup(NULL,"CEP não encontrado,\npor favor insira o endereço manualmente");
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(cep_ter);

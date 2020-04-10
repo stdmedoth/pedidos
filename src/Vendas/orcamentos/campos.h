@@ -2,18 +2,20 @@
 #define PROD_LINHAS_ORC 1
 int inicializar_orc()
 {
-	
+	int cont;
+	for(cont=0;cont<=CAMPOS_QNT;cont++)
+		vet_erro[cont] = 0;
 	return 0;
 }
 int pressionado=0;
-
+static int ativos_qnt=1;
 //  BUTTONS 
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
 
-static GtkWidget *concluir_orc_button,*gerar_orc_button,*imprimir_orc_button,*cancelar_orc_button,*excluir_orc_button;
-static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*imprimir_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
+static GtkWidget *concluir_orc_button,*gerar_orc_button,*imprimir_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button;
+static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*imprimir_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
 static GtkWidget *caixa_opcoes_orc;
 //  GCHAR
 
@@ -35,6 +37,7 @@ static gchar *codigo_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
 *desconto_prod_orc_gchar,
 *total_prod_orc_gchar;
+
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
@@ -102,7 +105,20 @@ struct itens_struct
 {
 	int id;
 	int item;
+	int produto;
+	float qnt_f;
+	float preco_f;
+	float desconto_f;
+	float total_f;
+	char qnt_c[MAX_PRECO_LEN];
+	char preco_c[MAX_PRECO_LEN];
+	char desconto_c[MAX_PRECO_LEN];
+	char total_c[MAX_PRECO_LEN];
+	char origem_preco[15];
+	
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
+
+#include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"
 #include "campos/prod_orc.c"
 #include "campos/qnt_orc.c"
@@ -113,3 +129,5 @@ struct itens_struct
 #include "campos/pesquisas/pesquisa_orcamentos.c"
 #include "campos/pesquisas/pesquisa_terceiros.c"
 #include "campos/pesquisas/pesquisa_produtos.c"
+#include "concluir.c"
+#include "gerar.c"

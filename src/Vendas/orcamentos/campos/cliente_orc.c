@@ -8,14 +8,14 @@ int codigo_cli_orc()
 	if(strlen(cliente_orc_gchar)<=0)
 	{
 		popup(NULL,"O código cliente deve ser inserido");
-		vet_erro[COD_ERR] = 1;
+		vet_erro[CLI_ERR] = 1;
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
 	if(stoi(cliente_orc_gchar)==-1)
 	{
 		popup(NULL,"O código do cliente deve ser numérico");
-		vet_erro[COD_ERR] = 1;
+		vet_erro[CLI_ERR] = 1;
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
@@ -28,7 +28,7 @@ int codigo_cli_orc()
 		autologger("Erro na query de cliente no orcamento\n");
 		autologger(query);
 		gtk_widget_grab_focus(cliente_orc_entry);
-		vet_erro[COD_ERR] = 1;
+		vet_erro[CLI_ERR] = 1;
 		return 1;
 	}
 	campos = mysql_fetch_row(vetor);
@@ -36,9 +36,10 @@ int codigo_cli_orc()
 	{
 		popup(NULL,"Cliente não existente");
 		gtk_widget_grab_focus(cliente_orc_entry);
-		vet_erro[COD_ERR] = 1;
+		vet_erro[CLI_ERR] = 1;
 		return 1;
 	}
+	vet_erro[CLI_ERR] = 0;
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);

@@ -1,18 +1,23 @@
 int altera_prod()
 {
 	char task[10];
-	char query[100];
+	char query[MAX_QUERY_LEN];
 	char *row;
 	row = malloc(ENTRADA);
-	MYSQL_RES *estado;
+	MYSQL_RES *vetor;
 	MYSQL_ROW campo;
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select * from produtos where code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.sigla,p.fornecedor,p.grupo,p.marca,p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
-	estado = consultar(query);
-	g_print("verificando estado da alteracao\n");
-	campo = mysql_fetch_row(estado);
+	vetor = consultar(query);
+	if(vetor == NULL)
+	{
+		popup(NULL,"Erro na query, algo está errado\n\tConsulte com suporte");
+		autologger(query);
+		return 1;
+	}
+	campo = mysql_fetch_row(vetor);
 	if(campo==NULL)
 	{
 		g_print("produto não existe para ser alterado\n");

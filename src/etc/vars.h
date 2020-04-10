@@ -8,6 +8,7 @@
 #define IMG_IMP       "/petitto/files/opcoes_padrao/impressao.png"
 #define IMG_GERA      "/petitto/files/opcoes_padrao/geracao.png"
 #define IMG_PESQ      "/petitto/files/opcoes_padrao/pesquisar.png"
+#define IMG_PROCR     "/petitto/files/opcoes_padrao/procurar.png"
 #define IMG_EXCLUI    "/petitto/files/opcoes_padrao/excluir.png"
 #define IMG_ALTER     "/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
@@ -39,6 +40,10 @@
 #define UND_IMG       "/petitto/files/icones_opc/unidade.png" 
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
+#define CSS_ORC       "/petitto/files/impressao/orcamento.css"
+#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
+#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
+
 #endif
 
 #ifdef __linux__
@@ -69,6 +74,7 @@
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_GERA      "/usr/share/petitto/files/opcoes_padrao/geracao.png"
+#define IMG_PROCR     "/usr/share/petitto/files/opcoes_padrao/procurar.png"
 #define IMG_IMP       "/usr/share/petitto/files/opcoes_padrao/impressao.png"
 #define IMG_ALTER     "/usr/share/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/usr/share/petitto/files/opcoes_padrao/cancelar.png"
@@ -77,11 +83,15 @@
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
+#define CSS_ORC       "/usr/share/petitto/files/impressao/orcamento.css"
+#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/logo_livro_texto.png"
+#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/logo_livro_texto.png"
+
 #endif
 
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define MAX_PROD 100
+#define MAX_PROD 400
 #define MAX_QUERY_LEN 1000
 #define CONECT_QNT 1
 #define CODE_LEN 10
@@ -95,8 +105,8 @@
 #define PROD_QNT  10000
 #define ROWS_QNT 20
 #define MAX_CODE_LEN 10
-#define MAX_NAME_LEN 300
-#define MAX_RAZ_LEN 300	
+#define MAX_NAME_LEN 400
+#define MAX_RAZ_LEN 400	
 #define MAX_PRECO_LEN 15
 #define MAX_UND_LEN 10
 #define MAX_GRP_LEN 20
@@ -111,6 +121,12 @@
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 300
 #define MARGEM_D 10
+
+#define RAZ_ROW_POS 1
+#define END_ROW_POS 7
+#define TEL_ROW_POS 9
+#define CEL_ROW_POS 11
+#define EMAIL_ROW_POS 13
 
 
 int alterando=0;
