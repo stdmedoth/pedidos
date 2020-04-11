@@ -2,7 +2,25 @@
 #include <time.h>
 int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
-	
+	int erro;
+	char *query;
+	query = malloc(MAX_QUERY_LEN);
+	sprintf(query,"select * from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
+	vetor = consultar(query);
+	if(vetor!=NULL)
+	{
+		campos = mysql_fetch_row(vetor);
+		if(campos!=NULL)
+		{
+			sprintf(query,"delete from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
+			erro = enviar_query(query);
+			if(erro!=0)
+			{
+				popup(NULL,"Erro ao tentar excluir o item\n\rReinicie o sistema!\n\tCaso persista, chame suporte");
+				return 1;
+			}
+		}
+	}
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
 	g_print("linha deletada %i\n",id_ponteiro);
@@ -12,8 +30,7 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 }
 
 int adicionar_linha_orc()
-{	
-	
+{		
 	if(ativos[itens_qnt-1].id == 1)
 	{
 		int cont;
@@ -419,6 +436,7 @@ int vnd_orc()
 	
 	g_signal_connect(concluir_orc_button,"clicked",G_CALLBACK(concluir_orc),NULL);
 	g_signal_connect(gerar_orc_button,"clicked",G_CALLBACK(gerar_orc),NULL);
+	g_signal_connect(alterar_orc_button,"clicked",G_CALLBACK(altera_orc),NULL);
 	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(lista_orcamentos),codigo_orc_entry);
 	
 	

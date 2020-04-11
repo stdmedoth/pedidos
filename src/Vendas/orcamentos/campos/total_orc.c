@@ -1,6 +1,5 @@
 int total_prod_orc(GtkWidget *widget,int posicao)
 {
-	int adicionar_linha_orc();
 	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	total_prod_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(total_prod_orc_entry[posicao]));
 	if(strlen(total_prod_orc_gchar)<=0&&criticar.total!=0)

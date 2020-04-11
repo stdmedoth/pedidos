@@ -11,6 +11,7 @@ static int inclui_codigo_o(GtkWidget *widget,GdkEvent *evento,char *orc_codigo)
 }
 
 static GtkWidget *colunas_pesquisa_o;
+static GtkWidget **separadoresv_o[10];
 static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
 {
 	int cont=0;
@@ -53,7 +54,7 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	colunas_pesquisa_o = gtk_box_new(0,0);	
 	if(strlen(entrada)<=0)
 		return 0;
-	sprintf(query,"select distinct a.code,b.razao,c.total from orcamentos as a join terceiros as b join orcamentos as c where b.razao like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select distinct a.code,b.razao,a.total from orcamentos as a join terceiros as b on a.cliente = b.code where b.razao like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -63,20 +64,20 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		separadoresvp[cont] = malloc(sizeof(GtkSeparator*)*MAX_LINHAS*ROWS_QNT);
+		separadoresv_o[cont] = malloc(sizeof(GtkSeparator*)*MAX_LINHAS*ROWS_QNT);
 		evento[cont] = gtk_event_box_new();
 		
 		vet_codigos_o[cont] = malloc(CODE_LEN);	
 		strcpy(vet_codigos_o[cont],campos[0]);
 
 		codigo_o[cont] = gtk_label_new(campos[0]);
-		separadoresvp[cont][0] = gtk_separator_new(0);
+		separadoresv_o[cont][0] = gtk_separator_new(0);
 		
 		cliente_o[cont] =  gtk_label_new(campos[1]);
-		separadoresvp[cont][1] = gtk_separator_new(0);
+		separadoresv_o[cont][1] = gtk_separator_new(0);
 		
 		total[cont] = gtk_label_new(campos[2]);
-		separadoresvp[cont][2] = gtk_separator_new(0);
+		separadoresv_o[cont][2] = gtk_separator_new(0);
 				
 		cont++;
 	}
@@ -101,13 +102,13 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 
 		gtk_container_add(GTK_CONTAINER(evento[pos]),codigo_o[pos]);
 		gtk_box_pack_start(GTK_BOX(codigo_prod_list),evento[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(codigo_prod_list),separadoresvp[pos][0],0,0,10);
+		gtk_box_pack_start(GTK_BOX(codigo_prod_list),separadoresv_o[pos][0],0,0,10);
 		
 		gtk_box_pack_start(GTK_BOX(cliente_prod_list),cliente_o[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(cliente_prod_list),separadoresvp[pos][1],0,0,10);
+		gtk_box_pack_start(GTK_BOX(cliente_prod_list),separadoresv_o[pos][1],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(total_prod_list),total[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(total_prod_list),separadoresvp[pos][2],0,0,10);
+		gtk_box_pack_start(GTK_BOX(total_prod_list),separadoresv_o[pos][2],0,0,10);
 			
 		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(inclui_codigo_o),vet_codigos_o[pos]);
 		pos++;
@@ -146,16 +147,16 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_position(GTK_WINDOW(pesq_orc),3);
 	gtk_window_set_resizable(GTK_WINDOW(pesq_orc),FALSE);
 	
-	gtk_widget_set_size_request(pesq_orc,200,400);
+	gtk_widget_set_size_request(pesq_orc,400,400);
 	abrir_css(DESKTOP_STYLE);
 
 	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,400,10000);
-	gtk_widget_set_size_request(lista_scroll_windowv,400,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,400,400);
-	gtk_widget_set_size_request(lista_scroll_windowh,400,400);
+	gtk_widget_set_size_request(lista_scroll_caixav,500,10000);
+	gtk_widget_set_size_request(lista_scroll_windowv,500,400);
+	gtk_widget_set_size_request(lista_scroll_caixah,500,400);
+	gtk_widget_set_size_request(lista_scroll_windowh,500,400);
 	
 	
 	#ifdef WIN32

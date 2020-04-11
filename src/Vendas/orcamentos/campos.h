@@ -1,5 +1,6 @@
 #define MAX_PROD_ORC 1000
 #define PROD_LINHAS_ORC 1
+
 int inicializar_orc()
 {
 	int cont;
@@ -92,7 +93,7 @@ static GtkWidget /**codigo_prod_orc_box,
 **desconto_prod_orc_box,*/
 *img_botao_orc_mais,**img_botao_menos;
 static int cont;
-
+int adicionar_linha_orc();
 static GtkWidget *observacoes_orc,*buffer_orc;
 
 //Botoes
@@ -117,7 +118,7 @@ struct itens_struct
 	char origem_preco[15];
 	
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
-
+#define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 #include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"
 #include "campos/prod_orc.c"
@@ -129,5 +130,6 @@ struct itens_struct
 #include "campos/pesquisas/pesquisa_orcamentos.c"
 #include "campos/pesquisas/pesquisa_terceiros.c"
 #include "campos/pesquisas/pesquisa_produtos.c"
+#include "alterar.c"
 #include "concluir.c"
 #include "gerar.c"

@@ -41,9 +41,6 @@
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #define CSS_ORC       "/petitto/files/impressao/orcamento.css"
-#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
-#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
-
 #endif
 
 #ifdef __linux__
@@ -83,12 +80,20 @@
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
-#define CSS_ORC       "/usr/share/petitto/files/impressao/orcamento.css"
-#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/logo_livro_texto.png"
-#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/logo_livro_texto.png"
-
 #endif
 
+#define CSS_ORC       "orcamento.css"
+#define IMG_IMP_CLI   "cliente.png"
+#define IMG_IMP_PROD  "produto.png"
+#define IMG_IMP_LOCAL "localidade.png"
+#define IMG_IMP_EMAIL "simb_email.png"
+#define IMG_IMP_TEL   "telefone.png"
+#define IMG_IMP_CEL   "celular.png"
+#define IMG_IMP_QNT   "quantidade.png"
+#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
+#define IMG_IMP_LOGO  "/petitto/files/impressao/logo_livro_texto.png"
+
+#define MAX_PATH_LEN 500
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
 #define MAX_PROD 400

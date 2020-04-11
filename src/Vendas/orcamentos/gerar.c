@@ -1,20 +1,26 @@
 #include "impressao.c"
 #define CLI_ROW_POS 2
-#define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%y\") from orcamentos where code = "
-#define ORC_PATH "/home/calistu/Desktop/orc.html"
+#define ORC_PATH "/usr/share/petitto/files/impressao/"
 int gerar_orc()
 {
 	int vnd_orc();
-
 	g_print("gerando orçamento...\n");
-	int cont;
+	int cont,error,nav=1;
 	char *query;
+	char *path;
+	char *abrir;
+	FILE *navegador;
 	int erro;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
-	MYSQL_ROW *row;
+	MYSQL_ROW row;
+	abrir = malloc(MAX_PATH_LEN);
+	path = malloc(MAX_PATH_LEN);
+	path = malloc(MAX_PATH_LEN);
 	query = malloc(MAX_QUERY_LEN);
+	sprintf(path,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
+	sprintf(abrir,"firefox %s",path);
 	if(codigo_orc()!=0)
 		return 1;
 	
@@ -58,14 +64,22 @@ int gerar_orc()
 				{
 					strcpy(ativos[cont].desconto_c,"0.0");
 				}
-				sprintf(query,"insert into Produto_Orcamento(code,produto,unidades,valor_unit,desconto,total) values(%s,%i,%s,%s,%s,%s);",codigo_orc_gchar,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].desconto_c ,ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code,item,produto,unidades,valor_unit,desconto,total) values(%s,%i,%i,%s,%s,%s,%s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].desconto_c ,ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{
 					popup(NULL,"Erro ao tentar gerar orçamento");
 					fclose(orc);
 					return 1;
-				}				
+				}
+				sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
+				erro = enviar_query(query);
+				if(erro != 0 )
+				{
+					popup(NULL,"Erro ao tentar gerar orçamento");
+					fclose(orc);
+					return 1;
+				}
 			}
 		}
 		if(ativos_qnt==0)
@@ -74,6 +88,7 @@ int gerar_orc()
 			fclose(orc);
 			return 1;
 		}
+		
 	}
 	else
 	{
@@ -81,7 +96,13 @@ int gerar_orc()
 		if(codigo_cli_orc()!=0)
 			return 1;			
 	}
-	orc = fopen(ORC_PATH,"w+");
+	
+	orc = fopen(path,"w");
+	if(orc==NULL)
+	{
+		popup(NULL,"Não está sendo possivel gerar o arquivo\n\tFeche o navegador");
+		return 1;
+	}
 	
 	sprintf(query,"select distinct (%s%s),o.total from orcamentos as o join terceiros as t where o.code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
 	
@@ -102,15 +123,16 @@ int gerar_orc()
 		fclose(orc);
 		return 1;
 	}
-	fprintf(orc,"<div id=\"caixa-imp\">\n");
+	
 	fprintf(orc,"<body>\n");
+	fprintf(orc,"<div id=\"caixa-imp\">\n");
 	if(imp_head()!=0)
 		return 1;
 	fprintf(orc,"<div id=\"orc-infos\" align=left>\n");
 	fprintf(orc,"<table>\n");
 	
 	fprintf(orc,"<tr>\n");
-	fprintf(orc,"<td id=\"info-row1\">Número Orcamento</td>\n");
+	fprintf(orc,"<td id=\"info-row1\">Número do Orcamento</td>\n");
 	//fprintf(orc,"<td id=\"info-row1\">Cliente:</td>\n"); 
 	fprintf(orc,"<td id=\"info-row1\">Data</td>\n");
 	fprintf(orc,"</tr>\n");
@@ -145,11 +167,11 @@ int gerar_orc()
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
 	fprintf(orc,"<td id=\"prod-row1\"></td>\n");
-	fprintf(orc,"<td id=\"prod-row1\">Produto</td>\n");
-	fprintf(orc,"<td id=\"prod-row1\">Quantidade</td>\n</td>");  
-	fprintf(orc,"<td id=\"prod-row1\">Preco <img src=\"%s\" alt=\"\"></td>\n",IMG_MONEY);
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Produto</td>\n",IMG_IMP_PROD);
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade</td>\n",IMG_IMP_QNT);  
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Preco</td>\n",IMG_MONEY);
 	fprintf(orc,"<td id=\"prod-row1\">Desconto </td>\n");
-	fprintf(orc,"<td id=\"prod-row1\">Total</td>\n");
+	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
 	fprintf(orc,"</tr>\n");
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
@@ -157,7 +179,7 @@ int gerar_orc()
 		fprintf(orc,"<tr>\n");
 		fprintf(orc,"<td>Item %i</td>\n",cont);
 		fprintf(orc,"<td>%s</td>\n",campos[0]);
-		fprintf(orc,"<td>%s %s</td>\n</td>",campos[1],campos[2]);  
+		fprintf(orc,"<td>%s %s</td>\n",campos[1],campos[2]);  
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(campos[3]));
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(campos[4]));
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(campos[5]));
@@ -170,11 +192,29 @@ int gerar_orc()
 		fclose(orc);
 		return 0;
 	}
+	sprintf(query,"select total from orcamentos where code = %s",codigo_orc_gchar);	
+	res = consultar(query);
+	if(res==NULL)
+	{
+		popup(NULL,"Erro de query! Consulte suporte");
+		autologger("Erro ao tentar receber total dos produtos no orcamento");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Nenhum Total encontrado\n\tCaso seja erro, consulte suporte");
+		autologger("Erro ao tentar receber total dos produtos no orcamento");
+		return 1;
+	}
+	fprintf(orc,"<td id=\"total-geral\">Total Geral: %s</td>\n",row[0]);	
 	fprintf(orc,"</table>\n");
-	fprintf(orc,"</div>");
+
+	fprintf(orc,"<div>\n");
+
+	fprintf(orc,"</div>\n");	
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");
-	fprintf(orc,"</div>\n");
+	
 	fclose(orc);
 	popup(NULL,"Gerado!");
 	return 0;

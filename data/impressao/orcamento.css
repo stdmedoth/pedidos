@@ -11,8 +11,8 @@
 }
 #logo-img
 {
-	margin-top: 10px;
-	margin-left: 50px;
+	margin-top: 1%;
+	margin-left: 10%;
 }
 #titulo
 {
@@ -22,29 +22,30 @@
 {
 	text-align: left;
 	float: right;
-	margin-top: 80px;
-	margin-right: 230px;
+	margin-top: 30px;
+	margin-right: 30px;
+	margin-left: 70px;
 	border: dotted 1px gainsboro;
 }
 #orc-cliente
 {
-	border: dotted 1px blue;
+	/*border: dotted 1px blue;*/
 	padding: 5px;
+	width: 180mm;
 	color: blue;
 	text-align: left;
 	float: left;
 	margin-top: 30px;
-	margin-left: 60px;
-
+	margin-left: 50px;
 }
 #campo-itens
 {
-	padding: 10px;
+	padding: 20px;
 	border: dotted 1px gainsboro;
-	margin-top: 250px;
-	margin-left: 60px;
+	margin-top: 400px;
+	margin-left: 50px;
 	margin-right: 50px;
-	width: auto%;
+	width: 180mm;
 }
 #campo-itens:hover
 {
@@ -55,6 +56,10 @@ table,tr,td
 	padding: 10px;
 	border-collapse: collapse;
 	border: outset 1px black;
+}
+td:hover
+{
+	background: lightgrey;
 }
 #info-row1
 {
@@ -70,10 +75,9 @@ table,tr,td
 	width: 210mm;
 	height: 297mm;
 	margin-top: 5px;
-	margin-left: 5px;
 	border: solid 1px black;
 	background: ffffff	;
-	border-radius: 10px; 
+	border-radius: 1%; 
 }
 
 #string-black
@@ -81,7 +85,10 @@ table,tr,td
 	color: black;
 	text-align: right;
 }
-
+#total-geral
+{
+	margin-top: 5px;
+}
 #separator
 {
 	

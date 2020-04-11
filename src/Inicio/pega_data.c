@@ -1,7 +1,7 @@
 /* cria data para o sistema*/
 char dia_sys[3];
 char mes_sys[3];
-char ano_sys[3];
+char ano_sys[4];
 char *data_sys;
 
 int pegar_data()
