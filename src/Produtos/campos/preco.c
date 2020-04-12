@@ -10,8 +10,14 @@ int preco_prod()
 		return 1;
 	}
 	else
-	if(strlen(precos_prod)<=0&&criticar.preco!=0)
+	if(strlen(precos_prod)<=0)
 	{	
+		if(produtos.criticar.preco==0)
+		{
+			critica = critica_real(precos_prod, preco_prod_field);
+			gtk_widget_grab_focus(peso_prod_field);
+			return 0;
+		}
 		popup(NULL,"Por favor, insira um Preço");
 		gtk_widget_grab_focus(preco_prod_field);
 		vet_erro[PRC_ERR] = 1;

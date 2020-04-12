@@ -5,7 +5,7 @@ int code_prod()
 	char query[50];
 	char code[10];
 	codigos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	if(strlen(codigos_prod)<=0&&criticar.codigo==1)
+	if(strlen(codigos_prod)<=0)
 	{
 		g_print("Inserir um código para o produto");
 		popup(NULL,"Por favor, Insira um código para o produto");
@@ -50,7 +50,7 @@ int code_prod()
 		return -1;
 	}
 	else
-	if((vetor = consultar(query))!=NULL&&alterando==0)
+	if((vetor = consultar(query))!=NULL&&alterando_prod==0)
 	{
 		campos = mysql_fetch_row(vetor);
 		if(campos!=NULL)

@@ -5,15 +5,21 @@ int marca_prod()
 	{
 		popup(NULL,"Marca inserida é muito grande");
 		gtk_widget_grab_focus(GTK_WIDGET(marca_prod_field));
-		vet_erro[MRC_ERR] = 0; 
+		vet_erro[MRC_ERR] = 1; 
 		return 1;
 	}
 	else
-	if(strlen(marcas_prod)<=0&&criticar.marca!=0)
+	if(strlen(marcas_prod)<=0)
 	{
+		if(produtos.criticar.marca==0)
+		{
+			gtk_widget_grab_focus(GTK_WIDGET(observacao_prod_field));
+			vet_erro[MRC_ERR] = 0;
+			return 0; 
+		}
 		popup(NULL,"Por favor, insira uma marca");
 		gtk_widget_grab_focus(GTK_WIDGET(marca_prod_field));
-		vet_erro[MRC_ERR] = 0;
+		vet_erro[MRC_ERR] = 1;
 		return 1;		
 	}
 	else

@@ -10,6 +10,15 @@ int conexao()
 {
 	char *string;
 	int conectado=0,tentativas=0;
+	char *msg;
+	msg = malloc(100);
+	struct tm *estrutura_tempo;
+	time_t tempo;
+	time(&tempo);
+	estrutura_tempo = localtime(&tempo);
+	sprintf(msg,"inicializando as %i:%i do dia %i/%i\n",estrutura_tempo->tm_hour,estrutura_tempo->tm_min,estrutura_tempo->tm_mday,estrutura_tempo->tm_mon);
+	autologger(msg);
+
 	while(conectado==0)
 	{
 		string = infos(0);
@@ -61,14 +70,54 @@ int desktop()
 {
 	int err=0;
 	GtkWidget  *juncao;
-	GtkWidget  *layout, *imagem_fundo;
-		
+	GtkWidget  *layout;
+
+	GtkWidget *param_button,*param_image;
+	GtkWidget *sair_button, *sair_image;
+	
+	param_button = gtk_button_new();
+	param_image = gtk_image_new_from_file(PRMT_IMG);
+	gtk_button_set_image(GTK_BUTTON(param_button),param_image);
+	
+	sair_button = gtk_button_new();
+	sair_image = gtk_image_new_from_file(EXIT_IMG);
+	gtk_button_set_image(GTK_BUTTON(sair_button),sair_image);
+
+
 	g_print("Fechando janela init\n");
 	gtk_widget_destroy(janela_inicializacao);
 	pegar_data();
 	layout = gtk_layout_new(NULL,NULL);
-	imagem_fundo = gtk_image_new_from_file(DESKTOP);
-
+	
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char *query;
+	query = malloc(MAX_QUERY_LEN);
+	sprintf(query,"select * from perfil_desktop");
+	res = consultar(query);
+	if(res==NULL)
+	{
+		popup(NULL,"Personalizacao com erro");
+	}
+	else
+	{
+		g_print("Recebendo escolha de wallpaper\n");
+		if((row = mysql_fetch_row(res))!=NULL)
+		{
+			g_print("Trocando wallpaper\n");
+			imagem_desktop = gtk_image_new_from_file(DESKTOP);
+			trocar_desktop(NULL,NULL,atoi(row[1]));
+			g_print("Desktop com imagem personalizada\n");
+			autologger("Desktop com imagem personalizada\n");
+			autologger(row[1]);
+		}
+		else
+		{
+			imagem_desktop = gtk_image_new_from_file(DESKTOP);
+			g_print("Desktop com imagem padrao\n");
+			autologger("Desktop com imagem padrao\n");
+		}
+	}
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
@@ -127,6 +176,8 @@ int desktop()
 	
 	gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,10);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,550);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,630);
 	
 	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
 	
@@ -137,8 +188,8 @@ int desktop()
 
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
 	
-	gtk_widget_set_size_request(imagem_fundo,1291,750);
-	gtk_layout_put(GTK_LAYOUT(layout), imagem_fundo, 0, 0);
+	gtk_widget_set_size_request(imagem_desktop,1291,750);
+	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 		
 	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
@@ -150,6 +201,8 @@ int desktop()
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
 	g_signal_connect(GTK_WINDOW(janela_principal),"delete-event",G_CALLBACK(gtk_main_quit),NULL);
+	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
+	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
@@ -165,21 +218,14 @@ int desktop()
 		popup(NULL,"Não foi posivel conectar");
 		return 1;
 	}
+	configurar_parametros();
 	gtk_widget_show_all(janela_principal);
 	gtk_widget_hide(lista_abas);	
 	return 0;
 }
 int init()
 {
-	char *msg;
-	msg = malloc(100);
 	g_print("inicializacao...\n");
-	struct tm *estrutura_tempo;
-	time_t tempo;
-	time(&tempo);
-	estrutura_tempo = localtime(&tempo);
-	sprintf(msg,"inicializando as %i:%i do dia %i/%i\n",estrutura_tempo->tm_hour,estrutura_tempo->tm_min,estrutura_tempo->tm_mday,estrutura_tempo->tm_mon);
-	autologger(msg);
 	GtkWidget *imagem_inicializacao;
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);

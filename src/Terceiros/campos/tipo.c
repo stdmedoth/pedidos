@@ -1,10 +1,23 @@
 #define MAX_TIPO_LEN 20
+
 int terci_tipo=0;
+
 int set_cliente()
 {
-	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"cliente");
+	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"Cliente");
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	
+	if(strlen(tipo_ter)<=0)
+	{
+		if(terceiros.criticar.tipo==0)
+		{
+			strcpy(tipo_ter,"");
+			gtk_widget_grab_focus(celular_ter_field);
+			return 0;
+		}
+		popup(NULL,"Tipo Terceiro deve ser inserido");
+		return 1;
+	}
 	if(strlen(tipo_ter)>=MAX_TIPO_LEN)
 	{
 		popup(NULL,"Tipo de terceiro muito grande\nPor favor use poucos caracteres");
@@ -22,9 +35,10 @@ int set_cliente()
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));
 	return 0;
 }
+
 int set_fornecedor()
 {
-	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"fornecedor");
+	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"Fornecedor");
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	if(strlen(tipo_ter)>MAX_TIPO_LEN)
 	{
@@ -43,6 +57,7 @@ int set_fornecedor()
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));
 	return 0;
 }
+
 int janela_tipo_ter()
 {
 	GtkWidget *cliente,*fornecedor,*div;
@@ -58,6 +73,7 @@ int janela_tipo_ter()
 	gtk_box_pack_start(GTK_BOX(div),fornecedor,0,0,0);
 	gtk_container_add(GTK_CONTAINER(win_tipo_ter),div);
 	gtk_widget_set_size_request(win_tipo_ter,200,100);
+
 	g_signal_connect(GTK_BUTTON(cliente),"clicked",G_CALLBACK(set_cliente),NULL);
 	g_signal_connect(GTK_BUTTON(fornecedor),"clicked",G_CALLBACK(set_fornecedor),NULL);
 	gtk_widget_show_all(win_tipo_ter);

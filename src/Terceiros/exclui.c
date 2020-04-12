@@ -100,7 +100,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_text_buffer_delete (buffer,&inicio,&fim);	
 		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
 		gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
-		alterando=0;
+		alterando_ter=0;
 		return 0;
 
 	}

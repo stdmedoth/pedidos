@@ -26,7 +26,7 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	}
 	g_print("iniciando concluir_ter()\n");
 	
-	if(alterando==0)
+	if(alterando_prod==0)
 	{
 		sprintf(query,PROD_CAD_QUERY,ARGS_PROD_CAD_QUERY);
 	}

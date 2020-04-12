@@ -5,14 +5,11 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 	char *formatar;
 	g_print("Iniciando funcao critica_real()\n");
 	formatar = malloc(MAX_PRECO_LEN);
-	mensagem = malloc(50);
-	if(strlen(valor)==0)
+	mensagem = malloc(strlen("Caracter   incorreto")+MAX_PRECO_LEN);
+	if(strlen(valor)<=0)
 	{
-		if(strcpy(valor,"0.0")==NULL)
-		{
-			g_print("%s\n",strerror(errno));
-			return 1;
-		}
+		valor = malloc(MAX_PRECO_LEN);
+		strcpy(valor,"0.0");
 	}
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto

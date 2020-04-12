@@ -1,3 +1,4 @@
+int alterando_ter=0;
 GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *excluir_ter_buttom;
 #include "campos.c"
 #include "altera.c"
@@ -8,17 +9,6 @@ GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *exclui
 int inicializar_ter()
 {
 	int i;
-	criticar.doc = 1;
-	criticar.cep = 1;
-	criticar.endereco = 1;
-	criticar.nome = 1;
-	criticar.tipo = 1;
-	criticar.celular = 1;
-	criticar.telefone = 1;
-	criticar.contatoc = 1;
-	criticar.contatot = 1;
-	criticar.email = 1;
-	criticar.contatoe = 1;
 	
 	for(i=0;i<=CAMPOS_QNT;i++)
 		vet_erro[i] = 0;

@@ -4,9 +4,15 @@ int grupo_prod()
 	MYSQL_ROW campos;
 	char query[50];
 	grupos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(grupo_prod_field));
-	if(strlen(grupos_prod)<=0&&criticar.grupo==1)
+	if(strlen(grupos_prod)<=0)
 	{
+		if(produtos.criticar.grupo==0)
+		{
+			gtk_widget_grab_focus(fornecedor_prod_field);
+			return 0;	
+		}
 		popup(NULL,"Por favor, Insira um grupo para o produto");
+		vet_erro[GRP_ERR] = 1; 
 		return 1;
 	}
 	else

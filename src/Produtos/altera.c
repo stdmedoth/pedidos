@@ -56,7 +56,7 @@ int altera_prod()
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
 	memset(query,0x0,strlen(query));
-	alterando=1;
+	alterando_prod=1;
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;

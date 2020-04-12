@@ -14,8 +14,15 @@ int cep_terc()
 		vet_erro[CEP_ERR]=1;
 		return 1;
 	}
-	if(strlen(cep_ter)<=0&&criticar.cep!=0)
+	if(strlen(cep_ter)<=0)
 	{
+		if(terceiros.criticar.cep==0)
+		{
+			cep_ter = malloc(MAX_CEP_LEN);
+			strcpy(cep_ter,"");
+			gtk_widget_grab_focus(address_ter_field);
+			return 0;
+		}
 		popup(NULL,"Por favor insira um cep");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		vet_erro[CEP_ERR]=1;
@@ -38,7 +45,7 @@ int cep_terc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		if(msg_cep==0&&alterando==0)
+		if(msg_cep==0&&alterando_ter==0)
 			popup(NULL,"CEP não encontrado,\npor favor insira o endereço manualmente");
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(cep_ter);

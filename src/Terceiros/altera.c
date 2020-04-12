@@ -1,3 +1,4 @@
+
 int altera_ter()
 {
 	char task[10];
@@ -61,7 +62,7 @@ int altera_ter()
 	strcpy(observacoes_ter,campo[15]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
-	if(alterando==1)
+	if(alterando_ter==1)
 	{
 		for(pos=0;pos<bloco_qnt;pos++)
 			gtk_widget_destroy(precos_caixas[pos]);
@@ -72,7 +73,7 @@ int altera_ter()
 	 * contato
 	 * obs*/
 	memset(query,0x0,strlen(query));
-	alterando=1;
+	alterando_ter=1;
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;

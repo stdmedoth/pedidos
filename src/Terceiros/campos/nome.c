@@ -1,5 +1,6 @@
 int name_terc()
 {
+	
 	nomes_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_ter_field));
 	if(strlen(nomes_ter)>MAX_RAZ_LEN)
 	{
@@ -8,7 +9,7 @@ int name_terc()
 		vet_erro[NOM_ERR]=1;
 		return 1;
 	}
-	if(strlen(nomes_ter)<1&&criticar.nome!=0)
+	if(strlen(nomes_ter)<=0)
 	{
 		popup(NULL,"Por favor insira um nome para o terceiro");
 		gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));

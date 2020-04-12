@@ -35,11 +35,9 @@ int altera_orc()
 		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]),row[4]);
 		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]),row[3]);
 		gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[6]);
-		adicionar_linha_orc();
-		
+		adicionar_linha_orc();		
 	}
-	
-		
+	alterando_orc=1;
 	
 	
 	return 0;	

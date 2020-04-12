@@ -27,7 +27,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	}
 	g_print("iniciando concluir_ter()\n");
 	
-	if(alterando==0)
+	if(alterando_ter==0)
 	{
 		sprintf(query,CAD_QUERY_TER,CAD_QUERY_TER_VAR);	
 	}
@@ -89,7 +89,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_button_set_label(GTK_BUTTON(botao),"concluido");
 	popup(NULL,"Concluido");
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
-	alterando=0;
+	alterando_ter=0;
 	code[0] = '\0';
 	sprintf(code,"%i",tasker("terceiros"));
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);

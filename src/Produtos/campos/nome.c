@@ -9,7 +9,7 @@ int nome_prod()
 		return 1;
 	}
 	else
-	if(strlen(nomes_prod)<=0&&criticar.nome!=0)
+	if(strlen(nomes_prod)<=0)
 	{
 		popup(NULL,"Por favor, insira um Nome");
 		gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));

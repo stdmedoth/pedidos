@@ -57,7 +57,7 @@ int exclui_prod()
 		gtk_text_buffer_get_end_iter (buffer,&fim);
 		gtk_text_buffer_delete (buffer,&inicio,&fim);
 		gtk_widget_grab_focus (GTK_WIDGET(codigo_prod_field));
-		alterando=0;
+		alterando_prod=0;
 		return 0;
 	}
 	else

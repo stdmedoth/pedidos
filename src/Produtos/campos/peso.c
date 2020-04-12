@@ -10,8 +10,14 @@ int peso_prod()
 		return 1;
 	}
 	else
-	if(strlen(pesos_prod)<=0&&criticar.peso!=0)
-	{	
+	if(strlen(pesos_prod)<=0)
+	{
+		if(produtos.criticar.peso==0)
+		{
+			critica = critica_real(pesos_prod, peso_prod_field);
+			gtk_widget_grab_focus(unidade_prod_field);
+			return 0;
+		}	
 		popup(NULL,"Por favor, insira um Peso");
 		gtk_widget_grab_focus(peso_prod_field);
 		vet_erro[PES_ERR] = 1;

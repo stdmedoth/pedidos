@@ -9,12 +9,18 @@ int fornecedor_prod()
 	{
 		popup(NULL,"Nome do fornecedor\n muito grande");
 		gtk_widget_grab_focus(fornecedor_prod_field);
-		vet_erro[15] = 1;
+		vet_erro[FOR_ERR] = 1;
 		return 1;
 	}
 	else
-	if(strlen(fornecedores_prod)<=0&&criticar.fornecedor!=0)
+	if(strlen(fornecedores_prod)<=0)
 	{
+		if(produtos.criticar.fornecedor!=0)
+		{
+			gtk_widget_grab_focus(GTK_WIDGET(marca_prod_field));
+			vet_erro[FOR_ERR] = 0;
+			return 0; 
+		}
 		popup(NULL,"Por favor, insira um Fornecedor");
 		gtk_widget_grab_focus(fornecedor_prod_field);
 		vet_erro[FOR_ERR] = 1;

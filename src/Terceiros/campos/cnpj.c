@@ -8,7 +8,7 @@ int cnpj_terc()
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
 	if(len<=0)
 	{
-		if(criticar.doc==0)
+		if(terceiros.criticar.doc==0)
 		{
 			gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
 			return 0;

@@ -4,8 +4,13 @@ int und_prod()
 	MYSQL_ROW campos;
 	char query[50];
 	unidades_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(unidade_prod_field));
-	if(strlen(unidades_prod)<=0&&criticar.unidade==1)
+	if(strlen(unidades_prod)<=0)
 	{
+		if(produtos.criticar.unidade==0)
+		{
+			gtk_widget_grab_focus(grupo_prod_field);
+			return 0;
+		}
 		g_print("Inserir uma unidade para o produto");
 		popup(NULL,"Por favor, Insira uma unidade para o produto");
 		return 1;

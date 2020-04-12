@@ -5,7 +5,7 @@ void codigo_ftr()
 	char code[10];
 	codigos_ftr = malloc(ENTRADA);
 	codigos_ftr = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_ftr_entry));
-	if(strlen(codigos_ftr)<=0&&criticar.codigo==1)
+	if(strlen(codigos_ftr)<=0)
 	{
 		sprintf(code,"%i",tasker("fatores"));
 		g_print("Inserir um código para o fator");
@@ -32,7 +32,7 @@ void nome_ftr()
 {
 	nomes_ftr = malloc(ENTRADA);
 	nomes_ftr = (gchar*) gtk_entry_get_text(GTK_ENTRY(nome_ftr_entry));
-	if(strlen(nomes_ftr)<=0&&criticar.codigo==1)
+	if(strlen(nomes_ftr)<=0)
 	{
 		g_print("Inserir um nome para o fator");
 		popup(NULL,"Por favor, Insira um nome para o fator");
@@ -83,7 +83,7 @@ void adicionar_fator()
 		}
 	}
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
-	if(alterando==0)
+	if(alterando_prod==0)
 	{
 		sprintf(query,FTR_CAD_QUERY,ARGS_FTR_CAD_QUERY);
 	}
@@ -107,7 +107,7 @@ void adicionar_fator()
 	gtk_entry_set_text(GTK_ENTRY(codigo_ftr_entry),code);
 	
 	gtk_widget_grab_focus(nome_ftr_entry);
-	alterando = 0;
+	alterando_prod = 0;
 }
 
 void alterar_fator()
@@ -145,7 +145,7 @@ void alterar_fator()
 	gtk_entry_set_text(GTK_ENTRY(nome_ftr_entry),campos[1]);
 	buffer_ftr = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_ftr_entry));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_ftr),campos[2],strlen(campos[2]));
-	alterando = 1;
+	alterando_prod = 1;
 }
 
 void remover_fator()
@@ -191,7 +191,7 @@ void remover_fator()
 	popup(NULL,"concluido");
 	sprintf(code,"%i",tasker("fatores"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_ftr_entry),code);
-	alterando = 0;
+	alterando_prod = 0;
 }
 void listar_fatores()
 {
@@ -232,7 +232,7 @@ int cad_fatores()
 	imagem_exclui = gtk_image_new_from_file(IMG_EXCLUI);
 	imagem_pesquisa = gtk_image_new_from_file(IMG_PESQ);
 	
-	alterando = 0;
+	alterando_prod = 0;
 	for(cont=0;cont<=CAMPOS_QNT;cont++)
 	{
 		vet_erro[cont] = 0;

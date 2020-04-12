@@ -18,8 +18,15 @@ int mostrar_telefone(GtkWidget *widget,GdkEvent *focar,gpointer telefone)
 int cel()
 {
 	celular_ter = (char *) gtk_entry_get_text(GTK_ENTRY(celular_ter_field));
-	if(strlen(celular_ter)<=0&&criticar.celular!=0)
+	if(strlen(celular_ter)<=0)
 	{
+		if(terceiros.criticar.celular==0)
+		{
+			celular_ter = malloc(MAX_CEL_LEN);
+			strcpy(celular_ter,"");
+			gtk_widget_grab_focus(contatoc_ter_field);
+			return 0;
+		}
 		popup(NULL,"O numero de celular deve ser inserido");
 		g_print("O numero de celular deve ser inserido\n");
 		autologger("O numero de celular deve ser inserido");
@@ -41,8 +48,15 @@ int cel()
 int contc()
 {
 	contatoc_ter =(char *) gtk_entry_get_text(GTK_ENTRY(contatoc_ter_field));
-	if(strlen(contatoc_ter)<1&&strlen(celular_ter)>0&&criticar.contatoc!=0)
+	if(strlen(contatoc_ter)<=0)
 	{
+		if(terceiros.criticar.contatoc==0)
+		{
+			contatoc_ter = malloc(MAX_CONT_LEN);
+			strcpy(contatoc_ter,"");
+			gtk_widget_grab_focus(telefone_ter_field);
+			return 0;
+		}
 		popup(NULL,"O nome do contato deve ser inserido");
 		g_print("O nome do contato deve ser inserido\n");
 		autologger("O nome do contato deve ser inserido");
@@ -65,11 +79,19 @@ int contc()
 int tel()
 {
 	telefone_ter =(char *) gtk_entry_get_text(GTK_ENTRY(telefone_ter_field));
-	if(strlen(telefone_ter)<=0&&criticar.telefone!=0)
+	if(strlen(telefone_ter)<=0)
 	{
+		if(terceiros.criticar.telefone==0)
+		{
+			telefone_ter = malloc(MAX_TEL_LEN);
+			strcpy(telefone_ter,"");
+			gtk_widget_grab_focus(contatot_ter_field);
+			return 0;
+		}
 		popup(NULL,"O numero de telefone deve ser inserido");
 		g_print("O numero de telefone deve ser inserido\n");
 		autologger("O numero de telefone deve ser inserido");
+		gtk_widget_grab_focus(telefone_ter_field);
 		vet_erro[TEL_ERR] = 1;
 		return 1;
 	}
@@ -78,6 +100,7 @@ int tel()
 		popup(NULL,"O numero de telefone está muito grande");
 		g_print("O numero de telefone está muito grande\n");
 		autologger("O numero de telefone está muito grande");
+		gtk_widget_grab_focus(telefone_ter_field);
 		vet_erro[TEL_ERR] = 1;
 		return 1;
 	}
@@ -89,8 +112,15 @@ int tel()
 int contt()
 {
 	contatot_ter =(char *) gtk_entry_get_text(GTK_ENTRY(contatot_ter_field));
-	if(strlen(contatot_ter)<=0&&strlen(telefone_ter)>0&&criticar.contatot!=0)
+	if(strlen(contatot_ter)<=0)
 	{
+		if(terceiros.criticar.contatot==0)
+		{
+			contatot_ter = malloc(MAX_CONT_LEN);
+			strcpy(contatot_ter,"");
+			gtk_widget_grab_focus(email_ter_field);
+			return 0;
+		}
 		popup(NULL,"O nome do contato deve ser inserido");
 		g_print("O nome do contato não foi inserido\n");
 		autologger("O nome do contato deve ser inserido");

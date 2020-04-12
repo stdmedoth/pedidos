@@ -1,3 +1,4 @@
+int alterando_orc=0;
 #include "campos.h"
 #include <time.h>
 int remover_linha_orc(GtkWidget *widget,int id_ponteiro)

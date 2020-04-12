@@ -1,6 +1,40 @@
 #include "impressao.c"
 #define CLI_ROW_POS 2
-#define ORC_PATH "/usr/share/petitto/files/impressao/"
+
+GtkWidget *msg_abrir_orc_window;
+int abrir_orc(GtkWidget *widget,char *uri)
+{
+	GError *erro;
+	//GtkWidget *mount;
+	//GdkScreen *screen;
+	//GdkDisplay *display;
+	//display = gdk_display_get_default();
+	//mount = gtk_mount_operation_new(GTK_WINDOW(janela_orcamento));
+	//screen = gdk_display_get_default_screen(display);
+	//gtk_mount_operation_set_screen(GTK_MOUNT_OPERATION(mount),screen);
+	if(gtk_show_uri_on_window(GTK_WINDOW(janela_orcamento),uri,GDK_CURRENT_TIME,&erro)==FALSE)
+		return 1 ;
+	return 0;
+}
+
+int msg_abrir_orc(GtkWidget *parent,char *path)
+{
+	GtkWidget *link_button;	
+	char * uri;
+	uri = malloc(MAX_URI_LEN);
+	msg_abrir_orc_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(msg_abrir_orc_window),GTK_WIN_POS_CENTER_ALWAYS);
+	gtk_window_set_keep_above(GTK_WINDOW(msg_abrir_orc_window),TRUE);
+	link_button = gtk_link_button_new_with_label(path,"Abrir Orcamento");
+	gtk_link_button_set_visited(GTK_LINK_BUTTON(link_button),FALSE);
+	sprintf(uri,"file://%s",path);
+	g_print("URI a ser visualizado %s\n",uri);
+	gtk_container_add(GTK_CONTAINER(msg_abrir_orc_window),link_button);
+	g_signal_connect(link_button,"activate-link",G_CALLBACK(abrir_orc),uri);
+	gtk_widget_show_all(msg_abrir_orc_window);
+	return 0;
+}
+
 int gerar_orc()
 {
 	int vnd_orc();
@@ -206,7 +240,7 @@ int gerar_orc()
 		autologger("Erro ao tentar receber total dos produtos no orcamento");
 		return 1;
 	}
-	fprintf(orc,"<td id=\"total-geral\">Total Geral: %s</td>\n",row[0]);	
+	fprintf(orc,"<td id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(row[0]));	
 	fprintf(orc,"</table>\n");
 
 	fprintf(orc,"<div>\n");
@@ -214,8 +248,17 @@ int gerar_orc()
 	fprintf(orc,"</div>\n");	
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");
-	
 	fclose(orc);
-	popup(NULL,"Gerado!");
+	g_print("Gerando URI para impressao\n");
+	if(msg_abrir_orc(janela_orcamento,path)==0)
+	{
+		g_print("URI para impressao gerado\n");
+		popup(NULL,"Gerado!");
+	}
+	else
+	{
+		popup(NULL,"Erro ao tentar gerar URI");
+		return 1;
+	}
 	return 0;
 }

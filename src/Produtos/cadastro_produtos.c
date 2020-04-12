@@ -1,4 +1,5 @@
 GtkWidget *concluir, *alterar, *listar, *excluir;
+int alterando_prod=0;
 #include "campos.c"
 #include "conclui.c"
 #include "altera.c"
@@ -8,14 +9,6 @@ GtkWidget *concluir, *alterar, *listar, *excluir;
 int inicializar_prod()
 {
 	int i,cont;
-	criticar.codigo = 1;
-	criticar.nome = 1;
-	criticar.preco = 1;
-	criticar.peso = 1;
-	criticar.grupo = 1;
-	criticar.marca= 1;
-	criticar.unidade = 1;
-	criticar.observacoes = 1;
 	
 	for(cont=0;cont<=CAMPOS_QNT;cont++)
 	{

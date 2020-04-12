@@ -10,6 +10,7 @@
 #include <mysql.h>
 #endif
 GtkWidget  *janela_principal;
+GtkWidget *imagem_desktop;
 #include "../etc/libs.h"
 //#include "../etc/tipo_listagem.c"
 
