@@ -6,6 +6,65 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	code = malloc(10);
 	char *query;
 	int cont;
+	if(code_terc()!=0)
+	{
+		gtk_widget_grab_focus(code_ter_field);
+		return 1;	
+	}
+	if(name_terc()!=0)
+	{
+		gtk_widget_grab_focus(name_ter_field);
+		return 1;
+	}
+	if(escolha_doc()!=0)
+	{
+		gtk_widget_grab_focus(doc_combo);
+		return 1;
+	}
+	if(cep_terc()!=0)
+	{
+		gtk_widget_grab_focus(cep_ter_field);
+		return 1;
+	}
+	if(address_terc()!=0)
+	{
+		gtk_widget_grab_focus(address_ter_field);
+		return 1;
+	}
+	if(cel()!=0)
+	{
+		gtk_widget_grab_focus(celular_ter_field);
+		return 1;
+	}
+	if(tel()!=0)
+	{
+		gtk_widget_grab_focus(telefone_ter_field);
+		return 1;
+	}
+	
+	if(contc()!=0)
+	{
+		gtk_widget_grab_focus(contatoc_ter_field);
+		return 1;
+	}
+	if(contt()!=0)
+	{
+		gtk_widget_grab_focus(contatot_ter_field);
+		return 1;
+	}
+	if(email_fun()!=0)
+	{
+		gtk_widget_grab_focus(email_ter_field);
+		return 1;
+	}
+	if(contato_email()!=0)
+	{
+		gtk_widget_grab_focus(contatoe_ter_field);
+		return 1;
+	}
+	if(obs()!=0)
+		return 1;
+
 	for(cont=0;cont<=CAMPOS_QNT;cont++)
 	{
 		if(vet_erro[cont]!=0)

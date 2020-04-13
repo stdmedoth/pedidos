@@ -258,18 +258,20 @@ int  cad_prod()
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,350);  //observacoes 
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,30);   //opcoes
 	
-	gtk_box_pack_start(GTK_BOX(vertical_box1),botao_mais,0,0,0);
-	gtk_box_pack_start(GTK_BOX(vertical_box1),tipos_scroll_window,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box2),botao_mais,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box2),tipos_scroll_window,0,0,0);
 	
 	gtk_widget_set_size_request(vertical_box1,300,590);
 		
-	gtk_box_pack_start(GTK_BOX(vertical_box2),acao,0,0,0);
-	gtk_box_pack_start(GTK_BOX(vertical_box2),fixed,0,0,0);
-	gtk_box_pack_end(GTK_BOX(vertical_box2),fixed2,0,0,10);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
+	gtk_box_pack_end(GTK_BOX(vertical_box1),fixed2,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
 	gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);
+	
+	
 
 	gtk_container_add(GTK_CONTAINER(janela),box);
 	gtk_widget_grab_focus(nome_prod_field);

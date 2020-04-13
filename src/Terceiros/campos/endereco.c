@@ -16,8 +16,8 @@ int address_terc()
 			{
 				gtk_widget_grab_focus(celular_ter_field);
 			}	
+			vet_erro[END_ERR] = 0;
 			return 0;
-			
 		}
 		popup(NULL,"Por favor insira o endereco do terceiro");
 		gtk_widget_grab_focus(GTK_WIDGET(address_ter_field));

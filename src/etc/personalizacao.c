@@ -35,4 +35,5 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 		default:
 			gtk_image_set_from_file(GTK_IMAGE(imagem_desktop),DESKTOP);
 	}
+	return 0;
 }

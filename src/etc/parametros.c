@@ -238,8 +238,8 @@ int parametrizar()
 	GtkWidget *geral_criticas_frame,*ter_criticas_frame,*prod_criticas_frame;
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box;
 	
-	char *wallpapers_nome[] = {"Wallpaper 1","Wallpaper 2","Wallpaper 3","Wallpaper 4","Wallpaper 5","Wallpaper 6"};
-	GtkWidget *caixa_wallpapers[WALLPAPERS_QNT],*image_wallpapers[WALLPAPERS_QNT],*label_wallpapers[WALLPAPERS_QNT],*event_wallpapers[WALLPAPERS_QNT],
+	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
+	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
 	
 	GtkWidget *geral_label,*terc_label,*prod_label,*orc_label;
@@ -257,10 +257,14 @@ int parametrizar()
 	gtk_window_set_keep_above(GTK_WINDOW(janela_parametros),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_parametros),GTK_WIN_POS_CENTER_ALWAYS);
 	notebook = gtk_notebook_new();
-	vet_pos = malloc(sizeof(int*)*5);
+	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
+	caixa_wallpapers = malloc(sizeof(GtkBox*)*WALLPAPERS_QNT);
+	image_wallpapers = malloc(sizeof(GtkImage*)*WALLPAPERS_QNT);
+	label_wallpapers = malloc(sizeof(GtkLabel*)*WALLPAPERS_QNT);
+	event_wallpapers = malloc(sizeof(GtkEventBox*)*WALLPAPERS_QNT);
 	wallpapers_scroll = gtk_scrolled_window_new(NULL,NULL);
 	wallpapers_box = gtk_box_new(0,0);
-	for(cont=0;cont<=WALLPAPERS_QNT;cont++)
+	for(cont=0;cont<WALLPAPERS_QNT;cont++)
 	{
 		/*
 		 * wallpapers_nome  = char
@@ -275,13 +279,13 @@ int parametrizar()
 		gtk_container_add(GTK_CONTAINER(event_wallpapers[cont]),caixa_wallpapers[cont]);
 		gtk_box_pack_start(GTK_BOX(wallpapers_box),event_wallpapers[cont],0,0,20);
 		vet_pos[cont] = cont;
-		gtk_widget_add_events(event_wallpapers[cont],GDK_ALL_EVENTS_MASK);
+		//gtk_widget_add_events(event_wallpapers[cont],GDK_ALL_EVENTS_MASK);
 		#pragma GCC diagnostic ignored "-Wint-conversion"
 		g_signal_connect(event_wallpapers[cont],"button-press-event",G_CALLBACK(trocar_desktop),vet_pos[cont]);
 		#pragma GCC diagnostic warning "-Wint-conversion"
 	}
-	gtk_widget_set_size_request(wallpapers_box,600,200);
-	gtk_widget_set_size_request(wallpapers_scroll,600,200);
+	gtk_widget_set_size_request(wallpapers_box,600,100);
+	gtk_widget_set_size_request(wallpapers_scroll,600,100);
 	#ifdef WIN32
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(wallpapers_scroll),wallpapers_box);
 	#endif
@@ -291,7 +295,7 @@ int parametrizar()
 
 	wallpapers_frame = gtk_frame_new("Imagens da área de Trabalho");
 	gtk_container_add(GTK_CONTAINER(wallpapers_frame),wallpapers_scroll);
-	campos_de_critica = malloc(sizeof(GtkCheckButton*)*10);
+	campos_de_critica = malloc(sizeof(GtkCheckButton*)*11);
 	parametro_char = malloc(MAX_PARAM_LEN);
 	geral_label = gtk_label_new("GERAL");
 	terc_label = gtk_label_new("TERCEIROS");
@@ -303,7 +307,7 @@ int parametrizar()
 	terc_box = gtk_box_new(1,0);
 	prod_box = gtk_box_new(1,0);
 	
-	gtk_box_pack_start(GTK_BOX(geral_box),wallpapers_frame,0,0,0);
+	gtk_box_pack_start(GTK_BOX(geral_box),wallpapers_frame,0,0,10);
 	
 	atualizar_button = gtk_button_new_with_label("Atualizar");
 	atualizar_image = gtk_image_new_from_file(IMG_REC);

@@ -62,28 +62,36 @@ int popup(GtkWidget *widget,gchar *string)
 }
 static MYSQL conectar;
 MYSQL_RES *vetor;
+static int primeira_conexao=0;
+
 MYSQL_RES *consultar(char *query)
 {
 	int err=1;
-	if(!mysql_init(&conectar))
+	if(primeira_conexao==0)
 	{
-		popup(NULL,"Não foi possivel conectar ao servidor");	
-		autologger("Não foi possivel conectar ao servidor");
-		return NULL;
-	}
-	g_print("%s\n",query);
-	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
-	{
-		g_print("%s\n",mysql_error(&conectar));
-		autologger((char*)mysql_error(&conectar));
-		return NULL;
+		if(!mysql_init(&conectar))
+		{
+			popup(NULL,"Não foi possivel conectar ao servidor");	
+			g_print("Erro mysql\n");
+			g_print("Erro: %s\n",mysql_error(&conectar));
+			autologger("Não foi possivel conectar ao servidor");
+			return NULL;
+		}
+		g_print("%s\n",query);
+		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
+		{
+			g_print("Erro mysql : %s\n",mysql_error(&conectar));
+			autologger((char*)mysql_error(&conectar));
+			return NULL;
+		}
+		primeira_conexao=1;
 	}
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
 		autologger(query);
 		autologger((char*)mysql_error(&conectar));
-		g_print("%s\n",mysql_error(&conectar));
+		g_print("Erro mysql : %s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
 		return NULL;
 	}
@@ -113,7 +121,7 @@ int enviar_query(char *query)
 	{
 		autologger(query);
 		autologger((char*)mysql_error(&conectar));
-		g_print("%s\n",mysql_error(&conectar));
+		g_print("Erro mysql %s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
 		return 1;
 	}

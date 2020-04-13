@@ -72,7 +72,8 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 	}
 	//valor[strlen(valor)] = '\0';
 	g_print("%s\n",valor);
-	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
+	if(GTK_IS_WIDGET(entrada))
+		gtk_entry_set_text(GTK_ENTRY(entrada),valor);
 	g_print("Finalizando funcao critica_real()\n");
 	return 0;
 }

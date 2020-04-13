@@ -49,6 +49,7 @@ int conexao()
 		if(string == NULL)
 		{
 			cnpj = gtk_button_new_with_label("offline");
+			g_print("O cnpj esta vazio\n");
 			autologger("O cnpj esta vazio");
 			conectado = 0;
 		}
@@ -61,6 +62,7 @@ int conexao()
 		{
 			return 1;
 		}
+		g_print("Iniciando conexao...\n");
 		tentativas++;
 	}
 	return 0;
@@ -206,18 +208,20 @@ int desktop()
 
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
+	
 	err = conexao();
+	
+	if(err!=0)
+	{
+		popup(NULL,"Não foi posivel conectar");
+		
+	}
 	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,20,250);
 	gtk_widget_set_name(razao,"infos");
 	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,20,5);
 	gtk_widget_set_name(endereco,"infos");
 	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,20,5);
 	gtk_widget_set_name(cnpj,"infos");
-	if(err!=0)
-	{
-		popup(NULL,"Não foi posivel conectar");
-		return 1;
-	}
 	configurar_parametros();
 	gtk_widget_show_all(janela_principal);
 	gtk_widget_hide(lista_abas);	
@@ -227,19 +231,20 @@ int init()
 {
 	g_print("inicializacao...\n");
 	GtkWidget *imagem_inicializacao;
-	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
-	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	imagem_inicializacao = gtk_image_new_from_file(INIT_IMAGE);
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
 	
+	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
+	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
+	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	
-	g_signal_connect(janela_inicializacao,"key_press_event",G_CALLBACK(desktop),NULL);
-	g_signal_connect(janela_inicializacao,"button_press_event",G_CALLBACK(desktop),NULL);
-
+	login();
+	
 	g_print("abrindo janela de inicio...\n");
 	gtk_widget_show_all(janela_inicializacao);
-	
+	gtk_widget_show_all(janela_login);	
 	return 0;
 }

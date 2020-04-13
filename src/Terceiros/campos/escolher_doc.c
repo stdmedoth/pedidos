@@ -28,14 +28,13 @@ int escolha_doc()
 			tipo_doc = 0;
 			if(terceiros.criticar.tipodoc==0)
 			{
-				doc_ter = malloc(MAX_INPUT);
+				doc_ter = malloc(MAX_CODE_LEN);
 				strcpy(doc_ter,"");				
 				gtk_widget_grab_focus(name_ter_field);
 				return 0;
 			}
 			
 			popup(NULL,"Você deve escolher um tipo de documento");
-	
 			gtk_widget_grab_focus(doc_combo);
 			break;
 		case 1:
@@ -47,7 +46,8 @@ int escolha_doc()
 			cpf_terc();
 			break;
 		case 3:
-			
+			doc_ter = malloc(MAX_CODE_LEN);
+			strcpy(doc_ter,"");				
 			gtk_widget_grab_focus(name_ter_field);
 			break;
 	}

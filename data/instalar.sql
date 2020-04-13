@@ -2,7 +2,7 @@ drop database if exists erp;
 create database erp;
 use erp;
 
-create table operadores( code int primary key not null, nome varchar(20) not null, senha varchar(20) not null);
+create table operadores( code int primary key not null, nome varchar(20) not null, senha varchar(20) not null,nivel int not null);
 create table empresa( cnpj varchar(20) primary key not null, razao varchar(150) not null, endereco varchar(200) not null);
 create table perfil_desktop(code int primary key,desktop_img int,cor_barra varchar(30),janela_init bool,janelas_keep_above bool);
 create table criticas(opcao_nome varchar(20) not null, campo_nome varchar(20) not null, critica bool);
@@ -13,7 +13,7 @@ create table produtos( code int primary key auto_increment not null, nome varcha
 create table estoques( code int primary key auto_increment not null, produto int not null, saldo float not null, entradas int not null, saidas int not null, resultado float not null, foreign key(produto) references produtos(code));
 create table precos( code int primary key auto_increment not null, produto int not null, terceiro int, valor float not null, foreign key(produto) references produtos(code), foreign key(terceiro) references terceiros(code));
 create table pedidos( code int primary key auto_increment not null, vendedor int not null, cliente int not null, dia date not null, total float not null,  foreign key(cliente) references terceiros(code));
-create table orcamentos( code int primary key auto_increment not null, vendedor int not null, cliente int not null, dia date not null, total float not null, foreign key(cliente) references terceiros(code));
+create table orcamentos( code int primary key auto_increment not null, vendedor int not null, cliente int not null, dia date not null, total float not null, observacoes varchar (500),foreign key(cliente) references terceiros(code));
 create table Produto_Orcamento( code int not null,item int not null, produto int not null, unidades float not null, valor_unit float not null, desconto float, total float not null,foreign key(code) references orcamentos(code));
 create table Produto_Venda( code int auto_increment not null,item int not null, produto int not null, unidades float not null, valor_unit int not null,desconto float, total float not null,foreign key(code) references pedidos(code),foreign key(valor_unit) references precos(code));
 create table fatores( code int primary key auto_increment not null, nome varchar(50) not null,observacoes varchar(500) not null);
@@ -27,7 +27,8 @@ insert into criticas(opcao_nome,campo_nome,critica)
 values('terceiros','ter_doc',1),('terceiros','ter_tipo_doc',1),('terceiros','ter_endereco',1),('terceiros','ter_cep',1),
 ('terceiros','ter_tipo',1),('terceiros','ter_celular',1),('terceiros','ter_contatoc',1),('terceiros','ter_telefone',1),('terceiros','ter_contatot',1),
 ('terceiros','ter_email',1),('terceiros','ter_contatoe',1);
+insert into operadores values(1,'petitto','1234',5);
 insert into empresa(razao, endereco, cnpj) values ( 'Petitto Mat. p/ encadern. e carton.', 'R. Dna Amelia de Paula, 100\nJardim Leonor, Campinas ', '---');
 insert into grupos(nome) values('ferramentas'),('linha'),('papelao');
 insert into unidades(nome,sigla,multiplo) values('Caixas','CX',30),('Unidade','UND',1);
-insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,1,'blue',1,1);
+insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,3,'blue',1,1);

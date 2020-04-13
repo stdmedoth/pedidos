@@ -17,6 +17,7 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	int cont=0;
 	int pos=0;
 	char **vet_codigos_o;
+	char *formatar;
 	GtkWidget **evento, **codigo_o, **cliente_o, **total;
 	
 	GtkWidget          
@@ -35,6 +36,9 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	cliente_o = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	total = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 
+
+	formatar = malloc(MAX_PRECO_LEN*2);
+	
 	char query[QUERY_LEN];
 	gchar *entrada;
 	
@@ -76,10 +80,15 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 		cliente_o[cont] =  gtk_label_new(campos[1]);
 		separadoresv_o[cont][1] = gtk_separator_new(0);
 		
-		total[cont] = gtk_label_new(campos[2]);
+		sprintf(formatar,"%s",campos[2]);
+		critica_real(formatar,NULL);
+		sprintf(formatar,"R$ %.2f",atof(formatar));
+		total[cont] = gtk_label_new(formatar);
 		separadoresv_o[cont][2] = gtk_separator_new(0);
 				
 		cont++;
+		if(cont==MAX_LINHAS)
+			break;
 	}
 	if(cont==0)
 		return 0;
@@ -90,8 +99,8 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	total_prod_list = gtk_box_new(1,0);
 	
 	codigo_prod_list_label = gtk_label_new("Código do orcamento\n");	
-	cliente_prod_list_label = gtk_label_new("Nome do orcamento\n");
-	total_list_label = gtk_label_new("Preço\n");
+	cliente_prod_list_label = gtk_label_new("Cliente do orcamento\n");
+	total_list_label = gtk_label_new("Total\n");
 	
 	gtk_box_pack_start(GTK_BOX(codigo_prod_list),codigo_prod_list_label,0,0,0); //padrao de cliente de variavel
 	gtk_box_pack_start(GTK_BOX(cliente_prod_list),cliente_prod_list_label,0,0,0);		//mudou por causa de conflito

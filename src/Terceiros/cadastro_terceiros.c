@@ -303,19 +303,6 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(email_ter_field),"activate",G_CALLBACK(email_fun),NULL);
 	g_signal_connect(GTK_ENTRY(contatoe_ter_field),"activate",G_CALLBACK(contato_email),NULL);
 	
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(code_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(name_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(escolha_doc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(cep_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(address_terc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(cel),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(tel),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contc),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contt),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(email_fun),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(contato_email),NULL);
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(obs),NULL);
-
 	g_signal_connect(GTK_BUTTON(botao_mais),"clicked",G_CALLBACK(add_vinc_prod_cli),NULL);
 
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),concluir_ter_buttom);

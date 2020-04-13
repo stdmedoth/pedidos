@@ -4,6 +4,7 @@
 #include "tools.c"
 #include "criticas.c"
 #include "pesquisador.c"
+#include "operadores.c"
 #include "parametros.c"
 #include "../Inicio/fechar.c"
 #include "../Inicio/pega_data.c"

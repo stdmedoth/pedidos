@@ -1,6 +1,7 @@
 #define MAX_PROD_ORC 1000
 #define PROD_LINHAS_ORC 1
 
+int vnd_orc();
 int inicializar_orc()
 {
 	int cont;
@@ -10,6 +11,9 @@ int inicializar_orc()
 }
 int pressionado=0;
 static int ativos_qnt=1;
+
+static float total_geral_orc =0 ;
+static float desconto_geral_orc =0 ;
 //  BUTTONS 
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
@@ -38,21 +42,24 @@ static gchar *codigo_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
 *desconto_prod_orc_gchar,
 *total_prod_orc_gchar;
-
+int gerar_total_geral();
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
 //  FRAMES
 static GtkWidget *data_orc_frame;
 static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,*itens_orc_frame,**linhas_prod_orc_frame;
+static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
 
 // FIXEDs
 static GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
 static GtkWidget *opcoes_orc_fixed;
 
+
 // LABELS
 
 static GtkWidget *data_orc_label;
+static GtkWidget *total_geral_orc_label,*desconto_geral_orc_label;
 
 static GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
 static GtkWidget **codigo_prod_orc_label,
@@ -102,6 +109,8 @@ static GtkWidget *botao_orc_mais,**botao_menos;
 int itens_qnt=1;
 int id_vetor[MAX_PROD_ORC];
 
+
+
 struct itens_struct
 {
 	int id;
@@ -116,7 +125,6 @@ struct itens_struct
 	char desconto_c[MAX_PRECO_LEN];
 	char total_c[MAX_PRECO_LEN];
 	char origem_preco[15];
-	
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 #include "campos/codigo_orc.c"
@@ -127,6 +135,7 @@ struct itens_struct
 #include "campos/total_orc.c"
 #include "campos/orig_preco_orc.c"
 #include "campos/desconto_orc.c"
+#include "campos/observacoes.c"
 #include "campos/pesquisas/pesquisa_orcamentos.c"
 #include "campos/pesquisas/pesquisa_terceiros.c"
 #include "campos/pesquisas/pesquisa_produtos.c"

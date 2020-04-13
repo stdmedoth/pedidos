@@ -45,3 +45,7 @@ GtkEntry
 	background: White;
 
 }
+#janela_login
+{
+	border: solid 1px black;
+}

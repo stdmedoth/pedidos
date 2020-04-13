@@ -57,8 +57,8 @@
 #define UND_IMG       "/petitto/files/icones_opc/unidade.png" 
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
-#define CSS_ORC       "/petitto/files/impressao/orcamento.css"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
+
 #endif
 
 #ifdef __linux__
@@ -163,13 +163,14 @@
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 300
 #define MARGEM_D 10
-#define WALLPAPERS_QNT 5
+#define WALLPAPERS_QNT 6
 #define RAZ_ROW_POS 1
 #define END_ROW_POS 7
 #define TEL_ROW_POS 9
 #define CEL_ROW_POS 11
 #define EMAIL_ROW_POS 13
-
+#define MAX_OPER_LEN 30
+#define MAX_SEN_LEN 30
 GtkWidget *acao_atual,*acao_atual2;
 
 GtkTextBuffer *buffer;

@@ -93,3 +93,26 @@ td:hover
 {
 	
 }
+
+#obs-div2
+{
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-bottom: 5px;
+	border: solid 1px grey;
+	width: 550px;
+	height: 150px;
+	padding: 20px;	
+	background: #ffffff;
+}
+
+#obs-div1
+{
+	border: solid 1px grey;
+	width: 600px;
+	height: auto;
+	margin-top: 20px;
+	margin-left: 100px;
+	background: Lightgrey;
+}
+

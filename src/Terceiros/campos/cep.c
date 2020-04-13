@@ -31,6 +31,7 @@ int cep_terc()
 	if(strlen(cep_ter)!=CEP_LEN)
 	{
 		popup(NULL,"Insira o CEP com apenas numeros");
+		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
 	}
 	g_print("CEP: %s\n",cep_ter);
@@ -41,6 +42,7 @@ int cep_terc()
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query para CEP\n\tConsulte suporte");
+		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
@@ -53,7 +55,7 @@ int cep_terc()
 		vet_erro[CEP_ERR]=0;
 		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
 		gtk_widget_grab_focus(address_ter_field);
-		return 1;
+		return 0;
 	}
 	g_print("cep_len: %li\n",strlen(cep_ter));
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campos[0]);

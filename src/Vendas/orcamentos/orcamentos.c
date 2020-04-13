@@ -1,6 +1,52 @@
 int alterando_orc=0;
 #include "campos.h"
 #include <time.h>
+
+int gerar_total_geral()
+{
+	if(ativos_qnt>0)
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
+	}
+	
+	char *muda_label;
+	total_geral_orc = 0;
+	desconto_geral_orc =0 ;
+	g_print("iniciando gerar_total_geral()\n");
+	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN+3);
+	for(cont=1;cont<itens_qnt;cont++)
+	{
+		if(ativos[cont].id == 1)
+		{
+			ativos[cont].total_f = ((ativos[cont].qnt_f)*(ativos[cont].preco_f))-(ativos[cont].desconto_f);
+			g_print("Somando totais para %i\n",cont);
+			g_print("TOTAL: %.2f\n",ativos[cont].total_f);
+			g_print("PRECO: %.2f\n",ativos[cont].preco_f);
+			g_print("DESCONTO: %.2f\n",ativos[cont].desconto_f);
+			total_geral_orc = total_geral_orc + ativos[cont].total_f;
+			desconto_geral_orc = desconto_geral_orc + ativos[cont].desconto_f;
+			g_print("total: %.2f = %.2f + %.2f\n",total_geral_orc, total_geral_orc , ativos[cont].total_f);
+			g_print("desconto: %.2f = %.2f + %.2f\n",desconto_geral_orc, desconto_geral_orc , ativos[cont].desconto_f);
+			if(total_geral_orc<0)
+			{
+				popup(NULL,"Total Negativo! Verifique o desconto");
+				return 1;
+			}
+			sprintf(muda_label,"%.2f",total_geral_orc);
+			gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
+			
+			sprintf(muda_label,"%.2f",desconto_geral_orc);
+			gtk_label_set_text(GTK_LABEL(desconto_geral_orc_label),muda_label);
+		}
+	}	
+	g_print("finalizando gerar_total_geral()\n");
+	return 0;
+}
+
 int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
 	int erro;
@@ -50,8 +96,8 @@ int adicionar_linha_orc()
 			if(vet_erro[cont]!=0)
 				return 1;
 		}		
-		
 	}
+	gerar_total_geral();
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
 	gtk_widget_set_name(linhas_prod_orc_frame[itens_qnt],"frame2");
@@ -138,7 +184,7 @@ int adicionar_linha_orc()
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(orig_preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
-	//g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);
+	g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);
 	#pragma GCC diagnostic warning "-Wint-conversion"
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 	gtk_widget_grab_focus(codigo_prod_orc_entry[id_vetor[itens_qnt]]);
@@ -242,6 +288,13 @@ int vnd_orc()
 	gtk_widget_set_size_request(operacao_orc_box,200,40);
 	gtk_widget_set_size_request(cliente_orc_box,200,40);
 	
+	total_geral_orc_label = gtk_label_new("0.0");
+	desconto_geral_orc_label = gtk_label_new("0.0");
+	total_geral_orc_frame = gtk_frame_new("Total Geral");
+	desconto_geral_orc_frame =  gtk_frame_new("Desconto Geral");
+	gtk_container_add(GTK_CONTAINER(total_geral_orc_frame),total_geral_orc_label);
+	gtk_container_add(GTK_CONTAINER(desconto_geral_orc_frame),desconto_geral_orc_label);
+	
 	caixa_orc_infos_c = gtk_box_new(0,0);
 	//caixa_orc_infos_b = gtk_box_new(1,0);
 	caixa_orc_infos_d = gtk_box_new(1,0);
@@ -328,8 +381,10 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),alterar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),cancelar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),excluir_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),total_geral_orc_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),desconto_geral_orc_frame,0,0,10);
 	
-	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,300,0);
+	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,100,0);
 	
 	linhas_prod_orc_frame = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
