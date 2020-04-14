@@ -75,6 +75,7 @@ td:hover
 	width: 210mm;
 	height: 297mm;
 	margin-top: 5px;
+	margin-left: 50px;
 	border: solid 1px black;
 	background: ffffff	;
 	border-radius: 1%; 

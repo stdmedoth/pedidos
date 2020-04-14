@@ -27,8 +27,8 @@ insert into criticas(opcao_nome,campo_nome,critica)
 values('terceiros','ter_doc',1),('terceiros','ter_tipo_doc',1),('terceiros','ter_endereco',1),('terceiros','ter_cep',1),
 ('terceiros','ter_tipo',1),('terceiros','ter_celular',1),('terceiros','ter_contatoc',1),('terceiros','ter_telefone',1),('terceiros','ter_contatot',1),
 ('terceiros','ter_email',1),('terceiros','ter_contatoe',1);
-insert into operadores values(1,'petitto','1234',5);
+insert into operadores values(1,'Petitto','1234',5),(999,'Padrao',' ',5);
 insert into empresa(razao, endereco, cnpj) values ( 'Petitto Mat. p/ encadern. e carton.', 'R. Dna Amelia de Paula, 100\nJardim Leonor, Campinas ', '---');
-insert into grupos(nome) values('ferramentas'),('linha'),('papelao');
+insert into grupos(nome) values('Ferramentas'),('Cilindros'),('Papelao');
 insert into unidades(nome,sigla,multiplo) values('Caixas','CX',30),('Unidade','UND',1);
-insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,3,'blue',1,1);
+insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,3,1,1,1),(999,3,1,1,1);

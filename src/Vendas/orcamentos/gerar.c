@@ -1,37 +1,122 @@
 #include "impressao.c"
 #define CLI_ROW_POS 2
-
+#define IMP_PORT "LPT1"
 GtkWidget *msg_abrir_orc_window;
-int iniciar_impressao(GtkWidget *widget,char *uri)
+static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3;
+static char*gerando_file;
+int iniciar_impressao(char *gerado)
+{
+	#ifdef WIN32
+	FILE *LPT1,*PDF;
+	char bytes;
+	LPT1 = fopen(IMP_PORT,"w");
+	if(LPT1==NULL)
+	{
+		popup(NULL,"Não foi possível se conectar à impressora");
+		return 1;
+	}
+	PDF = fopen(gerado,"r");
+	if(PDF==NULL)
+	{
+		popup(NULL,"Não foi possível encontrar arquivo");
+		return 1;
+	}
+	
+	while((bytes = fgetc(PDF))) 
+		fputc(bytes,LPT1);
+	
+	fprintf(LPT1,"\f");
+	fclose(LPT1);
+	fclose(PDF);
+	#endif
+	#ifdef __linux__
+	popup(NULL,gerando_file);
+	#endif
+	return 0;
+}
+
+int desenhar_orcamento()
 {
 	
+	#ifdef WIN32
+	char *chamada,*gerado;
+	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
+	gerado = malloc(strlen(gerando_file));
+	sprintf(gerado,"%s",gerando_file);
+	gerado[strlen(gerado)-5] = '\0';
+	g_print("de %s para %s.pdf\n",gerando_file,gerado);
+	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
+	STARTUPINFO infoBina={sizeof(infoBina)};
+	PROCESS_INFORMATION processInfoBina;
+	infoBina.dwFlags = STARTF_USESHOWWINDOW;
+	infoBina.wShowWindow = SW_HIDE;
+	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
+    {
+		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
+		CloseHandle(processInfoBina.hProcess);
+		CloseHandle(processInfoBina.hThread);
+		sprintf(gerado,"%s.pdf",gerado);
+		//iniciar_impressao(gerado);
+	}	
+	#endif 
 	return 0;
 }
-int desenhar_orcamento(GtkPrintOperation *operacao,GtkPrintContext *contexto,int page_qnt,gpointer data)
+int iniciar_escolha()
 {
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio1)))
+		desenhar_orcamento();
+	return 0;
+}
+int escolher_finalizacao()
+{
+	GtkWidget *janela;
+	GtkWidget *botoes_frame,*botoes_caixa;
+
 	
+	GtkWidget *botao_confirma,*botao_cancela;
+	GtkWidget *caixa_opcoes;
+	
+	GtkWidget *caixa_grande;
+
+	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(janela),3);
+	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	
+	botoes_caixa = gtk_box_new(1,0);
+	botoes_frame = gtk_frame_new("Escolha como finalizar:");
+	
+	caixa_grande = gtk_box_new(1,0);
+		
+	botao_confirma = gtk_button_new_with_label("Conclui");
+	botao_cancela = gtk_button_new_with_label("Cancela");
+	caixa_opcoes = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
+	
+	botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora");
+	botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio1),"Abrir PDF");
+	botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio2),"Abrir HTML");
+
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio1,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio2,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio3,0,0,5);
+		
+	gtk_container_add(GTK_CONTAINER(botoes_frame),botoes_caixa);
+
+	gtk_box_pack_start(GTK_BOX(caixa_grande),botoes_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_opcoes,0,0,10);
+	
+	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
+	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),NULL);
+	gtk_widget_show_all(janela);
 	return 0;
 }
-
-int imprimir_orc(GtkWidget *parent,int page_num,char *path)
-{
-	GtkWidget *link_button;	
-	char * uri;
-	uri = malloc(MAX_URI_LEN);
-	msg_abrir_orc_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(msg_abrir_orc_window),GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_window_set_keep_above(GTK_WINDOW(msg_abrir_orc_window),TRUE);
-
-//	gtk_widget_show_all(msg_abrir_orc_window);
-	return 0;
-}
-
 int gerar_orc()
 {
 	g_print("gerando orçamento...\n");
 	int cont,error,nav=1;
 	char *query;
-	char *path;
+
 	char *abrir;
 	FILE *navegador;
 	int erro;
@@ -40,16 +125,14 @@ int gerar_orc()
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	abrir = malloc(MAX_PATH_LEN);
-	path = malloc(MAX_PATH_LEN);
-	
+	abrir = malloc(MAX_PATH_LEN*2);
+	gerando_file = malloc(MAX_PATH_LEN*2);
 	formata_float = malloc(MAX_PRECO_LEN);
 	
 	query = malloc(MAX_QUERY_LEN);
 	if(codigo_orc()!=0)
 		return 1;
-	sprintf(path,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
-	sprintf(abrir,"firefox %s",path);
+	sprintf(gerando_file,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
 
 	
 	sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -123,7 +206,7 @@ int gerar_orc()
 			return 1;			
 	}
 	
-	orc = fopen(path,"w");
+	orc = fopen(gerando_file,"w");
 	if(orc==NULL)
 	{
 		popup(NULL,"Não está sendo possivel gerar o arquivo\n\tFeche o navegador");
@@ -149,12 +232,21 @@ int gerar_orc()
 		fclose(orc);
 		return 1;
 	}
+	fprintf(orc,"<!DOCTYPE html>\n");
+	fprintf(orc,"<html>\n");
+	fprintf(orc,"<head>\n");
+	fprintf(orc,"<meta charset=\"utf-8\"/>");
+	fprintf(orc,"<link href=\"%s\" rel=\"stylesheet\">\n",CSS_ORC);
+	fprintf(orc,"<title>Orcamento</title>\n");
+	fprintf(orc,"</head>\n");
 	
 	fprintf(orc,"<body>\n");
+	
 	fprintf(orc,"<div id=\"caixa-imp\">\n");
-	if(imp_head()!=0)
-		return 1;
+	fprintf(orc,"<div id=\"div-titulo\">\n");
+	fprintf(orc,"<img id=\"logo-img\" src=\"%s\" alt=\"PETITTO\">\n",IMG_IMP_LOGO);
 	fprintf(orc,"<div id=\"orc-infos\" align=left>\n");
+	
 	fprintf(orc,"<table>\n");
 	
 	fprintf(orc,"<tr>\n");
@@ -169,6 +261,7 @@ int gerar_orc()
 	fprintf(orc,"<tr>\n");
 	
 	fprintf(orc,"</table>\n");
+	
 	fprintf(orc,"</div>\n");
 	
 	if(imp_cli(cliente_orc_gchar)!=0)
@@ -187,8 +280,7 @@ int gerar_orc()
 		return 1;
 	}
 	cont=1;
-	fprintf(orc,"<div id=\"separator\">\n");
-	fprintf(orc,"</div>");
+	fprintf(orc,"<div id=\"separator\">");fprintf(orc,"</div>");
 	fprintf(orc,"<div id=\"campo-itens\">\n");
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
@@ -262,21 +354,11 @@ int gerar_orc()
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");
+	fprintf(orc,"</html>\n");
 	fclose(orc);
-	g_print("Gerando URI para impressao\n");
+	escolher_finalizacao();
+	g_print("Abrindo janela de escolha para o arquivo\n");
+
 	
-	sprintf(path,"%simp%s.pdf",ORC_PATH,codigo_orc_gchar);
-	if(imprimir_orc(janela_orcamento,(cont%20)+1,path)==0)
-	{
-		g_print("URI para impressao gerado\n");
-		gtk_widget_destroy(janela_orcamento);
-		vnd_orc();
-		popup(NULL,"Orcamento gerado");
-	}
-	else
-	{
-		popup(NULL,"Erro ao tentar gerar URI");
-		return 1;
-	}
 	return 0;
 }

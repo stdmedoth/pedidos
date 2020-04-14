@@ -77,6 +77,9 @@ int desktop()
 	GtkWidget *param_button,*param_image;
 	GtkWidget *sair_button, *sair_image;
 	
+	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
+	gchar *nome_usuario_gchar;
+	
 	param_button = gtk_button_new();
 	param_image = gtk_image_new_from_file(PRMT_IMG);
 	gtk_button_set_image(GTK_BUTTON(param_button),param_image);
@@ -95,30 +98,32 @@ int desktop()
 	MYSQL_ROW row;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select * from perfil_desktop");
+	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
 	res = consultar(query);
 	if(res==NULL)
 	{
 		popup(NULL,"Personalizacao com erro");
+		return 1;
+	}
+	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
+	g_print("Recebendo escolha de wallpaper e nome usuario\n");
+	row = mysql_fetch_row(res);
+	if(row!=NULL)
+	{
+		g_print("Trocando wallpaper\n");
+		imagem_desktop = gtk_image_new_from_file(DESKTOP);
+		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
+		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
+		gtk_widget_set_name(nome_usuario_label,"nome_operador");
+		trocar_desktop(NULL,NULL,atoi(row[1]));
+		g_print("Desktop com imagem personalizada\n");
+		autologger("Desktop com imagem personalizada\n");
+		autologger(row[1]);
 	}
 	else
 	{
-		g_print("Recebendo escolha de wallpaper\n");
-		if((row = mysql_fetch_row(res))!=NULL)
-		{
-			g_print("Trocando wallpaper\n");
-			imagem_desktop = gtk_image_new_from_file(DESKTOP);
-			trocar_desktop(NULL,NULL,atoi(row[1]));
-			g_print("Desktop com imagem personalizada\n");
-			autologger("Desktop com imagem personalizada\n");
-			autologger(row[1]);
-		}
-		else
-		{
-			imagem_desktop = gtk_image_new_from_file(DESKTOP);
-			g_print("Desktop com imagem padrao\n");
-			autologger("Desktop com imagem padrao\n");
-		}
+		popup(NULL,"Login indevido");
+		return 1;
 	}
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
@@ -152,6 +157,9 @@ int desktop()
 	fixed_razao = gtk_fixed_new();	
 	fixed_endereco = gtk_fixed_new();	
 	fixed_cnpj = gtk_fixed_new();
+	
+	nome_usuario_fixed = gtk_fixed_new();
+	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,150,200);
 	
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
@@ -193,6 +201,7 @@ int desktop()
 	gtk_widget_set_size_request(imagem_desktop,1291,750);
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
 		
 	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
        	
@@ -222,6 +231,7 @@ int desktop()
 	gtk_widget_set_name(endereco,"infos");
 	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,20,5);
 	gtk_widget_set_name(cnpj,"infos");
+	
 	configurar_parametros();
 	gtk_widget_show_all(janela_principal);
 	gtk_widget_hide(lista_abas);	
@@ -229,7 +239,10 @@ int desktop()
 }
 int init()
 {
-	g_print("inicializacao...\n");
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char *query;
+
 	GtkWidget *imagem_inicializacao;
 	imagem_inicializacao = gtk_image_new_from_file(INIT_IMAGE);
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
@@ -240,11 +253,36 @@ int init()
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
-	
-	login();
-	
-	g_print("abrindo janela de inicio...\n");
+	query = malloc(MAX_QUERY_LEN);
+	g_print("inicializacao...\n");
+	sprintf(query,"select janela_init from perfil_desktop");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)	
+	{
+		popup(NULL,"Sem dados para personalizar o sistema");
+		return 1;
+	}
 	gtk_widget_show_all(janela_inicializacao);
-	gtk_widget_show_all(janela_login);	
+	if(atoi(row[0])==0)
+	{
+		oper_code = malloc(MAX_OPER_LEN);
+		strcpy(oper_code,"999");
+		if(desktop()!=0)
+		{
+			popup(NULL,"Erro na inicializacao");
+			return 1;
+		}
+	}
+	else
+	{
+		login();
+		gtk_widget_show_all(janela_login);	
+	}
+	g_print("abrindo janela de inicio...\n");
 	return 0;
 }
+

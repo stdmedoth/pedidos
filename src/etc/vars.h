@@ -58,7 +58,7 @@
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
-
+#define PDF_GEN       "/petitto/files/impressao/pdf.exe"
 #endif
 
 #ifdef __linux__
@@ -68,12 +68,12 @@
 #define ORC_PATH 	  "/usr/share/petitto/files/impressao/"
 #define DESKTOP_STYLE "/usr/share/petitto/files/desktop/style.css"
 #define DESKTOP       "/usr/share/petitto/files/desktop.png"
-#define DESKTOP1       "/usr/share/petitto/files/desktop/desktop1.png"
-#define DESKTOP2       "/usr/share/petitto/files/desktop/desktop2.png"
-#define DESKTOP3       "/usr/share/petitto/files/desktop/desktop3.png"
-#define DESKTOP4       "/usr/share/petitto/files/desktop/desktop4.png"
-#define DESKTOP5       "/usr/share/petitto/files/desktop/desktop5.png"
-#define DESKTOP6       "/usr/share/petitto/files/desktop/desktop6.png"
+#define DESKTOP1      "/usr/share/petitto/files/desktop/desktop1.png"
+#define DESKTOP2      "/usr/share/petitto/files/desktop/desktop2.png"
+#define DESKTOP3      "/usr/share/petitto/files/desktop/desktop3.png"
+#define DESKTOP4      "/usr/share/petitto/files/desktop/desktop4.png"
+#define DESKTOP5      "/usr/share/petitto/files/desktop/desktop5.png"
+#define DESKTOP6      "/usr/share/petitto/files/desktop/desktop6.png"
 #define THUMBDESKTOP1 "/usr/share/petitto/files/thumbs/thumbdesktop1.png"
 #define THUMBDESKTOP2 "/usr/share/petitto/files/thumbs/thumbdesktop2.png"
 #define THUMBDESKTOP3 "/usr/share/petitto/files/thumbs/thumbdesktop3.png"

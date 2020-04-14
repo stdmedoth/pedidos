@@ -4,6 +4,7 @@ static GtkWidget *enviar_login,*fechar_login;
 int desktop();
 int encerrar();
 int g_handle_janela_login;
+gchar *oper_code;
 void encerrando()
 {
 	GtkWidget *janela,*label;
@@ -42,7 +43,7 @@ void verifica_senha()
 	query = malloc(MAX_QUERY_LEN);
 	nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
-	sprintf(query,"select senha from operadores where nome = '%s';",nome_gchar);
+	sprintf(query,"select code,senha from operadores where nome = '%s';",nome_gchar);
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -55,8 +56,10 @@ void verifica_senha()
 		gtk_widget_grab_focus(nome_entry);
 		return;
 	}
-	if(strcmp(row[0],senha_gchar)==0)
+	if(strcmp(row[1],senha_gchar)==0)
 	{
+		oper_code = malloc(MAX_OPER_LEN);
+		strcpy(oper_code,row[0]);
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		gtk_widget_destroy(janela_login);
 		desktop();

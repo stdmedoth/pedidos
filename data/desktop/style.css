@@ -49,3 +49,7 @@ GtkEntry
 {
 	border: solid 1px black;
 }
+#nome_operador
+{
+	color: white;
+}

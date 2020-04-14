@@ -1,12 +1,4 @@
 FILE *orc;
-int imp_head()
-{
-	fprintf(orc,"<link href=\"%s\" rel=\"stylesheet\">\n",CSS_ORC);
-	fprintf(orc,"<title>Orcamento</title>\n");
-	fprintf(orc,"<div id=\"div-titulo\">\n");
-	fprintf(orc,"<img id=\"logo-img\" src=\"%s\" alt=\"PETITTO\">\n",IMG_IMP_LOGO);
-	return 0;
-}
 
 int imp_cli()
 {
