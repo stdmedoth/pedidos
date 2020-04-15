@@ -12,6 +12,9 @@ static char*gerando_file;
 
 int iniciar_impressao(char *gerado)
 {
+	
+	char *chamada;
+	chamada = malloc(strlen(gerando_file));
 	#ifdef WIN32
 	g_print("%s para LPT1\n",gerado);
 	if(imp_opc==1)
