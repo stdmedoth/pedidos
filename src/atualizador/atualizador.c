@@ -12,33 +12,35 @@
 #endif
 
 #ifdef __linux__
-#define LOGGER             "/usr/share/usr/share/petitto/files/logger.log"
-#define IMAGE_FUNDO        "/usr/share/usr/share/petitto/files/atualizacao/img/fundo_atualizacao.png"
-#define ATUALIZA_STYLE     "/usr/share/usr/share/petitto/files/atualizacao/estilo.css"
-#define TMP_FILES_PATH     "/usr/share/petitto/files/atualizacao/tmp/atualizacao/files/"
-#define TMP_BIN_PATH       "/usr/share/usr/share/petitto/files/atualizacao/tmp/atualizacao/Petitto"
-#define FILES_PATH         "/usr/share/petitto/files/"
-#define BIN_PATH           "/usr/share/petitto/gtk/bin"
-#define UNZIP_BIN          "unzip"
+#define LOGGER             "\\usr\\share\\usr\\share\\petitto\\files\\logger.log"
+#define IMAGE_FUNDO        "\\usr\\share\\usr\\share\\petitto\\files\\atualizacao\\img\\fundo_atualizacao.png"
+#define ATUALIZA_STYLE     "\\usr\\share\\usr\\share\\petitto\\files\\atualizacao\\estilo.css"
+#define TMP_FILES_PATH     "\\usr\\share\\petitto\\files\\atualizacao\\tmp\\atualizacao\\files\\"
+#define TMP_BIN_PATH       "\\usr\\share\\usr\\share\\petitto\\files\\atualizacao\\tmp\\atualizacao\\Petitto"
+#define FILES_PATH         "\\usr\\share\\petitto\\files\\"
+#define BIN_PATH           "\\usr\\share\\petitto\\gtk\\bin"
+#define UNZIP_BIN          "unrar"
 #define CURL_BIN           "curl"
-#define GIT_MASTER         "https://codeload.github.com/sistemapetitto/atualizacao/zip/master"
-#define PETITTO_FILE       "/usr/share/petitto/files/atualizacao/tmp/atualizacao.zip"
-#define PETITTO_UNZIP_FILE "/usr/share/petitto/files/atualizacao/tmp/atualizacao"
+#define GIT_MASTER         "https:\\\\codeload.github.com\\sistemapetitto\\atualizacao\\zip\\master"
+#define PETITTO_FILE       "\\usr\\share\\petitto\\files\\atualizacao\\tmp\\atualizacao.zip"
+#define PETITTO_UNZIP_FILE "\\usr\\share\\petitto\\files\\atualizacao\\tmp\\atualizacao"
+#define PETITTO_UNZIP_DIR  "\\usr\\share\\petitto\\files\\atualizacao\\tmp\\"
 #endif
 
 #ifdef WIN32
-#define TMP_FILES_PATH     "/petitto/files/atualizacao/tmp/atualizacao/files/"
-#define TMP_BIN_PATH       "/petitto/files/atualizacao/tmp/atualizacao/Petitto.exe"
-#define FILES_PATH         "/petitto/files/"
-#define BIN_PATH           "/petitto/gtk/bin"
-#define UNZIP_BIN          "/petitto/files/atualizacao/bin/unzip.exe"
-#define CURL_BIN           "/petitto/files/atualizacao/bin/curl.exe"
-#define GIT_MASTER         "https://codeload.github.com/sistemapetitto/atualizacao/zip/master"
-#define PETITTO_FILE       "/petitto/files/atualizacao/tmp/atualizacao.zip"
-#define PETITTO_UNZIP_FILE "/petitto/files/atualizacao/tmp/atualizacao"
-#define ATUALIZA_STYLE     "/petitto/files/atualizacao/estilo.css"
-#define LOGGER             "/petitto/files/logger.log"
-#define IMAGE_FUNDO        "/petitto/files/atualizacao/img/fundo_atualizacao.png"
+#define TMP_FILES_PATH     "C:\\petitto\\files\\atualizacao\\tmp\\atualizacao-master\\files\\"
+#define TMP_BIN_PATH       "C:\\petitto\\files\\atualizacao\\tmp\\atualizacao-master\\Petitto.exe"
+#define FILES_PATH         "C:\\petitto\\files\\"
+#define BIN_PATH           "C:\\petitto\\gtk\\bin"
+#define UNZIP_BIN          "C:\\petitto\\files\\atualizacao\\bin\\unzip.exe"
+#define CURL_BIN           "C:\\petitto\\files\\atualizacao\\bin\\curl.exe"
+#define GIT_MASTER         "https:\\\\codeload.github.com\\sistemapetitto\\atualizacao\\zip\\master"
+#define PETITTO_FILE       "C:\\petitto\\files\\atualizacao\\tmp\\atualizacao.zip"
+#define PETITTO_UNZIP_FILE "C:\\petitto\\files\\atualizacao\\tmp\\atualizacao-master"
+#define PETITTO_UNZIP_DIR  "C:\\petitto\\files\\atualizacao\\tmp\\"
+#define ATUALIZA_STYLE     "C:\\petitto\\files\\atualizacao\\estilo.css"
+#define LOGGER             "C:\\petitto\\files\\logger.log"
+#define IMAGE_FUNDO        "C:\\petitto\\files\\atualizacao\\img\\fundo_atualizacao.png"
 #endif
 
 #define REC_ATUALIZA "select * from atualizacoes where visto = 0"
@@ -157,9 +159,9 @@ int efetuar_download()
 int efetuar_instalacao()
 {
 	char *chamada;
-	chamada = malloc(strlen(UNZIP_BIN)+strlen(PETITTO_FILE)+strlen(PETITTO_UNZIP_FILE)+20);
+	chamada = malloc(strlen(UNZIP_BIN)+strlen(PETITTO_FILE)+strlen(PETITTO_UNZIP_DIR)+20);
 	#ifdef WIN32
-	sprintf(chamada,"%s -o %s ",UNZIP_BIN,PETITTO_FILE);
+	sprintf(chamada,"%s -o %s -d %s ",UNZIP_BIN,PETITTO_FILE,PETITTO_UNZIP_DIR);
 	g_print("%s\n",chamada);
 	STARTUPINFO infoBina={sizeof(infoBina)};
 	PROCESS_INFORMATION processInfoBina;
@@ -173,8 +175,6 @@ int efetuar_instalacao()
 	}
 	sprintf(chamada,"xcopy /S /E /Y %s %s",TMP_BIN_PATH,BIN_PATH);
 	g_print("%s\n",chamada);
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
 	infoBina.wShowWindow = SW_HIDE;
 	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
@@ -183,10 +183,8 @@ int efetuar_instalacao()
 		CloseHandle(processInfoBina.hProcess);
 		CloseHandle(processInfoBina.hThread);
 	}
-	sprintf(chamada,"xcopy /S /E /Y %s %s",TMP_FILES_PATH,FILES_PATH);
+	sprintf(chamada,"xcopy /S /E /Y %s* %s",TMP_FILES_PATH,FILES_PATH);
 	g_print("%s\n",chamada);
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
 	infoBina.wShowWindow = SW_HIDE;
 	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
@@ -201,6 +199,8 @@ int efetuar_instalacao()
 
 int remover_arquivos()
 {
+	char *chamada;
+	chamada = malloc(strlen(TMP_FILES_PATH)+20);
 	#ifdef WIN32
 	sprintf(chamada,"rd /S /Q %s",TMP_FILES_PATH);
 	g_print("%s\n",chamada);
@@ -216,8 +216,6 @@ int remover_arquivos()
 	}
 	sprintf(chamada,"del %s",TMP_BIN_PATH);
 	g_print("%s\n",chamada);
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
 	infoBina.wShowWindow = SW_HIDE;
 	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
@@ -228,8 +226,6 @@ int remover_arquivos()
 	}
 	sprintf(chamada,"del %s",PETITTO_FILE);
 	g_print("%s\n",chamada);
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
 	infoBina.wShowWindow = SW_HIDE;
 	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
@@ -243,11 +239,11 @@ int remover_arquivos()
 }
 int iniciar_processo()
 {
-	g_print("efetuando download!\n");
+	g_print("download\n");
 	efetuar_download();
-	g_print("efetuando instalacão!\n");
+	g_print("instalacao\n");
 	efetuar_instalacao();
-	g_print("excluido arquivos temporario!\n");
+	g_print("removendo arquivos\n");
 	remover_arquivos();
 	return 0;
 }
