@@ -1,43 +1,42 @@
 #include "impressao.c"
 #define CLI_ROW_POS 2
-#define IMP_PORT "LPT1"
+#define IMP_PORT1 "LPT1"
+#define IMP_PORT2 "LPT2"
+#define BROTHER_IMP 1
+#define SANSUNG_IMP 2
+int imp_opc=0;
+
 GtkWidget *msg_abrir_orc_window;
-static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3;
+static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3,*botao_radio4;
 static char*gerando_file;
+
 int iniciar_impressao(char *gerado)
 {
 	#ifdef WIN32
-	FILE *LPT1,*PDF;
-	char bytes;
-	LPT1 = fopen(IMP_PORT,"w");
-	if(LPT1==NULL)
-	{
-		popup(NULL,"Não foi possível se conectar à impressora");
-		return 1;
-	}
-	PDF = fopen(gerado,"r");
-	if(PDF==NULL)
-	{
-		popup(NULL,"Não foi possível encontrar arquivo");
-		return 1;
-	}
-	
-	while((bytes = fgetc(PDF))) 
-		fputc(bytes,LPT1);
-	
-	fprintf(LPT1,"\f");
-	fclose(LPT1);
-	fclose(PDF);
+	g_print("%s para LPT1\n",gerado);
+	if(imp_opc==1)
+		sprintf(chamada,"copy %s LPT1",gerado);
+	if(imp_opc==2)
+		sprintf(chamada,"copy %s LPT2",gerado);
+	STARTUPINFO infoBina={sizeof(infoBina)};
+	PROCESS_INFORMATION processInfoBina;
+	infoBina.dwFlags = STARTF_USESHOWWINDOW;
+	infoBina.wShowWindow = SW_HIDE;
+	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
+    {
+		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
+		CloseHandle(processInfoBina.hProcess);
+		CloseHandle(processInfoBina.hThread);
+	}	
 	#endif
 	#ifdef __linux__
-	popup(NULL,gerando_file);
+	popup(NULL,gerado);
 	#endif
 	return 0;
 }
 
 int desenhar_orcamento()
 {
-	
 	#ifdef WIN32
 	char *chamada,*gerado;
 	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
@@ -56,22 +55,32 @@ int desenhar_orcamento()
 		CloseHandle(processInfoBina.hProcess);
 		CloseHandle(processInfoBina.hThread);
 		sprintf(gerado,"%s.pdf",gerado);
-		//iniciar_impressao(gerado);
-	}	
+		iniciar_impressao(gerado);
+	}
 	#endif 
 	return 0;
 }
+
 int iniciar_escolha()
-{
+{	
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio1)))
+	{
+		imp_opc = BROTHER_IMP;
 		desenhar_orcamento();
+	}
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio2)))
+	{
+		imp_opc = SANSUNG_IMP;
+		desenhar_orcamento();
+	}
+	imp_opc = SANSUNG_IMP;
 	return 0;
 }
+
 int escolher_finalizacao()
 {
 	GtkWidget *janela;
 	GtkWidget *botoes_frame,*botoes_caixa;
-
 	
 	GtkWidget *botao_confirma,*botao_cancela;
 	GtkWidget *caixa_opcoes;
@@ -79,6 +88,7 @@ int escolher_finalizacao()
 	GtkWidget *caixa_grande;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_widget_set_size_request(janela,400,400);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 	
@@ -87,23 +97,26 @@ int escolher_finalizacao()
 	
 	caixa_grande = gtk_box_new(1,0);
 		
-	botao_confirma = gtk_button_new_with_label("Conclui");
-	botao_cancela = gtk_button_new_with_label("Cancela");
+	botao_confirma = gtk_button_new_with_label("Concluir");
+	botao_cancela = gtk_button_new_with_label("Cancelar");
 	caixa_opcoes = gtk_box_new(0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,50);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
 	
-	botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora");
-	botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio1),"Abrir PDF");
-	botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio2),"Abrir HTML");
+	botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora BROTHER");
+	botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio1),"Enviar para Impressora SANSUSNG");
+	
+	botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio2),"Abrir PDF");
+	botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio3),"Abrir HTML");
 
 	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio1,0,0,5);
 	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio2,0,0,5);
 	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio3,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),botao_radio4,0,0,5);
 		
 	gtk_container_add(GTK_CONTAINER(botoes_frame),botoes_caixa);
 
-	gtk_box_pack_start(GTK_BOX(caixa_grande),botoes_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),botoes_frame,0,0,50);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_opcoes,0,0,10);
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
@@ -111,6 +124,7 @@ int escolher_finalizacao()
 	gtk_widget_show_all(janela);
 	return 0;
 }
+
 int gerar_orc()
 {
 	g_print("gerando orçamento...\n");

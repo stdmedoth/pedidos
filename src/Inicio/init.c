@@ -88,7 +88,6 @@ int desktop()
 	sair_image = gtk_image_new_from_file(EXIT_IMG);
 	gtk_button_set_image(GTK_BUTTON(sair_button),sair_image);
 
-
 	g_print("Fechando janela init\n");
 	gtk_widget_destroy(janela_inicializacao);
 	pegar_data();
