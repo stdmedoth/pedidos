@@ -87,7 +87,7 @@ static int receber_personalizacao()
 	MYSQL_ROW row;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cor_barra,janela_init,janelas_keep_above from perfil_desktop where code = %s",oper_code);
+	sprintf(query,"select cor_barra, janelas_keep_above from perfil_desktop where code = %s",oper_code);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
@@ -101,11 +101,23 @@ static int receber_personalizacao()
 	personalizacao.janela_cor = atoi(row[0]);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(janela_cor),atoi(row[0]));		
 	
-	personalizacao.janela_init = atoi(row[1]);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[1]));		
 	
-	personalizacao.janela_keep_above = atoi(row[2]);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[2]));		
+	personalizacao.janela_keep_above = atoi(row[1]);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[1]));		
+	
+	sprintf(query,"select janela_init from perfil_desktop where code = 1");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)	
+	{
+		popup(NULL,"Sem dados para personalizar o sistema");
+		return 1;
+	}
+	personalizacao.janela_init = atoi(row[0]);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[0]));	
 	return 0;
 	
 }

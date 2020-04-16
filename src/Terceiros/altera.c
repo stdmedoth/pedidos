@@ -30,8 +30,10 @@ int altera_ter()
 		gtk_widget_grab_focus (GTK_WIDGET(code_ter_field));
 		return 1;
 	}
-	gtk_entry_set_text(GTK_ENTRY(name_ter_field),campo[1]);
-	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[2]);
+	if(campo[1]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(name_ter_field),campo[1]);
+	if(campo[2]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[2]);
 	if(strcmp(campo[3],"1")==0)
 	{
 		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),1);
@@ -40,25 +42,41 @@ int altera_ter()
 	{
 		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),2);
 	}
-	gtk_entry_set_text(GTK_ENTRY(type_ter_field),campo[4]);
-	strcpy(tipo_ter,campo[4]);
-	if(strcmp(campo[5],"1")==0)
+	if(campo[4]!=NULL)
 	{
-		g_print("cliente\n");
+		gtk_entry_set_text(GTK_ENTRY(type_ter_field),campo[4]);
+		strcpy(tipo_ter,campo[4]);
 	}
-	if(strcmp(campo[5],"2")==0)
+	if(campo[5]!=NULL)
 	{
-		g_print("fornecedor\n");
+		if(strcmp(campo[5],"1")==0)
+		{
+			g_print("cliente\n");
+		}
+		if(strcmp(campo[5],"2")==0)
+		{
+			g_print("fornecedor\n");
+		}
 	}
-	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),campo[6]);
-	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[7]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),atoi(campo[8]));
-	gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),campo[9]);
-	gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),campo[10]);
-	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),campo[11]);
-	gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),campo[12]);
-	gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[13]);
-	gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[14]);
+	if(campo[6]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(cep_ter_field),campo[6]);
+	if(campo[7]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[7]);
+	if(campo[8]!=NULL)
+		gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),atoi(campo[8]));
+	if(campo[9]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),campo[9]);
+	if(campo[10]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),campo[10]);
+	if(campo[11]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(celular_ter_field),campo[11]);
+	if(campo[12]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),campo[12]);
+	if(campo[13]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[13]);
+	if(campo[14]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[14]);
+	if(campo[15]!=NULL)
 	strcpy(observacoes_ter,campo[15]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));

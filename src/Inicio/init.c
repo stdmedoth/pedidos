@@ -269,7 +269,7 @@ int init()
 	if(atoi(row[0])==0)
 	{
 		oper_code = malloc(MAX_OPER_LEN);
-		strcpy(oper_code,"999");
+		strcpy(oper_code,"1");
 		if(desktop()!=0)
 		{
 			popup(NULL,"Erro na inicializacao");

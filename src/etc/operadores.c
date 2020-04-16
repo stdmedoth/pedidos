@@ -82,7 +82,7 @@ void login()
 	GtkWidget *nome_fixed, *senha_fixed;
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_login,200,200);
-	gtk_window_set_decorated(GTK_WINDOW(janela_login),FALSE);
+	gtk_window_set_decorated(GTK_WINDOW(janela_login),TRUE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);

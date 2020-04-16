@@ -17,7 +17,7 @@ int tipo_doc,tipo_log;
 GtkWidget *doc_combo;
 GtkWidget *rua_combo;
 
-char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia"};
+char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia","Rodovia"};
 
 GtkWidget *code_label, *doc_label, 
 *name_label, *address_label,*estado_label, *cep_label,

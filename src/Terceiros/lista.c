@@ -129,6 +129,8 @@ int rec_ter_list()
 	gchar *entrada;
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
+	if(strlen(entrada)<3)
+		return 0;
 	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
 	mysql_res = consultar(query);
 	if(mysql_res==NULL)
@@ -144,20 +146,31 @@ int rec_ter_list()
 		
 		vet_codigosc[cont] = malloc(MAX_CODE_LEN);	
 		strcpy(vet_codigosc[cont],mysql_row[0]);
-
-		strcpy(row,mysql_row[0]);
+		if(mysql_row[0]!=NULL)
+			strcpy(row,mysql_row[0]);
+		else
+			strcpy(row,"vazio");
 		codigoc[cont] = gtk_label_new(row);
 		separadoresvc[cont][0] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[1]);
+		if(mysql_row[1]!=NULL)
+			strcpy(row,mysql_row[1]);
+		else
+			strcpy(row,"vazio");
 		nomec[cont] =  gtk_label_new(row);
 		separadoresvc[cont][1] = gtk_separator_new(0);
-	
-		strcpy(row,mysql_row[2]);
+		
+		if(mysql_row[2]!=NULL)
+			strcpy(row,mysql_row[2]);
+		else
+			strcpy(row,"vazio");
 		doc[cont] = gtk_label_new(row);
 		separadoresvc[cont][2] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[3]);
+		if(mysql_row[3]!=NULL)
+			strcpy(row,mysql_row[3]);
+		else
+			strcpy(row,"vazio");
 		if(atoi(row)==0)	
 		{
 			tipodoc[cont] = gtk_label_new("SEM DOC");
@@ -179,7 +192,10 @@ int rec_ter_list()
 		}
 		separadoresvc[cont][3] = gtk_separator_new(0);
 	
-		strcpy(row,mysql_row[5]);
+		if(mysql_row[5]!=NULL)
+			strcpy(row,mysql_row[5]);
+		else
+			strcpy(row,"vazio");
 		if(atoi(row)==1)
 		{	
 			type[cont] = gtk_label_new("Cliente");
@@ -195,40 +211,66 @@ int rec_ter_list()
 		}
 		separadoresvc[cont][5] = gtk_separator_new(0);
 		
-	
-		strcpy(row,mysql_row[6]);
+		if(mysql_row[6]!=NULL)
+			strcpy(row,mysql_row[6]);
+		else
+			strcpy(row,"vazio");
 		cep[cont] = gtk_label_new(row);
 		separadoresvc[cont][6] = gtk_separator_new(0);
-
-		strcpy(row,mysql_row[7]);
+		
+		if(mysql_row[7]!=NULL)
+			strcpy(row,mysql_row[7]);
+		else
+			strcpy(row,"vazio");
 		address[cont] = gtk_label_new(row);
 		separadoresvc[cont][7] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[9]);
+		if(mysql_row[9]!=NULL)
+			strcpy(row,mysql_row[9]);
+		else
+			strcpy(row,"vazio");
 		telefone[cont] = gtk_label_new(row);
 		separadoresvc[cont][9] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[10]);
+		if(mysql_row[10]!=NULL)
+			strcpy(row,mysql_row[10]);
+		else
+			strcpy(row,"vazio");
 		contatot[cont] = gtk_label_new(row);
 		separadoresvc[cont][10] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[11]);
+		if(mysql_row[11]!=NULL)
+			strcpy(row,mysql_row[11]);
+		else
+			strcpy(row,"vazio");
 		celular[cont] = gtk_label_new(row);
 		separadoresvc[cont][11] = gtk_separator_new(0);
 	
-		strcpy(row,mysql_row[12]);
+		if(mysql_row[12]!=NULL)
+			strcpy(row,mysql_row[12]);
+		else
+			strcpy(row,"vazio");
 		contatoc[cont] = gtk_label_new(row);
 		separadoresvc[cont][12] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[13]);
+		if(mysql_row[13]!=NULL)	
+			strcpy(row,mysql_row[13]);
+		else
+			strcpy(row,"vazio");
 		email[cont] = gtk_label_new(row);
 		separadoresvc[cont][13] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[14]);
+		if(mysql_row[14]!=NULL)	
+			strcpy(row,mysql_row[14]);
+		else
+			strcpy(row,"vazio");
 		contatoe[cont] = gtk_label_new(row);
 		separadoresvc[cont][14] = gtk_separator_new(0);
 		
-		strcpy(row,mysql_row[15]);
+		if(mysql_row[15]!=NULL)
+			strcpy(row,mysql_row[15]);
+		else
+			strcpy(row,"vazio");
 		_obs[cont] = gtk_label_new(row);
 		separadoresvc[cont][15] = gtk_separator_new(0);
 		printf("cont :%i\n",cont);

@@ -18,7 +18,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 {
 	int cont=0;
 	int pos=0;
-	char **vet_codigosp;
+	char **vet_codigosp,*formatar;
 	GtkWidget **evento, **codigop, **nomep, **preco,**peso,**unidade,
 	**fornecedor, **grupo,**marca, **observacoes;
 	GtkWidget          
@@ -42,7 +42,8 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	*grupo_prod_list,
 	*marca_prod_list,
 	*observacoes_prod_list;
-
+	
+	
 	
 	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
 	codigop = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
@@ -55,8 +56,8 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	marca = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	observacoes = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	vet_codigosp = malloc(sizeof(char**)*MAX_CODE_LEN*MAX_PROD);
-	
-	char query[QUERY_LEN];
+	formatar = malloc(sizeof(char)*MAX_PRECO_LEN);
+	char query[QUERY_LEN+2];
 	gchar *entrada;
 	
 	int ascii = 37;
@@ -68,7 +69,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	
 	colunasp = gtk_box_new(0,0);	
 
-	sprintf(query,"select * from produtos where nome like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.nome,t.razao,g.nome,p.marca,p.observacoes from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.unidade = u.code and p.grupo = g.code and p.fornecedor = t.code where p.nome like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -90,9 +91,11 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 		nomep[cont] =  gtk_label_new(campos[1]);
 		separadoresvp[cont][1] = gtk_separator_new(0);
 		
-		preco[cont] = gtk_label_new(campos[2]);
+		sprintf(formatar,"R$ %.2f",atof(campos[2]));
+		preco[cont] = gtk_label_new(formatar);
 		separadoresvp[cont][2] = gtk_separator_new(0);
 		
+		sprintf(formatar,"%.2f KG",atof(campos[3]));
 		peso[cont] = gtk_label_new(campos[3]);
 		separadoresvp[cont][3] = gtk_separator_new(0);
 		

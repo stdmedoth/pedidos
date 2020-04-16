@@ -138,7 +138,8 @@ int  cad_terc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"4",(tip_logds[3]));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"5",(tip_logds[4]));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"6",(tip_logds[5]));
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"7",("Outros"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"7",(tip_logds[6]));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"8",("Outros"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),0);
 	
 	type_label = gtk_label_new("Tipo Terceiro: ");	

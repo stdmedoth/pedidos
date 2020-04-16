@@ -2,11 +2,11 @@ drop database if exists erp;
 create database erp;
 use erp;
 
-create table operadores( code int primary key not null, nome varchar(20) not null, senha varchar(20) not null,nivel int not null);
+create table operadores( code int primary key not null auto_increment, nome varchar(20) not null, senha varchar(20) not null,nivel int not null);
 create table empresa( cnpj varchar(20) primary key not null, razao varchar(150) not null, endereco varchar(200) not null);
-create table perfil_desktop(code int primary key,desktop_img int,cor_barra varchar(30),janela_init bool,janelas_keep_above bool);
+create table perfil_desktop(code int primary key auto_increment,desktop_img int,cor_barra int,janela_init bool,janelas_keep_above bool);
 create table criticas(opcao_nome varchar(20) not null, campo_nome varchar(20) not null, critica bool);
-create table terceiros ( code int primary key auto_increment not null, razao varchar(100) not null, doc varchar(20), tipo_doc int not null, tipoc varchar(20), tipo int, cep varchar(10) , endereco varchar(400), tiporua int, telefone varchar(15), contatot varchar(15), celular varchar(15), contatoc varchar(15), email varchar(100), contatoe varchar(20), obs varchar(500));
+create table terceiros ( code int primary key auto_increment not null, razao varchar(300) not null, doc varchar(20), tipo_doc int not null, tipoc varchar(20), tipo int, cep varchar(15) , endereco varchar(400), tiporua int, telefone varchar(15), contatot varchar(15), celular varchar(15), contatoc varchar(15), email varchar(100), contatoe varchar(20), obs varchar(500));
 create table grupos( code int primary key auto_increment not null, nome varchar(20) not null);
 create table unidades( code int primary key auto_increment not null, nome varchar(20) not null, sigla varchar(10) not null, multiplo int not null);
 create table produtos( code int primary key auto_increment not null, nome varchar(150) not null, preco float not null, peso float not null, unidade int not null, fornecedor int not null, grupo int not null, marca varchar(30), observacoes varchar(500) not null, foreign key(unidade) references unidades(code), foreign key(fornecedor) references terceiros(code), foreign key(grupo) references grupos(code));
@@ -27,8 +27,8 @@ insert into criticas(opcao_nome,campo_nome,critica)
 values('terceiros','ter_doc',1),('terceiros','ter_tipo_doc',1),('terceiros','ter_endereco',1),('terceiros','ter_cep',1),
 ('terceiros','ter_tipo',1),('terceiros','ter_celular',1),('terceiros','ter_contatoc',1),('terceiros','ter_telefone',1),('terceiros','ter_contatot',1),
 ('terceiros','ter_email',1),('terceiros','ter_contatoe',1);
-insert into operadores values(1,'Petitto','1234',5),(999,'Padrao',' ',5);
+insert into operadores values(1,'Petitto','',5);
 insert into empresa(razao, endereco, cnpj) values ( 'Petitto Mat. p/ encadern. e carton.', 'R. Dna Amelia de Paula, 100\nJardim Leonor, Campinas ', '---');
 insert into grupos(nome) values('Ferramentas'),('Cilindros'),('Papelao');
 insert into unidades(nome,sigla,multiplo) values('Caixas','CX',30),('Unidade','UND',1);
-insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,3,1,1,1),(999,3,1,1,1);
+insert into perfil_desktop(code, desktop_img,cor_barra,janela_init,janelas_keep_above) values(1,3,1,1,1);

@@ -16,6 +16,7 @@ static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scro
 	int cont=0;
 	int pos=0;
 	char **vet_codigosp;
+	char *formatar;
 	GtkWidget **evento, **codigop, **nomep, **preco;
 	
 	GtkWidget          
@@ -33,7 +34,8 @@ static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scro
 	codigop = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	nomep = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	preco = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-
+	formatar = malloc(sizeof(char)*MAX_PRECO_LEN);
+	
 	char query[QUERY_LEN];
 	gchar *entrada;
 	
@@ -75,8 +77,9 @@ static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scro
 		
 		nomep[cont] =  gtk_label_new(campos[1]);
 		separadoresvp[cont][1] = gtk_separator_new(0);
-		
-		preco[cont] = gtk_label_new(campos[2]);
+
+		sprintf(formatar,"R$ %.2f",atof(campos[2]));		
+		preco[cont] = gtk_label_new(formatar);
 		separadoresvp[cont][2] = gtk_separator_new(0);
 		
 		

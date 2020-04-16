@@ -59,7 +59,7 @@ int cep_terc()
 	}
 	g_print("cep_len: %li\n",strlen(cep_ter));
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campos[0]);
-	for(cont=0;cont<=5;cont++)
+	for(cont=0;cont<=6;cont++)
 	{
 		if(strcmp(campos[1],tip_logds[cont])==0)
 		{

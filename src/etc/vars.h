@@ -50,6 +50,7 @@
 #define OPR_IMG       "/petitto/files/icones_opc/operadores.png"  
 #define TRS_IMG       "/petitto/files/icones_opc/transacoes.png"  
 #define SOL_IMG       "/petitto/files/icones_opc/solicitacoes.png"  
+#define PRC_IMG       "/petitto/files/icones_opc/preco.png"  
 #define COT_IMG       "/petitto/files/icones_opc/cotacao.png"  
 #define ORD_IMG       "/petitto/files/icones_opc/ordem_cmp.png"  
 #define ENT_IMG       "/petitto/files/icones_opc/entradas.png"  
