@@ -1,4 +1,4 @@
-#define SERVER "localhost"
+	#define SERVER "localhost"
 #define USER "petitto"
 #define PASS "1234"
 #define DATABASE "erp"
@@ -63,6 +63,7 @@
 #endif
 
 #ifdef __linux__
+#define PDF_GEN       "/usr/bin/wkhtmltopdf"
 #define CHROME_PATH   "/bin/chromium"
 #define FIREFOX_PATH  "/bin/firefox"
 #define CT_CONF_PATH  "/usr/share/petitto/files/criticas.conf"
@@ -172,16 +173,17 @@
 #define EMAIL_ROW_POS 13
 #define MAX_OPER_LEN 30
 #define MAX_SEN_LEN 30
+#define MAX_DATE_LEN 8
 GtkWidget *acao_atual,*acao_atual2;
 
 GtkTextBuffer *buffer;
 GtkTextIter inicio,fim;	
 
 
-#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,marca,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
-#define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', marca = '%s', observacoes = '%s' where code = %s"
-#define ARGS_PROD_UPD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, marcas_prod, observacoes_prod,codigos_prod
+#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,fator,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
+#define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, fatores_prod, observacoes_prod
+#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', fator = %s, observacoes = '%s' where code = %s"
+#define ARGS_PROD_UPD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, fatores_prod, observacoes_prod,codigos_prod
 
 #define FTR_CAD_QUERY "insert into fatores(nome,observacoes) values('%s','%s');"
 #define ARGS_FTR_CAD_QUERY nomes_ftr,observacoes_ftr

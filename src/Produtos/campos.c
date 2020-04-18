@@ -6,7 +6,7 @@
 #include "campos/peso.c"
 #include "campos/unidade.c"
 #include "campos/grupo.c"
-#include "campos/marca.c"
+#include "campos/p_fator.c"
 #include "campos/fornecedor.c"
 #include "campos/observacao.c"
 #include "campos/fatores.c"

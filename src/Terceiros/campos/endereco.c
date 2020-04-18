@@ -41,7 +41,7 @@ int address_terc()
 		}
 		else
 		{
-			gtk_widget_grab_focus(celular_ter_field);
+			gtk_widget_grab_focus(prazo_ter_field);
 		}
 	}
 	g_print("endereco: %s\n",endereco_ter);

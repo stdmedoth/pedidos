@@ -20,7 +20,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	int pos=0;
 	char **vet_codigosp,*formatar;
 	GtkWidget **evento, **codigop, **nomep, **preco,**peso,**unidade,
-	**fornecedor, **grupo,**marca, **observacoes;
+	**fornecedor, **grupo,**fator, **observacoes;
 	GtkWidget          
 	*codigo_prod_list_label,
 	*nome_prod_list_label,
@@ -29,7 +29,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	*unidade_list_label,
 	*fornecedor_list_label,
 	*grupo_list_label,
-	*marca_list_label,
+	*fator_list_label,
 	*observacoes_list_label;
 
 	GtkWidget 
@@ -40,7 +40,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	*unidade_prod_list,
 	*fornecedor_prod_list,
 	*grupo_prod_list,
-	*marca_prod_list,
+	*fator_prod_list,
 	*observacoes_prod_list;
 	
 	
@@ -53,7 +53,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	unidade = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	fornecedor = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	grupo = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	marca = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	fator = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	observacoes = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 	vet_codigosp = malloc(sizeof(char**)*MAX_CODE_LEN*MAX_PROD);
 	formatar = malloc(sizeof(char)*MAX_PRECO_LEN);
@@ -69,7 +69,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	
 	colunasp = gtk_box_new(0,0);	
 
-	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.nome,t.razao,g.nome,p.marca,p.observacoes from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.unidade = u.code and p.grupo = g.code and p.fornecedor = t.code where p.nome like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.nome,t.razao,g.nome,p.fator,p.observacoes from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.unidade = u.code and p.grupo = g.code and p.fornecedor = t.code where p.nome like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -96,7 +96,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 		separadoresvp[cont][2] = gtk_separator_new(0);
 		
 		sprintf(formatar,"%.2f KG",atof(campos[3]));
-		peso[cont] = gtk_label_new(campos[3]);
+		peso[cont] = gtk_label_new(formatar);
 		separadoresvp[cont][3] = gtk_separator_new(0);
 		
 		unidade[cont] = gtk_label_new(campos[4]);
@@ -108,7 +108,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 		grupo[cont] = gtk_label_new(campos[6]);
 		separadoresvp[cont][6] = gtk_separator_new(0);
 		
-		marca[cont] = gtk_label_new(campos[7]);
+		fator[cont] = gtk_label_new(campos[7]);
 		separadoresvp[cont][7] = gtk_separator_new(0);
 		
 		observacoes[cont] = gtk_label_new(campos[8]);
@@ -127,7 +127,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	unidade_prod_list = gtk_box_new(1,0);
 	fornecedor_prod_list = gtk_box_new(1,0);
 	grupo_prod_list = gtk_box_new(1,0);
-	marca_prod_list = gtk_box_new(1,0);
+	fator_prod_list = gtk_box_new(1,0);
 	observacoes_prod_list = gtk_box_new(1,0);
 	
 	codigo_prod_list_label = gtk_label_new("Código do produto\n");	
@@ -137,7 +137,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	unidade_list_label = gtk_label_new("Modelo Unidade\n");	
 	fornecedor_list_label = gtk_label_new("Fornecedor\n");
 	grupo_list_label = gtk_label_new("Grupo\n");
-	marca_list_label = gtk_label_new("Marca\n");	
+	fator_list_label = gtk_label_new("Marca\n");	
 	observacoes_list_label = gtk_label_new("Observações\n");	
 	
 	gtk_box_pack_start(GTK_BOX(codigo_prod_list),codigo_prod_list_label,0,0,0); //padrao de nome de variavel
@@ -147,7 +147,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	gtk_box_pack_start(GTK_BOX(unidade_prod_list),unidade_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(fornecedor_prod_list),fornecedor_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo_prod_list),grupo_list_label,0,0,0);	
-	gtk_box_pack_start(GTK_BOX(marca_prod_list),marca_list_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(fator_prod_list),fator_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(observacoes_prod_list),observacoes_list_label,0,0,0);
 	
 	while(pos<cont)
@@ -175,8 +175,8 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 		gtk_box_pack_start(GTK_BOX(grupo_prod_list),grupo[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(grupo_prod_list),separadoresvp[pos][6],0,0,10);
 	
-		gtk_box_pack_start(GTK_BOX(marca_prod_list),marca[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(marca_prod_list),separadoresvp[pos][7],0,0,10);
+		gtk_box_pack_start(GTK_BOX(fator_prod_list),fator[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(fator_prod_list),separadoresvp[pos][7],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(observacoes_prod_list),observacoes[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(observacoes_prod_list),separadoresvp[pos][8],0,0,10);
@@ -191,7 +191,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	gtk_widget_set_size_request(unidade_prod_list,70,30);
 	gtk_widget_set_size_request(fornecedor_prod_list,70,30);
 	gtk_widget_set_size_request(grupo_prod_list,70,30);
-	gtk_widget_set_size_request(marca_prod_list,70,30);
+	gtk_widget_set_size_request(fator_prod_list,70,30);
 	gtk_widget_set_size_request(observacoes_prod_list,70,30);
 	
 	gtk_box_pack_start(GTK_BOX(colunasp),codigo_prod_list,0,0,10);
@@ -201,7 +201,7 @@ int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav
 	gtk_box_pack_start(GTK_BOX(colunasp),unidade_prod_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasp),fornecedor_prod_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasp),grupo_prod_list,0,0,10);
-	gtk_box_pack_start(GTK_BOX(colunasp),marca_prod_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunasp),fator_prod_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasp),observacoes_prod_list,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunasp,0,0,20);
@@ -262,7 +262,7 @@ int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 
 	gtk_container_add(GTK_CONTAINER(lista_prod),lista_scroll_windowh);
 	
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec_prod_list),lista_scroll_caixav);
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_prod_list),lista_scroll_caixav);
 	g_signal_connect(lista_prod,"destroy",G_CALLBACK(close_window_callback),lista_prod);
 
 	gtk_widget_show_all(lista_prod);	

@@ -2,7 +2,7 @@
 //combo_box de terceiros 
 GtkWidget **campos_de_critica;
 //combo_box de produtos
-GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_marca;
+GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
 int ter_critic_campos_qnt =10;
 static GtkWidget *janela_init,*janela_keep_above,*janela_cor;
 struct 
@@ -34,7 +34,7 @@ struct
 		int total;
 		int peso;
 		int unidade;
-		int marca;
+		int fator;
 		int vincula_prod_obs;
 	}criticar;
 }terceiros,produtos;
@@ -63,7 +63,8 @@ int vet_erro[CAMPOS_QNT+1];
 #define CEP_ERR 19
 #define PRD_ERR 20
 #define CLI_ERR 21
-#define QNT_ERR 22
+#define PRAZ_ERR 22
+#define QNT_ERR 23
 
 char *critica_campos[] = {"ter_doc","ter_tipo_doc",
 	"ter_endereco","ter_cep",
@@ -311,7 +312,6 @@ int atualizar_paramentros()
 }
 int parametrizar()
 {
-	char *parametro_char;
 	GtkWidget *janela_parametros;
 	GtkWidget *notebook;
 	GtkWidget *caixona,*caixa_superior;
@@ -395,7 +395,6 @@ int parametrizar()
 	wallpapers_frame = gtk_frame_new("Imagens da área de Trabalho");
 	gtk_container_add(GTK_CONTAINER(wallpapers_frame),wallpapers_scroll);
 	campos_de_critica = malloc(sizeof(GtkCheckButton*)*11);
-	parametro_char = malloc(MAX_PARAM_LEN);
 	geral_label = gtk_label_new("GERAL");
 	terc_label = gtk_label_new("TERCEIROS");
 	prod_label = gtk_label_new("PRODUTOS");

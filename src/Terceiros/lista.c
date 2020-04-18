@@ -25,7 +25,7 @@ int rec_ter_list()
 	**tipodoc,**type,**address,
 	**cep,**telefone,**contatot,
 	**celular,**contatoc,**email,
-	**contatoe,**_obs;	
+	**contatoe,**prazo,**_obs;	
 
 	GtkWidget 
 	*codigo_ter_list,  
@@ -41,6 +41,7 @@ int rec_ter_list()
 	*contatoc_ter_list,
 	*email_ter_list,
 	*contatoe_ter_list,
+	*prazo_ter_list,
 	*obs_ter_list;
 
 	GtkWidget          
@@ -57,6 +58,7 @@ int rec_ter_list()
 	*contatoc_list_label,
 	*email_list_label,
 	*contatoe_list_label,
+	*prazo_list_label,
 	*obs_list_label;
 	
 	GList *children,*iter;
@@ -103,7 +105,6 @@ int rec_ter_list()
 	gtk_widget_set_size_request(lista_scroll_caixav,1000,3000);
 	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
 	gtk_widget_set_size_request(lista_scroll_windowh,1000,500);
-
 	
 	row = malloc(ENTRADA);
 	evento = malloc(sizeof(GtkEventBox*)*TERC_QNT);
@@ -121,10 +122,11 @@ int rec_ter_list()
 	contatoc = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	email = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	contatoe = malloc(sizeof(GtkLabel*)*TERC_QNT);
+	prazo = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	_obs =  malloc(sizeof(GtkLabel*)*TERC_QNT);
 	vet_codigosc = malloc(sizeof(char**)*MAX_CODE_LEN*TERC_QNT);	
 	separadoresvc = malloc(sizeof(GtkSeparator*)*TERC_QNT*ROWS_QNT);
-
+	
 	query = malloc(QUERY_LEN);
 	gchar *entrada;
 	entrada = malloc(ENTRADA);
@@ -171,11 +173,7 @@ int rec_ter_list()
 			strcpy(row,mysql_row[3]);
 		else
 			strcpy(row,"vazio");
-		if(atoi(row)==0)	
-		{
-			tipodoc[cont] = gtk_label_new("SEM DOC");
-		}
-		else
+		
 		if(atoi(row)==1)	
 		{		
 			tipodoc[cont] = gtk_label_new("CNPJ");
@@ -186,9 +184,9 @@ int rec_ter_list()
 			tipodoc[cont] = gtk_label_new("CPF");
 		}
 		else
+		if(atoi(row)==3)	
 		{
-			
-			tipodoc[cont] = gtk_label_new("ERRO");
+			tipodoc[cont] = gtk_label_new("SEM DOC");
 		}
 		separadoresvc[cont][3] = gtk_separator_new(0);
 	
@@ -267,12 +265,20 @@ int rec_ter_list()
 		contatoe[cont] = gtk_label_new(row);
 		separadoresvc[cont][14] = gtk_separator_new(0);
 		
-		if(mysql_row[15]!=NULL)
+		if(mysql_row[15]!=NULL)	
 			strcpy(row,mysql_row[15]);
 		else
 			strcpy(row,"vazio");
-		_obs[cont] = gtk_label_new(row);
+		prazo[cont] = gtk_label_new(row);
 		separadoresvc[cont][15] = gtk_separator_new(0);
+		
+		
+		if(mysql_row[16]!=NULL)
+			strcpy(row,mysql_row[16]);
+		else
+			strcpy(row,"vazio");
+		_obs[cont] = gtk_label_new(row);
+		separadoresvc[cont][16] = gtk_separator_new(0);
 		printf("cont :%i\n",cont);
 		cont++;
 	}
@@ -291,6 +297,7 @@ int rec_ter_list()
 	contatoc_ter_list = gtk_box_new(1,0);
 	email_ter_list = gtk_box_new(1,0);
 	contatoe_ter_list = gtk_box_new(1,0);
+	prazo_ter_list = gtk_box_new(1,0);
 	obs_ter_list = gtk_box_new(1,0);
 	
 	codigo_list_label = gtk_label_new("Código do Terceiro\n");	
@@ -332,6 +339,9 @@ int rec_ter_list()
 	contatoe_list_label = gtk_label_new("Contato Email\n");	
 	gtk_widget_set_name(GTK_WIDGET(contatoe_list_label),"colunas");
 	
+	prazo_list_label = gtk_label_new("Prazo");
+	gtk_widget_set_name(GTK_WIDGET(prazo_list_label),"colunas");
+	
 	obs_list_label = gtk_label_new("Observações\n");	
 	gtk_widget_set_name(GTK_WIDGET(obs_list_label),"colunas");
 
@@ -348,6 +358,7 @@ int rec_ter_list()
 	gtk_box_pack_start(GTK_BOX(contatoc_ter_list),contatoc_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(email_ter_list),email_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe_list_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo_ter_list),prazo_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(obs_ter_list),obs_list_label,0,0,0);
 	
 	while(pos<cont)
@@ -393,9 +404,12 @@ int rec_ter_list()
 	
 		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe[pos],0,0,10);
 		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),separadoresvc[pos][14],0,0,10);
+
+		gtk_box_pack_start(GTK_BOX(prazo_ter_list),prazo[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(prazo_ter_list),separadoresvc[pos][15],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(obs_ter_list),_obs[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][15],0,0,10);
+		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][16],0,0,10);
 		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_ter_codigo),(void*)vet_codigosc[pos]);
 		printf("pos %i\n",pos);
 		pos++;
@@ -416,6 +430,7 @@ int rec_ter_list()
 	gtk_widget_set_size_request(contatoc_ter_list,70,30);
 	gtk_widget_set_size_request(email_ter_list,70,30);
 	gtk_widget_set_size_request(contatoe_ter_list,70,30);
+	gtk_widget_set_size_request(prazo_ter_list,70,30);
 	
 	gtk_box_pack_start(GTK_BOX(colunasc),codigo_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),nome_ter_list,0,0,10);
@@ -430,6 +445,7 @@ int rec_ter_list()
 	gtk_box_pack_start(GTK_BOX(colunasc),contatoc_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),email_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),contatoe_ter_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunasc),prazo_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),obs_ter_list,0,0,10);
 	
 	gtk_box_pack_end(GTK_BOX(lista_scroll_caixah),colunasc,0,0,0);	
@@ -475,7 +491,7 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);		
 	gtk_container_add(GTK_CONTAINER(lista_ter),caixona);
 	g_object_ref(pesquisa);
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(rec_ter_list),NULL);	
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_ter_list),NULL);	
 	
 	g_signal_connect(lista_ter,"destroy",G_CALLBACK(close_window_callback),lista_ter);
 	gtk_widget_show_all(lista_ter);

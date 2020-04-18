@@ -3,7 +3,7 @@
 #define IMP_PORT1 "LPT1"
 #define IMP_PORT2 "LPT2"
 #define BROTHER_IMP 1
-#define SANSUNG_IMP 2
+#define SAMSUNG_IMP 2
 int imp_opc=0;
 
 GtkWidget *msg_abrir_orc_window;
@@ -12,15 +12,16 @@ static char*gerando_file;
 
 int iniciar_impressao(char *gerado)
 {
-	
 	char *chamada;
 	chamada = malloc(strlen(gerando_file));
+	g_print("%s para impressora\n",gerado);	
 	#ifdef WIN32
 	g_print("%s para LPT1\n",gerado);
 	if(imp_opc==1)
-		sprintf(chamada,"copy %s LPT1",gerado);
+		sprintf(chamada,"xcopy %s LPT1",gerado);
 	if(imp_opc==2)
-		sprintf(chamada,"copy %s LPT2",gerado);
+		sprintf(chamada,"xcopy %s LPT2",gerado);
+	
 	STARTUPINFO infoBina={sizeof(infoBina)};
 	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
@@ -33,14 +34,13 @@ int iniciar_impressao(char *gerado)
 	}	
 	#endif
 	#ifdef __linux__
-	popup(NULL,gerado);
+		popup(NULL,gerado);
 	#endif
 	return 0;
 }
 
 int desenhar_orcamento()
 {
-	#ifdef WIN32
 	char *chamada,*gerado;
 	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
 	gerado = malloc(strlen(gerando_file));
@@ -48,6 +48,7 @@ int desenhar_orcamento()
 	gerado[strlen(gerado)-5] = '\0';
 	g_print("de %s para %s.pdf\n",gerando_file,gerado);
 	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
+	#ifdef WIN32
 	STARTUPINFO infoBina={sizeof(infoBina)};
 	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
@@ -60,7 +61,20 @@ int desenhar_orcamento()
 		sprintf(gerado,"%s.pdf",gerado);
 		iniciar_impressao(gerado);
 	}
+	else
+	{
+		popup(NULL,"Não foi possivel gerar documento");
+		return 1;
+	}
 	#endif 
+	#ifdef __linux__
+	if(system(chamada)!=0)
+	{
+		popup(NULL,"Não foi possivel gerar documento");
+		return 1;
+	}
+	iniciar_impressao(gerado);
+	#endif
 	return 0;
 }
 
@@ -68,15 +82,17 @@ int iniciar_escolha()
 {	
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio1)))
 	{
+		g_print("Escolhida impressora 1\n");
 		imp_opc = BROTHER_IMP;
 		desenhar_orcamento();
 	}
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio2)))
 	{
-		imp_opc = SANSUNG_IMP;
+		
+		imp_opc = SAMSUNG_IMP;
 		desenhar_orcamento();
 	}
-	imp_opc = SANSUNG_IMP;
+	g_print("Escolhida impressora %i\n",imp_opc);
 	return 0;
 }
 
@@ -107,7 +123,7 @@ int escolher_finalizacao()
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
 	
 	botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora BROTHER");
-	botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio1),"Enviar para Impressora SANSUSNG");
+	botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio1),"Enviar para Impressora SAMSUNG");
 	
 	botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio2),"Abrir PDF");
 	botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(botao_radio3),"Abrir HTML");

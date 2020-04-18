@@ -9,6 +9,8 @@ int inicializar_orc()
 		vet_erro[cont] = 0;
 	return 0;
 }
+int preco_prod_orc(GtkWidget *widget,int posicao);
+int preco_alterado[MAX_PROD];
 int pressionado=0;
 static int ativos_qnt=1;
 

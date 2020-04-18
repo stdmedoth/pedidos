@@ -58,7 +58,7 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	colunas_pesquisa_o = gtk_box_new(0,0);	
 	if(strlen(entrada)<=0)
 		return 0;
-	sprintf(query,"select distinct a.code,b.razao,a.total from orcamentos as a join terceiros as b on a.cliente = b.code where b.razao like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select distinct a.code,b.razao,a.total from orcamentos as a join terceiros as b on a.cliente = b.code where b.razao like '%c%s%c' or b.doc = '%s';",ascii,entrada,ascii,entrada);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -142,6 +142,7 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
 	alvo_o =(GtkWidget*) ponteiro;
 	pesquisa = gtk_search_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(pesquisa),"Digite o Nome/CPF/CNPJ do Cliente");
 	g_print("Abrindo listagem\n");
 	lista_scroll_caixav = gtk_box_new(1,0);
 	lista_scroll_caixah = gtk_box_new(0,0);
@@ -186,7 +187,7 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 
 	gtk_container_add(GTK_CONTAINER(pesq_orc),lista_scroll_windowh);
 	
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(recebe_orcamentos),lista_scroll_caixav);
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_orcamentos),lista_scroll_caixav);
 	g_signal_connect(pesq_orc,"destroy",G_CALLBACK(close_window_callback),pesq_orc);
 
 	gtk_widget_show_all(pesq_orc);	

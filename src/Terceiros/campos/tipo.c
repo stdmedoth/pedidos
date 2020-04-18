@@ -12,7 +12,7 @@ int set_cliente()
 		if(terceiros.criticar.tipo==0)
 		{
 			strcpy(tipo_ter,"");
-			gtk_widget_grab_focus(celular_ter_field);
+			gtk_widget_grab_focus(prazo_ter_field);
 			return 0;
 		}
 		popup(NULL,"Tipo Terceiro deve ser inserido");
@@ -29,7 +29,7 @@ int set_cliente()
 	{
 		vet_erro[TIP_ERR]=0;
 		terci_tipo=1;
-		gtk_widget_grab_focus(celular_ter_field);
+		gtk_widget_grab_focus(prazo_ter_field);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));
@@ -51,7 +51,7 @@ int set_fornecedor()
 	{
 		vet_erro[TIP_ERR]=0;
 		terci_tipo=2;
-		gtk_widget_grab_focus(celular_ter_field);
+		gtk_widget_grab_focus(prazo_ter_field);
 	}
 	g_print("tipo: %s\n",tipo_ter);
 	gtk_widget_destroy(GTK_WIDGET(win_tipo_ter));

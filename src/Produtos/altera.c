@@ -7,7 +7,7 @@ int altera_prod()
 	MYSQL_RES *vetor;
 	MYSQL_ROW campo;
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.sigla,p.fornecedor,p.grupo,p.marca,p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.sigla,p.fornecedor,p.grupo,p.fator,p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -30,7 +30,7 @@ int altera_prod()
 		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(marca_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(fator_prod_field),"");
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
@@ -51,7 +51,7 @@ int altera_prod()
 	strcpy(row,campo[6]);
 	gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),row);
 	strcpy(row,campo[7]);
-	gtk_entry_set_text(GTK_ENTRY(marca_prod_field),row);
+	gtk_entry_set_text(GTK_ENTRY(fator_prod_field),row);
 	strcpy(observacoes_prod,campo[8]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));

@@ -10,6 +10,8 @@ int cnpj_terc()
 	{
 		if(terceiros.criticar.doc==0)
 		{
+			doc_ter = malloc(sizeof(gchar *));
+			strcpy(doc_ter,"");
 			gtk_widget_grab_focus(GTK_WIDGET(name_ter_field));
 			return 0;
 		}

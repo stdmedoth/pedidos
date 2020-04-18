@@ -28,7 +28,8 @@ int inicializar_ter()
 	email_ter = malloc(MAX_EMAIL_LEN);
 	contatoe_ter = malloc(MAX_CONT_LEN);
 	observacoes_ter = malloc(MAX_OBS_LEN);
-
+	prazo_ter = malloc(MAX_DATE_LEN);
+	
 	//GtkWidget *
 	buffer = malloc(sizeof(GtkTextBuffer*));
 	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
@@ -42,7 +43,6 @@ int inicializar_ter()
 	imagem_dinheiro = malloc(sizeof(GtkImage*)*MAX_PROD);
 	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	
 	return 0;
 }
 int  cad_terc()
@@ -63,7 +63,8 @@ int  cad_terc()
 	//container/visual
 	GtkWidget *fixed, *fixed2, *box,*vertical_box1, *vertical_box2, *separator;
 	GtkWidget *code, *doc, *name, *address, *cep,*type;
-	GtkWidget *celular, *telefone,*acao, *email, *observacoes;
+	GtkWidget *celular, *telefone,*acao, *email, *observacoes,*prazo;
+	GtkWidget *observacoes_scroll;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"terceiros");
@@ -88,6 +89,7 @@ int  cad_terc()
 	botao_mais = gtk_button_new_with_label("Vincular um Preço/Produto");
 	gtk_button_set_image(GTK_BUTTON(botao_mais),imagem_mais);
 	
+
 	lista_vinc_label = gtk_label_new("Preços Vinculados:");
  	precos_scroll_caixa	 = gtk_box_new(1,0);
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
@@ -150,8 +152,6 @@ int  cad_terc()
 	contatot_label = gtk_label_new("Contato");
 	contatoe_label = gtk_label_new("Contato");
 	email_label = gtk_label_new("Email");
-
-	observacoes_label = gtk_label_new("Observações");
 	
 	concluir_ter_buttom = gtk_button_new_with_label("Concluir");
 	alterar_ter_buttom = gtk_button_new_with_label("Alterar");
@@ -191,8 +191,6 @@ int  cad_terc()
 	
 	contatoe_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(contatoe_ter_field),GTK_ENTRY_ICON_PRIMARY,"contact-new");
-	
-	observacoes_ter_field = gtk_text_view_new();
 	
 	code = gtk_box_new(1,0);
 	gtk_widget_set_name(code,"caixa");
@@ -260,11 +258,30 @@ int  cad_terc()
 	gtk_widget_set_size_request(contatoe_ter_field,100,30);
 		
 	observacoes = gtk_box_new(1,0);
+	observacoes_label = gtk_label_new("Observações");
+	observacoes_ter_field = gtk_text_view_new();
+	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_widget_set_name(observacoes,"caixa");
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_ter_field,0,0,10);
+	#ifdef __linux__
+	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
+	#endif
+	#ifdef WIN32
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes);
+	#endif
 	gtk_widget_set_size_request(observacoes_ter_field,500,100);
+	gtk_widget_set_size_request(observacoes_scroll,500,100);
+	gtk_widget_set_size_request(observacoes,500,100);
 	
+	prazo = gtk_box_new(1,0);
+	gtk_widget_set_name(prazo,"caixa");
+	prazo_ter_label = gtk_label_new("Prazo padrão");
+	prazo_ter_field = gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(prazo),prazo_ter_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo),prazo_ter_field,0,0,0);
+	
+
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
 	
@@ -272,12 +289,13 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),address,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),type,0,0,0);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_three),prazo,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),celular,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),telefone,0,0,0);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),email,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes_scroll,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),concluir_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),alterar_ter_buttom,0,0,10);
@@ -297,6 +315,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),address_ter_field);
 	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
+	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);
 	g_signal_connect(GTK_ENTRY(contatoc_ter_field),"activate",G_CALLBACK(contc),NULL);

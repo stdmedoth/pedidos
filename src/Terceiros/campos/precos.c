@@ -3,6 +3,7 @@ int posicoes[MAX_PROD];
 GtkWidget *vinc_janela_ter;
 GtkWidget *confirmar_preco_buttom,*cancelar_preco_buttom,*campo_nome_prod;
 #define MARGEM_VIN_D 30
+
 struct campo_vinc
 {
 	GtkWidget *produto;

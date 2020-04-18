@@ -77,7 +77,11 @@ int altera_ter()
 	if(campo[14]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[14]);
 	if(campo[15]!=NULL)
-	strcpy(observacoes_ter,campo[15]);
+		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[15]);
+	if(campo[16]!=NULL)
+		strcpy(observacoes_ter,campo[16]);
+	else
+		strcpy(observacoes_ter,"");
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
 	if(alterando_ter==1)

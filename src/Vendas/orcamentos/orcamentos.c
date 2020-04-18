@@ -182,6 +182,8 @@ int adicionar_linha_orc()
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(lista_produtos),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
+	g_signal_connect(preco_prod_orc_entry[itens_qnt],"focus-in-event",G_CALLBACK(prc_cli_alter),id_vetor[cont]);
+
 	g_signal_connect(orig_preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);
@@ -457,7 +459,10 @@ int vnd_orc()
 		g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[cont]);
 		g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(lista_produtos),codigo_prod_orc_entry[itens_qnt]);
 		g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[cont]);
+		
 		g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[cont]);
+		g_signal_connect(preco_prod_orc_entry[itens_qnt],"focus-in-event",G_CALLBACK(prc_cli_alter),id_vetor[cont]);
+		
 		g_signal_connect(orig_preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(orig_preco_prod_orc),id_vetor[cont]);
 		g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[cont]);
 		g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);

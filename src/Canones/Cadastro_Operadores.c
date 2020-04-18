@@ -8,7 +8,7 @@ static GtkWidget *oper_perm_name_entry;
 int oper_passa_nome()
 {
 	oper_nome_gchar = malloc(sizeof(char)*MAX_OPER_LEN);
-	oper_nome_gchar = gtk_entry_get_text(GTK_ENTRY(oper_nome_entry));
+	oper_nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(oper_nome_entry));
 	gtk_entry_set_max_length(GTK_ENTRY(oper_nome_entry),sizeof(char)*MAX_OPER_LEN);
 	if(strlen(oper_nome_gchar)<=0)
 	{
@@ -22,7 +22,7 @@ int oper_passa_nome()
 int oper_passa_senha()
 {
 	oper_senha_gchar = malloc(sizeof(char)*MAX_SEN_LEN);
-	oper_senha_gchar = gtk_entry_get_text(GTK_ENTRY(oper_senha_entry));
+	oper_senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(oper_senha_entry));
 	if(strlen(oper_senha_gchar)<=0)
 	{
 		popup(NULL,"Insira o senha!");
@@ -94,7 +94,7 @@ int oper_concluir()
 			return 1;
 		}
 		row = mysql_fetch_row(res);
-		if(row==NULL)
+		if(row!=NULL)
 		{
 			popup(NULL,"Operador já existente");
 			return 1;

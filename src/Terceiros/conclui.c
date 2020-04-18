@@ -21,6 +21,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
+	
 	if(cep_terc()!=0)
 	{
 		gtk_widget_grab_focus(cep_ter_field);
@@ -62,9 +63,16 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(contatoe_ter_field);
 		return 1;
 	}
-	if(obs()!=0)
+	if(prazo_fun()!=0)
+	{
+		gtk_widget_grab_focus(prazo_ter_field);
 		return 1;
-
+	}
+	if(obs()!=0)
+	{
+		gtk_widget_grab_focus(observacoes_ter_field);
+		return 1;
+	}
 	for(cont=0;cont<=CAMPOS_QNT;cont++)
 	{
 		if(vet_erro[cont]!=0)

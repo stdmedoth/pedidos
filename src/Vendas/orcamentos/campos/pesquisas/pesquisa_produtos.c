@@ -137,6 +137,7 @@ static int lista_produtos(GtkWidget *botao,gpointer *ponteiro)
 	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
 	alvop =(GtkWidget*) ponteiro;
 	pesquisa = gtk_search_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(pesquisa),"Digite o nome do produto");
 	g_print("Abrindo listagem\n");
 	lista_scroll_caixav = gtk_box_new(1,0);
 	lista_scroll_caixah = gtk_box_new(0,0);
@@ -181,7 +182,7 @@ static int lista_produtos(GtkWidget *botao,gpointer *ponteiro)
 
 	gtk_container_add(GTK_CONTAINER(pesq_prod),lista_scroll_windowh);
 	
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(recebe_produtos),lista_scroll_caixav);
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_produtos),lista_scroll_caixav);
 	g_signal_connect(pesq_prod,"destroy",G_CALLBACK(close_window_callback),pesq_prod);
 
 	gtk_widget_show_all(pesq_prod);	

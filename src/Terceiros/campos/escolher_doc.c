@@ -19,8 +19,7 @@ int mover_para_doc()
 }
 int escolha_doc()
 {
-	int opcao=0;
-	
+	int opcao;
 	opcao = gtk_combo_box_get_active(GTK_COMBO_BOX(doc_combo));
 	switch(opcao)
 	{
@@ -33,10 +32,9 @@ int escolha_doc()
 				gtk_widget_grab_focus(name_ter_field);
 				return 0;
 			}
-			
 			popup(NULL,"Você deve escolher um tipo de documento");
 			gtk_widget_grab_focus(doc_combo);
-			break;
+			return 1;
 		case 1:
 			tipo_doc = 1;
 			cnpj_terc();
@@ -46,6 +44,7 @@ int escolha_doc()
 			cpf_terc();
 			break;
 		case 3:
+			tipo_doc = 3;
 			doc_ter = malloc(MAX_CODE_LEN);
 			strcpy(doc_ter,"");				
 			gtk_widget_grab_focus(name_ter_field);

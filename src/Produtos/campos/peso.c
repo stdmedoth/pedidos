@@ -29,10 +29,10 @@ int peso_prod()
 		if(critica!=0)
 		{
 			gtk_widget_grab_focus(peso_prod_field);
-			vet_erro[PRC_ERR] = 1;
+			vet_erro[PES_ERR] = 1;
 			return 1;
 		}
-		vet_erro[PRC_ERR] = 0;
+		vet_erro[PES_ERR] = 0;
 		gtk_widget_grab_focus(unidade_prod_field);
 	}
 	g_print("peso: %s\n",pesos_prod);

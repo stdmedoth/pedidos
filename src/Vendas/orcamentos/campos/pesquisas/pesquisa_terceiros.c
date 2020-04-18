@@ -48,7 +48,7 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 	if(strlen(entrada)<=0)
 		return 0;
 
-	sprintf(query,"select code,razao,telefone from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,"select code,razao,telefone from terceiros where razao like '%c%s%c' or doc = '%s';",ascii,entrada,ascii,entrada);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -127,6 +127,7 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
 	alvoc =(GtkWidget*) ponteiro;
 	pesquisa = gtk_search_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(pesquisa),"Digite o Nome/CPF/CNPJ do Cliente");
 	g_print("Abrindo listagem\n");
 	lista_scroll_caixav = gtk_box_new(1,0);
 	lista_scroll_caixah = gtk_box_new(0,0);
@@ -171,7 +172,7 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 
 	gtk_container_add(GTK_CONTAINER(listar_ter),lista_scroll_windowh);
 	
-	g_signal_connect(pesquisa,"key-press-event",G_CALLBACK(recebe_terceiros),lista_scroll_caixav);
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_terceiros),lista_scroll_caixav);
 	g_signal_connect(listar_ter,"destroy",G_CALLBACK(close_window_callback),listar_ter);
 
 	gtk_widget_show_all(listar_ter);	
