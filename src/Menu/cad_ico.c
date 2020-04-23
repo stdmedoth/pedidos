@@ -11,6 +11,7 @@ int cad_ico()
 	trs_ico = gtk_image_new_from_file(TRS_IMG);
 	und_ico = gtk_image_new_from_file(UND_IMG);
 	ftr_ico = gtk_image_new_from_file(FATOR_IMG);
+	vin_ico = gtk_image_new_from_file(VINC_IMG);
 
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
@@ -20,7 +21,7 @@ int cad_ico()
 	trs_lbl = gtk_label_new("Nova Transação");
 	und_lbl = gtk_label_new("Nova Unidade Medida");
 	ftr_lbl = gtk_label_new("Novo Fator");
-	
+	vin_lbl = gtk_label_new("Verificar vinculos");
 	
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -69,6 +70,10 @@ int cad_ico()
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),ftr_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),ftr_ico,0,0,0);
 	
+	//icone verificar vinculos	
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_ico,0,0,0);
+	
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
 	
@@ -79,8 +84,10 @@ int cad_ico()
 	
 	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_oper),NULL);
 
-//	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
+	//g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
 	
 	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_fatores),NULL);
+	
+	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(vin_chaves),NULL);
 	return 0;
 }

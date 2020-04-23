@@ -4,6 +4,7 @@ int terci_tipo=0;
 
 int set_cliente()
 {
+	tipo_ter = malloc(MAX_TIPO_LEN);
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"Cliente");
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	
@@ -38,6 +39,7 @@ int set_cliente()
 
 int set_fornecedor()
 {
+	tipo_ter = malloc(MAX_TIPO_LEN);
 	gtk_entry_set_text(GTK_ENTRY(type_ter_field),"Fornecedor");
 	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	if(strlen(tipo_ter)>MAX_TIPO_LEN)

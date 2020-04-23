@@ -6,6 +6,7 @@ int obs()
 	if(buffer == NULL)
 	{
 		popup(NULL,"erro");
+		vet_erro[OBS_ERR] = 1;
 		return 1;
 	}
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffer),&inicio,&fim);
@@ -17,6 +18,7 @@ int obs()
 			vet_erro[OBS_ERR] = 1;
 			return 1;
 	}
+	vet_erro[OBS_ERR] = 0;
 	gtk_widget_grab_focus(concluir_ter_buttom);
 	return 0;
 }

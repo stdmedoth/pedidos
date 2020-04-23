@@ -1,34 +1,65 @@
-int apagar_chaves()
+int verifica_chaves()
 {
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
 	gchar *cod_delel;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
-	sprintf(query,"delete from precos where terceiro = '%s';",cod_delel);
-	if(enviar_query(query)!=0)
+	//cliente - precos
+	sprintf(query,"select * from precos where terceiro = '%s';",cod_delel);
+	vetor = consultar(query);
+	if(vetor ==NULL)
 	{
-		popup(NULL,"Erro ao tentar excluir vinculo de\n\tpreços para o terceiro");
+		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
-	}
-	sprintf(query,"delete from produtos where fornecedor = '%s';",cod_delel);
-	if(enviar_query(query)!=0)
+	}	
+	if((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		popup(NULL,"Erro ao tentar excluir vinculo de\n\tproduto para o terceiro");
-		return 1;
-	}
-	sprintf(query,"delete from pedidos where cliente = '%s';",cod_delel);
-	if(enviar_query(query)!=0)
-	{
-		popup(NULL,"Erro ao tentar excluir pedidos para o terceiro");
+		popup(NULL,"Existem Precos para esse Cliente");
 		return 1;
 	}
 	
-	sprintf(query,"delete from pedidos where vendedor = '%s';",cod_delel);
-	if(enviar_query(query)!=0)
+	//fornecedor - produtos
+	sprintf(query,"select * from produtos where fornecedor = '%s';",cod_delel);
+	vetor = consultar(query);
+	if(vetor ==NULL)
 	{
-		popup(NULL,"Erro ao tentar excluir pedidos para o terceiro");
+		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
 	}	
+	if((campos = mysql_fetch_row(vetor))!=NULL)
+	{
+		popup(NULL,"Existem Produtos para esse Fornecedor");
+		return 1;
+	}
+	
+	//cliente - pedidos
+	sprintf(query,"select from pedidos where cliente = '%s';",cod_delel);
+	vetor = consultar(query);
+	if(vetor ==NULL)
+	{
+		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
+		return 1;
+	}	
+	if((campos = mysql_fetch_row(vetor))!=NULL)
+	{
+		popup(NULL,"Existem Pedidos para esse cliente");
+		return 1;
+	}
+	
+	//pedidos - vendedor
+	sprintf(query,"select * from pedidos where vendedor = '%s';",cod_delel);
+	vetor = consultar(query);
+	if(vetor ==NULL)
+	{
+		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
+		return 1;
+	}	
+	if((campos = mysql_fetch_row(vetor))!=NULL)
+	{
+		popup(NULL,"Existem Pedidos para esse vendedor");
+		return 1;
+	}
+	
 	return 0;
 }
 int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
@@ -67,7 +98,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		return 1;
 	}
 	
-	if(apagar_chaves()!=0)
+	if(verifica_chaves()!=0)
 		return 1;
 	sprintf(query,"delete from terceiros where code = '%s';",cod_delel);
 	if(enviar_query(query)!=0)

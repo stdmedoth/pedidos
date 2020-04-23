@@ -1,4 +1,4 @@
-#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c';"
+#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c' ;"
 GtkWidget *lista_ter,*caixona,*colunasc;
 int scrolled = 0;
 GtkWidget *pesquisa;
@@ -339,7 +339,7 @@ int rec_ter_list()
 	contatoe_list_label = gtk_label_new("Contato Email\n");	
 	gtk_widget_set_name(GTK_WIDGET(contatoe_list_label),"colunas");
 	
-	prazo_list_label = gtk_label_new("Prazo");
+	prazo_list_label = gtk_label_new("Prazo\n");
 	gtk_widget_set_name(GTK_WIDGET(prazo_list_label),"colunas");
 	
 	obs_list_label = gtk_label_new("Observações\n");	

@@ -1,6 +1,5 @@
 int codigo_orc()
 {
-	char query[MAX_QUERY_LEN];
 	codigo_orc_gchar = malloc(MAX_CODE_LEN);
 	codigo_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_orc_entry));
 	if(strlen(codigo_orc_gchar)<=0)

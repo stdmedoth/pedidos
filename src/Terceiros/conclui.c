@@ -8,68 +8,87 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	int cont;
 	if(code_terc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(code_ter_field);
 		return 1;	
 	}
 	if(name_terc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(name_ter_field);
 		return 1;
 	}
 	if(escolha_doc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
 	
 	if(cep_terc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(cep_ter_field);
 		return 1;
 	}
 	if(address_terc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(address_ter_field);
+		return 1;
+	}
+	if(numrua()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(address_num_field);
 		return 1;
 	}
 	if(cel()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(celular_ter_field);
 		return 1;
 	}
 	if(tel()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(telefone_ter_field);
 		return 1;
 	}
 	
 	if(contc()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(contatoc_ter_field);
 		return 1;
 	}
 	if(contt()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(contatot_ter_field);
 		return 1;
 	}
 	if(email_fun()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(email_ter_field);
 		return 1;
 	}
 	if(contato_email()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 		gtk_widget_grab_focus(contatoe_ter_field);
 		return 1;
 	}
 	if(prazo_fun()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(prazo_ter_field);
 		return 1;
 	}
 	if(obs()!=0)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(observacoes_ter_field);
 		return 1;
 	}
@@ -163,6 +182,10 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
@@ -175,7 +198,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_text_buffer_get_end_iter (buffer,&fim);
 	gtk_text_buffer_delete (buffer,&inicio,&fim);	
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
-
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 	printf("finalizando conclui_ter()\n");
 	autologger("O cadastro nao foi feito\nverifique os campos");
 //	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));

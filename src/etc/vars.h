@@ -58,6 +58,7 @@
 #define UND_IMG       "/petitto/files/icones_opc/unidade.png" 
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
+#define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "/petitto/files/impressao/pdf.exe"
 #endif
@@ -106,6 +107,7 @@
 #define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"  
 #define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"  
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
+#define VINC_IMG      "/usr/share/petitto/files/icones_opc/vinculos.png"
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_REC       "/usr/share/petitto/files/opcoes_padrao/recarregar.png"
 #define IMG_GERA      "/usr/share/petitto/files/opcoes_padrao/geracao.png"
@@ -174,6 +176,7 @@
 #define MAX_OPER_LEN 30
 #define MAX_SEN_LEN 30
 #define MAX_DATE_LEN 8
+#define MAX_FETCH_ROW 3000
 GtkWidget *acao_atual,*acao_atual2;
 
 GtkTextBuffer *buffer;

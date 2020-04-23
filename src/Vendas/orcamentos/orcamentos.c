@@ -4,15 +4,6 @@ int alterando_orc=0;
 
 int gerar_total_geral()
 {
-	if(ativos_qnt>0)
-	{
-		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
-	}
-	else
-	{
-		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-	}
-	
 	char *muda_label;
 	total_geral_orc = 0;
 	desconto_geral_orc =0 ;
@@ -68,16 +59,27 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 			}
 		}
 	}
+	
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
 	g_print("linha deletada %i\n",id_ponteiro);
 	ativos_qnt--;
+	if(ativos_qnt>1)
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
+	}
+	
 	gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
 	return 0;
 }
 
 int adicionar_linha_orc()
 {		
+	g_print("iniciando adicionar_linha_orc()\n");
 	if(ativos[itens_qnt-1].id == 1)
 	{
 		int cont;
@@ -85,18 +87,22 @@ int adicionar_linha_orc()
 			return 1;
 		if(codigo_cli_orc()!=0)
 			return 1;
-		if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
-			return 1;
-		if(qnt_prod_orc(qnt_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
-			return 1;
-		if(preco_prod_orc(preco_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
-			return 1;
+		if(GTK_IS_WIDGET(codigo_prod_orc_entry[itens_qnt-1]))
+			if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+				return 1;
+		if(GTK_IS_WIDGET(qnt_prod_orc_entry[itens_qnt-1]))	
+			if(qnt_prod_orc(qnt_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+				return 1;
+		if(GTK_IS_WIDGET(preco_prod_orc_entry[itens_qnt-1]))	
+			if(preco_prod_orc(preco_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+				return 1;
 		for(cont=0;cont<=CAMPOS_QNT;cont++)
 		{
 			if(vet_erro[cont]!=0)
 				return 1;
 		}		
 	}
+	
 	gerar_total_geral();
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
@@ -172,10 +178,23 @@ int adicionar_linha_orc()
 	id_vetor[itens_qnt] = itens_qnt;
 	ativos[itens_qnt].id = 1;
 	excluidos[itens_qnt].id = 0;
-	ativos_qnt++;
-	gtk_widget_set_sensitive(botao_menos[itens_qnt-1],TRUE);
-	gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
+	ativos_qnt++;	
 	
+	if(alterando_orc==0)
+	{
+		if(GTK_IS_BUTTON(botao_menos[itens_qnt-1]))
+			gtk_widget_set_sensitive(botao_menos[itens_qnt-1],TRUE);
+		gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);	
+	}
+	if(ativos_qnt>1)
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
+	}	
+
 	#pragma GCC diagnostic ignored "-Wint-conversion"
 	g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
@@ -192,6 +211,7 @@ int adicionar_linha_orc()
 	gtk_widget_grab_focus(codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 	itens_qnt++;
 	gtk_widget_show_all(janela_orcamento);	
+	g_print("finalizando adicionar_linha_orc()\n");
 	return 0;
 }
 
@@ -207,9 +227,13 @@ int vnd_orc()
 	gtk_widget_set_size_request(janela_orcamento,1250,600);
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
+	
 	itens_qnt = 1;
 	cont=1;
 	ativos_qnt=1;
+	rec_altera_qnt=1;
+	alterando_orc = 0;
+	
 	item_frame_char = malloc(strlen("Item ")+10);
 	
 	orc_infos_fixed = gtk_fixed_new();
@@ -481,7 +505,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt-1]),botao_orc_mais,0,0,2);
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 	gtk_widget_set_size_request(prod_scroll_box,1100,600);
-	
+		
 	#ifdef WIN32
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(prod_scroll_window),prod_scroll_box);
 	#endif

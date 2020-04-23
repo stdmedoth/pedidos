@@ -7,15 +7,6 @@ int address_terc()
 		{
 			endereco_ter = malloc(sizeof(char*)*MAX_ADR_LEN);
 			strcpy(endereco_ter,"");
-			tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
-			if((strlen(tipo_ter))<=0)
-			{
-				gtk_widget_grab_focus(type_ter_field);
-			}
-			else
-			{
-				gtk_widget_grab_focus(celular_ter_field);
-			}	
 			vet_erro[END_ERR] = 0;
 			return 0;
 		}
@@ -34,15 +25,7 @@ int address_terc()
 	else
 	{
 		vet_erro[END_ERR]=0;
-		tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
-		if((strlen(tipo_ter))<=0)
-		{
-			gtk_widget_grab_focus(type_ter_field);
-		}
-		else
-		{
-			gtk_widget_grab_focus(prazo_ter_field);
-		}
+		gtk_widget_grab_focus(cidade_ter_field);
 	}
 	g_print("endereco: %s\n",endereco_ter);
 	return 0;

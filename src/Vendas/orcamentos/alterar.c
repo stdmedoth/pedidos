@@ -1,6 +1,7 @@
 int altera_orc()
 {
 	char *query;
+	int remover_linha_orc(GtkWidget *widget,int id_ponteiro);
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	if(codigo_orc()!=0)
@@ -24,21 +25,45 @@ int altera_orc()
 	sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
 	if((res = consultar(query))==NULL)
 	{
-		popup(NULL,"Erro os itens no orçamento");
+		popup(NULL,"Erro nos itens do orçamento");
 		return 1;
 	}
+	
+	alterando_orc=1;
+	
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 		g_print("Adicionando item %s\n", row[1]);
-		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[1])]),row[2]);
-		gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[1])]),row[3]);
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]),row[4]);
-		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]),row[3]);
-		gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[6]);
-		adicionar_linha_orc();		
+		
+		if(atoi(row[1])>=2)
+		{
+			if(rec_altera_qnt==1)
+			{
+				remover_linha_orc(NULL,1);			
+			}
+			
+			itens_qnt = atoi(row[1]);
+			adicionar_linha_orc();
+		}
+		
+		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[1])]))
+			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[1])]),row[2]);
+
+		if(GTK_IS_ENTRY(qnt_prod_orc_entry[atoi(row[1])]))
+			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[1])]),row[3]);
+		
+		if(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]))
+			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]),row[4]);
+
+		if(GTK_IS_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]))
+			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]),row[3]);
+
+		if(GTK_IS_ENTRY(total_prod_orc_entry[atoi(row[1])]))
+			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[6]);
+				
+		rec_altera_qnt++;
 	}
-	alterando_orc=1;
-	
+
 	
 	return 0;	
 }

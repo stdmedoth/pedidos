@@ -10,13 +10,14 @@ static int inclui_codigoc(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 	return 0;
 }
 
-static GtkWidget *colunas_pesquisac;
-static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
+static GtkWidget *colunas_pesquisa_oc;
+static int recebe_terceiros(GtkWidget *widget,gpointer lista_scroll_caixav)
 {
 	int cont=0;
 	int pos=0;
-	char **vet_codigosc;
-	GtkWidget **evento, **codigop, **nomep, **telefone;
+	char **vet_codigos_oc;
+	GtkWidget **evento_oc, **codigo_oc, **nome_oc, **telefone_oc;
+	GtkWidget ***separadores_oc;	
 	
 	GtkWidget          
 	*codigo_ter_list_label,
@@ -28,11 +29,13 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 	*nome_ter_list,
 	*telefone_ter_list;
 
-	vet_codigosc = malloc(sizeof(gchar*)*MAX_LINHAS);
-	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
-	codigop = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	nomep = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
-	telefone = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+
+	separadores_oc = malloc(sizeof(GtkSeparator*)*MAX_LINHAS);
+	vet_codigos_oc = malloc(sizeof(gchar*)*MAX_LINHAS);
+	evento_oc = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
+	codigo_oc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	nome_oc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
+	telefone_oc = malloc(sizeof(GtkLabel*)*MAX_LINHAS);
 
 	char query[QUERY_LEN];
 	gchar *entrada;
@@ -41,10 +44,16 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 
-	if(GTK_IS_WIDGET(colunas_pesquisac))
-		gtk_widget_destroy(colunas_pesquisac);
+	GList *children,*iter;
+	if(GTK_IS_WIDGET(colunas_pesquisa_oc))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(colunas_pesquisa_oc));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+	}
 	
-	colunas_pesquisac = gtk_box_new(0,0);	
+	colunas_pesquisa_oc = gtk_box_new(0,0);	
 	if(strlen(entrada)<=0)
 		return 0;
 
@@ -55,30 +64,30 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 		g_print("Nada encontrado %s na pesquisa\n",entrada);
 		return 0;
 	}
-	
+	g_print("Iniciando recebimento dos campos\n");
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		separadoresvp[cont] = malloc(sizeof(GtkSeparator*)*MAX_LINHAS*ROWS_QNT);
-		evento[cont] = gtk_event_box_new();
+		separadores_oc[cont] = malloc(sizeof(GtkSeparator*)*MAX_LINHAS*ROWS_QNT);
+		evento_oc[cont] = gtk_event_box_new();
 		
-		vet_codigosc[cont] = malloc(CODE_LEN);	
-		strcpy(vet_codigosc[cont],campos[0]);
+		vet_codigos_oc[cont] = malloc(CODE_LEN);	
+		strcpy(vet_codigos_oc[cont],campos[0]);
 
-		codigop[cont] = gtk_label_new(campos[0]);
-		separadoresvp[cont][0] = gtk_separator_new(0);
+		codigo_oc[cont] = gtk_label_new(campos[0]);
+		separadores_oc[cont][0] = gtk_separator_new(0);
 		
-		nomep[cont] =  gtk_label_new(campos[1]);
-		separadoresvp[cont][1] = gtk_separator_new(0);
+		nome_oc[cont] =  gtk_label_new(campos[1]);
+		separadores_oc[cont][1] = gtk_separator_new(0);
 		
-		telefone[cont] = gtk_label_new(campos[2]);
-		separadoresvp[cont][2] = gtk_separator_new(0);
+		telefone_oc[cont] = gtk_label_new(campos[2]);
+		separadores_oc[cont][2] = gtk_separator_new(0);
 		
 		cont++;
 	}
 	if(cont==0)
 		return 0;
 	
-	
+	g_print("Preparando colunas\n");
 	codigo_ter_list = gtk_box_new(1,0);
 	nome_ter_list = gtk_box_new(1,0);
 	telefone_ter_list = gtk_box_new(1,0);
@@ -91,32 +100,33 @@ static int recebe_terceiros(GtkWidget *widget,GdkEvent *event,gpointer lista_scr
 	gtk_box_pack_start(GTK_BOX(nome_ter_list),nome_ter_list_label,0,0,0);		//mudou por causa de conflito
 	gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone_ter_list_label,0,0,0);
 	
+	g_print("Encaixotamento dos Widgets\n");
 	while(pos<cont)
 	{
-
-		gtk_container_add(GTK_CONTAINER(evento[pos]),codigop[pos]);
-		gtk_box_pack_start(GTK_BOX(codigo_ter_list),evento[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(codigo_ter_list),separadoresvp[pos][0],0,0,10);
+		gtk_container_add(GTK_CONTAINER(evento_oc[pos]),codigo_oc[pos]);
+		gtk_box_pack_start(GTK_BOX(codigo_ter_list),evento_oc[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(codigo_ter_list),separadores_oc[pos][0],0,0,10);
 		
-		gtk_box_pack_start(GTK_BOX(nome_ter_list),nomep[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(nome_ter_list),separadoresvp[pos][1],0,0,10);
+		gtk_box_pack_start(GTK_BOX(nome_ter_list),nome_oc[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(nome_ter_list),separadores_oc[pos][1],0,0,10);
 	
-		gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadoresvp[pos][2],0,0,10);
+		gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone_oc[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadores_oc[pos][2],0,0,10);
 			
-		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(inclui_codigoc),vet_codigosc[pos]);
+		g_signal_connect(evento_oc[pos],"button-press-event",G_CALLBACK(inclui_codigoc),vet_codigos_oc[pos]);
 		pos++;
 	}
 	gtk_widget_set_size_request(codigo_ter_list,70,30);
 	gtk_widget_set_size_request(nome_ter_list,70,30);
 	gtk_widget_set_size_request(telefone_ter_list,70,30);
 	
-	gtk_box_pack_start(GTK_BOX(colunas_pesquisac),codigo_ter_list,0,0,10);
-	gtk_box_pack_start(GTK_BOX(colunas_pesquisac),nome_ter_list,0,0,10);
-	gtk_box_pack_start(GTK_BOX(colunas_pesquisac),telefone_ter_list,0,0,10);
-	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunas_pesquisac,0,0,20);
-	gtk_widget_show_all(colunas_pesquisac);
+	gtk_box_pack_start(GTK_BOX(colunas_pesquisa_oc),codigo_ter_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunas_pesquisa_oc),nome_ter_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunas_pesquisa_oc),telefone_ter_list,0,0,10);
+
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunas_pesquisa_oc,0,0,20);
+	gtk_widget_show_all(lista_scroll_caixav);
+	g_print("Campos inseridos dos campos\n");
 	return 0;
 }
 
@@ -162,7 +172,7 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	#endif	
 	
 	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_windowv,0,0,20);
-	
+
 	#ifdef WIN32
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixah);
 	#endif
@@ -170,12 +180,12 @@ static int listar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
 	#endif	
 
-	gtk_container_add(GTK_CONTAINER(listar_ter),lista_scroll_windowh);
 	
 	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_terceiros),lista_scroll_caixav);
 	g_signal_connect(listar_ter,"destroy",G_CALLBACK(close_window_callback),listar_ter);
-
+	gtk_container_add(GTK_CONTAINER(listar_ter),lista_scroll_windowh);
 	gtk_widget_show_all(listar_ter);	
+	
 	return 0;
 }
 

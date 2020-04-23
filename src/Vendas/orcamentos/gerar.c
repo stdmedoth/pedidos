@@ -12,8 +12,10 @@ static char*gerando_file;
 
 int iniciar_impressao(char *gerado)
 {
+	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 	char *chamada;
 	chamada = malloc(strlen(gerando_file));
+	#pragma GCC diagnostic warning "-Wunused-but-set-variable"
 	g_print("%s para impressora\n",gerado);	
 	#ifdef WIN32
 	g_print("%s para LPT1\n",gerado);
@@ -147,18 +149,16 @@ int escolher_finalizacao()
 int gerar_orc()
 {
 	g_print("gerando orçamento...\n");
-	int cont,error,nav=1;
+	int cont;
 	char *query;
 
-	char *abrir;
-	FILE *navegador;
 	int erro;
 	char *formata_float;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	abrir = malloc(MAX_PATH_LEN*2);
+	
 	gerando_file = malloc(MAX_PATH_LEN*2);
 	formata_float = malloc(MAX_PRECO_LEN);
 	

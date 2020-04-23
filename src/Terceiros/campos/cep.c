@@ -30,7 +30,7 @@ int cep_terc()
 	}
 	if(strlen(cep_ter)!=CEP_LEN)
 	{
-		popup(NULL,"Insira o CEP com apenas numeros");
+		popup(NULL,"Insira o CEP com formato indicado");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
 	}

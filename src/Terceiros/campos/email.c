@@ -23,7 +23,8 @@ int contato_email()
 		return 1;
 	}
 	vet_erro[CNE_ERR] = 0;
-	gtk_widget_grab_focus(observacoes_ter_field);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
+	//inserir campo aqui
 	return 0;	
 }
 int email_fun()

@@ -1,6 +1,6 @@
 int prazo_fun()
 {
-	prazo_ter = gtk_entry_get_text(GTK_ENTRY(prazo_ter_field));
+	prazo_ter = (gchar*) gtk_entry_get_text(GTK_ENTRY(prazo_ter_field));
 	if(strlen(prazo_ter)<=0)
 	{
 		popup(NULL,"Insira uma data para o prazo do cliente");
@@ -9,6 +9,7 @@ int prazo_fun()
 	}
 	
 	vet_erro[PRAZ_ERR] = 0;
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 	gtk_widget_grab_focus(celular_ter_field);
 	return 0;
 }

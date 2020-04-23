@@ -1,7 +1,6 @@
 int preco_prod()
 {
 	int critica=0;
-	float precof=0;
 	precos_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(preco_prod_field));
 	if(strlen(precos_prod)>MAX_PRECO_LEN)
 	{

@@ -37,11 +37,13 @@ int escolha_doc()
 			return 1;
 		case 1:
 			tipo_doc = 1;
-			cnpj_terc();
+			if(cnpj_terc()!=0)
+				return 1;
 			break;
 		case 2:
 			tipo_doc = 2;
-			cpf_terc();
+			if(cpf_terc()!=0)
+				return 1;
 			break;
 		case 3:
 			tipo_doc = 3;

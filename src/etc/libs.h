@@ -7,6 +7,7 @@
 #include "operadores.c"
 #include "parametros.c"
 #include "../Canones/Cadastro_Operadores.c"
+#include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
 #include "../Inicio/pega_data.c"
 #include "../Terceiros/cadastro_terceiros.c"

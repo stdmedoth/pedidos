@@ -86,6 +86,7 @@ MYSQL_RES *consultar(char *query)
 		}
 		primeira_conexao=1;
 	}
+	g_print("%s\n",query);
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
