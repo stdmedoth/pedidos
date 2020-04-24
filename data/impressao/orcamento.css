@@ -39,25 +39,37 @@
 	margin-left: 50px;
 	margin-right: 50px;
 }
+#pula-linha
+{
+	height:10px;
+	border: solid 0px white;
+}
 #campo-itens
 {
 	padding: 20px;
-	border: dotted 1px gainsboro;
+	border: dotted 1px grey;
 	margin-top: 500px;
 	margin-left: 50px;
 	margin-right: 50px;
-	width: 100%;
 }
+
 #campo-itens:hover
 {
 	border-radius: 10px; 
 }
+
+#coluna-colorida
+{
+	background: Gainsboro;
+}
+
 table,tr,td
 {
 	padding: 10px;
 	border-collapse: collapse;
-	border: outset 1px black;
+	border: outset 1px grey;
 }
+
 td:hover
 {
 	background: lightgrey;
@@ -90,6 +102,7 @@ td:hover
 #total-geral
 {
 	margin-top: 5px;
+	text-align: right;
 }
 #separator
 {
@@ -100,22 +113,21 @@ td:hover
 {
 	margin-top: 5px;
 	margin-left: 5px;
+	margin-right: 5px;
 	margin-bottom: 5px;
 	border: solid 1px grey;
-	width: 550px;
-	height: 150px;
-	padding: 20px;	
+	padding: 20px;
+	height: 90px;	
 	background: #ffffff;
 }
 
 #obs-div1
 {
 	border: solid 1px grey;
-	width: 600px;
-	height: auto;
-	margin-top: 20px;
+	margin-top: 50px;
 	margin-left: 50px;
 	margin-right: 50px;
+	height: 150px;
 	background: Lightgrey;
 }
 

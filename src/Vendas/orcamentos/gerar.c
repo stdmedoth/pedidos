@@ -5,7 +5,6 @@
 #define BROTHER_IMP 1
 #define SAMSUNG_IMP 2
 int imp_opc=0;
-
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3,*botao_radio4;
 static char*gerando_file;
@@ -149,16 +148,16 @@ int escolher_finalizacao()
 int gerar_orc()
 {
 	g_print("gerando orçamento...\n");
-	int cont;
+	int cont,color=0;
 	char *query;
-
+	int conta_linhas=0;
 	int erro;
 	char *formata_float;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	
+	conta_linhas = 0;
 	gerando_file = malloc(MAX_PATH_LEN*2);
 	formata_float = malloc(MAX_PRECO_LEN);
 	
@@ -299,7 +298,7 @@ int gerar_orc()
 	
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
-	sprintf(query,"select p.nome,o.unidades,u.nome,o.valor_unit,o.desconto,o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
+	sprintf(query,"select p.code,p.nome,o.unidades,u.nome,o.valor_unit,o.desconto,o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -317,9 +316,9 @@ int gerar_orc()
 	fprintf(orc,"<div id=\"campo-itens\">\n");
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
-	fprintf(orc,"<td id=\"prod-row1\"></td>\n");
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Produto</td>\n",IMG_IMP_PROD);
+	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);  
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade</td>\n",IMG_IMP_QNT);  
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Produto</td>\n",IMG_IMP_PROD);
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Preco</td>\n",IMG_MONEY);
 	fprintf(orc,"<td id=\"prod-row1\">Desconto </td>\n");
 	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
@@ -327,18 +326,22 @@ int gerar_orc()
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		fprintf(orc,"<tr>\n");
-		fprintf(orc,"<td>Item %i</td>\n",cont);
-		fprintf(orc,"<td>%s</td>\n",campos[0]);
-		
-		fprintf(orc,"<td>%s %s</td>\n",campos[1],campos[2]);  
-		
-		sprintf(formata_float,"%s",campos[3]);
-		critica_real(formata_float,NULL);
-		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
-		
+		if(color==1)
+		{
+			fprintf(orc,"<tr id=\"coluna-colorida\">\n");		
+			color=0;
+		}
+		else
+		{
+			fprintf(orc,"<tr>\n");		
+			color=1;
+		}
+		if(campos[3][strlen(campos[3])-1] != 's'&&atoi(campos[2])>1)
+			fprintf(orc,"<td>%s %ss</td>\n",campos[2],campos[3]);  
+		else
+			fprintf(orc,"<td>%s %s</td>\n",campos[2],campos[3]);  
+		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],campos[1]);
 		sprintf(formata_float,"%s",campos[4]);
-		g_print("campos[4] : %s\n",campos[4]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
 		
@@ -346,7 +349,25 @@ int gerar_orc()
 		g_print("campos[5] : %s\n",campos[5]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
+		
+		sprintf(formata_float,"%s",campos[6]);
+		g_print("campos[5] : %s\n",campos[6]);
+		critica_real(formata_float,NULL);
+		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
 		fprintf(orc,"</tr>\n");
+		conta_linhas++;
+		g_print("linha %i\n",conta_linhas);
+		if(conta_linhas>=12)
+		{
+			for(int row1=0;row1<5;row1++)
+			{
+				fprintf(orc,"<tr id=\"pula-linha\">\n");
+				for(int row2=0;row2<5;row2++)
+					fprintf(orc,"<td id=\"pula-linha\"></td>\n");
+				fprintf(orc,"</tr>\n");
+			}
+			conta_linhas=-10;
+		}
 		cont++;
 	}
 	if(cont == 0)
@@ -370,9 +391,12 @@ int gerar_orc()
 		return 1;
 	}
 	sprintf(formata_float,"%s",row[0]);
-	critica_real(formata_float,NULL);
-		
-	fprintf(orc,"<td id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));	
+	//critica_real(formata_float,NULL);
+	//fprintf(orc,"<td></td>\n");	
+	//fprintf(orc,"<td></td>\n");	
+	//fprintf(orc,"<td></td>\n");	
+	//fprintf(orc,"<td></td>\n");	
+	fprintf(orc,"<td  colspan=\"5\" id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));	
 	fprintf(orc,"</table>\n");
 
 	fprintf(orc,"<div>\n");
@@ -383,7 +407,7 @@ int gerar_orc()
 	fprintf(orc,"<div id=\"obs-div1\">\n");
 	fprintf(orc,"Observacões\n");
 	fprintf(orc,"<div id=\"obs-div2\">\n");
-	fprintf(orc,"%s",observacoes_orc_gchar);
+	fprintf(orc,"Cod. Cliente : %s %s",cliente_orc_gchar,observacoes_orc_gchar);
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");

@@ -228,6 +228,7 @@ int vnd_orc()
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
 	
+	alerta_obs = 0;
 	itens_qnt = 1;
 	cont=1;
 	ativos_qnt=1;

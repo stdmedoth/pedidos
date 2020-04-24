@@ -1,3 +1,4 @@
+static int alerta_obs=0;
 gchar *orc_ter_obs_char;
 void ter_alert_obs()
 {
@@ -69,8 +70,11 @@ int codigo_cli_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);
 	strcpy(orc_ter_obs_char,campos[3]);
-	if(strlen(orc_ter_obs_char)>0)
+	if(strlen(orc_ter_obs_char)>0&&alerta_obs==0)
+	{
 		ter_alert_obs();
+		alerta_obs = 1;
+	}
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
 		gtk_widget_grab_focus(codigo_prod_orc_entry[1]);
 	return 0;
