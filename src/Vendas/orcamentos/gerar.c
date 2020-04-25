@@ -153,14 +153,18 @@ int gerar_orc()
 	char *query;
 	int conta_linhas=0;
 	int erro;
-	char *formata_float;
+	char *formata_float,*formata_float2,*formata_float3;
+	float chartofloat,totalfloat;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	conta_linhas = 0;
 	gerando_file = malloc(MAX_PATH_LEN*2);
-	formata_float = malloc(MAX_PRECO_LEN);
+	
+	formata_float = malloc(MAX_PRECO_LEN); //desconto
+	formata_float2 = malloc(MAX_PRECO_LEN); //quantidade
+	formata_float3 = malloc(MAX_PRECO_LEN); //preco
 	
 	query = malloc(MAX_QUERY_LEN);
 	if(codigo_orc()!=0)
@@ -210,7 +214,7 @@ int gerar_orc()
 					strcpy(ativos[cont].desconto_c,"0.0");
 				}
 				
-				sprintf(query,"insert into Produto_Orcamento(code,item,produto,unidades,valor_unit,desconto,total) values(%s,%i,%i,%s,%s,%s,%s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].desconto_c ,ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code, item, produto, unidades, valor_unit, tipodesc, desconto, total) values(%s, %i, %i, %s, %s, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{
@@ -300,7 +304,7 @@ int gerar_orc()
 	
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
-	sprintf(query,"select p.code,p.nome,o.unidades,u.nome,o.valor_unit,o.desconto,o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
+	sprintf(query,"select p.code,p.nome,o.unidades,u.nome,o.valor_unit,o.tipodesc,o.desconto,o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -347,15 +351,38 @@ int gerar_orc()
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
 		
-		sprintf(formata_float,"%s",campos[5]);
-		g_print("campos[5] : %s\n",campos[5]);
-		critica_real(formata_float,NULL);
-		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
+		if(atoi(campos[5])==0)
+		{
+			sprintf(formata_float,"%s",campos[6]);//pega desconto
+			g_print("campos[5] : %s\n",campos[6]);
+			critica_real(formata_float,NULL);
+			
+			sprintf(formata_float2,"%s",campos[2]);//pega quantidade
+			sprintf(formata_float3,"%s",campos[4]);//pega preco
+			critica_real(formata_float2,NULL);
+			critica_real(formata_float3,NULL);
+			totalfloat = atof(formata_float2)*atof(formata_float3);
+			
+			//conversao de R$ para %
+			//2.2 = 100
+			//1.1 = x
+			
+			chartofloat = (atof(formata_float)*100)/totalfloat;
+			fprintf(orc,"<td>%.2f %c</td>\n",chartofloat,37);//desconto em R$
+		}
+		else
+		if(atoi(campos[5])==1)
+		{
+			sprintf(formata_float,"%s",campos[6]);
+			g_print("campos[5] : %s\n",campos[6]);
+			critica_real(formata_float,NULL);
+			fprintf(orc,"<td>%.2f %c</td>\n",atof(formata_float),37);//desconto em %
+		}
 		
-		sprintf(formata_float,"%s",campos[6]);
-		g_print("campos[5] : %s\n",campos[6]);
+		sprintf(formata_float,"%s",campos[7]);
+		g_print("campos[5] : %s\n",campos[7]);
 		critica_real(formata_float,NULL);
-		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
+		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));//total
 		fprintf(orc,"</tr>\n");
 		conta_linhas++;
 		g_print("linha %i\n",conta_linhas);

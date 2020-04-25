@@ -2,7 +2,7 @@ int altera_orc()
 {
 	char *query;
 	int cont=1;
-	int remover_linha_orc(GtkWidget *widget,int id_ponteiro);
+	int tirar_linha(int);
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	if(codigo_orc()!=0)
@@ -29,13 +29,14 @@ int altera_orc()
 		popup(NULL,"Erro nos itens do orçamento");
 		return 1;
 	}
+	
 	while(cont<=itens_qnt)
 	{
 		if(ativos[cont].id==1)
 		{
 			ativos[cont].id = 0;
 			excluidos[cont].id = 1;
-			remover_linha_orc(NULL,cont);			
+			tirar_linha(cont);			
 		}
 		cont++;
 	}
@@ -51,7 +52,7 @@ int altera_orc()
 		{
 			if(rec_altera_qnt==1)
 			{
-				remover_linha_orc(NULL,1);			
+				tirar_linha(1);	
 			}
 			
 			itens_qnt = atoi(row[1]);
@@ -59,20 +60,20 @@ int altera_orc()
 		}
 		
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[1])]))
+		{
 			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[1])]),row[2]);
-
-		if(GTK_IS_ENTRY(qnt_prod_orc_entry[atoi(row[1])]))
 			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[1])]),row[3]);
-		
-		if(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]))
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]),row[4]);
-
-		if(GTK_IS_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]))
-			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[1])]),row[3]);
-
-		if(GTK_IS_ENTRY(total_prod_orc_entry[atoi(row[1])]))
-			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[6]);
-				
+			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[1])]),atoi(row[5]));
+			gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[1])]),row[6]);
+			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[7]);
+			
+			//criticar campos
+			codigo_prod_orc(codigo_prod_orc_entry[atoi(row[1])],atoi(row[1]));
+			qnt_prod_orc(qnt_prod_orc_entry[atoi(row[1])],atoi(row[1]));
+			preco_prod_orc(preco_prod_orc_entry[atoi(row[1])],atoi(row[1]));
+			total_prod_orc(total_prod_orc_entry[atoi(row[1])],atoi(row[1]));
+		}
 		rec_altera_qnt++;
 	}
 

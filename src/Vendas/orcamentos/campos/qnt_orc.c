@@ -2,6 +2,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 {
 	int desconto_prod_orc(GtkWidget*,int);
 	char query[MAX_QUERY_LEN];
+	int tipodesc;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	preco_prod_orc_gchar = malloc(sizeof(char*)*MAX_PRECO_LEN);
@@ -24,6 +25,16 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	codigo_cli_orc();
 	if(preco_alterado[posicao]==0)
 	{
+		if(strlen(cliente_orc_gchar)<=0)
+		{
+			popup(NULL,"Cliente não inserido");
+			gtk_widget_grab_focus(cliente_orc_entry);
+			return 0;
+		}
+		if(strlen(codigo_prod_orc_gchar)<=0)
+		{
+			codigo_prod_orc(codigo_prod_orc_entry[posicao],posicao);
+		}
 		sprintf(query,"select valor from precos where terceiro = %s and produto = %s",cliente_orc_gchar,codigo_prod_orc_gchar);
 		vetor = consultar(query);
 		if(vetor==NULL)
@@ -121,15 +132,23 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	g_print("float preco %.2f\n",ativos[posicao].preco_f);
 
 	
-	ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
-	strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
-	critica_real(ativos[posicao].desconto_c,desconto_prod_orc_entry[posicao]);
-	g_print("float desconto %.2f\n",ativos[posicao].preco_f);
-
+	tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
+	if(tipodesc==0)
+	{
+		ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
+		strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
+		critica_real(ativos[posicao].desconto_c,desconto_prod_orc_entry[posicao]);
+	}
+	else
+	if(tipodesc==1)
+	{
+		ativos[posicao].desconto_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))*(atof(desconto_prod_orc_gchar)/100);
+		strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
+		critica_real(ativos[posicao].desconto_c,desconto_prod_orc_entry[posicao]);
+	}
 	g_print("Total: ");
 	ativos[posicao].total_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))-ativos[posicao].desconto_f;
 	g_print("float: %.2f ",ativos[posicao].total_f);
-	
 	
 	sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
 	g_print("string: %s \n",total_prod_orc_gchar);
@@ -138,10 +157,16 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
 	gerar_total_geral();
 	vet_erro[QNT_ERR] = 0;
-	if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao+1]))
-		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+	
+	if(ativos[posicao+1].id == 1)
+	{
+		if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao+1]))
+			gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+		else
+			gtk_widget_grab_focus(botao_orc_mais);
+	}
 	else
 		gtk_widget_grab_focus(botao_orc_mais);
-
+	
 	return 0;
 }

@@ -69,7 +69,7 @@ int  cad_terc()
 	GtkWidget *code, *doc, *name, *address, *cep,*type, *address_num;
 	GtkWidget *celular, *telefone,*acao, *email, *observacoes,*prazo;
 	GtkWidget *observacoes_scroll;
-	
+	GtkWidget *cid_uf_boxv1,*cid_uf_boxv2,*cid_uf_boxh;
 	GtkWidget *addr_log_num_box,*addr_log_num_fixed;
 	
 	ter_notebook = gtk_notebook_new();
@@ -80,6 +80,10 @@ int  cad_terc()
 	ter_outros_box = gtk_box_new(1,0);
 	opcoes = gtk_box_new(0,0);
 	caixa_grande = gtk_box_new(1,0);
+	
+	cid_uf_boxv1 = gtk_box_new(1,0);
+	cid_uf_boxv2 = gtk_box_new(1,0);
+	cid_uf_boxh = gtk_box_new(0,0);
 	
 	ter_principal_label = gtk_label_new("Dados");
 	ter_contatos_label = gtk_label_new("Contatos");
@@ -164,6 +168,9 @@ int  cad_terc()
 	cidade_label= gtk_label_new("Cidade: ");
 	address_num_label = gtk_label_new("Número: ");
 	address_num_field = gtk_entry_new();
+	uf_label = gtk_label_new("UF: ");
+	uf_ter_field = gtk_entry_new();
+	
 	gtk_entry_set_width_chars(GTK_ENTRY(address_num_field),8);
 	gtk_box_pack_start(GTK_BOX(address_num),address_num_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(address_num),address_num_field,0,0,0);
@@ -271,8 +278,16 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(address),address_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(address),address_ter_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(address),cidade_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(address),cidade_ter_field,0,0,5);
+	
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxv1),cidade_label,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxv1),cidade_ter_field,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxv2),uf_label,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxv2),uf_ter_field,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxh),cid_uf_boxv1,0,0,10);
+	gtk_box_pack_start(GTK_BOX(cid_uf_boxh),cid_uf_boxv2,0,0,10);
+	gtk_entry_set_width_chars(GTK_ENTRY(uf_ter_field),5);
+
+	gtk_box_pack_start(GTK_BOX(address),cid_uf_boxh,0,0,5);
 	gtk_widget_set_size_request(address_ter_field,325,30);
 		
 	type = gtk_box_new(1,0);
@@ -383,6 +398,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),NULL);
 	g_signal_connect(GTK_ENTRY(cidade_ter_field),"activate",G_CALLBACK(cidade_terc),NULL);
+	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
 	g_signal_connect(type_ter_field,"popup",G_CALLBACK(escolha_tipo_ter),type_ter_field);
 	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);

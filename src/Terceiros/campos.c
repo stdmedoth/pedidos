@@ -1,5 +1,7 @@
 MYSQL_ROW campos;
 GtkWidget *filas;
+
+
 #include "campos/vars/campos_ter.h"
 #include "campos/vars/vinculo_precos.h"
 #include "campos/vars/listagem_ter.h"
@@ -18,10 +20,11 @@ GtkWidget *filas;
 #include "campos/prazo.c"
 #include "campos/numrua.c"
 #include "campos/cidade.c"
+#include "campos/uf.c"
 
-#define CAD_QUERY_TER "insert into terceiros(razao,doc,tipo_doc,tipoc,tipo,prazo,cep,endereco,numrua,tiporua,celular,contatoc,telefone,contatot,email,contatoe,obs) values('%s',  '%s',  %i,  '%s',  %i, '%s', '%s',  '%s',  %s, %i, '%s',  '%s',  '%s', '%s',  '%s',  '%s' , '%s');"
+#define CAD_QUERY_TER "insert into terceiros(razao,doc,tipo_doc,tipoc,tipo,prazo,cep,endereco,cidade,uf,numrua,tiporua,celular,contatoc,telefone,contatot,email,contatoe,obs) values('%s',  '%s',  %i,  '%s',  %i, '%s', '%s',  '%s', '%s', '%s', %s, %i, '%s',  '%s',  '%s', '%s',  '%s',  '%s' , '%s');"
 
-#define CAD_QUERY_TER_VAR nomes_ter, doc_ter, tipo_doc, tipo_ter, terci_tipo, prazo_ter, cep_ter, endereco_ter, address_num, tipo_log, celular_ter, contatoc_ter, telefone_ter, contatot_ter, email_ter, contatoe_ter, observacoes_ter
+#define CAD_QUERY_TER_VAR nomes_ter, doc_ter, tipo_doc, tipo_ter, terci_tipo, prazo_ter, cep_ter, endereco_ter, cidade_ter, uf_ter, address_num, tipo_log, celular_ter, contatoc_ter, telefone_ter, contatot_ter, email_ter, contatoe_ter, observacoes_ter
 
-#define UPDATE_QUERY_TER "update terceiros set razao = '%s', doc = '%s', tipo_doc = %i, tipoc = '%s', tipo = %i, prazo = '%s', cep = '%s', endereco = '%s', numrua = %s,tiporua = %i, telefone = '%s',contatot = '%s',celular = '%s',contatoc = '%s', email = '%s',obs = '%s' where code = %s;"
-#define UPDATE_QUERY_TER_VAR nomes_ter, doc_ter, tipo_doc, tipo_ter, terci_tipo, prazo_ter, cep_ter,endereco_ter, address_num, tipo_log,telefone_ter,contatot_ter,celular_ter,contatoc_ter,email_ter,observacoes_ter,codigos_ter
+#define UPDATE_QUERY_TER "update terceiros set razao = '%s', doc = '%s', tipo_doc = %i, tipoc = '%s', tipo = %i, prazo = '%s', cep = '%s', endereco = '%s', cidade = '%s', uf = '%s', numrua = %s,tiporua = %i, telefone = '%s',contatot = '%s',celular = '%s',contatoc = '%s', email = '%s',obs = '%s' where code = %s;"
+#define UPDATE_QUERY_TER_VAR nomes_ter, doc_ter, tipo_doc, tipo_ter, terci_tipo, prazo_ter, cep_ter,endereco_ter, cidade_ter, uf_ter,address_num, tipo_log,telefone_ter,contatot_ter,celular_ter,contatoc_ter,email_ter,observacoes_ter,codigos_ter

@@ -66,6 +66,14 @@ static int concluir_orc()
 			{
 				if(cont<rec_altera_qnt)
 				{
+					sprintf(query,"update Produto_Orcamento set produto = %i, unidades = %s, valor_unit = %s, desconto = %s, total = %s where code = %s and item = %i",ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].desconto_c ,ativos[cont].total_c,codigo_orc_gchar,cont);
+					erro = enviar_query(query);
+					if(erro != 0 )
+					{
+						popup(NULL,"Erro ao tentar gerar orçamento");
+						return 1;
+					}
+					
 					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
 					erro = enviar_query(query);
 					if(erro != 0 )

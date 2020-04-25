@@ -1,4 +1,4 @@
-#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c' ;"
+#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c' or cidade like '%c%s%c';"
 GtkWidget *lista_ter,*caixona,*colunasc;
 GtkWidget *pesquisa;
 
@@ -28,6 +28,7 @@ int rec_ter_list()
 	MYSQL_ROW mysql_row;
 	GtkWidget **evento;
 	GtkWidget **codigoc,**nomec,**doc,
+	**cidade,**uf,
 	**tipodoc,**type,**address,
 	**cep,**telefone,**contatot,
 	**celular,**contatoc,**email,
@@ -37,6 +38,8 @@ int rec_ter_list()
 	*codigo_ter_list,  
 	*nome_ter_list,    
 	*address_ter_list, 
+	*cidade_ter_list, 
+	*uf_ter_list, 
 	*type_ter_list,    
 	*doc_ter_list,
 	*tipodoc_ter_list,
@@ -54,6 +57,8 @@ int rec_ter_list()
 	*codigo_list_label,
 	*nome_list_label,  
 	*address_list_label,
+	*cidade_list_label,
+	*uf_list_label,
 	*type_list_label,   
 	*doc_list_label,
 	*tipodoc_list_label,
@@ -122,6 +127,8 @@ int rec_ter_list()
 	tipodoc = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	type = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	address = malloc(sizeof(GtkLabel*)*TERC_QNT);
+	cidade = malloc(sizeof(GtkLabel*)*TERC_QNT);
+	uf = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	cep = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	telefone = malloc(sizeof(GtkLabel*)*TERC_QNT);
 	contatot = malloc(sizeof(GtkLabel*)*TERC_QNT);
@@ -140,7 +147,7 @@ int rec_ter_list()
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
 	if(strlen(entrada)<2)
 		return 0;
-	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
+	sprintf(query,PSQ_TER_QUERY,ascii,entrada,ascii,ascii,entrada,ascii);
 	mysql_res = consultar(query);
 	if(mysql_res==NULL)
 	{
@@ -154,30 +161,34 @@ int rec_ter_list()
 		evento[cont] = gtk_event_box_new();
 		
 		vet_codigosc[cont] = malloc(MAX_CODE_LEN);	
-		strcpy(vet_codigosc[cont],mysql_row[0]);
-		if(mysql_row[0]!=NULL)
-			strcpy(row,mysql_row[0]);
+		strcpy(vet_codigosc[cont],mysql_row[COD_TER_COL]);
+		//codigo
+		if(mysql_row[COD_TER_COL]!=NULL)
+			strcpy(row,mysql_row[COD_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		codigoc[cont] = gtk_label_new(row);
-		separadoresvc[cont][0] = gtk_separator_new(0);
+		separadoresvc[cont][COD_TER_COL] = gtk_separator_new(0);
 		
+		//razao/nome
 		if(mysql_row[1]!=NULL)
-			strcpy(row,mysql_row[1]);
+			strcpy(row,mysql_row[RAZ_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		nomec[cont] =  gtk_label_new(row);
-		separadoresvc[cont][1] = gtk_separator_new(0);
+		separadoresvc[cont][RAZ_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[2]!=NULL)
-			strcpy(row,mysql_row[2]);
+		//numero documento
+		if(mysql_row[DOC_TER_COL]!=NULL)
+			strcpy(row,mysql_row[DOC_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		doc[cont] = gtk_label_new(row);
-		separadoresvc[cont][2] = gtk_separator_new(0);
+		separadoresvc[cont][DOC_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[3]!=NULL)
-			strcpy(row,mysql_row[3]);
+		//tipo documento
+		if(mysql_row[TDOC_TER_COL]!=NULL)
+			strcpy(row,mysql_row[TDOC_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		
@@ -195,12 +206,15 @@ int rec_ter_list()
 		{
 			tipodoc[cont] = gtk_label_new("SEM DOC");
 		}
-		separadoresvc[cont][3] = gtk_separator_new(0);
+		separadoresvc[cont][TDOC_TER_COL] = gtk_separator_new(0);
 	
-		if(mysql_row[5]!=NULL)
-			strcpy(row,mysql_row[5]);
+	
+		//tipo terceiro
+		if(mysql_row[TIPI_TER_COL]!=NULL)
+			strcpy(row,mysql_row[TIPI_TER_COL]);
 		else
-			strcpy(row,"vazio");
+			strcpy(row,"0");
+			
 		if(atoi(row)==0)
 		{	
 			type[cont] = gtk_label_new("Não Inserido");
@@ -220,78 +234,109 @@ int rec_ter_list()
 		{
 			type[cont] = gtk_label_new("Cliente/Fornecedor");
 		}
-		separadoresvc[cont][5] = gtk_separator_new(0);
+		separadoresvc[cont][TIPI_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[6]!=NULL)
-			strcpy(row,mysql_row[6]);
+		//cep
+		if(mysql_row[CEP_TER_COL]!=NULL)
+			strcpy(row,mysql_row[CEP_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		cep[cont] = gtk_label_new(row);
-		separadoresvc[cont][6] = gtk_separator_new(0);
+		separadoresvc[cont][CEP_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[7]!=NULL)
-			strcpy(row,mysql_row[7]);
+		
+		//endereco
+		if(mysql_row[END_TER_COL]!=NULL)
+			strcpy(row,mysql_row[END_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		address[cont] = gtk_label_new(row);
-		separadoresvc[cont][7] = gtk_separator_new(0);
+		separadoresvc[cont][END_TER_COL] = gtk_separator_new(0);
+
+
+		//cidade
+		if(mysql_row[CID_TER_COL]!=NULL)
+			strcpy(row,mysql_row[CID_TER_COL]);
+		else
+			strcpy(row,"vazio");
 		
-		if(mysql_row[9]!=NULL)
-			strcpy(row,mysql_row[9]);
+		cidade[cont] = gtk_label_new(row);
+		separadoresvc[cont][CID_TER_COL] = gtk_separator_new(0);
+
+
+		//UF
+		if(mysql_row[UF_TER_COL]!=NULL)
+			strcpy(row,mysql_row[UF_TER_COL]);
+		else
+			strcpy(row,"vazio");
+		
+		uf[cont] = gtk_label_new(row);
+		separadoresvc[cont][UF_TER_COL] = gtk_separator_new(0);
+				
+		//telefone
+		if(mysql_row[TEL_TER_COL]!=NULL)
+			strcpy(row,mysql_row[TEL_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		telefone[cont] = gtk_label_new(row);
-		separadoresvc[cont][9] = gtk_separator_new(0);
+		separadoresvc[cont][TEL_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[10]!=NULL)
-			strcpy(row,mysql_row[10]);
+		
+		//contato telefone
+		if(mysql_row[CTEL_TER_COL]!=NULL)
+			strcpy(row,mysql_row[CTEL_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		contatot[cont] = gtk_label_new(row);
-		separadoresvc[cont][10] = gtk_separator_new(0);
+		separadoresvc[cont][CTEL_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[11]!=NULL)
-			strcpy(row,mysql_row[11]);
+		//celular
+		if(mysql_row[CEL_TER_COL]!=NULL)
+			strcpy(row,mysql_row[CEL_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		celular[cont] = gtk_label_new(row);
-		separadoresvc[cont][11] = gtk_separator_new(0);
+		separadoresvc[cont][CEL_TER_COL] = gtk_separator_new(0);
 	
-		if(mysql_row[12]!=NULL)
-			strcpy(row,mysql_row[12]);
+		//contato celular
+		if(mysql_row[CCEL_TER_COL]!=NULL)
+			strcpy(row,mysql_row[CCEL_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		contatoc[cont] = gtk_label_new(row);
-		separadoresvc[cont][12] = gtk_separator_new(0);
+		separadoresvc[cont][CCEL_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[13]!=NULL)	
-			strcpy(row,mysql_row[13]);
+		//email
+		if(mysql_row[EMAIl_TER_COL]!=NULL)	
+			strcpy(row,mysql_row[EMAIl_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		email[cont] = gtk_label_new(row);
-		separadoresvc[cont][13] = gtk_separator_new(0);
+		separadoresvc[cont][EMAIl_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[14]!=NULL)	
-			strcpy(row,mysql_row[14]);
+		//contato email
+		if(mysql_row[CEMAIL_TER_COL]!=NULL)	
+			strcpy(row,mysql_row[CEMAIL_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		contatoe[cont] = gtk_label_new(row);
-		separadoresvc[cont][14] = gtk_separator_new(0);
+		separadoresvc[cont][CEMAIL_TER_COL] = gtk_separator_new(0);
 		
-		if(mysql_row[15]!=NULL)	
-			strcpy(row,mysql_row[15]);
+		//prazo
+		if(mysql_row[PRAZ_TER_COL]!=NULL)	
+			strcpy(row,mysql_row[PRAZ_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		prazo[cont] = gtk_label_new(row);
-		separadoresvc[cont][15] = gtk_separator_new(0);
+		separadoresvc[cont][PRAZ_TER_COL] = gtk_separator_new(0);
 		
-		
-		if(mysql_row[16]!=NULL)
-			strcpy(row,mysql_row[16]);
+		//observacoes
+		if(mysql_row[OBS_TER_COL]!=NULL)
+			strcpy(row,mysql_row[OBS_TER_COL]);
 		else
 			strcpy(row,"vazio");
 		_obs[cont] = gtk_label_new(row);
-		separadoresvc[cont][16] = gtk_separator_new(0);
+		separadoresvc[cont][OBS_TER_COL] = gtk_separator_new(0);
 		printf("cont :%i\n",cont);
 		cont++;
 	}
@@ -303,6 +348,8 @@ int rec_ter_list()
 	tipodoc_ter_list = gtk_box_new(1,0);
 	type_ter_list = gtk_box_new(1,0);
 	address_ter_list = gtk_box_new(1,0);
+	cidade_ter_list = gtk_box_new(1,0);
+	uf_ter_list = gtk_box_new(1,0);
 	cep_ter_list = gtk_box_new(1,0);
 	telefone_ter_list = gtk_box_new(1,0);
 	contatot_ter_list = gtk_box_new(1,0);
@@ -330,6 +377,12 @@ int rec_ter_list()
 	
 	address_list_label = gtk_label_new("Endereço\n");
 	gtk_widget_set_name(GTK_WIDGET(address_list_label),"colunas");
+	
+	cidade_list_label = gtk_label_new("Cidade\n");
+	gtk_widget_set_name(GTK_WIDGET(cidade_list_label),"colunas");
+	
+	uf_list_label = gtk_label_new("UF\n");
+	gtk_widget_set_name(GTK_WIDGET(uf_list_label),"colunas");
 	
 	cep_list_label = gtk_label_new("CEP\n");
 	gtk_widget_set_name(GTK_WIDGET(cep_list_label),"colunas");
@@ -364,6 +417,8 @@ int rec_ter_list()
 	gtk_box_pack_start(GTK_BOX(tipodoc_ter_list),tipodoc_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(type_ter_list),type_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(address_ter_list),address_list_label,0,0,0);	
+	gtk_box_pack_start(GTK_BOX(cidade_ter_list),cidade_list_label,0,0,0);	
+	gtk_box_pack_start(GTK_BOX(uf_ter_list),uf_list_label,0,0,0);	
 	gtk_box_pack_start(GTK_BOX(cep_ter_list),cep_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone_list_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(contatot_ter_list),contatot_list_label,0,0,0);
@@ -378,51 +433,55 @@ int rec_ter_list()
 	{
 		gtk_container_add(GTK_CONTAINER(evento[pos]),codigoc[pos]);
 		gtk_box_pack_start(GTK_BOX(codigo_ter_list),evento[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(codigo_ter_list),separadoresvc[pos][0],0,0,10);
+		gtk_box_pack_start(GTK_BOX(codigo_ter_list),separadoresvc[pos][COD_TER_COL],0,0,10);
 		
 		gtk_box_pack_start(GTK_BOX(nome_ter_list),nomec[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(nome_ter_list),separadoresvc[pos][1],0,0,10);
+		gtk_box_pack_start(GTK_BOX(nome_ter_list),separadoresvc[pos][RAZ_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(doc_ter_list),doc[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(doc_ter_list),separadoresvc[pos][2],0,0,10);
+		gtk_box_pack_start(GTK_BOX(doc_ter_list),separadoresvc[pos][DOC_TER_COL],0,0,10);
 		
 		gtk_box_pack_start(GTK_BOX(tipodoc_ter_list),tipodoc[pos],0,0,10);		
-		gtk_box_pack_start(GTK_BOX(tipodoc_ter_list),separadoresvc[pos][3],0,0,10);
+		gtk_box_pack_start(GTK_BOX(tipodoc_ter_list),separadoresvc[pos][TDOC_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(type_ter_list),type[pos],0,0,10);		
-		gtk_box_pack_start(GTK_BOX(type_ter_list),separadoresvc[pos][5],0,0,10);
+		gtk_box_pack_start(GTK_BOX(type_ter_list),separadoresvc[pos][TIPI_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(cep_ter_list),cep[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(cep_ter_list),separadoresvc[pos][6],0,0,10);
+		gtk_box_pack_start(GTK_BOX(cep_ter_list),separadoresvc[pos][CEP_TER_COL],0,0,10);
 		
 		gtk_box_pack_start(GTK_BOX(address_ter_list),address[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(address_ter_list),separadoresvc[pos][7],0,0,10);
+		gtk_box_pack_start(GTK_BOX(address_ter_list),separadoresvc[pos][END_TER_COL],0,0,10);
 		
-		//campo 8 reservado ao numero da rua
+		gtk_box_pack_start(GTK_BOX(cidade_ter_list),cidade[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(cidade_ter_list),separadoresvc[pos][CID_TER_COL],0,0,10);
+		
+		gtk_box_pack_start(GTK_BOX(uf_ter_list),uf[pos],0,0,10);
+		gtk_box_pack_start(GTK_BOX(uf_ter_list),separadoresvc[pos][UF_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(telefone_ter_list),telefone[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadoresvc[pos][9],0,0,10);
+		gtk_box_pack_start(GTK_BOX(telefone_ter_list),separadoresvc[pos][TEL_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatot_ter_list),contatot[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatot_ter_list),separadoresvc[pos][10],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatot_ter_list),separadoresvc[pos][CTEL_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(celular_ter_list),celular[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(celular_ter_list),separadoresvc[pos][11],0,0,10);
+		gtk_box_pack_start(GTK_BOX(celular_ter_list),separadoresvc[pos][CEL_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),contatoc[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),separadoresvc[pos][12],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatoc_ter_list),separadoresvc[pos][CCEL_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(email_ter_list),email[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(email_ter_list),separadoresvc[pos][13],0,0,10);
+		gtk_box_pack_start(GTK_BOX(email_ter_list),separadoresvc[pos][EMAIl_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),contatoe[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),separadoresvc[pos][14],0,0,10);
+		gtk_box_pack_start(GTK_BOX(contatoe_ter_list),separadoresvc[pos][CEMAIL_TER_COL],0,0,10);
 
 		gtk_box_pack_start(GTK_BOX(prazo_ter_list),prazo[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(prazo_ter_list),separadoresvc[pos][15],0,0,10);
+		gtk_box_pack_start(GTK_BOX(prazo_ter_list),separadoresvc[pos][PRAZ_TER_COL],0,0,10);
 	
 		gtk_box_pack_start(GTK_BOX(obs_ter_list),_obs[pos],0,0,10);
-		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][16],0,0,10);
+		gtk_box_pack_start(GTK_BOX(obs_ter_list),separadoresvc[pos][OBS_TER_COL],0,0,10);
 		g_signal_connect(evento[pos],"button-press-event",G_CALLBACK(chama_ter_codigo),(void*)vet_codigosc[pos]);
 		printf("pos %i\n",pos);
 		pos++;
@@ -436,6 +495,8 @@ int rec_ter_list()
 	gtk_widget_set_size_request(address_ter_list,70,30);
 	gtk_widget_set_size_request(type_ter_list,70,30);
 	gtk_widget_set_size_request(address_ter_list,70,30);
+	gtk_widget_set_size_request(cidade_ter_list,70,30);
+	gtk_widget_set_size_request(uf_ter_list,70,30);
 	gtk_widget_set_size_request(cep_ter_list,70,30);
 	gtk_widget_set_size_request(telefone_ter_list,70,30);
 	gtk_widget_set_size_request(contatot_ter_list,70,30);
@@ -452,6 +513,8 @@ int rec_ter_list()
 	gtk_box_pack_start(GTK_BOX(colunasc),type_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),cep_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),address_ter_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunasc),cidade_ter_list,0,0,10);
+	gtk_box_pack_start(GTK_BOX(colunasc),uf_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),telefone_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),contatot_ter_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunasc),celular_ter_list,0,0,10);

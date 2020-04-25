@@ -18,6 +18,10 @@ static int ativos_qnt=1;
 
 static float total_geral_orc =0 ;
 static float desconto_geral_orc =0 ;
+//COMBO
+static GtkWidget **tipodesconto_prod_orc_combo;
+
+
 //  BUTTONS 
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
@@ -123,6 +127,7 @@ struct itens_struct
 	float qnt_f;
 	float preco_f;
 	float desconto_f;
+	int tipodesc;
 	float total_f;
 	char qnt_c[MAX_PRECO_LEN];
 	char preco_c[MAX_PRECO_LEN];

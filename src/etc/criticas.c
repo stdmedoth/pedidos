@@ -10,8 +10,7 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 	if(strlen(valor)<=0)
 	{
 		valor = malloc(MAX_PRECO_LEN);
-		strcpy(valor,"");
-		
+		strcpy(valor,"0");
 	}
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto

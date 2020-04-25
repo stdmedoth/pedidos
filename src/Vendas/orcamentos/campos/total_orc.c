@@ -17,10 +17,15 @@ int total_prod_orc(GtkWidget *widget,int posicao)
 	g_print("char:  %s\n",total_prod_orc_gchar);
 	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 	gerar_total_geral();
-	if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao+1]))
-		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+
+	if(ativos[posicao+1].id == 1)
+	{
+		if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao+1]))
+			gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+		else
+			gtk_widget_grab_focus(botao_orc_mais);
+	}
 	else
 		gtk_widget_grab_focus(botao_orc_mais);
-
 	return 0;
 }
