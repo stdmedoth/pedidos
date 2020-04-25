@@ -162,8 +162,10 @@
 #define MAX_CEP_LEN 10
 #define CEP_LEN 8
 #define MAX_ADR_LEN 300
+#define MAX_CID_LEN 50
 #define MAX_URI_LEN 300
 #define MAX_PARAM_LEN 20
+#define MAX_TIPO_LEN 20
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 300
 #define MARGEM_D 10

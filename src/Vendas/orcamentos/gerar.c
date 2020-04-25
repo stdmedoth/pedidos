@@ -141,6 +141,7 @@ int escolher_finalizacao()
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),NULL);
+	g_signal_connect (botao_cancela,"clicked",G_CALLBACK(close_window_callback),janela);
 	gtk_widget_show_all(janela);
 	return 0;
 }
@@ -179,6 +180,7 @@ int gerar_orc()
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return 1;
 	}
+	gerar_total_geral();
 	campos = mysql_fetch_row(vetor);
 	if(campos == NULL)
 	{

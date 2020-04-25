@@ -20,6 +20,7 @@ struct
 		int tipodoc;
 		int endereco;
 		int cep;
+		int cidade;
 		int tipo;
 		int celular;
 		int contatoc;
@@ -38,33 +39,34 @@ struct
 		int vincula_prod_obs;
 	}criticar;
 }terceiros,produtos;
-#define CAMPOS_QNT 22
+#define CAMPOS_QNT 24
 int vet_erro[CAMPOS_QNT+1];
 
 #define COD_ERR 0
 #define DOC_ERR 1
 #define NOM_ERR 2
 #define END_ERR 3
-#define TIP_ERR 4
-#define CEL_ERR 5
-#define CNC_ERR 6
-#define TEL_ERR 7
-#define CNT_ERR 8
-#define EML_ERR 9
-#define CNE_ERR 10
-#define OBS_ERR 11
-#define PRC_ERR 12
-#define VIN_ERR 13
-#define PES_ERR 14
-#define FOR_ERR 15
-#define UND_ERR 16
-#define GRP_ERR 17
-#define MRC_ERR 18
-#define CEP_ERR 19
-#define PRD_ERR 20
-#define CLI_ERR 21
-#define PRAZ_ERR 22
-#define QNT_ERR 23
+#define CID_ERR 4
+#define TIP_ERR 5
+#define CEL_ERR 6
+#define CNC_ERR 7
+#define TEL_ERR 8
+#define CNT_ERR 9
+#define EML_ERR 10
+#define CNE_ERR 11
+#define OBS_ERR 12
+#define PRC_ERR 13
+#define VIN_ERR 14
+#define PES_ERR 15
+#define FOR_ERR 16
+#define UND_ERR 17
+#define GRP_ERR 18
+#define MRC_ERR 19
+#define CEP_ERR 20
+#define PRD_ERR 21
+#define CLI_ERR 22
+#define PRAZ_ERR 23
+#define QNT_ERR 24
 
 char *critica_campos[] = {"ter_doc","ter_tipo_doc",
 	"ter_endereco","ter_cep",

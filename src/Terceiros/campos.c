@@ -17,6 +17,7 @@ GtkWidget *filas;
 #include "campos/precos.c"
 #include "campos/prazo.c"
 #include "campos/numrua.c"
+#include "campos/cidade.c"
 
 #define CAD_QUERY_TER "insert into terceiros(razao,doc,tipo_doc,tipoc,tipo,prazo,cep,endereco,numrua,tiporua,celular,contatoc,telefone,contatot,email,contatoe,obs) values('%s',  '%s',  %i,  '%s',  %i, '%s', '%s',  '%s',  %s, %i, '%s',  '%s',  '%s', '%s',  '%s',  '%s' , '%s');"
 

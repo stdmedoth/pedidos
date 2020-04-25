@@ -1,6 +1,7 @@
 int altera_orc()
 {
 	char *query;
+	int cont=1;
 	int remover_linha_orc(GtkWidget *widget,int id_ponteiro);
 	MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -28,7 +29,18 @@ int altera_orc()
 		popup(NULL,"Erro nos itens do orçamento");
 		return 1;
 	}
-	
+	while(cont<=itens_qnt)
+	{
+		if(ativos[cont].id==1)
+		{
+			ativos[cont].id = 0;
+			excluidos[cont].id = 1;
+			remover_linha_orc(NULL,cont);			
+		}
+		cont++;
+	}
+	itens_qnt = 1;
+	adicionar_linha_orc();
 	alterando_orc=1;
 	
 	while((row = mysql_fetch_row(res))!=NULL)

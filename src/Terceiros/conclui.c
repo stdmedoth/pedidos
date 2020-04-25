@@ -1,6 +1,5 @@
 int conclui_ter(GtkWidget* nome, gpointer *botao)
-{
-	
+{	
 	int err;
 	char *code;
 	code = malloc(10);
@@ -24,7 +23,12 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
-	
+	if(escolha_tipo_ter()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(type_ter_field);
+		return 1;
+	}
 	if(cep_terc()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
@@ -102,7 +106,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 			return 1;
 		}
 	}
-	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)
@@ -157,6 +160,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	}
 	g_print("%s\n",query);
 	autologger(query);
+
 	err = mysql_query(&connect,query);
 	if(err!=0)
 	{
@@ -170,6 +174,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		popup(NULL,(gchar*)mysql_error(&connect));
 		return 1;
 	}
+
 	g_print("Query para tabela terceiros\n");
 	g_print("Query envida com sucesso\n");
 	gtk_button_set_label(GTK_BUTTON(botao),"concluido");
@@ -182,6 +187,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
@@ -200,7 +206,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 	printf("finalizando conclui_ter()\n");
-	autologger("O cadastro nao foi feito\nverifique os campos");
+	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
 //	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
 	return 0;
 }

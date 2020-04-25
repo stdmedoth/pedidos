@@ -12,7 +12,7 @@ static int inclui_codigo_o(GtkWidget *widget,GdkEvent *evento,char *orc_codigo)
 
 static GtkWidget *colunas_pesquisa_o;
 static GtkWidget **separadoresv_o[10];
-static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
+static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
 {
 	int cont=0;
 	int pos=0;
@@ -29,7 +29,7 @@ static int recebe_orcamentos(GtkWidget *widget,GdkEvent *event,gpointer lista_sc
 	*codigo_prod_list,
 	*cliente_prod_list,
 	*total_prod_list;
-
+	
 	vet_codigos_o = malloc(sizeof(gchar*)*MAX_LINHAS);
 	evento = malloc(sizeof(GtkEventBox*)*MAX_LINHAS);
 	codigo_o = malloc(sizeof(GtkLabel*)*MAX_LINHAS);

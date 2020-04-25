@@ -138,6 +138,10 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
 	gerar_total_geral();
 	vet_erro[QNT_ERR] = 0;
-	gtk_widget_grab_focus(botao_orc_mais);
+	if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao+1]))
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+	else
+		gtk_widget_grab_focus(botao_orc_mais);
+
 	return 0;
 }

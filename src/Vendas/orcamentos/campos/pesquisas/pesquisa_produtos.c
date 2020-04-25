@@ -11,7 +11,7 @@ static int inclui_codigop(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 }
 
 static GtkWidget *colunas_pesquisap;
-static int recebe_produtos(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
+static int recebe_produtos(GtkWidget *widget,gpointer lista_scroll_caixav)
 {
 	int cont=0;
 	int pos=0;

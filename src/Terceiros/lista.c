@@ -1,17 +1,23 @@
 #define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c' ;"
 GtkWidget *lista_ter,*caixona,*colunasc;
-int scrolled = 0;
 GtkWidget *pesquisa;
+
 int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
+	if(pcodigo==NULL)
+		return 1;
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),pcodigo);
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",pcodigo);
 	if(altera_ter()==0)
+	{
 		gtk_widget_destroy(lista_ter);	
+	}
 	return 0;
 }
+
 GtkWidget *lista_scroll_caixah,*lista_scroll_caixav;
 GtkWidget *lista_scroll_windowh;
+
 int rec_ter_list()
 {
 	int cont=0,pos=0;
@@ -70,9 +76,10 @@ int rec_ter_list()
 	{
 		children = gtk_container_get_children(GTK_CONTAINER(colunasc));
 		for(iter = children; iter != NULL; iter = g_list_next(iter))
-		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+			gtk_widget_destroy(GTK_WIDGET(iter->data));
 		g_list_free(children);
 	}
+	
 	if(GTK_IS_WIDGET(lista_scroll_caixav))
 	{
 		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_caixav));
@@ -131,7 +138,7 @@ int rec_ter_list()
 	gchar *entrada;
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
-	if(strlen(entrada)<3)
+	if(strlen(entrada)<2)
 		return 0;
 	sprintf(query,"select * from terceiros where razao like '%c%s%c';",ascii,entrada,ascii);
 	mysql_res = consultar(query);
@@ -194,6 +201,11 @@ int rec_ter_list()
 			strcpy(row,mysql_row[5]);
 		else
 			strcpy(row,"vazio");
+		if(atoi(row)==0)
+		{	
+			type[cont] = gtk_label_new("Não Inserido");
+		}
+		else
 		if(atoi(row)==1)
 		{	
 			type[cont] = gtk_label_new("Cliente");
@@ -204,8 +216,9 @@ int rec_ter_list()
 			type[cont] = gtk_label_new("Fornecedor");
 		}
 		else
+		if(atoi(row)==3)		
 		{
-			type[cont] = gtk_label_new("Não Inserido");
+			type[cont] = gtk_label_new("Cliente/Fornecedor");
 		}
 		separadoresvc[cont][5] = gtk_separator_new(0);
 		
@@ -469,9 +482,6 @@ int rec_ter_list()
 }
 int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {	
-
-	scrolled = 0;
-	
 	lista_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
 	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
@@ -483,24 +493,18 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_title(GTK_WINDOW(lista_ter),"LISTAGEM TERCEIROS");
 	
 	gtk_widget_set_size_request(lista_ter,1000,600);
-	abrir_css(DESKTOP_STYLE);
 	
 	pesquisa = gtk_search_entry_new();
 	caixona = gtk_box_new(1,0);
 	colunasc = gtk_box_new(0,0);
+	
 	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);		
 	gtk_container_add(GTK_CONTAINER(lista_ter),caixona);
-	g_object_ref(pesquisa);
-	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_ter_list),NULL);	
 	
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_ter_list),NULL);	
 	g_signal_connect(lista_ter,"destroy",G_CALLBACK(close_window_callback),lista_ter);
 	gtk_widget_show_all(lista_ter);
 	return 0;
 }
 
-
-/*criar barra de pesquisa
-deve ficar na caixona
-*logo acima das colunas
-*/
 

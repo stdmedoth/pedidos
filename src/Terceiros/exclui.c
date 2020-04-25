@@ -82,7 +82,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
@@ -118,7 +118,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");

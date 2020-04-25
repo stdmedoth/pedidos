@@ -14,7 +14,7 @@ int chama_prod_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 }
 
 GtkWidget *colunasp;
-int rec_prod_list(GtkWidget *widget,GdkEvent *event,gpointer lista_scroll_caixav)
+int rec_prod_list(GtkWidget *widget,gpointer lista_scroll_caixav)
 {
 	int cont=0;
 	int pos=0;

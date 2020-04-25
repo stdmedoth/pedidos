@@ -30,7 +30,7 @@ int code_terc()
 			gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 			gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 			gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-			gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+			gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 			gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
 			return 1;
 		}

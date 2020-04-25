@@ -14,6 +14,7 @@ int altera_ter()
 	estado = consultar(query);
 	g_print("verificando estado da alteracao\n");
 	campo = mysql_fetch_row(estado);
+	
 	if(campo==NULL)
 	{
 		g_print("terceiro não existe para ser alterado\n");
@@ -22,7 +23,7 @@ int altera_ter()
 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(type_ter_field),"");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 		gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
 		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
@@ -39,30 +40,37 @@ int altera_ter()
 	if(campo[2]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[2]);
 	
-	if(strcmp(campo[3],"1")==0)
+	if(atoi(campo[3])==1)
 	{
 		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),1);
 	}
-	if(strcmp(campo[3],"2")==0)
+	if(atoi(campo[3])==2)
 	{
 		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),2);
 	}
-	
-	if(campo[4]!=NULL)
+	if(atoi(campo[3])==3)
 	{
-		gtk_entry_set_text(GTK_ENTRY(type_ter_field),campo[4]);
-		strcpy(tipo_ter,campo[4]);
+		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),3);
 	}
 	
+	//campo[4] = tipoter string
 	if(campo[5]!=NULL)
 	{
-		if(strcmp(campo[5],"1")==0)
+		if(atoi(campo[5])==0)
 		{
-			g_print("cliente\n");
+			gtk_combo_box_set_active (GTK_COMBO_BOX(type_ter_field),0);
 		}
-		if(strcmp(campo[5],"2")==0)
+		if(atoi(campo[5])==1)
 		{
-			g_print("fornecedor\n");
+			gtk_combo_box_set_active (GTK_COMBO_BOX(type_ter_field),1);
+		}
+		if(atoi(campo[5])==2)
+		{
+			gtk_combo_box_set_active (GTK_COMBO_BOX(type_ter_field),2);
+		}
+		if(atoi(campo[5])==3)
+		{
+			gtk_combo_box_set_active (GTK_COMBO_BOX(type_ter_field),3);
 		}
 	}
 	
@@ -103,6 +111,7 @@ int altera_ter()
 		strcpy(observacoes_ter,campo[17]);
 	else
 		strcpy(observacoes_ter,"");
+
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
 	if(alterando_ter==1)
@@ -111,13 +120,17 @@ int altera_ter()
 			gtk_widget_destroy(precos_caixas[pos]);
 	}
 	rec_precos();
+	
 	/*
 	 * email
 	 * contato
 	 * obs*/
+	 
 	memset(query,0x0,strlen(query));
 	alterando_ter=1;
+	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
+
 }

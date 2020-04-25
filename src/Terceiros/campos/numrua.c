@@ -14,14 +14,7 @@ int numrua()
 		gtk_widget_grab_focus(address_num_field);
 		return 1;	
 	}
-	tipo_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(type_ter_field));
-	if((strlen(tipo_ter))<=0)
-	{
-		gtk_widget_grab_focus(type_ter_field);
-	}
-	else
-	{
-		gtk_widget_grab_focus(prazo_ter_field);
-	}
+	
+	gtk_widget_grab_focus(type_ter_field);
 	return 0;
 }

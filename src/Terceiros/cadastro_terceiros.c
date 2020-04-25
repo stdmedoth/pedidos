@@ -181,7 +181,7 @@ int  cad_terc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"8",("Outros"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),0);
 	
-	type_label = gtk_label_new("Tipo Terceiro: ");	
+	type_label = gtk_frame_new("Tipo Terceiro: ");	
 	celular_label = gtk_label_new("Celular");
 	contatoc_label = gtk_label_new("Contato");
 	
@@ -210,8 +210,12 @@ int  cad_terc()
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
 	
-	type_ter_field = gtk_entry_new();
-	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(type_ter_field),GTK_ENTRY_ICON_PRIMARY,"system-users");
+	type_ter_field = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(type_ter_field),0,("Escolha o tipo"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"1",("Cliente"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"2",("Fornecedor"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"3",("Ambos"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 	
 	celular_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(celular_ter_field),GTK_ENTRY_ICON_PRIMARY,"pda");
@@ -272,10 +276,10 @@ int  cad_terc()
 	gtk_widget_set_size_request(address_ter_field,325,30);
 		
 	type = gtk_box_new(1,0);
+	
 	gtk_widget_set_name(type,"caixa");
+	gtk_container_add(GTK_CONTAINER(type_label),type_ter_field);
 	gtk_box_pack_start(GTK_BOX(type),type_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(type),type_ter_field,0,0,0);
-	gtk_widget_set_size_request(type_ter_field,100,30);
 	
 	celular  = gtk_box_new(1,0);
 	//gtk_widget_set_name(celular,"borda");
@@ -343,7 +347,7 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(ter_img_box),ter_img_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(ter_img_box),ter_img_buttons_box,0,0,10);	
-
+	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
 	
@@ -378,8 +382,9 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),NULL);
+	g_signal_connect(GTK_ENTRY(cidade_ter_field),"activate",G_CALLBACK(cidade_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
-	g_signal_connect(GTK_ENTRY(type_ter_field),"focus-in-event",G_CALLBACK(janela_tipo_ter),type_ter_field);
+	g_signal_connect(type_ter_field,"popup",G_CALLBACK(escolha_tipo_ter),type_ter_field);
 	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);
