@@ -29,7 +29,7 @@ int escolha_doc()
 			{
 				doc_ter = malloc(MAX_CODE_LEN);
 				strcpy(doc_ter,"");				
-				gtk_widget_grab_focus(name_ter_field);
+				gtk_widget_grab_focus(inscr_ter_field);
 				return 0;
 			}
 			popup(NULL,"Você deve escolher um tipo de documento");
@@ -49,7 +49,7 @@ int escolha_doc()
 			tipo_doc = 3;
 			doc_ter = malloc(MAX_CODE_LEN);
 			strcpy(doc_ter,"");				
-			gtk_widget_grab_focus(name_ter_field);
+			gtk_widget_grab_focus(inscr_ter_field);
 			break;
 	}
 	return 0;

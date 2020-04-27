@@ -35,6 +35,8 @@ int escolha_tipo_ter()
 			g_print("O terceiro é %s\n",tipo_ter);
 			break;
 	}
-	gtk_widget_grab_focus(prazo_ter_field);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
+	gtk_widget_grab_focus(celular_ter_field);
+	
 	return 0;
 }

@@ -24,3 +24,4 @@ int name_terc()
 	g_print("nome: %s\n",nomes_ter);
 	return 0;
 }
+

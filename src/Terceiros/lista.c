@@ -1,7 +1,10 @@
-#define PSQ_TER_QUERY "select * from terceiros where razao like '%c%s%c' or cidade like '%c%s%c';"
+#define PSQ_RAZ_TER_QUERY "select * from terceiros where razao like '%c%s%c'"
+#define PSQ_DOC_TER_QUERY "select * from terceiros where doc like '%c%s%c'"
+#define PSQ_CID_TER_QUERY "select * from terceiros where cidade like '%c%s%c'"
+
 GtkWidget *lista_ter,*caixona,*colunasc;
 GtkWidget *pesquisa;
-
+GtkWidget *tipopesq;
 int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 {
 	if(pcodigo==NULL)
@@ -147,7 +150,21 @@ int rec_ter_list()
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
 	if(strlen(entrada)<2)
 		return 0;
-	sprintf(query,PSQ_TER_QUERY,ascii,entrada,ascii,ascii,entrada,ascii);
+	switch(gtk_combo_box_get_active(GTK_COMBO_BOX(tipopesq)))
+	{
+		case 0:
+			sprintf(query,PSQ_RAZ_TER_QUERY,ascii,entrada,ascii);
+			break;
+		case 1:
+			sprintf(query,PSQ_DOC_TER_QUERY,ascii,entrada,ascii);
+			break;
+		case 2:
+			sprintf(query,PSQ_CID_TER_QUERY,ascii,entrada,ascii);
+			break;
+		default:
+			popup(NULL,"Insira modo de pesquisa");
+			return 1;
+	}
 	mysql_res = consultar(query);
 	if(mysql_res==NULL)
 	{
@@ -547,6 +564,7 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 {	
 	lista_ter = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	
+	
 	gtk_window_set_position(GTK_WINDOW(lista_ter),3);
 	gtk_window_set_keep_above(GTK_WINDOW(lista_ter), TRUE);
 	gtk_window_set_title(GTK_WINDOW(lista_ter),"Lista de Terceiros");
@@ -557,11 +575,19 @@ int pesquisar_terceiros(GtkWidget *botao,gpointer *ponteiro)
 	
 	gtk_widget_set_size_request(lista_ter,1000,600);
 	
+	tipopesq = gtk_combo_box_text_new();
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipopesq),"0","por Razão Social/Nome");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipopesq),"1","por CNPJ/CPF");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipopesq),"2","por Cidade");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(tipopesq),0);
+	
 	pesquisa = gtk_search_entry_new();
 	caixona = gtk_box_new(1,0);
 	colunasc = gtk_box_new(0,0);
 	
 	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);		
+	gtk_box_pack_start(GTK_BOX(caixona),tipopesq,0,0,0);		
+	
 	gtk_container_add(GTK_CONTAINER(lista_ter),caixona);
 	
 	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_ter_list),NULL);	

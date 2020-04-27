@@ -1,4 +1,4 @@
-	#define SERVER "localhost"
+#define SERVER "localhost"
 #define USER "petitto"
 #define PASS "1234"
 #define DATABASE "erp"
@@ -141,13 +141,14 @@
 #define CODE_LEN 10
 #define CNPJ_N_LEN 14
 #define CNPJ_S_LEN 18
+#define MAX_INSC_LEN 20
 #define CPF_N_LEN 11
 #define CPF_S_LEN 14
 #define INSERT_QUERY 96
 #define VLR_MAX_LEN 15
 #define TERC_QNT  10000
 #define PROD_QNT  10000
-#define ROWS_QNT 20
+#define ROWS_QNT 30
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 400
 #define MAX_RAZ_LEN 400	

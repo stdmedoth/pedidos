@@ -5,7 +5,7 @@ int verifica_chaves()
 	gchar *cod_delel;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 	//cliente - precos
-	sprintf(query,"select * from precos where terceiro = '%s';",cod_delel);
+	sprintf(query,"select * from precos where terceiro = %s;",cod_delel);
 	vetor = consultar(query);
 	if(vetor ==NULL)
 	{
@@ -19,7 +19,7 @@ int verifica_chaves()
 	}
 	
 	//fornecedor - produtos
-	sprintf(query,"select * from produtos where fornecedor = '%s';",cod_delel);
+	sprintf(query,"select * from produtos where fornecedor = %s",cod_delel);
 	vetor = consultar(query);
 	if(vetor ==NULL)
 	{
@@ -33,7 +33,7 @@ int verifica_chaves()
 	}
 	
 	//cliente - pedidos
-	sprintf(query,"select from pedidos where cliente = '%s';",cod_delel);
+	sprintf(query,"select * from pedidos where cliente = %s",cod_delel);
 	vetor = consultar(query);
 	if(vetor ==NULL)
 	{
@@ -47,7 +47,7 @@ int verifica_chaves()
 	}
 	
 	//pedidos - vendedor
-	sprintf(query,"select * from pedidos where vendedor = '%s';",cod_delel);
+	sprintf(query,"select * from pedidos where vendedor = %s",cod_delel);
 	vetor = consultar(query);
 	if(vetor ==NULL)
 	{

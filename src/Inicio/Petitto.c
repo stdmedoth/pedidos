@@ -11,6 +11,7 @@
 #endif
 GtkWidget  *janela_principal;
 GtkWidget *imagem_desktop;
+#include <ctype.h>
 #include "../etc/libs.h"
 //#include "../etc/tipo_listagem.c"
 

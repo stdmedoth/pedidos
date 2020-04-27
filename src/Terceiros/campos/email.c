@@ -24,6 +24,7 @@ int contato_email()
 	}
 	vet_erro[CNE_ERR] = 0;
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
+	gtk_widget_grab_focus(transp_codigo_entry);
 	//inserir campo aqui
 	return 0;	
 }

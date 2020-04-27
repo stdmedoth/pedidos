@@ -23,6 +23,12 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
+	if(inscr_terc()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(inscr_ter_field);
+		return 1;
+	}
 	if(escolha_tipo_ter()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
