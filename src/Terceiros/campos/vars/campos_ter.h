@@ -17,6 +17,7 @@
 #define CCEL_TER_COL 16
 #define EMAIl_TER_COL 17
 #define CEMAIL_TER_COL 18
+
 #define TRSP_NOME_COL 19
 #define TRSP_CNPJ_COL 20
 #define TRSP_IE_COL 21
@@ -24,9 +25,11 @@
 #define TRSP_NUM_COL 23
 #define TRSP_CID_COL 24
 #define TRSP_UF_COL 25
-#define VLR_MIN_FRT_PAG_COL 26
-#define PRAZ_TER_COL 27
-#define OBS_TER_COL 28
+#define TRSP_CEP_COL 26
+#define TRSP_TEL_COL 27
+#define VLR_MIN_FRT_PAG_COL 28
+#define PRAZ_TER_COL 29
+#define OBS_TER_COL 30
 
 int tipo_doc,tipo_log;
 GtkWidget *doc_combo;

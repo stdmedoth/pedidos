@@ -40,13 +40,18 @@ celular varchar(15),
 contatoc varchar(15),
 email varchar(100),
 contatoe varchar(20),
+
 transp_nome varchar(300),
 transp_cnpj varchar(20),
 transp_ie varchar(20),
-logr_entrega varchar(400),
-numero_entrega int,
-cidade_entrega varchar(50),
-uf_entrega varchar(20), 
+transp_logradouro varchar(400),
+transp_num int,
+transp_cidade varchar(50),
+transp_estado varchar(20),
+transp_cep varchar(15),
+transp_telefone varchar(20),
+transp_obs varchar(500),
+
 prazo varchar(20),
 obs varchar(500));
 

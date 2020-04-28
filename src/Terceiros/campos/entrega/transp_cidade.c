@@ -7,7 +7,7 @@ int transp_cidadec()
 		{
 			transp_cidade = malloc(sizeof(char*)*MAX_CID_LEN);
 			strcpy(transp_cidade,"");
-			gtk_widget_grab_focus(uf_ter_field);
+			gtk_widget_grab_focus(transp_estado_entry);
 			return 0;
 		}
 		popup(NULL,"Por favor insira a cidade para Entrega");
@@ -22,7 +22,7 @@ int transp_cidadec()
 	}
 	else
 	{
-		gtk_widget_grab_focus(uf_ter_field);
+		gtk_widget_grab_focus(transp_estado_entry);
 	}
 	g_print("Cidade Transp: %s\n",transp_cidade);
 	return 0;

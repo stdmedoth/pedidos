@@ -1,4 +1,3 @@
-
 int altera_ter()
 {
 	char task[10];
@@ -108,9 +107,36 @@ int altera_ter()
 	if(campo[EMAIl_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[EMAIl_TER_COL]);
 	
-	if(campo[CEMAIL_TER_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[CEMAIL_TER_COL]);
+	if(campo[TRSP_NOME_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[TRSP_NOME_COL]);
 	
+	if(campo[TRSP_NOME_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),campo[TRSP_NOME_COL]);
+		
+	if(campo[TRSP_CNPJ_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry),campo[TRSP_CNPJ_COL]);
+		
+	if(campo[TRSP_IE_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),campo[TRSP_IE_COL]);
+		
+	if(campo[TRSP_LOGR_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campo[TRSP_LOGR_COL]);
+		
+	if(campo[TRSP_NUM_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_num_entry),campo[TRSP_NUM_COL]);
+		
+	if(campo[TRSP_CID_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campo[TRSP_CID_COL]);
+		
+	if(campo[TRSP_UF_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_UF_COL]);
+
+	if(campo[TRSP_CEP_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),campo[TRSP_CEP_COL]);
+
+	if(campo[TRSP_TEL_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),campo[TRSP_TEL_COL]);
+
 	if(campo[PRAZ_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
 	

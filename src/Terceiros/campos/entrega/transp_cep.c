@@ -19,7 +19,7 @@ int transp_cepc()
 		{
 			transp_cep = malloc(MAX_CEP_LEN);
 			strcpy(transp_cep,"");
-			gtk_widget_grab_focus(address_ter_field);
+			gtk_widget_grab_focus(transp_logradouro_entry);
 			return 0;
 		}
 		popup(NULL,"Por favor insira um cep");
@@ -35,7 +35,7 @@ int transp_cepc()
 	g_print("CEP: %s\n",transp_cep);
 	autologger("CEP:");
 	autologger(transp_cep);
-	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",transp_cep);
+	sprintf(query,"select l.descricao, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",transp_cep);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -50,28 +50,15 @@ int transp_cepc()
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(transp_cep);
 		transp_msg_cep = 1;
-		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
-		gtk_widget_grab_focus(address_ter_field);
+		gtk_widget_grab_focus(transp_logradouro_entry);
 		return 0;
 	}
 	g_print("cep_len: %li\n",strlen(transp_cep));
-	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campos[0]);
-	for(cont=0;cont<=6;cont++)
-	{
-		if(strcmp(campos[1],tip_logds[cont])==0)
-		{
-			gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),cont+1);
-			tipo_log = cont+1;
-			cont2 = 1;
- 		}
-	}
-	if(cont2==0)
-	{
-		gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),7);
-	}
-	gtk_entry_set_text(GTK_ENTRY(transp_cidade),campos[2]);
-	gtk_entry_set_text(GTK_ENTRY(transp_estado),campos[3]);
-	gtk_widget_grab_focus(address_ter_field);
+	gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campos[0]);
+	gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campos[1]);
+	gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campos[2]);
+	
+	gtk_widget_grab_focus(transp_logradouro_entry);
 	g_print("cep: %s\n",transp_cep);
 	return 0;
 }

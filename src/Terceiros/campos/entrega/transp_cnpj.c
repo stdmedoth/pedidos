@@ -1,7 +1,6 @@
 int transp_cnpjc()
 {
 	transp_cnpj = (gchar *)gtk_entry_get_text(GTK_ENTRY(transp_cnpj_entry));
-	
 	if(strlen(transp_cnpj)<=0)
 	{
 		if(terceiros.criticar.transp_cnpj==0)
