@@ -205,6 +205,7 @@ int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(prod_scroll_box),linhas_prod_orc_frame[itens_qnt],0,0,10);
 	id_vetor[itens_qnt] = itens_qnt;
 	ativos[itens_qnt].id = 1;
+	preco_alterado[itens_qnt] = 0;
 	excluidos[itens_qnt].id = 0;
 	ativos_qnt++;	
 	
@@ -265,6 +266,9 @@ int vnd_orc()
 	ativos_qnt=1;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
+	
+	orc_notebook = gtk_notebook_new();
+
 	
 	item_frame_char = malloc(strlen("Item ")+10);
 	
@@ -377,26 +381,29 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_e,0,0,0);
 
 	//labels produtos
-	linhas_prod_orc_box = malloc(sizeof(GtkBox*)*MAX_PROD_ORC);
-	codigo_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	descricao_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
+	linhas_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	codigo_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	descricao_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
 	//qnt_prod_est_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	qnt_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	preco_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	orig_preco_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	desconto_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	total_prod_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
+	qnt_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	preco_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	orig_preco_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	desconto_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	total_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
 		
 	//entrys
-	codigo_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	descricao_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	qnt_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	preco_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	orig_preco_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	desconto_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
-	tipodesconto_prod_orc_combo = malloc(sizeof(GtkComboBoxText*)*MAX_PROD_ORC);
-	total_prod_orc_entry = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
+	codigo_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	descricao_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	qnt_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	preco_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	orig_preco_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	desconto_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	tipodesconto_prod_orc_combo = malloc(sizeof(GtkComboBoxText)*MAX_PROD_ORC);
+	total_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	
 	itens_orc_box = gtk_box_new(1,0);	
+	outros_orc_box = gtk_box_new(1,0);	
+	transp_orc_box = gtk_box_new(1,0);	
 	
 	pesquisa_prod = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
 	img_pesquisa_prod = malloc(sizeof(GtkImage*)*MAX_PROD_ORC);
@@ -445,9 +452,15 @@ int vnd_orc()
 	
 	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,100,0);
 	
-	linhas_prod_orc_frame = malloc(sizeof(GtkEntry*)*MAX_PROD_ORC);
+	linhas_prod_orc_frame = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	prod_scroll_box = gtk_box_new(1,0);
+	
+	for(int pos=0;pos<MAX_PROD_ORC;pos++)
+	{
+		ativos[pos].id = 0;
+		excluidos[pos].id = 1;
+	}
 	
 	for(cont=1;cont<=PROD_LINHAS_ORC;cont++)
 	{	
@@ -455,7 +468,7 @@ int vnd_orc()
 		linhas_prod_orc_frame[cont] =  gtk_frame_new(item_frame_char);
 		gtk_widget_set_name(linhas_prod_orc_frame[cont],"frame2");
 		linhas_prod_orc_box[cont] = gtk_box_new(0,0); 
-		
+		preco_alterado[cont] = 0;
 		codigo_prod_orc_label[cont] = gtk_label_new("Código");
 		codigo_prod_orc_entry[cont] = gtk_entry_new();
 		pesquisa_prod[cont] = gtk_button_new();
@@ -524,7 +537,7 @@ int vnd_orc()
 		g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[cont]);
 		
 		g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[cont]);
-		g_signal_connect(preco_prod_orc_entry[itens_qnt],"focus-in-event",G_CALLBACK(prc_cli_alter),id_vetor[cont]);
+		g_signal_connect(preco_prod_orc_entry[itens_qnt],"key-release-event",G_CALLBACK(prc_cli_alter),id_vetor[cont]);
 		
 		g_signal_connect(tipodesconto_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(desconto_prod_orc),id_vetor[cont]);
 		
@@ -540,6 +553,7 @@ int vnd_orc()
 		
 		itens_qnt++;
 	}
+	
 	img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
 	botao_orc_mais = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(botao_orc_mais),img_botao_orc_mais);
@@ -556,8 +570,15 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(itens_orc_box),prod_scroll_window,0,0,0);
 	
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_orc_infos,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),itens_orc_box,0,0,10);
+	
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),itens_orc_box,gtk_label_new("Itens"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),transp_orc_box,gtk_label_new("Transporte"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),outros_orc_box,gtk_label_new("Outros"));
+	
+	
+	gtk_box_pack_start(GTK_BOX(caixa_grande),orc_notebook,0,0,10);
 	gtk_box_pack_end(GTK_BOX(caixa_grande),opcoes_orc_fixed,0,0,10);
+	
 	gtk_container_add(GTK_CONTAINER(janela_orcamento),caixa_grande);
 	
 	g_signal_connect(concluir_orc_button,"clicked",G_CALLBACK(concluir_orc),NULL);

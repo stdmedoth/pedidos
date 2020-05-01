@@ -323,10 +323,10 @@ int gerar_orc()
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
 	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);  
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade</td>\n",IMG_IMP_QNT);  
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Produto</td>\n",IMG_IMP_PROD);
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Preco</td>\n",IMG_MONEY);
-	fprintf(orc,"<td id=\"prod-row1\">Desconto </td>\n");
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade Unitária</td>\n",IMG_IMP_QNT);  
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Descrição do Produto</td>\n",IMG_IMP_PROD);
+	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Valor Unitário.</td>\n",IMG_MONEY);
+	fprintf(orc,"<td id=\"prod-row1\">Desconto</td>\n");
 	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
 	fprintf(orc,"</tr>\n");
 	

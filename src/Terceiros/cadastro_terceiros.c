@@ -1,5 +1,6 @@
 int alterando_ter=0;
 GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *excluir_ter_buttom;
+
 #include "campos.c"
 #include "altera.c"
 #include "exclui.c"
@@ -143,6 +144,7 @@ int  cad_terc()
 	#endif
 	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_vinc_label,0,0,20);
 	/*																	*/
+	
 	gtk_widget_set_size_request(precos_scroll_window,200,500);
 	
 	fixed = gtk_fixed_new();

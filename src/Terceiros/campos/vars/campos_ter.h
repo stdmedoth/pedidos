@@ -70,7 +70,6 @@ GtkWidget *code_label,
 *contatoc_label, 
 *email_label, 
 *contatoe_label, 
-*seguimento_label,
 *observacoes_label,
 *prazo_ter_label;
 
@@ -90,8 +89,8 @@ GtkWidget *code_ter_field,
 *contatoc_ter_field, 
 *email_ter_field, 
 *contatoe_ter_field, 
-*seguimento_ter_field,
 *observacoes_ter_field,
+
 *prazo_ter_field;
 
 GtkWidget *transp_codigo_entry, 
@@ -104,7 +103,7 @@ GtkWidget *transp_codigo_entry,
 *transp_estado_entry, 
 *transp_cep_entry, 
 *transp_telefone_entry, 
-*transp_obs_entry;	
+*transp_obs_entry;
 
 GtkWidget *ter_trsp_label,*ter_trsp_entry;
 
@@ -127,7 +126,6 @@ gchar *contatoc_ter=NULL;
 gchar *email_ter=NULL;
 gchar *contatoe_ter=NULL;
 gchar *observacoes_ter=NULL;
-gchar *prazo_ter=NULL;
 
 gchar *transp_codigo=NULL,
 *transp_nome=NULL, 
@@ -140,5 +138,7 @@ gchar *transp_codigo=NULL,
 *transp_cnpj=NULL, 
 *transp_ie=NULL, 
 *transp_obs=NULL;
+
+gchar *prazo_ter=NULL;
 
 char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia","Rodovia"};

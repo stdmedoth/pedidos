@@ -64,9 +64,31 @@ int rec_prod_list(GtkWidget *widget,gpointer lista_scroll_caixav)
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 
+	GList *children,*iter;
 	if(GTK_IS_WIDGET(colunasp))
-		gtk_widget_destroy(colunasp);
-	
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(colunasp));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+	}
+
+	if(GTK_IS_WIDGET(lista_scroll_caixav))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_caixav));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+	}
+	if(GTK_IS_WIDGET(lista_scroll_windowh))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_windowh));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+			gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+		gtk_widget_destroy(GTK_WIDGET(lista_scroll_windowh));
+	}
+
 	colunasp = gtk_box_new(0,0);	
 
 	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.nome,t.razao,g.nome,p.fator,p.observacoes from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.unidade = u.code and p.grupo = g.code and p.fornecedor = t.code where p.nome like '%c%s%c';",ascii,entrada,ascii);
@@ -212,16 +234,16 @@ int rec_prod_list(GtkWidget *widget,gpointer lista_scroll_caixav)
 int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 {
 	GtkWidget *pesquisa;
-	GtkWidget *lista_scroll_caixah=NULL, *lista_scroll_caixav=NULL;
-	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
-	
+	GtkWidget *lista_scroll_caixav=NULL, *lista_scroll_windowh=NULL;
+	GtkWidget *caixona;
 	pesquisa = gtk_search_entry_new();
 
-	
+	caixona = gtk_box_new(1,0);
 	lista_scroll_caixav = gtk_box_new(1,0);
 	lista_scroll_caixah = gtk_box_new(0,0);
 	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),pesquisa,0,0,20);
+	gtk_box_pack_start(GTK_BOX(caixona),pesquisa,0,0,20);
+	
 	
 	lista_prod = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(lista_prod),3);
@@ -234,33 +256,22 @@ int pesquisar_produtos(GtkWidget *botao,gpointer *ponteiro)
 	
 	gtk_widget_set_size_request(lista_prod,1000,600);
 	abrir_css(DESKTOP_STYLE);
-
-	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
+	
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
 	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
-	gtk_widget_set_size_request(lista_scroll_windowv,1800,600);
-	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
 	gtk_widget_set_size_request(lista_scroll_windowh,1000,600);
 	
 	
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowv),lista_scroll_caixav);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixav);
 	#endif
 	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_windowv),lista_scroll_caixav);
-	#endif	
-	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_windowv,0,0,20);
-	
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixah);
-	#endif
-	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
+	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixav);
 	#endif	
 
-	gtk_container_add(GTK_CONTAINER(lista_prod),lista_scroll_windowh);
+	gtk_box_pack_start(GTK_BOX(caixona),lista_scroll_windowh,0,0,20);
+	gtk_container_add(GTK_CONTAINER(lista_prod),caixona);
 	
 	g_signal_connect(pesquisa,"activate",G_CALLBACK(rec_prod_list),lista_scroll_caixav);
 	g_signal_connect(lista_prod,"destroy",G_CALLBACK(close_window_callback),lista_prod);

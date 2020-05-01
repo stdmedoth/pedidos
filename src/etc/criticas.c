@@ -1,4 +1,4 @@
-int critica_real(gchar *valor,GtkWidget *entrada)
+int critica_real(gchar *valor, GtkWidget *entrada)
 {
 	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
@@ -71,11 +71,16 @@ int critica_real(gchar *valor,GtkWidget *entrada)
 			formatar[pos] = 46;
 		valor[pos] = formatar[pos];
 	}
-	
+
 	g_print("para: %s\n",valor);
 	if(!GTK_IS_WIDGET(entrada))
+	{
+		g_print("Finalizando funcao critica_real() sem gtk_entry_set_text\n");
 		return 0;
+	}
+	
 	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
-	g_print("Finalizando funcao critica_real()\n");
+	g_print("Finalizando funcao critica_real() com gtk_entry_set_text\n");
+	
 	return 0;
 }

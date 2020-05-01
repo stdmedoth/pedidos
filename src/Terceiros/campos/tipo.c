@@ -15,9 +15,9 @@ int escolha_tipo_ter()
 				gtk_widget_grab_focus(prazo_ter_field);
 				return 0;
 			}
-			popup(NULL,"Tipo Terceiro deve ser inserido");
-			strcpy(tipo_ter,"");
-			return 1;
+			terci_tipo = 1;
+			strcpy(tipo_ter,"Cliente");
+			g_print("O terceiro é %s\n",tipo_ter);
 			break;
 		case 1:
 			terci_tipo = 1;

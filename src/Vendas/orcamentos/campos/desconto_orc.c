@@ -41,14 +41,17 @@ int desconto_prod_orc(GtkWidget *widget,int posicao)
 	}
 	g_print("float: %.2f ",ativos[posicao].total_f);
 	
-	sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
-	g_print("string: %s \n",total_prod_orc_gchar);
-	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
+	if(total_prod_orc_gchar!=NULL)
+	{
+		sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
+		g_print("string: %s \n",total_prod_orc_gchar);
+		critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 	
-	strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
-	critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
+		strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
+		critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
 	
-	gerar_total_geral();
+		gerar_total_geral();
+	}
 	gtk_widget_grab_focus(total_prod_orc_entry[posicao]);
 	return 0;
 }

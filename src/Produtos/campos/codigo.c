@@ -47,19 +47,21 @@ int code_prod()
 			gtk_text_buffer_get_end_iter (buffer,&fim);
 			gtk_text_buffer_delete (buffer,&inicio,&fim);	
 		}
-		return -1;
+		return 1;
 	}
-	else
-	if((vetor = consultar(query))!=NULL&&alterando_prod==0)
+	if(alterando_prod==0)
 	{
-		campos = mysql_fetch_row(vetor);
-		if(campos!=NULL)
+		if((vetor = consultar(query))!=NULL)
 		{
-			popup(NULL,"Este código ja foi incluído\nPor favor tente com o próximo");
-			g_print("Código ja foi incluído\n");
-			g_print("%s\n",campos[0]);
-			vet_erro[COD_ERR] = 1;
-			return 1;
+			campos = mysql_fetch_row(vetor);
+			if(campos!=NULL)
+			{
+				popup(NULL,"Este código ja foi incluído\nPor favor tente com o próximo");
+				g_print("Código ja foi incluído\n");
+				g_print("%s\n",campos[0]);
+				vet_erro[COD_ERR] = 1;
+				return 1;
+			}
 		}
 	}
 	vet_erro[COD_ERR] = 0;

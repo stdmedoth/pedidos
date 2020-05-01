@@ -47,6 +47,20 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(address_ter_field);
 		return 1;
 	}
+	if(cidade_terc()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(cidade_ter_field);
+		return 1;	
+	}
+	
+	if( uf_terc()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(uf_ter_field);
+		return 1;
+	}
+	
 	if(numrua()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
@@ -156,16 +170,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(observacoes_ter_field);
 		return 1;
 	}
-	for(cont=0;cont<=CAMPOS_QNT;cont++)
-	{
-		if(vet_erro[cont]!=0)
-		{
-			popup(NULL,"Você tem campos incorretos\n\tRepasse com tecla ENTER");
-			g_print("Tentou concluir cadastro com campos incorretos: campo %i\n",cont);
-			autologger("Tentou concluir cadastro com campos incorretos");
-			return 1;
-		}
-	}
+	
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)

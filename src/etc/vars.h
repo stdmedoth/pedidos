@@ -188,12 +188,3 @@ GtkTextBuffer *buffer;
 GtkTextIter inicio,fim;	
 
 
-#define PROD_CAD_QUERY "insert into produtos(nome,preco,peso,unidade,fornecedor,grupo,fator,observacoes) values( '%s', %s, %s, (select code from unidades where sigla = '%s'), %s, %s, '%s', '%s');"
-#define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, fatores_prod, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', preco = %s, peso = '%s', unidade = (select code from unidades where sigla = '%s'), fornecedor = '%s', grupo = '%s', fator = %s, observacoes = '%s' where code = %s"
-#define ARGS_PROD_UPD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, fatores_prod, observacoes_prod,codigos_prod
-
-#define FTR_CAD_QUERY "insert into fatores(nome,observacoes) values('%s','%s');"
-#define ARGS_FTR_CAD_QUERY nomes_ftr,observacoes_ftr
-#define FTR_UPD_QUERY "update fatores set nome = '%s',observacoes = '%s' where code = %s"
-#define ARGS_FTR_UPD_QUERY nomes_ftr,observacoes_ftr,codigos_ftr

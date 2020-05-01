@@ -42,6 +42,7 @@ int preco_prod()
 	gtk_widget_grab_focus(peso_prod_field);
 	g_print("preco: %s\n",precos_prod);
 	
+	return 1;
 	return 0;
 
 }

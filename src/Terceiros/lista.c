@@ -13,7 +13,12 @@ int chama_ter_codigo(GtkWidget *widget,GdkEvent *evento,char *pcodigo)
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",pcodigo);
 	if(altera_ter()==0)
 	{
-		gtk_widget_destroy(lista_ter);	
+		if(GTK_IS_WIDGET(lista_ter))
+		{
+			g_object_ref(lista_ter);
+			gtk_widget_destroy(lista_ter);	
+			g_object_unref(lista_ter);
+		}
 	}
 	return 0;
 }
@@ -117,8 +122,8 @@ int rec_ter_list()
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);	
 	
 
-	gtk_widget_set_size_request(lista_scroll_caixav,1000,3000);
-	gtk_widget_set_size_request(lista_scroll_caixah,1000,3000);
+	gtk_widget_set_size_request(lista_scroll_caixav,1000,600);
+	gtk_widget_set_size_request(lista_scroll_caixah,1000,600);
 	gtk_widget_set_size_request(lista_scroll_windowh,1000,500);
 	
 	row = malloc(ENTRADA);
@@ -148,8 +153,8 @@ int rec_ter_list()
 	gchar *entrada;
 	entrada = malloc(ENTRADA);
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(pesquisa));
-	if(strlen(entrada)<2)
-		return 0;
+	//if(strlen(entrada)<=0)
+	//	return 0;
 	switch(gtk_combo_box_get_active(GTK_COMBO_BOX(tipopesq)))
 	{
 		case 0:

@@ -1,6 +1,6 @@
 int peso_prod()
 {
-	int critica;
+	int critica=0;
 	pesos_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(peso_prod_field));
 	if(strlen(pesos_prod)>50)
 	{

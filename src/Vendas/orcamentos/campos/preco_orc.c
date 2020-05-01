@@ -1,8 +1,11 @@
-void prc_cli_alter(GtkWidget *widget,GdkEvent *event,int posicao)
+void prc_cli_alter(GtkWidget *widget,GdkEventKey *event,int posicao)
 {
-	g_print("Preco do item %i alterado\n",posicao);
-	gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Operador");
-	preco_alterado[posicao] = 1;
+	if(event->keyval!=GDK_KEY_KP_Enter)
+	{
+		g_print("Preco do item %i alterado\n",posicao);
+		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Operador");
+		preco_alterado[posicao] = 1;
+	}
 	return;
 }
 

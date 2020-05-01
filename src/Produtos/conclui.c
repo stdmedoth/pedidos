@@ -1,21 +1,23 @@
 int conclui_prod(GtkWidget* nome, gpointer *botao)
-{
-	
+{	
 	int err;
 	char *code;
 	code = malloc(10);
 	char *query;
 	int cont;
-	for(cont=0;cont<=CAMPOS_QNT;cont++)
-	{
-		if(vet_erro[cont]!=0)
-		{
-			popup(NULL,"Você tem campos incorretos\n\t\tRepasse com tecla ENTER");
-			g_print("Tentou concluir cadastro com campos incorretos: campo %i\n",cont);
-			autologger("Tentou concluir cadastro com campos incorretos");
-			return 1;
-		}
-	}
+	code_prod();
+	if(fornecedor_prod()!=0)
+		return 1;
+	if(grupo_prod()!=0)
+		return 1;
+	if(nome_prod()!=0)
+		return 1;
+	if(peso_prod()!=0)
+		return 1;
+	if(preco_prod()!=0)
+		return 1;
+	if(und_prod()!=0)
+		return 1;
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)

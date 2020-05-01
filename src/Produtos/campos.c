@@ -10,3 +10,6 @@
 #include "campos/fornecedor.c"
 #include "campos/observacao.c"
 #include "campos/fatores.c"
+#include "campos/pesquisas/pesquisa_unidades.c"
+#include "campos/pesquisas/pesquisa_fornecedor.c"
+#include "campos/pesquisas/pesquisa_grupos.c"

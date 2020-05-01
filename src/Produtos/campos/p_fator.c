@@ -3,7 +3,7 @@ int fator_prod()
 	fatores_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(fator_prod_field));
 	if(strlen(fatores_prod)>MAX_MRC_LEN)
 	{
-		popup(NULL,"Marca inserida é muito grande");
+		popup(NULL,"Fator inserida é muito grande");
 		gtk_widget_grab_focus(GTK_WIDGET(fator_prod_field));
 		vet_erro[MRC_ERR] = 1; 
 		return 1;

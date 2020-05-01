@@ -10,6 +10,7 @@ int inicializar_orc()
 	return 0;
 }
 int rec_altera_qnt=1;
+static GtkWidget *orc_notebook;
 
 int preco_prod_orc(GtkWidget *widget,int posicao);
 int preco_alterado[MAX_PROD];
@@ -94,7 +95,7 @@ static GtkWidget *data_orc_entry;
 
 //  BOXES
 static GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
-static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,**linhas_prod_orc_box;
+static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,**linhas_prod_orc_box;
 static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
 
 //  CONTAINERS

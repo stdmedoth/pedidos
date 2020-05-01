@@ -23,7 +23,7 @@ int und_prod()
 		vet_erro[UND_ERR] = 1;
 		return 1;
 	}
-	sprintf(query,"select code from unidades where sigla = '%s'",unidades_prod);
+	sprintf(query,"select nome from unidades where code = %s",unidades_prod);
 	if((vetor = consultar(query))!=NULL)
 	{
 		campos = mysql_fetch_row(vetor);
@@ -34,6 +34,7 @@ int und_prod()
 			vet_erro[UND_ERR] = 1;
 			return 1;
 		}
+		gtk_entry_set_text(GTK_ENTRY(campo_nome_unidade),campos[0]);
 	}
 	else
 	{

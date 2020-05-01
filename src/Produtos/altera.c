@@ -7,7 +7,7 @@ int altera_prod()
 	MYSQL_RES *vetor;
 	MYSQL_ROW campo;
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,p.nome,p.preco,p.peso,u.sigla,p.fornecedor,p.grupo,p.fator,p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,p.nome,p.preco,p.peso,p.unidade,p.fornecedor,p.grupo,p.fator,p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -22,7 +22,7 @@ int altera_prod()
 	{
 		g_print("produto não existe para ser alterado\n");
 		popup(NULL,"Produto não existe");
-		sprintf(task,"%i",tasker("Produto"));
+		sprintf(task,"%i",tasker("produtos"));
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
 		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
@@ -55,8 +55,19 @@ int altera_prod()
 	strcpy(observacoes_prod,campo[8]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
-	memset(query,0x0,strlen(query));
+	
 	alterando_prod=1;
+	code_prod();
+	fornecedor_prod();
+	grupo_prod();
+	nome_prod();
+	peso_prod();
+	preco_prod();
+	und_prod();
+	fator_prod();
+	
+	memset(query,0x0,strlen(query));
+	
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
