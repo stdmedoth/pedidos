@@ -6,7 +6,6 @@ int preco_prod()
 	{
 		popup(NULL,"Preço muito grande");
 		gtk_widget_grab_focus(preco_prod_field);
-		vet_erro[PRC_ERR] = 1;
 		return 1;
 	}
 	
@@ -18,16 +17,13 @@ int preco_prod()
 			if(critica!=0)
 			{
 				gtk_widget_grab_focus(preco_prod_field);
-				vet_erro[PRC_ERR] = 1;
 				return 1;
 			}
 			gtk_widget_grab_focus(peso_prod_field);
-			vet_erro[PRC_ERR] = 0;
 			return 0;
 		}
 		popup(NULL,"Por favor, insira um Preço");
 		gtk_widget_grab_focus(preco_prod_field);
-		vet_erro[PRC_ERR] = 1;
 		return 1;
 	}
 
@@ -35,14 +31,11 @@ int preco_prod()
 	if(critica!=0)
 	{
 		gtk_widget_grab_focus(preco_prod_field);
-		vet_erro[PRC_ERR] = 1;
 		return 1;
 	}
-	vet_erro[PRC_ERR] = 0;
+	
 	gtk_widget_grab_focus(peso_prod_field);
 	g_print("preco: %s\n",precos_prod);
-	
-	return 1;
 	return 0;
 
 }

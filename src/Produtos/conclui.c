@@ -4,20 +4,37 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	char *code;
 	code = malloc(10);
 	char *query;
-	int cont;
 	code_prod();
 	if(fornecedor_prod()!=0)
+	{
+		gtk_widget_grab_focus(fornecedor_prod_field);
 		return 1;
+	}
 	if(grupo_prod()!=0)
+	{
+		gtk_widget_grab_focus(grupo_prod_field);
 		return 1;
+	}
 	if(nome_prod()!=0)
+	{
+		gtk_widget_grab_focus(nome_prod_field);
 		return 1;
+	}
 	if(peso_prod()!=0)
+	{
+		gtk_widget_grab_focus(peso_prod_field);
 		return 1;
+	}
 	if(preco_prod()!=0)
+	{
+		gtk_widget_grab_focus(preco_prod_field);
 		return 1;
+	}
 	if(und_prod()!=0)
+	{	
+		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
+	}
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)

@@ -13,7 +13,6 @@ int obs_prod()
 	if(strlen(observacoes_prod)>=OBS_MAX_LEN)
 	{
 			popup(NULL,"As observações podem ter até 500 caracteres");
-			vet_erro[OBS_ERR] = 1;
 			return 1;
 	}
 	gtk_widget_grab_focus(concluir);

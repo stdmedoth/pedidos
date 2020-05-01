@@ -4,7 +4,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	char *code;
 	code = malloc(10);
 	char *query;
-	int cont;
 	if(code_terc()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);

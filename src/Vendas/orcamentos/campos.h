@@ -1,6 +1,7 @@
 #define MAX_PROD_ORC 1000
 #define PROD_LINHAS_ORC 1
-
+int altera_orc();
+int tirar_linha(int);
 int vnd_orc();
 int inicializar_orc()
 {
@@ -35,17 +36,14 @@ static GtkWidget *caixa_opcoes_orc;
 
 static gchar *data_orc_gchar;
 
-static gchar *cliente_orc_gchar,
-*cliente_orc_name_gchar,
-*cliente_orc_end_gchar,
-*cliente_orc_tel_gchar;
+static gchar *cliente_orc_gchar;
 
 static gchar *codigo_orc_gchar,
-*operacao_orc_gchar,
+//*operacao_orc_gchar,
 *observacoes_orc_gchar;
 
 static gchar *codigo_prod_orc_gchar, 
-*descricao_prod_orc_gchar,
+//*descricao_prod_orc_gchar,
 *qnt_prod_orc_gchar,
 *preco_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
@@ -57,7 +55,7 @@ static GtkWidget *janela_orcamento;
 
 //  FRAMES
 static GtkWidget *data_orc_frame;
-static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,*itens_orc_frame,**linhas_prod_orc_frame;
+static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
 static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
 
 // FIXEDs
@@ -67,7 +65,7 @@ static GtkWidget *opcoes_orc_fixed;
 
 // LABELS
 
-static GtkWidget *data_orc_label;
+//static GtkWidget *data_orc_label;
 static GtkWidget *total_geral_orc_label,*desconto_geral_orc_label;
 
 static GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
@@ -100,14 +98,8 @@ static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_
 
 //  CONTAINERS
 static GtkWidget *prod_scroll_window,*prod_scroll_box;
-static GtkWidget /**codigo_prod_orc_box,
-**descricao_prod_orc_box,
-**qnt_prod_est_orc_box,
-**qnt_prod_orc_box,
-**preco_prod_orc_box,
-**orig_preco_prod_orc_box,
-**desconto_prod_orc_box,*/
-*img_botao_orc_mais,**img_botao_menos;
+static GtkWidget *img_botao_orc_mais,**img_botao_menos;
+
 static int cont;
 int adicionar_linha_orc();
 static GtkWidget *observacoes_orc,*buffer_orc;

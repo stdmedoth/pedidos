@@ -59,12 +59,10 @@ int code_prod()
 				popup(NULL,"Este código ja foi incluído\nPor favor tente com o próximo");
 				g_print("Código ja foi incluído\n");
 				g_print("%s\n",campos[0]);
-				vet_erro[COD_ERR] = 1;
 				return 1;
 			}
 		}
 	}
-	vet_erro[COD_ERR] = 0;
 	g_print("codigo: %s\n",codigos_prod);
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;

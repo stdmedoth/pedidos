@@ -6,7 +6,6 @@ int peso_prod()
 	{
 		popup(NULL,"Preço muito grande");
 		gtk_widget_grab_focus(peso_prod_field);
-		vet_erro[PES_ERR] = 1;
 		return 1;
 	}
 	else
@@ -20,7 +19,6 @@ int peso_prod()
 		}	
 		popup(NULL,"Por favor, insira um Peso");
 		gtk_widget_grab_focus(peso_prod_field);
-		vet_erro[PES_ERR] = 1;
 		return 1;
 	}
 	else
@@ -29,10 +27,8 @@ int peso_prod()
 		if(critica!=0)
 		{
 			gtk_widget_grab_focus(peso_prod_field);
-			vet_erro[PES_ERR] = 1;
 			return 1;
 		}
-		vet_erro[PES_ERR] = 0;
 		gtk_widget_grab_focus(unidade_prod_field);
 	}
 	g_print("peso: %s\n",pesos_prod);

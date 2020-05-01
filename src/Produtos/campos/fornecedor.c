@@ -9,7 +9,6 @@ int fornecedor_prod()
 	{
 		popup(NULL,"Nome do fornecedor\n muito grande");
 		gtk_widget_grab_focus(fornecedor_prod_field);
-		vet_erro[FOR_ERR] = 1;
 		return 1;
 	}
 	else
@@ -18,12 +17,10 @@ int fornecedor_prod()
 		if(produtos.criticar.fornecedor!=0)
 		{
 			gtk_widget_grab_focus(GTK_WIDGET(observacao_prod_field));
-			vet_erro[FOR_ERR] = 0;
 			return 0; 
 		}
 		popup(NULL,"Por favor, insira um Fornecedor");
 		gtk_widget_grab_focus(fornecedor_prod_field);
-		vet_erro[FOR_ERR] = 1;
 		return 1;	
 	}
 	g_print("fornecedor: %s\n",fornecedores_prod);
@@ -46,6 +43,5 @@ int fornecedor_prod()
 	g_print("endereco do fornecedor: %s\n",campos[2]);
 	g_print("tipo de fornecedor: %s\n",campos[3]);
 	gtk_widget_grab_focus(fator_prod_field);
-	vet_erro[FOR_ERR] = 0;
 	return 0;
 }

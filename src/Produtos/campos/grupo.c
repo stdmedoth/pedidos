@@ -11,15 +11,13 @@ int grupo_prod()
 			gtk_widget_grab_focus(fornecedor_prod_field);
 			return 0;	
 		}
-		popup(NULL,"Por favor, Insira um grupo para o produto");
-		vet_erro[GRP_ERR] = 1; 
+		popup(NULL,"Por favor, Insira um grupo para o produto"); 
 		return 1;
 	}
 	else
 	if(strlen(grupos_prod)>=MAX_GRP_LEN)
 	{
 		popup(NULL,"Código do grupo é muito grande");
-		vet_erro[GRP_ERR] = 1;
 		return 1;
 	}
 	sprintf(query,"select nome from grupos where code = '%s'",grupos_prod);
@@ -30,7 +28,6 @@ int grupo_prod()
 		{
 			popup(NULL,"Este código para grupo não existe\n\tUse a pesquisa");
 			g_print("Esta código para grupo não existe:%s\n",grupos_prod);
-			vet_erro[GRP_ERR] = 1;
 			return 1;
 		}
 	}
@@ -40,7 +37,6 @@ int grupo_prod()
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);	
-	vet_erro[GRP_ERR] = 0;
 	g_print("grupo: %s\n",grupos_prod);
 	gtk_widget_grab_focus(GTK_WIDGET(fornecedor_prod_field));
 	return 0;

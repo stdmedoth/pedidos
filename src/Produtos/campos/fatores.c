@@ -12,7 +12,6 @@ void codigo_ftr()
 		popup(NULL,"Por favor, Insira um código para o fator");
 		sprintf(code,"%i",tasker("fatores"));
 		gtk_entry_set_text(GTK_ENTRY(codigo_ftr_entry),code);
-		vet_erro[COD_ERR] = 1;
 		return;
 	}	
 	if(strlen(codigos_ftr)>=MAX_CODE_LEN)
@@ -21,10 +20,8 @@ void codigo_ftr()
 		popup(NULL,"Por favor,verifique com suporte\n\tsobre o tamanho do código");
 		sprintf(code,"%i",tasker("fatores"));
 		gtk_entry_set_text(GTK_ENTRY(codigo_ftr_entry),code);
-		vet_erro[COD_ERR] = 1;
 		return ;
 	}
-	vet_erro[COD_ERR] = 0;
 	gtk_widget_grab_focus(GTK_WIDGET(nome_ftr_entry));
 }
 

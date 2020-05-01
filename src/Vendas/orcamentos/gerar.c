@@ -184,6 +184,7 @@ int gerar_orc()
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return 1;
 	}
+	
 	gerar_total_geral();
 	campos = mysql_fetch_row(vetor);
 	if(campos == NULL)
@@ -204,6 +205,8 @@ int gerar_orc()
 				if(codigo_cli_orc()!=0)
 					return 1;			
 				if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
+					return 1;
+				if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
 					return 1;
 				if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
 					return 1;
@@ -230,6 +233,7 @@ int gerar_orc()
 				}
 			}
 		}
+		
 		if(ativos_qnt<=1)
 		{
 			popup(NULL,"Não há produtos no orçamento");
@@ -262,7 +266,8 @@ int gerar_orc()
 		autologger(query);
 		fclose(orc);
 		return 1;
-	}	
+	}
+	
 	campos = mysql_fetch_row(vetor);
 	if(campos == NULL)
 	{
@@ -270,6 +275,7 @@ int gerar_orc()
 		fclose(orc);
 		return 1;
 	}
+	
 	fprintf(orc,"<!DOCTYPE html>\n");
 	fprintf(orc,"<html>\n");
 	fprintf(orc,"<head>\n");
@@ -317,7 +323,9 @@ int gerar_orc()
 		fclose(orc);
 		return 1;
 	}
+	
 	cont=1;
+	
 	fprintf(orc,"<div id=\"separator\">");fprintf(orc,"</div>");
 	fprintf(orc,"<div id=\"campo-itens\">\n");
 	fprintf(orc,"<table>\n");
@@ -345,7 +353,9 @@ int gerar_orc()
 		if(campos[3][strlen(campos[3])-1] != 's'&&atoi(campos[2])>1)
 			fprintf(orc,"<td>%s %ss</td>\n",campos[2],campos[3]);  
 		else
-			fprintf(orc,"<td>%s %s</td>\n",campos[2],campos[3]);  
+			fprintf(orc,"<td>%s %s</td>\n",campos[2],campos[3]);
+		if(strlen(campos[1])>20)
+			campos[1][20] = '\0';
 		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],campos[1]);
 		sprintf(formata_float,"%s",campos[4]);
 		critica_real(formata_float,NULL);
@@ -353,6 +363,7 @@ int gerar_orc()
 		
 		if(atoi(campos[5])==0)
 		{
+			
 			sprintf(formata_float,"%s",campos[6]);//pega desconto
 			g_print("campos[5] : %s\n",campos[6]);
 			critica_real(formata_float,NULL);
@@ -378,7 +389,6 @@ int gerar_orc()
 			critica_real(formata_float,NULL);
 			fprintf(orc,"<td>%.2f %c</td>\n",atof(formata_float),37);//desconto em %
 		}
-		
 		sprintf(formata_float,"%s",campos[7]);
 		g_print("campos[5] : %s\n",campos[7]);
 		critica_real(formata_float,NULL);
@@ -444,7 +454,21 @@ int gerar_orc()
 	fclose(orc);
 	escolher_finalizacao();
 	g_print("Abrindo janela de escolha para o arquivo\n");
-
+	//reiniciando opções
 	
+	cont=0;
+	while(cont<=itens_qnt)
+	{
+		if(ativos[cont].id==1)
+		{
+			ativos[cont].id = 0;
+			excluidos[cont].id = 1;
+			tirar_linha(cont);			
+		}
+		cont++;
+	}
+	itens_qnt = 1;
+	adicionar_linha_orc();
+
 	return 0;
 }

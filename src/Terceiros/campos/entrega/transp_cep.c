@@ -2,7 +2,6 @@ int transp_msg_cep=0;
 int transp_cepc()
 {
 	char *query;
-	int cont=0,cont2=0;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);

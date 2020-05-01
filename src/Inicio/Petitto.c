@@ -9,6 +9,13 @@
 #include <windows.h>
 #include <mysql.h>
 #endif
+
+#define DEBUG 
+#ifdef DEBUG
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#endif
+
 GtkWidget  *janela_principal;
 GtkWidget *imagem_desktop;
 #include <ctype.h>
@@ -25,6 +32,9 @@ GtkWidget *imagem_barra,*layout_barra;
 #include "../Menu/icones.h"
 #include "../Menu/abas.c"
 #include "init.c"
+
+
+
 int main(int argc,char *argv[])
 {
 	gtk_init(&argc,&argv);

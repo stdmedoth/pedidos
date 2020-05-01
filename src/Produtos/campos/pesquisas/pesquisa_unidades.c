@@ -52,8 +52,7 @@ static int recebe_unidades(GtkWidget *widget,gpointer lista_scroll_caixav)
 	}
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	colunas_pesquisa_und = gtk_box_new(0,0);	
-	if(strlen(entrada)<=0)
-		return 0;
+
 
 	sprintf(query,"select code,nome,sigla from unidades where nome like '%c%s%c';",ascii,entrada,ascii);
 	vetor = consultar(query);

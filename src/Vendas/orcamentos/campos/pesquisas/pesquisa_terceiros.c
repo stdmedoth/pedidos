@@ -54,9 +54,7 @@ static int recebe_terceiros(GtkWidget *widget,gpointer lista_scroll_caixav)
 	}
 	
 	colunas_pesquisa_oc = gtk_box_new(0,0);	
-	if(strlen(entrada)<=0)
-		return 0;
-
+	
 	sprintf(query,"select code,razao,telefone from terceiros where razao like '%c%s%c' or doc = '%s';",ascii,entrada,ascii,entrada);
 	vetor = consultar(query);
 	if(vetor==NULL)

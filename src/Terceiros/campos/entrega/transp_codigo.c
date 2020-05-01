@@ -1,7 +1,6 @@
 int transp_codigo_fun()
 {
 	char code[10];
-	char task[8];
 	char *query;
 	MYSQL_RES *res;
 	MYSQL_ROW row;

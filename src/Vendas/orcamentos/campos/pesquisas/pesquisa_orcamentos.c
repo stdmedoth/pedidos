@@ -2,17 +2,23 @@ GtkWidget *pesq_orc;
 static GtkWidget *alvo_o;
 static int inclui_codigo_o(GtkWidget *widget,GdkEvent *evento,char *orc_codigo)
 {
-	gtk_entry_set_text(GTK_ENTRY(alvo_o),orc_codigo);
+	if(GTK_IS_WIDGET(alvo_o))
+		gtk_entry_set_text(GTK_ENTRY(alvo_o),orc_codigo);
+	altera_orc();
 	//gtk_widget_activate(alvo_o);
 	g_print("inserindo codigo %s no campo de código para efetuar alteracao\n",orc_codigo);
-	gtk_widget_destroy(pesq_orc);
-	gtk_widget_grab_focus(GTK_WIDGET(alvo_o));
+	if(GTK_IS_WIDGET(pesq_orc))
+		gtk_widget_destroy(pesq_orc);
+	if(GTK_IS_WIDGET(alvo_o))
+		gtk_widget_grab_focus(GTK_WIDGET(alvo_o));
 	return 0;
 }
 
-static GtkWidget *colunas_pesquisa_o;
+static GtkWidget *colunas_pesquisa_o,*caixona_orc;
+static GtkWidget *lista_scroll_windowv_o=NULL;
 static GtkWidget **separadoresv_o[10];
-static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
+
+static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav_o)
 {
 	int cont=0;
 	int pos=0;
@@ -54,10 +60,26 @@ static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
 		g_list_free(children);
 		gtk_widget_destroy(GTK_WIDGET(colunas_pesquisa_o));
 	}
+	if(GTK_IS_WIDGET(lista_scroll_caixav_o))
+	{
+		children = gtk_container_get_children(GTK_CONTAINER(lista_scroll_caixav_o));
+		for(iter = children; iter != NULL; iter = g_list_next(iter))
+		  gtk_widget_destroy(GTK_WIDGET(iter->data));
+		g_list_free(children);
+		gtk_widget_destroy(GTK_WIDGET(lista_scroll_caixav_o));
+	}
+	
+
+	
+	gtk_widget_set_size_request(lista_scroll_caixav_o,400,400);
+	gtk_widget_set_size_request(lista_scroll_windowv_o,400,400);
+	
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
 	colunas_pesquisa_o = gtk_box_new(0,0);	
-	if(strlen(entrada)<=0)
-		return 0;
+	
+//	lista_scroll_windowv_o = gtk_scrolled_window_new(NULL,NULL);
+	lista_scroll_caixav_o = gtk_box_new(1,0);
+	
 	sprintf(query,"select distinct a.code,b.razao,a.total from orcamentos as a join terceiros as b on a.cliente = b.code where b.razao like '%c%s%c' or b.doc = '%s';",ascii,entrada,ascii,entrada);
 	vetor = consultar(query);
 	if(vetor==NULL)
@@ -72,15 +94,27 @@ static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
 		evento[cont] = gtk_event_box_new();
 		
 		vet_codigos_o[cont] = malloc(CODE_LEN);	
-		strcpy(vet_codigos_o[cont],campos[0]);
-
-		codigo_o[cont] = gtk_label_new(campos[0]);
+		if(campos[0]!=NULL)
+			strcpy(vet_codigos_o[cont],campos[0]);
+		else
+			strcpy(vet_codigos_o[cont],"1");
+		
+		if(campos[0]!=NULL)
+			codigo_o[cont] = gtk_label_new(campos[0]);
+		else
+		codigo_o[cont] = gtk_label_new("vazio");
 		separadoresv_o[cont][0] = gtk_separator_new(0);
 		
-		cliente_o[cont] =  gtk_label_new(campos[1]);
+		if(campos[1]!=NULL)
+			cliente_o[cont] =  gtk_label_new(campos[1]);
+		else
+			cliente_o[cont] =  gtk_label_new("vazio");
 		separadoresv_o[cont][1] = gtk_separator_new(0);
 		
-		sprintf(formatar,"%s",campos[2]);
+		if(campos[2]!=NULL)
+			sprintf(formatar,"%s",campos[2]);
+		else
+			sprintf(formatar,"0,0");
 		critica_real(formatar,NULL);
 		sprintf(formatar,"R$ %.2f",atof(formatar));
 		total[cont] = gtk_label_new(formatar);
@@ -92,7 +126,6 @@ static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
 	}
 	if(cont==0)
 		return 0;
-	
 	
 	codigo_prod_list = gtk_box_new(1,0);
 	cliente_prod_list = gtk_box_new(1,0);
@@ -130,24 +163,33 @@ static int recebe_orcamentos(GtkWidget *widget, gpointer lista_scroll_caixav)
 	gtk_box_pack_start(GTK_BOX(colunas_pesquisa_o),cliente_prod_list,0,0,10);
 	gtk_box_pack_start(GTK_BOX(colunas_pesquisa_o),total_prod_list,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),colunas_pesquisa_o,0,0,20);
-	gtk_widget_show_all(colunas_pesquisa_o);
+	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav_o),colunas_pesquisa_o,0,0,20);
+	
+	#ifdef WIN32
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowv_o),lista_scroll_caixav_o);
+	#endif
+	#ifdef __linux__
+	gtk_container_add(GTK_CONTAINER(lista_scroll_windowv_o),lista_scroll_caixav_o);
+	#endif	
+	
+	gtk_box_pack_start(GTK_BOX(caixona_orc),lista_scroll_windowv_o,0,0,20);
+	
+	gtk_widget_show_all(caixona_orc);
 	return 0;
 }
-
+static GtkWidget  *lista_scroll_caixav_o=NULL;
 static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 {
-	GtkWidget *pesquisa;
-	GtkWidget *lista_scroll_caixah=NULL, *lista_scroll_caixav=NULL;
-	GtkWidget *lista_scroll_windowv=NULL, *lista_scroll_windowh=NULL;
+	GtkWidget *pesquisa;	
 	alvo_o =(GtkWidget*) ponteiro;
 	pesquisa = gtk_search_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(pesquisa),"Digite o Nome/CPF/CNPJ do Cliente");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(pesquisa),"Digite o Nome/CPF/CNPJ do Cliente do Orçamento");
 	g_print("Abrindo listagem\n");
-	lista_scroll_caixav = gtk_box_new(1,0);
-	lista_scroll_caixah = gtk_box_new(0,0);
 	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixav),pesquisa,0,0,20);
+	caixona_orc = gtk_box_new(1,0);
+	colunas_pesquisa_o = gtk_box_new(0,0);	
+	lista_scroll_windowv_o = gtk_scrolled_window_new(NULL,NULL);
+	lista_scroll_caixav_o = gtk_box_new(1,0);
 	
 	pesq_orc = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pesq_orc),3);
@@ -157,37 +199,14 @@ static int lista_orcamentos(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_position(GTK_WINDOW(pesq_orc),3);
 	gtk_window_set_resizable(GTK_WINDOW(pesq_orc),FALSE);
 	
-	gtk_widget_set_size_request(pesq_orc,400,400);
+	gtk_widget_set_size_request(pesq_orc,500,400);
 	abrir_css(DESKTOP_STYLE);
-
-	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
-	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
+		
+	gtk_box_pack_start(GTK_BOX(caixona_orc),pesquisa,0,0,20);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,500,10000);
-	gtk_widget_set_size_request(lista_scroll_windowv,500,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,500,400);
-	gtk_widget_set_size_request(lista_scroll_windowh,500,400);
+	gtk_container_add(GTK_CONTAINER(pesq_orc),caixona_orc);
 	
-	
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowv),lista_scroll_caixav);
-	#endif
-	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_windowv),lista_scroll_caixav);
-	#endif	
-	
-	gtk_box_pack_start(GTK_BOX(lista_scroll_caixah),lista_scroll_windowv,0,0,20);
-	
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(lista_scroll_windowh),lista_scroll_caixah);
-	#endif
-	#ifdef __linux__
-	gtk_container_add(GTK_CONTAINER(lista_scroll_windowh),lista_scroll_caixah);
-	#endif	
-
-	gtk_container_add(GTK_CONTAINER(pesq_orc),lista_scroll_windowh);
-	
-	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_orcamentos),lista_scroll_caixav);
+	g_signal_connect(pesquisa,"activate",G_CALLBACK(recebe_orcamentos),lista_scroll_caixav_o);
 	g_signal_connect(pesq_orc,"destroy",G_CALLBACK(close_window_callback),pesq_orc);
 
 	gtk_widget_show_all(pesq_orc);	

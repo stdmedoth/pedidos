@@ -80,7 +80,6 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	}
 	
 	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
-	g_print("Finalizando funcao critica_real() com gtk_entry_set_text\n");
-	
+	g_print("Finalizando funcao critica_real() com gtk_entry_set_text\n");	
 	return 0;
 }
