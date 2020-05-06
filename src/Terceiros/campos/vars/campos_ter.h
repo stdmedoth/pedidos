@@ -27,9 +27,12 @@
 #define TRSP_UF_COL 25
 #define TRSP_CEP_COL 26
 #define TRSP_TEL_COL 27
-#define VLR_MIN_FRT_PAG_COL 28
-#define PRAZ_TER_COL 29
-#define OBS_TER_COL 30
+#define TRSP_OBS_COL 28
+#define FLAG_MIN_FRT_PAG_COL 29
+#define VLR_MIN_FRT_PAG_COL 30
+
+#define PRAZ_TER_COL 31
+#define OBS_TER_COL 32
 
 int tipo_doc,tipo_log;
 GtkWidget *doc_combo;

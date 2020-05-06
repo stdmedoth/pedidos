@@ -19,6 +19,7 @@ int preco_prod()
 				gtk_widget_grab_focus(preco_prod_field);
 				return 1;
 			}
+			gtk_entry_set_text(GTK_ENTRY(preco_prod_field),precos_prod);
 			gtk_widget_grab_focus(peso_prod_field);
 			return 0;
 		}

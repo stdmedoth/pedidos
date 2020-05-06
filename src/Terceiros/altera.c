@@ -108,7 +108,7 @@ int altera_ter()
 		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[EMAIl_TER_COL]);
 	
 	if(campo[TRSP_NOME_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[TRSP_NOME_COL]);
+		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[CEMAIL_TER_COL]);
 	
 	if(campo[TRSP_NOME_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),campo[TRSP_NOME_COL]);
@@ -139,6 +139,17 @@ int altera_ter()
 
 	if(campo[PRAZ_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
+	
+	if(campo[FLAG_MIN_FRT_PAG_COL]!=NULL)
+	{
+		if(atoi(campo[FLAG_MIN_FRT_PAG_COL])==0)
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(frete_pago_flag),FALSE);
+		else
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(frete_pago_flag),TRUE);
+	}
+	
+	if(campo[VLR_MIN_FRT_PAG_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(frete_pago_entry),campo[VLR_MIN_FRT_PAG_COL]);
 	
 	if(campo[OBS_TER_COL]!=NULL)
 		strcpy(observacoes_ter,campo[OBS_TER_COL]);

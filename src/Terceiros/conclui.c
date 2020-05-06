@@ -156,7 +156,11 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(transp_estado_entry);
 		return 1;		
 	}
-	
+	if(rec_vlr_frete()!=0)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
+		gtk_widget_grab_focus(frete_pago_entry);
+	}
 	if(prazo_fun()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
@@ -256,8 +260,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
@@ -279,6 +281,9 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),"");
+	
+	gtk_entry_set_text(GTK_ENTRY(frete_pago_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
 	
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_get_start_iter (buffer,&inicio);

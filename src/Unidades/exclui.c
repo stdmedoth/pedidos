@@ -1,50 +1,44 @@
-
 int deleta_und()
 {
 	g_print("Iniciando deleta_prod()\n");
 	char stringer[10];
-	char query[100];
-	gchar *cod_delel,*nome_delel;
+	char query[MAX_QUERY_LEN];
+	gchar *codigo;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
-	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_field));
-	nome_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(name_field));
-	sprintf(query,"select code from produtos where code = '%s' or name = '%s';",cod_delel,nome_delel);
+	codigo = malloc(MAX_CODE_LEN);
+	codigo = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_und_field));
+	sprintf(query,"select code from unidades where code = '%s'",codigo);
 	autologger(query);
 	estado = consultar(query);
 	campo = mysql_fetch_row(estado);
 	if(campo==NULL)
 	{
-		popup(NULL,"Produto já não existe");
-		sprintf(stringer,"%i",tasker("produtos"));
-		gtk_entry_set_text(GTK_ENTRY(code_field),stringer);
-		gtk_entry_set_text(GTK_ENTRY(name_field),"");
-		gtk_entry_set_text(GTK_ENTRY(price_field),"");
-		gtk_entry_set_text(GTK_ENTRY(supp_field),"");
+		popup(NULL,"Unidade não existente");
+		sprintf(stringer,"%i",tasker("unidades"));
+		gtk_entry_set_text(GTK_ENTRY(code_und_field),stringer);
+		gtk_entry_set_text(GTK_ENTRY(name_und_field),"");
+		gtk_entry_set_text(GTK_ENTRY(sigla_und_field),"");
+		gtk_entry_set_text(GTK_ENTRY(mult_und_field),"");
 		gtk_widget_grab_focus (GTK_WIDGET(listar));
 		return 1;
 	}
-	sprintf(query,"delete from produtos where code = '%s' or name = '%s';",cod_delel,nome_delel);
-	consultar(query);
-	query[0] = '\0';
-	sprintf(query,"select code from produtos where code = '%s' or name = '%s';",cod_delel,nome_delel);
-	estado = consultar(query);
-	campo = mysql_fetch_row(estado);
-	if(campo==NULL)
+	sprintf(query,"delete from unidades where code = '%s';",codigo);
+	if(enviar_query(query)==0)
 	{
 		popup(NULL,"Deletado com sucesso");
-		sprintf(stringer,"%i",tasker("produtos"));
-		gtk_entry_set_text(GTK_ENTRY(code_field),stringer);
-		gtk_entry_set_text(GTK_ENTRY(name_field),"");
-		gtk_entry_set_text(GTK_ENTRY(price_field),"");
-		gtk_entry_set_text(GTK_ENTRY(supp_field),"");
-		gtk_widget_grab_focus (GTK_WIDGET(code_field));
-		return 0;
+		sprintf(stringer,"%i",tasker("unidades"));
+		gtk_entry_set_text(GTK_ENTRY(code_und_field),stringer);
+		gtk_entry_set_text(GTK_ENTRY(name_und_field),"");
+		gtk_entry_set_text(GTK_ENTRY(sigla_und_field),"");
+		gtk_entry_set_text(GTK_ENTRY(mult_und_field),"");
+		gtk_widget_grab_focus (GTK_WIDGET(code_und_field));
 	}
 	else
 	{
 		popup(NULL,"Não foi possivel deletar");
 	}
+	alterando_und=0;
 	return 0;
 }
 

@@ -14,6 +14,7 @@ GtkWidget *trs_ico, *trs_lbl; //transacoes
 GtkWidget *und_ico, *und_lbl; //unidades
 GtkWidget *ftr_ico, *ftr_lbl; //fatores
 GtkWidget *vin_ico, *vin_lbl; //vinculos
+GtkWidget *grp_ico, *grp_lbl; //grupos
 
 //vendas
 GtkWidget *orc_ico, *orc_lbl;

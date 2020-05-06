@@ -10,9 +10,9 @@ int cad_ico()
 	opr_ico = gtk_image_new_from_file(OPR_IMG);
 	trs_ico = gtk_image_new_from_file(TRS_IMG);
 	und_ico = gtk_image_new_from_file(UND_IMG);
-	ftr_ico = gtk_image_new_from_file(FATOR_IMG);
 	vin_ico = gtk_image_new_from_file(VINC_IMG);
-
+	grp_ico = gtk_image_new_from_file(GRP_IMG);
+	
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
 	ter_lbl = gtk_label_new("Novo Terceiro");
@@ -20,8 +20,8 @@ int cad_ico()
 	opr_lbl = gtk_label_new("Novo Operador");	
 	trs_lbl = gtk_label_new("Nova Transação");
 	und_lbl = gtk_label_new("Nova Unidade Medida");
-	ftr_lbl = gtk_label_new("Novo Fator");
 	vin_lbl = gtk_label_new("Verificar vinculos");
+	grp_lbl = gtk_label_new("Grupo de Produtos");
 	
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -37,7 +37,7 @@ int cad_ico()
 			linha++;
 			cont2=0;
 		}
-		gtk_box_pack_start(GTK_BOX(cadastrosl[linha]),eventos[cont],0,0,40);
+		gtk_box_pack_start(GTK_BOX(cadastrosl[linha]),eventos[cont],0,0,45);
 		//memset(name,0x0,strlen(name));
 		cont2++;
 	}
@@ -66,13 +66,14 @@ int cad_ico()
 	gtk_box_pack_end(GTK_BOX(cad_box[5]),und_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[5]),und_ico,0,0,0);
 	
-	//icone cadastro de fatores
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),ftr_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),ftr_ico,0,0,0);
+	//icone verificar vinculos	
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),grp_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),grp_ico,0,0,0);
 	
 	//icone verificar vinculos	
 	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_ico,0,0,0);
+	
 	
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
@@ -84,9 +85,9 @@ int cad_ico()
 	
 	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_oper),NULL);
 
-	//g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
+	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_und),NULL);
 	
-	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_fatores),NULL);
+	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_grupo),NULL);
 	
 	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(vin_chaves),NULL);
 	return 0;

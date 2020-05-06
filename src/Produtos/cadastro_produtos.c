@@ -267,13 +267,14 @@ int  cad_prod()
 
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_prod),concluir);
 	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),alterar);
-	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(pesquisar_produtos),listar);
+	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(psq_prod),codigo_prod_field);
 	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),excluir);
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 
-	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(lista_unidades),unidade_prod_field);
-	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(lista_terceiros),fornecedor_prod_field);
+	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_grp),GTK_ENTRY(grupo_prod_field));
+	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
+	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 
 	gtk_widget_set_name(vertical_box1,"vertical_box1");
 	
@@ -293,7 +294,9 @@ int  cad_prod()
 	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
 	gtk_box_pack_end(GTK_BOX(vertical_box1),fixed2,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,0);
+	
+	
+	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,50);
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
 	gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);
 	

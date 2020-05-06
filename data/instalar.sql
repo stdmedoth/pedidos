@@ -52,11 +52,19 @@ transp_cep varchar(15),
 transp_telefone varchar(20),
 transp_obs varchar(500),
 
+frete_pago bool,
+vlr_frete_pago float,
 prazo varchar(20),
 obs varchar(500));
 
 create table grupos( code int primary key auto_increment not null,
 nome varchar(20) not null);
+
+create table subgrupos( code int primary key auto_increment not null,
+pai int not null,
+nome varchar(20) not null,
+foreign key(pai) references grupos(code));
+
 create table unidades( code int primary key auto_increment not null,
 nome varchar(20) not null,
 sigla varchar(10) not null,
@@ -115,35 +123,6 @@ desconto float,
 total float not null,
 foreign key(code) references orcamentos(code));
 
-create table Produto_Venda( code int auto_increment not null,
-item int not null,
-produto int not null,
-unidades float not null,
-valor_unit int not null,
-desconto float,
-total float not null,
-foreign key(code) references pedidos(code),
-foreign key(valor_unit) references precos(code));
-
-
-create table fatores( code int primary key auto_increment not null,
-nome varchar(50) not null,
-observacoes varchar(500) not null);
-
-
-create table Fatores_Preco( code int primary key auto_increment not null,
-produto int not null,
-fator1 int not null,
-fator2 int,
-fator3 int,
-fator4 int,
-foreign key(produto) references produtos(code),
-foreign key(fator1) references fatores(code),
-foreign key(fator2) references fatores(code),
-foreign key(fator3) references fatores(code),
-foreign key(fator4) references fatores(code));
-
-
 create table cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
 descricao varchar(100) DEFAULT NULL,
 uf varchar(2) DEFAULT NULL,
@@ -172,7 +151,6 @@ KEY cep (CEP) USING BTREE,
 KEY cidade (id_cidade,
 UF) USING BTREE,
 CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (id_cidade));
-
 
 create user if not exists 'petitto'@'%' identified with mysql_native_password by '1234';
 grant all privileges on *.* to 'petitto'@'%';

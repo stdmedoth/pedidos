@@ -44,6 +44,7 @@
 #define BOTAO_MENU    "/petitto/files/princ_imgs/botao_menu.png"  
 #define ORC_IMG		  "/petitto/files/icones_opc/orcamentos.png"
 #define PED_IMG		  "/petitto/files/icones_opc/pedidos.png"
+#define GRP_IMG       "/petitto/files/icones_opc/grupos.png"
 #define PROD_IMG      "/petitto/files/icones_opc/produtos.png"
 #define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"  
 #define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"  
@@ -97,6 +98,7 @@
 #define ORC_IMG		  "/usr/share/petitto/files/icones_opc/orcamentos.png"
 #define PED_IMG		  "/usr/share/petitto/files/icones_opc/pedidos.png"
 #define PROD_IMG      "/usr/share/petitto/files/icones_opc/produtos.png"
+#define GRP_IMG       "/usr/share/petitto/files/icones_opc/grupos.png"
 #define TERC_IMG      "/usr/share/petitto/files/icones_opc/terceiros.png"  
 #define ESTO_IMG      "/usr/share/petitto/files/icones_opc/estoques.png"  
 #define OPR_IMG       "/usr/share/petitto/files/icones_opc/operadores.png"  
@@ -136,7 +138,7 @@
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
 #define MAX_PROD 400
-#define MAX_QUERY_LEN (MAX_ADR_LEN+MAX_NAME_LEN+MAX_CEP_LEN+MAX_CID_LEN+MAX_OBS_LEN+MAX_EST_LEN+MAX_RAZ_LEN+MAX_EMAIL_LEN+MAX_CODE_LEN+MAX_UND_LEN+MAX_PRECO_LEN)*3
+#define MAX_QUERY_LEN (MAX_ADR_LEN+MAX_NAME_LEN+MAX_CEP_LEN+MAX_CID_LEN+MAX_OBS_LEN+MAX_EST_LEN+MAX_RAZ_LEN+MAX_EMAIL_LEN+MAX_CODE_LEN+MAX_UND_LEN+MAX_PRECO_LEN)*4
 #define CONECT_QNT 1
 #define CODE_LEN 10
 #define CNPJ_N_LEN 14
@@ -183,7 +185,7 @@
 #define MAX_DATE_LEN 8
 #define MAX_FETCH_ROW 3000
 GtkWidget *acao_atual,*acao_atual2;
-
+GtkEntry *pesquisa_global_alvo;
 GtkTextBuffer *buffer;
 GtkTextIter inicio,fim;	
 

@@ -150,16 +150,16 @@ static int lista_produtos(GtkWidget *botao,gpointer *ponteiro)
 	gtk_window_set_position(GTK_WINDOW(pesq_prod),3);
 	gtk_window_set_resizable(GTK_WINDOW(pesq_prod),FALSE);
 	
-	gtk_widget_set_size_request(pesq_prod,200,400);
+	gtk_widget_set_size_request(pesq_prod,600,400);
 	abrir_css(DESKTOP_STYLE);
 
 	lista_scroll_windowv = gtk_scrolled_window_new(NULL,NULL);
 	lista_scroll_windowh = gtk_scrolled_window_new(NULL,NULL);
 	
-	gtk_widget_set_size_request(lista_scroll_caixav,400,10000);
-	gtk_widget_set_size_request(lista_scroll_windowv,400,400);
-	gtk_widget_set_size_request(lista_scroll_caixah,400,400);
-	gtk_widget_set_size_request(lista_scroll_windowh,400,400);
+	gtk_widget_set_size_request(lista_scroll_caixav,600,400);
+	gtk_widget_set_size_request(lista_scroll_windowv,600,400);
+	gtk_widget_set_size_request(lista_scroll_caixah,600,400);
+	gtk_widget_set_size_request(lista_scroll_windowh,600,400);
 	
 	
 	#ifdef WIN32

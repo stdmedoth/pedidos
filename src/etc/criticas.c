@@ -1,6 +1,6 @@
-int critica_real(gchar *valor, GtkWidget *entrada)
+int critica_real(char *valor, GtkWidget *entrada)
 {
-	int cont,ok=0,pos,qnt=0;
+	int cont=0,ok=0,pos,qnt=0;
 	char *mensagem;
 	char *formatar;
 	
@@ -9,19 +9,20 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	mensagem = malloc(strlen("Caracter   incorreto")+MAX_PRECO_LEN);
 	if(strlen(valor)<=0)
 	{
-		valor = malloc(MAX_PRECO_LEN);
-		strcpy(valor,"0");
+		strcpy(valor,"0.00");
 	}
+
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
 	for(pos=0;pos<=strlen(valor);pos++)
 	{
 		if(valor[pos]==44||valor[pos]==46)
 		{
-			if(valor[pos+1]==46||qnt>=1)
+			if(valor[pos+1]==46||valor[pos+1]==44||qnt>=1)
 			{
 				sprintf(mensagem,"Inserido Virgula duplicada\n");
 				g_print(mensagem);
+				g_print("%s\n",valor);
 				popup(NULL,mensagem);
 				return 1;
 			}
@@ -33,7 +34,9 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 			#endif
 			qnt++;
 		}
+		
 	}
+
 	//verifica se é formado apenas de numeros e virgula
 	g_print("strlen %li\n",strlen(valor));
 	ok=1;

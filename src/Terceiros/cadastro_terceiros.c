@@ -87,6 +87,7 @@ int  cad_terc()
 	gtk_widget_set_name(frete_pago_box,"caixa");
 	frete_pago_frame = gtk_frame_new("Valor mínimo para frete Pago");
 	frete_pago_entry = gtk_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(frete_pago_entry),"R$ 0.0");
 	gtk_container_add(GTK_CONTAINER(frete_pago_frame),frete_pago_entry);
 	gtk_box_pack_start(GTK_BOX(frete_pago_box),frete_pago_flag,0,0,0);
 	gtk_box_pack_start(GTK_BOX(frete_pago_box),frete_pago_frame,0,0,0);
@@ -416,7 +417,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),email,0,0,10);
 	gtk_box_pack_end(GTK_BOX(horizontal_box_six),ter_img_box,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),prazo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),prazo,0,0,10);          //outros
 	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),frete_pago_box,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(opcoes),concluir_ter_buttom,0,0,10);
@@ -441,7 +442,6 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
 	g_signal_connect(type_ter_field,"changed",G_CALLBACK(escolha_tipo_ter),type_ter_field);
-	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);
 	g_signal_connect(GTK_ENTRY(contatoc_ter_field),"activate",G_CALLBACK(contc),NULL);
@@ -449,13 +449,16 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(email_ter_field),"activate",G_CALLBACK(email_fun),NULL);
 	g_signal_connect(GTK_ENTRY(contatoe_ter_field),"activate",G_CALLBACK(contato_email),NULL);
 	
-	g_signal_connect(GTK_ENTRY(frete_pago_flag),"toggled",G_CALLBACK(verifica_frete),NULL);
+	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
+	g_signal_connect(GTK_CHECK_BUTTON(frete_pago_flag),"toggled",G_CALLBACK(verifica_frete),NULL);
+	g_signal_connect(GTK_ENTRY(frete_pago_entry),"activate",G_CALLBACK(rec_vlr_frete),NULL);
+	
 	
 	g_signal_connect(GTK_BUTTON(botao_mais),"clicked",G_CALLBACK(add_vinc_prod_cli),NULL);
 
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),concluir_ter_buttom);
 	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),alterar_ter_buttom);
-	g_signal_connect(GTK_BUTTON(listar_ter_buttom),"clicked",G_CALLBACK(pesquisar_terceiros),listar_ter_buttom);
+	g_signal_connect(GTK_BUTTON(listar_ter_buttom),"clicked",G_CALLBACK(psq_ter),code_ter_field);
 	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),excluir_ter_buttom);
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
@@ -469,6 +472,7 @@ int  cad_terc()
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,180);  //cep/endereco tipo ter
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,380);  //observacoes	
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
+
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
 	
 	 //
@@ -487,7 +491,6 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);	
 
 	//page 1
-	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,30); //celular  telefone  email      imagem
 																	//contato   contato  contato
 	gtk_box_pack_start(GTK_BOX(vertical_box3),fixed2,0,0,10);
 	
