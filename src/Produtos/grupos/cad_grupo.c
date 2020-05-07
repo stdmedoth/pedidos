@@ -214,7 +214,7 @@ int cad_subgrupo()
 	g_signal_connect(altera_subgrp_button,"clicked",G_CALLBACK(altera_subgrupo),NULL);
 	g_signal_connect(cancela_subgrp_button,"clicked",G_CALLBACK(cancela_subgrupo),NULL);
 	g_signal_connect(exclui_subgrp_button,"clicked",G_CALLBACK(exclui_subgrupo),NULL);
-	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),pesquisa_subgrp);
+	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),cod_subgrp_entry);
 	gtk_widget_show_all(janela_subgrupo);
 	return 0;
 }

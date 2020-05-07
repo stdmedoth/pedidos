@@ -170,7 +170,6 @@ int gerar_orc()
 	if(codigo_orc()!=0)
 		return 1;
 	sprintf(gerando_file,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
-
 	
 	sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
 	vetor = consultar(query);
@@ -184,7 +183,6 @@ int gerar_orc()
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return 1;
 	}
-	
 	gerar_total_geral();
 	campos = mysql_fetch_row(vetor);
 	if(campos == NULL)
@@ -205,13 +203,25 @@ int gerar_orc()
 				if(codigo_cli_orc()!=0)
 					return 1;			
 				if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
+				{
+					gtk_widget_grab_focus(qnt_prod_orc_entry[cont]);
 					return 1;
+				}
 				if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
+				{
+					gtk_widget_grab_focus(desconto_prod_orc_entry[cont]);
 					return 1;
+				}
 				if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
+				{
+					gtk_widget_grab_focus(preco_prod_orc_entry[cont]);
 					return 1;
+				}
 				if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0)
+				{
+					gtk_widget_grab_focus(total_prod_orc_entry[cont]);
 					return 1;
+				}
 				if(strlen(ativos[cont].desconto_c)<=0)
 				{
 					strcpy(ativos[cont].desconto_c,"0.0");
@@ -310,7 +320,7 @@ int gerar_orc()
 	
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
-	sprintf(query,"select p.code,p.nome,o.unidades,u.nome,o.valor_unit,o.tipodesc,o.desconto,o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
+	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -340,6 +350,12 @@ int gerar_orc()
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
+		if(campos[0]==NULL||campos[1]==NULL||campos[2]==NULL||campos[3]==NULL||campos[4]==NULL||campos[5]==NULL||campos[6]==NULL||campos[7]==NULL)
+		{
+			popup(NULL,"Banco de dados com campo nulo, chame suporte!");
+			return 1;
+		}
+		
 		if(color==1)
 		{
 			fprintf(orc,"<tr id=\"coluna-colorida\">\n");		
@@ -350,22 +366,25 @@ int gerar_orc()
 			fprintf(orc,"<tr>\n");		
 			color=1;
 		}
+
 		if(campos[3][strlen(campos[3])-1] != 's'&&atoi(campos[2])>1)
 			fprintf(orc,"<td>%s %ss</td>\n",campos[2],campos[3]);  
 		else
 			fprintf(orc,"<td>%s %s</td>\n",campos[2],campos[3]);
+
 		if(strlen(campos[1])>20)
 			campos[1][20] = '\0';
+
 		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],campos[1]);
 		sprintf(formata_float,"%s",campos[4]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
-		
+
 		if(atoi(campos[5])==0)
 		{
 			
 			sprintf(formata_float,"%s",campos[6]);//pega desconto
-			g_print("campos[5] : %s\n",campos[6]);
+			g_print("campos[6] : %s\n",campos[6]);
 			critica_real(formata_float,NULL);
 			
 			sprintf(formata_float2,"%s",campos[2]);//pega quantidade
@@ -385,12 +404,13 @@ int gerar_orc()
 		if(atoi(campos[5])==1)
 		{
 			sprintf(formata_float,"%s",campos[6]);
-			g_print("campos[5] : %s\n",campos[6]);
+			g_print("campos[6] : %s\n",campos[6]);
 			critica_real(formata_float,NULL);
 			fprintf(orc,"<td>%.2f %c</td>\n",atof(formata_float),37);//desconto em %
 		}
+		g_print("campos[7] : %s\n",campos[7]);
 		sprintf(formata_float,"%s",campos[7]);
-		g_print("campos[5] : %s\n",campos[7]);
+		
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));//total
 		fprintf(orc,"</tr>\n");

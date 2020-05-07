@@ -1,3 +1,6 @@
+#define COD_ORC_COL 0
+#define NOM_ORC_COL 0
+
 #define MAX_PROD_ORC 1000
 #define PROD_LINHAS_ORC 1
 int altera_orc();
@@ -138,9 +141,6 @@ struct itens_struct
 #include "campos/orig_preco_orc.c"
 #include "campos/desconto_orc.c"
 #include "campos/observacoes.c"
-#include "campos/pesquisas/pesquisa_orcamentos.c"
-#include "campos/pesquisas/pesquisa_terceiros.c"
-#include "campos/pesquisas/pesquisa_produtos.c"
 #include "alterar.c"
 #include "concluir.c"
 #include "gerar.c"

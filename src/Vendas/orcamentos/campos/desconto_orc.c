@@ -3,9 +3,11 @@ int tipodesc;
 int desconto_prod_orc(GtkWidget *widget,int posicao)
 {
 	g_print("Analisando campo desconto\n");
-	desconto_prod_orc_gchar = malloc(sizeof(char*)*MAX_PRECO_LEN);
-	desconto_prod_orc_gchar =(gchar*)gtk_entry_get_text(GTK_ENTRY(desconto_prod_orc_entry[posicao]));
+	desconto_prod_orc_gchar = malloc(MAX_PRECO_LEN);
+	desconto_prod_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(desconto_prod_orc_entry[posicao]));
+	
 	critica_real(desconto_prod_orc_gchar,desconto_prod_orc_entry[posicao]);
+	
 	tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
 	
 	if(tipodesc==0)

@@ -42,6 +42,6 @@ int fornecedor_prod()
 	fornecedores_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(fornecedor_prod_field));
 	g_print("endereco do fornecedor: %s\n",campos[2]);
 	g_print("tipo de fornecedor: %s\n",campos[3]);
-	gtk_widget_grab_focus(fator_prod_field);
+	gtk_widget_grab_focus(observacao_prod_field);
 	return 0;
 }

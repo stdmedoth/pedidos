@@ -20,7 +20,7 @@ int preco_prod()
 				return 1;
 			}
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_field),precos_prod);
-			gtk_widget_grab_focus(peso_prod_field);
+			gtk_widget_grab_focus(preco_faturado_prod_field);
 			return 0;
 		}
 		popup(NULL,"Por favor, insira um Preço");
@@ -35,7 +35,7 @@ int preco_prod()
 		return 1;
 	}
 	
-	gtk_widget_grab_focus(peso_prod_field);
+	gtk_widget_grab_focus(preco_faturado_prod_field);
 	g_print("preco: %s\n",precos_prod);
 	return 0;
 

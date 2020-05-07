@@ -1,88 +1,63 @@
-int critica_real(char *valor, GtkWidget *entrada)
+int critica_real(char *preco,GtkWidget *entrada)
 {
-	int cont=0,ok=0,pos,qnt=0;
+	int cont,ok=0,pos,qnt=0;
 	char *mensagem;
-	char *formatar;
-	
-	g_print("Iniciando funcao critica_real()\n");
-	formatar = malloc(MAX_PRECO_LEN);
-	mensagem = malloc(strlen("Caracter   incorreto")+MAX_PRECO_LEN);
-	if(strlen(valor)<=0)
-	{
-		strcpy(valor,"0.00");
-	}
-
-	g_print("Verificando formato do numero float.\n");
+	mensagem = malloc(50);
 	//transformar virgula em ponto
-	for(pos=0;pos<=strlen(valor);pos++)
+	if(strlen(preco)<=0)
 	{
-		if(valor[pos]==44||valor[pos]==46)
+		preco = malloc(MAX_PRECO_LEN);
+		sprintf(preco,"00.00");
+	}
+	for(pos=0;pos<=strlen(preco);pos++)
+	{
+		if(preco[pos]==44||preco[pos]==46)
 		{
-			if(valor[pos+1]==46||valor[pos+1]==44||qnt>=1)
+			qnt++;
+			if(preco[pos+1]==46||qnt>1)
 			{
-				sprintf(mensagem,"Inserido Virgula duplicada\n");
+				sprintf(mensagem,"Virgula duplicada para preço");
 				g_print(mensagem);
-				g_print("%s\n",valor);
 				popup(NULL,mensagem);
 				return 1;
 			}
-			#ifdef __linux__
-			valor[pos] = 46;
-			#endif
-			#ifdef WIN32
-			valor[pos] = 44;
-			#endif
+			preco[pos] = 46;
+
 			qnt++;
 		}
-		
 	}
-
 	//verifica se é formado apenas de numeros e virgula
-	g_print("strlen %li\n",strlen(valor));
-	ok=1;
-	for(pos=0;pos<strlen(valor);pos++)
-	{	
+	for(pos=0;pos<=strlen(preco);pos++)
+	{
 		for(cont=48;cont<=57;cont++)
 		{
-			g_print("%c %c\n",valor[pos],cont);
-			if(valor[pos]==cont)
-			{
-				ok = 0;
-				break;
-			}
-			if(valor[pos]==44||valor[pos]==46)
-			{
-				ok = 0;
-				break;
-			}
-			ok++;	
+			
 		}
-		if(ok!=0)
+		for(cont=48;cont<=57;cont++)
 		{
-			sprintf(mensagem,"Caracter '%c' incorreto",valor[pos]);
+			g_print("strlen %li\n",strlen(preco));
+			g_print("%c %c\n",preco[pos],cont);
+			if(preco[pos]==cont)
+			{
+				ok = 0;
+				break;
+			}
+			if(preco[pos]==44||preco[pos]==46)
+			{
+				ok = 0;
+				break;
+			}
+			ok++;
+		}
+		if(ok>10)
+		{
+			sprintf(mensagem,"Caracter '%c' incorreto para preço",preco[pos-1]);
 			popup(NULL,mensagem);
 			return 1;
 		}
 	}
-	g_print("de: %s\n",valor);
-	memset(formatar,0x0,MAX_PRECO_LEN);
-	sprintf(formatar,"%.2f",atof(valor));
-	
-	for(pos=0;pos<=strlen(formatar);pos++)
-	{
-		if(formatar[pos]==44)
-			formatar[pos] = 46;
-		valor[pos] = formatar[pos];
-	}
-
-	g_print("para: %s\n",valor);
-	if(!GTK_IS_WIDGET(entrada))
-	{
-		g_print("Finalizando funcao critica_real() sem gtk_entry_set_text\n");
-		return 0;
-	}
-	
-	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
-	g_print("Finalizando funcao critica_real() com gtk_entry_set_text\n");	
+	if(entrada != NULL)
+		if(GTK_IS_WIDGET(entrada))
+			gtk_entry_set_text(GTK_ENTRY(entrada),preco);
 	return 0;
 }

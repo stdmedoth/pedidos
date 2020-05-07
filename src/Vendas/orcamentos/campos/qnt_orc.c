@@ -5,16 +5,18 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	int tipodesc;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	preco_prod_orc_gchar = malloc(sizeof(char*)*MAX_PRECO_LEN);
-	total_prod_orc_gchar = malloc(sizeof(char*)*MAX_PRECO_LEN);
-	qnt_prod_orc_gchar = malloc(sizeof(char*)*MAX_CODE_LEN);
+	
+	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
+	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
+	qnt_prod_orc_gchar = malloc(MAX_CODE_LEN);
+	desconto_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	
 	qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
+	
 	if(strlen(qnt_prod_orc_gchar)<=0)
 	{
 		popup(NULL,"A quantidade deve ser inserida");
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
-		vet_erro[QNT_ERR] = 1;
 		return 1;
 	}
 	if(critica_real(qnt_prod_orc_gchar,qnt_prod_orc_entry[posicao])!=0)
@@ -44,14 +46,13 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			autologger("Erro na query de produtos no orcamento\n");
 			autologger(query);
 			gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
-			vet_erro[QNT_ERR] = 1;
 			return 1;
 		}
 		campos = mysql_fetch_row(vetor);
 		if(campos == NULL)
 		{
 			codigo_prod_orc(widget,posicao);
-			sprintf(query,"select preco from produtos where code = %s",codigo_prod_orc_gchar);
+			sprintf(query,"select preco_faturado from produtos where code = %s",codigo_prod_orc_gchar);
 			vetor = consultar(query);
 			if(vetor==NULL)
 			{
@@ -60,7 +61,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 				autologger("Erro na query de produtos no orcamento\n");
 				autologger(query);
 				gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
-				vet_erro[QNT_ERR] = 1;
 				return 1;
 			}
 			campos = mysql_fetch_row(vetor);
@@ -68,7 +68,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			{
 				popup(NULL,"Produto sem preço");
 				gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
-				vet_erro[QNT_ERR] = 1;
 				return 1;
 			}
 			strcpy(preco_prod_orc_gchar,campos[0]);
@@ -137,15 +136,16 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	{
 		ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
 		strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
-		critica_real(ativos[posicao].desconto_c,desconto_prod_orc_entry[posicao]);
+		critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);
 	}
 	else
 	if(tipodesc==1)
 	{
 		ativos[posicao].desconto_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))*(atof(desconto_prod_orc_gchar)/100);
 		strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
-		critica_real(ativos[posicao].desconto_c,desconto_prod_orc_entry[posicao]);
+		critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);
 	}
+	
 	g_print("Total: ");
 	ativos[posicao].total_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))-ativos[posicao].desconto_f;
 	g_print("float: %.2f ",ativos[posicao].total_f);

@@ -2,125 +2,125 @@ drop database if exists erp;
 create database erp;
 use erp;
 
-create table operadores( code int primary key not null auto_increment,
+create table operadores( code int primary key auto_increment,
 nome varchar(20) not null,
 senha varchar(20) not null,
 nivel int not null);
 
-create table empresa( cnpj varchar(20) primary key not null,
+create table empresa( cnpj varchar(20) primary key default 'cnpj',
 razao varchar(150) not null,
 endereco varchar(200) not null);
 
 create table perfil_desktop(code int primary key auto_increment,
-desktop_img int,
-cor_barra int,
-janela_init bool,
-janelas_keep_above bool);
+desktop_img int default 0,
+cor_barra int default 0,
+janela_init bool default 0,
+janelas_keep_above bool default 0);
 
-create table criticas(opcao_nome varchar(20) not null,
-campo_nome varchar(20) not null,
-critica bool);
+create table criticas(opcao_nome varchar(20) default 0,
+campo_nome varchar(20) default 0,
+critica bool default 0);
 
-create table terceiros ( code int primary key auto_increment not null,
-razao varchar(300) not null,
-doc varchar(20),
-ie varchar(20),
-tipo_doc int not null,
-tipoc varchar(20),
-tipo int,
-cep varchar(15) ,
-endereco varchar(400),
-cidade varchar(50),
-uf varchar(20),
-numrua int,
-tiporua int,
-telefone varchar(15),
-contatot varchar(15),
-celular varchar(15),
-contatoc varchar(15),
-email varchar(100),
-contatoe varchar(20),
+create table terceiros ( code int primary key auto_increment,
+razao varchar(300) default '',
+doc varchar(20) default '',
+ie varchar(20) default 'IE',
+tipo_doc int default 0,
+tipoc varchar(20) default 0,
+tipo int default 0,
+cep varchar(15) default '',
+endereco varchar(400) default '',
+cidade varchar(50) default '',
+uf varchar(20) default 'UF',
+numrua int default 0,
+tiporua int default 0,
+telefone varchar(15) default '',
+contatot varchar(15) default '',
+celular varchar(15) default '',
+contatoc varchar(15) default '',
+email varchar(100) default '',
+contatoe varchar(20) default '',
 
-transp_nome varchar(300),
-transp_cnpj varchar(20),
-transp_ie varchar(20),
-transp_logradouro varchar(400),
-transp_num int,
-transp_cidade varchar(50),
-transp_estado varchar(20),
-transp_cep varchar(15),
-transp_telefone varchar(20),
-transp_obs varchar(500),
+transp_nome varchar(300) default '',
+transp_cnpj varchar(20) default '',
+transp_ie varchar(20) default '',
+transp_logradouro varchar(400) default '',
+transp_num int default 0,
+transp_cidade varchar(50) default '',
+transp_estado varchar(20) default 'UF',
+transp_cep varchar(15) default '',
+transp_telefone varchar(20) default '',
+transp_obs varchar(500) default '',
 
-frete_pago bool,
-vlr_frete_pago float,
-prazo varchar(20),
-obs varchar(500));
+frete_pago bool default 0,
+vlr_frete_pago float default 0,
+prazo varchar(20) default '',
+obs varchar(500) default '');
 
-create table grupos( code int primary key auto_increment not null,
+create table grupos( code int primary key auto_increment,
 nome varchar(20) not null);
 
-create table subgrupos( code int primary key auto_increment not null,
+create table subgrupos( code int primary key auto_increment,
 pai int not null,
 nome varchar(20) not null,
 foreign key(pai) references grupos(code));
 
-create table unidades( code int primary key auto_increment not null,
-nome varchar(20) not null,
-sigla varchar(10) not null,
-multiplo int not null);
+create table unidades( code int primary key auto_increment,
+nome varchar(20) default '',
+sigla varchar(10) default '',
+multiplo int default 1 );
 
-create table produtos( code int primary key auto_increment not null,
-nome varchar(150) not null,
-preco float not null,
-peso float not null,
-unidade int not null,
-fornecedor int not null,
-grupo int not null,
-fator int ,
-observacoes varchar(500) not null,
+create table produtos( code int primary key auto_increment,
+nome varchar(150) default 'NOME',
+peso float default 0.0,
+unidade int default 1,
+fornecedor int default 1,
+grupo int default 1,
+preco_vista float default 0.0,
+preco_faturado float default 0.0,
+observacoes varchar(500) default '',
 foreign key(unidade) references unidades(code),
 foreign key(fornecedor) references terceiros(code),
-foreign key(grupo) references grupos(code));
+foreign key(grupo) references grupos(code) );
 
-create table estoques( code int primary key auto_increment not null,
-produto int not null,
-saldo float not null,
-entradas int not null,
-saidas int not null,
-resultado float not null,
+create table estoques( code int primary key auto_increment,
+produto int default 1,
+saldo float default 0.0,
+entradas int default 0,
+saidas int default 1,
+resultado float default 0.0,
 foreign key(produto) references produtos(code));
 
-create table precos( code int primary key auto_increment not null,
-produto int not null,
-terceiro int,
-valor float not null,
+create table precos( code int primary key auto_increment,
+produto int default 1,
+terceiro int default 1,
+valor float default 0.0,
 foreign key(produto) references produtos(code),
 foreign key(terceiro) references terceiros(code));
 
-create table pedidos( code int primary key auto_increment not null,
-vendedor int not null,
-cliente int not null,
+create table pedidos( code int primary key auto_increment,
+vendedor int default 1,
+cliente int default 1,
 dia date not null,
-total float not null,
+total float default 0.0,
 foreign key(cliente) references terceiros(code));
 
-create table orcamentos( code int primary key auto_increment not null,
-vendedor int not null,
-cliente int not null,
-dia date not null,
-total float not null,
-observacoes varchar (500),
+create table orcamentos( code int primary key auto_increment,
+vendedor int default 0,
+cliente int default 0,
+dia date default (CURRENT_DATE + INTERVAL 1 YEAR),
+total float default 0,
+observacoes varchar (500) default '',
 foreign key(cliente) references terceiros(code));
 
-create table Produto_Orcamento( code int not null,
-item int not null,
-produto int not null,
-unidades float not null,
-valor_unit float not null,
-tipodesc int,
-desconto float,
-total float not null,
+create table Produto_Orcamento( code int,
+item int default 0,
+produto int default 1,
+unidades float default 0.0,
+valor_unit float default 0.0,
+tipodesc int default 0,
+desconto float default 0.0,
+total float default 0.0,
 foreign key(code) references orcamentos(code));
 
 create table cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
@@ -174,13 +174,6 @@ values(1,'Petitto','',5);
 
 insert into empresa(razao,endereco,cnpj) 
 values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
-
-insert into grupos(nome) 
-values('Ferramentas'),('Cilindros'),('Papelao');
-
-insert into unidades(nome,sigla,multiplo) 
-values('Caixas','CX',30),
-('Unidade','UND',1);
 
 insert into perfil_desktop(code,
 desktop_img,

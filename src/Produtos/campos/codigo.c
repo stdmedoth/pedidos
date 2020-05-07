@@ -2,7 +2,7 @@ int code_prod()
 {
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	char query[50];
+	char query[MAX_QUERY_LEN];
 	char code[10];
 	codigos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
 	if(strlen(codigos_prod)<=0)
@@ -21,7 +21,21 @@ int code_prod()
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),code);
 		return 1;
 	}
-	sprintf(query,"select code from produtos where code = '%s'",codigos_prod);
+	if(	alterando_prod==0)
+	{
+		sprintf(query,"select code from produtos where code = '%s'",codigos_prod);
+		vetor = consultar(query);
+		if(vetor==NULL)
+		{
+			return 1;
+		}
+	
+		if((campos = mysql_fetch_row(vetor))!=NULL)
+		{
+			altera_prod();
+			return 0;
+		}
+	}
 	if(stoi(codigos_prod)==-1)
 	{
 		if(strlen(codigos_prod)>8)

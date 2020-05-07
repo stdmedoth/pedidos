@@ -1,5 +1,4 @@
 int alterando_orc=0;
-
 #include "campos.h"
 #include <time.h>
 
@@ -108,6 +107,20 @@ int adicionar_linha_orc()
 {		
 	GtkAdjustment *ajustar;
 	g_print("iniciando adicionar_linha_orc()\n");
+	char *query;
+	if(alterando_orc==0)
+	{
+		if(codigo_orc()!=0)
+			return 1;
+		query = malloc(MAX_QUERY_LEN);
+		sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
+		vetor = consultar(query);
+		if(vetor!=NULL)
+		{
+			if((campos = mysql_fetch_row(vetor))!=NULL)
+				popup(NULL,"O código de Orcamento usado já existe\nDeseja alterar?");
+		}
+	}
 	if(ativos[itens_qnt-1].id == 1)
 	{
 		int cont;
@@ -248,7 +261,7 @@ int adicionar_linha_orc()
 	#pragma GCC diagnostic ignored "-Wint-conversion"
 	g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
-	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(lista_produtos),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
+	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"focus-in-event",G_CALLBACK(prc_cli_alter),id_vetor[cont]);
@@ -559,7 +572,7 @@ int vnd_orc()
 		#pragma GCC diagnostic ignored "-Wint-conversion"
 		g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
 		g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
-		g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(lista_produtos),codigo_prod_orc_entry[itens_qnt]);
+		g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[itens_qnt]);
 		g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 		
 		g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
@@ -570,7 +583,7 @@ int vnd_orc()
 		g_signal_connect(orig_preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 		g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
 		g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[itens_qnt]);
-		g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(listar_terceiros),cliente_orc_entry);
+		g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(psq_ter),cliente_orc_entry);
 		gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
 		#pragma GCC diagnostic warning "-Wint-conversion"
 		gtk_container_add(GTK_CONTAINER(linhas_prod_orc_frame[cont]),linhas_prod_orc_box[cont]);
@@ -611,7 +624,7 @@ int vnd_orc()
 	g_signal_connect(concluir_orc_button,"clicked",G_CALLBACK(concluir_orc),NULL);
 	g_signal_connect(gerar_orc_button,"clicked",G_CALLBACK(gerar_orc),NULL);
 	g_signal_connect(alterar_orc_button,"clicked",G_CALLBACK(altera_orc),NULL);
-	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(lista_orcamentos),codigo_orc_entry);
+	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(psq_orc),codigo_orc_entry);
 	
 	
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
