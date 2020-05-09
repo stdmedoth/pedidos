@@ -69,16 +69,16 @@ int  cad_prod()
 	psq_forn_img = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(psq_forn_button),psq_forn_img);
 	
-	psq_grp_button = gtk_button_new();
-	psq_grp_img = gtk_image_new_from_file(IMG_PROCR);
-	gtk_button_set_image(GTK_BUTTON(psq_grp_button),psq_grp_img);
+	psq_subgrp_button = gtk_button_new();
+	psq_subgrp_img = gtk_image_new_from_file(IMG_PROCR);
+	gtk_button_set_image(GTK_BUTTON(psq_subgrp_button),psq_subgrp_img);
 	
 	psq_und_button = gtk_button_new();
 	psq_und_img = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(psq_und_button),psq_und_img);
 	
 	psq_forn = gtk_box_new(0,0);
-	psq_grp = gtk_box_new(0,0);
+	psq_subgrp = gtk_box_new(0,0);
 	psq_und = gtk_box_new(0,0);
 	
 	acao = gtk_box_new(0,0);
@@ -209,9 +209,9 @@ int  cad_prod()
 	gtk_widget_set_name(grupo,"caixa");
 	gtk_box_pack_start(GTK_BOX(grupo),grupo_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo),campo_nome_grupo,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_grp),grupo_prod_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_grp),psq_grp_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(grupo),psq_grp,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_subgrp),grupo_prod_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_subgrp),psq_subgrp_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(grupo),psq_subgrp,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 	gtk_widget_set_size_request(grupo_prod_field,100,30);
 
@@ -275,7 +275,7 @@ int  cad_prod()
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 
-	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_grp),GTK_ENTRY(grupo_prod_field));
+	g_signal_connect(GTK_BUTTON(psq_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),GTK_ENTRY(grupo_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 

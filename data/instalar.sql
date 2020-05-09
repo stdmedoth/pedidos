@@ -24,8 +24,8 @@ critica bool default 0);
 create table terceiros ( code int primary key auto_increment,
 razao varchar(300) default '',
 doc varchar(20) default '',
-ie varchar(20) default 'IE',
-tipo_doc int default 0,
+	ie varchar(20) default 'IE',
+	tipo_doc int default 0,
 tipoc varchar(20) default 0,
 tipo int default 0,
 cep varchar(15) default '',
@@ -58,9 +58,6 @@ prazo varchar(20) default '',
 obs varchar(500) default '');
 
 create table grupos( code int primary key auto_increment,
-nome varchar(20) not null);
-
-create table subgrupos( code int primary key auto_increment,
 pai int not null,
 nome varchar(20) not null,
 foreign key(pai) references grupos(code));
@@ -108,7 +105,7 @@ foreign key(cliente) references terceiros(code));
 create table orcamentos( code int primary key auto_increment,
 vendedor int default 0,
 cliente int default 0,
-dia date default (CURRENT_DATE + INTERVAL 1 YEAR),
+dia date not null,
 total float default 0,
 observacoes varchar (500) default '',
 foreign key(cliente) references terceiros(code));
@@ -152,8 +149,8 @@ KEY cidade (id_cidade,
 UF) USING BTREE,
 CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (id_cidade));
 
-create user if not exists 'petitto'@'%' identified with mysql_native_password by '1234';
-grant all privileges on *.* to 'petitto'@'%';
+create user 'petitto'@'localhost' identified by '1234';
+grant all privileges on *.* to 'petitto'@'localhost';
 flush privileges;
 
 insert into criticas(opcao_nome,campo_nome,critica) 
@@ -179,4 +176,4 @@ insert into perfil_desktop(code,
 desktop_img,
 cor_barra,
 janela_init,
-janelas_keep_above) values(1,3,1,1,1);
+janelas_keep_above) values(1,3,1,0,1);

@@ -8,9 +8,9 @@ static gchar *grupos_prod=NULL;;
 static gchar *precos_faturado_prod=NULL;;
 static gchar *observacoes_prod=NULL;
 
-static GtkWidget *psq_forn_button,*psq_grp_button,*psq_und_button;
-static GtkWidget *psq_forn_img,*psq_grp_img,*psq_und_img;
-static GtkWidget *psq_forn,*psq_grp,*psq_und;
+static GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button;
+static GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img;
+static GtkWidget *psq_forn,*psq_subgrp,*psq_und;
 
 static GtkWidget *code_prod_label,  *nome_prod_label, 
 *preco_prod_label, *peso_prod_label , *unidade_prod_label,
