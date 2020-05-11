@@ -86,6 +86,7 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
+	gtk_tree_view_column_set_visible(coluna1,FALSE);
 	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
 	
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);

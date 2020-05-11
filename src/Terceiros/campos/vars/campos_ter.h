@@ -108,6 +108,10 @@ GtkWidget *transp_codigo_entry,
 *transp_telefone_entry, 
 *transp_obs_entry;
 
+static GtkWidget *psq_ter_transp_button, *psq_ter_cep_button, *psq_ter_transpcep_button;
+static GtkWidget *psq_ter_transp_img, *psq_ter_cep_img, *psq_ter_transpcep_img;
+static GtkWidget *psq_ter_transp_box, *psq_ter_cep_box, *psq_ter_transpcep_box;
+
 GtkWidget *ter_trsp_label,*ter_trsp_entry;
 
 GtkWidget *win_tipo_ter;

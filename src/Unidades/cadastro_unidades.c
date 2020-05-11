@@ -30,6 +30,12 @@ int  cad_und()
 	separator1 = gtk_separator_new(0);
 	separator2 = gtk_separator_new(0);
 	
+	code_und_frame = gtk_frame_new(NULL);
+	name_und_frame = gtk_frame_new(NULL);
+	sigla_und_frame = gtk_frame_new(NULL);
+	mult_und_frame = gtk_frame_new(NULL);
+	medida_und_frame = gtk_frame_new(NULL);
+	
 	code_und_label = gtk_label_new("Codigo: ");
 	name_und_label = gtk_label_new("Nome: ");
 	sigla_und_label = gtk_label_new("Sigla Unidade: ");

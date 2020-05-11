@@ -82,6 +82,21 @@ int  cad_terc()
 	*ter_img_frame, 
 	*ter_img_buttons_box;
 
+	psq_ter_transp_button = gtk_button_new();
+	psq_ter_transp_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_transp_button),psq_ter_transp_img);
+	psq_ter_transp_box = gtk_box_new(0,0);
+
+	psq_ter_transpcep_button = gtk_button_new();
+	psq_ter_transpcep_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_transpcep_button),psq_ter_transpcep_img);
+	psq_ter_transpcep_box = gtk_box_new(0,0);
+
+	psq_ter_cep_button = gtk_button_new();
+	psq_ter_cep_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_cep_button),psq_ter_cep_img);
+	psq_ter_cep_box = gtk_box_new(0,0);
+	
 	frete_pago_flag = gtk_check_button_new_with_label("Frete Pago?");
 	frete_pago_box = gtk_box_new(1,0);
 	gtk_widget_set_name(frete_pago_box,"caixa");

@@ -26,6 +26,10 @@ GtkEntry
         border-radius: 10px;
         background: Lightgrey;
 }
+#caixa2
+{
+        background: Lightgrey;
+}
 
 #acao_atual
 {

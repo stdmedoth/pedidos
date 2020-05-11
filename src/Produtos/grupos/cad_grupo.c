@@ -333,8 +333,9 @@ int cad_grupo()
 	gtk_tree_view_column_pack_start(coluna,celula,TRUE);
 	gtk_tree_view_column_add_attribute(coluna,celula,"text",0);
 
+	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna);
-	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),25);
+	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
 	
 	if(criar_modelo(modelo)!=0)
 		return 1;

@@ -97,6 +97,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	treeview = gtk_tree_view_new();
 	
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
+	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
@@ -110,6 +111,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
 	gtk_tree_view_column_set_spacing(coluna1,5);
+	gtk_tree_view_column_set_visible(coluna1,FALSE);
 	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
 	
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);

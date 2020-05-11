@@ -68,6 +68,16 @@ GtkWidget *entrega_campos()
 	
 	logr_num_box = gtk_box_new(0,0);
 	cid_uf_box = gtk_box_new(0,0);
+
+	psq_ter_transp_button = gtk_button_new();
+	psq_ter_transp_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_transp_button),psq_ter_transp_img);
+	psq_ter_transp_box = gtk_box_new(0,0);
+
+	psq_ter_transpcep_button = gtk_button_new();
+	psq_ter_transpcep_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_transpcep_button),psq_ter_transpcep_img);
+	psq_ter_transpcep_box = gtk_box_new(0,0);
 	
 	dados_transp_fixed = gtk_fixed_new();
 	transp_endr_fixed = gtk_fixed_new();
@@ -83,7 +93,10 @@ GtkWidget *entrega_campos()
 	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_codigo_entry),"Código Transportadora");
 	transp_codigo = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_codigo),transp_codigo_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(transp_codigo),transp_codigo_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(psq_ter_transp_box),transp_codigo_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_transp_box),psq_ter_transp_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(transp_codigo),psq_ter_transp_box,0,0,5);
+	
 	
 	transp_nome_label = gtk_label_new("Nome da Transportadora");
 	transp_nome_entry = gtk_entry_new();
@@ -122,8 +135,9 @@ GtkWidget *entrega_campos()
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_cep_entry),20);
 	transp_cep = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_cep),transp_cep_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(transp_cep),transp_cep_entry,0,0,5);
-	gtk_fixed_put(GTK_FIXED(transp_cep_fixed),transp_cep,5,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_transpcep_box),transp_cep_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_transpcep_box),psq_ter_transpcep_button,0,0,0);
+	gtk_fixed_put(GTK_FIXED(transp_cep_fixed),psq_ter_transpcep_box,5,0);
 	
 	transp_cidade_label = gtk_label_new("Cidade");
 	transp_cidade_entry = gtk_entry_new();
@@ -196,6 +210,7 @@ GtkWidget *entrega_campos()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),transp_endr_fixed,0,0,5);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),transp_obs_fixed,0,0,5);
 	
+	g_signal_connect(GTK_BUTTON(psq_ter_transp_button),"clicked",G_CALLBACK(psq_ter),transp_codigo_entry);
 	
 	g_signal_connect(GTK_ENTRY(transp_codigo_entry),"activate",G_CALLBACK(transp_codigo_fun),NULL);
 	g_signal_connect(GTK_ENTRY(transp_nome_entry),"activate",G_CALLBACK(transp_nomec),NULL);

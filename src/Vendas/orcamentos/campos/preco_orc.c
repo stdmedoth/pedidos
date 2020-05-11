@@ -6,6 +6,7 @@ void prc_cli_alter(GtkWidget *widget,GdkEventKey *event,int posicao)
 		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Operador");
 		preco_alterado[posicao] = 1;
 	}
+	
 	return;
 }
 

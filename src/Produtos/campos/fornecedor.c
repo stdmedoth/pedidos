@@ -36,12 +36,12 @@ int fornecedor_prod()
 		gtk_widget_grab_focus(fornecedor_prod_field);
 		return 1;
 	}
-	g_print("codigo do fornecedor: %s\n",campos[0]);
-	g_print("nome do fornecedor: %s\n",campos[1]);
-	gtk_entry_set_text(GTK_ENTRY(campo_nome_fornecedor),campos[1]);
+	g_print("codigo do fornecedor: %s\n",campos[COD_TER_COL]);
+	g_print("nome do fornecedor: %s\n",campos[RAZ_TER_COL]);
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_fornecedor),campos[RAZ_TER_COL]);
 	fornecedores_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(fornecedor_prod_field));
-	g_print("endereco do fornecedor: %s\n",campos[2]);
-	g_print("tipo de fornecedor: %s\n",campos[3]);
+	g_print("endereco do fornecedor: %s\n",campos[END_TER_COL]);
+	g_print("tipo de fornecedor: %s\n",campos[TIPC_TER_COL]);
 	gtk_widget_grab_focus(observacao_prod_field);
 	return 0;
 }
