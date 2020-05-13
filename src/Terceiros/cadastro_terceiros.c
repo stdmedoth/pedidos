@@ -70,7 +70,7 @@ int  cad_terc()
 	GtkWidget *fixed5 ,*box4, *vertical_box5;
 	GtkWidget *fixed6 ,*box5, *vertical_box6;
 	GtkWidget *opcoes;
-	GtkWidget *code, *doc, *inscr, *name, *address, *cep,*type, *address_num;
+	GtkWidget *code, *code_ter_nfe, *doc, *inscr, *name, *address, *cep,*type, *address_num;
 	GtkWidget *celular, *telefone,*acao, *email, *observacoes,*prazo;
 	GtkWidget *observacoes_scroll;
 	GtkWidget *cid_uf_boxv1,*cid_uf_boxv2,*cid_uf_boxh;
@@ -198,11 +198,9 @@ int  cad_terc()
 	
 	code_label = gtk_label_new("Codigo: ");
 	doc_label = gtk_label_new("Documento:");
-	
+	code_ter_nfe_label = gtk_label_new("Código para NF-e");
 	name_label = gtk_label_new("Nome: ");
-	
 	inscr_label = gtk_label_new("IE:");
-	
 	addr_log_num_box = gtk_box_new(0,0);
 	addr_log_num_fixed = gtk_fixed_new();
 	address_num = gtk_box_new(1,0);
@@ -247,6 +245,9 @@ int  cad_terc()
 	
 	code_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
+	
+	code_ter_nfe_field = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_nfe_field),GTK_ENTRY_ICON_PRIMARY,"network-server");
 	
 	doc_ter_field = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(doc_ter_field),GTK_ENTRY_ICON_PRIMARY,"user-info");
@@ -294,9 +295,18 @@ int  cad_terc()
 	gtk_widget_set_name(code,"caixa");
 	gtk_box_pack_start(GTK_BOX(code),code_label,0,0,0);
 	gtk_box_pack_end(GTK_BOX(code),code_ter_field,0,0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(code_ter_field),10);
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
 	gtk_widget_set_size_request(code_ter_field,50,30);
 
+	code_ter_nfe = gtk_box_new(1,0);
+	gtk_widget_set_name(code_ter_nfe,"caixa");
+	gtk_box_pack_start(GTK_BOX(code_ter_nfe),code_ter_nfe_label,0,0,0);
+	gtk_box_pack_end(GTK_BOX(code_ter_nfe),code_ter_nfe_field,0,0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(code_ter_nfe_field),10);
+	gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
+	gtk_widget_set_size_request(code_ter_nfe_field,50,30);
+	
 	doc = gtk_box_new(0,0);
 	gtk_widget_set_name(doc,"caixa");
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
@@ -419,6 +429,7 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code_ter_nfe,0,0,5);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),inscr,0,0,10);
 	

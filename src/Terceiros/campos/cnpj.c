@@ -12,7 +12,7 @@ int cnpj_terc()
 		{
 			doc_ter = malloc(sizeof(gchar *));
 			strcpy(doc_ter,"");
-			gtk_widget_grab_focus(GTK_WIDGET(inscr_ter_field));
+			gtk_widget_grab_focus(GTK_WIDGET(code_ter_nfe_field));
 			return 0;
 		}
 		g_print("CNPJ terceiro deve ser inserido\n");
@@ -73,7 +73,7 @@ int cnpj_terc()
 			return 1;		
 		}
 		vet_erro[DOC_ERR] = 0;
-		gtk_widget_grab_focus(inscr_ter_field);
+		gtk_widget_grab_focus(code_ter_nfe_field);
 	}
 	else
 	{

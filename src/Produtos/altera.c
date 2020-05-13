@@ -7,7 +7,7 @@ int altera_prod()
 	MYSQL_ROW campo;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome,  p.peso,  p.unidade,  p.fornecedor,  p.grupo,  p.preco_vista,  p.preco_faturado, p.observacoes from produtos as p join unidades as u on p.unidade = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome,  p.peso,  p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo,  p.preco_vista,  p.preco_faturado, p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -50,6 +50,9 @@ int altera_prod()
 	strcpy(row,campo[PROD_UND_COL]);
 	gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),row);
 	
+	strcpy(row,campo[PROD_UND_ATAC_COL]);
+	gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),row);
+	
 	strcpy(row,campo[PROD_FORN_COL]);
 	gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),row);
 	
@@ -71,7 +74,8 @@ int altera_prod()
 	nome_prod();
 	peso_prod();
 	preco_prod();
-	und_prod();
+	und_unt_prod();
+	und_atac_prod();
 	preco_faturado_prod();
 	
 	memset(query,0x0,strlen(query));

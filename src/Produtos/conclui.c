@@ -30,7 +30,12 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(preco_prod_field);
 		return 1;
 	}
-	if(und_prod()!=0)
+	if(und_unt_prod()!=0)
+	{	
+		gtk_widget_grab_focus(unidade_prod_field);
+		return 1;
+	}
+	if(und_atac_prod()!=0)
 	{	
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;

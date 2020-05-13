@@ -18,7 +18,7 @@ int preco_prod()
 			critica = critica_real(precos_prod, preco_prod_field);
 			if(critica!=0)
 			{
-				gtk_widget_grab_focus(preco_prod_field);
+				gtk_widget_grab_focus(preco_faturado_prod_field);
 				return 1;
 			}
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_field),precos_prod);

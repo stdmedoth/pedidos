@@ -16,7 +16,7 @@ int nome_prod()
 	}
 	else
 	{
-		gtk_widget_grab_focus(preco_prod_field);
+		gtk_widget_grab_focus(peso_prod_field);
 	}
 	g_print("nome: %s\n",nomes_prod);
 	

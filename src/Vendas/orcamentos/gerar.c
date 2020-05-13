@@ -37,6 +37,7 @@ int iniciar_impressao(char *gerado)
 	#ifdef __linux__
 		popup(NULL,gerado);
 	#endif
+	
 	return 0;
 }
 
@@ -153,6 +154,7 @@ int gerar_orc()
 	char *query;
 	int conta_linhas=0;
 	int erro;
+	char code[10];
 	char *formata_float,*formata_float2,*formata_float3;
 	float chartofloat,totalfloat;
 	MYSQL_RES *vetor;
@@ -247,6 +249,13 @@ int gerar_orc()
 		if(ativos_qnt<=1)
 		{
 			popup(NULL,"Não há produtos no orçamento");
+			sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
+			erro = enviar_query(query);
+			if(erro != 0 )
+			{
+				popup(NULL,"Erro ao tentar excluir orçamento vazio");
+				return 1;
+			}
 			return 1;
 		}
 		
@@ -320,7 +329,7 @@ int gerar_orc()
 	
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
-	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidade where o.code = %s;",codigo_orc_gchar);
+	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidades where o.code = %s;",codigo_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -487,6 +496,13 @@ int gerar_orc()
 		}
 		cont++;
 	}
+	sprintf(code,"%i",tasker("orcamentos"));
+	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
+	
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	itens_qnt = 1;
 	adicionar_linha_orc();
 

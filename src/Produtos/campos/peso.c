@@ -14,7 +14,7 @@ int peso_prod()
 		if(produtos.criticar.peso==0)
 		{
 			critica = critica_real(pesos_prod, peso_prod_field);
-			gtk_widget_grab_focus(unidade_prod_field);
+			gtk_widget_grab_focus(grupo_prod_field);
 			return 0;
 		}	
 		popup(NULL,"Por favor, insira um Peso");
@@ -29,7 +29,7 @@ int peso_prod()
 			gtk_widget_grab_focus(peso_prod_field);
 			return 1;
 		}
-		gtk_widget_grab_focus(unidade_prod_field);
+		gtk_widget_grab_focus(grupo_prod_field);
 	}
 	g_print("peso: %s\n",pesos_prod);
 	return 0;

@@ -16,7 +16,7 @@ int fornecedor_prod()
 	{
 		if(produtos.criticar.fornecedor!=0)
 		{
-			gtk_widget_grab_focus(GTK_WIDGET(observacao_prod_field));
+			gtk_widget_grab_focus(GTK_WIDGET(unidade_prod_field));
 			return 0; 
 		}
 		popup(NULL,"Por favor, insira um Fornecedor");
@@ -42,6 +42,6 @@ int fornecedor_prod()
 	fornecedores_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(fornecedor_prod_field));
 	g_print("endereco do fornecedor: %s\n",campos[END_TER_COL]);
 	g_print("tipo de fornecedor: %s\n",campos[TIPC_TER_COL]);
-	gtk_widget_grab_focus(observacao_prod_field);
+	gtk_widget_grab_focus(unidade_prod_field);
 	return 0;
 }

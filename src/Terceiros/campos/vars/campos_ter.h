@@ -58,6 +58,7 @@ GtkWidget *ter_notebook,
 *ter_outros_label;
 
 GtkWidget *code_label, 
+*code_ter_nfe_label,
 *doc_label, 
 *inscr_label,
 *name_label, 
@@ -77,6 +78,7 @@ GtkWidget *code_label,
 *prazo_ter_label;
 
 GtkWidget *code_ter_field, 
+*code_ter_nfe_field,
 *doc_ter_field, 
 *inscr_ter_field,
 *name_ter_field, 

@@ -337,7 +337,7 @@ int vnd_orc()
 	operacao_orc_box = gtk_box_new(0,0);
 	operacao_orc_frame = gtk_frame_new("Tipo de Operação");
 	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_entry,0,0,52);
+//	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_entry,0,0,52);
 	gtk_container_add(GTK_CONTAINER(operacao_orc_frame),operacao_orc_box);
 	
 	cliente_orc_label = gtk_label_new("Insira o Código: ");

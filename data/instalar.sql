@@ -70,13 +70,14 @@ multiplo int default 1 );
 create table produtos( code int primary key auto_increment,
 nome varchar(150) default 'NOME',
 peso float default 0.0,
-unidade int default 1,
+unidades int default 1,
+unidades_atacado int default 1,
 fornecedor int default 1,
 grupo int default 1,
 preco_vista float default 0.0,
 preco_faturado float default 0.0,
 observacoes varchar(500) default '',
-foreign key(unidade) references unidades(code),
+foreign key(unidades) references unidades(code),
 foreign key(fornecedor) references terceiros(code),
 foreign key(grupo) references grupos(code) );
 

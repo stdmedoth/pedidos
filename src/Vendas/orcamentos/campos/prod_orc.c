@@ -19,7 +19,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		vet_erro[PRD_ERR] = 1;
 		return 1;
 	}
-	sprintf(query,"select nome from produtos where code = %s",codigo_prod_orc_gchar);
+	sprintf(query,"select p.nome, u.nome from produtos as p inner join unidades as u on p.unidades= u.code where p.code = %s",codigo_prod_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -43,6 +43,11 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	ativos[posicao].produto = atoi(codigo_prod_orc_gchar);
 	vet_erro[PRD_ERR] = 0;
 	gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
+	if(strlen(campos[1])>10)
+	{
+		campos[10] = '\0';
+	}
+	gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

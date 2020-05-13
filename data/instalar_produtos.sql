@@ -36,11 +36,11 @@ values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,
 'Campinas', 'SP', 18, 1, '(19) 32818753', 'fornecedor', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA', 
 18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20');
 
-insert into produtos(nome, preco_faturado, preco_vista, peso , unidade, grupo, observacoes) 
-values('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./50M - DIV. CORES', 371.50, 351.50, 0.0, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO BICOLOR - 1,30 LARG./25M - CORES', 289.00, 289.00, 0.0, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO METALIZADO - 1,30 LARG./25M - CORES', 251.00, 241.00, 0.0, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO OURO/BRONZE - 1,30 LARG./25M', 225.00, 371.50, 0.0, 4, 1, ''),
-('CABECEADO - FITA ALGODAO - ROLO 50M - DIVERSAS CORES', 225.00, 371.50, 0.0, 4, 1, '');
+insert into produtos(nome, preco_faturado, preco_vista, peso , unidades, unidades_atacado, grupo, observacoes) 
+values('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 1, ''),
+('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 1, ''),
+('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./50M - DIV. CORES', 371.50, 351.50, 0.0, 4, 5, 1, ''),
+('PERCALUX PAPEL PLASTIFICADO BICOLOR - 1,30 LARG./25M - CORES', 289.00, 289.00, 0.0, 4, 5, 1, ''),
+('PERCALUX PAPEL PLASTIFICADO METALIZADO - 1,30 LARG./25M - CORES', 251.00, 241.00, 0.0, 5, 4, 1, ''),
+('PERCALUX PAPEL PLASTIFICADO OURO/BRONZE - 1,30 LARG./25M', 225.00, 371.50, 0.0, 4, 5, 1, ''),
+('CABECEADO - FITA ALGODAO - ROLO 50M - DIVERSAS CORES', 225.00, 371.50, 0.0, 4, 5, 1, '');
