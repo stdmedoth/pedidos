@@ -26,6 +26,7 @@ int critica_real(char *preco,GtkWidget *entrada)
 			qnt++;
 		}
 	}
+	sprintf(preco,"%.2f",atof(preco));
 	//verifica se é formado apenas de numeros e virgula
 	for(pos=0;pos<=strlen(preco);pos++)
 	{
@@ -56,8 +57,9 @@ int critica_real(char *preco,GtkWidget *entrada)
 			return 1;
 		}
 	}
-	if(entrada != NULL)
-		if(GTK_IS_WIDGET(entrada))
-			gtk_entry_set_text(GTK_ENTRY(entrada),preco);
+	if(GTK_IS_WIDGET(entrada))
+	{
+		gtk_entry_set_text(GTK_ENTRY(entrada),preco);
+	}
 	return 0;
 }

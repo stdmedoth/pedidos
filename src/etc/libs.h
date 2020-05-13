@@ -12,6 +12,7 @@
 #include "../pesquisadores/unidades.h"
 #include "../pesquisadores/produtos.h"
 #include "../pesquisadores/orcamentos.h"
+#include "../pesquisadores/ceps.h"
 #include "../Unidades/cadastro_unidades.h"
 
 #include "../pesquisadores/subgrupos.c"
@@ -19,6 +20,7 @@
 #include "../pesquisadores/unidades.c"
 #include "../pesquisadores/produtos.c"
 #include "../pesquisadores/orcamentos.c"
+#include "../pesquisadores/ceps.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"

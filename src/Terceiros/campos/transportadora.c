@@ -211,6 +211,7 @@ GtkWidget *entrega_campos()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),transp_obs_fixed,0,0,5);
 	
 	g_signal_connect(GTK_BUTTON(psq_ter_transp_button),"clicked",G_CALLBACK(psq_ter),transp_codigo_entry);
+	g_signal_connect(GTK_BUTTON(psq_ter_transpcep_button),"clicked",G_CALLBACK(psq_cep),transp_cep_entry);
 	
 	g_signal_connect(GTK_ENTRY(transp_codigo_entry),"activate",G_CALLBACK(transp_codigo_fun),NULL);
 	g_signal_connect(GTK_ENTRY(transp_nome_entry),"activate",G_CALLBACK(transp_nomec),NULL);
@@ -221,8 +222,7 @@ GtkWidget *entrega_campos()
 	g_signal_connect(GTK_ENTRY(transp_num_entry),"activate",G_CALLBACK(transp_num_fun),NULL);
 	g_signal_connect(GTK_ENTRY(transp_cidade_entry),"activate",G_CALLBACK(transp_cidadec),NULL);
 	g_signal_connect(GTK_ENTRY(transp_estado_entry),"activate",G_CALLBACK(transp_estado_fun),NULL);
-	
-	
+
 	return caixa_grande;
 }
 

@@ -30,7 +30,7 @@ int inicializar_ter()
 	contatoe_ter = malloc(MAX_CONT_LEN);
 	observacoes_ter = malloc(MAX_OBS_LEN);
 	prazo_ter = malloc(MAX_DATE_LEN);
-	
+	alterando_ter=0;
 	//GtkWidget *
 	buffer = malloc(sizeof(GtkTextBuffer*));
 	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
@@ -262,6 +262,8 @@ int  cad_terc()
 	cidade_ter_field = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
+	gtk_box_pack_start(GTK_BOX(psq_ter_cep_box),cep_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_cep_box),psq_ter_cep_button,0,0,0);
 	
 	type_ter_field = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(type_ter_field),0,("Escolha o tipo"));
@@ -321,7 +323,7 @@ int  cad_terc()
 	
 	cep = gtk_box_new(0,0);
 	gtk_box_pack_start(GTK_BOX(cep),cep_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(cep),cep_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(cep),psq_ter_cep_box,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cep),rua_combo,0,0,10);
 	gtk_box_pack_start(GTK_BOX(address),cep,0,0,5);
 	gtk_box_pack_start(GTK_BOX(addr_log_num_box),address,0,0,5);
@@ -457,6 +459,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
 	g_signal_connect(type_ter_field,"changed",G_CALLBACK(escolha_tipo_ter),type_ter_field);
+	
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);
 	g_signal_connect(GTK_ENTRY(contatoc_ter_field),"activate",G_CALLBACK(contc),NULL);
@@ -468,6 +471,7 @@ int  cad_terc()
 	g_signal_connect(GTK_CHECK_BUTTON(frete_pago_flag),"toggled",G_CALLBACK(verifica_frete),NULL);
 	g_signal_connect(GTK_ENTRY(frete_pago_entry),"activate",G_CALLBACK(rec_vlr_frete),NULL);
 	
+	g_signal_connect(GTK_BUTTON(psq_ter_cep_button),"clicked",G_CALLBACK(psq_cep),cep_ter_field);
 	
 	g_signal_connect(GTK_BUTTON(botao_mais),"clicked",G_CALLBACK(add_vinc_prod_cli),NULL);
 
@@ -528,8 +532,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(ter_entrega_box),box3,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(ter_outros_box),box4,0,0,0);
-	
-	
+		
 	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_principal_box,ter_principal_label);
 	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_contatos_box,ter_contatos_label);
 	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_entrega_box,ter_entrega_label);

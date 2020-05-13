@@ -8,6 +8,8 @@ static gchar *grupos_prod=NULL;;
 static gchar *precos_faturado_prod=NULL;;
 static gchar *observacoes_prod=NULL;
 
+static GtkWidget *notebook_cad_prod;
+
 static GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_varejo_button;
 static GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img,*psq_qnt_varejo_img;
 static GtkWidget *psq_forn,*psq_subgrp,*psq_und,*psq_qnt_varejo;
@@ -28,7 +30,6 @@ static GtkWidget *campo_nome_unidade,
 *campo_nome_fornecedor,
 *campo_nome_grupo,
 *campo_nome_qnt_varejo;
-
 
 //produtos
 #define PROD_CAD_QUERY "insert into produtos(nome,preco_vista,peso,unidade,fornecedor,grupo, preco_faturado,observacoes) values( '%s', %s, %s, %s, %s, %s, %s, '%s');"

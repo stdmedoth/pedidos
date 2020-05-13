@@ -39,7 +39,7 @@ int altera_prod()
 		gtk_widget_grab_focus (GTK_WIDGET(nome_prod_field));
 		return 1;
 	}
-	gtk_entry_set_text(GTK_ENTRY(nome_prod_field),campo[PROD_COD_COL]);
+	gtk_entry_set_text(GTK_ENTRY(nome_prod_field),campo[PROD_NOM_COL]);
 	
 	sprintf(row,"%.2f",atof(campo[PROD_PRC_VIS_COL]));
 	gtk_entry_set_text(GTK_ENTRY(preco_prod_field),row);

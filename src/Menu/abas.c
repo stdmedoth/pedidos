@@ -86,14 +86,14 @@ int menu()
 	
 	texto_principal = gtk_label_new(texto);	
 
-	lembrete_fixed = gtk_fixed_new();
-	lembrete_box   = gtk_box_new(1,0);
-	lembrete_ico   = gtk_image_new_from_file(LMB_IMG);
-	lembrete_label = gtk_label_new("Lembretes");
+//	lembrete_fixed = gtk_fixed_new();
+//	lembrete_box   = gtk_box_new(1,0);
+//	lembrete_ico   = gtk_image_new_from_file(LMB_IMG);
+//	lembrete_label = gtk_label_new("Lembretes");
 	
-	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_ico,0,0,0);
-	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
-	gtk_fixed_put(GTK_FIXED(lembrete_fixed),lembrete_box,200,100);
+//	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_ico,0,0,0);
+//	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
+//	gtk_fixed_put(GTK_FIXED(lembrete_fixed),lembrete_box,200,100);
 	
 	//inserindo abas
 	gtk_widget_set_name(lista_abas,"menu");
@@ -114,7 +114,7 @@ int menu()
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 	
 	gtk_box_pack_start(GTK_BOX(principal),texto_principal,0,0,0);
-	gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
+//	gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
 	
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)

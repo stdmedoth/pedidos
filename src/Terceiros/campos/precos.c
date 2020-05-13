@@ -1,8 +1,10 @@
 int bloco_qnt=0;
+int rec_precos();
 int posicoes[MAX_PROD];
 GtkWidget *vinc_janela_ter;
 GtkWidget *confirmar_preco_buttom,*cancelar_preco_buttom,*campo_nome_prod;
-#define MARGEM_VIN_D 30
+GtkWidget *treeview_ter_prc;
+#define MARGEM_VIN_D 5
 
 struct campo_vinc
 {
@@ -10,6 +12,48 @@ struct campo_vinc
 	GtkWidget *terceiro;
 	GtkWidget *preco;
 }vinculo;
+
+int atualiza_ter_prc_treeview(GtkWidget *treeview)
+{
+	GtkTreeIter iter1, iter2;
+	char formatar_preco[MAX_PRECO_LEN];
+	char *query;
+	enum {N_COLUMNS=2,COLUMN0=0,COLUMN1=1,COLUMN2=2,COLUMN3=0};
+	GtkTreeStore *modelo = (GtkTreeStore *)gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+	
+	MYSQL_ROW campos;
+	MYSQL_RES *vetor;
+	
+	query = malloc(QUERY_LEN);
+	
+	if(alterando_ter==0)
+	{
+		if(code_terc()!=0)
+			return 0;
+	}
+			
+	sprintf(query,"select a.code,a.nome,valor from precos as b join produtos as a on a.code = b.produto where terceiro = %s",codigos_ter);
+
+	vetor = consultar(query);
+	gtk_tree_store_clear(modelo);
+	if(vetor==NULL)
+	{
+		g_print("Query de precos voltou com vetor nulo\n");
+		autologger("Query de precos voltou com vetor nulo\n");
+		return 1;
+	}
+	
+	while((campos = mysql_fetch_row(vetor))!=NULL)
+	{	
+		sprintf(formatar_preco,"R$ %.2f",atof(campos[2]));
+		gtk_tree_store_append(modelo,&iter1,NULL);
+		gtk_tree_store_set(modelo,&iter1,COLUMN0,campos[0],COLUMN1,formatar_preco,-1);
+		gtk_tree_store_append(modelo,&iter2,&iter1);
+		gtk_tree_store_set(modelo,&iter2,0,"Nome Produto: ",1,campos[1],-1);
+		bloco_qnt++;
+	}	
+	return 0;
+}
 
 int rec_prod(GtkWidget *widget,GtkWidget *nome)
 {
@@ -38,11 +82,24 @@ int rec_prod(GtkWidget *widget,GtkWidget *nome)
 }
 int validar_preco(GtkWidget *widget,struct campo_vinc *vinculo)
 {
-	if(critica_real((char*)gtk_entry_get_text(GTK_ENTRY(vinculo->preco)),(GtkWidget*)vinculo->preco)!=0)
+	if(critica_real((char*)gtk_entry_get_text(GTK_ENTRY(vinculo->preco)),
+	(GtkWidget*)vinculo->preco)!=0)
 		return 1;
-	gtk_widget_grab_focus(GTK_WIDGET(concluir_ter_buttom));
+	
+	g_print("valor passou: %s\n",gtk_entry_get_text(GTK_ENTRY(vinculo->preco)));
+	gtk_widget_grab_focus(concluir_ter_buttom);
 	return 0;		
 }
+
+int diminuir_treeview(GtkTreeView *treeview,GtkTreeIter *iter,GtkTreePath *path, int row)
+{
+	GtkWidget *precos_scroll_window = gtk_widget_get_parent(GTK_WIDGET(precos_scroll_caixa));
+	gtk_widget_set_size_request(GTK_WIDGET(treeview),200,500);
+	gtk_widget_set_size_request(precos_scroll_caixa,200,500);
+	gtk_widget_set_size_request(precos_scroll_window,200,500);
+	return 0;
+}
+
 int atualiza_preco(GtkWidget *widget,int *pos)
 {
 	char *query;
@@ -86,7 +143,7 @@ int rem_preco(GtkWidget *widget,int *codigo)
 	sprintf(query,"delete from precos where code = %i;",codigo_preco[posicao]);
 	if(enviar_query(query)==0)
 	{
-		gtk_widget_destroy(precos_caixas[posicao]);
+		atualiza_ter_prc_treeview(treeview_ter_prc);
 	}
 	else
 	{
@@ -109,13 +166,12 @@ int verificar_entrada(GtkWidget *widget,int *pos)
 	}
 	return 0;
 }
-int rec_precos();
+
 
 
 void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 {
 	char *query;
-	int altera_ter();
 	int erro;
 	query = malloc(QUERY_LEN);
 	gchar *terc = (gchar*) gtk_entry_get_text(GTK_ENTRY(vinculo->terceiro));
@@ -139,21 +195,23 @@ void criar_vinc(GtkWidget *widget,struct campo_vinc *vinculo)
 		return;
 	}
 	popup(NULL,"Concluido");
-	altera_ter();
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod),"Insira o código");
 	gtk_entry_set_text(GTK_ENTRY(vinculo->produto),"");
 	gtk_entry_set_text(GTK_ENTRY(vinculo->preco),"");
-	gtk_widget_destroy(vinc_janela_ter);
+
+	atualiza_ter_prc_treeview(treeview_ter_prc);
 }
 
 int add_vinc_prod_cli(int codigo)
 {
 	
 	GtkWidget *caixa;
+	GtkWidget *psq_ter_prod_prc_button,*psq_ter_prod_prc_img,*psq_ter_prod_prc_box;
 	GtkWidget *cli_label,*cli_entry,*cli_box,*fixed;
 	GtkWidget *prod_label,*prod_entry,*prod_box;
 	GtkWidget *preco_label,*preco_entry,*preco_box;
 	GtkWidget *confirma_img,*cancela_img,*opcoes_box;
+
 	char *query,*msg,*razao;
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);
@@ -180,10 +238,17 @@ int add_vinc_prod_cli(int codigo)
 	campo_nome_prod = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod),"Insira o código");
 	
+	psq_ter_prod_prc_button = gtk_button_new();
+	psq_ter_prod_prc_img = gtk_image_new_from_file(IMG_PESQ);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_prod_prc_button),psq_ter_prod_prc_img);
+	psq_ter_prod_prc_box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_prod_prc_box),prod_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_prod_prc_box),psq_ter_prod_prc_button,0,0,0);
+	
 	prod_box   = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(prod_box),prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_box),campo_nome_prod,0,0,0);	
-	gtk_box_pack_start(GTK_BOX(prod_box),prod_entry,0,0,5);	
+	gtk_box_pack_start(GTK_BOX(prod_box),psq_ter_prod_prc_box,0,0,5);	
 	gtk_fixed_put(GTK_FIXED(fixed),prod_box,MARGEM_VIN_D,80);
 	
 	preco_label = gtk_label_new("Preço");
@@ -231,6 +296,7 @@ int add_vinc_prod_cli(int codigo)
 	g_signal_connect(prod_entry,"activate",G_CALLBACK(rec_prod),campo_nome_prod);
 	g_signal_connect(preco_entry,"activate",G_CALLBACK(validar_preco),&vinculo);
 	g_signal_connect(confirmar_preco_buttom,"clicked",G_CALLBACK(criar_vinc),&vinculo);
+	g_signal_connect(GTK_BUTTON(psq_ter_prod_prc_button),"clicked",G_CALLBACK(psq_prod),prod_entry);
 	
 	gtk_box_pack_start(GTK_BOX(caixa),fixed,0,0,0);
 	gtk_container_add(GTK_CONTAINER(vinc_janela_ter),caixa);
@@ -245,11 +311,39 @@ int rec_precos()
 	char *query;
 	char *entry_text;
 	char *frow;
+	char formatar_preco[MAX_PRECO_LEN];
+	enum {N_COLUMNS=2,COLUMN0=0,COLUMN1=1,COLUMN2=2,COLUMN3=0};
+	
+	GtkTreeStore *modelo;
+	GtkTreeViewColumn *coluna1, *coluna2, *coluna3;
+	GtkCellRenderer *celula1, *celula2, *celula3;
+	GtkTreeIter iter1, iter2;
+	treeview_ter_prc = gtk_tree_view_new();
+	modelo = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+	
+	coluna1 = gtk_tree_view_column_new();
+	coluna2 = gtk_tree_view_column_new();
+	
+	celula1 = gtk_cell_renderer_accel_new();
+	celula2 = gtk_cell_renderer_accel_new();
+	
+	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
+	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
+	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
+	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
+
+	gtk_tree_view_column_set_title(coluna1,"Código Produto");
+	gtk_tree_view_column_set_title(coluna2,"Preço Produto");
+	
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_ter_prc),coluna1);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_ter_prc),coluna2);
+	
 	frow = malloc(ENTRADA);
 	bloco_qnt=0;
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);
-	code_terc();
+	if(code_terc()!=0)
+		return 0;
 	sprintf(query,"select b.code,a.nome,valor from precos as b join produtos as a on a.code = b.produto where terceiro = %s",codigos_ter);
 	entry_text = malloc(CODE_LEN);
 	vetor = consultar(query);
@@ -259,50 +353,28 @@ int rec_precos()
 		autologger("Query de precos voltou com vetor nulo\n");
 		return 1;
 	}
+	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{	
-		precos_caixas[bloco_qnt] = gtk_box_new(1,0);
-		gtk_widget_set_name(precos_caixas[bloco_qnt],"caixa");
-	
-		codigo_preco[bloco_qnt] = atoi(campos[0]);
-		sprintf(frow,"%s",campos[1]);
-		produto_label[bloco_qnt] = gtk_label_new(frow);
-		preco_entry[bloco_qnt] = gtk_entry_new();
-		gtk_entry_set_placeholder_text(GTK_ENTRY(preco_entry[bloco_qnt]),"R$ 00,00");
-		
-		imagem_dinheiro[bloco_qnt] = gtk_image_new_from_file(IMG_MONEY);
-		imagem_ok[bloco_qnt] = gtk_image_new_from_file(IMG_OK);
-		imagem_cancel[bloco_qnt] = gtk_image_new_from_file(IMG_CANCEL);
-		atualizar_preco[bloco_qnt] = gtk_button_new_with_label("Atualizar");
-		remover_preco[bloco_qnt] = gtk_button_new_with_label("Remover");
-		
-		gtk_button_set_image(GTK_BUTTON(atualizar_preco[bloco_qnt]),imagem_ok[bloco_qnt]);
-		gtk_button_set_image(GTK_BUTTON(remover_preco[bloco_qnt]),imagem_cancel[bloco_qnt]);
-		
-		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),produto_label[bloco_qnt],0,0,0);
-		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),imagem_dinheiro[bloco_qnt],0,0,0);
-		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),preco_entry[bloco_qnt],0,0,0);
-		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),atualizar_preco[bloco_qnt],0,0,0);
-		gtk_box_pack_start(GTK_BOX(precos_caixas[bloco_qnt]),remover_preco[bloco_qnt],0,0,0);
-		posicoes[bloco_qnt] = bloco_qnt;
-		
-		g_signal_connect(preco_entry[bloco_qnt],"activate",G_CALLBACK(verificar_entrada),&posicoes[bloco_qnt]);
-		g_signal_connect(atualizar_preco[bloco_qnt],"clicked",G_CALLBACK(atualiza_preco),&posicoes[bloco_qnt]);
-		g_signal_connect(remover_preco[bloco_qnt],"clicked",G_CALLBACK(rem_preco),&posicoes[bloco_qnt]);
-		
-		strcpy(entry_text,campos[2]);
-		gtk_entry_set_text(GTK_ENTRY(preco_entry[bloco_qnt]),entry_text);
-		gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),precos_caixas[bloco_qnt],0,0,10);
+		sprintf(formatar_preco,"R$ %.2f",atof(campos[2]));
+		gtk_tree_store_append(modelo,&iter1,NULL);
+		gtk_tree_store_set(modelo,&iter1,COLUMN0,campos[0],COLUMN1,formatar_preco,-1);
+		gtk_tree_store_append(modelo,&iter2,&iter1);
+		gtk_tree_store_set(modelo,&iter2,0,"Nome Produto: ",1,campos[1],-1);
 		bloco_qnt++;
 	}
+	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_ter_prc),GTK_TREE_MODEL(modelo));
+	gtk_container_add(GTK_CONTAINER(precos_scroll_caixa),treeview_ter_prc);
+	
 	if(bloco_qnt==0)
 	{
 		g_print("Terceiro sem nenhum preco vinculado\n");
 		autologger("Terceiro sem nenhum preco vinculado");
 		return 0;
 	}
-	vet_erro[PRC_ERR]=0;
-	vet_erro[VIN_ERR]=0;
+
+	g_signal_connect(treeview_ter_prc,"row-collapsed",G_CALLBACK(diminuir_treeview),0);
+	
 	gtk_widget_show_all(precos_scroll_caixa);
 	return 0;
 }

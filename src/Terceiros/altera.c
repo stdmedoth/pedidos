@@ -6,8 +6,13 @@ int altera_ter()
 	gchar *cod;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
-	cod= (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
-	sprintf(query,"select * from terceiros where code = '%s';",cod);
+	
+	alterando_ter=1;
+	
+	if(code_terc()!=0)
+		return 0;
+	
+	sprintf(query,"select * from terceiros where code = '%s';",codigos_ter);
 	g_print("query: %s\n",query);
 	autologger(query);
 	estado = consultar(query);
@@ -130,7 +135,7 @@ int altera_ter()
 		
 	if(campo[TRSP_UF_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_UF_COL]);
-
+	
 	if(campo[TRSP_CEP_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),campo[TRSP_CEP_COL]);
 
@@ -159,17 +164,13 @@ int altera_ter()
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
 	
-	if(alterando_ter==1)
-	{
-		for(pos=0;pos<bloco_qnt;pos++)
-			gtk_widget_destroy(precos_caixas[pos]);
-	}
-	rec_precos();
+	
+	atualiza_ter_prc_treeview(treeview_ter_prc);
 	
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 	
 	memset(query,0x0,strlen(query));
-	alterando_ter=1;
+	
 	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
