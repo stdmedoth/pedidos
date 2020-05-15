@@ -12,7 +12,7 @@ int preco_faturado_prod()
 	{
 		if(produtos.criticar.fator==0)
 		{
-			gtk_widget_grab_focus(GTK_WIDGET(peso_prod_field));
+			//gtk_widget_grab_focus(concluir);
 			return 0; 
 		}
 		popup(NULL,"Por favor, insira uma fator");
@@ -21,7 +21,7 @@ int preco_faturado_prod()
 	}
 	else
 	{
-		gtk_widget_grab_focus(peso_prod_field);
+		//gtk_widget_grab_focus(concluir);
 	}
 	g_print("fator: %s\n",precos_faturado_prod);
 	

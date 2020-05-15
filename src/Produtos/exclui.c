@@ -7,6 +7,8 @@ int exclui_prod()
 	gchar *cod_delel;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
+	alterando_prod=0;
+	concluindo_prod=0;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
 	sprintf(query,"select code from produtos where code = '%s';",cod_delel);
 	autologger(query);

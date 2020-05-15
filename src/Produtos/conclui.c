@@ -4,15 +4,10 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	char *code;
 	code = malloc(10);
 	char *query;
-	code_prod();
-	if(fornecedor_prod()!=0)
+	concluindo_prod=1;
+	if(code_prod()!=0)
 	{
-		gtk_widget_grab_focus(fornecedor_prod_field);
-		return 1;
-	}
-	if(grupo_prod()!=0)
-	{
-		gtk_widget_grab_focus(grupo_prod_field);
+		gtk_widget_grab_focus(codigo_prod_field);
 		return 1;
 	}
 	if(nome_prod()!=0)
@@ -25,9 +20,14 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(peso_prod_field);
 		return 1;
 	}
-	if(preco_prod()!=0)
+	if(grupo_prod()!=0)
 	{
-		gtk_widget_grab_focus(preco_prod_field);
+		gtk_widget_grab_focus(grupo_prod_field);
+		return 1;
+	}	
+	if(fornecedor_prod()!=0)
+	{
+		gtk_widget_grab_focus(fornecedor_prod_field);
 		return 1;
 	}
 	if(und_unt_prod()!=0)
@@ -38,6 +38,16 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	if(und_atac_prod()!=0)
 	{	
 		gtk_widget_grab_focus(unidade_prod_field);
+		return 1;
+	}
+	if(preco_prod()!=0)
+	{
+		gtk_widget_grab_focus(preco_prod_field);
+		return 1;
+	}
+	if(preco_faturado_prod()!=0)
+	{
+		gtk_widget_grab_focus(GTK_WIDGET(preco_faturado_prod_field));
 		return 1;
 	}
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
@@ -124,9 +134,8 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_text_buffer_delete (buffer,&inicio,&fim);	
 		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);			
 	}
-	
+	concluindo_prod=0;
 	printf("finalizando conclui_ter()\n");
-	autologger("O cadastro nao foi feito\nverifique os campos");
-//	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
+	gtk_widget_grab_focus (GTK_WIDGET(nome_prod_field));
 	return 0;
 }

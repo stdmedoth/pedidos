@@ -1,5 +1,5 @@
 static GtkWidget *concluir, *alterar, *listar, *excluir;
-static int alterando_prod=0;
+static int alterando_prod=0, concluindo_prod=0;
 #include "campos.c"
 #include "conclui.c"
 #include "altera.c"
@@ -181,7 +181,6 @@ int  cad_prod()
 	gtk_widget_set_name(preco,"caixa");
 	gtk_box_pack_start(GTK_BOX(preco),preco_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(preco),preco_prod_field,0,0,0);
-	gtk_entry_set_input_hints(GTK_ENTRY(preco_prod_field),GTK_INPUT_HINT_NONE);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(preco_prod_field),"R$ 00,00");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-generic");
 	gtk_widget_set_size_request(preco_prod_field,100,30);
@@ -201,7 +200,6 @@ int  cad_prod()
 	gtk_widget_set_name(peso,"caixa");
 	gtk_box_pack_start(GTK_BOX(peso),peso_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(peso),peso_prod_field,0,0,0);
-	gtk_entry_set_input_hints(GTK_ENTRY(peso_prod_field),GTK_INPUT_HINT_NONE);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(peso_prod_field),"00,00 KG");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(peso_prod_field),GTK_ENTRY_ICON_PRIMARY,"insert-object");
 	gtk_widget_set_size_request(peso_prod_field,100,30);
@@ -292,17 +290,6 @@ int  cad_prod()
 	g_signal_connect(GTK_ENTRY(preco_faturado_prod_field),"activate",G_CALLBACK(preco_faturado_prod),NULL);
 	g_signal_connect(GTK_ENTRY(fornecedor_prod_field),"activate",G_CALLBACK(fornecedor_prod),NULL);
 	
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(code_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(nome_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(preco_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(peso_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(und_unt_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(und_atac_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(fornecedor_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(grupo_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(preco_faturado_prod),NULL);
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(obs_prod),NULL);
-
 	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_prod),concluir);
 	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),alterar);
 	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(psq_prod),codigo_prod_field);
@@ -343,7 +330,7 @@ int  cad_prod()
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	gtk_widget_grab_focus(nome_prod_field);
-	abrir_css(DESKTOP_STYLE);
+	//abrir_css(DESKTOP_STYLE);
 	inicializar_prod();
 	
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_fornecedor),FALSE);

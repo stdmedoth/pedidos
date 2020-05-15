@@ -4,6 +4,7 @@ GtkWidget *nome_grp_entry;
 GtkWidget *add_subgrp_button;
 GtkWidget *add_subgrp_window;
 GtkWidget *cod_subgrp_entry;
+GtkWidget *campo_nome_subgrg_pai, *campo_nome_subgrg;
 GtkWidget *nome_subgrp_entry, *nome_subgrp_pai_label, *nome_subgrp_pai_entry;
 
 GtkWidget *confirma_grp_button, *altera_grp_button, *cancela_grp_button, *exclui_grp_button;

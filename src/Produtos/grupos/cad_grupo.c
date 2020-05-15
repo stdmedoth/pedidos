@@ -28,6 +28,12 @@ int conclui_subgrupo()
 	return 0;
 }
 
+int cod_subgrp()
+{
+	
+	return 0;
+}
+
 int exclui_subgrupo()
 {
 	MYSQL_RES *res;
@@ -122,10 +128,15 @@ int cad_subgrupo()
 	subgrpcode = malloc(MAX_CODE_LEN);
 	janela_subgrupo = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(janela_subgrupo),3);
-	gtk_widget_set_size_request(janela_subgrupo,400,250);
+	gtk_widget_set_size_request(janela_subgrupo,500,350);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_subgrupo),TRUE);
 	
 	caixa_grande = gtk_box_new(1,0);
+	
+	campo_nome_subgrg = gtk_entry_new();
+	campo_nome_subgrg_pai = gtk_entry_new();
+	gtk_widget_set_sensitive(campo_nome_subgrg,FALSE);
+	gtk_widget_set_sensitive(campo_nome_subgrg_pai,FALSE);
 	
 	nome_subgrp_pai_fixed = gtk_fixed_new();
 	nome_subgrp_pai_frame = gtk_frame_new("Grupo Pai");
@@ -143,6 +154,7 @@ int cad_subgrupo()
 	psq_subgrp_box = gtk_box_new(0,0);
 	gtk_box_pack_start(GTK_BOX(psq_subgrp_box),nome_subgrp_pai_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_subgrp_box),psq_subgrp_pai_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(nome_subgrp_pai_box),campo_nome_subgrg_pai,0,0,0);
 	gtk_box_pack_start(GTK_BOX(nome_subgrp_pai_box),psq_subgrp_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(nome_subgrp_pai_frame),nome_subgrp_pai_box);
 	gtk_fixed_put(GTK_FIXED(nome_subgrp_pai_fixed),nome_subgrp_pai_frame,30,20);
@@ -184,7 +196,7 @@ int cad_subgrupo()
 	gtk_box_pack_start(GTK_BOX(opcoes_box),cancela_subgrp_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_box),exclui_subgrp_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(opcoes_frame),opcoes_box);
-	gtk_fixed_put(GTK_FIXED(opcoes_fixed),opcoes_frame,30,30);
+	gtk_fixed_put(GTK_FIXED(opcoes_fixed),opcoes_frame,30,10);
 
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),cod_subgrp_fixed,0,0,0);

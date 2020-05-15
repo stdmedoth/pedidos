@@ -21,7 +21,8 @@ int code_prod()
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),code);
 		return 1;
 	}
-	if(	alterando_prod==0)
+
+	if(alterando_prod==0&&concluindo_prod==0)
 	{
 		sprintf(query,"select code from produtos where code = '%s'",codigos_prod);
 		vetor = consultar(query);
@@ -29,12 +30,12 @@ int code_prod()
 		{
 			return 1;
 		}
-	
 		if((campos = mysql_fetch_row(vetor))!=NULL)
 		{
 			altera_prod();
 			return 0;
 		}
+	
 	}
 	if(stoi(codigos_prod)==-1)
 	{
@@ -63,20 +64,7 @@ int code_prod()
 		}
 		return 1;
 	}
-	if(alterando_prod==0)
-	{
-		if((vetor = consultar(query))!=NULL)
-		{
-			campos = mysql_fetch_row(vetor);
-			if(campos!=NULL)
-			{
-				popup(NULL,"Este código ja foi incluído\nPor favor tente com o próximo");
-				g_print("Código ja foi incluído\n");
-				g_print("%s\n",campos[0]);
-				return 1;
-			}
-		}
-	}
+
 	g_print("codigo: %s\n",codigos_prod);
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;

@@ -1,19 +1,21 @@
 int peso_prod()
 {
 	int critica=0;
-	pesos_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(peso_prod_field));
+	pesos_prod = (gchar*)gtk_entry_get_text(GTK_ENTRY(peso_prod_field));
+	g_print("pesos_prod antes: %s\n",pesos_prod);
 	if(strlen(pesos_prod)>50)
 	{
 		popup(NULL,"Preço muito grande");
 		gtk_widget_grab_focus(peso_prod_field);
 		return 1;
 	}
-	else
 	if(strlen(pesos_prod)<=0)
 	{
 		if(produtos.criticar.peso==0)
 		{
+			g_print("Preço inserido vazio\n");
 			critica = critica_real(pesos_prod, peso_prod_field);
+			gtk_entry_set_text(GTK_ENTRY(peso_prod_field),pesos_prod);
 			gtk_widget_grab_focus(grupo_prod_field);
 			return 0;
 		}	
@@ -29,8 +31,9 @@ int peso_prod()
 			gtk_widget_grab_focus(peso_prod_field);
 			return 1;
 		}
+	    gtk_entry_set_text(GTK_ENTRY(peso_prod_field),pesos_prod);
 		gtk_widget_grab_focus(grupo_prod_field);
 	}
-	g_print("peso: %s\n",pesos_prod);
+	g_print("pesos_prod depois: %s\n",pesos_prod);
 	return 0;
 }
