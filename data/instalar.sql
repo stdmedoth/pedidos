@@ -60,12 +60,14 @@ obs varchar(500) default '');
 create table grupos( code int primary key auto_increment,
 pai int not null,
 nome varchar(20) not null,
+nivel int default 1,
 foreign key(pai) references grupos(code));
 
 create table unidades( code int primary key auto_increment,
 nome varchar(20) default '',
 sigla varchar(10) default '',
-multiplo int default 1 );
+multiplo int default 1,
+medida int default 0);
 
 create table produtos( code int primary key auto_increment,
 nome varchar(150) default 'NOME',
@@ -114,8 +116,10 @@ foreign key(cliente) references terceiros(code));
 create table Produto_Orcamento( code int,
 item int default 0,
 produto int default 1,
+subgrupo int default 1,
 unidades float default 0.0,
 valor_unit float default 0.0,
+valor_orig int default 0,
 tipodesc int default 0,
 desconto float default 0.0,
 total float default 0.0,

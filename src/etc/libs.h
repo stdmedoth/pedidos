@@ -7,6 +7,7 @@
 #include "operadores.c"
 #include "parametros.c"
 #include "../Produtos/grupos/cad_grupo.h"
+#include "../pesquisadores/grupos.h"
 #include "../pesquisadores/subgrupos.h"
 #include "../pesquisadores/terceiros.h"
 #include "../pesquisadores/unidades.h"
@@ -15,6 +16,7 @@
 #include "../pesquisadores/ceps.h"
 #include "../Unidades/cadastro_unidades.h"
 
+#include "../pesquisadores/grupos.c"
 #include "../pesquisadores/subgrupos.c"
 #include "../pesquisadores/terceiros.c"
 #include "../pesquisadores/unidades.c"

@@ -6,12 +6,14 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	
 	g_print("Iniciando funcao critica_real()\n");
 	formatar = malloc(MAX_PRECO_LEN);
-	mensagem = malloc(strlen("Caracter   incorreto")+MAX_PRECO_LEN);
+	mensagem = malloc(strlen("Caracter  incorreto")+MAX_PRECO_LEN);
+
 	if(strlen(valor)<=0)
 	{
 		valor = malloc(MAX_PRECO_LEN);
 		strcpy(valor,"0");
 	}
+
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
 	for(pos=0;pos<=strlen(valor);pos++)
@@ -36,6 +38,7 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	}
 	//verifica se é formado apenas de numeros e virgula
 	g_print("strlen %li\n",strlen(valor));
+	g_print("verificando valor %s\n",valor);
 	ok=1;
 	for(pos=0;pos<strlen(valor);pos++)
 	{	
@@ -61,7 +64,8 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 			return 1;
 		}
 	}
-	g_print("de: %s\n",valor);
+	g_print("verificado valor %s\n",valor);
+	g_print("Transformando ',' em '.' de: %s\n",valor);
 	memset(formatar,0x0,MAX_PRECO_LEN);
 	sprintf(formatar,"%.2f",atof(valor));
 	

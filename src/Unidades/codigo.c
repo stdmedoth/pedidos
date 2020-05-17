@@ -37,18 +37,15 @@ int code_und()
 		}
 		return -1;
 	}
-	else
-	if(alterando_und==0)
+	
+	if(alterando_und==0&&concluindo_und==0)
 	{
 		if((vetor = consultar(query))!=NULL)
 		{
 			campos = mysql_fetch_row(vetor);
 			if(campos!=NULL)
 			{
-				popup(NULL,"Este código ja foi incluído\nPor favor tente com o próximo");
-				g_print("Código ja foi incluído\n");
-				g_print("%s\n",campos[0]);
-				
+				altera_und();
 				return 1;
 			}
 		}

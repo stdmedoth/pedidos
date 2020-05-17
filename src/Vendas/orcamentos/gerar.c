@@ -2,8 +2,10 @@
 #define CLI_ROW_POS 2
 #define IMP_PORT1 "LPT1"
 #define IMP_PORT2 "LPT2"
+
 #define BROTHER_IMP 1
 #define SAMSUNG_IMP 2
+
 int imp_opc=0;
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3,*botao_radio4;
@@ -229,7 +231,7 @@ int gerar_orc()
 					strcpy(ativos[cont].desconto_c,"0.0");
 				}
 				
-				sprintf(query,"insert into Produto_Orcamento(code, item, produto, unidades, valor_unit, tipodesc, desconto, total) values(%s, %i, %i, %s, %s, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code, item, produto, unidades, valor_unit, valor_orig, tipodesc, desconto, total) values(%s, %i, %i, %s, %s, %i, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{

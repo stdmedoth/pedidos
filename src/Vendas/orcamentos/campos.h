@@ -1,11 +1,25 @@
 #define COD_ORC_COL 0
 #define NOM_ORC_COL 0
 
+#define COD_ORC_PROD_COL 0
+#define ITM_ORC_PROD_COL 1
+#define PROD_ORC_PROD_COL 2
+#define SUBGRP_ORC_PROD_COL 3
+#define UND_ORC_PROD_COL 4
+#define VLR_ORC_PROD_COL 5
+#define VLR_ORIG_ORC_PROD_COL 6
+#define TIP_DESC_ORC_PROD_COL 7
+#define DESC_ORC_PROD_COL 8
+#define TOTAL_ORC_PROD_COL 9
+
+
 #define MAX_PROD_ORC 1000
 #define PROD_LINHAS_ORC 1
+
 int altera_orc();
 int tirar_linha(int);
 int vnd_orc();
+
 int inicializar_orc()
 {
 	int cont;
@@ -13,6 +27,7 @@ int inicializar_orc()
 		vet_erro[cont] = 0;
 	return 0;
 }
+
 int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
 
@@ -52,6 +67,7 @@ static gchar *codigo_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
 *desconto_prod_orc_gchar,
 *total_prod_orc_gchar;
+
 int gerar_total_geral();
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
@@ -64,7 +80,6 @@ static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
 // FIXEDs
 static GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
 static GtkWidget *opcoes_orc_fixed;
-
 
 // LABELS
 
@@ -84,8 +99,13 @@ static GtkWidget **codigo_prod_orc_label,
 
 static GtkWidget *codigo_orc_entry,*operacao_orc_entry,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
 
+
+static GtkWidget **codigo_orc_prod_box;
+
 static GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
+**subgrp_prod_orc_entry, 
+**subgrp_prod_orc_button, 
 **qnt_prod_orc_entry,
 **preco_prod_orc_entry,
 **orig_preco_prod_orc_entry,
@@ -120,6 +140,7 @@ struct itens_struct
 	int id;
 	int item;
 	int produto;
+	int subgrupo;
 	float qnt_f;
 	float preco_f;
 	float desconto_f;
@@ -131,6 +152,7 @@ struct itens_struct
 	char total_c[MAX_PRECO_LEN];
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
+
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 #include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"

@@ -5,11 +5,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	int tipodesc;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	
-	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
-	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
-	qnt_prod_orc_gchar = malloc(MAX_CODE_LEN);
-	desconto_prod_orc_gchar = malloc(MAX_PRECO_LEN);
+	ativos[posicao].qnt_f = 0;
+	g_print("Iniciando qnt_prod_orc()\n");
 	
 	qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
 	
@@ -19,12 +16,16 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 		return 1;
 	}
+	g_print("Valor qnt %s\n",qnt_prod_orc_gchar);
+	
 	if(critica_real(qnt_prod_orc_gchar,qnt_prod_orc_entry[posicao])!=0)
 	{
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 		return 1;
 	}
+	
 	codigo_cli_orc();
+	
 	if(preco_alterado[posicao]==0)
 	{
 		if(strlen(cliente_orc_gchar)<=0)
@@ -73,20 +74,22 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			strcpy(preco_prod_orc_gchar,campos[0]);
 			critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
 			g_print("Inserindo preco no produto pela tabela\n");
-			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"tabela");
+			preco_alterado[posicao]=1;
+			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Tabela");
 		}
 		else
 		{
 			strcpy(preco_prod_orc_gchar,campos[0]);
 			critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
+			preco_alterado[posicao]=2;
 			g_print("Inserindo preco no produto pelo vinculo de cliente\n");
-			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"cliente");
+			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Cliente");
 			//gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
 		}
 	}
 	else
 	{
-		preco_prod_orc(NULL,posicao);
+		preco_prod_orc(preco_prod_orc_entry[posicao],posicao);
 	}
 	g_print("Iniciando verificação de total\n");
 
@@ -132,13 +135,14 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 	
 	tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
+	
 	if(tipodesc==0)
 	{
 		ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
 		strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
 		critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);
 	}
-	else
+	
 	if(tipodesc==1)
 	{
 		ativos[posicao].desconto_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))*(atof(desconto_prod_orc_gchar)/100);
@@ -151,10 +155,11 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	g_print("float: %.2f ",ativos[posicao].total_f);
 	
 	sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
+	
 	g_print("string: %s \n",total_prod_orc_gchar);
 	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 	strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
-	critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
+	
 	gerar_total_geral();
 	vet_erro[QNT_ERR] = 0;
 	
@@ -168,5 +173,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	else
 		gtk_widget_grab_focus(botao_orc_mais);
 	
+	g_print("Finalizando qnt_prod_orc()\n");
 	return 0;
 }

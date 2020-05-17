@@ -4,7 +4,7 @@ void prc_cli_alter(GtkWidget *widget,GdkEventKey *event,int posicao)
 	{
 		g_print("Preco do item %i alterado\n",posicao);
 		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Operador");
-		preco_alterado[posicao] = 1;
+		preco_alterado[posicao] = 3;
 	}
 	
 	return;
@@ -13,6 +13,8 @@ void prc_cli_alter(GtkWidget *widget,GdkEventKey *event,int posicao)
 int preco_prod_orc(GtkWidget *widget,int posicao)
 {
 	preco_prod_orc_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao]));
+	ativos[posicao].preco_f = 0; 
+	strcpy(ativos[posicao].preco_c,"");
 	if(strlen(preco_prod_orc_gchar)<=0)
 	{	
 		popup(NULL,"O preco deve ser inserido");

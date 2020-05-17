@@ -1,28 +1,28 @@
-insert into unidades (nome, sigla, multiplo)
-values ('Folhas','Folhas',1),  
-('Fardo','Fardo',1),
-('Pacote','Pct',1),
-('Unidade','UND',1),
-('Caixa','CX',1);
+insert into unidades (nome, sigla, multiplo,medida)
+values ('Folhas','Folhas', 1, 0),  
+('Fardo','Fardo', 1, 0),
+('Pacote','Pct', 1, 0),
+('Unidade','UND', 1, 0),
+('Caixa','CX', 1, 0);
 
-insert into grupos(nome,pai) values 
-('RAIZ',1), 
-('PERCALUX',1), 
-('CABECEADO',1), 
-('COLA',1), 
-('FITILHO ACETINADO',1), 
-('LINHA',1), 
-('PELICULA',1), 
-('RESISTÊNCIA',1),
-('ESPIRAIS', 1),
-('PLASTIFICAÇÕES', 1),
-('WERE-O', 1),
-('CAPAS DE PP', 1),
+insert into grupos(nome,pai,nivel) values 
+('RAIZ',1, 0), 
+('PERCALUX',1, 1), 
+('CABECEADO',1, 1), 
+('COLA',1, 1), 
+('FITILHO ACETINADO',1, 1), 
+('LINHA',1, 1), 
+('PELICULA',1, 1), 
+('RESISTÊNCIA',1, 1),
+('ESPIRAIS', 1, 1),
+('PLASTIFICAÇÕES', 1, 1),
+('WERE-O', 1, 1),
+('CAPAS DE PP', 1, 1),
 
-('LISO', 2), 
-('BICOLOR', 2), 
-('METALIZADO', 2), 
-('OURO/BRONZE', 2);
+('LISO', 2, 2), 
+('BICOLOR', 2, 2), 
+('METALIZADO', 2, 2), 
+('OURO/BRONZE', 2, 2);
 
 insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua, 
 telefone,contatot ,celular , contatoc ,email,contatoe, transp_nome, transp_num,transp_logradouro ,

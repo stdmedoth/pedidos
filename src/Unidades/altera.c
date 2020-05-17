@@ -21,6 +21,7 @@ int altera_und()
 		gtk_entry_set_text(GTK_ENTRY(name_und_field),"");
 		gtk_entry_set_text(GTK_ENTRY(sigla_und_field),"");
 		gtk_entry_set_text(GTK_ENTRY(mult_und_field),"");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),0);
 		gtk_widget_grab_focus (GTK_WIDGET(code_und_field));
 		tipo_ter = NULL;
 		return 1;
@@ -34,6 +35,8 @@ int altera_und()
 	sig_und();
 	gtk_entry_set_text(GTK_ENTRY(mult_und_field),campo[3]);
 	multiplo_und();
+	gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),atoi(campo[4]));
+	medida_und();
 	
 	autologger(query);
 	

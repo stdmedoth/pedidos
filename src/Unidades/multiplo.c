@@ -28,7 +28,7 @@ int multiplo_und()
 		{
 		
 			
-//			gtk_widget_grab_focus(concluir);
+			gtk_widget_grab_focus(medida_und_combo_box);
 		}
 	}
 	g_print("Multiplo: %s\n",mult_und);

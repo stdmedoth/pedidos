@@ -6,7 +6,7 @@
 #define ROW_4 4
 #define ROW_5 5
 
-void receber_subgrp_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_grp_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -19,10 +19,10 @@ void receber_subgrp_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
 	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
-	gtk_widget_destroy(psq_subgrp_wnd);
+	gtk_widget_destroy(psq_grp_wnd);
 }
 
-int entry_subgrp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+int entry_grp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=3,COLUMN0=0,COLUMN1=1,COLUMN2=2};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
@@ -55,7 +55,7 @@ int entry_subgrp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	return 0;
 }
 
-int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
+int pesquisa_grp(GtkWidget *button, GtkEntry *cod_grp_entry)
 {
 	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	GtkWidget *scrollwindow;
@@ -91,10 +91,10 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 	
-	psq_subgrp_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_subgrp_wnd),3);
-	gtk_window_set_keep_above(GTK_WINDOW(psq_subgrp_wnd),TRUE);
-	gtk_widget_set_size_request(psq_subgrp_wnd,500,250);
+	psq_grp_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_grp_wnd),3);
+	gtk_window_set_keep_above(GTK_WINDOW(psq_grp_wnd),TRUE);
+	gtk_widget_set_size_request(psq_grp_wnd,500,250);
 	
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
@@ -137,52 +137,6 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 			{
 				return 1;
 			}
-			//camada 2
-			while((row[ROW_1] = mysql_fetch_row(res[ROW_1]))!=NULL)
-			{
-				gtk_tree_store_append(modelo,&filhos[ROW_1],&campos);
-				g_print("Inserindo codigo: %s nome: %s\n",row[ROW_1][0],row[ROW_1][1]);
-				gtk_tree_store_set(modelo,&filhos[ROW_1], COLUMN0,row[ROW_1][0], COLUMN1,row[ROW_1][1],COLUMN2,row[ROW_1][2],-1);
-				sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_1][0]);
-				res[ROW_2] = consultar(query);					
-				if(res[ROW_2] == NULL)	
-				{
-					return 1;
-				}
-				//camada 3
-				while((row[ROW_2] = mysql_fetch_row(res[ROW_2]))!=NULL)
-				{
-					gtk_tree_store_append(modelo,&filhos[ROW_2],&filhos[ROW_1]);
-					g_print("Inserindo codigo: %s nome: %s\n",row[ROW_2][0],row[ROW_2][1]);
-					gtk_tree_store_set(modelo,&filhos[ROW_2], COLUMN0,row[ROW_2][0], COLUMN1,row[ROW_2][1],COLUMN2,row[ROW_2][2],-1);
-					sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_2][0]);
-					res[ROW_3] = consultar(query);
-					if(res[ROW_3] == NULL)
-					{
-						return 1;
-					}
-					//camada 4
-					while((row[ROW_3] = mysql_fetch_row(res[ROW_3]))!=NULL)
-					{
-						gtk_tree_store_append(modelo,&filhos[ROW_3],&filhos[ROW_2]);
-						g_print("Inserindo codigo: %s nome: %s\n",row[ROW_3][0],row[ROW_3][1]);
-						gtk_tree_store_set(modelo,&filhos[ROW_3], COLUMN0,row[ROW_3][0], COLUMN1,row[ROW_3][1],COLUMN2,row[ROW_3][2],-1);
-						sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_3][0]);
-						res[ROW_4] = consultar(query);
-						if(res[ROW_4] == NULL)
-						{
-							return 1;
-						}
-						//camada 5
-						while((row[ROW_4] = mysql_fetch_row(res[ROW_4]))!=NULL)
-						{
-							gtk_tree_store_append(modelo,&filhos[ROW_4],&filhos[ROW_3]);
-							g_print("Inserindo codigo: %s nome: %s\n",row[ROW_4][0],row[ROW_4][1]);
-							gtk_tree_store_set(modelo,&filhos[ROW_4], COLUMN0,row[ROW_4][0], COLUMN1,row[ROW_4][1],COLUMN2,row[ROW_4][2],-1);
-						}
-					}
-				}
-			}
 		}
 	}
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
@@ -201,14 +155,14 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	
 	gtk_widget_set_size_request(scrollwindow,450,200);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
-	gtk_container_set_border_width(GTK_CONTAINER(psq_subgrp_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_grp_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
-	gtk_container_add(GTK_CONTAINER(psq_subgrp_wnd),caixa_grande);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_pesquisa),treeview);
-	pesquisa_global_alvo = GTK_ENTRY(cod_subgrp_entry);
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_subgrp_code),treeview);
-	gtk_widget_show_all(psq_subgrp_wnd);
+	gtk_container_add(GTK_CONTAINER(psq_grp_wnd),caixa_grande);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_grp_pesquisa),treeview);
+	pesquisa_global_alvo = GTK_ENTRY(cod_grp_entry);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_grp_code),treeview);
+	gtk_widget_show_all(psq_grp_wnd);
 	return 0;
 }
 

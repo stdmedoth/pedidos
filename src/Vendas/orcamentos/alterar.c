@@ -33,66 +33,82 @@ int altera_orc()
 	{
 		if(ativos[cont].id==1)
 		{
+			ativos[cont].id = 0;
+			excluidos[cont].id = 1;
 			tirar_linha(cont);			
 		}
 		cont++;
 	}
 	
 	itens_qnt = 1;
-	adicionar_linha_orc();
 	alterando_orc=1;
-	
+	adicionar_linha_orc();
+	g_print("Iniciando alterar\n");
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		g_print("Adicionando item %s\n", row[1]);
+		g_print("\n\nAdicionando item %s à alteração \n", row[1]);
+		g_print("Dados:\n");
+		g_print("code: %s\n", row[COD_ORC_PROD_COL]);
+		g_print("item: %s\n", row[ITM_ORC_PROD_COL]);
+		g_print("produto: %s\n", row[PROD_ORC_PROD_COL]);
+		g_print("subgrupo: %s\n", row[SUBGRP_ORC_PROD_COL]);
+		g_print("unidades: %s\n", row[UND_ORC_PROD_COL]);
+		g_print("valor_unit: %s\n", row[VLR_ORC_PROD_COL]);
+		g_print("valor_orig: %s\n", row[VLR_ORIG_ORC_PROD_COL]);
+		g_print("tipodesc: %s\n", row[TIP_DESC_ORC_PROD_COL]);
+		g_print("desconto: %s\n", row[DESC_ORC_PROD_COL]);
+		g_print("total: %s\n\n", row[TOTAL_ORC_PROD_COL]);
 		
-		if(atoi(row[1])>1)
+		
+		if(atoi(row[ITM_ORC_PROD_COL])>1)
 		{
 			if(rec_altera_qnt==1)
 			{
 				tirar_linha(1);	
 			}
 			
-			itens_qnt = atoi(row[1]);
+			itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
 			adicionar_linha_orc();
 		}
 		
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[1])]))
 		{
-			if((row[1]!=NULL)&&row[2]!=NULL)
+			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[PROD_ORC_PROD_COL]);
+			
+			preco_alterado[atoi(row[ITM_ORC_PROD_COL])] = atoi(row[VLR_ORIG_ORC_PROD_COL]);
+			
+			switch(preco_alterado[atoi(row[ITM_ORC_PROD_COL])])
 			{
-				gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[1])]),row[2]);
-				codigo_prod_orc(codigo_prod_orc_entry[atoi(row[1])],atoi(row[1]));
-			}	
-			if((row[1]!=NULL)&&row[3]!=NULL)
-			{
-				gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[1])]),row[3]);
-				qnt_prod_orc(qnt_prod_orc_entry[atoi(row[1])],atoi(row[1]));
-			}
-			if((row[1]!=NULL)&&row[4]!=NULL)
-			{
-				gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[1])]),row[4]);
-				preco_prod_orc(preco_prod_orc_entry[atoi(row[1])],atoi(row[1]));
-				
-			}
-			if((row[1]!=NULL)&&row[5]!=NULL)
-			{
-				gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[1])]),atoi(row[5]));
-			}
-			if((row[1]!=NULL)&&row[6]!=NULL)
-			{
-				gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[1])]),row[6]);
-				desconto_prod_orc(tipodesconto_prod_orc_combo[atoi(row[1])],atoi(row[1]));
-			}
-			if((row[1]!=NULL)&&row[7]!=NULL)
-			{
-				gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[1])]),row[7]);
-				total_prod_orc(total_prod_orc_entry[atoi(row[1])],atoi(row[1]));
+				case 1: 
+					gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),"Tabela");
+					break;
+				case 2:
+					gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),"Cliente");
+					break;
+				case 3:
+					gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),"Operador");
+					break;
 			}
 			
+			orig_preco_prod_orc(orig_preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])], atoi(row[ITM_ORC_PROD_COL]));
+			
+			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[ITM_ORC_PROD_COL])]),atoi(row[TIP_DESC_ORC_PROD_COL]));
+			
+		
+			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[UND_ORC_PROD_COL]);
+			
+
+			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[VLR_ORC_PROD_COL]);
+			
+
+			gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[DESC_ORC_PROD_COL]);
+
+			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[TOTAL_ORC_PROD_COL]);
+
 		}
 		rec_altera_qnt++;
 	}
+	
 	adicionar_linha_orc();
 	
 	return 0;	
