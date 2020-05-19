@@ -231,7 +231,7 @@ int gerar_orc()
 					strcpy(ativos[cont].desconto_c,"0.0");
 				}
 				
-				sprintf(query,"insert into Produto_Orcamento(code, item, produto, unidades, valor_unit, valor_orig, tipodesc, desconto, total) values(%s, %i, %i, %s, %s, %i, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code, item, produto, subgrupo, unidades, valor_unit, valor_orig, tipodesc, desconto, total) values(%s, %i, %i, %i, %s, %s, %i, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{

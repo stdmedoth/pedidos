@@ -35,35 +35,14 @@ int menu()
 	GtkWidget *texto_principal;
 	gchar *texto;
 	texto = malloc(2000);
-	//pegar mensagem
-	FILE *arquivo;
-	int pos=0,leitor=0,cont=0;
-	arquivo = fopen(MSG_PRINC,"r");
-	if(arquivo!=NULL)
-	{
-		while(leitor!=-1)
-		{
-			leitor = fgetc(arquivo);
-			if(leitor==-1)
-				break;
-			printf("%i ",leitor);
-			texto[pos] = leitor;
-			if(pos>1999)
-				break;
-			pos++;
-		}
 
-		texto[strlen(texto)-29] = 0;
-	}
-	else
-	{
-		texto = "\n\n\n\n\n\n"
-				"\tA PETITTO é uma empresa de venda de materiais e máquinas para encadernação fundada em 1995.\n"
-				"\tSomos uma empresa que tem como princípio a perseverança, fé, seriedade e verdadeiro compromisso\n"
-				"\tde parceria com nossos clientes e fornecedores.\n\n"
-				"\tA mais de 20 anos no mercado, a PETITTO buscar priorizar três principais objetivos:\n"
-				"\tBom atendimento ao cliente, qualidade em nossos produtos e rapidez em nossas entregas.";
-	}
+	texto = "\n\n\n\n\n\n"
+			"\tA PETITTO é uma empresa de venda de materiais e máquinas para encadernação fundada em 1995.\n"
+			"\tSomos uma empresa que tem como princípio a perseverança, fé, seriedade e verdadeiro compromisso\n"
+			"\tde parceria com nossos clientes e fornecedores.\n\n"
+			"\tA mais de 20 anos no mercado, a PETITTO buscar priorizar três principais objetivos:\n"
+			"\tBom atendimento ao cliente, qualidade em nossos produtos e rapidez em nossas entregas.";
+
 	
 	principal    = gtk_box_new(1,0);
 	cadastros    = gtk_box_new(1,0);

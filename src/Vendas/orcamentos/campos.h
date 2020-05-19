@@ -62,6 +62,7 @@ static gchar *codigo_orc_gchar,
 
 static gchar *codigo_prod_orc_gchar, 
 //*descricao_prod_orc_gchar,
+*subgrp_prod_orc_cod_gchar,
 *qnt_prod_orc_gchar,
 *preco_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
@@ -73,6 +74,14 @@ static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
 //  FRAMES
+
+
+static GtkWidget **codigo_prod_orc_frame;
+static GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
+static GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
+static GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
+static GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
+
 static GtkWidget *data_orc_frame;
 static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
 static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
@@ -104,7 +113,7 @@ static GtkWidget **codigo_orc_prod_box;
 
 static GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
-**subgrp_prod_orc_entry, 
+**subgrp_prod_orc_entry, **subgrp_prod_orc_cod_entry,
 **subgrp_prod_orc_button, 
 **qnt_prod_orc_entry,
 **preco_prod_orc_entry,
@@ -157,6 +166,7 @@ struct itens_struct
 #include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"
 #include "campos/prod_orc.c"
+#include "campos/grupo.c"
 #include "campos/qnt_orc.c"
 #include "campos/preco_orc.c"
 #include "campos/total_orc.c"

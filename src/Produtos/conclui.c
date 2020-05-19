@@ -124,6 +124,11 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
+		gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),"");
+		gtk_entry_set_text(GTK_ENTRY(campo_nome_unidade),"");
+		gtk_entry_set_text(GTK_ENTRY(campo_nome_fornecedor),"");
+		gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),"");
+		gtk_entry_set_text(GTK_ENTRY(campo_nome_qnt_atacado),"");
 		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
@@ -136,6 +141,6 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	}
 	concluindo_prod=0;
 	printf("finalizando conclui_ter()\n");
-	gtk_widget_grab_focus (GTK_WIDGET(nome_prod_field));
+	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;
 }

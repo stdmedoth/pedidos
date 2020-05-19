@@ -6,7 +6,7 @@ values ('Folhas','Folhas', 1, 5),
 ('Caixa','CX', 10, 4);
 
 insert into grupos(nome,pai,nivel) values 
-('RAIZ',1, 0), 
+('RAIZ',0, 0), 
 ('PERCALUX',1, 1), 
 ('CABECEADO',1, 1), 
 ('COLA',1, 1), 
