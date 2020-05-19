@@ -25,6 +25,7 @@ int altera_ter()
 		popup(NULL,"Terceiro não existe");
 		sprintf(task,"%i",tasker("terceiros"));
 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
+		gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
 		gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
@@ -37,7 +38,9 @@ int altera_ter()
 		gtk_widget_grab_focus (GTK_WIDGET(code_ter_field));
 		return 1;
 	}
-	
+	if(campo[COD_TER_NFE_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),campo[COD_TER_NFE_COL]);	
+
 	if(campo[RAZ_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),campo[RAZ_TER_COL]);
 	

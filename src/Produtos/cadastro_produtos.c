@@ -64,7 +64,8 @@ int  cad_prod()
 	gtk_widget_set_name(janela,"produtos");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO PRODUTOS");
+	gtk_window_set_title(GTK_WINDOW(janela),"Produtos");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),janela);
@@ -173,7 +174,7 @@ int  cad_prod()
 	name = gtk_box_new(1,0);
 	gtk_widget_set_name(name,"caixa");
 	gtk_box_pack_start(GTK_BOX(name),nome_prod_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(name),nome_prod_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(name),nome_prod_field,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_prod_field),GTK_ENTRY_ICON_PRIMARY,"tools-check-spelling");
 	gtk_widget_set_size_request(nome_prod_field,500,30);
 		
@@ -329,7 +330,7 @@ int  cad_prod()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),horizontal_box_six,0,0,0);
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
-	gtk_widget_grab_focus(nome_prod_field);
+	
 	//abrir_css(DESKTOP_STYLE);
 	inicializar_prod();
 	
@@ -337,6 +338,8 @@ int  cad_prod()
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_grupo),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_unidade),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_qnt_atacado),FALSE);
+	
+	gtk_widget_grab_focus(listar);
 	gtk_widget_show_all(janela);
 	
 	return 0;

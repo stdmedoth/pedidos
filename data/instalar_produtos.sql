@@ -1,9 +1,9 @@
-insert into unidades (nome, sigla, multiplo,medida)
-values ('Folhas','Folhas', 1, 0),  
-('Fardo','Fardo', 1, 0),
-('Pacote','Pct', 1, 0),
-('Unidade','UND', 1, 0),
-('Caixa','CX', 1, 0);
+insert into unidades (nome, sigla, multiplo, medida)
+values ('Folhas','Folhas', 1, 5),  
+('Fardo','Fardo', 15, 5),
+('Pacote','Pct', 20, 4),
+('Unidade','UND', 1, 4),
+('Caixa','CX', 10, 4);
 
 insert into grupos(nome,pai,nivel) values 
 ('RAIZ',1, 0), 

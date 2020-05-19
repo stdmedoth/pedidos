@@ -15,7 +15,8 @@ int inicializar_ter()
 		vet_erro[i] = 0;
 	
 	//char *
-	codigos_ter = malloc(CODE_LEN);
+	codigos_ter = malloc(MAX_CODE_LEN);
+	codigos_ter_nfe = malloc(MAX_CODE_LEN*2);
 	doc_ter = malloc(CNPJ_S_LEN);
 	nomes_ter = malloc(MAX_RAZ_LEN);	
 	endereco_ter = malloc(MAX_ADR_LEN);
@@ -52,7 +53,7 @@ int  cad_terc()
 	sprintf(task,"%i",tasker("terceiros"));
 	g_print("task %s\n",task);	
 	//linhas
-
+	GError *gerro;
 	GtkWidget *janela;
 	GtkWidget *horizontal_box_one, 
 	*horizontal_box_two, 
@@ -70,7 +71,7 @@ int  cad_terc()
 	GtkWidget *fixed5 ,*box4, *vertical_box5;
 	GtkWidget *fixed6 ,*box5, *vertical_box6;
 	GtkWidget *opcoes;
-	GtkWidget *code, *code_ter_nfe, *doc, *inscr, *name, *address, *cep,*type, *address_num;
+	GtkWidget *code, *code_ter_nfe_box, *doc, *inscr, *name, *address, *cep,*type, *address_num;
 	GtkWidget *celular, *telefone,*acao, *email, *observacoes,*prazo;
 	GtkWidget *observacoes_scroll;
 	GtkWidget *cid_uf_boxv1,*cid_uf_boxv2,*cid_uf_boxh;
@@ -129,7 +130,8 @@ int  cad_terc()
 	gtk_widget_set_name(janela,"terceiros");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO TERCEIROS");
+	gtk_window_set_title(GTK_WINDOW(janela),"Terceiros");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"avatar-default");
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
@@ -299,10 +301,10 @@ int  cad_terc()
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
 	gtk_widget_set_size_request(code_ter_field,50,30);
 
-	code_ter_nfe = gtk_box_new(1,0);
-	gtk_widget_set_name(code_ter_nfe,"caixa");
-	gtk_box_pack_start(GTK_BOX(code_ter_nfe),code_ter_nfe_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(code_ter_nfe),code_ter_nfe_field,0,0,0);
+	code_ter_nfe_box = gtk_box_new(1,0);
+	gtk_widget_set_name(code_ter_nfe_box,"caixa");
+	gtk_box_pack_start(GTK_BOX(code_ter_nfe_box),code_ter_nfe_label,0,0,0);
+	gtk_box_pack_end(GTK_BOX(code_ter_nfe_box),code_ter_nfe_field,0,0,0);
 	gtk_entry_set_width_chars(GTK_ENTRY(code_ter_nfe_field),10);
 	gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
 	gtk_widget_set_size_request(code_ter_nfe_field,50,30);
@@ -429,7 +431,7 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code_ter_nfe,0,0,5);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code_ter_nfe_box,0,0,5);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),inscr,0,0,10);
 	
@@ -459,17 +461,18 @@ int  cad_terc()
 	gtk_widget_set_size_request(GTK_WIDGET(excluir_ter_buttom),100,50);
 	
 	
-	g_signal_connect(GTK_ENTRY(code_ter_field),"activate",G_CALLBACK(code_terc),code_ter_field);
+	g_signal_connect(GTK_ENTRY(code_ter_field),"activate",G_CALLBACK(code_terc),NULL);
+	g_signal_connect(GTK_ENTRY(code_ter_nfe_field),"activate",G_CALLBACK(code_ter_nfe),NULL);
 	g_signal_connect(doc_combo,"changed",G_CALLBACK(mover_para_doc),NULL);
-	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(escolha_doc),doc_ter_field);
+	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(escolha_doc),NULL);
 	g_signal_connect(GTK_ENTRY(inscr_ter_field),"activate",G_CALLBACK(inscr_terc),NULL);
-	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),name_ter_field);
+	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),NULL);
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),NULL);
 	g_signal_connect(GTK_ENTRY(cidade_ter_field),"activate",G_CALLBACK(cidade_terc),NULL);
 	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
-	g_signal_connect(type_ter_field,"changed",G_CALLBACK(escolha_tipo_ter),type_ter_field);
+	g_signal_connect(type_ter_field,"changed",G_CALLBACK(escolha_tipo_ter),NULL);
 	
 	g_signal_connect(GTK_ENTRY(celular_ter_field),"activate",G_CALLBACK(cel),NULL);
 	g_signal_connect(GTK_ENTRY(telefone_ter_field),"activate",G_CALLBACK(tel),NULL);

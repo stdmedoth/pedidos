@@ -117,6 +117,7 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	
 	psq_cep_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_cep_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_cep_wnd),"system-search");
 	gtk_window_set_keep_above(GTK_WINDOW(psq_cep_wnd),TRUE);
 	gtk_widget_set_size_request(psq_cep_wnd,500,250);
 	

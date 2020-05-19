@@ -45,7 +45,8 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
 	if(strlen(campos[1])>10)
 	{
-		campos[10] = '\0';
+		campos[1][10] = '.';
+		campos[1][11] = '\0';
 	}
 	gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);

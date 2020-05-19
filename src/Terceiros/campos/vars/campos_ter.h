@@ -1,38 +1,39 @@
 #define COD_TER_COL 0
-#define RAZ_TER_COL 1
-#define DOC_TER_COL 2
-#define IE_TER_COL 3
-#define TDOC_TER_COL 4
-#define TIPC_TER_COL 5
-#define TIPI_TER_COL 6
-#define CEP_TER_COL 7
-#define END_TER_COL 8
-#define CID_TER_COL 9
-#define UF_TER_COL 10
-#define REND_TER_COL 11
-#define TRUA_TER_COL 12
-#define TEL_TER_COL 13
-#define CTEL_TER_COL 14
-#define CEL_TER_COL 15
-#define CCEL_TER_COL 16
-#define EMAIl_TER_COL 17
-#define CEMAIL_TER_COL 18
+#define COD_TER_NFE_COL 1
+#define RAZ_TER_COL 2
+#define DOC_TER_COL 3
+#define IE_TER_COL 4
+#define TDOC_TER_COL 5
+#define TIPC_TER_COL 6
+#define TIPI_TER_COL 7
+#define CEP_TER_COL 8
+#define END_TER_COL 9
+#define CID_TER_COL 10
+#define UF_TER_COL 11
+#define REND_TER_COL 12
+#define TRUA_TER_COL 13
+#define TEL_TER_COL 14
+#define CTEL_TER_COL 15
+#define CEL_TER_COL 16
+#define CCEL_TER_COL 17
+#define EMAIl_TER_COL 18
+#define CEMAIL_TER_COL 19
 
-#define TRSP_NOME_COL 19
-#define TRSP_CNPJ_COL 20
-#define TRSP_IE_COL 21
-#define TRSP_LOGR_COL 22
-#define TRSP_NUM_COL 23
-#define TRSP_CID_COL 24
-#define TRSP_UF_COL 25
-#define TRSP_CEP_COL 26
-#define TRSP_TEL_COL 27
-#define TRSP_OBS_COL 28
-#define FLAG_MIN_FRT_PAG_COL 29
-#define VLR_MIN_FRT_PAG_COL 30
+#define TRSP_NOME_COL 20
+#define TRSP_CNPJ_COL 21
+#define TRSP_IE_COL 22
+#define TRSP_LOGR_COL 23
+#define TRSP_NUM_COL 24
+#define TRSP_CID_COL 25
+#define TRSP_UF_COL 26
+#define TRSP_CEP_COL 27
+#define TRSP_TEL_COL 28
+#define TRSP_OBS_COL 29
+#define FLAG_MIN_FRT_PAG_COL 30
+#define VLR_MIN_FRT_PAG_COL 31
 
-#define PRAZ_TER_COL 31
-#define OBS_TER_COL 32
+#define PRAZ_TER_COL 32
+#define OBS_TER_COL 33
 
 int tipo_doc,tipo_log;
 GtkWidget *doc_combo;
@@ -119,6 +120,7 @@ GtkWidget *ter_trsp_label,*ter_trsp_entry;
 GtkWidget *win_tipo_ter;
 
 gchar *codigos_ter=NULL;
+gchar *codigos_ter_nfe=NULL;
 gchar *doc_ter=NULL;
 gchar *inscr_ter=NULL;
 gchar *nomes_ter=NULL;

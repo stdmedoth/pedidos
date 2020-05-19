@@ -14,9 +14,33 @@ void receber_und_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_widget_destroy(psq_und_wnd);
 }
 
+char *int_to_medida(int med_cod)
+{
+	switch(med_cod)
+	{
+		case 0:
+			return "Sem medida";
+		case 1:
+			return "Comprimento";
+		case 2:
+			return "Massa";
+			break;
+		case 3:
+			return "Tempo";
+			break;
+		case 4:
+			return "Unidade";
+			break;
+		case 5:
+			return "Genérico";
+			break;
+	}
+	return 0;
+}
+
 int entry_und_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=3,COLUMN0=0,COLUMN1=1,COLUMN2=2};
+	enum {N_COLUMNS=4,COLUMN0=0,COLUMN1=1,COLUMN2=2,COLUMN3=3};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
@@ -29,7 +53,7 @@ int entry_und_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	entrada = (gchar*)gtk_entry_get_text(widget);
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
-	sprintf(query,"select code, nome, multiplo from unidades where nome like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select code, nome, multiplo, medida from unidades where nome like '%c%s%c'",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -39,17 +63,17 @@ int entry_und_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	{
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
-		gtk_tree_store_set(modelo,&campos, COLUMN0,row[0], COLUMN1,row[1], COLUMN2,row[2],-1);
+		gtk_tree_store_set(modelo,&campos, COLUMN0,row[0], COLUMN1,row[1], COLUMN2,row[2],COLUMN3,int_to_medida(atoi(row[3]))-1);
 	}
 	return 0;
 }
 
 int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 {
-	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
+	enum {N_COLUMNS=4,COLUMN0=0, COLUMN1=1, COLUMN2=2,COLUMN3=3};
 	GtkWidget *scrollwindow;
-	GtkTreeViewColumn *coluna1, *coluna2, *coluna3;
-	GtkCellRenderer *celula1, *celula2, *celula3;
+	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4;
+	GtkCellRenderer *celula1, *celula2, *celula3, *celula4;
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
@@ -70,6 +94,8 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	celula2 = gtk_cell_renderer_text_new();
 	coluna3 = gtk_tree_view_column_new();
 	celula3 = gtk_cell_renderer_text_new();
+	coluna4 = gtk_tree_view_column_new();
+	celula4 = gtk_cell_renderer_text_new();
 	
 	treeview = gtk_tree_view_new();
 	
@@ -81,6 +107,7 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	
 	psq_und_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_und_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_und_wnd),"system-search");
 	gtk_window_set_keep_above(GTK_WINDOW(psq_und_wnd),TRUE);
 	gtk_widget_set_size_request(psq_und_wnd,500,250);
 	
@@ -97,14 +124,19 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	gtk_tree_view_column_set_title(coluna3,"Multiplo");
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
+	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
+	gtk_tree_view_column_set_title(coluna4,"Medida");
+	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
+	
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
 	
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
 	
-	sprintf(query,"select code, nome, multiplo from unidades");
+	sprintf(query,"select code, nome, multiplo, medida from unidades");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -114,7 +146,7 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	{
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
-		gtk_tree_store_set(modelo,&campos, COLUMN0,row[0], COLUMN1,row[1],COLUMN2,row[2],-1);
+		gtk_tree_store_set(modelo,&campos, COLUMN0,row[0], COLUMN1,row[1],COLUMN2,row[2],COLUMN3,int_to_medida(atoi(row[3])),-1);
 	}
 	
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
@@ -132,7 +164,7 @@ int pesquisa_und(GtkWidget *button, GtkEntry *code_und_field)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 	
 	gtk_widget_set_size_request(scrollwindow,450,200);
-	//gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_und_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);

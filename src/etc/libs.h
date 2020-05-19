@@ -5,7 +5,10 @@
 #include "criticas.c"
 #include "pesquisador.c"
 #include "operadores.c"
+#include "personalizacao.c"
 #include "parametros.c"
+#include "temas.c"
+
 #include "../Produtos/grupos/cad_grupo.h"
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/subgrupos.h"

@@ -119,9 +119,9 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			#endif
 		}
 	}
-	
-	desconto_prod_orc(desconto_prod_orc_entry[posicao],posicao);
 
+	tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
+	
 	ativos[posicao].qnt_f = atof(qnt_prod_orc_gchar);
 	strcpy(ativos[posicao].qnt_c,qnt_prod_orc_gchar);
 	critica_real(ativos[posicao].qnt_c,qnt_prod_orc_entry[posicao]);
@@ -133,9 +133,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
 	g_print("float preco %.2f\n",ativos[posicao].preco_f);
 
-	
-	tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
-	
+	desconto_prod_orc(desconto_prod_orc_entry[posicao],posicao);
+		
 	if(tipodesc==0)
 	{
 		ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
@@ -150,9 +149,12 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);
 	}
 	
+
+
 	g_print("Total: ");
 	ativos[posicao].total_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))-ativos[posicao].desconto_f;
 	g_print("float: %.2f ",ativos[posicao].total_f);
+
 	
 	sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
 	
@@ -161,7 +163,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
 	
 	gerar_total_geral();
-	vet_erro[QNT_ERR] = 0;
 	
 	if(ativos[posicao+1].id == 1)
 	{

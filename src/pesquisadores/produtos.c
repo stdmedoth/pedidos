@@ -105,6 +105,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	
 	psq_prod_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_prod_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_prod_wnd),"system-search");
 	gtk_window_set_keep_above(GTK_WINDOW(psq_prod_wnd),TRUE);
 	gtk_widget_set_size_request(psq_prod_wnd,500,250);
 	

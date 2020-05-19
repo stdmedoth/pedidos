@@ -114,7 +114,7 @@ int oper_concluir()
 	}
 	if(oper_alterando == 0)
 	{
-		sprintf(query,"insert into perfil_desktop (desktop_img, cor_barra, janela_init, janelas_keep_above) values(3,1,1,1)");
+		sprintf(query,"insert into perfil_desktop (desktop_img, tema, janela_init, janelas_keep_above) values(3,1,1,1)");
 		erro = enviar_query(query);	
 		if(erro!=0)
 		{
@@ -149,7 +149,8 @@ int cad_oper()
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela,450,300);	
 	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_window_set_title(GTK_WINDOW(janela),"Cadastro Operadores");
+	gtk_window_set_title(GTK_WINDOW(janela),"Operadores");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");
 			
 	oper_perm_name_entry = gtk_label_new(NULL);
 	oper_nome_entry = gtk_entry_new();

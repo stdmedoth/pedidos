@@ -729,6 +729,7 @@ int cad_grupo()
 	layout_janela_grupo = gtk_layout_new(NULL,NULL);
 	caixa_grande = gtk_box_new(1,0);
 	janela_grupo = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_grupo),"emblem-documents");
 	gtk_widget_set_size_request(janela_grupo,900,450);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_grupo),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_grupo),3);

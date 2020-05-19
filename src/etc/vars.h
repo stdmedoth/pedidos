@@ -188,5 +188,5 @@ GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;
 GtkTextBuffer *buffer;
 GtkTextIter inicio,fim;	
-
+static int inicializando=0;
 

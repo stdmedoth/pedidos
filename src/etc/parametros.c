@@ -1,15 +1,15 @@
-#include "personalizacao.c"
 //combo_box de terceiros 
 GtkWidget **campos_de_critica;
 //combo_box de produtos
 GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
 int ter_critic_campos_qnt =10;
-static GtkWidget *janela_init,*janela_keep_above,*janela_cor;
+int temas();
+static GtkWidget *janela_init,*janela_keep_above,*tema_combo_box;
 struct 
 {
 	int janela_init;
 	int janela_keep_above;
-	int janela_cor;
+	int tema;	
 	char wallpaper[300];
 }personalizacao;
 struct
@@ -84,7 +84,7 @@ char *desktop_images_vet[] = {THUMBDESKTOP1,THUMBDESKTOP2,THUMBDESKTOP3,THUMBDES
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
-	personalizacao.janela_cor = gtk_combo_box_get_active(GTK_COMBO_BOX(janela_cor));		
+	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));		
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));		
 	return 0;
@@ -96,7 +96,7 @@ static int receber_personalizacao()
 	MYSQL_ROW row;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cor_barra, janelas_keep_above from perfil_desktop where code = %s",oper_code);
+	sprintf(query,"select tema, janelas_keep_above from perfil_desktop where code = %s",oper_code);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
@@ -107,9 +107,8 @@ static int receber_personalizacao()
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
-	personalizacao.janela_cor = atoi(row[0]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(janela_cor),atoi(row[0]));		
-	
+	personalizacao.tema = atoi(row[0]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[0]));
 	
 	personalizacao.janela_keep_above = atoi(row[1]);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[1]));		
@@ -141,7 +140,7 @@ int atualizar_personalizacao()
 	{
 		popup(NULL,"Erro ao configurar janela login");
 	}
-	sprintf(query,"update perfil_desktop set cor_barra = %i,janelas_keep_above = %i where code = %s",personalizacao.janela_cor,personalizacao.janela_keep_above,oper_code);
+	sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %s",personalizacao.tema,personalizacao.janela_keep_above,oper_code);
 	if((erro = enviar_query(query))!=0)
 	{
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
@@ -326,7 +325,7 @@ int parametrizar()
 	GtkWidget *geral_criticas_frame,*ter_criticas_frame,*prod_criticas_frame;
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box;
 	GtkWidget *personaliza_box,*personaliza_frame;
-	
+	GtkWidget *tema_combo_box_fixed;
 	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
@@ -343,8 +342,10 @@ int parametrizar()
 	int *vet_pos;
 	janela_parametros = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_parametros,600,400);
+	gtk_window_set_title(GTK_WINDOW(janela_parametros),"Parametros");
 	gtk_window_set_keep_above(GTK_WINDOW(janela_parametros),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_parametros),GTK_WIN_POS_CENTER_ALWAYS);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_parametros),"preferences-system");
 	notebook = gtk_notebook_new();
 	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
 	
@@ -359,16 +360,19 @@ int parametrizar()
 	personaliza_frame = gtk_frame_new("Personalização");
 	janela_init = gtk_check_button_new_with_label("Ativar Login?");
 	janela_keep_above = gtk_check_button_new_with_label("Janelas pais sobrepoem ?");
-	janela_cor = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(janela_cor),0,"Escolha cor:");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(janela_cor),"1","Azul Claro");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(janela_cor),"2","Verde escuro");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(janela_cor),"3","Padrão");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(janela_cor),0);
+	
+	tema_combo_box = gtk_combo_box_text_new();
+	tema_combo_box_fixed = gtk_fixed_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Adwaita-Dark");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Xfce");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Arc");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
+	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
 
 	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_init,0,0,5);
 	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_keep_above,0,0,5);
-	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_cor,0,0,10);
+	gtk_box_pack_start(GTK_BOX(personaliza_box),tema_combo_box_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(personaliza_frame),personaliza_box);
 	
 	for(cont=0;cont<WALLPAPERS_QNT;cont++)
@@ -391,8 +395,8 @@ int parametrizar()
 		g_signal_connect(event_wallpapers[cont],"button-press-event",G_CALLBACK(trocar_desktop),vet_pos[cont]);
 		#pragma GCC diagnostic warning "-Wint-conversion"
 	}
-	gtk_widget_set_size_request(wallpapers_box,600,100);
-	gtk_widget_set_size_request(wallpapers_scroll,600,100);
+	gtk_widget_set_size_request(wallpapers_box,600,120);
+	gtk_widget_set_size_request(wallpapers_scroll,600,120);
 	#ifdef WIN32
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(wallpapers_scroll),wallpapers_box);
 	#endif
@@ -475,7 +479,8 @@ int parametrizar()
 	gtk_box_pack_start(GTK_BOX(caixona),notebook,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixona),opcoes_box,0,0,20);
 	gtk_container_add(GTK_CONTAINER(janela_parametros),caixona);
-	
+
+	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);
 
 	gtk_widget_show_all(janela_parametros);

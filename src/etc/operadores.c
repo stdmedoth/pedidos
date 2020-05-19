@@ -7,20 +7,16 @@ int g_handle_janela_login;
 gchar *oper_code;
 void encerrando()
 {
-	GtkWidget *janela,*label;
-	janela = gtk_window_new(GTK_WINDOW_POPUP);
+	GtkWidget *janela, *label;
+	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	label = gtk_label_new("Encerrando...");
-	gtk_widget_set_size_request(janela_login,50,50);
-	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
+	gtk_widget_set_size_request(janela,100,100);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
+	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 	gtk_container_add(GTK_CONTAINER(janela),label);
 	gtk_widget_show_all(janela);
-	#ifdef __linux__
-	sleep(1);
-	#endif
-	#ifdef WIN32
-	Sleep(1000);
-	#endif
+	
+	g_usleep ( 1000000 );
 	gtk_main_quit();
 }
 void passa_nome()
@@ -82,8 +78,10 @@ void login()
 	GtkWidget *nome_fixed, *senha_fixed;
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_login,200,200);
-	gtk_window_set_decorated(GTK_WINDOW(janela_login),TRUE);
+	gtk_window_set_decorated(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_login),FALSE);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
+	gtk_window_set_title(GTK_WINDOW(janela_login),"Login");
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_login),3);

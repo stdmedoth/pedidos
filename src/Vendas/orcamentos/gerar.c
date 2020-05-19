@@ -446,7 +446,7 @@ int gerar_orc()
 		fclose(orc);
 		return 0;
 	}
-	sprintf(query,"select total,observacoes from orcamentos where code = %s",codigo_orc_gchar);	
+	sprintf(query,"select o.total,t.code_nfe,o.observacoes from orcamentos as o inner join terceiros as t on o.cliente = t.code where o.code = %s",codigo_orc_gchar);	
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -477,7 +477,14 @@ int gerar_orc()
 	fprintf(orc,"<div id=\"obs-div1\">\n");
 	fprintf(orc,"Observacões\n");
 	fprintf(orc,"<div id=\"obs-div2\">\n");
-	fprintf(orc,"Cod. Cliente : %s %s",cliente_orc_gchar,observacoes_orc_gchar);
+	if(strlen(row[1])>0&&row[1]!=NULL)
+	{
+		fprintf(orc,"Cod. Cliente : %s<br>",row[1]);
+	}
+	if(strcmp(row[2],"(null)")!=0)
+	{
+		fprintf(orc,"%s",row[2]);
+	}
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");

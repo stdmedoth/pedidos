@@ -13,7 +13,7 @@ endereco varchar(200) not null);
 
 create table perfil_desktop(code int primary key auto_increment,
 desktop_img int default 0,
-cor_barra int default 0,
+tema int default 0,
 janela_init bool default 0,
 janelas_keep_above bool default 0);
 
@@ -22,10 +22,11 @@ campo_nome varchar(20) default 0,
 critica bool default 0);
 
 create table terceiros ( code int primary key auto_increment,
+code_nfe varchar(15) default '',
 razao varchar(300) default '',
 doc varchar(20) default '',
-	ie varchar(20) default 'IE',
-	tipo_doc int default 0,
+ie varchar(20) default 'IE',
+tipo_doc int default 0,
 tipoc varchar(20) default 0,
 tipo int default 0,
 cep varchar(15) default '',
@@ -179,6 +180,6 @@ values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJard
 
 insert into perfil_desktop(code,
 desktop_img,
-cor_barra,
+tema,
 janela_init,
-janelas_keep_above) values(1,3,1,0,1);
+janelas_keep_above) values(1,3,2,0,1);

@@ -27,16 +27,10 @@ int altera_und()
 		return 1;
 	}
 	alterando_und=1;
-	gtk_entry_set_text(GTK_ENTRY(code_und_field),campo[0]);
-	code_und();
 	gtk_entry_set_text(GTK_ENTRY(name_und_field),campo[1]);
-	name_und();
 	gtk_entry_set_text(GTK_ENTRY(sigla_und_field),campo[2]);
-	sig_und();
 	gtk_entry_set_text(GTK_ENTRY(mult_und_field),campo[3]);
-	multiplo_und();
 	gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),atoi(campo[4]));
-	medida_und();
 	
 	autologger(query);
 	

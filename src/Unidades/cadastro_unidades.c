@@ -15,6 +15,7 @@ int  cad_und()
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-engineering");	
 	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO UNIDADES");
 	gtk_widget_set_size_request(janela,70,240);
 	alterando_und=0;
@@ -44,6 +45,8 @@ int  cad_und()
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Comprimento");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Massa");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tempo");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Unidade");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Genérico");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),0);
 	
 	code_und_frame = gtk_frame_new("Código");

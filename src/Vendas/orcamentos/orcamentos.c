@@ -24,10 +24,10 @@ int gerar_total_geral()
 			g_print("desconto: %.2f = %.2f + %.2f\n",desconto_geral_orc, desconto_geral_orc , ativos[cont].desconto_f);
 			if(total_geral_orc<0)
 			{
-				sprintf(muda_label,"%.2f",total_geral_orc);
+				sprintf(muda_label,"R$ %.2f",total_geral_orc);
 				gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
 			
-				sprintf(muda_label,"%.2f",desconto_geral_orc);
+				sprintf(muda_label,"R$ %.2f",desconto_geral_orc);
 				gtk_label_set_text(GTK_LABEL(desconto_geral_orc_label),muda_label);
 				popup(NULL,"Total Negativo! Verifique o tipo de desconto");
 				gtk_widget_grab_focus(desconto_prod_orc_entry[cont]);
@@ -35,10 +35,10 @@ int gerar_total_geral()
 			}
 		}
 	}	
-	sprintf(muda_label,"%.2f",total_geral_orc);
+	sprintf(muda_label,"R$ %.2f",total_geral_orc);
 	gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
 			
-	sprintf(muda_label,"%.2f",desconto_geral_orc);
+	sprintf(muda_label,"R$ %.2f",desconto_geral_orc);
 	gtk_label_set_text(GTK_LABEL(desconto_geral_orc_label),muda_label);
 	g_print("finalizando gerar_total_geral()\n");
 	return 0;
@@ -324,6 +324,8 @@ int vnd_orc()
 	gtk_widget_set_size_request(janela_orcamento,1350,600);
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_orcamento),"document-revert");
+	
 	
 	alerta_obs = 0;
 	itens_qnt = 1;

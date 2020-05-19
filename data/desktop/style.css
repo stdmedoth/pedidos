@@ -15,7 +15,8 @@ GtkEntry
 #barra
 {
         background: Grey;
-        border: solid 1px Gainsboro;
+        /*border: solid 1px Gainsboro;*/
+		border: solid 1px grey;
 }
 #borda
 {

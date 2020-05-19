@@ -94,6 +94,7 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 	
 	psq_orc_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_orc_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_orc_wnd),"system-search");
 	gtk_window_set_keep_above(GTK_WINDOW(psq_orc_wnd),TRUE);
 	gtk_widget_set_size_request(psq_orc_wnd,500,250);
 	

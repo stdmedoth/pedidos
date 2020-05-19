@@ -1,13 +1,13 @@
 int name_und()
 {
-	nomes_und = malloc(50);
+	nomes_und = malloc(20);
 	if(nomes_und==NULL)
 	{
 		printf("erro de memoria %s\n",strerror(errno));
 		return 1;
 	}
 	nomes_und = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_und_field));	
-	if(strlen(nomes_und)>=50)
+	if(strlen(nomes_und)>=20)
 	{
 		popup(NULL,"Nome inserido é muito grande");
 		gtk_widget_grab_focus(GTK_WIDGET(name_und_field));

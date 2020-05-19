@@ -5,7 +5,6 @@ GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
 
-
 int conexao()
 {
 	char *string;
@@ -124,6 +123,7 @@ int desktop()
 		popup(NULL,"Login indevido");
 		return 1;
 	}
+
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
@@ -133,7 +133,8 @@ int desktop()
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
-	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),1);	
+	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");	
+	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);	
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 			
 	//criacao	
@@ -148,7 +149,7 @@ int desktop()
 	inferior_2 = gtk_box_new(1,0);
 
 	barra = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);	
-	gtk_widget_set_name(barra,"barra");
+	//gtk_widget_set_name(barra,"barra");
 	
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
@@ -175,8 +176,8 @@ int desktop()
 	gtk_widget_set_size_request(GTK_WIDGET(superior),1291,0);
 	gtk_widget_set_size_request(GTK_WIDGET(inferior),1291,0);
 
-	gtk_widget_set_size_request(GTK_WIDGET(juncao),1291,750);
-	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1291,750);
+	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
+	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1290,750);
 	gtk_box_pack_start(GTK_BOX(juncao),superior,0,0,0);
 	gtk_box_pack_start(GTK_BOX(juncao),inferior,0,0,0);
 
@@ -188,16 +189,18 @@ int desktop()
 	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,550);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,630);
 	
-	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),70,60);
+	gtk_widget_set_size_request(GTK_WIDGET(param_button),70,60);
+	gtk_widget_set_size_request(GTK_WIDGET(sair_button),70,60);
 	
-	gtk_widget_set_size_request(barra,75,765);
-	gtk_widget_set_size_request(layout_barra,75,765);
+	gtk_widget_set_size_request(barra,80,750);
+	gtk_widget_set_size_request(layout_barra,80,750);
 
 	gtk_container_add(GTK_CONTAINER(barra),layout_barra);
 
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
 	
-	gtk_widget_set_size_request(imagem_desktop,1291,750);
+	gtk_widget_set_size_request(imagem_desktop,1290,750);
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
@@ -214,7 +217,7 @@ int desktop()
 	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
-	gtk_window_set_default_size(GTK_WINDOW(janela_principal),600,300);
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal),300,350);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
 	
 	err = conexao();
@@ -224,6 +227,7 @@ int desktop()
 		popup(NULL,"Não foi posivel conectar");
 		
 	}
+
 	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,20,250);
 	gtk_widget_set_name(razao,"infos");
 	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,20,5);
@@ -241,7 +245,7 @@ int init()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;
-
+	inicializando=1;
 	GtkWidget *imagem_inicializacao;
 	imagem_inicializacao = gtk_image_new_from_file(INIT_IMAGE);
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
@@ -249,12 +253,14 @@ int init()
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	query = malloc(MAX_QUERY_LEN);
+	
 	g_print("inicializacao...\n");
-	sprintf(query,"select janela_init from perfil_desktop");
+	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
@@ -266,6 +272,9 @@ int init()
 		return 1;
 	}
 	gtk_widget_show_all(janela_inicializacao);
+
+	personalizacao.tema = atoi(row[1]);
+	temas();
 	if(atoi(row[0])==0)
 	{
 		oper_code = malloc(MAX_OPER_LEN);
@@ -273,6 +282,7 @@ int init()
 		if(desktop()!=0)
 		{
 			popup(NULL,"Erro na inicializacao");
+			inicializando=0;
 			return 1;
 		}
 	}
@@ -280,8 +290,10 @@ int init()
 	{
 		login();
 		gtk_widget_show_all(janela_login);	
+		
 	}
 	g_print("abrindo janela de inicio...\n");
+	inicializando=0;
 	return 0;
 }
 
