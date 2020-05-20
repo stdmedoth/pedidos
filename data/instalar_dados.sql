@@ -1,3 +1,32 @@
+create user 'petitto'@'localhost' identified by '1234';
+grant all privileges on *.* to 'petitto'@'localhost';
+flush privileges;
+
+insert into criticas(opcao_nome,campo_nome,critica) 
+values('terceiros','ter_doc',1),
+('terceiros','ter_tipo_doc',1),
+('terceiros','ter_endereco',1),
+('terceiros','ter_cep',1),
+('terceiros','ter_tipo',1),
+('terceiros','ter_celular',1),
+('terceiros','ter_contatoc',1),
+('terceiros','ter_telefone',1),
+('terceiros','ter_contatot',1),
+('terceiros','ter_email',1),
+('terceiros','ter_contatoe',1);
+
+insert into operadores 
+values(1,'Petitto','',5);
+
+insert into empresa(razao,endereco,cnpj) 
+values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
+
+insert into perfil_desktop(code,
+desktop_img,
+tema,
+janela_init,
+janelas_keep_above) values(1,3,2,0,1);
+
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),  
 ('Fardo','Fardo', 15, 5),
@@ -6,7 +35,7 @@ values ('Folhas','Folhas', 1, 5),
 ('Caixa','CX', 10, 4);
 
 insert into grupos(nome,pai,nivel) values 
-('RAIZ',0, 0), 
+('RAIZ',1, 0), 
 ('PERCALUX',1, 1), 
 ('CABECEADO',1, 1), 
 ('COLA',1, 1), 
@@ -37,10 +66,10 @@ values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,
 18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20');
 
 insert into produtos(nome, preco_faturado, preco_vista, peso , unidades, unidades_atacado, grupo, observacoes) 
-values('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./50M - DIV. CORES', 371.50, 351.50, 0.0, 4, 5, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO BICOLOR - 1,30 LARG./25M - CORES', 289.00, 289.00, 0.0, 4, 5, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO METALIZADO - 1,30 LARG./25M - CORES', 251.00, 241.00, 0.0, 5, 4, 1, ''),
-('PERCALUX PAPEL PLASTIFICADO OURO/BRONZE - 1,30 LARG./25M', 225.00, 371.50, 0.0, 4, 5, 1, ''),
-('CABECEADO - FITA ALGODAO - ROLO 50M - DIVERSAS CORES', 225.00, 371.50, 0.0, 4, 5, 1, '');
+values('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 2, ''),
+('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 225.00, 371.50, 0.0, 4, 5, 2, ''),
+('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./50M - DIV. CORES', 371.50, 351.50, 0.0, 4, 5, 2, ''),
+('PERCALUX PAPEL PLASTIFICADO BICOLOR - 1,30 LARG./25M - CORES', 289.00, 289.00, 0.0, 4, 5, 2, ''),
+('PERCALUX PAPEL PLASTIFICADO METALIZADO - 1,30 LARG./25M - CORES', 251.00, 241.00, 0.0, 5, 4, 2, ''),
+('PERCALUX PAPEL PLASTIFICADO OURO/BRONZE - 1,30 LARG./25M', 225.00, 371.50, 0.0, 4, 5, 2, ''),
+('CABECEADO - FITA ALGODAO - ROLO 50M - DIVERSAS CORES', 225.00, 371.50, 0.0, 4, 5, 3, '');

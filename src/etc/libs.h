@@ -18,6 +18,8 @@
 #include "../pesquisadores/orcamentos.h"
 #include "../pesquisadores/ceps.h"
 #include "../Unidades/cadastro_unidades.h"
+#include "../Estoque/saldos.h"
+#include "../Estoque/estoque.h"
 
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/subgrupos.c"
@@ -35,6 +37,7 @@
 #include "../Unidades/cadastro_unidades.c"
 #include "../Compras/cadastro_compras.c"
 #include "../Estoque/estoque.c"
+#include "../Estoque/saldos.c"
 #include "../Vendas/faturamento.c"
 #include "../Listagens/relatorios.c"
 

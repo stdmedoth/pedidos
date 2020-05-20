@@ -8,6 +8,11 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	char mensagem[] = "O código deve ser de nível            ";
 	subgrp_prod_orc_cod_gchar = malloc(MAX_CODE_LEN);
 	subgrp_prod_orc_cod_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]));
+	
+	if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao]))
+		if(codigo_prod_orc(codigo_prod_orc_entry[posicao],posicao)!=0)
+			return 1;
+	
 	if(strlen(subgrp_prod_orc_cod_gchar)>MAX_CODE_LEN)
 	{
 		popup(NULL,"Código do subgrupo é muito grande");
@@ -36,12 +41,13 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	if(atoi(row[1])!=atoi(row[3]))
 	{
 		sprintf(mensagem,"O grupo deve ser de nivel %s",row[3]);
+		gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),"");
 		popup(NULL,mensagem);
 		gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 		return 1;
 	}
 	
-	while(atoi(row[1])!=0)
+	while(atoi(row[1])!=1)
 	{
 		sprintf(query,"select code,pai from grupos where code = %s",row2[1]);
 		g_print("%s\nGrupo pai %s\n",query,row[2]);
@@ -49,12 +55,14 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		if(res2 == NULL)
 		{
 			popup(NULL,"Erro ao consulta subgrupo");
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),"");
 			gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 			return 1;
 		}
 		if((row2 = mysql_fetch_row(res2))==NULL)
 		{
 			popup(NULL,"O subgrupo indicado não existe");
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),"");
 			gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 			return 1;
 		}
@@ -64,6 +72,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		if(cont>5)
 		{
 			popup(NULL,"O subgrupo não condiz com grupo cadastrado no produto");
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),"");
 			gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 			return 1;
 		}

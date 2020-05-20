@@ -5,6 +5,7 @@ int desktop();
 int encerrar();
 int g_handle_janela_login;
 gchar *oper_code;
+
 void encerrando()
 {
 	GtkWidget *janela, *label;
@@ -16,7 +17,7 @@ void encerrando()
 	gtk_container_add(GTK_CONTAINER(janela),label);
 	gtk_widget_show_all(janela);
 	
-	g_usleep ( 1000000 );
+	g_usleep ( 100000 );
 	gtk_main_quit();
 }
 void passa_nome()

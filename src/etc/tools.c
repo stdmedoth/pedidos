@@ -1,9 +1,5 @@
 #define QUERY_LEN 1000
-void get_text(GtkWidget *widget,gchar *string)
-{
-	string = (gchar*) gtk_entry_get_text(GTK_ENTRY(widget));
-	return ;
-}
+
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {	
 	gtk_widget_destroy(GTK_WIDGET(ponteiro));
@@ -32,32 +28,31 @@ GtkWidget *popup_fechar;
 int popup(GtkWidget *widget,gchar *string)
 {
 	int len;
-	GtkWidget *popup, *fields, *mensagem, *fixar;
-	popup = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(popup),string);	
+	GtkWidget *popup, *fields, *fixed, *box; 
+	int resultado;
+
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_USE_HEADER_BAR,"Ok",GTK_RESPONSE_ACCEPT,NULL);
+	
+	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");	
+
 	autologger(string);
-	fields = gtk_box_new(1,0);
-	gtk_window_set_resizable(GTK_WINDOW(popup),FALSE);
+
 	gtk_window_set_position(GTK_WINDOW(popup),3);
-	fixar = gtk_fixed_new();
-	mensagem = gtk_label_new(string);
-	popup_fechar = gtk_button_new_with_label("fechar");
-	len = strlen(string);
-	if(len<10)
-		len=30;
-	g_print("%s\n",string);
-	autologger(string);
-	gtk_widget_set_size_request(fields,8*len,len*3);
-	gtk_widget_set_size_request(popup,8*len,len*3);
-	gtk_box_pack_start(GTK_BOX(fields),mensagem,0,0,20);
-	gtk_box_pack_start(GTK_BOX(fields),popup_fechar,0,0,30);
-	gtk_container_add(GTK_CONTAINER(fixar),fields);
-	gtk_container_add(GTK_CONTAINER(popup),fixar);
-	gtk_widget_grab_focus(popup_fechar);
-	gtk_window_set_keep_above(GTK_WINDOW(popup), TRUE);
-	g_signal_connect(GTK_WINDOW(popup),"delete-event",G_CALLBACK(gtk_widget_destroy),NULL);
-	g_signal_connect(GTK_BUTTON(popup_fechar),"clicked",G_CALLBACK(close_window_callback),popup);	
+	
+	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(box),gtk_label_new(string),0,0,10);
+	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
+	
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+	
 	gtk_widget_show_all(popup);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+
+	gtk_widget_destroy(popup);
+
 	return 0;
 }
 static MYSQL conectar;

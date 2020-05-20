@@ -1,6 +1,7 @@
 GtkWidget **eventos;
 #include "variaveis.h"
 #include "cad_ico.c"
+#include "est_ico.c"
 #include "vnd_ico.c"
 #include "cmp_ico.c"
 
@@ -31,6 +32,7 @@ int add_icones()
 
 	cad_ico();
 	vnd_ico();
+	estq_ico();
 	cmp_ico();
 	
 	return 0;

@@ -90,7 +90,6 @@ produto int default 1,
 saldo float default 0.0,
 entradas int default 0,
 saidas int default 1,
-resultado float default 0.0,
 foreign key(produto) references produtos(code));
 
 create table precos( code int primary key auto_increment,
@@ -156,31 +155,3 @@ KEY cidade (id_cidade,
 UF) USING BTREE,
 CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (id_cidade));
 
-create user 'petitto'@'localhost' identified by '1234';
-grant all privileges on *.* to 'petitto'@'localhost';
-flush privileges;
-
-insert into criticas(opcao_nome,campo_nome,critica) 
-values('terceiros','ter_doc',1),
-('terceiros','ter_tipo_doc',1),
-('terceiros','ter_endereco',1),
-('terceiros','ter_cep',1),
-('terceiros','ter_tipo',1),
-('terceiros','ter_celular',1),
-('terceiros','ter_contatoc',1),
-('terceiros','ter_telefone',1),
-('terceiros','ter_contatot',1),
-('terceiros','ter_email',1),
-('terceiros','ter_contatoe',1);
-
-insert into operadores 
-values(1,'Petitto','',5);
-
-insert into empresa(razao,endereco,cnpj) 
-values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
-
-insert into perfil_desktop(code,
-desktop_img,
-tema,
-janela_init,
-janelas_keep_above) values(1,3,2,0,1);

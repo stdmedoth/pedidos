@@ -53,12 +53,7 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		int cont=0;
-		/*while(cont<=5)
-		{
-			if(strlen(row[cont])<=0)
-				strcpy(row[cont],"vazio");
-			cont++;
-		}*/
+		
 		gtk_tree_store_set(modelo,&campos, 		
 		COLUMN0,row[0], 
 		COLUMN1,row[1],

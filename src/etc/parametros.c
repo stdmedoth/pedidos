@@ -146,6 +146,7 @@ int atualizar_personalizacao()
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
 		return 1;
 	}
+	
 	receber_personalizacao();
 	return 0;
 }

@@ -6,17 +6,17 @@ int cmp_ico()
 //	name = malloc(15);
 	
 	//imagem dos icones
-        sol_ico = gtk_image_new_from_file(SOL_IMG);
-        cot_ico = gtk_image_new_from_file(COT_IMG);
-        ord_ico = gtk_image_new_from_file(ORD_IMG);
+	sol_ico = gtk_image_new_from_file(SOL_IMG);
+	cot_ico = gtk_image_new_from_file(COT_IMG);
+	ord_ico = gtk_image_new_from_file(ORD_IMG);
 	ent_ico = gtk_image_new_from_file(ENT_IMG);
 	
 	//label dos icones
-        sol_lbl = gtk_label_new("Solicitações");
-        cot_lbl = gtk_label_new("Cotações");
-        ord_lbl = gtk_label_new("Ordem de compra");
-        ent_lbl = gtk_label_new("Entrada de NF-e");	
-	
+	sol_lbl = gtk_label_new("Solicitações");
+	cot_lbl = gtk_label_new("Cotações");
+	ord_lbl = gtk_label_new("Ordem de compra");
+	ent_lbl = gtk_label_new("Entrada de NF-e");	
+
 	
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao

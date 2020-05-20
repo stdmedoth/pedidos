@@ -29,6 +29,8 @@ int entry_subgrp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
     gtk_tree_store_clear(treestore);
+	gtk_tree_view_column_set_visible(gtk_tree_view_get_column(GTK_TREE_VIEW(treeview),0),TRUE);
+	gtk_tree_view_column_set_visible(gtk_tree_view_get_column(GTK_TREE_VIEW(treeview),2),TRUE);
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 	MYSQL_RES *res;
 	MYSQL_ROW row;
