@@ -365,9 +365,9 @@ int parametrizar()
 	tema_combo_box = gtk_combo_box_text_new();
 	tema_combo_box_fixed = gtk_fixed_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Adwaita-Dark");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Xfce");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Arc");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Blumix");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Plane");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
 

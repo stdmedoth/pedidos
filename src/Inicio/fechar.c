@@ -5,7 +5,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 	GtkWidget * mensagem;
 	GtkWidget *sair_label,*sair_box,*sair_fixed;
 	int resultado;
-	mensagem = gtk_dialog_new_with_buttons("Sair?",NULL,GTK_DIALOG_USE_HEADER_BAR,"Sim",GTK_RESPONSE_ACCEPT,"Não",GTK_RESPONSE_REJECT,NULL);
+	mensagem = gtk_dialog_new_with_buttons("Sair?",NULL,4,"Sim",GTK_RESPONSE_ACCEPT,"Não",GTK_RESPONSE_REJECT,NULL);
 	
 	gtk_window_set_icon_name(GTK_WINDOW(mensagem),"system-log-out");
 	gtk_window_set_position(GTK_WINDOW(mensagem),3);
@@ -26,7 +26,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 			encerrando();
 			break;
 		case GTK_RESPONSE_REJECT:
-			desktop();
+			
 			break;
 	}
 	

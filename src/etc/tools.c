@@ -31,7 +31,7 @@ int popup(GtkWidget *widget,gchar *string)
 	GtkWidget *popup, *fields, *fixed, *box; 
 	int resultado;
 
-	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_USE_HEADER_BAR,"Ok",GTK_RESPONSE_ACCEPT,NULL);
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,4,"Ok",GTK_RESPONSE_ACCEPT,NULL);
 	
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");	
 

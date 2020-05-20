@@ -216,8 +216,6 @@ int desktop()
 
 	g_signal_handlers_disconnect_by_func(janela_principal, gtk_main_quit, NULL);
 	
-	g_signal_connect(GTK_WINDOW(janela_principal),"delete-event",G_CALLBACK(encerrar),janela_principal);
-	
 	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
 	
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);

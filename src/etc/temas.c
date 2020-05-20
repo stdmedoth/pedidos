@@ -11,13 +11,13 @@ int temas()
 	switch(personalizacao.tema)
 	{
 		case 1:
-			g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
+			g_object_set(settings, "gtk-theme-name","Blumix",NULL);
 			break;
 		case 2:
-			g_object_set(settings, "gtk-theme-name","Xfce",NULL);
+			g_object_set(settings, "gtk-theme-name","Plane",NULL);
 			break;
 		case 3:
-			g_object_set(settings, "gtk-theme-name","Arc",NULL);
+			g_object_set(settings, "gtk-theme-name","Default",NULL);
 			break;
 	}
 	g_object_get(settings, "gtk-theme-name",&nome_tema,NULL);

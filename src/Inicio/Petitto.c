@@ -38,7 +38,7 @@ GtkWidget *imagem_barra,*layout_barra;
 int main(int argc,char *argv[])
 {
 	gtk_init(&argc,&argv);
-	abrir_css(DESKTOP_STYLE);
+	//abrir_css(DESKTOP_STYLE);
 	init();
 	gtk_main();
 	

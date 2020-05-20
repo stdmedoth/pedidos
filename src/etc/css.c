@@ -10,6 +10,7 @@ int abrir_css(char *path)
 	//display    = gdk_display_get_default();
 	//screen     = gdk_display_get_default_screen(display);
 	screen = gdk_screen_get_default();
+	/*
 	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(fornecedor),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);	
 	gtk_css_provider_load_from_file(fornecedor,arquivo,&erro);
 	if(erro)
@@ -18,5 +19,6 @@ int abrir_css(char *path)
 		return 1;
 	}
 	//g_object_unref(fornecedor);
+	*/
 	return 0;
 }
