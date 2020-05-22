@@ -365,9 +365,19 @@ int parametrizar()
 	tema_combo_box = gtk_combo_box_text_new();
 	tema_combo_box_fixed = gtk_fixed_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
+	
+	#ifdef WIN32
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Blumix");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Plane");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
+	#endif
+	
+	#ifdef __linux__
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Adwaita");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Adwaita-dark");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
+	#endif
+	
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
 

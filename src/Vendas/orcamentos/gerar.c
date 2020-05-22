@@ -156,7 +156,7 @@ int gerar_orc()
 	char *query;
 	int conta_linhas=0;
 	int erro;
-	char code[10];
+	char code[MAX_CODE_LEN];
 	char *formata_float,*formata_float2,*formata_float3;
 	float chartofloat,totalfloat;
 	MYSQL_RES *vetor;
@@ -505,14 +505,17 @@ int gerar_orc()
 		}
 		cont++;
 	}
+	
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	
+	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	itens_qnt = 1;
+	ativos_qnt = 1;
 	adicionar_linha_orc();
 
 	return 0;

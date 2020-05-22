@@ -1,7 +1,8 @@
 int altera_orc()
 {
 	char *query;
-	int cont=1;
+	int cont=1,erro=0;
+	char code[MAX_CODE_LEN];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	if(codigo_orc()!=0)
@@ -29,7 +30,7 @@ int altera_orc()
 		return 1;
 	}
 	
-	while(cont<=itens_qnt)
+	while(cont<MAX_PROD_ORC)
 	{
 		if(ativos[cont].id==1)
 		{
@@ -75,6 +76,8 @@ int altera_orc()
 		{
 			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[PROD_ORC_PROD_COL]);
 			
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),row[SUBGRP_ORC_PROD_COL]);
+			
 			preco_alterado[atoi(row[ITM_ORC_PROD_COL])] = atoi(row[VLR_ORIG_ORC_PROD_COL]);
 			
 			switch(preco_alterado[atoi(row[ITM_ORC_PROD_COL])])
@@ -107,9 +110,29 @@ int altera_orc()
 
 		}
 		rec_altera_qnt++;
+		
 	}
-	
+	itens_qnt = rec_altera_qnt;
 	adicionar_linha_orc();
-	
+	if(rec_altera_qnt==1)
+	{
+		itens_qnt = 1;
+		ativos_qnt= 1;
+		
+		cont=1;
+		rec_altera_qnt = 1;
+		alterando_orc = 0;
+
+		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
+		popup(NULL,"Não há produtos no orçamento");
+		sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
+		erro = enviar_query(query);
+		if(erro != 0 )
+		{
+			popup(NULL,"Erro ao tentar excluir orçamento vazio");
+			return 1;
+		}
+		return 1;
+	}
 	return 0;	
 }

@@ -313,14 +313,16 @@ int adicionar_linha_orc()
 			gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);	
 		}
 	}
-	if(ativos_qnt>1)
+
+	if(ativos_qnt>2)
 	{
 		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
+		
 	}
 	else
 	{
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-	}	
+	}
 	
 	
 	#pragma GCC diagnostic ignored "-Wint-conversion"
@@ -548,7 +550,7 @@ int vnd_orc()
 	//Botoes opcoes
 	concluir_orc_button = gtk_button_new_with_label("Concluir");
 	gerar_orc_button = gtk_button_new_with_label("Gerar Orçamento");
-	imprimir_orc_button = gtk_button_new_with_label("Imprimir");
+	pedido_orc_button = gtk_button_new_with_label("Pedido");
 	alterar_orc_button = gtk_button_new_with_label("Alterar");
 	cancelar_orc_button = gtk_button_new_with_label("Cancelar");
 	excluir_orc_button = gtk_button_new_with_label("Excluir");
@@ -560,8 +562,8 @@ int vnd_orc()
 	gerar_orc_img_button = gtk_image_new_from_file(IMG_GERA);
 	gtk_button_set_image(GTK_BUTTON(gerar_orc_button),gerar_orc_img_button);
 	
-	imprimir_orc_img_button = gtk_image_new_from_file(IMG_IMP);
-	gtk_button_set_image(GTK_BUTTON(imprimir_orc_button),imprimir_orc_img_button);
+	pedido_orc_img_button = gtk_image_new_from_file(IMG_ENVIA);
+	gtk_button_set_image(GTK_BUTTON(pedido_orc_button),pedido_orc_img_button);
 	
 	alterar_orc_img_button = gtk_image_new_from_file(IMG_ALTER);
 	gtk_button_set_image(GTK_BUTTON(alterar_orc_button),alterar_orc_img_button);
@@ -577,7 +579,7 @@ int vnd_orc()
 	caixa_opcoes_orc = gtk_box_new(0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),concluir_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),gerar_orc_button,0,0,10);
-	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),imprimir_orc_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),pedido_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),alterar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),cancelar_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),excluir_orc_button,0,0,10);

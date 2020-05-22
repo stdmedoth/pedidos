@@ -25,7 +25,7 @@ insert into perfil_desktop(code,
 desktop_img,
 tema,
 janela_init,
-janelas_keep_above) values(1,3,2,0,1);
+janelas_keep_above) values(1,3,3,0,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),  

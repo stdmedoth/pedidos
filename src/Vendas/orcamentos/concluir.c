@@ -2,6 +2,7 @@ static int concluir_orc()
 {
 	int cont=0,erro=0;
 	char *query;
+	char code[MAX_CODE_LEN];
 	query = malloc(MAX_QUERY_LEN);
 	if(alterando_orc==0)
 	{
@@ -44,6 +45,7 @@ static int concluir_orc()
 				return 1;		
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
 				return 1;		
+			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
 			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
@@ -60,7 +62,7 @@ static int concluir_orc()
 			
 			if(alterando_orc==0)
 			{
-				sprintf(query,"insert into Produto_Orcamento(code,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total) values(%s,%i,%i,%s,%s,%i,%i,%s,%s);",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total) values(%s,%i,%i,%i,%s,%s,%i,%i,%s,%s);",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{
@@ -106,7 +108,7 @@ static int concluir_orc()
 	popup(NULL,"Orcamento concluido");
 	cont=1;
 	
-	while(cont<itens_qnt)
+	while(cont<MAX_PROD_ORC)
 	{
 		if(ativos[cont].id==1)
 		{
@@ -118,11 +120,20 @@ static int concluir_orc()
 	}
 	
 	itens_qnt = 1;
-	ativos_qnt=1;
-	
+	ativos_qnt = 1;
+	rec_altera_qnt = 1;
+
 	cont=1;
-	rec_altera_qnt = 0;
+	
 	alterando_orc = 0;
+
+	sprintf(code,"%i",tasker("orcamentos"));
+	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
+	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	
 	adicionar_linha_orc();
 	

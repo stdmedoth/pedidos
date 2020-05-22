@@ -181,6 +181,18 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 							gtk_tree_store_append(modelo,&filhos[ROW_4],&filhos[ROW_3]);
 							g_print("Inserindo codigo: %s nome: %s\n",row[ROW_4][0],row[ROW_4][1]);
 							gtk_tree_store_set(modelo,&filhos[ROW_4], COLUMN0,row[ROW_4][0], COLUMN1,row[ROW_4][1],COLUMN2,row[ROW_4][2],-1);
+							sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_4][0]);
+							res[ROW_5] = consultar(query);
+							if(res[ROW_5] == NULL)
+							{
+								return 1;
+							}
+							while((row[ROW_5] = mysql_fetch_row(res[ROW_5]))!=NULL)
+							{
+								gtk_tree_store_append(modelo,&filhos[ROW_5],&filhos[ROW_4]);
+								g_print("Inserindo codigo: %s nome: %s\n",row[ROW_5][0],row[ROW_5][1]);
+								gtk_tree_store_set(modelo,&filhos[ROW_5], COLUMN0,row[ROW_5][0], COLUMN1,row[ROW_5][1],COLUMN2,row[ROW_5][2],-1);
+							}
 						}
 					}
 				}

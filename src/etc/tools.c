@@ -81,6 +81,7 @@ MYSQL_RES *consultar(char *query)
 		}
 		primeira_conexao=1;
 	}
+	
 	g_print("%s\n",query);
 	err = mysql_query(&conectar,query);
 	if(err!=0)
@@ -89,6 +90,7 @@ MYSQL_RES *consultar(char *query)
 		autologger((char*)mysql_error(&conectar));
 		g_print("Erro mysql : %s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
+		primeira_conexao=0;
 		return NULL;
 	}
 	vetor = mysql_store_result(&conectar);
@@ -97,21 +99,33 @@ MYSQL_RES *consultar(char *query)
 		autologger((char*)mysql_error(&conectar));
 		g_print("%s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
+		primeira_conexao=0;
 		return NULL;	
 	}
+	//mysql_close(&conectar);
 	return vetor;
 }
 int enviar_query(char *query)
 {
 	int err=1;
-	if(!mysql_init(&conectar))
+	if(primeira_conexao==0)
 	{
-		popup(NULL,"Não foi possivel conectar ao servidor");	
-		autologger("Não foi possivel conectar ao servidor");
-		return 1;
+		if(!mysql_init(&conectar))
+		{
+			popup(NULL,"Não foi possivel conectar ao servidor");	
+			autologger("Não foi possivel conectar ao servidor");
+			primeira_conexao=0;
+			return 1;
+		}
+		g_print("%s\n",query);
+		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
+		{
+			popup(NULL,"Não foi possivel conectar ao servidor");	
+			autologger("Não foi possivel conectar ao servidor");
+			primeira_conexao=0;
+			return 1;
+		}
 	}
-	g_print("%s\n",query);
-	if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0));
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

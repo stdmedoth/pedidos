@@ -13,6 +13,12 @@ void receber_grp_code(GtkWidget *button, GtkTreeView *treeview)
 	GtkTreeIter iter;
 	char *codigo;
 	codigo = malloc(MAX_CODE_LEN);
+		
+/*	if(GTK_TREE_VIEW(button))
+	{
+		treeview = GTK_TREE_VIEW(button);
+	}*/
+	
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
 	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
 		return ;
@@ -162,7 +168,10 @@ int pesquisa_grp(GtkWidget *button, GtkEntry *cod_grp_entry)
 	gtk_container_add(GTK_CONTAINER(psq_grp_wnd),caixa_grande);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_grp_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_grp_entry);
+	
+//	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_grp_code),NULL);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_grp_code),treeview);
+	
 	gtk_widget_show_all(psq_grp_wnd);
 	return 0;
 }

@@ -114,6 +114,7 @@
 #define VINC_IMG      "/usr/share/petitto/files/icones_opc/vinculos.png"
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_REC       "/usr/share/petitto/files/opcoes_padrao/recarregar.png"
+#define IMG_ENVIA     "/usr/share/petitto/files/opcoes_padrao/enviar.png"
 #define IMG_GERA      "/usr/share/petitto/files/opcoes_padrao/geracao.png"
 #define IMG_PROCR     "/usr/share/petitto/files/opcoes_padrao/procurar.png"
 #define IMG_IMP       "/usr/share/petitto/files/opcoes_padrao/impressao.png"

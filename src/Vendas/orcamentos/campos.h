@@ -1,4 +1,5 @@
 #define COD_ORC_COL 0
+#define COD_ORC_COL 0
 #define NOM_ORC_COL 0
 
 #define COD_ORC_PROD_COL 0
@@ -47,8 +48,8 @@ static GtkWidget **tipodesconto_prod_orc_combo;
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
 
-static GtkWidget *concluir_orc_button,*gerar_orc_button,*imprimir_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button;
-static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*imprimir_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
+static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button;
+static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
 static GtkWidget *caixa_opcoes_orc;
 //  GCHAR
 

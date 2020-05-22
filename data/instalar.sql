@@ -86,7 +86,9 @@ foreign key(fornecedor) references terceiros(code),
 foreign key(grupo) references grupos(code) );
 
 create table estoques( code int primary key auto_increment,
+pedido int default 1,
 produto int default 1,
+grupo int default 1,
 saldo float default 0.0,
 entradas int default 0,
 saidas int default 1,
@@ -104,14 +106,15 @@ vendedor int default 1,
 cliente int default 1,
 dia date not null,
 total float default 0.0,
+status int default 0,
 foreign key(cliente) references terceiros(code));
 
 create table orcamentos( code int primary key auto_increment,
-vendedor int default 0,
-cliente int default 0,
+vendedor int not null default 0,
+cliente int not null default 0,
 dia date not null,
-total float default 0,
-observacoes varchar (500) default '',
+total float not null default 0,
+observacoes varchar not null (500) default '',
 foreign key(cliente) references terceiros(code));
 
 create table Produto_Orcamento( code int,

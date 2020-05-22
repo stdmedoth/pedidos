@@ -71,8 +71,6 @@ int  cad_prod()
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),janela);
 	gtk_widget_set_size_request(janela,700,500);
 
-
-	
 	psq_forn_button = gtk_button_new();
 	psq_forn_img = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(psq_forn_button),psq_forn_img);
@@ -161,7 +159,10 @@ int  cad_prod()
 	grupo_prod_field = gtk_entry_new();
 	preco_faturado_prod_field = gtk_entry_new();
 	observacao_prod_field = gtk_text_view_new();
+	
 	qnt_atacado_field = gtk_entry_new();
+	
+	
 	
 	code = gtk_box_new(1,0);
 	gtk_widget_set_name(code,"caixa");

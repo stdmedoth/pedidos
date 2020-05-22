@@ -5,6 +5,12 @@ void receber_orc_code(GtkWidget *button, GtkTreeView *treeview)
 	GtkTreeIter iter;
 	char *codigo;
 	codigo = malloc(MAX_CODE_LEN);
+	
+	/*if(GTK_TREE_VIEW(button))
+	{
+		treeview = GTK_TREE_VIEW(button);
+	}*/
+	
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
 	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
 		return ;
@@ -168,8 +174,9 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_orc_wnd),caixa_grande);
-	//g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_orc_pesquisa),treeview);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_orc_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_orc_entry);
+	//g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_orc_code),treeview);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_orc_code),treeview);
 	gtk_widget_show_all(psq_orc_wnd);
 	return 0;
