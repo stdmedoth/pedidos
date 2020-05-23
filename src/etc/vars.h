@@ -187,6 +187,7 @@
 #define MAX_SEN_LEN 30
 #define MAX_DATE_LEN 8
 #define MAX_FETCH_ROW 3000
+#define MAX_SUBGRUPO 20
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;
 GtkTextBuffer *buffer;

@@ -25,12 +25,10 @@ int altera_prod()
 		sprintf(task,"%i",tasker("produtos"));
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
 		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_faturado_prod_field),"");
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
@@ -56,27 +54,21 @@ int altera_prod()
 	strcpy(row,campo[PROD_UND_ATAC_COL]);
 	gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),row);
 	
-	sprintf(row,"%.2f",atof(campo[PROD_PRC_VIS_COL]));
-	gtk_entry_set_text(GTK_ENTRY(preco_prod_field),row);
-	
-	strcpy(row,campo[PROD_PRC_FAT_COL]);
-	gtk_entry_set_text(GTK_ENTRY(preco_faturado_prod_field),row);
-	
 	strcpy(observacoes_prod,campo[PROD_OBS_COL]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
 	
 	alterando_prod=1;
 	concluindo_prod=0;
-
+	
 	nome_prod();
 	peso_prod();
 	grupo_prod();
 	fornecedor_prod();
 	und_unt_prod();
 	und_atac_prod();
-	preco_prod();
-	preco_faturado_prod();
+	
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 	
 	memset(query,0x0,strlen(query));
 	

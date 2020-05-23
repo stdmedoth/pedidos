@@ -9,6 +9,7 @@ static gchar *grupos_prod=NULL;;
 static gchar *precos_faturado_prod=NULL;;
 static gchar *observacoes_prod=NULL;
 
+static GtkWidget *grupo_precos_tree;
 static GtkWidget *notebook_cad_prod;
 
 static GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_atacado_button;
@@ -33,7 +34,7 @@ static GtkWidget *campo_nome_unidade,
 *campo_nome_qnt_atacado;
 
 //produtos
-#define PROD_CAD_QUERY "insert into produtos(nome,preco_vista,peso,unidades, unidades_atacado ,fornecedor,grupo, preco_faturado,observacoes) values( '%s', %s, %s, %s, %s, %s, %s, '%s');"
-#define ARGS_PROD_CAD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, fornecedores_prod, grupos_prod, precos_faturado_prod, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', preco_vista = %s, peso = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, preco_faturado = %s, observacoes = '%s' where code = %s"
-#define ARGS_PROD_UPD_QUERY nomes_prod, precos_prod, pesos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, precos_faturado_prod, observacoes_prod,codigos_prod
+#define PROD_CAD_QUERY "insert into produtos(nome, peso, unidades, unidades_atacado ,fornecedor, grupo, observacoes) values( '%s', %s, %s, %s, %s, %s, '%s');"
+#define ARGS_PROD_CAD_QUERY nomes_prod, pesos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, observacoes_prod
+#define PROD_UPD_QUERY "update produtos set nome = '%s', peso = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, observacoes = '%s' where code = %s"
+#define ARGS_PROD_UPD_QUERY nomes_prod, pesos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, observacoes_prod,codigos_prod

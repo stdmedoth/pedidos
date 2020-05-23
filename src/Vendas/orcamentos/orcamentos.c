@@ -421,6 +421,18 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_entry,0,0,52);
 	gtk_container_add(GTK_CONTAINER(operacao_orc_frame),operacao_orc_box);
 	
+	faturado_avista_combo = gtk_combo_box_text_new();
+	faturado_avista_fixed = gtk_fixed_new();
+	faturado_avista_box = gtk_box_new(0,0);
+	
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(faturado_avista_combo),0,"Tipo Pagamento");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(faturado_avista_combo),"Faturado");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(faturado_avista_combo),"À Vista");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(faturado_avista_combo),0);
+	
+	gtk_box_pack_start(GTK_BOX(faturado_avista_box),faturado_avista_combo,0,0,0);
+	gtk_fixed_put(GTK_FIXED(faturado_avista_fixed),faturado_avista_box,10,10);
+	
 	cliente_orc_label = gtk_label_new("Insira o Código: ");
 	cliente_orc_entry = gtk_entry_new();
 	pesquisa_ter = gtk_button_new();
@@ -487,7 +499,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),operacao_orc_frame,0,0,30);
 	gtk_widget_set_name(operacao_orc_frame,"frame");
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,30);
-	
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),faturado_avista_fixed,0,0,0);
 	
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
 	//gtk_fixed_put(GTK_FIXED(orc_infos_fixed),operacao_orc_frame,MARGEM_D,90);
@@ -780,6 +792,7 @@ int vnd_orc()
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(close_window_callback),janela_orcamento);
+	g_signal_connect(faturado_avista_combo,"changed",G_CALLBACK(rec_fat_vist),NULL);
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
 	

@@ -38,7 +38,26 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		{
 			codigo_prod_orc(codigo_prod_orc_entry[posicao],posicao);
 		}
-		sprintf(query,"select valor from precos where terceiro = %s and produto = %s",cliente_orc_gchar,codigo_prod_orc_gchar);
+		if(strlen(subgrp_prod_orc_cod_gchar)<=0)
+		{
+			subgrp_prod_orc(subgrp_prod_orc_cod_entry[posicao],posicao);
+		}
+		if(orc_faturado==1)
+		{	
+			sprintf(query,"select valor_fat from precos where terceiro = %s and produto = %s",cliente_orc_gchar,codigo_prod_orc_gchar);
+		}
+		else
+		if(orc_vista==1)
+		{	
+			sprintf(query,"select valor_vist from precos where terceiro = %s and produto = %s",cliente_orc_gchar,codigo_prod_orc_gchar);
+		}
+		else
+		{
+			popup(NULL,"Selecione se a venda é faturada ou à vista");
+			gtk_widget_grab_focus(faturado_avista_combo);
+			return 1;
+		}
+		
 		vetor = consultar(query);
 		if(vetor==NULL)
 		{
@@ -53,7 +72,21 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		if(campos == NULL)
 		{
 			codigo_prod_orc(widget,posicao);
-			sprintf(query,"select preco_faturado from produtos where code = %s",codigo_prod_orc_gchar);
+			if(orc_faturado==1)
+			{	
+				sprintf(query,"select valor_fat from preco_grupo where produto = %s and grupo = %s",codigo_prod_orc_gchar,subgrp_prod_orc_cod_gchar);
+			}
+			else
+			if(orc_vista==1)
+			{	
+				sprintf(query,"select valor_vist from preco_grupo where produto = %s and grupo = %s",codigo_prod_orc_gchar,subgrp_prod_orc_cod_gchar);
+			}
+			else
+			{
+				popup(NULL,"Selecione se a venda é faturada ou à vista");
+				gtk_widget_grab_focus(faturado_avista_combo);
+				return 1;				
+			}
 			vetor = consultar(query);
 			if(vetor==NULL)
 			{

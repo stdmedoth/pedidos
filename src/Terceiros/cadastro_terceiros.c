@@ -61,7 +61,8 @@ int  cad_terc()
 	*horizontal_box_four, 
 	*horizontal_box_five, 
 	*horizontal_box_six,
-	*horizontal_box_seven;
+	*horizontal_box_seven,
+	*horizontal_box_eight;
 	
 	GtkWidget *caixa_grande;
 	//container/visual
@@ -180,6 +181,7 @@ int  cad_terc()
 	horizontal_box_five = gtk_box_new(0,0);
 	horizontal_box_six = gtk_box_new(0,0);
 	horizontal_box_seven = gtk_box_new(0,0);
+	horizontal_box_eight = gtk_box_new(0,0);
 	
 	box = gtk_box_new(0,0);
 	box2 = gtk_box_new(0,0);
@@ -489,8 +491,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(frete_pago_entry),"activate",G_CALLBACK(rec_vlr_frete),NULL);
 	
 	g_signal_connect(GTK_BUTTON(psq_ter_cep_button),"clicked",G_CALLBACK(psq_cep),cep_ter_field);
-	
-	g_signal_connect(GTK_BUTTON(botao_mais),"clicked",G_CALLBACK(add_vinc_prod_cli),NULL);
+
 
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),concluir_ter_buttom);
 	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),alterar_ter_buttom);
@@ -511,12 +512,12 @@ int  cad_terc()
 
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
 	
-	 //
-	
 	gtk_widget_set_name(vertical_box2,"vertical_box2"); //campo dos precos para cliente
 	gtk_box_pack_start(GTK_BOX(vertical_box2),botao_mais,0,0,0);
 	gtk_box_pack_start(GTK_BOX(vertical_box2),precos_scroll_window,0,0,0);
 	gtk_widget_set_size_request(vertical_box2,300,400);
+	
+	gtk_fixed_put(GTK_FIXED(fixed4),vertical_box2,430,20); //outros
 	
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);//campo dos dados em clientes
 	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
@@ -524,7 +525,7 @@ int  cad_terc()
 	
 	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
-	gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);	
+	//gtk_box_pack_start(GTK_BOX(box),vertical_box2,0,0,0);	
 
 	//page 1
 																	//contato   contato  contato
@@ -560,7 +561,6 @@ int  cad_terc()
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	abrir_css(DESKTOP_STYLE);
-	rec_precos();
 	gtk_widget_set_sensitive(frete_pago_entry,FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
 	gtk_widget_show_all(janela);

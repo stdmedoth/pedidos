@@ -168,8 +168,6 @@ int altera_ter()
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
 	
 	
-	atualiza_ter_prc_treeview(treeview_ter_prc);
-	
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 	
 	memset(query,0x0,strlen(query));

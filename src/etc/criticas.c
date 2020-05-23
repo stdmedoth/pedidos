@@ -37,14 +37,14 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 		}
 	}
 	//verifica se é formado apenas de numeros e virgula
-	g_print("strlen %li\n",strlen(valor));
+	//g_print("strlen %li\n",strlen(valor));
 	g_print("verificando valor %s\n",valor);
 	ok=1;
 	for(pos=0;pos<strlen(valor);pos++)
 	{	
 		for(cont=48;cont<=57;cont++)
 		{
-			g_print("%c %c\n",valor[pos],cont);
+	//		g_print("%c %c\n",valor[pos],cont);
 			if(valor[pos]==cont)
 			{
 				ok = 0;

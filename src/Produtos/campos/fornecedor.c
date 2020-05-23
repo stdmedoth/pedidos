@@ -42,6 +42,7 @@ int fornecedor_prod()
 	fornecedores_prod = (gchar *) gtk_entry_get_text(GTK_ENTRY(fornecedor_prod_field));
 	g_print("endereco do fornecedor: %s\n",campos[END_TER_COL]);
 	g_print("tipo de fornecedor: %s\n",campos[TIPC_TER_COL]);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
 	gtk_widget_grab_focus(unidade_prod_field);
 	return 0;
 }

@@ -17,7 +17,7 @@ void receber_prod_code(GtkWidget *button, GtkTreeView *treeview)
 
 int entry_prod_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4, COLUMN5=5};
+	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
@@ -25,16 +25,15 @@ int entry_prod_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+	
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
-	gchar *formata_preco1 = malloc(MAX_PRECO_LEN);
-	gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
 	char query[MAX_QUERY_LEN];
 	gchar *entrada = malloc(MAX_GRP_LEN);
 	entrada = (gchar*)gtk_entry_get_text(widget);
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select p.code, p.nome, p.preco_faturado, p.preco_vista, p.peso, g.nome from produtos as p inner join grupos as g on g.code = p.grupo where p.nome like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select p.code, p.nome, p.peso, g.nome from produtos as p inner join grupos as g on g.code = p.grupo where p.nome like '%c%s%c'",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -42,42 +41,37 @@ int entry_prod_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	}
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		sprintf(formata_preco1,"R$ %.2f",atof(row[2]));
-		sprintf(formata_preco2,"R$ %.2f",atof(row[3]));
-		sprintf(formata_peso,"%.2f KG",atof(row[4]));
+		sprintf(formata_peso,"%.2f KG",atof(row[2]));
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos, 
 		COLUMN0,row[0], 
 		COLUMN1,row[1],
-		COLUMN2,formata_preco1,
-		COLUMN3,formata_preco2,
-		COLUMN4,formata_peso,
-		COLUMN5,row[5],-1);	
+		COLUMN2,formata_peso,
+		COLUMN3,row[3],-1);	
 	}
 	return 0;
 }
 
 int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 {
-	enum {N_COLUMNS=6,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4, COLUMN5=5};
+	enum {N_COLUMNS=4,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkWidget *scrollwindow;
-	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4, *coluna5, *coluna6;
-	GtkCellRenderer *celula1, *celula2, *celula3, *celula4, *celula5, *celula6;
+	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4;
+	GtkCellRenderer *celula1, *celula2, *celula3, *celula4;
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
 	GtkWidget *pesquisa_entry;
 	GtkWidget *caixa_grande;
 	gchar *entrada = malloc(MAX_GRP_LEN);
-	gchar *formata_peso = malloc(MAX_PRECO_LEN);
-	gchar *formata_preco1 = malloc(MAX_PRECO_LEN);
-	gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
 	GtkWidget *escolher_campo_button, *escolher_campo_img, *escolher_campo_fixed;
 	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+	
+	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 	
 	caixa_grande = gtk_box_new(1,0);
 	pesquisa_entry = gtk_entry_new();
@@ -89,10 +83,6 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	celula3 = gtk_cell_renderer_text_new();
 	coluna4 = gtk_tree_view_column_new();
 	celula4 = gtk_cell_renderer_text_new();
-	coluna5 = gtk_tree_view_column_new();
-	celula5 = gtk_cell_renderer_text_new();	
-	coluna6 = gtk_tree_view_column_new();
-	celula6 = gtk_cell_renderer_text_new();	
 	
 	treeview = gtk_tree_view_new();
 	
@@ -121,36 +111,24 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
 
 	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
-	gtk_tree_view_column_set_title(coluna3,"Preço Faturado");
+	gtk_tree_view_column_set_title(coluna3,"Peso");
 	gtk_tree_view_column_set_spacing(coluna3,5);
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
 	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
-	gtk_tree_view_column_set_title(coluna4,"Preço à Vista");
+	gtk_tree_view_column_set_title(coluna4,"Grupo");
 	gtk_tree_view_column_set_spacing(coluna4,5);
 	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
-
-	gtk_tree_view_column_pack_start(coluna5,celula5,TRUE);
-	gtk_tree_view_column_set_title(coluna5,"Peso");
-	gtk_tree_view_column_set_spacing(coluna5,5);
-	gtk_tree_view_column_add_attribute(coluna5,celula5,"text",4);
-
-	gtk_tree_view_column_pack_start(coluna6,celula6,TRUE);
-	gtk_tree_view_column_set_title(coluna6,"Grupo");
-	gtk_tree_view_column_set_spacing(coluna6,5);
-	gtk_tree_view_column_add_attribute(coluna6,celula6,"text",5);
 	
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna6);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	
-	sprintf(query,"select p.code, p.nome, p.preco_faturado, p.preco_vista, p.peso, g.nome from produtos as p inner join grupos as g on g.code = p.grupo");
+	sprintf(query,"select p.code, p.nome, p.peso, g.nome from produtos as p inner join grupos as g on g.code = p.grupo");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -161,18 +139,14 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 		int cont=0;
-		sprintf(formata_preco1,"R$ %.2f",atof(row[2]));
-		sprintf(formata_preco2,"R$ %.2f",atof(row[3]));	
-		sprintf(formata_peso,"%.2f KG",atof(row[4]));
+		sprintf(formata_peso,"%.2f KG",atof(row[2]));
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos, 
 		COLUMN0,row[0], 
 		COLUMN1,row[1],
-		COLUMN2,formata_preco1,
-		COLUMN3,formata_preco2,
-		COLUMN4,formata_peso,
-		COLUMN5,row[5],-1);
+		COLUMN2,formata_peso,
+		COLUMN3,row[3],-1);
 	}
 	
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
@@ -191,12 +165,12 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 	
 	gtk_widget_set_size_request(scrollwindow,600,250);
-//	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_prod_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_prod_wnd),caixa_grande);
-//	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_prod_pesquisa),treeview);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_prod_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_prod_entry);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_prod_code),treeview);
 	gtk_widget_show_all(psq_prod_wnd);

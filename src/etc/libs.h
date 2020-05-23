@@ -21,8 +21,8 @@
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos.h"
 #include "../Estoque/estoque.h"
-#include "../Vendas/orcamentos/orcamentos.h"
 #include "../Vendas/pedidos/pedidos.h"
+#include "../Vendas/orcamentos/orcamentos.h"
 
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/subgrupos.c"

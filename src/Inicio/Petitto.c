@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <locale.h>
 #include <errno.h>
 #include <gtk/gtk.h>
 #ifdef __linux__
@@ -37,6 +38,7 @@ GtkWidget *imagem_barra,*layout_barra;
 
 int main(int argc,char *argv[])
 {
+	setlocale(LC_ALL,"Portuguese");
 	gtk_init(&argc,&argv);
 	//abrir_css(DESKTOP_STYLE);
 	init();

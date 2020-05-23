@@ -78,8 +78,6 @@ unidades_atacado int default 1,
 fornecedor int default 1,
 grupo int default 1,
 grupo_nivel int default 2,
-preco_vista float default 0.0,
-preco_faturado float default 0.0,
 observacoes varchar(500) default '',
 foreign key(unidades) references unidades(code),
 foreign key(fornecedor) references terceiros(code),
@@ -97,9 +95,18 @@ foreign key(produto) references produtos(code));
 create table precos( code int primary key auto_increment,
 produto int default 1,
 terceiro int default 1,
-valor float default 0.0,
+valor_fat float default 0.0,
+valor_vist float default 0.0,
 foreign key(produto) references produtos(code),
 foreign key(terceiro) references terceiros(code));
+
+create table preco_grupo( code int primary key auto_increment,
+produto int default 1,
+grupo int default 1,
+valor_fat float default 0.0,
+valor_vist float default 0.0,
+foreign key(produto) references produtos(code),
+foreign key(grupo) references grupos(code));
 
 create table pedidos( code int primary key auto_increment,
 vendedor int default 1,
@@ -114,7 +121,7 @@ vendedor int not null default 0,
 cliente int not null default 0,
 dia date not null,
 total float not null default 0,
-observacoes varchar not null (500) default '',
+observacoes varchar(500) not null default '',
 foreign key(cliente) references terceiros(code));
 
 create table Produto_Orcamento( code int,

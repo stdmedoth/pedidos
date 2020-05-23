@@ -40,14 +40,9 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
-	if(preco_prod()!=0)
+	if(obs_prod()!=0)
 	{
-		gtk_widget_grab_focus(preco_prod_field);
-		return 1;
-	}
-	if(preco_faturado_prod()!=0)
-	{
-		gtk_widget_grab_focus(GTK_WIDGET(preco_faturado_prod_field));
+		
 		return 1;
 	}
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
@@ -139,6 +134,7 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_text_buffer_delete (buffer,&inicio,&fim);	
 		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);			
 	}
+	grupos_prod=NULL;
 	concluindo_prod=0;
 	printf("finalizando conclui_ter()\n");
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
