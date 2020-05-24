@@ -51,7 +51,8 @@ int  cad_prod()
 	*horizontal_box_four, 
 	*horizontal_box_five, 
 	*horizontal_box_six,
-	*horizontal_box_seven;
+	*horizontal_box_seven,
+	*horizontal_box_eight;
 	
  	//container/visual
 	GtkWidget *janela;
@@ -59,7 +60,7 @@ int  cad_prod()
 	GtkWidget *code, *name, *preco, *peso, *unidade, *qnt_atacado, *fornecedor, *grupo, *preco_faturado, *observacoes;
 	GtkWidget *grupo_precos_box,*grupo_precos_fixed, *grupo_precos_scroll;
 	GtkWidget *caixa_grande;
-
+	GtkWidget *observacoes_scroll;
 	GtkWidget *acao;
 	GtkWidget *precos_box;
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -70,8 +71,7 @@ int  cad_prod()
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),janela);
-	gtk_widget_set_size_request(janela,700,500);
+	gtk_widget_set_size_request(janela,600,500);
 
 	psq_forn_button = gtk_button_new();
 	psq_forn_img = gtk_image_new_from_file(IMG_PROCR);
@@ -130,6 +130,7 @@ int  cad_prod()
 	horizontal_box_five = gtk_box_new(0,0);
 	horizontal_box_six = gtk_box_new(0,0);
 	horizontal_box_seven = gtk_box_new(0,0);
+	horizontal_box_eight = gtk_box_new(0,0);
 	
 	box = gtk_box_new(0,0);
 	box2 = gtk_box_new(0,0);
@@ -185,8 +186,8 @@ int  cad_prod()
 	grupo_precos_tree = grid1_grupo;
 	grupo_precos_box = gtk_box_new(0,0);
 	
-	gtk_widget_set_size_request(grupo_precos_scroll,600,300);
-	gtk_widget_set_size_request(grupo_precos_box,600,300);
+	gtk_widget_set_size_request(grupo_precos_scroll,600,200);
+	gtk_widget_set_size_request(grupo_precos_box,600,200);
 	
 	gtk_box_pack_start(GTK_BOX(grupo_precos_box),grupo_precos_tree,0,0,0);
 	
@@ -252,23 +253,40 @@ int  cad_prod()
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 	gtk_widget_set_size_request(grupo_prod_field,100,30);
 	
+	atualiza_grupo_preco_button = gtk_button_new_with_label("Atualizar preços/grupo");
+	atualiza_grupo_preco_fixed = gtk_fixed_new();
+	gtk_button_set_image(GTK_BUTTON(atualiza_grupo_preco_button),gtk_image_new_from_file(IMG_REC));
+	gtk_fixed_put(GTK_FIXED(atualiza_grupo_preco_fixed),atualiza_grupo_preco_button,0,20);
+	
+	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
 	observacoes = gtk_box_new(1,0);
 	gtk_widget_set_name(observacoes,"caixa");
 	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_field,0,0,10);
-	gtk_widget_set_size_request(observacao_prod_field,500,100);
+	#ifdef __linux__
+	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
+	#endif
+	#ifdef WIN32
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes);
+	#endif
+	
+	gtk_widget_set_size_request(observacao_prod_field,500,180);
+	gtk_widget_set_size_request(observacoes_scroll,500,180);
+	gtk_widget_set_size_request(observacoes,500,180);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),name,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),peso,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_three),grupo,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_three),fornecedor,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),observacoes,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_three),fornecedor,0,0,50);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),observacoes_scroll,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
 	
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo_precos_fixed,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),atualiza_grupo_preco_fixed,0,0,10);
+	
+	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),grupo_precos_fixed,0,0,10);
 	
 	//gtk_box_pack_start(GTK_BOX(horizontal_box_four),precos_box,0,0,10);
 
@@ -277,10 +295,10 @@ int  cad_prod()
 	listar = gtk_button_new_with_label("Pesquisar");
 	excluir = gtk_button_new_with_label("Excluir");
 		
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),concluir,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),alterar,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),listar,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),excluir,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),concluir,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),alterar,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),listar,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),excluir,0,0,10);
 
 	gtk_widget_set_size_request(GTK_WIDGET(concluir),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(alterar),100,50);
@@ -303,6 +321,7 @@ int  cad_prod()
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 
 	g_signal_connect(GTK_BUTTON(psq_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),GTK_ENTRY(grupo_prod_field));
+	g_signal_connect(GTK_BUTTON(atualiza_grupo_preco_button),"clicked",G_CALLBACK(insere_preco_grupos),NULL);
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);
@@ -316,6 +335,7 @@ int  cad_prod()
 	
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_five,MARGEM_D,20);
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,120);
+	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_seven,MARGEM_D,220);
 	
 	gtk_widget_set_size_request(vertical_box1,300,520);
 		
@@ -332,7 +352,7 @@ int  cad_prod()
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box2,gtk_label_new("Faturamento"));
 	
 	gtk_box_pack_start(GTK_BOX(caixa_grande),notebook_cad_prod,0,0,10);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),horizontal_box_seven,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),horizontal_box_eight,0,0,0);
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	

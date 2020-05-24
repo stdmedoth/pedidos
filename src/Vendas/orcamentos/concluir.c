@@ -28,7 +28,10 @@ static int concluir_orc()
 			gtk_widget_grab_focus(codigo_orc_entry);
 			return 1;
 		}
-		sprintf(query,"insert into orcamentos(code,vendedor,cliente,dia,observacoes,total) values(%s,1,%s,'%s-%s-%s','%s',0.0);",codigo_orc_gchar,cliente_orc_gchar,ano_sys,mes_sys,dia_sys,observacoes_orc_gchar);
+		
+		sprintf(query,"insert into orcamentos( code, vendedor, cliente, dia, observacoes, total) values(%s,1,%s,'%s-%s-%s','%s',0.0);",
+		codigo_orc_gchar,cliente_orc_gchar,ano_sys,mes_sys,dia_sys,observacoes_orc_gchar);
+		
 		erro = enviar_query(query);
 		if(erro != 0 )
 		{	

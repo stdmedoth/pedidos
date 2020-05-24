@@ -112,6 +112,7 @@ int enviar_query(char *query)
 	{
 		if(!mysql_init(&conectar))
 		{
+			g_print("Erro mysql : %s\n",mysql_error(&conectar));
 			popup(NULL,"Não foi possivel conectar ao servidor");	
 			autologger("Não foi possivel conectar ao servidor");
 			primeira_conexao=0;
@@ -120,7 +121,9 @@ int enviar_query(char *query)
 		g_print("%s\n",query);
 		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
 		{
-			popup(NULL,"Não foi possivel conectar ao servidor");	
+			
+			popup(NULL,"Não foi possivel conectar ao servidor");
+			g_print("Erro mysql : %s\n",mysql_error(&conectar));	
 			autologger("Não foi possivel conectar ao servidor");
 			primeira_conexao=0;
 			return 1;
@@ -129,6 +132,7 @@ int enviar_query(char *query)
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
+		g_print("%s\n",query);
 		autologger(query);
 		autologger((char*)mysql_error(&conectar));
 		g_print("Erro mysql %s\n",mysql_error(&conectar));

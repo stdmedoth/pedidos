@@ -157,6 +157,7 @@ struct itens_struct
 	float desconto_f;
 	int tipodesc;
 	float total_f;
+	char grupos_nome[MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO];
 	char qnt_c[MAX_PRECO_LEN];
 	char preco_c[MAX_PRECO_LEN];
 	char desconto_c[MAX_PRECO_LEN];

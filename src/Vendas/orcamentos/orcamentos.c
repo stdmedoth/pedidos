@@ -257,10 +257,8 @@ int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),subgrp_prod_orc_frame[itens_qnt],0,0,2);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),"Código Subrupo");
 	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),5);
-	
-	gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),"Código Subrupo");
+	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),20);
 	gtk_widget_set_sensitive(subgrp_prod_orc_entry[itens_qnt],FALSE);
-	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),10);
 	
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_entry[itens_qnt],0,0,2);
@@ -274,6 +272,7 @@ int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[itens_qnt]),orig_preco_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_container_add(GTK_CONTAINER(preco_prod_orc_frame[itens_qnt]),preco_prod_orc_box[itens_qnt]);
 	gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),8);
+	gtk_entry_set_width_chars(GTK_ENTRY(orig_preco_prod_orc_entry[itens_qnt]),8);
 	
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),preco_prod_orc_frame[itens_qnt],0,0,2);
 		
@@ -372,6 +371,8 @@ int vnd_orc()
 	
 	
 	alerta_obs = 0;
+	orc_vista = 0;
+	orc_faturado = 0;
 	itens_qnt = 1;
 	cont=1;
 	ativos_qnt=1;
@@ -692,7 +693,7 @@ int vnd_orc()
 		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[cont]),5);
 		gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_entry[cont]),"Código Subrupo");
 		gtk_widget_set_sensitive(subgrp_prod_orc_entry[cont],FALSE);
-		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[cont]),10);
+		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[cont]),20);
 		
 		
 		gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[cont]),qnt_prod_orc_label[cont],0,0,2);
@@ -707,10 +708,9 @@ int vnd_orc()
 		gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[cont]),orig_preco_prod_orc_entry[cont],0,0,2);
 		gtk_container_add(GTK_CONTAINER(preco_prod_orc_frame[cont]),preco_prod_orc_box[cont]);
 		gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[cont]),8);
+		gtk_entry_set_width_chars(GTK_ENTRY(orig_preco_prod_orc_entry[cont]),8);
 		
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),preco_prod_orc_frame[cont],0,0,2);
-	
-		
 			
 		//gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_label[cont],0,0,2);
 		gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_entry[cont],0,0,2);
@@ -719,7 +719,6 @@ int vnd_orc()
 		gtk_entry_set_width_chars(GTK_ENTRY(desconto_prod_orc_entry[cont]),4);
 		
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),desconto_prod_orc_frame[cont],0,0,2);
-		
 		
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),total_prod_orc_label[cont],0,0,2);
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),total_prod_orc_entry[cont],0,0,2);

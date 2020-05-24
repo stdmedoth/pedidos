@@ -275,6 +275,21 @@ int init()
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
+	icone = gtk_icon_theme_get_default();
+	gchar **path;
+	int n_elements;
+	
+	//return 0;
+	gtk_icon_theme_get_search_path(icone,&path,&n_elements);
+	n_elements = n_elements+1;
+	path[n_elements-1] = malloc(strlen(ICON_PATH));
+	strcpy((char*)path[n_elements-1],ICON_PATH);
+	
+	gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
+	for(int cont=0;cont<n_elements;cont++)
+		g_print("caminho tema %i : %s\n",cont,path[cont]);
+	
+	//return 1;
 	gtk_widget_show_all(janela_inicializacao);
 
 	personalizacao.tema = atoi(row[1]);

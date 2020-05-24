@@ -9,13 +9,13 @@ int cmp_ico()
 	sol_ico = gtk_image_new_from_file(SOL_IMG);
 	cot_ico = gtk_image_new_from_file(COT_IMG);
 	ord_ico = gtk_image_new_from_file(ORD_IMG);
-	ent_ico = gtk_image_new_from_file(ENT_IMG);
+	ent_nfe_ico = gtk_image_new_from_file(ENT_IMG);
 	
 	//label dos icones
 	sol_lbl = gtk_label_new("Solicitações");
 	cot_lbl = gtk_label_new("Cotações");
 	ord_lbl = gtk_label_new("Ordem de compra");
-	ent_lbl = gtk_label_new("Entrada de NF-e");	
+	ent_nfe_lbl = gtk_label_new("Entrada de NF-e");	
 
 	
 	//caixas onde ficarao os icones
@@ -44,8 +44,8 @@ int cmp_ico()
         gtk_box_pack_end(GTK_BOX(cmp_box[2]),ord_ico,0,0,0);
 
 	//icone entradas
-        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_lbl,0,0,0);
-        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_ico,0,0,0);
+        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_lbl,0,0,0);
+        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_ico,0,0,0);
         
 	
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(solicitacao),NULL);

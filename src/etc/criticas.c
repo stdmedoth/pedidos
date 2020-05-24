@@ -11,9 +11,15 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	if(strlen(valor)<=0)
 	{
 		valor = malloc(MAX_PRECO_LEN);
-		strcpy(valor,"0");
+		strcpy(valor,"0.0");
+		if(GTK_IS_WIDGET(entrada))
+		{
+			gtk_entry_set_text(GTK_ENTRY(entrada),valor);
+			return 0;
+		}
+		return 0;
 	}
-
+	
 	g_print("Verificando formato do numero float.\n");
 	//transformar virgula em ponto
 	for(pos=0;pos<=strlen(valor);pos++)
@@ -84,7 +90,7 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	}
 	
 	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
-	
+
 	g_print("Finalizando funcao critica_real() com gtk_entry_set_text\n");	
 	return 0;
 }

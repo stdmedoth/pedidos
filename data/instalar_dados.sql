@@ -47,11 +47,22 @@ insert into grupos(nome,pai,nivel) values
 ('PLASTIFICAÇÕES', 1, 1),
 ('WERE-O', 1, 1),
 ('CAPAS DE PP', 1, 1),
-
+ 
 ('LISO', 2, 2), 
 ('BICOLOR', 2, 2), 
 ('METALIZADO', 2, 2), 
-('OURO/BRONZE', 2, 2);
+('OURO/BRONZE', 2, 2),
+
+('ROLO 50M',3,2),
+('ROLO 100M',3,2),
+
+('1,30 LARG./25M',13,3),
+('1,30 LARG./50M',13,3),
+('1,30 LARG./25M',14,3),
+('1,30 LARG./25M',15,3),
+('1,30 LARG./25M',16,3);
+
+
 
 insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua, 
 telefone,contatot ,celular , contatoc ,email,contatoe, transp_nome, transp_num,transp_logradouro ,
@@ -65,11 +76,6 @@ values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,
 'Campinas', 'SP', 18, 1, '(19) 32818753', 'fornecedor', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA', 
 18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20');
 
-insert into produtos(nome, peso , unidades, unidades_atacado, grupo, observacoes) 
-values('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 0.0, 4, 5, 2, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./25M - DIV. CORES', 0.0, 4, 5, 2, ''),
-('PERCALUX PAPEL PLASTIFICADO LISO - 1,30 LARG./50M - DIV. CORES', 0.0, 4, 5, 2, ''),
-('PERCALUX PAPEL PLASTIFICADO BICOLOR - 1,30 LARG./25M - CORES', 0.0, 4, 5, 2, ''),
-('PERCALUX PAPEL PLASTIFICADO METALIZADO - 1,30 LARG./25M - CORES', 0.0, 5, 4, 2, ''),
-('PERCALUX PAPEL PLASTIFICADO OURO/BRONZE - 1,30 LARG./25M', 0.0, 4, 5, 2, ''),
-('CABECEADO - FITA ALGODAO - ROLO 50M - DIVERSAS CORES', 0.0, 4, 5, 3, '');
+insert into produtos(nome, peso , unidades, unidades_atacado, grupo, grupo_nivel, observacoes) 
+values ('PERCALUX PAPEL PLASTIFICADO', 0.0, 4, 5, 2, 3, ''),
+('CABECEADO FITA ALGODÃO', 0.0, 4, 5, 3, 3, '');

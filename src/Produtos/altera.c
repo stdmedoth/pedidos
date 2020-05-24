@@ -7,7 +7,7 @@ int altera_prod()
 	MYSQL_ROW campo;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome,  p.peso,  p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo,  p.preco_vista,  p.preco_faturado, p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome,  p.peso,  p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);

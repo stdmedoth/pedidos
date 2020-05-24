@@ -7,11 +7,13 @@
 #define PROD_GRP_COL 6
 #define PROD_OBS_COL 7
 
+int code_prod();
 int altera_prod();
 #include "campos/vars/campos_prod.h"
 #include "campos/vars/listagem_prod.h"
 #include "campos/grupos_precos.c"
 #include "grupos/cad_grupo.c"
+#include "grupos/familia_grupo.c"
 #include "campos/codigo.c"
 #include "campos/nome.c"
 #include "campos/preco.c"

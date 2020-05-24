@@ -38,8 +38,10 @@ int grupo_prod()
 	}
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);	
 	g_print("grupo: %s\n",grupos_prod);
-	notebook_preco_grupo();
-	
+	if(concluindo_prod==0)
+	{
+		notebook_preco_grupo();
+	}
 	gtk_widget_grab_focus(GTK_WIDGET(fornecedor_prod_field));
 	
 	return 0;

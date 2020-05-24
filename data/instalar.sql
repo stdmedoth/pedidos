@@ -105,7 +105,6 @@ produto int default 1,
 grupo int default 1,
 valor_fat float default 0.0,
 valor_vist float default 0.0,
-foreign key(produto) references produtos(code),
 foreign key(grupo) references grupos(code));
 
 create table pedidos( code int primary key auto_increment,

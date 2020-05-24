@@ -20,8 +20,12 @@
 #include "../pesquisadores/ceps.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos.h"
+#include "../Estoque/entradas.h"
+#include "../Estoque/saidas.h"
 #include "../Estoque/estoque.h"
 #include "../Vendas/pedidos/pedidos.h"
+#include "../Vendas/pedidos/emitir.h"
+#include "../Vendas/pedidos/cancelar.h"
 #include "../Vendas/orcamentos/orcamentos.h"
 
 #include "../pesquisadores/grupos.c"
@@ -44,6 +48,10 @@
 #include "../Vendas/pedidos/pedidos.c"
 #include "../Estoque/estoque.c"
 #include "../Estoque/saldos.c"
+#include "../Estoque/entradas.c"
+#include "../Estoque/saidas.c"
 #include "../Vendas/faturamento.c"
+#include "../Vendas/pedidos/emitir.c"
+#include "../Vendas/pedidos/cancelar.c"
 #include "../Listagens/relatorios.c"
 

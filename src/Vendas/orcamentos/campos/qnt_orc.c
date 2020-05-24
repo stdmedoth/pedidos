@@ -72,13 +72,18 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		if(campos == NULL)
 		{
 			codigo_prod_orc(widget,posicao);
+			subgrp_prod_orc(widget,posicao);
 			if(orc_faturado==1)
 			{	
+				preco_alterado[posicao]=1;
+				g_print("Selecionado preco a faturado\n");
 				sprintf(query,"select valor_fat from preco_grupo where produto = %s and grupo = %s",codigo_prod_orc_gchar,subgrp_prod_orc_cod_gchar);
 			}
 			else
 			if(orc_vista==1)
 			{	
+				preco_alterado[posicao]=1;
+				g_print("Selecionado preco a vista\n");
 				sprintf(query,"select valor_vist from preco_grupo where produto = %s and grupo = %s",codigo_prod_orc_gchar,subgrp_prod_orc_cod_gchar);
 			}
 			else
@@ -107,7 +112,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			strcpy(preco_prod_orc_gchar,campos[0]);
 			critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
 			g_print("Inserindo preco no produto pela tabela\n");
-			preco_alterado[posicao]=1;
 			gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Tabela");
 		}
 		else

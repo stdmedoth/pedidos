@@ -2,7 +2,7 @@
 #define LINE_ICO_QNT 2
 #define ICOL 5
 #define CAD_ICO_QNT 7
-#define EST_ICO_QNT 1
+#define EST_ICO_QNT 3
 #define VND_ICO_QNT 1
 #define CMP_ICO_QNT 4
 
@@ -18,6 +18,8 @@ GtkWidget *grp_ico, *grp_lbl; //grupos
 
 //estoque
 GtkWidget *est_ico, *est_lbl; //estoques
+GtkWidget *ent_ico, *ent_lbl; //entrada
+GtkWidget *sai_ico, *sai_lbl; //saida
 GtkWidget *sld_ico, *sld_lbl; //saldo
 
 //vendas
@@ -28,7 +30,7 @@ GtkWidget *ped_ico, *ped_lbl;
 GtkWidget *sol_ico, *sol_lbl;
 GtkWidget *cot_ico, *cot_lbl;
 GtkWidget *ord_ico, *ord_lbl;
-GtkWidget *ent_ico, *ent_lbl;
+GtkWidget *ent_nfe_ico, *ent_nfe_lbl;
 
 GtkWidget *cad_box[CAD_ICO_QNT];
 GtkWidget *est_box[EST_ICO_QNT];

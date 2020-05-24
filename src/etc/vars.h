@@ -19,6 +19,7 @@
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/petitto/files/opcoes_padrao/menos.png" 
+#define IMG_REC       "/petitto/files/opcoes_padrao/recarregar.png"
 #define LOGGER        "/petitto/files/logger.log"
 #define ICO           "/petitto/files/ico.ico"
 #define MSG_PRINC     "/petitto/files/msg"
@@ -47,6 +48,8 @@
 #define GRP_IMG       "/petitto/files/icones_opc/grupos.png"
 #define PROD_IMG      "/petitto/files/icones_opc/produtos.png"
 #define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"  
+#define ADD_SALDO     "/petitto/data/icones_opc/add_saldo.png"
+#define REM_SALDO     "/petitto/data/icones_opc/rem_saldo.png"
 #define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"  
 #define SALD_IMG      "/petitto/files/icones_opc/saldo.png"  
 #define OPR_IMG       "/petitto/files/icones_opc/operadores.png"  
@@ -63,6 +66,7 @@
 #define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "/petitto/files/impressao/pdf.exe"
+#define ICON_PATH     "/petitto/files/opcoes_padrao/icones/";
 #endif
 
 #ifdef __linux__
@@ -106,6 +110,8 @@
 #define OPR_IMG       "/usr/share/petitto/files/icones_opc/operadores.png"  
 #define TRS_IMG       "/usr/share/petitto/files/icones_opc/transacoes.png"  
 #define SOL_IMG       "/usr/share/petitto/files/icones_opc/solicitacoes.png"  
+#define ADD_SALDO     "/usr/share/petitto/files/icones_opc/add_saldo.png"
+#define REM_SALDO     "/usr/share/petitto/files/icones_opc/rem_saldo.png"
 #define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"  
 #define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"  
 #define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"  
@@ -125,6 +131,7 @@
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
+#define ICON_PATH     "/usr/share/petitto/files/opcoes_padrao/icones/"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -188,9 +195,11 @@
 #define MAX_DATE_LEN 8
 #define MAX_FETCH_ROW 3000
 #define MAX_SUBGRUPO 20
+
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;
 GtkTextBuffer *buffer;
 GtkTextIter inicio,fim;	
+GtkIconTheme *icone;
 static int inicializando=0;
 
