@@ -213,8 +213,6 @@ int desktop()
 
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
-
-	g_signal_handlers_disconnect_by_func(janela_principal, gtk_main_quit, NULL);
 	
 	g_signal_connect(GTK_BUTTON(janela_principal),"destroy",G_CALLBACK(gtk_main_quit),NULL);
 	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);

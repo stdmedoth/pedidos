@@ -43,5 +43,5 @@ int main(int argc,char *argv[])
 	//abrir_css(DESKTOP_STYLE);
 	init();
 	gtk_main();
-	
+	return 0;
 }

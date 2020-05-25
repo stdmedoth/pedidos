@@ -5,8 +5,8 @@ static gchar *pesos_prod=NULL;
 static gchar *unidades_prod=NULL;
 static gchar *unidades_atac_prod=NULL;
 static gchar *fornecedores_prod=NULL;
-static gchar *grupos_prod=NULL;;
-static gchar *precos_faturado_prod=NULL;;
+static gchar *grupos_prod=NULL;
+static gchar *precos_faturado_prod=NULL;
 static gchar *observacoes_prod=NULL;
 
 static GtkWidget *grupo_precos_tree;

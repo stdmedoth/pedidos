@@ -44,6 +44,7 @@ int insere_preco_grupos()
 		gtk_box_pack_start(GTK_BOX(caixa),label,0,0,10);
 		gtk_fixed_put(GTK_FIXED(fixed),caixa,10,10);
 		opcao = gtk_dialog_new_with_buttons("Produtos",NULL,4,"Continuar",GTK_RESPONSE_ACCEPT,"Cancelar",GTK_RESPONSE_REJECT,NULL);
+		gtk_window_set_position(GTK_WINDOW(opcao),3);
 		gtk_box_pack_start(GTK_BOX(gtk_bin_get_child(GTK_BIN(opcao))),fixed,0,0,0);
 		gtk_widget_show_all(opcao);
 		int resposta = gtk_dialog_run(GTK_DIALOG(opcao));

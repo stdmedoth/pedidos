@@ -47,11 +47,11 @@ int popup(GtkWidget *widget,gchar *string)
 	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
 	
 	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
-	
+	gtk_widget_grab_focus(popup);
 	gtk_widget_show_all(popup);
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
-
+	
 	gtk_widget_destroy(popup);
 
 	return 0;
@@ -79,6 +79,11 @@ MYSQL_RES *consultar(char *query)
 			g_print("Erro mysql : %s\n",mysql_error(&conectar));
 			autologger((char*)mysql_error(&conectar));
 			return NULL;
+		}
+		if (!mysql_set_character_set(&conectar, "utf8"))
+		{
+			g_print("Novo caracter setado: %s\n",
+			mysql_character_set_name(&conectar));
 		}
 		primeira_conexao=1;
 	}
@@ -129,6 +134,11 @@ int enviar_query(char *query)
 			primeira_conexao=0;
 			return 1;
 		}
+		if (!mysql_set_character_set(&conectar, "utf8"))
+		{
+			g_print("Novo caracter setado: %s\n",
+			mysql_character_set_name(&conectar));
+		}
 	}
 	err = mysql_query(&conectar,query);
 	if(err!=0)
@@ -146,41 +156,29 @@ int tasker(char *table)
 {
 	char task[8];
 	MYSQL connect;
-	if(!mysql_init(&connect))
-		return 1;
+	
 	MYSQL_RES *result_vetor;
 	MYSQL_ROW campos;
+	
 	int err=0,task_num=0;
 	char query[QUERY_LEN];
+	
 	printf("Iniciando Tasker()\n");
 	sprintf(query,"select MAX(code) from %s;",table);
-	mysql_real_connect(&connect,SERVER,USER,PASS,DATABASE,0,NULL,0);
-	err = mysql_query(&connect,query);
-	if(err!=0)
+	result_vetor = consultar(query);
+	
+	if(result_vetor == NULL)
 	{
-		g_print("Query para tabela %s\n",table);
-		g_print("codigo do erro %i\n",err);
-		g_print("Mensagem_query: %s",mysql_error(&connect));
-		popup(NULL,(gchar *)mysql_error(&connect));
-		return 1;
-	}
-	else
-	{
-		g_print("Query para tabela %s\n",table);
-		g_print("Query_code envida com sucesso\n");
-	}
-	result_vetor = mysql_store_result(&connect);
-	if(mysql_errno(&connect)!=0)
-	{
-		g_print("%s\n",mysql_error(&connect));
 		popup(NULL,"Não foi possivel receber o id do servidor");
 		return 1;
 	}
+	
 	campos = mysql_fetch_row(result_vetor);
 	if(campos==NULL)
 	{
 		return 1;
 	}	
+	
 	#ifdef __linux__
 	sprintf(task,"%s",campos[0]);
 	task_num = stoi(task);
@@ -188,6 +186,7 @@ int tasker(char *table)
 	#ifdef WIN32
 	task_num = stoi(campos[0]);
 	#endif
+	
 	if(task_num==-1)
 	{
 		return 1;

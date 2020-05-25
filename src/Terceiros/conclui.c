@@ -198,23 +198,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	{
 		sprintf(query,UPDATE_QUERY_TER,UPDATE_QUERY_TER_VAR);
 	}
-	g_print("[...] Criando conexão com o banco\n\n");
-	MYSQL connect;
-	mysql_init(&connect);
-	g_print("[...] Tentando conexão com o banco\n\n");
-	if(mysql_real_connect(&connect,"localhost",USER,PASS,"erp",0,NULL,0))
-	{
-		g_print("[!] conectado ao banco com sucesso\n\n");
-	}
-	else
-	{
-		popup(NULL,"Algum erro no servidor\nLigue para suporte");
-		
-		g_print("[!] Erro ao tentar se conectar %s\n",mysql_error(&connect));
-		autologger("[!] Erro ao tentar se conectar\n");
-		autologger((char*)mysql_error(&connect));
-		return 1;
-	}	
+	
 	if(stoi(codigos_ter)==-1)
 	{
 		if(strlen(codigos_ter)>8)
@@ -235,17 +219,14 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	g_print("%s\n",query);
 	autologger(query);
 
-	err = mysql_query(&connect,query);
+	err = enviar_query(query);
 	if(err!=0)
 	{
 		g_print("Query para tabela terceiros\n");
 		autologger("Query para tabela terceiros");
 		g_print("codigo do erro %i\n",err);
-		g_print("%s\n",mysql_error(&connect));
 		g_print("%s\n\n",query);
 		autologger(query);
-		gtk_button_set_label(GTK_BUTTON(botao),"erro");
-		popup(NULL,(gchar*)mysql_error(&connect));
 		return 1;
 	}
 
