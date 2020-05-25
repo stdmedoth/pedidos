@@ -404,9 +404,11 @@ int  cad_terc()
 	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
 	#endif
+	
 	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes)
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes);
 	#endif
+	
 	gtk_widget_set_size_request(observacoes_ter_field,500,100);
 	gtk_widget_set_size_request(observacoes_scroll,500,120);
 	gtk_widget_set_size_request(observacoes,500,120);

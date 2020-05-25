@@ -66,7 +66,8 @@
 #define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "/petitto/files/impressao/pdf.exe"
-#define ICON_PATH     "/petitto/files/opcoes_padrao/icones/";
+#define IMG_ENVIA     "/petitto/files/opcoes_padrao/enviar.png"
+#define ICON_PATH     "/petitto/files/opcoes_padrao/icones/"
 #endif
 
 #ifdef __linux__
