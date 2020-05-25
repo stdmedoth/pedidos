@@ -696,12 +696,8 @@ int cad_grupo()
 	gtk_container_set_border_width(GTK_CONTAINER(visao_geral_grp_box),10);
 	
 	gtk_box_pack_start(GTK_BOX(visao_geral_grp_box),treeview,0,0,0);
-	#ifdef __linux__
+
 	gtk_container_add(GTK_CONTAINER(visao_geral_grp_scroll),visao_geral_grp_box);
-	#endif
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(visao_geral_grp_scroll),visao_geral_grp_box);
-	#endif
 	
 	gtk_widget_set_size_request(visao_geral_grp_scroll,450,225);
 	gtk_container_add(GTK_CONTAINER(visao_geral_grp_frame),visao_geral_grp_scroll);

@@ -4,7 +4,6 @@ static int alterando_prod=0, concluindo_prod=0;
 #include "conclui.c"
 #include "altera.c"
 #include "exclui.c"
-#include "lista.c"
 
 int inicializar_prod()
 {
@@ -110,12 +109,9 @@ int  cad_prod()
 	
  	tipos_scroll_caixa	 = gtk_box_new(1,0);
 	tipos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tipos_scroll_window),tipos_scroll_caixa);
-	#endif
-	#ifdef __linux__
+	
+	
 	gtk_container_add(GTK_CONTAINER(tipos_scroll_window),tipos_scroll_caixa);
-	#endif
 	
 	gtk_widget_set_size_request(tipos_scroll_window,200,500);
 	
@@ -191,12 +187,7 @@ int  cad_prod()
 	
 	gtk_box_pack_start(GTK_BOX(grupo_precos_box),grupo_precos_tree,0,0,0);
 	
-	#ifdef WIN32 
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(grupo_precos_scroll),grupo_precos_box);
-	#endif
-	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(grupo_precos_scroll),grupo_precos_box);
-	#endif
 	
 	grupo_precos_fixed = gtk_fixed_new();
 	gtk_fixed_put(GTK_FIXED(grupo_precos_fixed),grupo_precos_scroll,0,0);
@@ -263,12 +254,8 @@ int  cad_prod()
 	gtk_widget_set_name(observacoes,"caixa");
 	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_field,0,0,10);
-	#ifdef __linux__
+	
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
-	#endif
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes);
-	#endif
 	
 	gtk_widget_set_size_request(observacao_prod_field,500,180);
 	gtk_widget_set_size_request(observacoes_scroll,500,180);

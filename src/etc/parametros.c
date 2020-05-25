@@ -366,17 +366,9 @@ int parametrizar()
 	tema_combo_box_fixed = gtk_fixed_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
 	
-	#ifdef WIN32
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Blumix");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Plane");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
-	#endif
-	
-	#ifdef __linux__
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Adwaita");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Adwaita-dark");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
-	#endif
 	
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
@@ -408,12 +400,8 @@ int parametrizar()
 	}
 	gtk_widget_set_size_request(wallpapers_box,600,120);
 	gtk_widget_set_size_request(wallpapers_scroll,600,120);
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(wallpapers_scroll),wallpapers_box);
-	#endif
-	#ifdef __linux__
+
 	gtk_container_add(GTK_CONTAINER(wallpapers_scroll),wallpapers_box);
-	#endif
 
 	wallpapers_frame = gtk_frame_new("Imagens da área de Trabalho");
 	gtk_container_add(GTK_CONTAINER(wallpapers_frame),wallpapers_scroll);

@@ -761,12 +761,8 @@ int vnd_orc()
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 	
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(prod_scroll_window),prod_scroll_box);
-	#endif
-	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(prod_scroll_window),prod_scroll_box);
-	#endif	
+
 	gtk_scrolled_window_set_placement(GTK_SCROLLED_WINDOW(prod_scroll_window),GTK_CORNER_BOTTOM_LEFT);
 
 	gtk_box_pack_start(GTK_BOX(itens_orc_box),prod_scroll_window,0,0,0);

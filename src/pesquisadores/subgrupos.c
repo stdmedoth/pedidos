@@ -200,12 +200,9 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 		}
 	}
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
-	#ifdef __linux__
+
 	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);
-	#endif
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwindow),treeview);
-	#endif
+
 	
 	escolher_campo_button = gtk_button_new_with_label("Escolher");
 	escolher_campo_img = gtk_image_new_from_file(IMG_PROCR);

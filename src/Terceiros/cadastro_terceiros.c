@@ -4,7 +4,6 @@ GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *exclui
 #include "campos.c"
 #include "altera.c"
 #include "exclui.c"
-#include "lista.c"
 #include "conclui.c"
 
 int inicializar_ter()
@@ -157,12 +156,9 @@ int  cad_terc()
 	precos_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 	
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(precos_scroll_window),GTK_POLICY_ALWAYS,GTK_POLICY_ALWAYS);
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(precos_scroll_window),precos_scroll_caixa);
-	#endif
-	#ifdef __linux__
+
 	gtk_container_add(GTK_CONTAINER(precos_scroll_window),precos_scroll_caixa);
-	#endif
+
 	gtk_box_pack_start(GTK_BOX(precos_scroll_caixa),lista_vinc_label,0,0,20);
 	/*																	*/
 	
@@ -401,13 +397,8 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_ter_field,0,0,10);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(observacoes_scroll),GTK_POLICY_ALWAYS,GTK_POLICY_ALWAYS);
-	#ifdef __linux__
+
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
-	#endif
-	
-	#ifdef WIN32
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(observacoes_scroll),observacoes);
-	#endif
 	
 	gtk_widget_set_size_request(observacoes_ter_field,500,100);
 	gtk_widget_set_size_request(observacoes_scroll,500,120);

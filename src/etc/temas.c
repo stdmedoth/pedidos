@@ -11,21 +11,10 @@ int temas()
 	switch(personalizacao.tema)
 	{
 		case 1:
-			#ifdef WIN32
-			g_object_set(settings, "gtk-theme-name","Blumix",NULL);
-			#endif
-			#ifdef __linux__
 			g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
-			#endif
 			break;
 		case 2:
-			#ifdef WIN32
-			g_object_set(settings, "gtk-theme-name","Plane",NULL);
-			#endif
-			#ifdef __linux__
-			g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
-			#endif
-			
+			g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);			
 			break;
 		case 3:
 			g_object_set(settings, "gtk-theme-name","Default",NULL);

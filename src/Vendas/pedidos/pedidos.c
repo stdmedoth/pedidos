@@ -254,12 +254,8 @@ int vnd_ped()
 	
 	gtk_box_pack_start(GTK_BOX(caixa_produtos),treeview,0,0,0);
 	
-	#ifdef WIN32 
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(caixa_scroll),caixa_produtos);
-	#endif
-	#ifdef __linux__
 	gtk_container_add(GTK_CONTAINER(caixa_scroll),caixa_produtos);
-	#endif
+
 	gtk_fixed_put(GTK_FIXED(caixa_fixed),caixa_scroll,10,20);
 	
 	gtk_box_pack_start(GTK_BOX(linha1),ped_cod_fixed,0,0,0);
