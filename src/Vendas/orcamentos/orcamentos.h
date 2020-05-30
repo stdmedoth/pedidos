@@ -140,6 +140,7 @@ static GtkWidget *observacoes_orc,*buffer_orc;
 //Botoes
 static GtkWidget *botao_orc_mais,**botao_menos;
 
+static int produto_inserido[MAX_PROD_ORC];
 int itens_qnt=1;
 int id_vetor[MAX_PROD_ORC];
 

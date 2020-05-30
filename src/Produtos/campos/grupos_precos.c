@@ -5,11 +5,6 @@ static GtkWidget *grid1_grupo=NULL;
 static int grupos_qnt=1;
 GtkWidget *notebook_preco_grupo();
 static int grupos_preco_code[MAX_SUBGRUPO];
-int preco_faturado()
-{
-	
-	return 0;
-}
 
 int insere_preco_grupos()
 {
@@ -133,9 +128,6 @@ GtkWidget *notebook_preco_grupo()
 	entry_preco_grupo_prcfat = malloc(MAX_SUBGRUPO*sizeof(GtkEntry));
 	
 	int cont=1;
-	
-	if(grupos_prod==NULL)
-		return grid1_grupo;	
 	
 	gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);
 	gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);

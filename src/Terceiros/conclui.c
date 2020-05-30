@@ -4,6 +4,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	char *code;
 	code = malloc(10);
 	char *query;
+	concluindo_ter = 1;
 	if(code_terc()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
@@ -229,12 +230,13 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		autologger(query);
 		return 1;
 	}
-
+	
 	g_print("Query para tabela terceiros\n");
 	g_print("Query envida com sucesso\n");
 	gtk_button_set_label(GTK_BUTTON(botao),"concluido");
 	popup(NULL,"Concluido");
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
+	concluindo_ter = 0;
 	alterando_ter=0;
 	code[0] = '\0';
 	sprintf(code,"%i",tasker("terceiros"));

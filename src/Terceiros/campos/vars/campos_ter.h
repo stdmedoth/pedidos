@@ -36,19 +36,19 @@
 #define OBS_TER_COL 33
 
 int tipo_doc,tipo_log;
-GtkWidget *doc_combo;
-GtkWidget *rua_combo;
+static GtkWidget *doc_combo;
+static GtkWidget *rua_combo;
 
-GtkWidget *frete_pago_box;
-GtkWidget *frete_pago_flag;
-GtkWidget *frete_pago_frame;
-GtkWidget *frete_pago_entry;
+static GtkWidget *frete_pago_box;
+static GtkWidget *frete_pago_flag;
+static GtkWidget *frete_pago_frame;
+static GtkWidget *frete_pago_entry;
 
-GtkWidget *ter_img_image, 
+static GtkWidget *ter_img_image, 
 *ter_img_button_inserir, 
 *ter_img_button_retirar;
 
-GtkWidget *ter_notebook,
+static GtkWidget *ter_notebook,
 *ter_principal_box, 
 *ter_contatos_box, 
 *ter_entrega_box, 
@@ -58,7 +58,7 @@ GtkWidget *ter_notebook,
 *ter_entrega_label, 
 *ter_outros_label;
 
-GtkWidget *code_label, 
+static GtkWidget *code_label, 
 *code_ter_nfe_label,
 *doc_label, 
 *inscr_label,
@@ -78,7 +78,7 @@ GtkWidget *code_label,
 *observacoes_label,
 *prazo_ter_label;
 
-GtkWidget *code_ter_field, 
+static GtkWidget *code_ter_field, 
 *code_ter_nfe_field,
 *doc_ter_field, 
 *inscr_ter_field,
@@ -95,11 +95,13 @@ GtkWidget *code_ter_field,
 *contatoc_ter_field, 
 *email_ter_field, 
 *contatoe_ter_field, 
+*prod_ter_field,
+*subgrp_ter_field,
 *observacoes_ter_field,
 
 *prazo_ter_field;
 
-GtkWidget *transp_codigo_entry, 
+static GtkWidget *transp_codigo_entry, 
 *transp_nome_entry, 
 *transp_cnpj_entry, 
 *transp_ie_entry, 
@@ -111,34 +113,39 @@ GtkWidget *transp_codigo_entry,
 *transp_telefone_entry, 
 *transp_obs_entry;
 
+static GtkWidget *campo_nome_prod_ter, *campo_nome_subgrp_ter;
+
 static GtkWidget *psq_ter_transp_button, *psq_ter_cep_button, *psq_ter_transpcep_button;
 static GtkWidget *psq_ter_transp_img, *psq_ter_cep_img, *psq_ter_transpcep_img;
 static GtkWidget *psq_ter_transp_box, *psq_ter_cep_box, *psq_ter_transpcep_box;
+static GtkWidget *psq_ter_prod_button, *psq_ter_subgrp_button;
 
-GtkWidget *ter_trsp_label,*ter_trsp_entry;
+static GtkWidget *ter_trsp_label,*ter_trsp_entry;
 
-GtkWidget *win_tipo_ter;
+static GtkWidget *win_tipo_ter;
 
-gchar *codigos_ter=NULL;
-gchar *codigos_ter_nfe=NULL;
-gchar *doc_ter=NULL;
-gchar *inscr_ter=NULL;
-gchar *nomes_ter=NULL;
-gchar *endereco_ter=NULL;
-gchar *address_num=NULL;
-gchar *cidade_ter=NULL;
-gchar *uf_ter=NULL;
-gchar *cep_ter=NULL;
-gchar *tipo_ter=NULL;
-gchar *celular_ter=NULL;
-gchar *telefone_ter=NULL;
-gchar *contatot_ter=NULL;
-gchar *contatoc_ter=NULL;
-gchar *email_ter=NULL;
-gchar *contatoe_ter=NULL;
-gchar *observacoes_ter=NULL;
+static gchar *codigos_ter=NULL,
+*codigos_ter_nfe=NULL,
+*doc_ter=NULL,
+*inscr_ter=NULL,
+*nomes_ter=NULL,
+*endereco_ter=NULL,
+*address_num=NULL,
+*cidade_ter=NULL,
+*uf_ter=NULL,
+*cep_ter=NULL,
+*tipo_ter=NULL,
+*celular_ter=NULL,
+*telefone_ter=NULL,
+*contatot_ter=NULL,
+*contatoc_ter=NULL,
+*email_ter=NULL,
+*contatoe_ter=NULL,
+*grupos_ter,
+*prods_ter,
+*observacoes_ter=NULL;
 
-gchar *transp_codigo=NULL,
+static gchar *transp_codigo=NULL,
 *transp_nome=NULL, 
 *transp_num=NULL, 
 *transp_logradouro=NULL, 
@@ -150,6 +157,7 @@ gchar *transp_codigo=NULL,
 *transp_ie=NULL, 
 *transp_obs=NULL;
 
-gchar *prazo_ter=NULL;
+static gchar *prazo_ter=NULL;
 
-char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia","Rodovia"};
+static int concluindo_ter=0;
+static char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia","Rodovia"};

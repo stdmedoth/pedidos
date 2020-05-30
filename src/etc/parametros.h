@@ -36,6 +36,7 @@ struct
 		int observacoes;
 		int fornecedor;
 		int grupo;
+		int produto;
 		int preco;
 		int entrega;
 		int total;

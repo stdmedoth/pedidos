@@ -1,3 +1,4 @@
+
 int rec_fat_vist()
 {
 	int select=0;
@@ -18,6 +19,12 @@ int rec_fat_vist()
 			tipo_pag = 2;
 			break;
 	}
-
+	for(int cont=0;cont<MAX_PROD_ORC;cont++)
+	{
+		if(ativos[cont].id==1)
+		{
+			qnt_prod_orc(NULL,cont);
+		}
+	}
 	return 1;
 }

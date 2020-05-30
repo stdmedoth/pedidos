@@ -13,7 +13,10 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	switch(valor_orig[posicao])
 	{
 		case 0:
-			popup(NULL,"Selecione a origem do preço");
+			if(produto_inserido[posicao] == 1)
+			{
+				popup(NULL,"Selecione a origem do preço");
+			}
 			gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
 			return 1;
 			

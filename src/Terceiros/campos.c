@@ -26,6 +26,10 @@ int altera_ter();
 #include "campos/outros/prazo.c"
 #include "campos/outros/calcular_prazo.c"
 #include "campos/outros/verifica_frete.c"
+#include "campos/outros/grupos_preco.c"
+#include "campos/outros/grupo.c"
+#include "campos/outros/produtos.c"
+
 
 #define CAD_QUERY_TER "insert into terceiros\
 (razao, code_nfe, doc,   ie,	  tipo_doc, tipoc,  tipo,  cep,   endereco,  cidade,   uf,   numrua,  tiporua,  celular,   contatoc,  telefone,  contatot,  email,  contatoe,		transp_nome,	transp_num,	transp_logradouro,  transp_cidade, transp_estado,	transp_cep,      transp_telefone,   transp_cnpj,    transp_ie,    transp_obs,       obs,    frete_pago,    vlr_frete_pago,    prazo ) values\
