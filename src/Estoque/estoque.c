@@ -43,9 +43,11 @@ int cad_est()
 	
 	gtk_container_add(GTK_CONTAINER(est_cod_frame),est_cod_entry);
 	gtk_fixed_put(GTK_FIXED(est_cod_fixed),est_cod_frame,10,20);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_cod_entry),10);
 	
 	gtk_container_add(GTK_CONTAINER(est_nome_frame),est_nome_entry);
 	gtk_fixed_put(GTK_FIXED(est_nome_fixed),est_nome_frame,10,20);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_nome_entry),30);
 	
 	gtk_box_pack_start(GTK_BOX(caixa_grande),est_cod_fixed,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),est_nome_fixed,0,0,10);
@@ -54,4 +56,3 @@ int cad_est()
 	gtk_widget_show_all(janela);
 	return 0;
 }
-

@@ -1,27 +1,17 @@
-void prc_cli_alter(GtkWidget *widget,GdkEventKey *event,int posicao)
-{
-	if(event->keyval!=GDK_KEY_KP_Enter)
-	{
-		g_print("Preco do item %i alterado\n",posicao);
-		gtk_entry_set_text(GTK_ENTRY(orig_preco_prod_orc_entry[posicao]),"Operador");
-		preco_alterado[posicao] = 3;
-	}
-	
-	return;
-}
-
 int preco_prod_orc(GtkWidget *widget,int posicao)
 {
 	preco_prod_orc_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao]));
 	ativos[posicao].preco_f = 0; 
-	strcpy(ativos[posicao].preco_c,"");
+
 	if(strlen(preco_prod_orc_gchar)<=0)
 	{	
+		preco_alterado[posicao] = 0;
+		valor_orig[posicao] = 0;
 		popup(NULL,"O preco deve ser inserido");
 		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
 		return 1;
 	}
-		for(int pos=0;pos<=strlen(preco_prod_orc_gchar);pos++)
+	for(int pos=0;pos<=strlen(preco_prod_orc_gchar);pos++)
 	{
 		if(preco_prod_orc_gchar[pos]==46||preco_prod_orc_gchar[pos]==44)
 		{	
@@ -36,8 +26,8 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 	ativos[posicao].preco_f = atof(preco_prod_orc_gchar);
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
-	g_print("float preco %.2f\n",ativos[posicao].preco_f);
 	
-	gtk_widget_grab_focus(orig_preco_prod_orc_entry[posicao]);
+	g_print("float preco %.2f\n",ativos[posicao].preco_f);
+	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

@@ -291,7 +291,9 @@ int init()
 	gtk_widget_show_all(janela_inicializacao);
 
 	personalizacao.tema = atoi(row[1]);
+	ler_theme_dir();
 	temas();
+
 	if(atoi(row[0])==0)
 	{
 		oper_code = malloc(MAX_OPER_LEN);

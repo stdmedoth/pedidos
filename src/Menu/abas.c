@@ -106,7 +106,7 @@ int menu()
 		gtk_box_pack_start(GTK_BOX(estoque),estoquel[cont],0,0,20);
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
-	gtk_container_set_border_width(GTK_CONTAINER(lista_abas),2);
+
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
 	
 	return 0;
@@ -126,7 +126,7 @@ int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
 			else
 			{
 				gtk_widget_show_all(lista_abas);
-				gtk_button_set_label(GTK_BUTTON(botao_iniciar),"|----> ");
+				gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Fecha");
 				controle_menu=1;	
 			}
 			break;	
@@ -145,7 +145,7 @@ int clique_menu()
 	else
 	{
 		gtk_widget_show_all(lista_abas);
-		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"|---> ");
+		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Fecha");
 		controle_menu=1;	
 		gtk_widget_grab_focus(principall[0]);
 	}

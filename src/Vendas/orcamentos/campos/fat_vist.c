@@ -7,18 +7,15 @@ int rec_fat_vist()
 	{
 		case 0:
 			g_print("Tipo Faturado ou a vista não foi selecionado\n");
-			orc_faturado = 0;
-			orc_vista = 0;
+			tipo_pag = 0;
 			break;
 		case 1:
 			g_print("Tipo Faturado foi selecionado\n");
-			orc_faturado = 1;
-			orc_vista = 0;
+			tipo_pag = 1;
 			break;
 		case 2:
 			g_print("Tipo à vista foi selecionado\n");
-			orc_faturado = 0;
-			orc_vista = 1;
+			tipo_pag = 2;
 			break;
 	}
 

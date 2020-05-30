@@ -3,7 +3,6 @@
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {	
 	gtk_widget_destroy(GTK_WIDGET(ponteiro));
-//	gtk_widget_hide_all(GTK_WIDGET(ponteiro));
 	return 0;
 }
 int autologger(char *string)

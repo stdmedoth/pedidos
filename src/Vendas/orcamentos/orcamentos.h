@@ -28,13 +28,13 @@ int inicializar_orc()
 		vet_erro[cont] = 0;
 	return 0;
 }
-static int orc_vista=0,orc_faturado=0;
+static int tipo_pag=0;
 
 int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
 
 int preco_prod_orc(GtkWidget *widget,int posicao);
-int preco_alterado[MAX_PROD];
+int preco_alterado[MAX_PROD], valor_orig[MAX_PROD];
 int pressionado=0;
 static int ativos_qnt=1;
 
@@ -102,7 +102,7 @@ static GtkWidget **codigo_prod_orc_label,
 **descricao_prod_orc_label,
 **qnt_prod_orc_label,
 **preco_prod_orc_label,
-**orig_preco_prod_orc_label,
+**orig_preco_prod_orc_combo,
 **desconto_prod_orc_label,
 **total_prod_orc_label;
 
@@ -119,7 +119,6 @@ static GtkWidget **codigo_prod_orc_entry,
 **subgrp_prod_orc_button, 
 **qnt_prod_orc_entry,
 **preco_prod_orc_entry,
-**orig_preco_prod_orc_entry,
 **desconto_prod_orc_entry,
 **total_prod_orc_entry;
 

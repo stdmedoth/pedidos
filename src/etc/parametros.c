@@ -1,86 +1,4 @@
-//combo_box de terceiros 
-GtkWidget **campos_de_critica;
-//combo_box de produtos
-GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
-int ter_critic_campos_qnt =10;
-int temas();
-static GtkWidget *janela_init,*janela_keep_above,*tema_combo_box;
-struct 
-{
-	int janela_init;
-	int janela_keep_above;
-	int tema;	
-	char wallpaper[300];
-}personalizacao;
-struct
-{
-	struct parametros
-	{
-		int doc;
-		int inscricao;
-		int tipodoc;
-		int endereco;
-		int cep;
-		int cidade;
-		int uf;
-		int tipo;
-		int celular;
-		int contatoc;
-		int telefone;
-		int contatot;
-		int email;
-		int contatoe;
-		int observacoes;
-		int fornecedor;
-		int grupo;
-		int preco;
-		int entrega;
-		int total;
-		int peso;
-		int unidade;
-		int fator;
-		int transp_cnpj;
-		int vincula_prod_obs;
-	}criticar;
-}terceiros,produtos;
-#define CAMPOS_QNT 25
-int vet_erro[CAMPOS_QNT+1];
 
-#define COD_ERR 0
-#define DOC_ERR 1
-#define INSC_ERR 2
-#define NOM_ERR 3
-#define END_ERR 4
-#define UF_ERR 5
-#define CID_ERR 6
-#define TIP_ERR 7
-#define CEL_ERR 8
-#define CNC_ERR 9
-#define TEL_ERR 10
-#define CNT_ERR 11
-#define EML_ERR 12
-#define CNE_ERR 13
-#define OBS_ERR 14
-#define PRC_ERR 15
-#define VIN_ERR 16
-#define PES_ERR 17
-#define FOR_ERR 18
-#define UND_ERR 19
-#define GRP_ERR 20
-#define MRC_ERR 21
-#define CEP_ERR 22
-#define PRD_ERR 23
-#define CLI_ERR 24
-#define PRAZ_ERR 25
-#define QNT_ERR 26
-
-char *critica_campos[] = {"ter_doc","ter_tipo_doc",
-	"ter_endereco","ter_cep",
-	"ter_tipo","ter_celular",
-	"ter_contatoc","ter_telefone",
-	"ter_contatot","ter_email",
-	"ter_contatoe"};
-char *desktop_images_vet[] = {THUMBDESKTOP1,THUMBDESKTOP2,THUMBDESKTOP3,THUMBDESKTOP4,THUMBDESKTOP5,THUMBDESKTOP6};
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
@@ -341,6 +259,7 @@ int parametrizar()
 	
 	int cont;
 	int *vet_pos;
+	
 	janela_parametros = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_parametros,600,400);
 	gtk_window_set_title(GTK_WINDOW(janela_parametros),"Parametros");
@@ -349,7 +268,7 @@ int parametrizar()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_parametros),"preferences-system");
 	notebook = gtk_notebook_new();
 	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
-	
+
 	caixa_wallpapers = malloc(sizeof(GtkBox*)*WALLPAPERS_QNT);
 	image_wallpapers = malloc(sizeof(GtkImage*)*WALLPAPERS_QNT);
 	label_wallpapers = malloc(sizeof(GtkLabel*)*WALLPAPERS_QNT);
@@ -364,11 +283,16 @@ int parametrizar()
 	
 	tema_combo_box = gtk_combo_box_text_new();
 	tema_combo_box_fixed = gtk_fixed_new();
+	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(tema_combo_box),3);
+	
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
 	
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"1","Adwaita");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"2","Adwaita-dark");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tema_combo_box),"3","Padrao");
+	cont=0;
+	while(cont<temas_qnt)
+	{
+		gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),cont,nomes_temas[cont]);
+		cont++;
+	}
 	
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);

@@ -65,7 +65,7 @@ static int concluir_orc()
 			
 			if(alterando_orc==0)
 			{
-				sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total) values(%s,%i,%i,%i,%s,%s,%i,%i,%s,%s);",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c);
+				sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total) values(%s,%i,%i,%i,%s,%s,%i,%i,%s,%s);",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{
@@ -77,7 +77,7 @@ static int concluir_orc()
 			{
 				if(cont<rec_altera_qnt)
 				{
-					sprintf(query,"update Produto_Orcamento set produto = %i, subgrupo = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s where code = %s and item = %i",ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,codigo_orc_gchar,cont);
+					sprintf(query,"update Produto_Orcamento set produto = %i, subgrupo = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s where code = %s and item = %i",ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,codigo_orc_gchar,cont);
 					erro = enviar_query(query);
 					if(erro != 0 )
 					{
@@ -94,7 +94,7 @@ static int concluir_orc()
 				}
 				else
 				{
-					sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,desconto,total) values(%s,%i,%i,%i,%s,%s,%i,%s,%s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, preco_alterado[cont], ativos[cont].desconto_c ,ativos[cont].total_c);
+					sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,desconto,total) values(%s,%i,%i,%i,%s,%s,%i,%s,%s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].desconto_c ,ativos[cont].total_c);
 					erro = enviar_query(query);	
 				}
 			}
@@ -109,36 +109,17 @@ static int concluir_orc()
 		}
 	}
 	popup(NULL,"Orcamento concluido");
-	cont=1;
 	
-	while(cont<MAX_PROD_ORC)
-	{
-		if(ativos[cont].id==1)
-		{
-			ativos[cont].id = 0;
-			excluidos[cont].id = 1;
-			tirar_linha(cont);			
-		}
-		cont++;
-	}
+	cancela_orc();
 	
-	itens_qnt = 1;
-	ativos_qnt = 1;
-	rec_altera_qnt = 1;
-
-	cont=1;
-	
-	alterando_orc = 0;
-
 	sprintf(code,"%i",tasker("orcamentos"));
+	
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
-	
-	adicionar_linha_orc();
 	
 	return 0;
 }

@@ -1,12 +1,16 @@
 #include "css.c"
 #include "vars.h"
 #include "stoi.h"
+
+#include "parametros.h"
+#include "operadores.h"
+
 #include "tools.c"
 #include "criticas.c"
 #include "pesquisador.c"
-#include "operadores.c"
 #include "personalizacao.c"
 #include "parametros.c"
+#include "operadores.c"
 #include "temas.c"
 
 #include "../Produtos/grupos/cad_grupo.h"

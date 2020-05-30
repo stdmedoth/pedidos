@@ -1,10 +1,3 @@
-static GtkWidget *nome_entry,*senha_entry;
-static GtkWidget *janela_login;
-static GtkWidget *enviar_login,*fechar_login;
-int desktop();
-int encerrar();
-int g_handle_janela_login;
-gchar *oper_code;
 
 void encerrando()
 {
@@ -84,7 +77,12 @@ void login()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
 	gtk_window_set_title(GTK_WINDOW(janela_login),"Login");
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
+	
+	if( personalizacao.janela_keep_above == 1 )
+	{	
+		gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
+	}
+	
 	gtk_window_set_position(GTK_WINDOW(janela_login),3);
 	
 	nome_fixed = gtk_fixed_new();

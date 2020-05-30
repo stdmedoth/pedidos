@@ -5,6 +5,7 @@
 #ifdef WIN32
 #define CHROME_PATH     ""
 #define FIREFOX_PATH    ""
+#define TEMA_PATH	  "/gtk/share/themes/"
 #define CT_CONF_PATH  "/petitto/files/criticas.conf"
 #define ORC_PATH      "/petitto/files/impressao/"
 #define IMG_REC       "/petitto/files/opcoes_padrao/recarregar.png"
@@ -48,8 +49,8 @@
 #define GRP_IMG       "/petitto/files/icones_opc/grupos.png"
 #define PROD_IMG      "/petitto/files/icones_opc/produtos.png"
 #define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"  
-#define ADD_SALDO     "/petitto/data/icones_opc/add_saldo.png"
-#define REM_SALDO     "/petitto/data/icones_opc/rem_saldo.png"
+#define ADD_SALDO     "/petitto/files/icones_opc/add_saldo.png"
+#define REM_SALDO     "/petitto/files/icones_opc/rem_saldo.png"
 #define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"  
 #define SALD_IMG      "/petitto/files/icones_opc/saldo.png"  
 #define OPR_IMG       "/petitto/files/icones_opc/operadores.png"  
@@ -71,6 +72,7 @@
 #endif
 
 #ifdef __linux__
+#define TEMA_PATH	  "/usr/share/themes/"
 #define PDF_GEN       "/usr/bin/wkhtmltopdf"
 #define CHROME_PATH   "/bin/chromium"
 #define FIREFOX_PATH  "/bin/firefox"
@@ -145,6 +147,8 @@
 #define IMG_IMP_QNT   "imgs/quantidade.png"
 #define IMG_IMP_LOGO  "imgs/logo_livro_texto.png"
 
+#define MAX_TEMA_LEN 50
+#define MAX_TEMA_QNT 30
 #define MAX_PATH_LEN 500
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500

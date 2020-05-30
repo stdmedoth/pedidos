@@ -107,6 +107,14 @@ valor_fat float default 0.0,
 valor_vist float default 0.0,
 foreign key(grupo) references grupos(code));
 
+create table preco_cliente( code int primary key auto_increment,
+produto int default 1,
+grupo int default 1,
+cliente int default 1,
+valor_fat float default 0.0,
+valor_vist float default 0.0,
+foreign key(cliente) references terceiros(code));
+
 create table pedidos( code int primary key auto_increment,
 vendedor int default 1,
 cliente int default 1,
