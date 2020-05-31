@@ -69,7 +69,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 
 	memset(dest,0x0,strlen(dest));
 	memset(source,0x0,strlen(source));
-	for(int cont=grupo_len-1;cont>=0;cont--)
+	for(int cont=grupo_len;cont>0;cont--)
 	{
 		sprintf(dest,"%s %s",source,familia_char[cont]);
 		

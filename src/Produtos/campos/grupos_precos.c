@@ -6,6 +6,14 @@ static int grupos_qnt=1;
 GtkWidget *notebook_preco_grupo();
 static int grupos_preco_code[MAX_SUBGRUPO];
 
+struct
+{
+	int ativo;
+	int inativo;
+	int entry_qnt;
+}precos_produtos[MAX_SUBGRUPO];
+
+
 int insere_preco_grupos()
 {
 
@@ -109,6 +117,19 @@ int insere_preco_grupos()
 	return 0;
 }
 
+void prod_preco_vista_fun(GtkWidget *entry,int posicao)
+{
+	//passa o foco do campo preco à vista para faturado
+	gtk_widget_grab_focus(entry_preco_grupo_prcfat[posicao]);
+}
+
+void prod_preco_fat_fun(GtkWidget *entry,int posicao)
+{
+	//passa o foco do campo preco faturado para à vista da próxima colunas
+	if(precos_produtos[posicao+1].ativo==1)
+		gtk_widget_grab_focus(entry_preco_grupo_prcvist[posicao+1]);
+}
+
 
 GtkWidget *notebook_preco_grupo()
 {
@@ -116,6 +137,7 @@ GtkWidget *notebook_preco_grupo()
 	MYSQL_ROW row, row2;
 	char query[MAX_QUERY_LEN];
 	char *formatar_preco;
+	int vetor_posicoes[MAX_SUBGRUPO];
 	formatar_preco = malloc(MAX_PRECO_LEN);
 	
 	if(code_prod()!=0)
@@ -159,6 +181,17 @@ GtkWidget *notebook_preco_grupo()
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_grupo_prcvist[grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
 		entry_preco_grupo_prcfat[grupos_qnt] = gtk_entry_new();
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_grupo_prcfat[grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
+		
+		precos_produtos[grupos_qnt].entry_qnt = grupos_qnt;
+		precos_produtos[grupos_qnt].ativo = 1;
+		precos_produtos[grupos_qnt].inativo = 0;
+		vetor_posicoes[grupos_qnt] = grupos_qnt;
+		
+		#pragma GCC diagnostic ignored "-Wint-conversion"
+		g_signal_connect(entry_preco_grupo_prcvist[grupos_qnt],"activate", G_CALLBACK(prod_preco_vista_fun), vetor_posicoes[grupos_qnt]);
+		g_signal_connect(entry_preco_grupo_prcfat[grupos_qnt],"activate", G_CALLBACK(prod_preco_fat_fun), vetor_posicoes[grupos_qnt]);
+		#pragma GCC diagnostic warning "-Wint-conversion"
+		
 		g_print("Verificando valores para o grupo %s na posicao %i\n", row[0],grupos_qnt);
 		sprintf(query,"select valor_fat, valor_vist from preco_grupo where grupo = %s and produto = %s",row[0],codigos_prod);
 		res2 = consultar(query);
@@ -200,7 +233,7 @@ GtkWidget *notebook_preco_grupo()
 		grupo_nivel = atoi(row[0])+1;
 	}
 	
-	if(grupos_qnt==1&&concluindo_prod==0)
+	if(grupos_qnt==1&&concluindo_prod==0&&cancelando_prod==0)
 	{
 		gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);
 		gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);

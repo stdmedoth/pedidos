@@ -8,7 +8,8 @@ int cad_est()
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela),"Estoque");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	if(personalizacao.janela_keep_above==1)	
+		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"x-package-repository");
 	gtk_widget_set_size_request(GTK_WIDGET(janela),450,300);
 	

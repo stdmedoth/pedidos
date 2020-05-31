@@ -41,8 +41,10 @@ int grupo_prod()
 	if(concluindo_prod==0)
 	{
 		notebook_preco_grupo();
+		if(precos_produtos[1].ativo==1)
+			gtk_widget_grab_focus(entry_preco_grupo_prcvist[1]);
 	}
-	gtk_widget_grab_focus(GTK_WIDGET(fornecedor_prod_field));
+	
 	
 	return 0;
 

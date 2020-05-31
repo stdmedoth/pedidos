@@ -41,7 +41,12 @@ int grupo_ter()
 	if(concluindo_ter==0&&grupos_ter_load==0)
 	{
 		notebook_preco_ter_grupo();
+		if(precos_cliente[1].ativo == 1)
+		{
+			gtk_widget_grab_focus(entry_preco_ter_grupo_prcvist[1]);
+		}
 	}
+
 	return 0;
 
 }

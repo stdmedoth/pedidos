@@ -1,8 +1,10 @@
-static GtkWidget *concluir, *alterar, *listar, *excluir;
-static int alterando_prod=0, concluindo_prod=0;
+static GtkWidget *concluir, *alterar, *cancelar, *listar, *excluir;
+
+static int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
 #include "campos.c"
 #include "conclui.c"
 #include "altera.c"
+#include "cancela.c"
 #include "exclui.c"
 
 int inicializar_prod()
@@ -62,15 +64,17 @@ int  cad_prod()
 	GtkWidget *observacoes_scroll;
 	GtkWidget *acao;
 	GtkWidget *precos_box;
+	
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"produtos");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"Produtos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
-	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	if(personalizacao.janela_keep_above==1)	
+		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,600,500);
+	gtk_widget_set_size_request(janela,400,420);
 
 	psq_forn_button = gtk_button_new();
 	psq_forn_img = gtk_image_new_from_file(IMG_PROCR);
@@ -279,16 +283,19 @@ int  cad_prod()
 
 	concluir = gtk_button_new_with_label("Concluir");
 	alterar = gtk_button_new_with_label("Alterar");
+	cancelar = gtk_button_new_with_label("Cancelar");
 	listar = gtk_button_new_with_label("Pesquisar");
 	excluir = gtk_button_new_with_label("Excluir");
 		
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),concluir,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),alterar,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),cancelar,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),listar,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),excluir,0,0,10);
 
 	gtk_widget_set_size_request(GTK_WIDGET(concluir),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(alterar),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(cancelar),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(listar),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(excluir),100,50);	
 	
@@ -300,10 +307,11 @@ int  cad_prod()
 	g_signal_connect(GTK_ENTRY(grupo_prod_field),"activate",G_CALLBACK(grupo_prod),NULL);
 	g_signal_connect(GTK_ENTRY(fornecedor_prod_field),"activate",G_CALLBACK(fornecedor_prod),NULL);
 	
-	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_prod),concluir);
-	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),alterar);
+	g_signal_connect(GTK_BUTTON(concluir),"clicked",G_CALLBACK(conclui_prod),NULL);
+	g_signal_connect(GTK_BUTTON(alterar),"clicked",G_CALLBACK(altera_prod),NULL);
 	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(psq_prod),codigo_prod_field);
-	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),excluir);
+	g_signal_connect(GTK_BUTTON(cancelar),"clicked",G_CALLBACK(cancelar_prod),NULL);
+	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),NULL);
 		
 	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 

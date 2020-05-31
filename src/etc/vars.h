@@ -148,7 +148,7 @@
 #define IMG_IMP_LOGO  "imgs/logo_livro_texto.png"
 
 #define MAX_TEMA_LEN 50
-#define MAX_TEMA_QNT 30
+#define MAX_TEMA_QNT 50
 #define MAX_PATH_LEN 500
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500

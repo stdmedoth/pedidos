@@ -9,7 +9,7 @@ int ler_theme_dir()
 	strcpy(temas_dir_char,TEMA_PATH);
 	
 	temas_dir = g_dir_open(temas_dir_char,0,&erro);
-	
+	temas_qnt=0;
 	while((tema_name = (gchar* ) g_dir_read_name(temas_dir))!=NULL)
 	{
 		if( strlen(tema_name) <= MAX_TEMA_LEN )

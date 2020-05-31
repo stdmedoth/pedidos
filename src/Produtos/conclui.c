@@ -115,10 +115,10 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
 		gtk_text_buffer_delete (buffer,&inicio,&fim);	
-		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);			
 	}
 	grupos_prod=NULL;
 	concluindo_prod=0;
+	alterando_prod=0;
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);	
 	printf("finalizando conclui_ter()\n");
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));

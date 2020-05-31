@@ -36,9 +36,9 @@
 #define OBS_TER_COL 33
 
 int tipo_doc,tipo_log;
+
 static GtkWidget *doc_combo;
 static GtkWidget *rua_combo;
-
 static GtkWidget *frete_pago_box;
 static GtkWidget *frete_pago_flag;
 static GtkWidget *frete_pago_frame;
@@ -86,19 +86,18 @@ static GtkWidget *code_ter_field,
 *address_ter_field, 
 *address_num_field, 
 *cidade_ter_field, 
-*uf_ter_field,
-*cep_ter_field, 
+*uf_ter_field, 
+*cep_ter_field,  
 *type_ter_field,
-*telefone_ter_field, 
+*telefone_ter_field,  
 *contatot_ter_field, 
 *celular_ter_field, 
 *contatoc_ter_field, 
 *email_ter_field, 
 *contatoe_ter_field, 
-*prod_ter_field,
-*subgrp_ter_field,
-*observacoes_ter_field,
-
+*prod_ter_field, 
+*subgrp_ter_field, 
+*observacoes_ter_field, 
 *prazo_ter_field;
 
 static GtkWidget *transp_codigo_entry, 
@@ -114,14 +113,11 @@ static GtkWidget *transp_codigo_entry,
 *transp_obs_entry;
 
 static GtkWidget *campo_nome_prod_ter, *campo_nome_subgrp_ter;
-
 static GtkWidget *psq_ter_transp_button, *psq_ter_cep_button, *psq_ter_transpcep_button;
 static GtkWidget *psq_ter_transp_img, *psq_ter_cep_img, *psq_ter_transpcep_img;
 static GtkWidget *psq_ter_transp_box, *psq_ter_cep_box, *psq_ter_transpcep_box;
 static GtkWidget *psq_ter_prod_button, *psq_ter_subgrp_button;
-
 static GtkWidget *ter_trsp_label,*ter_trsp_entry;
-
 static GtkWidget *win_tipo_ter;
 
 static gchar *codigos_ter=NULL,
@@ -141,8 +137,8 @@ static gchar *codigos_ter=NULL,
 *contatoc_ter=NULL,
 *email_ter=NULL,
 *contatoe_ter=NULL,
-*grupos_ter,
-*prods_ter,
+*grupos_ter=NULL,
+*prods_ter=NULL,
 *observacoes_ter=NULL;
 
 static gchar *transp_codigo=NULL,
@@ -158,6 +154,11 @@ static gchar *transp_codigo=NULL,
 *transp_obs=NULL;
 
 static gchar *prazo_ter=NULL;
-
 static int concluindo_ter=0;
-static char *tip_logds[] = {"Rua","Avenida","Praça","Estrada","Alameda","Travessia","Rodovia"};
+static char *tip_logds[] = {"Rua",
+	"Avenida",
+	"Praça",
+	"Estrada",
+	"Alameda",
+	"Travessia",
+	"Rodovia"};

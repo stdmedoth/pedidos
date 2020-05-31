@@ -194,7 +194,8 @@ int vnd_ped()
 	janela_pedidos = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_pedidos),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");
-	gtk_window_set_keep_above(GTK_WINDOW(janela_pedidos),TRUE);
+	if(personalizacao.janela_keep_above==1)	
+		gtk_window_set_keep_above(GTK_WINDOW(janela_pedidos),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
 	
 	gtk_widget_set_size_request(janela_pedidos,620,480);
@@ -272,6 +273,8 @@ int vnd_ped()
 	gtk_container_add(GTK_CONTAINER(janela_pedidos),caixa_grande);
 	
 	g_signal_connect(ped_psq_cod_button,"clicked",G_CALLBACK(psq_orc),ped_cod_entry);
+	g_signal_connect(ped_emitir_button,"clicked",G_CALLBACK(emitir_ped),NULL);
+	
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);
 	
 	gtk_widget_show_all(janela_pedidos);

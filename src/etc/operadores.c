@@ -1,4 +1,3 @@
-
 void encerrando()
 {
 	GtkWidget *janela, *label;
@@ -17,10 +16,12 @@ void passa_nome()
 {
 	gtk_widget_grab_focus(senha_entry);
 }
+
 void passa_senha()
 {
 	gtk_widget_grab_focus(enviar_login);
 }
+
 void verifica_senha()
 {
 	
@@ -28,11 +29,14 @@ void verifica_senha()
 	MYSQL_RES *res;
 	MYSQL_ROW row;	
 	gchar *nome_gchar,*senha_gchar;
+
 	nome_gchar = malloc(MAX_OPER_LEN);
 	senha_gchar = malloc(MAX_SEN_LEN);
 	query = malloc(MAX_QUERY_LEN);
+
 	nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
+
 	sprintf(query,"select code,senha from operadores where nome = '%s';",nome_gchar);
 	res = consultar(query);
 	if(res==NULL)
@@ -50,8 +54,10 @@ void verifica_senha()
 	{
 		oper_code = malloc(MAX_OPER_LEN);
 		strcpy(oper_code,row[0]);
+
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		gtk_widget_destroy(janela_login);
+
 		desktop();
 		return;
 	}

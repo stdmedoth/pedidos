@@ -58,7 +58,7 @@ int und_atac_prod()
 	{
 		if(produtos.criticar.unidade==0)
 		{
-			gtk_widget_grab_focus(preco_prod_field);
+			gtk_widget_grab_focus(grupo_prod_field);
 			return 0;
 		}
 		g_print("Inserir uma unidade para o produto");
@@ -95,7 +95,7 @@ int und_atac_prod()
 	}
 	vet_erro[UND_ERR] = 0;
 	g_print("unidade: %s\n",unidades_atac_prod);
-	gtk_widget_grab_focus(GTK_WIDGET(preco_prod_field));
+	gtk_widget_grab_focus(GTK_WIDGET(grupo_prod_field));
 	return 0;
 }
 

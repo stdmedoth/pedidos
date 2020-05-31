@@ -13,7 +13,8 @@ int  cad_und()
     GtkWidget *separator1,*separator2;
 	GtkWidget *code, *name, *sigla, *mult;
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	if(personalizacao.janela_keep_above==1)	
+		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-engineering");	
 	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO UNIDADES");

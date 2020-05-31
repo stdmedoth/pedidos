@@ -37,6 +37,7 @@ int code_prod()
 		}
 	
 	}
+
 	if(stoi(codigos_prod)==-1)
 	{
 		if(strlen(codigos_prod)>8)

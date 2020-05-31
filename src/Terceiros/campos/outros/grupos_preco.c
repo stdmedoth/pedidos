@@ -9,10 +9,16 @@ int produto_ter();
 int notebook_preco_ter_grupo();
 static int ter_grupos_preco_code[MAX_SUBGRUPO];
 
+struct
+{
+	int ativo;
+	int inativo;
+	int entry_qnt;
+}precos_cliente[MAX_SUBGRUPO];
 
 int insere_preco_ter_grupos()
 {
-
+	//atualiza o banco de dados com os precos inseridos pelo usuario no cadastro de terceiros
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	int cont=1;
@@ -37,27 +43,23 @@ int insere_preco_ter_grupos()
 
 	if((row = mysql_fetch_row(res))==NULL)
 	{
-		GtkWidget *opcao, *caixa, *label, *fixed;
-		caixa = gtk_box_new(1,0);
-		label = gtk_label_new("O Produto ainda não existe\nContinuar?");
-		fixed = gtk_fixed_new();
-		gtk_box_pack_start(GTK_BOX(caixa),label,0,0,10);
-		gtk_fixed_put(GTK_FIXED(fixed),caixa,10,10);
-		opcao = gtk_dialog_new_with_buttons("Produtos",NULL,4,"Continuar",GTK_RESPONSE_ACCEPT,"Cancelar",GTK_RESPONSE_REJECT,NULL);
-		gtk_window_set_position(GTK_WINDOW(opcao),3);
-		gtk_box_pack_start(GTK_BOX(gtk_bin_get_child(GTK_BIN(opcao))),fixed,0,0,0);
-		gtk_widget_show_all(opcao);
-		int resposta = gtk_dialog_run(GTK_DIALOG(opcao));
-		
-		switch(resposta)
-		{
-			case GTK_RESPONSE_ACCEPT:
-				gtk_widget_destroy(opcao);
-				break;
-			case GTK_RESPONSE_REJECT:
-				gtk_widget_destroy(opcao);
-				return 0;
-		}
+		popup(NULL,"O produto não existe");
+		return 1;
+	}
+	
+	sprintf(query,"select * from terceiros where code = %s",codigos_ter);
+	if((res=consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao verificar existencia do cliente");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"O cliente não existe! Verifique o código");
+		gtk_widget_grab_focus(code_ter_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		return 1;
 	}
 
 	g_print("Há %i grupos para serem inserido os preços\n",ter_grupos_qnt);
@@ -115,11 +117,27 @@ int insere_preco_ter_grupos()
 }
 
 
+void ter_preco_vista_fun(GtkWidget *entry,int posicao)
+{
+	//passa o foco do campo preco à vista para faturado
+	gtk_widget_grab_focus(entry_preco_ter_grupo_prcfat[posicao]);
+}
+
+void ter_preco_fat_fun(GtkWidget *entry,int posicao)
+{
+	//passa o foco do campo preco faturado para à vista da próxima colunas
+	if(precos_cliente[posicao+1].ativo==1)
+		gtk_widget_grab_focus(entry_preco_ter_grupo_prcvist[posicao+1]);
+}
+
 int notebook_preco_ter_grupo()
 {
+	//cria os campos para preenchimento de preço a vista e faturado no cadastro de terceiros
+	
 	MYSQL_RES *res, *res2;
 	MYSQL_ROW row, row2;
 	int grupo_nivel=0;
+	int vetor_posicoes[MAX_SUBGRUPO];
 	char query[MAX_QUERY_LEN];
 	char *formatar_preco;
 	formatar_preco = malloc(MAX_PRECO_LEN);
@@ -162,6 +180,9 @@ int notebook_preco_ter_grupo()
 	
 	ter_grupos_qnt=1;
 	
+	for(int cont=0;cont<MAX_SUBGRUPO;cont++)
+		precos_cliente[cont].ativo = 0;
+	
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 		ter_grupos_preco_code[ter_grupos_qnt] = atoi(row[0]);
@@ -170,6 +191,17 @@ int notebook_preco_ter_grupo()
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_ter_grupo_prcvist[ter_grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
 		entry_preco_ter_grupo_prcfat[ter_grupos_qnt] = gtk_entry_new();
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_ter_grupo_prcfat[ter_grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
+		
+		precos_cliente[ter_grupos_qnt].entry_qnt = ter_grupos_qnt;
+		precos_cliente[ter_grupos_qnt].ativo = 1;
+		precos_cliente[ter_grupos_qnt].inativo = 0;
+		vetor_posicoes[ter_grupos_qnt] = ter_grupos_qnt;
+		
+		#pragma GCC diagnostic ignored "-Wint-conversion"
+		g_signal_connect(entry_preco_ter_grupo_prcvist[ter_grupos_qnt],"activate", G_CALLBACK(ter_preco_vista_fun), vetor_posicoes[ter_grupos_qnt]);
+		g_signal_connect(entry_preco_ter_grupo_prcfat[ter_grupos_qnt],"activate", G_CALLBACK(ter_preco_fat_fun), vetor_posicoes[ter_grupos_qnt]);
+		#pragma GCC diagnostic warning "-Wint-conversion"
+		
 		g_print("Verificando valores para o grupo %s na posicao %i\n", row[0],ter_grupos_qnt);
 		sprintf(query,"select valor_fat, valor_vist from preco_cliente where grupo = %s and cliente = %s and produto = %s",row[0],codigos_ter,prods_ter);
 		res2 = consultar(query);

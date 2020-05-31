@@ -1,4 +1,3 @@
-
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
@@ -14,7 +13,7 @@ static int receber_personalizacao()
 	MYSQL_ROW row;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select tema, janelas_keep_above from perfil_desktop where code = %s",oper_code);
+	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
@@ -25,28 +24,18 @@ static int receber_personalizacao()
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
-	personalizacao.tema = atoi(row[0]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[0]));
 	
-	personalizacao.janela_keep_above = atoi(row[1]);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[1]));		
+	personalizacao.tema = atoi(row[2]);	
+	personalizacao.janela_init = atoi(row[3]);
+	personalizacao.janela_keep_above = atoi(row[4]);
 	
-	sprintf(query,"select janela_init from perfil_desktop where code = 1");
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
-		return 1;
-	}
-	if((row = mysql_fetch_row(res))==NULL)	
-	{
-		popup(NULL,"Sem dados para personalizar o sistema");
-		return 1;
-	}
-	personalizacao.janela_init = atoi(row[0]);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[0]));	
+	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[2]));	
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));	
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));		
+
 	return 0;
-	
 }
+
 int atualizar_personalizacao()
 {
 	int erro;
@@ -227,6 +216,7 @@ int atualizar_criticas()
 		return 1;
 	return 0 ;
 }
+
 int atualizar_paramentros()
 {
 	if(atualizar_criticas()!=0)
@@ -287,7 +277,7 @@ int parametrizar()
 	
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
 	
-	cont=0;
+	cont=1;
 	while(cont<temas_qnt)
 	{
 		gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),cont,nomes_temas[cont]);
@@ -395,7 +385,6 @@ int parametrizar()
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),terc_box,terc_label);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),prod_box,prod_label);
 	
-
 	receber_personalizacao();
 	ler_criticas();
 

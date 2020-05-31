@@ -33,6 +33,7 @@ int popup(GtkWidget *widget,gchar *string)
 	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,4,"Ok",GTK_RESPONSE_ACCEPT,NULL);
 	
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");	
+	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");	
 	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);	
 
 	autologger(string);

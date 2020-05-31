@@ -40,6 +40,7 @@ int produto_ter()
 	}
 	
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod_ter),campos[0]);	
+	gtk_widget_grab_focus(subgrp_ter_field);
 	g_print("produto: %s\n",prods_ter);
 	
 	return 0;

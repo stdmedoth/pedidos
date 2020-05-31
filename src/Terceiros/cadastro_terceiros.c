@@ -1,9 +1,15 @@
 int alterando_ter=0;
-GtkWidget *concluir_ter_buttom, *alterar_ter_buttom, *listar_ter_buttom, *excluir_ter_buttom;
+
+GtkWidget *concluir_ter_buttom, 
+*alterar_ter_buttom, 
+*listar_ter_buttom, 
+*cancelar_ter_buttom,
+*excluir_ter_buttom;
 
 #include "campos.c"
 #include "altera.c"
 #include "exclui.c"
+#include "cancela.c"
 #include "conclui.c"
 
 int inicializar_ter()
@@ -47,6 +53,7 @@ int inicializar_ter()
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	return 0;
 }
+
 int  cad_terc()
 {
 	char task[20];
@@ -141,7 +148,8 @@ int  cad_terc()
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"Terceiros");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"avatar-default");
-	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	if(personalizacao.janela_keep_above==1)	
+		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
 	gtk_widget_set_size_request(janela,800,600);
@@ -245,6 +253,7 @@ int  cad_terc()
 	
 	concluir_ter_buttom = gtk_button_new_with_label("Concluir");
 	alterar_ter_buttom = gtk_button_new_with_label("Alterar");
+	cancelar_ter_buttom = gtk_button_new_with_label("Cancelar");
 	listar_ter_buttom = gtk_button_new_with_label("Pesquisar");
 	excluir_ter_buttom = gtk_button_new_with_label("Excluir");
 	
@@ -454,11 +463,15 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(psq_prod_box),prod_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_prod_box),psq_ter_prod_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod),prod_ter_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prod),campo_nome_prod_ter,0,0,0);
+	gtk_widget_set_sensitive(campo_nome_prod_ter,FALSE);
 	gtk_box_pack_start(GTK_BOX(prod),psq_prod_box,0,0,5);
 	
 	gtk_box_pack_start(GTK_BOX(psq_subgrp),subgrp_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_subgrp),psq_ter_subgrp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(subgrp),subgrp_ter_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(subgrp),campo_nome_subgrp_ter,0,0,0);
+	gtk_widget_set_sensitive(campo_nome_subgrp_ter,FALSE);
 	gtk_box_pack_start(GTK_BOX(subgrp),psq_subgrp,0,0,5);
 	
 	atualiza_ter_prc_button = gtk_button_new_with_label("Atualizar preços");
@@ -509,10 +522,12 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(opcoes),concluir_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),alterar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),listar_ter_buttom,0,0,10);
+	gtk_box_pack_start(GTK_BOX(opcoes),cancelar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),excluir_ter_buttom,0,0,10);
 
 	gtk_widget_set_size_request(GTK_WIDGET(concluir_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(alterar_ter_buttom),100,50);
+	gtk_widget_set_size_request(GTK_WIDGET(cancelar_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(listar_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(excluir_ter_buttom),100,50);
 	
@@ -547,10 +562,11 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(subgrp_ter_field),"activate",G_CALLBACK(grupo_ter),NULL);
  
 
-	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),concluir_ter_buttom);
-	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),alterar_ter_buttom);
+	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),NULL);
+	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),NULL);
 	g_signal_connect(GTK_BUTTON(listar_ter_buttom),"clicked",G_CALLBACK(psq_ter),code_ter_field);
-	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),excluir_ter_buttom);
+	g_signal_connect(GTK_BUTTON(cancelar_ter_buttom),"clicked",G_CALLBACK(cancelar_ter),NULL);
+	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),NULL);
 		
 		
 	g_signal_connect(GTK_BUTTON(psq_ter_prod_button),"clicked",G_CALLBACK(psq_prod),prod_ter_field);

@@ -89,13 +89,36 @@ int desktop()
 
 	g_print("Fechando janela init\n");
 	gtk_widget_destroy(janela_inicializacao);
+	
 	pegar_data();
+	
 	layout = gtk_layout_new(NULL,NULL);
 	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
+
+	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)	
+	{
+		popup(NULL,"Sem dados para personalizar o sistema");
+		return 1;
+	}
+	
+	personalizacao.tema = atoi(row[2]);	
+	personalizacao.janela_init = atoi(row[3]);
+	personalizacao.janela_keep_above = atoi(row[4]);
+	
+	GtkSettings *settings;
+	settings = gtk_settings_get_default();
+	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
+	
 	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
 	res = consultar(query);
 	if(res==NULL)
@@ -133,6 +156,8 @@ int desktop()
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
+	//if(personalizacao.janela_keep_above==1)	
+		//gtk_window_set_keep_above(GTK_WINDOW(janela_principal), TRUE);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");	
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);	
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
@@ -262,6 +287,7 @@ int init()
 	query = malloc(MAX_QUERY_LEN);
 	
 	g_print("inicializacao...\n");
+	
 	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL)
 	{
@@ -273,6 +299,7 @@ int init()
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
+
 	icone = gtk_icon_theme_get_default();
 	gchar **path;
 	int n_elements;
@@ -292,8 +319,7 @@ int init()
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
-	temas();
-
+	
 	if(atoi(row[0])==0)
 	{
 		oper_code = malloc(MAX_OPER_LEN);
@@ -309,8 +335,8 @@ int init()
 	{
 		login();
 		gtk_widget_show_all(janela_login);	
-		
 	}
+
 	g_print("abrindo janela de inicio...\n");
 	inicializando=0;
 	return 0;

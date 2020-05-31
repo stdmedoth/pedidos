@@ -16,7 +16,7 @@ int peso_prod()
 			g_print("Preço inserido vazio\n");
 			critica = critica_real(pesos_prod, peso_prod_field);
 			gtk_entry_set_text(GTK_ENTRY(peso_prod_field),pesos_prod);
-			gtk_widget_grab_focus(grupo_prod_field);
+			gtk_widget_grab_focus(fornecedor_prod_field);
 			return 0;
 		}	
 		popup(NULL,"Por favor, insira um Peso");
@@ -32,7 +32,7 @@ int peso_prod()
 			return 1;
 		}
 	    gtk_entry_set_text(GTK_ENTRY(peso_prod_field),pesos_prod);
-		gtk_widget_grab_focus(grupo_prod_field);
+		gtk_widget_grab_focus(fornecedor_prod_field);
 	}
 	g_print("pesos_prod depois: %s\n",pesos_prod);
 	return 0;
