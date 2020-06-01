@@ -83,15 +83,6 @@ foreign key(unidades) references unidades(code),
 foreign key(fornecedor) references terceiros(code),
 foreign key(grupo) references grupos(code) );
 
-create table estoques( code int primary key auto_increment,
-pedido int default 1,
-produto int default 1,
-grupo int default 1,
-saldo float default 0.0,
-entradas int default 0,
-saidas int default 1,
-foreign key(produto) references produtos(code));
-
 create table precos( code int primary key auto_increment,
 produto int default 1,
 terceiro int default 1,
@@ -118,7 +109,7 @@ foreign key(cliente) references terceiros(code));
 create table pedidos( code int primary key auto_increment,
 vendedor int default 1,
 cliente int default 1,
-dia date not null,
+data_mov date not null,
 total float default 0.0,
 status int default 0,
 foreign key(cliente) references terceiros(code));
@@ -127,13 +118,14 @@ create table orcamentos( code int primary key auto_increment,
 vendedor int not null default 0,
 cliente int not null default 0,
 dia date not null,
+tipopag int not null default 1,
 total float not null default 0,
 observacoes varchar(500) not null default '',
 foreign key(cliente) references terceiros(code));
 
 create table Produto_Orcamento( code int,
-item int default 0,
-produto int default 1,
+item int default 1,
+produto int default 0,
 subgrupo int default 0,
 unidades float default 0.0,
 valor_unit float default 0.0,
@@ -142,6 +134,29 @@ tipodesc int default 0,
 desconto float default 0.0,
 total float default 0.0,
 foreign key(code) references orcamentos(code));
+
+create table faturamento ( code int primary key auto_increment,
+pedido int default 0,
+cliente int default 0,
+entrada float default 0.0,
+saida float default 0.0,
+data_mov date not null );
+
+create table estoques( code int primary key auto_increment,
+nome varchar(20) not null);
+
+create table movimento_estoque( code int primary key auto_increment,
+estoque int default 1,
+pedido int default 0,
+cliente int default 0,
+produto int default 0,
+subgrupo int default 0,
+entradas float default 0,
+saidas float default 0,
+data_mov date not null,
+foreign key(estoque) references estoques(code),
+foreign key(produto) references produtos(code),
+foreign key(subgrupo) references grupos(code));
 
 create table cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
 descricao varchar(100) DEFAULT NULL,

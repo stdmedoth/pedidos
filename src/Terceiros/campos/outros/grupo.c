@@ -3,6 +3,10 @@ int grupo_ter()
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	char query[50];
+	
+	if(produto_ter()!=0)
+		return 1;
+	
 	grupos_ter = (gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_ter_field));
 	if(strlen(grupos_ter)<=0)
 	{
@@ -20,6 +24,7 @@ int grupo_ter()
 		popup(NULL,"Código do grupo é muito grande");
 		return 1;
 	}
+	
 	sprintf(query,"select nome from grupos where code = '%s'",grupos_ter);
 	if((vetor = consultar(query))!=NULL)
 	{
@@ -38,6 +43,7 @@ int grupo_ter()
 	}
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_subgrp_ter),campos[0]);	
 	g_print("grupo: %s\n",grupos_ter);
+	
 	if(concluindo_ter==0&&grupos_ter_load==0)
 	{
 		notebook_preco_ter_grupo();

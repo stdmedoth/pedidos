@@ -1,15 +1,34 @@
 int cancelar_ped()
 {
-	GtkWidget *janela;
-	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-	gtk_window_set_title(GTK_WINDOW(janela),"Cancelar");
-	gtk_window_set_icon_name(GTK_WINDOW(janela),"");
-	gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,600,500);
-
-	gtk_widget_show_all(janela);
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0)
+	{
+		gtk_widget_grab_focus(ped_cod_entry);
+		popup(NULL,"Insira o código do orcamento");
+		return 1;
+	}
+	sprintf(query,"delete from faturamento where pedido = %s",gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	if(enviar_query(query)!=0)
+	{
+		popup(NULL,"Erro ao reverter faturamento");
+		return 1;
+	}
+	sprintf(query,"delete from movimento_estoque where pedido = %s",gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	if(enviar_query(query)!=0)
+	{
+		popup(NULL,"Erro ao reverter estoque");
+		return 1;
+	}
+	
+	sprintf(query,"update pedidos set status = 2 where code = '%s'",gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	if(enviar_query(query)!=0)
+	{
+		popup(NULL,"Erro ao inserir valor total");
+		return 1;
+	}
+		
+	popup(NULL,"Pedido cancelado com sucesso!");
 	return 0;	
 }

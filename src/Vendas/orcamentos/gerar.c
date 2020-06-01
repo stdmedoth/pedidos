@@ -361,12 +361,6 @@ int gerar_orc()
 	
 	while((campos = mysql_fetch_row(vetor))!=NULL)
 	{
-		if(campos[0]==NULL||campos[1]==NULL||campos[2]==NULL||campos[3]==NULL||campos[4]==NULL||campos[5]==NULL||campos[6]==NULL||campos[7]==NULL)
-		{
-			popup(NULL,"Banco de dados com campo nulo, chame suporte!");
-			return 1;
-		}
-		
 		if(color==1)
 		{
 			fprintf(orc,"<tr id=\"coluna-colorida\">\n");		

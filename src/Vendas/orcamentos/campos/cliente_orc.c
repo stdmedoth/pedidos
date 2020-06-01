@@ -31,8 +31,6 @@ int codigo_cli_orc()
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	cliente_orc_gchar = malloc(MAX_CODE_LEN);
-	orc_ter_obs_char = malloc(MAX_OBS_LEN);
 	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));	
 	if(strlen(cliente_orc_gchar)<=0)
 	{

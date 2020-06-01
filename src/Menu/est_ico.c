@@ -44,6 +44,8 @@ int estq_ico()
 	gtk_box_pack_end(GTK_BOX(est_box[3]),sld_ico,0,0,0);	
 
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_est),NULL);
+	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_est),NULL);
+	
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(est_entradas),NULL);
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(est_saidas),NULL);
 	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_est_sld),NULL);

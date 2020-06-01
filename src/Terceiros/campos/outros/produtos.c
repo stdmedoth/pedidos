@@ -7,12 +7,8 @@ int produto_ter()
 	
 	if(strlen(prods_ter)<=0)
 	{
-		if(terceiros.criticar.produto==0)
-		{
-			
-			return 0;	
-		}
-		popup(NULL,"Por favor, Insira um código para o produto"); 
+		popup(NULL,"Por favor, Insira produto que deseja vincular"); 
+		gtk_widget_grab_focus(prod_ter_field);
 		return 1;
 	}
 	else

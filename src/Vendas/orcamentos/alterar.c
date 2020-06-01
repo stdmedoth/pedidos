@@ -13,7 +13,7 @@ int altera_orc()
 		return 1;
 	
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cliente,(%s%s),total from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	sprintf(query,"select cliente, tipopag, (%s%s), total from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
 	
 	if((res = consultar(query))==NULL)
 	{
@@ -28,7 +28,9 @@ int altera_orc()
 	}
 	
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[1]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(faturado_avista_combo),atoi(row[1]));
+	tipo_pag = atoi(row[1]);
+	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
 
 	if(codigo_cli_orc()!=0)
 		return 1;

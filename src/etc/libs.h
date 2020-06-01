@@ -52,10 +52,19 @@
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
 #include "../Vendas/pedidos/pedidos.c"
-#include "../Estoque/estoque.c"
+
+
+#include "../Estoque/cadastro/codigo.c"
+#include "../Estoque/cadastro/nome.c"
 #include "../Estoque/saldos.c"
 #include "../Estoque/entradas.c"
 #include "../Estoque/saidas.c"
+#include "../Estoque/cadastro/conclui.c"
+#include "../Estoque/cadastro/cancela.c"
+#include "../Estoque/cadastro/altera.c"
+#include "../Estoque/cadastro/exclui.c"
+#include "../Estoque/estoque.c"
+
 #include "../Vendas/faturamento.c"
 #include "../Listagens/relatorios.c"
 

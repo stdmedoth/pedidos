@@ -395,6 +395,9 @@ int vnd_orc()
 	orc_itens_fixed = gtk_fixed_new();
 	orc_geral_fixed = gtk_fixed_new();
 	
+	codigo_orc_gchar = malloc(MAX_CODE_LEN);
+	cliente_orc_gchar = malloc(MAX_CODE_LEN);
+	orc_ter_obs_char = malloc(MAX_OBS_LEN);
 	subgrp_prod_orc_cod_gchar = malloc(MAX_CODE_LEN);
 	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
@@ -798,6 +801,7 @@ int vnd_orc()
 	g_signal_connect(gerar_orc_button,"clicked",G_CALLBACK(gerar_orc),NULL);
 	g_signal_connect(cancelar_orc_button,"clicked",G_CALLBACK(cancela_orc),NULL);
 	g_signal_connect(alterar_orc_button,"clicked",G_CALLBACK(altera_orc),NULL);
+	g_signal_connect(pedido_orc_button,"clicked",G_CALLBACK(gera_orc_ped),NULL);
 	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(psq_orc),codigo_orc_entry);
 	
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
