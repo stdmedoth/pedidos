@@ -69,6 +69,7 @@ int insere_preco_grupos()
 	{
 		preco_fat = (gchar*) gtk_entry_get_text(GTK_ENTRY(entry_preco_grupo_prcfat[cont]));
 		preco_vist = (gchar*) gtk_entry_get_text(GTK_ENTRY(entry_preco_grupo_prcvist[cont]));
+		
 		if(critica_real(preco_fat, entry_preco_grupo_prcfat[cont])!=0)
 		{
 			gtk_widget_grab_focus(entry_preco_grupo_prcfat[cont]);
@@ -177,8 +178,10 @@ GtkWidget *notebook_preco_grupo()
 	{
 		grupos_preco_code[grupos_qnt] = atoi(row[0]);
 		entry_preco_grupo_label[grupos_qnt] = gtk_button_new_with_label(row[1]);
+		
 		entry_preco_grupo_prcvist[grupos_qnt] = gtk_entry_new();
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_grupo_prcvist[grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
+		
 		entry_preco_grupo_prcfat[grupos_qnt] = gtk_entry_new();
 		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(entry_preco_grupo_prcfat[grupos_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
 		

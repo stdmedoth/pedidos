@@ -115,10 +115,11 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		switch(atoi(row[4]))
 		{
 			case 0:
-				sprintf(formata_preco2,"%.2f%%",atof(row[5])); //desconto em porcentagem
+				sprintf(formata_preco2,"R$ %.2f",atof(row[5]));//desconto em reais
+				
 				break;
 			case 1:
-				sprintf(formata_preco2,"R$ %.2f",atof(row[5]));//desconto em reais
+				sprintf(formata_preco2,"%.2f%%",atof(row[5])); //desconto em porcentagem
 				break;
 		}
 		sprintf(formata_preco3,"R$ %.2f",atof(row[6])); //total

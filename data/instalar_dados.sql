@@ -25,7 +25,7 @@ insert into perfil_desktop(code,
 desktop_img,
 tema,
 janela_init,
-janelas_keep_above) values(1,3,3,0,1);
+janelas_keep_above) values(1,3,1,0,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),  
@@ -34,35 +34,53 @@ values ('Folhas','Folhas', 1, 5),
 ('Unidade','UND', 1, 4),
 ('Caixa','CX', 10, 4);
 
-insert into grupos(nome,pai,nivel) values 
-('RAIZ',1, 0), 
-('PERCALUX',1, 1), 
-('CABECEADO',1, 1), 
-('COLA',1, 1), 
-('FITILHO ACETINADO',1, 1), 
-('LINHA',1, 1), 
-('PELICULA',1, 1), 
-('RESISTÊNCIA',1, 1),
-('ESPIRAIS', 1, 1),
-('PLASTIFICAÇÕES', 1, 1),
-('WERE-O', 1, 1),
-('CAPAS DE PP', 1, 1),
+insert into grupos(code,nome,pai,nivel) values 
+(1,'RAIZ',1, 0), 
+(2,'PERCALUX',1, 1), 
+(3,'CABECEADO',1, 1), 
+(4,'COLA',1, 1), 
+(5,'FITILHO ACETINADO',1, 1), 
+(6,'LINHA',1, 1), 
+(7,'PELICULA',1, 1), 
+(8,'RESISTÊNCIA',1, 1),
+(9,'ESPIRAIS', 1, 1),
+(10,'PLASTIFICAÇÕES', 1, 1),
+(11,'WERE-O', 1, 1),
+(12,'CAPAS DE PP', 1, 1),
+(13,'PAPELÃO', 1, 1),
  
-('LISO', 2, 2), 
-('BICOLOR', 2, 2), 
-('METALIZADO', 2, 2), 
-('OURO/BRONZE', 2, 2),
+(14,'LISO', 2, 2), 
+(15,'BICOLOR', 2, 2), 
+(16,'METALIZADO', 2, 2), 
+(17,'OURO/BRONZE', 2, 2),
+(18,'FOSCO',2, 2),
 
-('ROLO 50M',3,2),
-('ROLO 100M',3,2),
+(19,'ROLO 50M',3,2),
+(20,'ROLO 100M',3,2),
 
-('1,30 LARG./25M',13,3),
-('1,30 LARG./50M',13,3),
-('1,30 LARG./25M',14,3),
-('1,30 LARG./25M',15,3),
-('1,30 LARG./25M',16,3);
+(21,'Nº12', 13, 2),
+(22,'Nº15', 13, 2),
+(23,'Nº18', 13, 2),
+(24,'Nº20', 13, 2),
+(25,'Nº 20 (FACE BRANCA)', 13, 2),
 
+(26,'1,30 LARG./25M',14,3),
+(27,'1,30 LARG./50M',14,3),
+(28,'1,30 LARG./25M',15,3),
+(29,'1,30 LARG./25M',16,3),
+(30,'1,30 LARG./25M',17,3),
 
+(31,'AZUL', 18, 3),
+(32,'VERMELHO', 18, 3),
+(33,'AMARELO', 18, 3),
+(34,'VERDE', 18, 3),
+(35,'PRETO', 18, 3),
+
+(36,'15 FOLHAS 1,7MM', 21,3),
+(37,'18 FOLHAS 1,7MM', 22,3),
+(38,'21 FOLHAS 1,7MM', 23,3),
+(39,'24 FOLHAS 1,7MM', 24,3),
+(40,'24 FOLHAS 1,7MM', 25,3);
 
 insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua, 
 telefone,contatot ,celular , contatoc ,email,contatoe, transp_nome, transp_num,transp_logradouro ,
@@ -77,5 +95,6 @@ values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,
 18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20');
 
 insert into produtos(nome, peso , unidades, unidades_atacado, grupo, grupo_nivel, observacoes) 
-values ('PERCALUX PAPEL PLASTIFICADO', 0.0, 4, 5, 2, 3, ''),
-('CABECEADO FITA ALGODÃO', 0.0, 4, 5, 3, 3, '');
+values ('PERCALUX', 0.0, 4, 5, 2, 3, ''),
+('CABECEADO', 0.0, 4, 5, 3, 3, ''),
+('PAPELÃO', 0.0, 4, 5, 3, 3, '');

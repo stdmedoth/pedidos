@@ -16,6 +16,7 @@ void receber_ped_code(GtkWidget *button, GtkTreeView *treeview)
 void mover_para_escrita(GtkComboBox *combo, GtkWidget *entry)
 {
 	gtk_widget_grab_focus(entry);
+	gtk_widget_activate(GTK_WIDGET(entry));
 }
 
 static GtkWidget *ped_status_combo;

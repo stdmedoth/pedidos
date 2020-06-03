@@ -5,14 +5,12 @@ int codigo_orc()
 	{
 		popup(NULL,"O código do orcamento deve ser inserido");
 		gtk_widget_grab_focus(codigo_orc_entry);
-		vet_erro[COD_ERR] = 0;
 		return 1;
 	}
 	if(stoi(codigo_orc_gchar)==-1)
 	{
 		popup(NULL,"O código do orcamento deve ser numérico");
 		gtk_widget_grab_focus(codigo_orc_entry);
-		vet_erro[COD_ERR] = 0;
 		return 1;
 	}
 	gtk_widget_grab_focus(operacao_orc_entry);

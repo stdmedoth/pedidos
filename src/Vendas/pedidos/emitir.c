@@ -68,8 +68,14 @@ int emitir_ped()
 		popup(NULL,"Valor total dos produtos diferindo valor total do orcamento");
 		return 1;
 	}
-	
-	sprintf(query,"insert into faturamento(pedido,entrada,cliente,data_mov) values(%s,%s,%s,'%s')",
+	//tipo_mov
+	//0 = manual
+	//1 = venda
+	//2 = compra
+	//3 = devolucao venda
+	//4 = devolucao compra
+			
+	sprintf(query,"insert into faturamento(pedido,entrada,cliente,data_mov,tipo_mov) values(%s,%s,%s,'%s',2)",
 	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),row[0],row[2],row[3]);
 
 	
@@ -94,7 +100,14 @@ int emitir_ped()
 	
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov) values(%i,%s,%s,%s,%s,%s,'%s')",
+		//tipo_mov
+		//1 = manual
+		//2 = venda
+		//3 = compra
+		//4 = devolucao venda
+		//5 = devolucao compra
+		
+		sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', 2)",
 		gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
 		gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
 		row[0], row[1], row[2],row[3],row[4]);

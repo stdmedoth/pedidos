@@ -27,7 +27,10 @@ int cancela_orc()
 	
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
-	
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	
 	alerta_obs = 0;
 	tipo_pag = 0;

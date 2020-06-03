@@ -2,7 +2,7 @@
 char dia_sys[10];
 char mes_sys[10];
 char ano_sys[10];
-char *data_sys;
+char data_sys[30];
 
 int pegar_data()
 {
@@ -10,8 +10,12 @@ int pegar_data()
 	time_t tempo;
 	time(&tempo);
 	tempo_struct = localtime(&tempo);
-
-	data_sys = malloc(sizeof(char*)*15); 
+	
+	strcpy(dia_sys,"");
+	strcpy(mes_sys,"");
+	strcpy(ano_sys,"");
+	strcpy(data_sys,"");
+	
 	if(tempo_struct->tm_mday < 10)
 	{
 		sprintf(dia_sys,"0%i",tempo_struct->tm_mday);
@@ -31,6 +35,7 @@ int pegar_data()
 	}
 	
 	sprintf(ano_sys,"%i",tempo_struct->tm_year+1900);
+	
 	sprintf(data_sys,"%s/%s/%s",dia_sys,mes_sys,ano_sys);
 	return 0;
 }

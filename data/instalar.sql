@@ -140,7 +140,8 @@ pedido int default 0,
 cliente int default 0,
 entrada float default 0.0,
 saida float default 0.0,
-data_mov date not null );
+data_mov date not null,
+tipo_mov int default 0 );
 
 create table estoques( code int primary key auto_increment,
 nome varchar(20) not null);
@@ -154,6 +155,7 @@ subgrupo int default 0,
 entradas float default 0,
 saidas float default 0,
 data_mov date not null,
+tipo_mov int default 0,
 foreign key(estoque) references estoques(code),
 foreign key(produto) references produtos(code),
 foreign key(subgrupo) references grupos(code));
