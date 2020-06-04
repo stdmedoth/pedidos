@@ -1,7 +1,7 @@
 int altera_ter()
 {
 	char task[10];
-	char query[100];
+	char query[MAX_QUERY_LEN];
 	int pos=0;
 	gchar *cod;
 	MYSQL_RES *estado;

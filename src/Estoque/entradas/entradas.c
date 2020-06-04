@@ -1,21 +1,16 @@
 int est_entradas()
 {
 	GtkWidget *janela, *grid;
-	
+	char code[MAX_CODE_LEN];
 	GtkWidget *est_ent_cod_frame, *est_ent_cod_fixed;
 	GtkWidget *est_ent_prod_frame, *est_ent_prod_fixed;
 	GtkWidget *est_ent_subgrp_frame, *est_ent_subgrp_fixed;
 	GtkWidget *est_ent_qnt_frame, *est_ent_qnt_fixed;
-	GtkWidget *est_ent_tipo_combo, *est_ent_tipo_fixed;
+	GtkWidget *est_ent_tipo_fixed;
 	GtkWidget *est_ent_data_frame, *est_ent_data_fixed;
 	GtkWidget *est_ent_client_frame, *est_ent_client_fixed;
 	
-	GtkWidget *est_ent_confirma_button, 
-	*est_ent_cancela_button, 
-	*est_ent_pesquisa_button, 
-	*est_ent_altera_button, 
-	*est_ent_exclui_button,
-	*caixa_opcoes, *caixa_grande;
+	GtkWidget *caixa_opcoes, *caixa_grande;
 
 	GtkWidget *est_ent_cod_box,
 	*est_ent_prod_box,
@@ -25,7 +20,8 @@ int est_entradas()
 	*est_ent_data_box,
 	*est_ent_client_box;
 	
-	GtkWidget *psq_cod_button, *psq_prod_button, *psq_subgrp_button, *psq_client_button;
+	GtkWidget *psq_cod_button, *psq_prod_button, *psq_subgrp_button, *psq_client_button, *psq_data_button;
+
 	GtkWidget *produto_box, *subgrupo_box, *cliente_box;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -41,6 +37,8 @@ int est_entradas()
 	
 	psq_cod_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_cod_button),gtk_image_new_from_file(IMG_PESQ));
+	psq_data_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(psq_data_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_prod_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_prod_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_subgrp_button = gtk_button_new();
@@ -130,6 +128,7 @@ int est_entradas()
 	est_ent_data_fixed = gtk_fixed_new();
 	est_ent_data_box = gtk_box_new(0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_data_box),est_ent_data_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(est_ent_data_box),psq_data_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_data_frame),est_ent_data_box);
 	gtk_fixed_put(GTK_FIXED(est_ent_data_fixed),est_ent_data_frame,20,20);
 		
@@ -163,8 +162,34 @@ int est_entradas()
 	
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	
+	g_signal_connect(est_ent_cod_entry,"activate",G_CALLBACK(est_ent_codigo_fun),NULL);
+	
+	g_signal_connect(est_ent_data_entry,"activate",G_CALLBACK(est_ent_data_fun),NULL);
+	g_signal_connect(psq_data_button,"clicked",G_CALLBACK(psq_data),est_ent_data_entry);
+	
+	g_signal_connect(est_ent_client_entry,"activate",G_CALLBACK(est_ent_client_fun),NULL);
+	g_signal_connect(psq_client_button,"clicked",G_CALLBACK(psq_ter),est_ent_client_entry);
+	
+	g_signal_connect(est_ent_prod_entry,"activate",G_CALLBACK(est_ent_produto_fun),NULL);
+	g_signal_connect(psq_prod_button,"clicked",G_CALLBACK(psq_prod),est_ent_prod_entry);
+	
+	g_signal_connect(est_ent_tipo_combo,"changed",G_CALLBACK(est_ent_tipo_fun),NULL);
+	
+	g_signal_connect(est_ent_subgrp_entry,"activate",G_CALLBACK(est_ent_subgrp_fun),NULL);
+	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),est_ent_subgrp_entry);
+	
+	g_signal_connect(est_ent_qnt_entry,"activate",G_CALLBACK(est_ent_qnt_fun),NULL);
+	
+	g_signal_connect(est_ent_confirma_button,"activate",G_CALLBACK(est_ent_confirma_fun),NULL);
+	g_signal_connect(est_ent_confirma_button,"clicked",G_CALLBACK(est_ent_confirma_fun),NULL);
+
+	sprintf(code,"%i",tasker("movimento_estoque"));
+	gtk_entry_set_text(GTK_ENTRY(est_ent_cod_entry),code);
+	gtk_entry_set_text(GTK_ENTRY(est_ent_data_entry),data_sys);	
+	
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	gtk_widget_set_size_request(janela,500,500);
+	
 	gtk_widget_show_all(janela);	
 	
 	return 0;

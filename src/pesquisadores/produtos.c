@@ -64,6 +64,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	GtkTreeIter colunas, campos;
 	GtkWidget *pesquisa_entry;
 	GtkWidget *caixa_grande;
+	
 	gchar *entrada = malloc(MAX_GRP_LEN);
 	GtkWidget *escolher_campo_button, *escolher_campo_img, *escolher_campo_fixed;
 	
