@@ -573,8 +573,6 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(psq_ter_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),subgrp_ter_field);
 	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter_grupos),NULL);
 	
-	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
-	
 	//page 0
 	gtk_widget_set_name(vertical_box1,"vertical_box1");
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj

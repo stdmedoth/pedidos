@@ -267,7 +267,7 @@ int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),subgrp_prod_orc_frame[itens_qnt],0,0,2);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),"Código Subrupo");
 	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),5);
-	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),30);
 	gtk_widget_set_sensitive(subgrp_prod_orc_entry[itens_qnt],FALSE);
 	
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_label[itens_qnt],0,0,2);
@@ -712,7 +712,7 @@ int vnd_orc()
 		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[cont]),5);
 		gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_entry[cont]),"Código Subrupo");
 		gtk_widget_set_sensitive(subgrp_prod_orc_entry[cont],FALSE);
-		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[cont]),20);
+		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[cont]),30);
 		
 		
 		gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[cont]),qnt_prod_orc_label[cont],0,0,2);
@@ -772,6 +772,7 @@ int vnd_orc()
 		
 		itens_qnt++;
 	}
+
 	g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(psq_ter),cliente_orc_entry);
 	img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
 	botao_orc_mais = gtk_button_new();
@@ -807,8 +808,9 @@ int vnd_orc()
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
-	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(close_window_callback),janela_orcamento);
+		
 	g_signal_connect(faturado_avista_combo,"changed",G_CALLBACK(rec_fat_vist),NULL);
+
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
 	

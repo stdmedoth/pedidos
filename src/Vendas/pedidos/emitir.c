@@ -57,6 +57,7 @@ int emitir_ped()
 		popup(NULL,"Erro ao buscar valor total nos dados");
 		return 1;
 	}
+
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Sem valor para faturamento");
@@ -68,6 +69,7 @@ int emitir_ped()
 		popup(NULL,"Valor total dos produtos diferindo valor total do orcamento");
 		return 1;
 	}
+
 	//tipo_mov
 	//0 = manual
 	//1 = venda

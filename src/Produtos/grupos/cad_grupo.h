@@ -21,6 +21,7 @@ int pai_subgrp();
 int cad_grupo();
 int altera_grupo();
 int cad_subgrupo();
+int rec_familia_nome(char **familia_char,int grupo);
 static int alterando_grp=0,concluindo_grp=0;
 static int alterando_subgrp=0, concluindo_subgrp=0;
 

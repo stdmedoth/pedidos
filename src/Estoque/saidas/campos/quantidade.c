@@ -9,7 +9,6 @@ int est_said_qnt_fun()
 		return 1;
 	}
 	
-	
 	gtk_widget_grab_focus(est_said_confirma_button);
 	return 0;
 }

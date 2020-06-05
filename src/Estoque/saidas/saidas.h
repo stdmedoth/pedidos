@@ -6,6 +6,11 @@ GtkWidget *est_said_tipo_combo;
 GtkWidget *est_said_data_entry;
 GtkWidget *est_said_client_entry;
 
+GtkWidget *est_said_est_combo;
+gint est_said_est_int;
+
+GtkWidget *est_said_ped_entry;
+
 GtkWidget *est_said_campo_nome_prod;
 GtkWidget *est_said_campo_subgrp_prod;
 GtkWidget *est_said_campo_nome_client;
@@ -23,7 +28,8 @@ gchar *est_said_cod_gchar,
 *est_said_subgrp_gchar,
 *est_said_qnt_gchar,
 *est_said_data_gchar,
-*est_said_client_gchar;
+*est_said_client_gchar,
+*est_said_ped_gchar;
 
 #include "campos/codigo.c"
 #include "campos/produto.c"
@@ -32,5 +38,7 @@ gchar *est_said_cod_gchar,
 #include "campos/data.c"
 #include "campos/quantidade.c"
 #include "campos/cliente.c"
+#include "campos/estoque.c"
+#include "campos/pedido.c"
 
 #include "confirmar.c"

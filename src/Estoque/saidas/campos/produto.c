@@ -18,7 +18,7 @@ int est_said_produto_fun()
 		return 1;
 	if((campo = mysql_fetch_row(estado))==NULL)
 	{
-		popup(NULL,"O terceiro não existe");
+		popup(NULL,"O produto não existe");
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(est_said_campo_nome_prod),campo[0]);	

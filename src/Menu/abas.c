@@ -1,6 +1,6 @@
-GtkWidget *lista_abas;
-GtkWidget *botao_iniciar;
-int controle_menu=0;
+static GtkWidget *lista_abas;
+static GtkWidget *botao_iniciar;
+static int controle_menu=0;
 //modulos ativos
 struct modulos
 {
@@ -93,7 +93,7 @@ int menu()
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 	
 	gtk_box_pack_start(GTK_BOX(principal),texto_principal,0,0,0);
-	//	gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
+	//gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
 	
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
@@ -136,6 +136,7 @@ int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
 
 int clique_menu()
 {
+	
 	if(controle_menu)
 	{
 		gtk_widget_hide(lista_abas);
@@ -149,5 +150,6 @@ int clique_menu()
 		controle_menu=1;	
 		gtk_widget_grab_focus(principall[0]);
 	}
+	
 	return 0;
 }

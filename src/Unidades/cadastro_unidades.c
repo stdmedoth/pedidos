@@ -127,8 +127,6 @@ int  cad_und()
 	
 	g_signal_connect(GTK_WIDGET(psq_cad_und_button),"clicked",G_CALLBACK(pesquisa_und),code_und_field);
 	
-	g_signal_connect(GTK_WIDGET(janela),"destroy",G_CALLBACK(close_window_callback),janela);
-	
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,30,5);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),separator2,0,0,10);
 	

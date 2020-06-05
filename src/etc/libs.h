@@ -12,6 +12,7 @@
 #include "parametros.c"
 #include "operadores.c"
 #include "temas.c"
+#include "../Inicio/pega_data.c"
 
 #include "../Produtos/grupos/cad_grupo.h"
 #include "../pesquisadores/grupos.h"
@@ -23,6 +24,7 @@
 #include "../pesquisadores/orcamentos.h"
 #include "../pesquisadores/pedidos.h"
 #include "../pesquisadores/ceps.h"
+#include "../pesquisadores/movimentos_estoque.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -42,10 +44,10 @@
 #include "../pesquisadores/orcamentos.c"
 #include "../pesquisadores/pedidos.c"
 #include "../pesquisadores/ceps.c"
+#include "../pesquisadores/movimentos_estoque.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
-#include "../Inicio/pega_data.c"
 #include "../Terceiros/cadastro_terceiros.c"
 #include "../Produtos/cadastro_produtos.c"
 #include "../Unidades/cadastro_unidades.c"
@@ -54,7 +56,6 @@
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
 #include "../Vendas/pedidos/pedidos.c"
-
 
 #include "../Estoque/cadastro/codigo.c"
 #include "../Estoque/cadastro/nome.c"

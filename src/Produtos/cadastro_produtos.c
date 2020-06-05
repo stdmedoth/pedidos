@@ -312,8 +312,6 @@ int  cad_prod()
 	g_signal_connect(GTK_BUTTON(listar),"clicked",G_CALLBACK(psq_prod),codigo_prod_field);
 	g_signal_connect(GTK_BUTTON(cancelar),"clicked",G_CALLBACK(cancelar_prod),NULL);
 	g_signal_connect(GTK_BUTTON(excluir),"clicked",G_CALLBACK(exclui_prod),NULL);
-		
-	g_signal_connect(janela,"destroy",G_CALLBACK(close_window_callback),janela);
 
 	g_signal_connect(GTK_BUTTON(psq_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),GTK_ENTRY(grupo_prod_field));
 	g_signal_connect(GTK_BUTTON(atualiza_grupo_preco_button),"clicked",G_CALLBACK(insere_preco_grupos),NULL);

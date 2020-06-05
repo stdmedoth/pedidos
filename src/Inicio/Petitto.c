@@ -37,11 +37,14 @@ GtkWidget *imagem_barra,*layout_barra;
 
 
 int main(int argc,char *argv[])
-{
-	setlocale(LC_ALL,"Portuguese");
+{	
+	gtk_disable_setlocale();
+
 	gtk_init(&argc,&argv);
+	
 	//abrir_css(DESKTOP_STYLE);
 	init();
 	gtk_main();
 	return 0;
 }
+
