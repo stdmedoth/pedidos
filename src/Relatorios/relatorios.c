@@ -9,15 +9,56 @@ void cad_relat()
 	*cad_rel_nome_frame, *cad_rel_nome_fixed,
 	*cad_rel_tabel_frame, *cad_rel_tabel_fixed;
 
-	GtkWidget *cad_rel_confirma_button, 
-	*cad_rel_cancela_button, 
+	GtkWidget *cad_rel_confirmar_button, 
+	*cad_rel_cancelar_button, 
 	*cad_rel_excluir_button;
+
+	GtkWidget *juncao_campos_opt;
+	GtkWidget *campos_rel_remover_fixed;
 	
 	GtkWidget *cad_rel_psqrow_fixed; 
 	
+	enum {N_COLUNAS=3, COLUNA0=0, COLUNA1=1, COLUNA2=2};
+	GtkTreeViewColumn *coluna0, *coluna1, *coluna2;
+	GtkCellRenderer *celula0, *celula1, *celula2;
+	GtkTreeIter iter1, iter2;
+	GtkTreeStore *modelo;
+
+	coluna0 = gtk_tree_view_column_new();
+	coluna1 = gtk_tree_view_column_new();
+	coluna2 = gtk_tree_view_column_new();
+	celula0 = gtk_cell_renderer_text_new();
+	celula1 = gtk_cell_renderer_text_new();
+	celula2 = gtk_cell_renderer_text_new();
+	
+	cad_relat_treeview = gtk_tree_view_new();
+	
+	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(cad_relat_treeview),TRUE);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(cad_relat_treeview),TRUE);
+
+	gtk_tree_view_column_pack_start(coluna0,celula0,TRUE);
+	gtk_tree_view_column_set_title(coluna0,"Id");
+	gtk_tree_view_column_add_attribute(coluna0,celula0,"text",0);
+		
+	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
+	gtk_tree_view_column_set_title(coluna1,"Nome Campo");
+	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",1);
+	
+	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
+	gtk_tree_view_column_set_title(coluna2,"Função");
+	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",2);
+	
+	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_relat_treeview),coluna0);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_relat_treeview),coluna1);	
+	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_relat_treeview),coluna2);	
+	
+	modelo = gtk_tree_store_new(N_COLUNAS, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
+	
+	gtk_tree_view_set_model(GTK_TREE_VIEW(cad_relat_treeview),GTK_TREE_MODEL(modelo));
+	
 	MYSQL_ROW row;
 	MYSQL_RES *res;
-	char query[MAX_QUERY_LEN];
+	char query[MAX_QUERY_LEN],code[MAX_CODE_LEN];
 	
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela),"Relatorios");
@@ -28,6 +69,12 @@ void cad_relat()
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 		
+	juncao_campos_opt = gtk_box_new(1,0);
+	campos_rel_remover_button = gtk_button_new_with_label("Remover campo");
+	gtk_button_set_image(GTK_BUTTON(campos_rel_remover_button),gtk_image_new_from_file(IMG_EXCLUI));
+	campos_rel_remover_fixed = gtk_fixed_new();
+	gtk_fixed_put(GTK_FIXED(campos_rel_remover_fixed),campos_rel_remover_button,380,0);
+	
 	psq_cad_rel_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_cad_rel_button),gtk_image_new_from_file(IMG_PESQ));
 	
@@ -35,16 +82,19 @@ void cad_relat()
 	caixa_opcoes_box = gtk_box_new(0,0);
 	caixa_opcoes_fixed = gtk_fixed_new();	
 	
-	cad_rel_confirma_button = gtk_button_new_with_label("Cocluir"); 
-	gtk_button_set_image(GTK_BUTTON(cad_rel_confirma_button),gtk_image_new_from_file(IMG_OK));
-	cad_rel_cancela_button = gtk_button_new_with_label("Cancelar");
-	gtk_button_set_image(GTK_BUTTON(cad_rel_cancela_button),gtk_image_new_from_file(IMG_CANCEL));
+	cad_rel_confirmar_button = gtk_button_new_with_label("Cocluir"); 
+	gtk_button_set_image(GTK_BUTTON(cad_rel_confirmar_button),gtk_image_new_from_file(IMG_OK));
+	cad_rel_alterar_button = gtk_button_new_with_label("Alterar");
+	 gtk_button_set_image(GTK_BUTTON(cad_rel_alterar_button),gtk_image_new_from_file(IMG_ALTER));
+	cad_rel_cancelar_button = gtk_button_new_with_label("Cancelar");
+	gtk_button_set_image(GTK_BUTTON(cad_rel_cancelar_button),gtk_image_new_from_file(IMG_CANCEL));
 	cad_rel_excluir_button = gtk_button_new_with_label("Excluir");
 	gtk_button_set_image(GTK_BUTTON(cad_rel_excluir_button),gtk_image_new_from_file(IMG_EXCLUI));
 	
-	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_confirma_button,0,0,10);
-	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_cancela_button,0,0,10);
-	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_excluir_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_confirmar_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_alterar_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_cancelar_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_box),cad_rel_excluir_button,0,0,5);
 	gtk_fixed_put(GTK_FIXED(caixa_opcoes_fixed),caixa_opcoes_box,20,50);
 	
 	cad_rel_psqrow_button = gtk_button_new_with_label("Pesquisar campos");
@@ -59,7 +109,9 @@ void cad_relat()
 	gtk_frame_set_shadow_type(GTK_FRAME(caixa_campos_frame),GTK_SHADOW_ETCHED_OUT);
 	caixa_campos_fixed = gtk_fixed_new();
 	gtk_widget_set_size_request(caixa_campos_box,500,330);
-	gtk_widget_set_size_request(caixa_campos_scroll,500,330);
+	gtk_widget_set_size_request(caixa_campos_scroll,500,300);
+	
+	gtk_box_pack_start(GTK_BOX(caixa_campos_box),cad_relat_treeview,0,0,10);
 	
 	gtk_container_add(GTK_CONTAINER(caixa_campos_scroll),caixa_campos_box);
 	gtk_container_add(GTK_CONTAINER(caixa_campos_frame),caixa_campos_scroll);
@@ -108,12 +160,40 @@ void cad_relat()
 	gtk_grid_attach(GTK_GRID(grid),cad_rel_psqrow_fixed,0,3,1,1);
 	gtk_grid_attach(GTK_GRID(grid),caixa_opcoes_fixed,0,4,1,1);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),grid,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_campos_fixed,0,0,0);
+	
+	gtk_box_pack_start(GTK_BOX(juncao_campos_opt),caixa_campos_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(juncao_campos_opt),campos_rel_remover_fixed,0,0,5);
+	
+	gtk_box_pack_start(GTK_BOX(caixa_grande),juncao_campos_opt,0,0,0);
+	
 	
 	g_signal_connect(psq_cad_rel_button,"clicked",G_CALLBACK(psq_cad_relat),cad_rel_code_entry);
 	
-	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
+	g_signal_connect(cad_rel_code_entry,"activate",G_CALLBACK(cad_relat_code),NULL);
+	g_signal_connect(cad_rel_nome_entry,"activate",G_CALLBACK(cad_relat_nome),NULL);
+	
+	g_signal_connect(cad_rel_confirmar_button,"clicked",G_CALLBACK(cad_relat_concluir),NULL);
+	g_signal_connect(cad_rel_alterar_button,"clicked",G_CALLBACK(cad_relat_alterar),NULL);
+	g_signal_connect(cad_rel_cancelar_button,"clicked",G_CALLBACK(cad_relat_cancelar),NULL);
+	g_signal_connect(cad_rel_excluir_button,"clicked",G_CALLBACK(cad_relat_excluir),NULL);
+	
+	g_signal_connect(campos_rel_remover_button,"clicked",G_CALLBACK(cad_rel_rem_row_fun),cad_relat_treeview);
 		
+	g_signal_connect(cad_rel_psqrow_button,"clicked",G_CALLBACK(psq_relat_campos),NULL);
+
+	while(cont<=MAX_RELAT_CAMPOS)
+	{
+		relat_struct.status[cont] = FALSE;
+		relat_struct.campos_code_bkp[cont] =  0;
+		cont++;
+	}
+	relat_struct.qnt_campos = 0;
+	relat_campo_atual=1;
+	
+	sprintf(code,"%i",tasker("criador_relat"));
+	gtk_entry_set_text(GTK_ENTRY(cad_rel_code_entry),code);
+	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
+	gtk_widget_grab_focus(cad_rel_nome_entry);
 	gtk_widget_show_all(janela);
 	
 	return ;

@@ -209,6 +209,9 @@
 #define MAX_FETCH_ROW 3000
 #define MAX_SUBGRUPO 20
 #define MAX_EST_NOME 20
+#define MAX_RELAT_NOME 30
+#define MAX_CAMPO_NOME 30
+#define MAX_RELAT_CAMPOS 8
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

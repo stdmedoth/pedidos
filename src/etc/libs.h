@@ -36,7 +36,9 @@
 #include "../Vendas/pedidos/emitir.h"
 #include "../Vendas/pedidos/cancelar.h"
 #include "../Vendas/orcamentos/orcamentos.h"
-
+#include "../Relatorios/relatorios.h"
+#include "../Relatorios/relatorios/produtos/produtos.h"
+#include "../Relatorios/pesquisar/relat_ptabs.h"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"
@@ -72,6 +74,8 @@
 #include "../Estoque/cadastro/estoque.c"
 
 #include "../Vendas/faturamento.c"
-#include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios.c"
-
+#include "../Relatorios/relatorios/produtos/produtos.c"
+#include "../Relatorios/pesquisar/relat_ptabs.c"
+#include "../Relatorios/relatorios/terceiros/terceiros.c"
+#include "../Relatorios/relatorios/saldos/saldo.c"

@@ -11,7 +11,7 @@ int rel_ico()
 	//label dos icones
 	rel_prd_lbl = gtk_label_new("Relatório Produtos");
 	rel_ter_lbl = gtk_label_new("Relatório Terceiros");
-	rel_est_lbl = gtk_label_new("Relatório Estoque");
+	rel_est_lbl = gtk_label_new("Relatório Saldos");
 	
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -44,13 +44,13 @@ int rel_ico()
 	gtk_box_pack_end(GTK_BOX(rel_box[2]),rel_est_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(rel_box[2]),rel_est_ico,0,0,0);
 	
-	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(NULL),NULL);
+	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(relat_prod_fun),NULL);
 	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(NULL),NULL);
 
-	//g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(NULL),NULL);
+	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(relat_ter_fun),NULL);
 	//g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(NULL),NULL);
 
-	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
+	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(relat_sld_fun),NULL);
 	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
 			
 	return 0;

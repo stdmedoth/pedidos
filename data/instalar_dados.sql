@@ -107,16 +107,13 @@ insert into relat_tabelas_id(nome,sobre,qnt_colunas) values
 ('pedidos','Tabela responsável por armazenar os pedidos criados e seus status',5),
 ('Produtos por Orçamento/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',10);
 
-insert into relat_tab_campos(tabela,nome,query) values
-(1, 'Código' , ' p.code '),
-(1,'Nome', 'p.nome'),
-(1,'Peso', 'p.peso'),
-(1,'UND. Varejo', 'u.nome'),
-(1,'UND. Atacado','u.nome'),
-(1,'Fornecedor','t.nome'),
-(1,'Grupo','g.nome'),
-(1,'Nivel Grupo','p.grupo_nivel'),
-(1,'Observações', 'observacoes');
-
-insert into criador_relat(nome, tabela, campos) values
-('Relatorio de Produtos',1,1);
+insert into relat_tab_campos(tabela,nome,sobre,query) values
+(1, 'Código' , 'Visualizar código do produto', 'p.code'),
+(1, 'Nome',  'Visualizar nome do produto', 'p.nome '),
+(1, 'Peso',  'Visualizar peso do produto', 'p.peso'),
+(1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome'),
+(1, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome'),
+(1, 'Fornecedor', 'Terceiro fornecedor do produto', 't.nome'),
+(1, 'Grupo', 'Grupo vinculado ao produto', 'g.nome'),
+(1, 'Nivel Grupo', 'Nivel do grupo vinculado (Não utilizado)', 'p.grupo_nivel'),
+(1, 'Observações', 'Observações do produto', 'observacoes');
