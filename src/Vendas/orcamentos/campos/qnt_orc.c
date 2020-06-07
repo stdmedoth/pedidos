@@ -87,10 +87,17 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
 			break;
 		case 3:
+			if(tipo_pag==0)
+			{
+				popup(NULL,"Selecione o tipo de pagamento");
+				gtk_widget_grab_focus(faturado_avista_combo);
+				return 1;
+			}
 			break;
 			
 	}
 	preco_prod_orc(NULL,posicao);
+
 	qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
 	
 	if(strlen(qnt_prod_orc_gchar)<=0)
@@ -106,6 +113,34 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 		return 1;
 	}
+	if(alterando_orc==0&&concluindo_orc==0&&aviso_estoque == 0)
+	{
+		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and subgrupo = %s",
+		codigo_prod_orc_gchar, 
+		subgrp_prod_orc_cod_gchar);
+		
+		if((vetor = consultar(query))==NULL)
+			return 1;
+			
+
+		if((campos = mysql_fetch_row(vetor))==NULL)
+		{
+			popup(NULL,"O produto está sem saldo no estoque");
+		}
+		else
+		if(!campos[0])
+		{
+			popup(NULL,"O produto nunca foi movimentado em estoque");
+		}
+		else
+		if(atoi(campos[0])<=0)
+		{
+			popup(NULL,"O Produto está com saldo zerado ou negativo");
+		}
+		aviso_estoque = 1;
+	}
+	
+	
 	g_print("Iniciando verificação de total\n");
 
 	preco_prod_orc(preco_prod_orc_entry[posicao],posicao);

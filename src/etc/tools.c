@@ -207,20 +207,30 @@ char *infos(int pos)
 	requisicao = "select razao,endereco,cnpj from empresa;";
 	g_print("\nTestando Campo %i\n",pos);
 	vetor = consultar(requisicao);
-	campos = mysql_fetch_row(vetor);
-	g_print("Buscando %s\n",info[pos]);
-	if(campos!=NULL)
-	{	
-		g_print("%s encontrado\n",info[pos]);
-		retorno = malloc(200);
-		g_print("%s\n",campos[pos]);
-		sprintf(retorno,"%s: %s",info[pos],campos[pos]);
-	}
-	else
+	
+	if(vetor==NULL)
 	{
+		popup(NULL,"Erro ao receber dados da empresa");
+		return "";
+	}
+	g_print("Buscando %s\n",info[pos]);
+	if((campos = mysql_fetch_row(vetor))==NULL)
+	{	
 		g_print("%s não encontrado\n",info[pos]);
 		//popup(NULL,info[pos]);
-		retorno = NULL;
+		return "";
 	}	
+	
+	g_print("%s encontrado\n",info[pos]);
+	retorno = malloc(200);
+	g_print("%s\n",campos[pos]);
+	if(strlen(campos[pos])>30)
+	{
+		campos[pos][30] = '.'; 
+		campos[pos][31] = '\0'; 
+	}
+	
+	sprintf(retorno,"%s: %s",info[pos],campos[pos]);
+	
 	return retorno;
 }	

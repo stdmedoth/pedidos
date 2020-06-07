@@ -1,4 +1,3 @@
-int alterando_orc=0;
 #include "campos.h"
 #include <time.h>
 
@@ -283,7 +282,7 @@ int adicionar_linha_orc()
 	gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),8);
 	
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),preco_prod_orc_frame[itens_qnt],0,0,2);
-		
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
 	//gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[itens_qnt]),desconto_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[itens_qnt]),desconto_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[itens_qnt]),tipodesconto_prod_orc_combo[itens_qnt],0,0,2);
@@ -386,6 +385,7 @@ int vnd_orc()
 	ativos_qnt=1;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
+	aviso_estoque = 0;	
 	
 	orc_notebook = gtk_notebook_new();
 	
@@ -728,7 +728,8 @@ int vnd_orc()
 		gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[cont]),8);
 		
 		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),preco_prod_orc_frame[cont],0,0,2);
-			
+		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_orc_entry[cont]),GTK_ENTRY_ICON_PRIMARY,"money");	
+		
 		//gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_label[cont],0,0,2);
 		gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_entry[cont],0,0,2);
 		gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),tipodesconto_prod_orc_combo[cont],0,0,2);

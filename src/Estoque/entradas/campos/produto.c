@@ -9,6 +9,7 @@ int est_ent_produto_fun()
 	if(strlen(est_ent_prod_gchar)<=0)
 	{
 		popup(NULL,"Insira o código");
+		gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_prod),"");
 		gtk_widget_grab_focus(est_ent_prod_entry);
 		return 1;
 	}
@@ -19,6 +20,7 @@ int est_ent_produto_fun()
 	if((campo = mysql_fetch_row(estado))==NULL)
 	{
 		popup(NULL,"O produto não existe");
+		gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_prod),"");
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_prod),campo[0]);	

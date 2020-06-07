@@ -9,7 +9,6 @@ void encerrando()
 	gtk_container_add(GTK_CONTAINER(janela),label);
 	gtk_widget_show_all(janela);
 	
-	g_usleep ( 100000 );
 	gtk_main_quit();
 }
 void passa_nome()

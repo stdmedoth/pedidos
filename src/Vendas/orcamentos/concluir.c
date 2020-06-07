@@ -4,6 +4,7 @@ static int concluir_orc()
 	char *query;
 	char code[MAX_CODE_LEN];
 	query = malloc(MAX_QUERY_LEN);
+	concluindo_orc=1;
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -120,6 +121,6 @@ static int concluir_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
-	
+			
 	return 0;
 }

@@ -30,7 +30,7 @@ GtkWidget *area_de_trabalho;
 GtkWidget *barra;
 
 GtkWidget *imagem_barra,*layout_barra;
-#include "../Menu/icones.h"
+#include "../Menu/icones.c"
 #include "../Menu/abas.c"
 #include "init.c"
 

@@ -39,7 +39,9 @@ int cancela_orc()
 	ativos_qnt=1;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
-
+	concluindo_orc=0;
+	aviso_estoque = 0;
+	
 	adicionar_linha_orc();
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
 	

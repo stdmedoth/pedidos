@@ -9,6 +9,7 @@ int est_ent_client_fun()
 	if(strlen(est_ent_client_gchar)<=0)
 	{
 		popup(NULL,"Insira o código");
+		gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_client),"");
 		gtk_widget_grab_focus(est_ent_client_entry);
 		return 1;
 	}
@@ -18,6 +19,7 @@ int est_ent_client_fun()
 	if((campo = mysql_fetch_row(estado))==NULL)
 	{
 		popup(NULL,"O terceiro não existe");
+		gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_client),"");
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_client),campo[0]);

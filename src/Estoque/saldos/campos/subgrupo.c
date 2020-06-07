@@ -17,7 +17,6 @@ int est_sald_subgrp_fun()
 		gtk_widget_grab_focus(est_sld_grp_cod_entry);
 		return 1;
 	}
-	
 	sprintf(query,"select * from grupos where code = %s",est_sld_subgrp_cod_gchar);
 	if((estado = consultar(query))==NULL)
 		return 1;
@@ -28,9 +27,9 @@ int est_sald_subgrp_fun()
 		return 1;
 	}
 	
-	est_sld_prod_est_int = gtk_combo_box_get_active(GTK_COMBO_BOX(est_sld_cod_combo));
+	est_sld_prod_est_int = gtk_combo_box_get_active(GTK_COMBO_BOX(est_sld_est_combo));
 	
-	if((grupo_len = rec_familia_nome(familia_char, atoi(est_sld_subgrp_cod_gchar) ))<0)
+	if((grupo_len = rec_familia_nome(familia_char, atoi(est_sld_subgrp_cod_gchar) ))<=0)
 		return 1;
 
 	memset(dest,0x0,strlen(dest));
@@ -69,7 +68,6 @@ int est_sald_subgrp_fun()
 		popup(NULL,"O produto nunca foi movimentado");
 		return 1;
 	}
-	gtk_widget_grab_focus(est_sld_concluir_button);
 	
 	return 0;
 }

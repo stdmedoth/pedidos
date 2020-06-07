@@ -49,6 +49,13 @@ int rec_familia_nome(char **familia_char,int grupo)
 	int max_nivel=0,grupo_code=0;
 	int qnt=1;
 	char query[MAX_QUERY_LEN];
+	
+	if(grupo == 1)
+	{
+		popup(NULL,"O grupo raiz não deve ser utilizado");
+		return 0;
+	}
+	
 	sprintf(query,"select code,nome,nivel from grupos where code = %i",grupo);
 	res = consultar(query);
 	if(res == NULL)

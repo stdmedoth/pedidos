@@ -1,3 +1,15 @@
+void aumentar_opacidade(GtkWidget *widget,GdkEvent *event,gpointer data)
+{
+	g_print("Passou por widget\n");
+	gtk_widget_set_opacity(widget,1);
+}
+void diminuir_opacidade(GtkWidget *widget,GdkEvent *event,gpointer data)
+{
+	g_print("Passou por widget\n");
+	gtk_widget_set_opacity(widget,0.5);
+}
+
+
 int cad_ico()
 {
 
@@ -12,6 +24,7 @@ int cad_ico()
 	und_ico = gtk_image_new_from_file(UND_IMG);
 	vin_ico = gtk_image_new_from_file(VINC_IMG);
 	grp_ico = gtk_image_new_from_file(GRP_IMG);
+	crel_ico = gtk_image_new_from_file(REL_IMG);
 	
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
@@ -21,16 +34,21 @@ int cad_ico()
 	und_lbl = gtk_label_new("Nova Unidade Medida");
 	vin_lbl = gtk_label_new("Verificar vinculos");
 	grp_lbl = gtk_label_new("Grupo de Produtos");
+	crel_lbl = gtk_label_new("Novo Relatório");
 	
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
 	for(cont=0;cont<CAD_ICO_QNT;cont++)
 	{
 		cad_box[cont] = gtk_box_new(1,0);
+		gtk_container_set_border_width(GTK_CONTAINER(cad_box[cont]),1);
+			
 		//sprintf(name,"icone%i",cont);
 		gtk_widget_set_name(cad_box[cont],"icone");
+		
 		eventos[cont] = gtk_event_box_new();
 		gtk_container_add(GTK_CONTAINER(eventos[cont]),cad_box[cont]);
+		
 		if(cont2==ICOL)
 		{
 			linha++;
@@ -61,14 +79,18 @@ int cad_ico()
 	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_ico,0,0,0);
 	
+	//icone novo relatorio
+	gtk_box_pack_end(GTK_BOX(cad_box[5]),crel_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[5]),crel_ico,0,0,0);
+	
 	//icone verificar vinculos	
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),vin_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),vin_ico,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),vin_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),vin_ico,0,0,0);
+	
 	
 	//icone cadastro de transacoes
     //gtk_box_pack_end(GTK_BOX(cad_box[6]),trs_lbl,0,0,0);
 	//gtk_box_pack_end(GTK_BOX(cad_box[6]),trs_ico,0,0,0);
-
 	
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
@@ -77,11 +99,13 @@ int cad_ico()
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_ter),NULL);
 	
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(cad_oper),NULL);
-
+	
 	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_und),NULL);
 	
 	g_signal_connect(eventos[4],"button_press_event",G_CALLBACK(cad_grupo),NULL);
 	
-	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(vin_chaves),NULL);
+	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_relat),NULL);
+	
+	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(vin_chaves),NULL);
 	return 0;
 }

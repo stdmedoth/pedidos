@@ -1,3 +1,4 @@
+
 #include "css.c"
 #include "vars.h"
 #include "stoi.h"
@@ -25,6 +26,7 @@
 #include "../pesquisadores/pedidos.h"
 #include "../pesquisadores/ceps.h"
 #include "../pesquisadores/movimentos_estoque.h"
+#include "../pesquisadores/relatorios.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -45,6 +47,7 @@
 #include "../pesquisadores/pedidos.c"
 #include "../pesquisadores/ceps.c"
 #include "../pesquisadores/movimentos_estoque.c"
+#include "../pesquisadores/relatorios.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
@@ -69,5 +72,6 @@
 #include "../Estoque/cadastro/estoque.c"
 
 #include "../Vendas/faturamento.c"
-#include "../Listagens/relatorios.c"
+#include "../Relatorios/relatorios.h"
+#include "../Relatorios/relatorios.c"
 

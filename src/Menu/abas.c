@@ -1,4 +1,4 @@
-static GtkWidget *lista_abas;
+static GtkWidget *lista_abas, *frame_lista_abas;
 static GtkWidget *botao_iniciar;
 static int controle_menu=0;
 //modulos ativos
@@ -54,7 +54,8 @@ int menu()
 	
 		
 	lista_abas = gtk_notebook_new();
-
+	frame_lista_abas = gtk_frame_new(NULL);
+	
 	principal_label   = gtk_label_new("PRINCIPAL");
 	cadastros_label   = gtk_label_new("CADASTROS");
 	faturamento_label = gtk_label_new("FATURAMENTO");
@@ -108,7 +109,10 @@ int menu()
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
 
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
-	
+
+	gtk_container_add(GTK_CONTAINER(frame_lista_abas),lista_abas);
+
+	gtk_frame_set_shadow_type(GTK_FRAME(frame_lista_abas),GTK_SHADOW_ETCHED_OUT); //GTK_SHADOW_ETCHED_OUT || GTK_SHADOW_ETCHED_IN
 	return 0;
 }
 

@@ -5,80 +5,19 @@ GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
 
-int conexao()
-{
-	char *string;
-	int conectado=0,tentativas=0;
-	char *msg;
-	msg = malloc(100);
-	struct tm *estrutura_tempo;
-	time_t tempo;
-	time(&tempo);
-	estrutura_tempo = localtime(&tempo);
-	sprintf(msg,"inicializando as %i:%i do dia %i/%i\n",estrutura_tempo->tm_hour,estrutura_tempo->tm_min,estrutura_tempo->tm_mday,estrutura_tempo->tm_mon);
-	autologger(msg);
-
-	while(conectado==0)
-	{
-		string = infos(0);
-		if(string==NULL)
-		{
-			razao = gtk_button_new_with_label("offline");
-			autologger("A razao social veio vazia");
-			conectado = 0;
-		}
-		else
-		{
-			razao = gtk_label_new(infos(0));
-			conectado = 1;
-		}
-		string = infos(1);
-		if(string == NULL)
-		{
-			endereco = gtk_button_new_with_label("offline");
-			autologger("o endereco veio vazio");
-			conectado = 0;
-		}	
-		else
-		{
-			endereco = gtk_label_new(string);
-			conectado = 1;
-		}
-		string = infos(2);
-		if(string == NULL)
-		{
-			cnpj = gtk_button_new_with_label("offline");
-			g_print("O cnpj esta vazio\n");
-			autologger("O cnpj esta vazio");
-			conectado = 0;
-		}
-		else
-		{
-			cnpj = gtk_label_new(string);
-			conectado = 1;
-		}
-		if(tentativas>CONECT_QNT)
-		{
-			return 1;
-		}
-		g_print("Iniciando conexao...\n");
-		tentativas++;
-	}
-	return 0;
-}
-
 int desktop()
 {
 	int err=0;
 	GtkWidget  *juncao;
 	GtkWidget  *layout;
-
+	GtkWidget *fixed_menu;
 	GtkWidget *param_button,*param_image;
 	GtkWidget *sair_button, *sair_image;
 	
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
 	gchar *nome_usuario_gchar;
 	
+	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
 	param_image = gtk_image_new_from_file(PRMT_IMG);
 	gtk_button_set_image(GTK_BUTTON(param_button),param_image);
@@ -184,7 +123,7 @@ int desktop()
 	fixed_cnpj = gtk_fixed_new();
 	
 	nome_usuario_fixed = gtk_fixed_new();
-	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,150,200);
+	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,100,200);
 	
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
@@ -234,12 +173,12 @@ int desktop()
        	
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 	menu();	
-	gtk_box_pack_end(GTK_BOX(superior_2),lista_abas,0,0,0);
+	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
+	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
 	
-	g_signal_connect(GTK_BUTTON(janela_principal),"destroy",G_CALLBACK(gtk_main_quit),NULL);
 	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
 	
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
@@ -247,22 +186,22 @@ int desktop()
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),300,350);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
 	
-	err = conexao();
+	razao = gtk_label_new(infos(0));
 	
-	if(err!=0)
-	{
-		popup(NULL,"Não foi posivel conectar");
-		
-	}
-
-	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,20,250);
+	endereco = gtk_label_new(infos(1));
+	
+	cnpj = gtk_label_new(infos(2));
+	
+	
+	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,10,250);
 	gtk_widget_set_name(razao,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,20,5);
+	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,10,5);
 	gtk_widget_set_name(endereco,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,20,5);
+	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,10,5);
 	gtk_widget_set_name(cnpj,"infos");
 	
 	configurar_parametros();
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrando),NULL);
 	gtk_widget_show_all(janela_principal);
 	gtk_widget_hide(lista_abas);	
 	return 0;
