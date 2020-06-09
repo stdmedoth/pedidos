@@ -14,7 +14,7 @@
 #define TOTAL_ORC_PROD_COL 9
 
 
-#define MAX_PROD_ORC 1000
+#define MAX_PROD_ORC 100
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 static int altera_orc();

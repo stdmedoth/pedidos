@@ -1,4 +1,93 @@
 #define QUERY_LEN 1000
+#define RANDOM_STRING_SIZE 10
+int popup(GtkWidget *widget,gchar *string);
+
+static char *gerando_file;
+
+int iniciar_impressao(char *gerado)
+{
+	
+	char *chamada;
+	chamada = malloc(strlen(gerando_file));
+	
+	g_print("%s para impressora\n",gerado);	
+	#ifdef WIN32
+	g_print("%s para LPT1\n",gerado);
+	if(imp_opc==1)
+		sprintf(chamada,"xcopy %s LPT1",gerado);
+	if(imp_opc==2)
+		sprintf(chamada,"xcopy %s LPT2",gerado);
+	
+	STARTUPINFO infoBina={sizeof(infoBina)};
+	PROCESS_INFORMATION processInfoBina;
+	infoBina.dwFlags = STARTF_USESHOWWINDOW;
+	infoBina.wShowWindow = SW_HIDE;
+	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
+    {
+		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
+		CloseHandle(processInfoBina.hProcess);
+		CloseHandle(processInfoBina.hThread);
+	}
+	popup(NULL,"Documento enviado para impressão");
+	#endif
+	#ifdef __linux__
+		popup(NULL,gerado);
+	#endif
+	
+	return 0;
+	
+}
+
+int desenhar_pdf()
+{
+	char *chamada,*gerado;
+	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
+	gerado = malloc(strlen(gerando_file));
+	sprintf(gerado,"%s",gerando_file);
+	gerado[strlen(gerado)-5] = '\0';
+	g_print("de %s para %s.pdf\n",gerando_file,gerado);
+	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
+	#ifdef WIN32
+	STARTUPINFO infoBina={sizeof(infoBina)};
+	PROCESS_INFORMATION processInfoBina;
+	infoBina.dwFlags = STARTF_USESHOWWINDOW;
+	infoBina.wShowWindow = SW_HIDE;
+	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
+    {
+		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
+		CloseHandle(processInfoBina.hProcess);
+		CloseHandle(processInfoBina.hThread);
+		sprintf(gerado,"%s.pdf",gerado);
+		iniciar_impressao(gerado);
+	}
+	else
+	{
+		popup(NULL,"Não foi possivel gerar documento");
+		return 1;
+	}
+	#endif 
+	#ifdef __linux__
+	if(system(chamada)!=0)
+	{
+		popup(NULL,"Não foi possivel gerar documento");
+		return 1;
+	}
+	iniciar_impressao(gerado);
+	#endif
+	return 0;
+}
+
+char *randomize_string()
+{
+    int i; 
+    char *res = malloc(RANDOM_STRING_SIZE + 1);
+    srand(time( NULL ));
+    for(i = 0; i < RANDOM_STRING_SIZE; i++) {
+        res[i] = (char) (rand()%(122-97))+97;
+    }
+    res[i] = '\0';
+    return res;	
+}
 
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {	

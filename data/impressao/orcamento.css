@@ -1,3 +1,7 @@
+@media print {  
+  table {page-break-before: auto;}
+}
+
 #div-titulo
 {
 	border: solid black 1px;
@@ -9,6 +13,7 @@
 	background: #00638c;
 
 }
+
 #logo-img
 {
 	margin-top: 1%;
@@ -74,6 +79,7 @@ td:hover
 {
 	background: lightgrey;
 }
+
 #info-row1
 {
 	background: Gainsboro;

@@ -10,7 +10,8 @@ int relat_prod_codigo_fun()
 		popup(NULL,"Insira o código do relatório");
 		return 1;
 	}
-		sprintf(query,"select nome from criador_relat where code = %s",relat_prod_codigo_gchar);
+
+	sprintf(query,"select nome from criador_relat where code = %s",relat_prod_codigo_gchar);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao buscar nome do relatorio");
@@ -23,5 +24,7 @@ int relat_prod_codigo_fun()
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(relat_prod_nome_entry),row[0]);
+	relat_prod_query_fun();
+	relat_prod_gerar_fun();
 	return 0;
 }

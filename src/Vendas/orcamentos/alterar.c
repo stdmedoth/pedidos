@@ -131,7 +131,7 @@ int altera_orc()
 		cancela_orc();
 		
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-		popup(NULL,"Não há produtos no orçamento");
+		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
 		sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
 		erro = enviar_query(query);
 		if(erro != 0 )

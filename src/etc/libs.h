@@ -38,6 +38,7 @@
 #include "../Vendas/orcamentos/orcamentos.h"
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
+#include "../Relatorios/relatorios/terceiros/terceiros.h"
 #include "../Relatorios/pesquisar/relat_ptabs.h"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"

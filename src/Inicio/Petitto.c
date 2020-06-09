@@ -1,3 +1,9 @@
+#define DEBUG 
+#ifdef DEBUG
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#endif
+
 #include <stdio.h>
 #include <locale.h>
 #include <errno.h>
@@ -11,11 +17,6 @@
 #include <mysql.h>
 #endif
 
-#define DEBUG 
-#ifdef DEBUG
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-#endif
 
 GtkWidget  *janela_principal;
 GtkWidget *imagem_desktop;

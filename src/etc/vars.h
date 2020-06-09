@@ -73,6 +73,11 @@
 #define PDF_GEN       "/petitto/files/impressao/pdf.exe"
 #define IMG_ENVIA     "/petitto/files/opcoes_padrao/enviar.png"
 #define ICON_PATH     "/petitto/files/opcoes_padrao/icones/"
+#define TER_RELAT_FILE    "/petitto/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE    "/petitto/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE    "/petitto/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE    "/petitto/files/impressao/relatorios/estoque/"
+#define IMG_IMP_LOGO  "/petitto/files/impressao/imgs/logo_livro_texto.png"
 #endif
 
 #ifdef __linux__
@@ -143,6 +148,11 @@
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
 #define ICON_PATH     "/usr/share/petitto/files/opcoes_padrao/icones/"
+#define TER_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/estoque/"
+#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -153,7 +163,6 @@
 #define IMG_IMP_TEL   "imgs/telefone.png"
 #define IMG_IMP_CEL   "imgs/celular.png"
 #define IMG_IMP_QNT   "imgs/quantidade.png"
-#define IMG_IMP_LOGO  "imgs/logo_livro_texto.png"
 
 #define MAX_TEMA_LEN 50
 #define MAX_TEMA_QNT 50
@@ -161,7 +170,8 @@
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
 #define MAX_PROD 400
-#define MAX_QUERY_LEN (MAX_ADR_LEN+MAX_NAME_LEN+MAX_CEP_LEN+MAX_CID_LEN+MAX_OBS_LEN+MAX_EST_LEN+MAX_RAZ_LEN+MAX_EMAIL_LEN+MAX_CODE_LEN+MAX_UND_LEN+MAX_PRECO_LEN)*4
+#define MAX_QUERY_ELM_LEN 300
+#define MAX_QUERY_LEN (MAX_QUERY_ELM_LEN*50)
 #define CONECT_QNT 1
 #define CODE_LEN 10
 #define CNPJ_N_LEN 14

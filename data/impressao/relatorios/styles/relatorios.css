@@ -1,0 +1,43 @@
+#div-relat{
+	margin-top: 20px;
+}
+
+#div-titulo
+{
+	border: solid black 1px;
+	background: #00238c;
+	height: 60px;
+}
+
+#logo-img
+{
+	margin-top: 1%;
+	margin-left: 10%;
+}
+
+h1{
+	margin-top: 1%;
+}
+table {
+  width: 100%;
+}
+
+th {
+  height: 50px;
+}
+table, th, td {
+	border: 1px solid black;
+	border-collapse: separate;
+}
+
+th{
+	background: Gainsboro;
+	font-weight: bold;
+	color: black;
+	padding: 10px;
+}
+td{
+	font-weight: normal;
+	padding: 10px;
+}
+

@@ -1,6 +1,6 @@
 int cad_relat_concluir()
 {
-	char list_campos[MAX_QUERY_LEN*MAX_RELAT_CAMPOS+MAX_RELAT_CAMPOS];
+	char list_campos[MAX_QUERY_LEN];
 	int cont=1;
 	
 	if(cad_relat_code()!=0)

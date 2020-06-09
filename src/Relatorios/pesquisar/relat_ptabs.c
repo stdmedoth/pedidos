@@ -1,4 +1,4 @@
-void receber_prod_relat_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_tables_relat_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -17,11 +17,11 @@ void receber_prod_relat_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
 
-	gtk_widget_destroy(psq_prod_relat_wnd);
+	gtk_widget_destroy(psq_tables_relat_wnd);
 	
 }
 
-int entry_prod_relat_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+int entry_tables_relat_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
@@ -62,7 +62,7 @@ int entry_prod_relat_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	return 0;
 }
 
-int psq_prod_relat(GtkWidget *button,  GtkEntry *cod_subgrp_entry)
+int psq_tables_relat(GtkWidget *button,  GtkEntry *cod_subgrp_entry)
 {
 	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	GtkWidget *scrollwindow;
@@ -96,12 +96,12 @@ int psq_prod_relat(GtkWidget *button,  GtkEntry *cod_subgrp_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 	
-	psq_prod_relat_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_prod_relat_wnd),3);
-	gtk_window_set_icon_name(GTK_WINDOW(psq_prod_relat_wnd),"system-search");
+	psq_tables_relat_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_tables_relat_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_tables_relat_wnd),"system-search");
 	if(personalizacao.janela_keep_above==1)	
-		gtk_window_set_keep_above(GTK_WINDOW(psq_prod_relat_wnd),TRUE);
-	gtk_widget_set_size_request(psq_prod_relat_wnd,500,250);
+		gtk_window_set_keep_above(GTK_WINDOW(psq_tables_relat_wnd),TRUE);
+	gtk_widget_set_size_request(psq_tables_relat_wnd,500,250);
 	
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Cód. Campo");
@@ -154,18 +154,18 @@ int psq_prod_relat(GtkWidget *button,  GtkEntry *cod_subgrp_entry)
 	
 	//gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	
-	gtk_container_set_border_width(GTK_CONTAINER(psq_prod_relat_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_tables_relat_wnd),10);
 	
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
-	gtk_container_add(GTK_CONTAINER(psq_prod_relat_wnd),caixa_grande);
+	gtk_container_add(GTK_CONTAINER(psq_tables_relat_wnd),caixa_grande);
 	
 	pesquisa_global_alvo = GTK_ENTRY(cod_subgrp_entry);
 	
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_prod_relat_pesquisa),treeview);
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_prod_relat_code),treeview);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_tables_relat_pesquisa),treeview);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_tables_relat_code),treeview);
 	
-	gtk_widget_show_all(psq_prod_relat_wnd);
+	gtk_widget_show_all(psq_tables_relat_wnd);
 	return 0;
 }
 

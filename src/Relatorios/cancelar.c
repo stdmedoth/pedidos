@@ -24,8 +24,11 @@ int cad_relat_cancelar()
 	alterando_cad_rel=0;
 	concluindo_cad_rel=0;
 	gtk_widget_grab_focus(cad_rel_nome_entry);
+	
 	gtk_widget_set_sensitive(cad_rel_alterar_button,TRUE);
 	gtk_widget_set_sensitive(cad_rel_code_entry,TRUE);
 	gtk_widget_set_sensitive(psq_cad_rel_button,TRUE);
+	gtk_widget_set_sensitive(cad_rel_tabel_combo,TRUE);
+	
 	return 0;
 }

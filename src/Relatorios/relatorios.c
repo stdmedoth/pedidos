@@ -181,12 +181,14 @@ void cad_relat()
 		
 	g_signal_connect(cad_rel_psqrow_button,"clicked",G_CALLBACK(psq_relat_campos),NULL);
 
+	cont=0;
 	while(cont<=MAX_RELAT_CAMPOS)
 	{
 		relat_struct.status[cont] = FALSE;
 		relat_struct.campos_code_bkp[cont] =  0;
 		cont++;
 	}
+	
 	relat_struct.qnt_campos = 0;
 	relat_campo_atual=1;
 	

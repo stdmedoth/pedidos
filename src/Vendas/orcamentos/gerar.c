@@ -9,78 +9,7 @@
 int imp_opc=0;
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3,*botao_radio4;
-static char*gerando_file;
 
-int iniciar_impressao(char *gerado)
-{
-	#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-	char *chamada;
-	chamada = malloc(strlen(gerando_file));
-	#pragma GCC diagnostic warning "-Wunused-but-set-variable"
-	g_print("%s para impressora\n",gerado);	
-	#ifdef WIN32
-	g_print("%s para LPT1\n",gerado);
-	if(imp_opc==1)
-		sprintf(chamada,"xcopy %s LPT1",gerado);
-	if(imp_opc==2)
-		sprintf(chamada,"xcopy %s LPT2",gerado);
-	
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
-	infoBina.dwFlags = STARTF_USESHOWWINDOW;
-	infoBina.wShowWindow = SW_HIDE;
-	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
-    {
-		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
-		CloseHandle(processInfoBina.hProcess);
-		CloseHandle(processInfoBina.hThread);
-	}	
-	#endif
-	#ifdef __linux__
-		popup(NULL,gerado);
-	#endif
-	
-	return 0;
-}
-
-int desenhar_orcamento()
-{
-	char *chamada,*gerado;
-	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
-	gerado = malloc(strlen(gerando_file));
-	sprintf(gerado,"%s",gerando_file);
-	gerado[strlen(gerado)-5] = '\0';
-	g_print("de %s para %s.pdf\n",gerando_file,gerado);
-	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
-	#ifdef WIN32
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
-	infoBina.dwFlags = STARTF_USESHOWWINDOW;
-	infoBina.wShowWindow = SW_HIDE;
-	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina)) 
-    {
-		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
-		CloseHandle(processInfoBina.hProcess);
-		CloseHandle(processInfoBina.hThread);
-		sprintf(gerado,"%s.pdf",gerado);
-		iniciar_impressao(gerado);
-	}
-	else
-	{
-		popup(NULL,"Não foi possivel gerar documento");
-		return 1;
-	}
-	#endif 
-	#ifdef __linux__
-	if(system(chamada)!=0)
-	{
-		popup(NULL,"Não foi possivel gerar documento");
-		return 1;
-	}
-	iniciar_impressao(gerado);
-	#endif
-	return 0;
-}
 
 int iniciar_escolha()
 {	
@@ -88,13 +17,13 @@ int iniciar_escolha()
 	{
 		g_print("Escolhida impressora 1\n");
 		imp_opc = BROTHER_IMP;
-		desenhar_orcamento();
+		desenhar_pdf();
 	}
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio2)))
 	{
 		
 		imp_opc = SAMSUNG_IMP;
-		desenhar_orcamento();
+		desenhar_pdf();
 	}
 	g_print("Escolhida impressora %i\n",imp_opc);
 	return 0;
@@ -158,7 +87,7 @@ int gerar_orc()
 	int erro;
 	char code[MAX_CODE_LEN];
 	char *formata_float,*formata_float2,*formata_float3;
-	float chartofloat,totalfloat;
+	double chartofloat,totalfloat;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	MYSQL_RES *res;
@@ -385,7 +314,7 @@ int gerar_orc()
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
 
-		if(atoi(campos[5])==0)
+		if(atoi(campos[5])==0)//tipo desconto = R$
 		{
 			
 			sprintf(formata_float,"%s",campos[6]);//pega desconto
@@ -396,42 +325,39 @@ int gerar_orc()
 			sprintf(formata_float3,"%s",campos[4]);//pega preco
 			critica_real(formata_float2,NULL);
 			critica_real(formata_float3,NULL);
-			totalfloat = atof(formata_float2)*atof(formata_float3);
+			totalfloat = atof(campos[2])*atof(campos[4]);
 			
 			//conversao de R$ para %
-			//2.2 = 100
-			//1.1 = x
+			//R$2.2 = 100%
+			//R$1.1 = x%
 			
-			chartofloat = (atof(formata_float)*100)/totalfloat;
-			fprintf(orc,"<td>%.2f %c</td>\n",chartofloat,37);//desconto em R$
+			chartofloat = atof(campos[6]);
+			
+			chartofloat = chartofloat*100.00;
+			
+			if(totalfloat>0)
+				chartofloat = chartofloat/totalfloat;
+			
+			g_print("Desconto em reais\nchartofloat: %.2f\ntotalfloat: %.2f\ncampos[6]: %.2f\n",chartofloat,totalfloat,atof(campos[6]));
+			fprintf(orc,"<td>%.2f %c</td>\n",chartofloat,37);//desconto em R$ p/ %
 		}
 		else
-		if(atoi(campos[5])==1)
+		if(atoi(campos[5])==1)//tipo desconto = %
 		{
-			sprintf(formata_float,"%s",campos[6]);
+			
 			g_print("campos[6] : %s\n",campos[6]);
-			critica_real(formata_float,NULL);
-			fprintf(orc,"<td>%.2f %c</td>\n",atof(formata_float),37);//desconto em %
+			
+			fprintf(orc,"<td>%.2f %c</td>\n",atof(campos[6]),37);//desconto em %//atof(campos[6]),37);//desconto em %
 		}
+		
 		g_print("campos[7] : %s\n",campos[7]);
 		sprintf(formata_float,"%s",campos[7]);
-		
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));//total
 		fprintf(orc,"</tr>\n");
 		conta_linhas++;
 		g_print("linha %i\n",conta_linhas);
-		if(conta_linhas>=12)
-		{
-			for(int row1=0;row1<5;row1++)
-			{
-				fprintf(orc,"<tr id=\"pula-linha\">\n");
-				for(int row2=0;row2<5;row2++)
-					fprintf(orc,"<td id=\"pula-linha\"></td>\n");
-				fprintf(orc,"</tr>\n");
-			}
-			conta_linhas=-10;
-		}
+			
 		cont++;
 	}
 	if(cont == 0)
@@ -455,11 +381,7 @@ int gerar_orc()
 		return 1;
 	}
 	sprintf(formata_float,"%s",row[0]);
-	//critica_real(formata_float,NULL);
-	//fprintf(orc,"<td></td>\n");	
-	//fprintf(orc,"<td></td>\n");	
-	//fprintf(orc,"<td></td>\n");	
-	//fprintf(orc,"<td></td>\n");	
+
 	fprintf(orc,"<td  colspan=\"5\" id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));	
 	fprintf(orc,"</table>\n");
 

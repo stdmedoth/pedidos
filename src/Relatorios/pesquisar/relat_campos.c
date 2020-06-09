@@ -30,6 +30,7 @@ void receber_campos_relat_code(GtkWidget *button, GtkTreeView *treeview)
 	g_print("campo 0: %s\ncampo 1: %s\ncampo 2: %s\n",code,nome,obs);
 
 	int cont=0,repetido;
+
 	while(cont<=MAX_RELAT_CAMPOS)
 	{	
 		if(relat_struct.status[cont] == TRUE)
