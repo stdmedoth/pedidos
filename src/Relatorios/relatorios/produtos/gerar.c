@@ -8,7 +8,6 @@ int relat_prod_gerar_fun()
 	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
 	
 	char query[MAX_QUERY_LEN];
-	int bytes=0,maximo=20;
 	FILE *relatorio_file;
 	int cont=0;
 	gerando_file = malloc(strlen(PROD_RELAT_FILE)+16);

@@ -408,31 +408,8 @@ int gerar_orc()
 	fclose(orc);
 	escolher_finalizacao();
 	g_print("Abrindo janela de escolha para o arquivo\n");
-	//reiniciando opções
 	
-	cont=0;
-	while(cont<=itens_qnt)
-	{
-		if(ativos[cont].id==1)
-		{
-			preco_alterado[cont] = 0;
-			valor_orig[cont] = 0;
-			tirar_linha(cont);			
-		}
-		cont++;
-	}
 	
-	sprintf(code,"%i",tasker("orcamentos"));
-	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
-	
-	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
-	itens_qnt = 1;
-	ativos_qnt = 1;
-	adicionar_linha_orc();
-
+	cancela_orc();
 	return 0;
 }

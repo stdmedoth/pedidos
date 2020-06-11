@@ -133,6 +133,7 @@ valor_orig int default 0,
 tipodesc int default 0,
 desconto float default 0.0,
 total float default 0.0,
+observacoes varchar(500) default '',
 foreign key(code) references orcamentos(code));
 
 create table faturamento ( code int primary key auto_increment,

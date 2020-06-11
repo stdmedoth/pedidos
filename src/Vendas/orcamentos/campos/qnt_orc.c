@@ -12,6 +12,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	
 	switch(valor_orig[posicao])
 	{
+
 		case 0:
 			if(produto_inserido[posicao] == 1)
 			{

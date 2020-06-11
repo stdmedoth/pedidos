@@ -7,6 +7,7 @@
 #include "campos/total_orc.c"
 #include "campos/orig_preco_orc.c"
 #include "campos/desconto_orc.c"
+#include "campos/prod_obs_orc.c"
 #include "campos/observacoes.c"
 #include "campos/fat_vist.c"
 #include "orc_p_ped.c"

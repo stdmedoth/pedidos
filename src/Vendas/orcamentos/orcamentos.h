@@ -1,6 +1,5 @@
 #define COD_ORC_COL 0
-#define COD_ORC_COL 0
-#define NOM_ORC_COL 0
+#define NOM_ORC_COL 1
 
 #define COD_ORC_PROD_COL 0
 #define ITM_ORC_PROD_COL 1
@@ -12,7 +11,7 @@
 #define TIP_DESC_ORC_PROD_COL 7
 #define DESC_ORC_PROD_COL 8
 #define TOTAL_ORC_PROD_COL 9
-
+#define OBS_ORC_PROD_COL 10
 
 #define MAX_PROD_ORC 100
 #define PROD_LINHAS_ORC 1
@@ -23,6 +22,7 @@ static int vnd_orc();
 static int alterando_orc=0;
 static int concluindo_orc=0;
 static int aviso_estoque=0;
+
 int inicializar_orc()
 {
 	int cont;
@@ -30,7 +30,9 @@ int inicializar_orc()
 		vet_erro[cont] = 0;
 	return 0;
 }
-static int tipo_pag=0;
+
+
+static int tipo_pag=0, display=1;
 
 int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
@@ -42,6 +44,7 @@ static int ativos_qnt=1;
 
 static float total_geral_orc =0 ;
 static float desconto_geral_orc =0 ;
+
 //COMBO
 static GtkWidget **tipodesconto_prod_orc_combo;
 static GtkWidget *faturado_avista_combo, *faturado_avista_fixed, *faturado_avista_box;
@@ -77,14 +80,13 @@ int gerar_total_geral();
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
-//  FRAMES
-
-
+//  FRAMES/BOX
 static GtkWidget **codigo_prod_orc_frame;
 static GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
 static GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
 static GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
 static GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
+
 
 static GtkWidget *data_orc_frame;
 static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
@@ -93,6 +95,8 @@ static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
 // FIXEDs
 static GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
 static GtkWidget *opcoes_orc_fixed;
+
+static GtkWidget **obs_prod_orc_scroll,**obs_prod_orc_fixed;
 
 // LABELS
 
@@ -128,7 +132,10 @@ static GtkWidget *data_orc_entry;
 
 //  BOXES
 static GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
-static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,**linhas_prod_orc_box;
+static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,
+**linhas_prod_orc_box, 
+**linhas2_prod_orc_box,
+**juncao_linha_prod_orc_box ;
 static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
 
 //  CONTAINERS
@@ -167,4 +174,7 @@ struct itens_struct
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
 
+GtkTextBuffer  **obs_prod_orc_buffer;
+GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
+gchar **obs_prod_orc_gchar;
 
