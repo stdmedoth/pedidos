@@ -1,23 +1,23 @@
-int cmp_ico()
+int cmp_ico(void)
 {
 
 	int cont;
 //	gchar *name;
 //	name = malloc(15);
-	
+
 	//imagem dos icones
 	sol_ico = gtk_image_new_from_file(SOL_IMG);
 	cot_ico = gtk_image_new_from_file(COT_IMG);
 	ord_ico = gtk_image_new_from_file(ORD_IMG);
 	ent_nfe_ico = gtk_image_new_from_file(ENT_IMG);
-	
+
 	//label dos icones
 	sol_lbl = gtk_label_new("Solicitações");
 	cot_lbl = gtk_label_new("Cotações");
 	ord_lbl = gtk_label_new("Ordem de compra");
-	ent_nfe_lbl = gtk_label_new("Entrada de NF-e");	
+	ent_nfe_lbl = gtk_label_new("Entrada de NF-e");
 
-	
+
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
 	for(cont=0;cont<=CMP_ICO_QNT;cont++)
@@ -30,7 +30,7 @@ int cmp_ico()
 		gtk_box_pack_start(GTK_BOX(comprasl[0]),eventos[cont],0,0,40);
 //		memset(name,0x0,strlen(name));
 	}
-        
+
 	//icone solicitacoes
         gtk_box_pack_end(GTK_BOX(cmp_box[0]),sol_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cmp_box[0]),sol_ico,0,0,0);
@@ -46,8 +46,8 @@ int cmp_ico()
 	//icone entradas
         gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_lbl,0,0,0);
         gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_ico,0,0,0);
-        
-	
+
+
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(solicitacao),NULL);
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cotacao),NULL);
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(ordem_cmp),NULL);

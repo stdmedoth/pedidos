@@ -6,7 +6,7 @@ static int concluir_orc()
 	char code[MAX_CODE_LEN];
 	query = malloc(MAX_QUERY_LEN);
 	concluindo_orc=1;
-	
+
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -20,7 +20,7 @@ static int concluir_orc()
 			autologger(query);
 			return 1;
 		}
-		
+
 		campos = mysql_fetch_row(vetor);
 		if(campos!=NULL)
 		{
@@ -32,26 +32,27 @@ static int concluir_orc()
 			gtk_widget_grab_focus(codigo_orc_entry);
 			return 1;
 		}
-		
+
 		sprintf(query,"insert into orcamentos( code, vendedor, cliente, tipopag, dia, observacoes, total) values(%s,1,%s,%i,'%s-%s-%s','%s',0.0);",
 		codigo_orc_gchar,cliente_orc_gchar,tipo_pag ,ano_sys,mes_sys,dia_sys,observacoes_orc_gchar);
-		
+
 		erro = enviar_query(query);
 		if(erro != 0 )
-		{	
+		{
 			popup(NULL,"Erro ao tentar concluir orçamento");
 			return 1;
 		}
 	}
 
-	for(cont=1;cont<itens_qnt-1;cont++)
+	for(cont=1;cont<MAX_PROD_ORC;cont++)
 	{
-		if(ativos[cont].id == 1)
+		if( ativos[cont].id == 1 && produto_inserido[cont] == 1 )
 		{
+
 			if(codigo_cli_orc()!=0)
-				return 1;		
+				return 1;
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
-				return 1;		
+				return 1;
 			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
 				return 1;
 			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
@@ -64,12 +65,12 @@ static int concluir_orc()
 				return 1;
 			if(obs_prod_orc_fun(obs_prod_orc_view[cont],cont)!=0)
 				return 1;
-				
+
 			if(strlen(ativos[cont].desconto_c)<=0)
 			{
 				strcpy(ativos[cont].desconto_c,"0.0");
 			}
-			
+
 			if(alterando_orc==0)
 			{
 				sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes) values(%s,%i,%i,%i,%s,%s,%i,%i,%s,%s,'%s');",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
@@ -78,7 +79,7 @@ static int concluir_orc()
 				{
 					popup(NULL,"Erro ao tentar gerar orçamento");
 					return 1;
-				}			
+				}
 			}
 			else
 			{
@@ -102,11 +103,11 @@ static int concluir_orc()
 				else
 				{
 					sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,desconto,total,observacoes) values(%s,%i,%i,%i,%s,%s,%i,%s,%s,'%s');",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
-					erro = enviar_query(query);	
+					erro = enviar_query(query);
 				}
 				inseridos_na_alteracao++;
 			}
-			
+
 		}
 		sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
 		erro = enviar_query(query);
@@ -117,17 +118,17 @@ static int concluir_orc()
 		}
 	}
 	popup(NULL,"Orcamento concluido");
-	
+
 	cancela_orc();
-	
+
 	sprintf(code,"%i",tasker("orcamentos"));
-	
+
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
-			
+
 	return 0;
 }

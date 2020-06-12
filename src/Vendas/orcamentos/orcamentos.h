@@ -49,7 +49,7 @@ static float desconto_geral_orc =0 ;
 static GtkWidget **tipodesconto_prod_orc_combo;
 static GtkWidget *faturado_avista_combo, *faturado_avista_fixed, *faturado_avista_box;
 
-//  BUTTONS 
+//  BUTTONS
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
@@ -67,7 +67,7 @@ static gchar *codigo_orc_gchar,
 //*operacao_orc_gchar,
 *observacoes_orc_gchar;
 
-static gchar *codigo_prod_orc_gchar, 
+static gchar *codigo_prod_orc_gchar,
 //*descricao_prod_orc_gchar,
 *subgrp_prod_orc_cod_gchar,
 *qnt_prod_orc_gchar,
@@ -122,7 +122,7 @@ static GtkWidget **codigo_orc_prod_box;
 static GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
 **subgrp_prod_orc_entry, **subgrp_prod_orc_cod_entry,
-**subgrp_prod_orc_button, 
+**subgrp_prod_orc_button,
 **qnt_prod_orc_entry,
 **preco_prod_orc_entry,
 **desconto_prod_orc_entry,
@@ -133,7 +133,7 @@ static GtkWidget *data_orc_entry;
 //  BOXES
 static GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
 static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,
-**linhas_prod_orc_box, 
+**linhas_prod_orc_box,
 **linhas2_prod_orc_box,
 **juncao_linha_prod_orc_box ;
 static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
@@ -177,4 +177,3 @@ struct itens_struct
 GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 gchar **obs_prod_orc_gchar;
-

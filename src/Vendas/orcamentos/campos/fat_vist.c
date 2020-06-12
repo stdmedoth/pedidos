@@ -3,7 +3,7 @@ int rec_fat_vist()
 {
 	int select=0;
 	select = gtk_combo_box_get_active(GTK_COMBO_BOX(faturado_avista_combo));
-	
+
 	switch(select)
 	{
 		case 0:

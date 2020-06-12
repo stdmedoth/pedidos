@@ -13,5 +13,5 @@ echo "mudando permissões..."
 chmod 777 /usr/share/petitto/files -R
 fi
 echo "compilando..."
-gcc src/Inicio/Petitto.c -o /usr/bin/petitto `pkg-config --libs --cflags gtk+-3.0 mysqlclient` -g -Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic #-Wconversion -Wextra 
+gcc src/Inicio/Petitto.c -o /usr/bin/petitto `pkg-config --libs --cflags gtk+-3.0 mysqlclient` -g -Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic #-Wshadow #-Wmissing-prototypes #-Wstrict-prototypes #-Wconversion #-Wextra 
 

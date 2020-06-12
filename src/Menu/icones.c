@@ -6,7 +6,7 @@ GtkWidget **eventos;
 #include "cmp_ico.c"
 #include "rel_ico.c"
 
-int add_icones()
+int add_icones(void)
 {
 
 	int cont;
