@@ -3,13 +3,13 @@ int transp_ie_fun()
 	transp_ie = (gchar *)gtk_entry_get_text(GTK_ENTRY(transp_ie_entry));
 	if(strlen(transp_ie)<=0)
 	{
-		if(terceiros.criticar.inscricao==0)
+		if(terceiros.criticar.entrega==0)
 		{
-			transp_ie = malloc(sizeof(char*)*MAX_CID_LEN);
-			strcpy(transp_ie,"");
+			transp_num = malloc(MAX_CODE_LEN);				
 			gtk_widget_grab_focus(transp_cep_entry);
 			return 0;
 		}
+		
 		popup(NULL,"Por favor insira a Inscrição da Transportadora");
 		gtk_widget_grab_focus(GTK_WIDGET(transp_ie_entry));
 		return 1;		

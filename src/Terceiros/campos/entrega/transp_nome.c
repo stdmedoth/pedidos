@@ -10,6 +10,12 @@ int transp_nomec()
 	}
 	if(strlen(transp_nome)<=0)
 	{
+		if(terceiros.criticar.entrega==0)
+		{
+			transp_num = malloc(MAX_CODE_LEN);				
+			gtk_widget_grab_focus(transp_cnpj_entry);
+			return 0;
+		}
 		popup(NULL,"Por favor insira um nome para a Transportadora");
 		gtk_widget_grab_focus(GTK_WIDGET(transp_nome_entry));
 		return 1;

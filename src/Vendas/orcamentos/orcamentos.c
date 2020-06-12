@@ -74,6 +74,7 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	query = malloc(MAX_QUERY_LEN);
 	
 	sprintf(query,"select * from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
+	
 	vetor = consultar(query);
 	if(vetor!=NULL)
 	{
@@ -89,6 +90,7 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 			}
 		}
 	}
+	
 	if(ativos[id_ponteiro].id == 1)
 		gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
 	
@@ -353,10 +355,17 @@ int adicionar_linha_orc()
 	{
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
-    
+	
+/*	GtkAdjustment * ajuste = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(prod_scroll_window));
+	gtk_adjustment_set_lower(ajuste,0);
+	gtk_adjustment_set_upper(ajuste,gtk_adjustment_get_upper(ajuste)+100);
+	gtk_adjustment_set_value(ajuste,gtk_adjustment_get_upper(ajuste));
+	gtk_container_set_focus_vadjustment(GTK_CONTAINER(prod_scroll_window),ajuste);*/
+	
 	#pragma GCC diagnostic ignored "-Wint-conversion"
 	g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
+	
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 	g_signal_connect(subgrp_prod_orc_button[itens_qnt],"clicked",G_CALLBACK(pesquisa_subgrp),subgrp_prod_orc_cod_entry[itens_qnt]);
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
@@ -371,7 +380,9 @@ int adicionar_linha_orc()
 	g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[itens_qnt]);
 	#pragma GCC diagnostic warning "-Wint-conversion"
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
-	gtk_widget_grab_focus(codigo_prod_orc_entry[id_vetor[itens_qnt]]);
+	
+	gtk_widget_grab_focus(linhas_prod_orc_frame[itens_qnt]);
+	
 	itens_qnt++;
 
 	gtk_widget_show_all(janela_orcamento);

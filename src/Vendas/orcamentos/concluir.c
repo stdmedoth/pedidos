@@ -1,10 +1,12 @@
 static int concluir_orc()
 {
 	int cont=0,erro=0;
+	int inseridos_na_alteracao=1;
 	char *query;
 	char code[MAX_CODE_LEN];
 	query = malloc(MAX_QUERY_LEN);
 	concluindo_orc=1;
+	
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -18,6 +20,7 @@ static int concluir_orc()
 			autologger(query);
 			return 1;
 		}
+		
 		campos = mysql_fetch_row(vetor);
 		if(campos!=NULL)
 		{
@@ -50,12 +53,13 @@ static int concluir_orc()
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
 				return 1;		
 			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
+				return 1;
 			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
-					return 1;
+				return 1;
 			if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(obs_prod_orc_fun(obs_prod_orc_view[cont],cont)!=0)
@@ -78,7 +82,7 @@ static int concluir_orc()
 			}
 			else
 			{
-				if(cont<rec_altera_qnt)
+				if(inseridos_na_alteracao<rec_altera_qnt)
 				{
 					sprintf(query,"update Produto_Orcamento set produto = %i, subgrupo = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s, observacoes = '%s' where code = %s and item = %i",ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont],codigo_orc_gchar,cont);
 					erro = enviar_query(query);
@@ -100,6 +104,7 @@ static int concluir_orc()
 					sprintf(query,"insert into Produto_Orcamento(code,item,produto,subgrupo,unidades,valor_unit,valor_orig,desconto,total,observacoes) values(%s,%i,%i,%i,%s,%s,%i,%s,%s,'%s');",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
 					erro = enviar_query(query);	
 				}
+				inseridos_na_alteracao++;
 			}
 			
 		}

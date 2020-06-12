@@ -114,6 +114,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 		return 1;
 	}
+	
 	if(alterando_orc==0&&concluindo_orc==0&&aviso_estoque == 0)
 	{
 		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and subgrupo = %s",
@@ -124,19 +125,30 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			return 1;
 			
 
-		if((campos = mysql_fetch_row(vetor))==NULL)
-		{
-			popup(NULL,"O produto está sem saldo no estoque");
-		}
-		else
+		campos = mysql_fetch_row(vetor);
+		
 		if(!campos[0])
 		{
-			popup(NULL,"O produto nunca foi movimentado em estoque");
+			if(orcamentos.criticar.prod_movimento != 0)
+			{
+				popup(NULL,"O produto nunca foi movimentado em estoque");
+				return 1;
+			}
+		}
+		else
+		if(atoi(campos[0])==orc_prod_saldo_limite)
+		{
+			if(orcamentos.criticar.prod_saldo_limite != 0 )
+				popup(NULL,"O Produto está ficando sem saldo!");
 		}
 		else
 		if(atoi(campos[0])<=0)
 		{
-			popup(NULL,"O Produto está com saldo zerado ou negativo");
+			if(orcamentos.criticar.prod_saldo !=0)
+			{
+				popup(NULL,"O Produto está zerado!");
+				return 1;			
+			}
 		}
 		aviso_estoque = 1;
 	}

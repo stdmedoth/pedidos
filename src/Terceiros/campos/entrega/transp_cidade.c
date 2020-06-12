@@ -5,7 +5,7 @@ int transp_cidadec()
 	{
 		if(terceiros.criticar.entrega==0)
 		{
-			transp_cidade = malloc(sizeof(char*)*MAX_CID_LEN);
+			transp_cidade = malloc(MAX_CID_LEN);
 			strcpy(transp_cidade,"");
 			gtk_widget_grab_focus(transp_estado_entry);
 			return 0;

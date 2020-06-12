@@ -52,5 +52,6 @@ void cancelar_ter()
 	gtk_text_buffer_delete (buffer,&inicio,&fim);
 	
 	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),TRUE);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 }

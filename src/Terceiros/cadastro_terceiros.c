@@ -413,8 +413,8 @@ int  cad_terc()
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
 	
 	gtk_widget_set_size_request(observacoes_ter_field,500,100);
-	gtk_widget_set_size_request(observacoes_scroll,500,120);
-	gtk_widget_set_size_request(observacoes,500,120);
+	gtk_widget_set_size_request(observacoes_scroll,500,100);
+	gtk_widget_set_size_request(observacoes,500,100);
 	
 	prazo = gtk_box_new(1,0);
 	gtk_widget_set_name(prazo,"caixa");
@@ -490,14 +490,14 @@ int  cad_terc()
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code_ter_nfe_box,0,0,5);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),inscr,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_two),type,0,0,0);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_two),code_ter_nfe_box,0,0,5);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),name,0,0,10);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),ter_endereco_frame,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),type,0,0,0);
 	
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes_scroll,0,0,20);
 	
@@ -577,9 +577,9 @@ int  cad_terc()
 	gtk_widget_set_name(vertical_box1,"vertical_box1");
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);    //inscricao
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,120); //nome
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,180);  //cep/endereco tipo ter
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,380);  //observacoes	
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //nome
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,200);  //cep/endereco tipo ter
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,400);  //observacoes	
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
 
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros	

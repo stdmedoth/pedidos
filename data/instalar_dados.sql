@@ -3,30 +3,38 @@ create user 'petitto'@'localhost' identified by '1234';
 grant all privileges on *.* to 'petitto'@'localhost';
 flush privileges;
 
-insert into criticas(opcao_nome,campo_nome,critica) 
-values('terceiros','ter_doc',1),
-('terceiros','ter_tipo_doc',1),
-('terceiros','ter_endereco',1),
-('terceiros','ter_cep',1),
-('terceiros','ter_tipo',1),
-('terceiros','ter_celular',1),
-('terceiros','ter_contatoc',1),
-('terceiros','ter_telefone',1),
-('terceiros','ter_contatot',1),
-('terceiros','ter_email',1),
-('terceiros','ter_contatoe',1);
+insert into criticas(nome, opcao_nome, campo_nome, critica) 
+values('Documento','terceiros','ter_doc',1),
+('Tipo Documento (CNPJ/CPF)','terceiros','ter_tipo_doc',1),
+('Endereço','terceiros','ter_endereco',1),
+('CEP','terceiros','ter_cep',1),
+('Tipo Terceiro','terceiros','ter_tipo',1),
+('Celular','terceiros','ter_celular',0),
+('Contato Celular','terceiros','ter_contatoc',0),
+('Telefone','terceiros','ter_telefone',0),
+('Contato Telefone','terceiros','ter_contatot',0),
+('Email','terceiros','ter_email',0),
+('Contato Email','terceiros','ter_contatoe',0),
+('Dados de Entrega','terceiros','ter_entrega',0),
+('Prazo','terceiros','ter_prazo',0),
+('Valor mínimo para frete pago','terceiros','ter_vlr_frete_pago',0),
 
-insert into operadores 
-values(1,'Petitto','',5);
+('Bloqueia Produtos sem movimentos de estoque','orcamentos','orc_prod_movimento',0),
+('Produto deve ter saldo para criar orcamento','orcamentos','orc_prod_saldo',0),
+('Avisar saldo próximo ao limite','orcamentos','orc_prod_saldo_limite',0);
+
+
+insert into operadores (nome,senha,nivel) 
+values ('Petitto','',4),
+('Calistu','cal',5);
+
 
 insert into empresa(razao,endereco,cnpj) 
 values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
-insert into perfil_desktop(code,
-desktop_img,
-tema,
-janela_init,
-janelas_keep_above) values(1,3,1,0,1);
+insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
+(3,1,1,1),
+(0,1,1,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),  
@@ -100,50 +108,7 @@ values ('PERCALUX', 0.0, 4, 5, 2, 3, ''),
 ('CABECEADO', 0.0, 4, 5, 3, 3, ''),
 ('PAPELÃO', 0.0, 4, 5, 3, 3, '');
 
-insert into relat_tabelas_id(nome,sobre,qnt_colunas) values
-('produtos','Tabela responsável por armazenar os dados dos produtos',8),
-('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',34),
-('orçamentos','Tabela responsável por armazenar os pedidos criados e seus status',5),
-('pedidos','Tabela responsável por armazenar os pedidos criados e seus status',5),
-('Produtos por Orçamento/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',10);
+insert into tipo_pagamento(nome) values
+('Faturado'),
+('Á Vista');
 
-insert into relat_tab_campos(tabela,nome,sobre,query) values
-(1, 'Código' , 'Visualizar código do produto', 'p.code'),
-(1, 'Nome',  'Visualizar nome do produto', 'p.nome '),
-(1, 'Peso',  'Visualizar peso do produto', 'p.peso'),
-(1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome'),
-(1, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome'),
-(1, 'Fornecedor', 'Terceiro fornecedor do produto', 't.razao'),
-(1, 'Grupo', 'Grupo vinculado ao produto', 'g.nome'),
-(1, 'Nivel Grupo', 'Nivel do grupo vinculado (Não utilizado)', 'p.grupo_nivel'),
-(1, 'Observações', 'Observações do produto', 'observacoes');
-
-insert into relat_tab_campos(tabela,nome,sobre,query) values
-(2, 'Código' , 'Visualizar código do terceiro', 't.code'),
-(2, 'Código NF-e',  'Visualizar código do terceiro para tirar nfe', 't.code_nfe'),
-(2, 'Razão Social/Nome',  'Visualizar Nome ou Razão da empresa/pessoa', 't.razao'),
-(2, 'Documento', 'CNPJ ou RG do Terceiro', 't.doc'),
-(2, 'IE', 'CEP do Terceiro', 't.ie'),
-(2, 'Tipo Documento', 'Se o documento é um CNPJ/RG', 't.tipo_doc'),
-(2, 'Tipo Terceiro', 'Se Cliente ou Fornecedor', 't.tipoc'),
-(2, 'CEP', 'CEP do Terceiro', 't.cep'),
-(2, 'Logradouro', 'Logradouro do Terceiro', 't.endereco'),
-(2, 'Cidade', 'Cidade do Terceiro', 't.cidade'),
-(2, 'Número ', 'Unidade Federativa do Terceiro', 't.uf'),
-(2, 'Tipo Log', 'Tipo de logradouro: Rua,Avenida,Rodovia', 't.uf'),
-(2, 'Telefone', 'Número de telefone do terceiro', 't.telefone'),
-(2, 'Contato telefone', 'Contato para o telefone', 't.contatot'),
-(2, 'Celular', 'Número de celular do terceiro', 't.celular'),
-(2, 'Contato celular', 'Contato para o celular', 't.contatoc'),
-(2, 'Email', 'Email do terceiro', 't.email'),
-(2, 'Contato Email', 'Contato para o email', 't.contatoe'),
-(2, 'Transp. Nome', 'Nome da transp. vinc. ao Terceiro', 't.transp_nome'),
-(2, 'Transp. Documento', 'CNPJ da transp. vinc. ao Terceiro', 't.transp_cnpj'),
-(2, 'Transp. IE', 'Inscrição Estadual da transp. vinc. ao Terceiro', 't.transp_ie'),
-(2, 'Transp .Logradouro', 'Logradouro da transp. vinc. ao Terceiro', 't.transp_logradouro'),
-(2, 'Numero Endereço Transp.', 'Número endereço da transp. vinc. ao Terceiro', 't.transp_num'),
-(2, 'Cidade  Transp.', 'Cidade da transp. vinc. ao Terceiro', 't.transp_cidade'),
-(2, 'UF Transp.', 'Estado da transp. vinc. ao Terceiro', 't.transp_estado'),
-(2, 'CEP Transp.', 'CEP da transp. vinc. ao Terceiro', 't.transp_cep'),
-(2, 'Prazo', 'Prazo padrão de pagamento', 't.prazo'),
-(2, 'Observações de entrega', 'Observações da entrega vinc. ao Terceiro', 't.transp_obs');

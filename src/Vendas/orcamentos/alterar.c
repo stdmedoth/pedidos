@@ -9,7 +9,7 @@ int altera_orc()
 		
 	g_print("Iniciando alterar\n");
 	alterando_orc=1;
-	
+	rec_altera_qnt=1;
 	recebendo_prod_orc=1;
 
 	if(codigo_orc()!=0)
@@ -35,8 +35,6 @@ int altera_orc()
 	tipo_pag = atoi(row[1]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
 
-	
-	
 	if(codigo_cli_orc()!=0)
 		return 1;
 
@@ -128,8 +126,6 @@ int altera_orc()
 			gtk_widget_activate(subgrp_prod_orc_cod_entry[cont]);
 				
 			gtk_widget_activate(preco_prod_orc_entry[cont]);
-			
-			orig_preco_prod_orc(NULL, cont);
 			
 			gtk_widget_activate(desconto_prod_orc_entry[cont]);
 			

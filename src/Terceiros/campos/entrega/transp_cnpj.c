@@ -3,10 +3,11 @@ int transp_cnpjc()
 	transp_cnpj = (gchar *)gtk_entry_get_text(GTK_ENTRY(transp_cnpj_entry));
 	if(strlen(transp_cnpj)<=0)
 	{
-		if(terceiros.criticar.transp_cnpj==0)
+		if(terceiros.criticar.entrega==0)
 		{
-			transp_cnpj = malloc(sizeof(char*)*CNPJ_S_LEN);
-			strcpy(transp_cnpj,"");
+			transp_logradouro = malloc(MAX_LOGR_LEN);
+			strcpy(transp_logradouro,"");
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 			gtk_widget_grab_focus(transp_ie_entry);
 			return 0;
 		}

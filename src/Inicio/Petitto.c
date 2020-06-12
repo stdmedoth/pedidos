@@ -36,7 +36,6 @@ GtkWidget *imagem_barra,*layout_barra;
 #include "init.c"
 
 
-
 int main(int argc,char *argv[])
 {	
 	gtk_disable_setlocale();

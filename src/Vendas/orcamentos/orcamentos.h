@@ -34,7 +34,7 @@ int inicializar_orc()
 
 static int tipo_pag=0, display=1;
 
-int rec_altera_qnt=1;
+static int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
 
 int preco_prod_orc(GtkWidget *widget,int posicao);

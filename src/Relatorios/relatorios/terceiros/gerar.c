@@ -43,7 +43,6 @@ int relat_ter_gerar_fun()
 	}
 	fprintf(relatorio_file,"</tr>");
 	
-	
 	if((res2 = consultar(relat_ter_query_gchar))==NULL){
 		popup(NULL,"Erro ao receber dados do relatorio");
 		return 1;
@@ -59,8 +58,7 @@ int relat_ter_gerar_fun()
 		}
 		fprintf(relatorio_file,"</tr>");
 	}
-	
-	
+		
 	fprintf(relatorio_file,"</table>");
 	fprintf(relatorio_file,"</div>");
 	fprintf(relatorio_file,"</body>");

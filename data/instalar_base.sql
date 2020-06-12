@@ -3,13 +3,13 @@ create database erp;
 use erp;
 
 create table operadores( code int primary key auto_increment,
-nome varchar(20) not null,
-senha varchar(20) not null,
-nivel int not null);
+nome varchar(20) default 'OperadorSemNome',
+senha varchar(20) default '',
+nivel int default 1);
 
 create table empresa( cnpj varchar(20) primary key default 'cnpj',
-razao varchar(150) not null,
-endereco varchar(200) not null);
+razao varchar(150) default 'Empresa Sem Nome',
+endereco varchar(200) default 'Endereço Vazio');
 
 create table perfil_desktop(code int primary key auto_increment,
 desktop_img int default 0,
@@ -17,8 +17,9 @@ tema int default 0,
 janela_init bool default 0,
 janelas_keep_above bool default 0);
 
-create table criticas(opcao_nome varchar(20) default 0,
-campo_nome varchar(20) default 0,
+create table criticas(nome varchar(120),
+opcao_nome varchar(30) default 0,
+campo_nome varchar(30) default 0,
 critica bool default 0);
 
 create table terceiros ( code int primary key auto_increment,
@@ -59,8 +60,8 @@ prazo varchar(20) default '',
 obs varchar(500) default '');
 
 create table grupos( code int primary key auto_increment,
-pai int not null,
-nome varchar(20) not null,
+pai int default 0,
+nome varchar(20) default 'Grupo Sem Nome',
 nivel int default 1,
 foreign key(pai) references grupos(code));
 
@@ -71,7 +72,7 @@ multiplo int default 1,
 medida int default 0);
 
 create table produtos( code int primary key auto_increment,
-nome varchar(150) default 'NOME',
+nome varchar(150) default 'Produto Sem Nome',
 peso float default 0.0,
 unidades int default 1,
 unidades_atacado int default 1,
@@ -109,18 +110,18 @@ foreign key(cliente) references terceiros(code));
 create table pedidos( code int primary key auto_increment,
 vendedor int default 1,
 cliente int default 1,
-data_mov date not null,
+data_mov date default '2001-01-01',
 total float default 0.0,
 status int default 0,
 foreign key(cliente) references terceiros(code));
 
 create table orcamentos( code int primary key auto_increment,
-vendedor int not null default 0,
-cliente int not null default 0,
-dia date not null,
-tipopag int not null default 1,
-total float not null default 0,
-observacoes varchar(500) not null default '',
+vendedor int default 0,
+cliente int default 0,
+dia date default '2001-01-01',
+tipopag int default 1,
+total float default 0,
+observacoes varchar(500) default '',
 foreign key(cliente) references terceiros(code));
 
 create table Produto_Orcamento( code int,
@@ -141,11 +142,11 @@ pedido int default 0,
 cliente int default 0,
 entrada float default 0.0,
 saida float default 0.0,
-data_mov date not null,
+data_mov date default '2001-01-01',
 tipo_mov int default 0 );
 
 create table estoques( code int primary key auto_increment,
-nome varchar(20) not null);
+nome varchar(20) default 'Estoque Sem Nome');
 
 create table movimento_estoque( code int primary key auto_increment,
 estoque int default 1,
@@ -155,11 +156,13 @@ produto int default 0,
 subgrupo int default 0,
 entradas float default 0,
 saidas float default 0,
-data_mov date not null,
+data_mov date default '2001-01-01',
 tipo_mov int default 0,
 foreign key(estoque) references estoques(code),
 foreign key(produto) references produtos(code),
 foreign key(subgrupo) references grupos(code));
+
+create table tipo_pagamento( code int, nome varchar(50));
 
 create table cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
 descricao varchar(100) DEFAULT NULL,

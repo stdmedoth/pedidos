@@ -58,34 +58,42 @@ int desktop()
 	settings = gtk_settings_get_default();
 	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 	
-	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
-	res = consultar(query);
-	if(res==NULL)
+	if(atoi(oper_code)==2)
 	{
-		popup(NULL,"Personalizacao com erro");
-		return 1;
-	}
-	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-	g_print("Recebendo escolha de wallpaper e nome usuario\n");
-	row = mysql_fetch_row(res);
-	if(row!=NULL)
-	{
-		g_print("Trocando wallpaper\n");
-		imagem_desktop = gtk_image_new_from_file(DESKTOP);
-		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
-		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
-		gtk_widget_set_name(nome_usuario_label,"nome_operador");
-		trocar_desktop(NULL,NULL,atoi(row[1]));
-		g_print("Desktop com imagem personalizada\n");
-		autologger("Desktop com imagem personalizada\n");
-		autologger(row[1]);
+		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
+		nome_usuario_label = gtk_label_new("OPERADOR DE CORREÇÃO");
 	}
 	else
 	{
-		popup(NULL,"Login indevido");
-		return 1;
-	}
+		sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
+		res = consultar(query);
+		if(res==NULL)
+		{
+			popup(NULL,"Personalizacao com erro");
+			return 1;
+		}
 
+		nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
+		g_print("Recebendo escolha de wallpaper e nome usuario\n");
+		row = mysql_fetch_row(res);
+		if(row!=NULL)
+		{
+			g_print("Trocando wallpaper\n");
+			imagem_desktop = gtk_image_new_from_file(DESKTOP);
+			sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
+			nome_usuario_label = gtk_label_new(nome_usuario_gchar);
+			gtk_widget_set_name(nome_usuario_label,"nome_operador");
+			trocar_desktop(NULL,NULL,atoi(row[1]));
+			g_print("Desktop com imagem personalizada\n");
+			autologger("Desktop com imagem personalizada\n");
+			autologger(row[1]);
+		}
+		else
+		{
+			popup(NULL,"Login indevido");
+			return 1;
+		}
+	}
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");

@@ -5,7 +5,7 @@ int transp_estado_fun()
 	{
 		if(terceiros.criticar.entrega==0)
 		{
-			transp_estado = malloc(sizeof(char*)*MAX_EST_LEN);
+			transp_estado = malloc(MAX_EST_LEN);
 			strcpy(transp_estado,"");
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
 			gtk_widget_grab_focus(prazo_ter_field);

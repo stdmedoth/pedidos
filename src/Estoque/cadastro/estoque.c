@@ -84,7 +84,7 @@ int cad_est()
 
 	sprintf(code,"%i",tasker("estoques"));
 	gtk_entry_set_text(GTK_ENTRY(est_cod_entry),code);
-	gtk_widget_grab_focus(est_cod_entry);
+	gtk_widget_grab_focus(est_nome_entry);
 	
 	gtk_widget_show_all(janela);
 	return 0;

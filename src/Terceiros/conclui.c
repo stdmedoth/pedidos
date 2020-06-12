@@ -232,11 +232,12 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	
 	g_print("Query para tabela terceiros\n");
 	g_print("Query envida com sucesso\n");
-	gtk_button_set_label(GTK_BUTTON(botao),"concluido");
+	
+	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
 	popup(NULL,"Concluido");
 	cancelar_ter();
 	printf("finalizando conclui_ter()\n");
-	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
+	
 //	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));
 	return 0;
 }

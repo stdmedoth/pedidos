@@ -4,10 +4,10 @@ int relat_prod_query_fun()
 	MYSQL_ROW row;
 	int campos_qnt=0;
 	char ini_query[] = "select";
-	char end_query[] = " from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code";
+	char end_query[MAX_QUERY_LEN];
 	char query[MAX_QUERY_LEN];
 	char campo_query_cp[MAX_QUERY_ELM_LEN];
-	sprintf(query,"select b.query from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_prod_codigo_gchar);
+	sprintf(query,"select b.query,t.inner_query from criador_relat as a inner join relat_tab_campos as b inner join relat_tabelas_id as t on a.campos = b.code and a.tabela = t.code where a.code = %s",relat_prod_codigo_gchar);
 	
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Não foi possivel receber campos do relatorio");
@@ -28,6 +28,8 @@ int relat_prod_query_fun()
 		strcpy(prod_query.campo_query[campos_qnt],row[0]);
 		
 		g_print("%s\n",prod_query.campo_query[campos_qnt]);
+		sprintf(end_query,"%s",row[1]);
+		
 		campos_qnt++;
 	}
 	prod_query.campos_qnt = campos_qnt;

@@ -15,6 +15,7 @@ int verifica_frete()
 	}
 	return 0;
 }
+
 float vlr_frete_pago_float;
 gchar *vlr_frete_pago_gchar;
 int rec_vlr_frete()
@@ -27,12 +28,13 @@ int rec_vlr_frete()
 	if(strlen(vlr_frete_pago_gchar)<=0)
 	{
 		verifica_frete();
-		if(frete_frag_int==0)
+		if(frete_frag_int==0||terceiros.criticar.vlr_frete_pago==0)
 		{
 			vlr_frete_pago_gchar = malloc(MAX_PRECO_LEN);
-			strcpy(vlr_frete_pago_gchar,"");
+			strcpy(vlr_frete_pago_gchar,"0.0");
 			return 0;
 		}
+
 		popup(NULL,"Digite o valor minimo para frete pago");
 		return 1;
 	}

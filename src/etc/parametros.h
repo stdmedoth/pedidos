@@ -2,10 +2,16 @@
 static gchar **nomes_temas;
 static int temas_qnt=0;
 GtkWidget **campos_de_critica;
+
 //combo_box de produtos
 GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
-int ter_critic_campos_qnt =10;
+
+//quantidade de flags/aba
+int ter_critic_campos_qnt =13, 
+orc_critic_campos_qnt=16;
+
 int temas();
+static int orc_prod_saldo_limite=0;
 static GtkWidget *janela_init,*janela_keep_above,*tema_combo_box;
 
 struct 
@@ -19,34 +25,39 @@ struct
 {
 	struct parametros
 	{
-		int doc;
-		int inscricao;
-		int tipodoc;
-		int endereco;
-		int cep;
-		int cidade;
-		int uf;
-		int tipo;
-		int celular;
-		int contatoc;
-		int telefone;
-		int contatot;
-		int email;
-		int contatoe;
-		int observacoes;
-		int fornecedor;
-		int grupo;
-		int produto;
-		int preco;
-		int entrega;
-		int total;
-		int peso;
-		int unidade;
-		int fator;
-		int transp_cnpj;
-		int vincula_prod_obs;
+		bool doc;
+		bool inscricao;
+		bool tipodoc;
+		bool endereco;
+		bool cep;
+		bool cidade;
+		bool uf;
+		bool tipo;
+		bool celular;
+		bool contatoc;
+		bool telefone;
+		bool contatot;
+		bool email;
+		bool contatoe;
+		bool observacoes;
+		bool prazo;
+		bool vlr_frete_pago;
+		bool fornecedor;
+		bool grupo;
+		bool produto;
+		bool preco;
+		bool entrega;
+		bool total;
+		bool peso;
+		bool unidade;
+		bool fator;
+		bool vincula_prod_obs;
+		bool prod_movimento;
+		bool prod_saldo; 
+		bool prod_saldo_limite; 
 	}criticar;
-}terceiros,produtos;
+}terceiros,produtos,orcamentos;
+
 #define CAMPOS_QNT 25
 int vet_erro[CAMPOS_QNT+1];
 
@@ -78,10 +89,33 @@ int vet_erro[CAMPOS_QNT+1];
 #define PRAZ_ERR 25
 #define QNT_ERR 26
 
-char *critica_campos[] = {"ter_doc","ter_tipo_doc",
-	"ter_endereco","ter_cep",
-	"ter_tipo","ter_celular",
-	"ter_contatoc","ter_telefone",
-	"ter_contatot","ter_email",
-	"ter_contatoe"};
-char *desktop_images_vet[] = {THUMBDESKTOP1,THUMBDESKTOP2,THUMBDESKTOP3,THUMBDESKTOP4,THUMBDESKTOP5,THUMBDESKTOP6};
+char *critica_campos[] = 
+{
+	"ter_doc",
+	"ter_tipo_doc",
+	"ter_endereco",
+	"ter_cep",
+	"ter_tipo",
+	"ter_celular",
+	"ter_contatoc",
+	"ter_telefone",
+	"ter_contatot",
+	"ter_email",
+	"ter_contatoe",
+	"ter_entrega",
+	"ter_prazo",
+	"ter_vlr_frete_pago",	
+	"orc_prod_movimento",
+	"orc_prod_saldo",
+	"orc_prod_saldo_limite"
+};
+
+char *desktop_images_vet[] = 
+{
+	THUMBDESKTOP1,
+	THUMBDESKTOP2,
+	THUMBDESKTOP3,
+	THUMBDESKTOP4,
+	THUMBDESKTOP5,
+	THUMBDESKTOP6
+};
