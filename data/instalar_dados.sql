@@ -3,7 +3,7 @@ create user 'petitto'@'localhost' identified by '1234';
 grant all privileges on *.* to 'petitto'@'localhost';
 flush privileges;
 
-insert into criticas(nome, opcao_nome, campo_nome, critica) 
+insert into criticas(nome, opcao_nome, campo_nome, critica)
 values('Documento','terceiros','ter_doc',1),
 ('Tipo Documento (CNPJ/CPF)','terceiros','ter_tipo_doc',1),
 ('Endereço','terceiros','ter_endereco',1),
@@ -21,15 +21,16 @@ values('Documento','terceiros','ter_doc',1),
 
 ('Bloqueia Produtos sem movimentos de estoque','orcamentos','orc_prod_movimento',0),
 ('Produto deve ter saldo para criar orcamento','orcamentos','orc_prod_saldo',0),
-('Avisar saldo próximo ao limite','orcamentos','orc_prod_saldo_limite',0);
+('Avisar saldo próximo ao limite','orcamentos','orc_prod_saldo_limite',0),
+('Pedidos cancelados são reaproveitados','orcamentos','orc_ped_cancelado',0);
 
 
-insert into operadores (nome,senha,nivel) 
+insert into operadores (nome,senha,nivel)
 values ('Petitto','',4),
-('Calistu','cal',5);
+('Calistu','gnu',5);
 
 
-insert into empresa(razao,endereco,cnpj) 
+insert into empresa(razao,endereco,cnpj)
 values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
@@ -37,30 +38,30 @@ insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) valu
 (0,1,1,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
-values ('Folhas','Folhas', 1, 5),  
+values ('Folhas','Folhas', 1, 5),
 ('Fardo','Fardo', 15, 5),
 ('Pacote','Pct', 20, 4),
 ('Unidade','UND', 1, 4),
 ('Caixa','CX', 10, 4);
 
-insert into grupos(code,nome,pai,nivel) values 
-(1,'RAIZ',1, 0), 
-(2,'PERCALUX',1, 1), 
-(3,'CABECEADO',1, 1), 
-(4,'COLA',1, 1), 
-(5,'FITILHO ACETINADO',1, 1), 
-(6,'LINHA',1, 1), 
-(7,'PELICULA',1, 1), 
+insert into grupos(code,nome,pai,nivel) values
+(1,'RAIZ',1, 0),
+(2,'PERCALUX',1, 1),
+(3,'CABECEADO',1, 1),
+(4,'COLA',1, 1),
+(5,'FITILHO ACETINADO',1, 1),
+(6,'LINHA',1, 1),
+(7,'PELICULA',1, 1),
 (8,'RESISTÊNCIA',1, 1),
 (9,'ESPIRAIS', 1, 1),
 (10,'PLASTIFICAÇÕES', 1, 1),
 (11,'WERE-O', 1, 1),
 (12,'CAPAS DE PP', 1, 1),
 (13,'PAPELÃO', 1, 1),
- 
-(14,'LISO', 2, 2), 
-(15,'BICOLOR', 2, 2), 
-(16,'METALIZADO', 2, 2), 
+
+(14,'LISO', 2, 2),
+(15,'BICOLOR', 2, 2),
+(16,'METALIZADO', 2, 2),
 (17,'OURO/BRONZE', 2, 2),
 (18,'FOSCO',2, 2),
 
@@ -91,19 +92,19 @@ insert into grupos(code,nome,pai,nivel) values
 (39,'24 FOLHAS 1,7MM', 24,3),
 (40,'24 FOLHAS 1,7MM', 25,3);
 
-insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua, 
+insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua,
 telefone,contatot ,celular , contatoc ,email,contatoe, transp_nome, transp_num,transp_logradouro ,
 transp_cidade , transp_estado ,  transp_cep,  transp_telefone, transp_cnpj, transp_ie, transp_obs, obs,
-frete_pago, vlr_frete_pago, prazo) 
-values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,  '13067450', 'Rua Doutor Marcos Antonio Samartine', 
-'Campinas', 'SP', 18, 1, '(19) 32818753', 'cliente', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA', 
-18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20'), 
+frete_pago, vlr_frete_pago, prazo)
+values ('CLIENTE PARA TESTE', '512.146.788-58',  2, '123456789' , 'Cliente',  1,  '13067450', 'Rua Doutor Marcos Antonio Samartine',
+'Campinas', 'SP', 18, 1, '(19) 32818753', 'cliente', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA',
+18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20'),
 
-('FORNECEDOR PARA TESTE', '123.146.744-58',  2, '123456789' , 'Fornecedor',  2,  '13067450', 'Rua Doutor Marcos Antonio Samartine', 
-'Campinas', 'SP', 18, 1, '(19) 32818753', 'fornecedor', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA', 
+('FORNECEDOR PARA TESTE', '123.146.744-58',  2, '123456789' , 'Fornecedor',  2,  '13067450', 'Rua Doutor Marcos Antonio Samartine',
+'Campinas', 'SP', 18, 1, '(19) 32818753', 'fornecedor', '(19) 987817853','calisto', 'email@email.com', 'contato', 'TRANSPORTADORA',
 18 ,'Praça da Sé, 108','São Paulo' ,'SP' , '01001900' ,'(null)' , '1234567890', '1234567890',  '(null)', '', 1, 200.00 ,'20');
 
-insert into produtos(nome, peso , unidades, unidades_atacado, grupo, grupo_nivel, observacoes) 
+insert into produtos(nome, peso , unidades, unidades_atacado, grupo, grupo_nivel, observacoes)
 values ('PERCALUX', 0.0, 4, 5, 2, 3, ''),
 ('CABECEADO', 0.0, 4, 5, 3, 3, ''),
 ('PAPELÃO', 0.0, 4, 5, 3, 3, '');
@@ -111,4 +112,3 @@ values ('PERCALUX', 0.0, 4, 5, 2, 3, ''),
 insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');
-

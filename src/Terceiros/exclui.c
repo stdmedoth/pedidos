@@ -1,6 +1,7 @@
 int verifica_chaves()
 {
 	char *query;
+
 	query = malloc(MAX_QUERY_LEN);
 	gchar *cod_delel;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
@@ -11,13 +12,13 @@ int verifica_chaves()
 	{
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
-	}	
+	}
 	if((campos = mysql_fetch_row(vetor))!=NULL)
 	{
 		popup(NULL,"Existem Precos para esse Cliente");
 		return 1;
 	}
-	
+
 	//fornecedor - produtos
 	sprintf(query,"select * from produtos where fornecedor = %s",cod_delel);
 	vetor = consultar(query);
@@ -25,13 +26,13 @@ int verifica_chaves()
 	{
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
-	}	
+	}
 	if((campos = mysql_fetch_row(vetor))!=NULL)
 	{
 		popup(NULL,"Existem Produtos para esse Fornecedor");
 		return 1;
 	}
-	
+
 	//cliente - pedidos
 	sprintf(query,"select * from pedidos where cliente = %s",cod_delel);
 	vetor = consultar(query);
@@ -39,13 +40,13 @@ int verifica_chaves()
 	{
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
-	}	
+	}
 	if((campos = mysql_fetch_row(vetor))!=NULL)
 	{
 		popup(NULL,"Existem Pedidos para esse cliente");
 		return 1;
 	}
-	
+
 	//pedidos - vendedor
 	sprintf(query,"select * from pedidos where vendedor = %s",cod_delel);
 	vetor = consultar(query);
@@ -53,13 +54,13 @@ int verifica_chaves()
 	{
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
-	}	
+	}
 	if((campos = mysql_fetch_row(vetor))!=NULL)
 	{
 		popup(NULL,"Existem Pedidos para esse vendedor");
 		return 1;
 	}
-	
+
 	return 0;
 }
 int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
@@ -67,6 +68,8 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 	char stringer[10];
 	char query[100];
 	gchar *cod_delel;
+	GtkTextBuffer *buffer;
+	GtkTextIter inicio,fim;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
@@ -92,12 +95,12 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);	
-		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
+		gtk_text_buffer_delete (buffer,&inicio,&fim);
+		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
 		gtk_widget_grab_focus(GTK_WIDGET(listar_ter_buttom));
 		return 1;
 	}
-	
+
 	if(verifica_chaves()!=0)
 		return 1;
 	sprintf(query,"delete from terceiros where code = '%s';",cod_delel);
@@ -128,8 +131,8 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);	
-		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);		
+		gtk_text_buffer_delete (buffer,&inicio,&fim);
+		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
 		gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
 		alterando_ter=0;
 		return 0;

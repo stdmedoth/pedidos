@@ -1,4 +1,4 @@
-//combo_box de terceiros 
+//combo_box de terceiros
 static gchar **nomes_temas;
 static int temas_qnt=0;
 GtkWidget **campos_de_critica;
@@ -7,18 +7,18 @@ GtkWidget **campos_de_critica;
 GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
 
 //quantidade de flags/aba
-int ter_critic_campos_qnt =13, 
-orc_critic_campos_qnt=16;
+const int ter_critic_campos_qnt=13,
+orc_critic_campos_qnt=17;
 
 int temas();
 static int orc_prod_saldo_limite=0;
 static GtkWidget *janela_init,*janela_keep_above,*tema_combo_box;
 
-struct 
+struct
 {
 	int janela_init;
 	int janela_keep_above;
-	int tema;	
+	int tema;
 }personalizacao;
 
 struct
@@ -53,8 +53,9 @@ struct
 		bool fator;
 		bool vincula_prod_obs;
 		bool prod_movimento;
-		bool prod_saldo; 
-		bool prod_saldo_limite; 
+		bool prod_saldo;
+		bool prod_saldo_limite;
+		bool orc_ped_cancelado;
 	}criticar;
 }terceiros,produtos,orcamentos;
 
@@ -89,7 +90,7 @@ int vet_erro[CAMPOS_QNT+1];
 #define PRAZ_ERR 25
 #define QNT_ERR 26
 
-char *critica_campos[] = 
+char *critica_campos[] =
 {
 	"ter_doc",
 	"ter_tipo_doc",
@@ -104,13 +105,15 @@ char *critica_campos[] =
 	"ter_contatoe",
 	"ter_entrega",
 	"ter_prazo",
-	"ter_vlr_frete_pago",	
+	"ter_vlr_frete_pago",
+
 	"orc_prod_movimento",
 	"orc_prod_saldo",
-	"orc_prod_saldo_limite"
+	"orc_prod_saldo_limite",
+	"orc_ped_cancelado"
 };
 
-char *desktop_images_vet[] = 
+char *desktop_images_vet[] =
 {
 	THUMBDESKTOP1,
 	THUMBDESKTOP2,

@@ -276,7 +276,7 @@ int adicionar_linha_orc()
 
 	gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[itens_qnt]),codigo_orc_prod_box[itens_qnt]);
 
-	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),codigo_prod_orc_frame[itens_qnt],0,0,10);
+	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),codigo_prod_orc_frame[itens_qnt],0,0,20);
 
 	gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[itens_qnt]),subgrp_prod_orc_cod_entry[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[itens_qnt]),subgrp_prod_orc_button[itens_qnt],0,0,2);
@@ -509,7 +509,6 @@ int vnd_orc()
 
 
 	observacoes_orc = gtk_text_view_new_with_buffer(NULL);
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 	observacoes_orc_frame = gtk_frame_new("Observações");
 	gtk_container_add(GTK_CONTAINER(observacoes_orc_frame),observacoes_orc);
 	gtk_widget_set_size_request(observacoes_orc,250,150);
@@ -760,7 +759,7 @@ int vnd_orc()
 
 		gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[cont]),codigo_orc_prod_box[cont]);
 
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),codigo_prod_orc_frame[cont],0,0,10);
+		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),codigo_prod_orc_frame[cont],0,0,20);
 
 		gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[cont]),subgrp_prod_orc_cod_entry[cont],0,0,2);
 

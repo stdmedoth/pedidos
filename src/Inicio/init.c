@@ -5,7 +5,7 @@ GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
 
-int desktop(void)
+int desktop()
 {
 	int err=0;
 	GtkWidget  *juncao;
@@ -50,10 +50,10 @@ int desktop(void)
 		return 1;
 	}
 
+	personalizacao.tema = atoi(row[2]);
 	personalizacao.janela_init = atoi(row[3]);
 	personalizacao.janela_keep_above = atoi(row[4]);
 
-	personalizacao.tema = atoi(row[2]);
 	GtkSettings *settings;
 	settings = gtk_settings_get_default();
 	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
@@ -66,11 +66,11 @@ int desktop(void)
 	else
 	{
 		sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
-		if((res = consultar(query))==NULL)
+		res = consultar(query);
+		if(res==NULL)
 		{
 			popup(NULL,"Personalizacao com erro");
 			return 1;
-
 		}
 
 		nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
@@ -94,7 +94,6 @@ int desktop(void)
 			return 1;
 		}
 	}
-
 //	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
@@ -110,19 +109,19 @@ int desktop(void)
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 
+	//criacao
 	caixa_infos = gtk_box_new(1,0);
 
 	superior = gtk_box_new(0,0);
 	superior_1 = gtk_box_new(1,0);
-	//criacao
 	superior_2 = gtk_box_new(0,0);
 
 	inferior = gtk_box_new(0,0);
 	inferior_1 = gtk_box_new(1,0);
 	inferior_2 = gtk_box_new(1,0);
+
 	barra = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	//gtk_widget_set_name(barra,"barra");
-
 
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
@@ -134,11 +133,11 @@ int desktop(void)
 	nome_usuario_fixed = gtk_fixed_new();
 	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,100,200);
 
+	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_cnpj,0,0,0);
 
-  gtk_box_pack_start(GTK_BOX(superior_1),caixa_infos,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
+    gtk_box_pack_start(GTK_BOX(superior_1),caixa_infos,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(superior),superior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(superior),superior_2,0,0,0);
@@ -215,8 +214,7 @@ int desktop(void)
 	gtk_widget_hide(lista_abas);
 	return 0;
 }
-
-int init(void)
+int init()
 {
 	MYSQL_RES *res;
 	MYSQL_ROW row;

@@ -19,7 +19,7 @@
 #define IMG_ALTER     "/petitto/files/opcoes_padrao/alterar.png"
 #define IMG_CANCEL    "/petitto/files/opcoes_padrao/cancelar.png"
 #define IMG_MAIS      "/petitto/files/opcoes_padrao/mais.png"
-#define IMG_MENOS     "/petitto/files/opcoes_padrao/menos.png" 
+#define IMG_MENOS     "/petitto/files/opcoes_padrao/menos.png"
 #define IMG_REC       "/petitto/files/opcoes_padrao/recarregar.png"
 #define LOGGER        "/petitto/files/logger.log"
 #define ICO           "/petitto/files/ico.ico"
@@ -44,26 +44,26 @@
 #define DESKTOP_STYLE "/petitto/files/desktop/style.css"
 #define BANNER        "/petitto/files/princ_imgs/banner.png"
 #define BARRA_IMG     "/petitto/files/princ_imgs/barra.png"
-#define BOTAO_MENU    "/petitto/files/princ_imgs/botao_menu.png"  
+#define BOTAO_MENU    "/petitto/files/princ_imgs/botao_menu.png"
 #define ORC_IMG		  "/petitto/files/icones_opc/orcamentos.png"
 #define PED_IMG		  "/petitto/files/icones_opc/pedidos.png"
 #define GRP_IMG       "/petitto/files/icones_opc/grupos.png"
 #define PROD_IMG      "/petitto/files/icones_opc/produtos.png"
-#define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"  
-#define REL_IMG       "/petitto/files/icones_opc/cad_relat.png"  
+#define TERC_IMG      "/petitto/files/icones_opc/terceiros.png"
+#define REL_IMG       "/petitto/files/icones_opc/cad_relat.png"
 #define ADD_SALDO     "/petitto/files/icones_opc/add_saldo.png"
 #define REM_SALDO     "/petitto/files/icones_opc/rem_saldo.png"
-#define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"  
-#define SALD_IMG      "/petitto/files/icones_opc/saldo.png"  
-#define OPR_IMG       "/petitto/files/icones_opc/operadores.png"  
-#define TRS_IMG       "/petitto/files/icones_opc/transacoes.png"  
-#define SOL_IMG       "/petitto/files/icones_opc/solicitacoes.png"  
-#define PRC_IMG       "/petitto/files/icones_opc/preco.png"  
-#define COT_IMG       "/petitto/files/icones_opc/cotacao.png"  
-#define ORD_IMG       "/petitto/files/icones_opc/ordem_cmp.png"  
-#define ENT_IMG       "/petitto/files/icones_opc/entradas.png"  
-#define LMB_IMG       "/petitto/files/icones_opc/lembrete.png"  
-#define UND_IMG       "/petitto/files/icones_opc/unidade.png" 
+#define ESTO_IMG      "/petitto/files/icones_opc/estoques.png"
+#define SALD_IMG      "/petitto/files/icones_opc/saldo.png"
+#define OPR_IMG       "/petitto/files/icones_opc/operadores.png"
+#define TRS_IMG       "/petitto/files/icones_opc/transacoes.png"
+#define SOL_IMG       "/petitto/files/icones_opc/solicitacoes.png"
+#define PRC_IMG       "/petitto/files/icones_opc/preco.png"
+#define COT_IMG       "/petitto/files/icones_opc/cotacao.png"
+#define ORD_IMG       "/petitto/files/icones_opc/ordem_cmp.png"
+#define ENT_IMG       "/petitto/files/icones_opc/entradas.png"
+#define LMB_IMG       "/petitto/files/icones_opc/lembrete.png"
+#define UND_IMG       "/petitto/files/icones_opc/unidade.png"
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
@@ -78,7 +78,8 @@
 #define PROD_RELAT_FILE    "/petitto/files/impressao/relatorios/produtos/"
 #define VND_RELAT_FILE    "/petitto/files/impressao/relatorios/vendas/"
 #define EST_RELAT_FILE    "/petitto/files/impressao/relatorios/estoque/"
-#define IMG_IMP_LOGO  "/petitto/files/impressao/imgs/logo_livro_texto.png"
+#define MOV_RELAT_FILE    "/petitto/files/impressao/relatorios/movimentos/"
+#define IMG_IMP_LOGO      "/petitto/files/impressao/imgs/logo_livro_texto.png"
 #endif
 
 #ifdef __linux__
@@ -110,7 +111,7 @@
 #define BANNER        "/usr/share/petitto/files/princ_imgs/banner.png"
 #define MSG_PRINC     "/usr/share/petitto/files/msg"
 #define BARRA_IMG     "/usr/share/petitto/files/princ_imgs/barra.png"
-#define BOTAO_MENU    "/usr/share/petitto/files/princ_imgs/botao_menu.png"  
+#define BOTAO_MENU    "/usr/share/petitto/files/princ_imgs/botao_menu.png"
 #define FATOR_IMG     "/usr/share/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/usr/share/petitto/files/icones_opc/parametros.png"
 #define EXIT_IMG      "/usr/share/petitto/files/icones_opc/sair.png"
@@ -118,23 +119,23 @@
 #define PED_IMG		  "/usr/share/petitto/files/icones_opc/pedidos.png"
 #define PROD_IMG      "/usr/share/petitto/files/icones_opc/produtos.png"
 #define GRP_IMG       "/usr/share/petitto/files/icones_opc/grupos.png"
-#define TERC_IMG      "/usr/share/petitto/files/icones_opc/terceiros.png"  
-#define ESTO_IMG      "/usr/share/petitto/files/icones_opc/estoques.png" 
-#define REL_IMG       "/usr/share/petitto/files/icones_opc/cad_relat.png"   
-#define SALD_IMG      "/usr/share/petitto/files/icones_opc/saldo.png"  
-#define OPR_IMG       "/usr/share/petitto/files/icones_opc/operadores.png"  
-#define TRS_IMG       "/usr/share/petitto/files/icones_opc/transacoes.png"  
-#define SOL_IMG       "/usr/share/petitto/files/icones_opc/solicitacoes.png"  
+#define TERC_IMG      "/usr/share/petitto/files/icones_opc/terceiros.png"
+#define ESTO_IMG      "/usr/share/petitto/files/icones_opc/estoques.png"
+#define REL_IMG       "/usr/share/petitto/files/icones_opc/cad_relat.png"
+#define SALD_IMG      "/usr/share/petitto/files/icones_opc/saldo.png"
+#define OPR_IMG       "/usr/share/petitto/files/icones_opc/operadores.png"
+#define TRS_IMG       "/usr/share/petitto/files/icones_opc/transacoes.png"
+#define SOL_IMG       "/usr/share/petitto/files/icones_opc/solicitacoes.png"
 #define ADD_SALDO     "/usr/share/petitto/files/icones_opc/add_saldo.png"
 #define REM_SALDO     "/usr/share/petitto/files/icones_opc/rem_saldo.png"
 #define REL_PROD_IMG  "/usr/share/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_TER_IMG   "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG   "/usr/share/petitto/files/icones_opc/relatorio_est.png"
-#define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"  
-#define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"  
-#define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"  
-#define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"  
-#define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"  
+#define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"
+#define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"
+#define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"
+#define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"
+#define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/petitto/files/icones_opc/vinculos.png"
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_REC       "/usr/share/petitto/files/opcoes_padrao/recarregar.png"
@@ -154,6 +155,7 @@
 #define PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/produtos/"
 #define VND_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/vendas/"
 #define EST_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/estoque/"
+#define MOV_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/movimentos/"
 #define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #endif
 
@@ -188,7 +190,7 @@
 #define ROWS_QNT 30
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 400
-#define MAX_RAZ_LEN 400	
+#define MAX_RAZ_LEN 400
 #define MAX_PRECO_LEN 15
 #define MAX_UND_LEN 10
 #define MAX_GRP_LEN 20
@@ -227,8 +229,5 @@
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;
-GtkTextBuffer *buffer;
-GtkTextIter inicio,fim;	
 GtkIconTheme *icone;
 static int inicializando=0;
-

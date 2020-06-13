@@ -6,7 +6,8 @@ static int concluir_orc()
 	char code[MAX_CODE_LEN];
 	query = malloc(MAX_QUERY_LEN);
 	concluindo_orc=1;
-
+	if(observacoes_orc_get()!=0)
+		return 1;
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -92,7 +93,7 @@ static int concluir_orc()
 						popup(NULL,"Erro ao tentar gerar orçamento");
 						return 1;
 					}
-					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
+					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s), tipopag = %i, observacoes = '%s' where code = %s",codigo_orc_gchar, tipo_pag, observacoes_orc_gchar, codigo_orc_gchar);
 					erro = enviar_query(query);
 					if(erro != 0 )
 					{
@@ -109,7 +110,7 @@ static int concluir_orc()
 			}
 
 		}
-		sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
+		sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s),tipopag = %i, observacoes = '%s' where code = %s",codigo_orc_gchar,tipo_pag,observacoes_orc_gchar,codigo_orc_gchar);
 		erro = enviar_query(query);
 		if(erro != 0 )
 		{

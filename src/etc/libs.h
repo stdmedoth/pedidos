@@ -39,6 +39,7 @@
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
 #include "../Relatorios/relatorios/terceiros/terceiros.h"
+#include "../Relatorios/relatorios/movimentos/movimentos.h"
 #include "../Relatorios/pesquisar/relat_ptabs.h"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
@@ -79,4 +80,4 @@
 #include "../Relatorios/relatorios/produtos/produtos.c"
 #include "../Relatorios/pesquisar/relat_ptabs.c"
 #include "../Relatorios/relatorios/terceiros/terceiros.c"
-#include "../Relatorios/relatorios/saldos/saldo.c"
+#include "../Relatorios/relatorios/movimentos/movimentos.c"

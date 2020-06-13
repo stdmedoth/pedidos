@@ -2,6 +2,8 @@ int code_prod()
 {
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
+	GtkTextBuffer *buffer;
+	GtkTextIter inicio,fim;
 	char query[MAX_QUERY_LEN];
 	char code[10];
 	codigos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
@@ -35,7 +37,7 @@ int code_prod()
 			altera_prod();
 			return 0;
 		}
-	
+
 	}
 
 	if(stoi(codigos_prod)==-1)
@@ -61,7 +63,7 @@ int code_prod()
 			buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 			gtk_text_buffer_get_start_iter (buffer,&inicio);
 			gtk_text_buffer_get_end_iter (buffer,&fim);
-			gtk_text_buffer_delete (buffer,&inicio,&fim);	
+			gtk_text_buffer_delete (buffer,&inicio,&fim);
 		}
 		return 1;
 	}
@@ -70,4 +72,3 @@ int code_prod()
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;
 }
-

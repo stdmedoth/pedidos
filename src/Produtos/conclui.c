@@ -1,9 +1,12 @@
 int conclui_prod(GtkWidget* nome, gpointer *botao)
-{	
+{
 	int err;
 	char *code;
 	code = malloc(10);
 	char *query;
+	GtkTextBuffer *buffer;
+	GtkTextIter inicio,fim;
+
 	concluindo_prod=1;
 	if(code_prod()!=0)
 	{
@@ -24,28 +27,28 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	{
 		gtk_widget_grab_focus(grupo_prod_field);
 		return 1;
-	}	
+	}
 	if(fornecedor_prod()!=0)
 	{
 		gtk_widget_grab_focus(fornecedor_prod_field);
 		return 1;
 	}
 	if(und_unt_prod()!=0)
-	{	
+	{
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
 	if(und_atac_prod()!=0)
-	{	
+	{
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
 	if(obs_prod()!=0)
 	{
-		
+
 		return 1;
 	}
-	
+
 	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
 	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)
@@ -55,7 +58,7 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 			return 1;
 	}
 	g_print("iniciando concluir_ter()\n");
-	
+
 	if(alterando_prod==0)
 	{
 		sprintf(query,PROD_CAD_QUERY,ARGS_PROD_CAD_QUERY);
@@ -114,12 +117,12 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);	
+		gtk_text_buffer_delete (buffer,&inicio,&fim);
 	}
 	grupos_prod=NULL;
 	concluindo_prod=0;
 	alterando_prod=0;
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);	
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 	printf("finalizando conclui_ter()\n");
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;

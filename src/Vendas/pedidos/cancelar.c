@@ -28,7 +28,7 @@ int cancelar_ped()
 		popup(NULL,"Erro ao inserir valor total");
 		return 1;
 	}
-		
+
 	popup(NULL,"Pedido cancelado com sucesso!");
-	return 0;	
+	return 0;
 }

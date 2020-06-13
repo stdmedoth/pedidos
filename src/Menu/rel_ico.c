@@ -11,7 +11,7 @@ int rel_ico(void)
 	//label dos icones
 	rel_prd_lbl = gtk_label_new("Relatório Produtos");
 	rel_ter_lbl = gtk_label_new("Relatório Terceiros");
-	rel_est_lbl = gtk_label_new("Relatório Saldos");
+	rel_est_lbl = gtk_label_new("Relatório Movimentos");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao

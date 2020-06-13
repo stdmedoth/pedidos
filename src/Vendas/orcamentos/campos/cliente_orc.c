@@ -17,10 +17,10 @@ void ter_alert_obs()
 		botao_fecha = gtk_button_new_with_label("Fechar");
 		gtk_box_pack_start(GTK_BOX(obs_caixa),obs_label,0,0,20);
 		gtk_fixed_put(GTK_FIXED(fixed_fecha),botao_fecha,60,0);
-		
+
 		gtk_box_pack_start(GTK_BOX(box),obs_caixa,0,0,20);
 		gtk_box_pack_start(GTK_BOX(box),fixed_fecha,0,00,10);
-		
+
 		gtk_container_add(GTK_CONTAINER(janela),box);
 		g_signal_connect(botao_fecha,"clicked",G_CALLBACK(close_window_callback),janela);
 		gtk_widget_show_all(janela);
@@ -31,11 +31,11 @@ int codigo_cli_orc()
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));	
+	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));
 	if(strlen(cliente_orc_gchar)<=0)
 	{
 		popup(NULL,"O código cliente deve ser inserido");
-		vet_erro[CLI_ERR] = 1;
+
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
@@ -43,7 +43,7 @@ int codigo_cli_orc()
 	if(stoi(cliente_orc_gchar)==-1)
 	{
 		popup(NULL,"O código do cliente deve ser numérico");
-		vet_erro[CLI_ERR] = 1;
+
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
@@ -57,27 +57,29 @@ int codigo_cli_orc()
 		autologger("Erro na query de cliente no orcamento\n");
 		autologger(query);
 		gtk_widget_grab_focus(cliente_orc_entry);
-		vet_erro[CLI_ERR] = 1;
 		return 1;
 	}
+
 	campos = mysql_fetch_row(vetor);
 	if(campos == NULL)
 	{
 		popup(NULL,"Cliente não existente");
 		gtk_widget_grab_focus(cliente_orc_entry);
-		vet_erro[CLI_ERR] = 1;
 		return 1;
 	}
-	vet_erro[CLI_ERR] = 0;
+
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);
+
 	strcpy(orc_ter_obs_char,campos[3]);
+
 	if(strlen(orc_ter_obs_char)>0&&alerta_obs==0)
 	{
 		ter_alert_obs();
 		alerta_obs = 1;
 	}
+
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
 		gtk_widget_grab_focus(codigo_prod_orc_entry[1]);
 	return 0;

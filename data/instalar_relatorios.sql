@@ -6,7 +6,7 @@ sobre varchar(300),
 inner_query varchar(300),
 qnt_colunas int);
 
-create table relat_tab_campos( code int primary key auto_increment,	
+create table relat_tab_campos( code int primary key auto_increment,
 tabela int default 1,
 nome varchar(50),
 sobre varchar(300),
@@ -20,7 +20,7 @@ foreign key(tabela) references relat_tabelas_id(code),
 foreign key(campos) references relat_tab_campos(code));
 
 insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
-('produtos','Tabela responsável por armazenar os dados dos produtos', 
+('produtos','Tabela responsável por armazenar os dados dos produtos',
 ' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code',8),
 
 ('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',
@@ -37,7 +37,6 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 
 ('Produtos por Orçamento/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
 ' from Produto_Orcamento as p_o',10);
-
 
 insert into relat_tab_campos(tabela, nome, sobre, query) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code'),
@@ -97,7 +96,7 @@ insert into relat_tab_campos(tabela, nome, sobre, query) values
 
 insert into relat_tab_campos(tabela, nome, sobre, query) values
 (5, 'Código','Código dos movimentos de cada produto', 'm_e.code'),
-(5, 'Estoque','Estoque utilizado no movimento', 'm_e.razao'),
+(5, 'Estoque','Estoque utilizado no movimento', 'm_e.estoque'),
 (5, 'Pedido', 'Número do pedido vinculado ao movimento', 'm_e.pedido'),
 (5, 'Cód Produto', 'Código do Produto movimentado', 'm_e.produto'),
 (5, 'Nome Produto','Nome Produto movimentado', 'p.nome'),
@@ -106,4 +105,5 @@ insert into relat_tab_campos(tabela, nome, sobre, query) values
 (5, 'Nome Cliente','Nome do cliente vinculado ao movimento', 't.razao'),
 (5, 'Movimento Saídas','Quantidade de saídas no movimento', 'm_e.saidas'),
 (5, 'Movimento Entradas','Quantidade de entradas no movimento', 'm_e.entradas'),
-(5, 'Data','Tipo de movimento (venda,compra,devolução,)', 'm_e.tipo_mov');
+(5, 'Tipo','Tipo de movimento (venda,compra,devolução)', 'm_e.tipo_mov'),
+(5, 'Data','Data do movimento', 'm_e.data_mov');

@@ -6,6 +6,7 @@ int altera_orc()
 	char code[MAX_CODE_LEN];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+	GtkTextBuffer *buffer;
 
 	g_print("Iniciando alterar\n");
 	alterando_orc=1;
@@ -15,8 +16,11 @@ int altera_orc()
 	if(codigo_orc()!=0)
 		return 1;
 
+	if(observacoes_orc_get()!=0)
+			return 1;
+
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cliente, tipopag, (%s%s), total from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	sprintf(query,"select cliente, tipopag, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -35,6 +39,11 @@ int altera_orc()
 	tipo_pag = atoi(row[1]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
 
+	if(row[4] && strlen(row[4]))
+	{
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
+		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[4],strlen(row[4]));
+	}
 	if(codigo_cli_orc()!=0)
 		return 1;
 

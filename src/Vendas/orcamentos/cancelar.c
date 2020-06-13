@@ -1,7 +1,7 @@
 int cancela_orc()
 {
 	char code[MAX_CODE_LEN];
-
+	GtkTextBuffer *buffer;
 	cont=0;
 
 	while(cont<MAX_PROD_ORC)
@@ -28,6 +28,8 @@ int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",0);
 
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);

@@ -1,9 +1,9 @@
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
-	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));		
+	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
-	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));		
+	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
 	return 0;
 }
 
@@ -22,19 +22,19 @@ static int receber_personalizacao()
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)	
+	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
-	
-	personalizacao.tema = atoi(row[2]);	
+
+	personalizacao.tema = atoi(row[2]);
 	personalizacao.janela_init = atoi(row[3]);
 	personalizacao.janela_keep_above = atoi(row[4]);
-	
-	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[2]));	
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));	
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));		
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[2]));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));
 
 	return 0;
 }
@@ -56,7 +56,7 @@ int atualizar_personalizacao()
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
 		return 1;
 	}
-	
+
 	receber_personalizacao();
 	return 0;
 }
@@ -112,27 +112,29 @@ int configurar_parametros()
 							terceiros.criticar.email = 1;
 							break;
 						case 10:
-							terceiros.criticar.contatoe = 1; 
+							terceiros.criticar.contatoe = 1;
 							break;
 						case 11:
-							terceiros.criticar.entrega = 1; 
+							terceiros.criticar.entrega = 1;
 							break;
 						case 12:
-							terceiros.criticar.prazo = 1; 
+							terceiros.criticar.prazo = 1;
 							break;
 						case 13:
-							terceiros.criticar.vlr_frete_pago = 1; 
+							terceiros.criticar.vlr_frete_pago = 1;
 							break;
 						case 14:
-							orcamentos.criticar.prod_movimento = 1; 
+							orcamentos.criticar.prod_movimento = 1;
 							break;
 						case 15:
-							orcamentos.criticar.prod_saldo = 1; 
+							orcamentos.criticar.prod_saldo = 1;
 							break;
 						case 16:
-							orcamentos.criticar.prod_saldo_limite = 1; 
+							orcamentos.criticar.prod_saldo_limite = 1;
 							break;
-						
+						case 17:
+								orcamentos.criticar.orc_ped_cancelado = 1;
+								break;
 					}
 				}
 			}
@@ -155,7 +157,7 @@ int ler_criticas()
 			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
 		else
 			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
-		
+
 		res = consultar(query);
 		if(res!=NULL)
 		{
@@ -197,27 +199,29 @@ int ler_criticas()
 							terceiros.criticar.email = 1;
 							break;
 						case 10:
-							terceiros.criticar.contatoe = 1; 
+							terceiros.criticar.contatoe = 1;
 							break;
 						case 11:
-							terceiros.criticar.entrega = 1; 
+							terceiros.criticar.entrega = 1;
 							break;
 						case 12:
-							terceiros.criticar.prazo = 1; 
+							terceiros.criticar.prazo = 1;
 							break;
 						case 13:
-							terceiros.criticar.vlr_frete_pago = 1; 
+							terceiros.criticar.vlr_frete_pago = 1;
 							break;
 						case 14:
-							orcamentos.criticar.prod_movimento = 1; 
+							orcamentos.criticar.prod_movimento = 1;
 							break;
 						case 15:
-							orcamentos.criticar.prod_saldo = 1; 
+							orcamentos.criticar.prod_saldo = 1;
 							break;
 						case 16:
-							orcamentos.criticar.prod_saldo_limite = 1; 
+							orcamentos.criticar.prod_saldo_limite = 1;
 							break;
-						
+						case 17:
+								orcamentos.criticar.orc_ped_cancelado = 1;
+								break;
 					}
 					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]),TRUE);
 				}
@@ -234,10 +238,13 @@ int atualizar_criticas()
 	int erro;
 	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
-	{		
+	{
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]))==TRUE)
 		{
-			sprintf(query,"update criticas set critica = 1 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+			if(cont<=ter_critic_campos_qnt)
+				sprintf(query,"update criticas set critica = 1 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+			else
+				sprintf(query,"update criticas set critica = 1 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 			erro = enviar_query(query);
 			if(erro != 0)
 			{
@@ -247,7 +254,10 @@ int atualizar_criticas()
 		}
 		else
 		{
-			sprintf(query,"update criticas set critica = 0 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+			if(cont<=ter_critic_campos_qnt)
+				sprintf(query,"update criticas set critica = 0 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+			else
+				sprintf(query,"update criticas set critica = 0 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 			erro = enviar_query(query);
 			if(erro != 0)
 			{
@@ -286,18 +296,18 @@ int parametrizar()
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
 
 	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box;
-	
+
 	GtkWidget *opcoes_box;
-	
+
 	GtkWidget *atualizar_button;
 	GtkWidget *atualizar_image;
-	
+
 	int cont;
 	int *vet_pos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	
+
 	janela_parametros = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_parametros,600,400);
 	gtk_window_set_title(GTK_WINDOW(janela_parametros),"Parametros");
@@ -313,26 +323,26 @@ int parametrizar()
 	event_wallpapers = malloc(sizeof(GtkEventBox*)*WALLPAPERS_QNT);
 	wallpapers_scroll = gtk_scrolled_window_new(NULL,NULL);
 	wallpapers_box = gtk_box_new(0,0);
-	
+
 	personaliza_box = gtk_box_new(1,0);
 	personaliza_frame = gtk_frame_new("Personalização");
 	gtk_frame_set_shadow_type(GTK_FRAME(personaliza_frame),GTK_SHADOW_ETCHED_OUT);
 	janela_init = gtk_check_button_new_with_label("Ativar Login?");
 	janela_keep_above = gtk_check_button_new_with_label("Janelas pais sobrepoem ?");
-	
+
 	tema_combo_box = gtk_combo_box_text_new();
 	tema_combo_box_fixed = gtk_fixed_new();
 	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(tema_combo_box),3);
-	
+
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),0,"Escolha Tema:");
-	
+
 	cont=1;
 	while(cont<temas_qnt)
 	{
 		gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(tema_combo_box),cont,nomes_temas[cont]);
 		cont++;
 	}
-	
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
 
@@ -340,7 +350,7 @@ int parametrizar()
 	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_keep_above,0,0,5);
 	gtk_box_pack_start(GTK_BOX(personaliza_box),tema_combo_box_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(personaliza_frame),personaliza_box);
-	
+
 	for(cont=0;cont<WALLPAPERS_QNT;cont++)
 	{
 		/*
@@ -370,30 +380,30 @@ int parametrizar()
 	gtk_frame_set_shadow_type(GTK_FRAME(wallpapers_frame),GTK_SHADOW_ETCHED_OUT);
 	gtk_container_add(GTK_CONTAINER(wallpapers_frame),wallpapers_scroll);
 	campos_de_critica = malloc(sizeof(GtkCheckButton*)*orc_critic_campos_qnt+1);
-	
+
 	caixona = gtk_box_new(1,0);
 	opcoes_box = gtk_box_new(0,0);
 	geral_box = gtk_box_new(1,0);
 	terc_box = gtk_box_new(1,0);
 	prod_box = gtk_box_new(1,0);
 	orc_box = gtk_box_new(1,0);
-	
+
 	gtk_widget_set_size_request(geral_box,580,400);
-	
+
 	gtk_box_pack_start(GTK_BOX(geral_box),wallpapers_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(geral_box),personaliza_frame,0,0,10);
-	
+
 	atualizar_button = gtk_button_new_with_label("Atualizar");
 	atualizar_image = gtk_image_new_from_file(IMG_REC);
 	gtk_button_set_image(GTK_BUTTON(atualizar_button),atualizar_image);
 	gtk_box_pack_start(GTK_BOX(opcoes_box),atualizar_button,0,0,30);
-	
+
 	ter_criticas_frame = gtk_frame_new("Campos Criticados");
 	ter_criticas_box = gtk_box_new(1,0);
-	
+
 	orc_criticas_frame = gtk_frame_new("Produto em Orçamentos");
 	orc_criticas_box = gtk_box_new(1,0);
-	
+
 	sprintf(query,"select nome from criticas");
 	if((res = consultar(query))==NULL)
 	{
@@ -401,32 +411,33 @@ int parametrizar()
 		return 1;
 	}
 	cont=0;
+
 	while((row=mysql_fetch_row(res))!=NULL)
-	{		
+	{
 		campos_de_critica[cont] = gtk_check_button_new_with_label(row[0]);
-		
+		g_print("campo %i : %s\n",cont,row[0]);
 		if(cont<=ter_critic_campos_qnt)
 			gtk_box_pack_start(GTK_BOX(ter_criticas_box),campos_de_critica[cont],0,0,0);
 		else
 		if(cont<=orc_critic_campos_qnt)
 			gtk_box_pack_start(GTK_BOX(orc_criticas_box),campos_de_critica[cont],0,0,0);
-			
+
 		cont++;
 	}
-		
+
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
 
 	gtk_box_pack_start(GTK_BOX(terc_box),ter_criticas_frame,0,0,10);
-	
+
 	gtk_container_add(GTK_CONTAINER(orc_criticas_frame),orc_criticas_box);
-	
+
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_criticas_frame,0,0,10);
-	
+
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),geral_box,gtk_label_new("Geral"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),terc_box,gtk_label_new("Terceiros"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),prod_box,gtk_label_new("Produtos"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),orc_box,gtk_label_new("Orçamentos")); /* atualizar mais tarde*/
-	
+
 	receber_personalizacao();
 	ler_criticas();
 
