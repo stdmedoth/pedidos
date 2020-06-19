@@ -2,7 +2,7 @@ int alterando_ter=0;
 
 GtkWidget *concluir_ter_buttom,
 *alterar_ter_buttom,
-*listar_ter_buttom,
+*psq_ter_button,
 *cancelar_ter_buttom,
 *excluir_ter_buttom;
 
@@ -61,7 +61,7 @@ int  cad_terc()
 	//linhas
 	GError *gerro;
 	GtkWidget *janela;
-
+	GtkWidget *psq_ter_box;
 	GtkWidget *vinculo_grp_prod_frame, *vinculo_grp_prod_box,*vinculo_grp_prod_scroll;
 
 	GtkWidget *horizontal_box_one,
@@ -253,10 +253,14 @@ int  cad_terc()
 	concluir_ter_buttom = gtk_button_new_with_label("Concluir");
 	alterar_ter_buttom = gtk_button_new_with_label("Alterar");
 	cancelar_ter_buttom = gtk_button_new_with_label("Cancelar");
-	listar_ter_buttom = gtk_button_new_with_label("Pesquisar");
 	excluir_ter_buttom = gtk_button_new_with_label("Excluir");
 
 	code_ter_field = gtk_entry_new();
+	psq_ter_button = gtk_button_new();
+	psq_ter_box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_box),code_ter_field,0,0,0);
+	gtk_button_set_image(GTK_BUTTON(psq_ter_button),gtk_image_new_from_file(IMG_PESQ));
+	gtk_box_pack_start(GTK_BOX(psq_ter_box),psq_ter_button,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
 
 	code_ter_nfe_field = gtk_entry_new();
@@ -307,7 +311,7 @@ int  cad_terc()
 	code = gtk_box_new(1,0);
 	gtk_widget_set_name(code,"caixa");
 	gtk_box_pack_start(GTK_BOX(code),code_label,0,0,0);
-	gtk_box_pack_end(GTK_BOX(code),code_ter_field,0,0,0);
+	gtk_box_pack_end(GTK_BOX(code),psq_ter_box,0,0,0);
 	gtk_entry_set_width_chars(GTK_ENTRY(code_ter_field),10);
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
 	gtk_widget_set_size_request(code_ter_field,50,30);
@@ -520,14 +524,12 @@ int  cad_terc()
 
 	gtk_box_pack_start(GTK_BOX(opcoes),concluir_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),alterar_ter_buttom,0,0,10);
-	gtk_box_pack_start(GTK_BOX(opcoes),listar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),cancelar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),excluir_ter_buttom,0,0,10);
 
 	gtk_widget_set_size_request(GTK_WIDGET(concluir_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(alterar_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(cancelar_ter_buttom),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(listar_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(excluir_ter_buttom),100,50);
 
 
@@ -563,7 +565,7 @@ int  cad_terc()
 
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),NULL);
 	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),NULL);
-	g_signal_connect(GTK_BUTTON(listar_ter_buttom),"clicked",G_CALLBACK(psq_ter),code_ter_field);
+	g_signal_connect(GTK_BUTTON(psq_ter_button),"clicked",G_CALLBACK(psq_ter),code_ter_field);
 	g_signal_connect(GTK_BUTTON(cancelar_ter_buttom),"clicked",G_CALLBACK(cancelar_ter),NULL);
 	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),NULL);
 
@@ -623,7 +625,6 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),opcoes,0,0,10);
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
-	abrir_css(DESKTOP_STYLE);
 	gtk_widget_set_sensitive(frete_pago_entry,FALSE);
 	gtk_widget_show_all(janela);
 	gtk_widget_grab_focus(doc_ter_field);

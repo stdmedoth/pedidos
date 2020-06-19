@@ -3,7 +3,7 @@ void cancelar_prod()
 	char *code;
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
-	
+
 	code = malloc(10);
 	code[0] = '\0';
 	cancelando_prod=1;
@@ -26,11 +26,16 @@ void cancelar_prod()
 	gtk_text_buffer_get_start_iter (buffer,&inicio);
 	gtk_text_buffer_get_end_iter (buffer,&fim);
 	gtk_text_buffer_delete (buffer,&inicio,&fim);
-	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
+
 	grupos_prod=NULL;
 	concluindo_prod=0;
 	alterando_prod=0;
 	cancelando_prod=0;
+
+	gtk_widget_set_sensitive(GTK_WIDGET(codigo_prod_field),TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(psq_prod_codigo_button),TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(prod_alterar_button),TRUE);
+
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 }

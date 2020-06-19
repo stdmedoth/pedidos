@@ -50,7 +50,7 @@ int rel_ico(void)
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(relat_ter_fun),NULL);
 	//g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(NULL),NULL);
 
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(relat_sld_fun),NULL);
+	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(relat_mov_fun),NULL);
 	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
 
 	return 0;

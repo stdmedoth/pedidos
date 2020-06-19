@@ -81,11 +81,7 @@ void login()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
 	gtk_window_set_title(GTK_WINDOW(janela_login),"Login");
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
-
-	if( personalizacao.janela_keep_above == 1 )
-	{
-		gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
-	}
+	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
 
 	gtk_window_set_position(GTK_WINDOW(janela_login),3);
 
@@ -141,7 +137,7 @@ void login()
 	g_signal_connect(nome_entry,"activate",G_CALLBACK(passa_nome),NULL);
 	g_signal_connect(senha_entry,"activate",G_CALLBACK(passa_senha),NULL);
 
-		g_handle_janela_login = 	g_signal_connect(janela_login,"destroy",G_CALLBACK(encerrando),NULL);
+	g_handle_janela_login = g_signal_connect(janela_login,"destroy",G_CALLBACK(encerrando),NULL);
 
 	gtk_widget_grab_focus(nome_entry);
 	return ;

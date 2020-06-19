@@ -3,7 +3,7 @@ int relat_prod_codigo_fun()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	
+
 	relat_prod_codigo_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(relat_prod_code_entry));
 	if(strlen(relat_prod_codigo_gchar)<=0)
 	{
@@ -17,7 +17,7 @@ int relat_prod_codigo_fun()
 		popup(NULL,"Erro ao buscar nome do relatorio");
 		return 1;
 	}
-	
+
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Relatório não existente");

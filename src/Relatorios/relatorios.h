@@ -16,7 +16,7 @@ struct
 	int campos_code_bkp[MAX_RELAT_CAMPOS];
 	int qnt_campos;
 	char nome[MAX_RELAT_NOME];
-	bool status[MAX_RELAT_CAMPOS];
+	int status[MAX_RELAT_CAMPOS];
 
 }
 relat_struct;

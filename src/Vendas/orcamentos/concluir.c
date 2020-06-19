@@ -34,8 +34,8 @@ static int concluir_orc()
 			return 1;
 		}
 
-		sprintf(query,"insert into orcamentos( code, vendedor, cliente, tipopag, dia, observacoes, total) values(%s,1,%s,%i,'%s-%s-%s','%s',0.0);",
-		codigo_orc_gchar,cliente_orc_gchar,tipo_pag ,ano_sys,mes_sys,dia_sys,observacoes_orc_gchar);
+		sprintf(query,"insert into orcamentos( code, vendedor, cliente, tipopag, dia, observacoes, total) values(%s,1,%s,%i,'%s','%s',0.0);",
+		codigo_orc_gchar,cliente_orc_gchar,tipo_pag , data_sys ,observacoes_orc_gchar);
 
 		erro = enviar_query(query);
 		if(erro != 0 )

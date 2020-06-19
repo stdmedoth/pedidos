@@ -34,7 +34,7 @@ insert into empresa(razao,endereco,cnpj)
 values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
-(3,1,1,1),
+(4,1,1,1),
 (0,1,1,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
@@ -112,3 +112,9 @@ values ('PERCALUX', 0.0, 4, 5, 2, 3, ''),
 insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');
+
+insert into tipo_movimentos(code, nome) values
+(1,'Venda'),
+(2,'Devolução Venda'),
+(3,'Compra'),
+(4,'Devolução Compra');

@@ -7,6 +7,7 @@ int code_prod()
 	char query[MAX_QUERY_LEN];
 	char code[10];
 	codigos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
+
 	if(strlen(codigos_prod)<=0)
 	{
 		g_print("Inserir um código para o produto");
@@ -37,7 +38,6 @@ int code_prod()
 			altera_prod();
 			return 0;
 		}
-
 	}
 
 	if(stoi(codigos_prod)==-1)

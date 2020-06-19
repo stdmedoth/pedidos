@@ -3,7 +3,6 @@ void relat_ter_fun()
 	GtkWidget *janela;
 	GtkWidget *grid, *caixa;
 
-
 	GtkWidget *relat_ter_code_frame, *relat_ter_code_fixed;
 	GtkWidget *relat_ter_nome_frame, *relat_ter_nome_fixed;
 	GtkWidget *relat_ter_query_frame, *relat_ter_query_fixed;

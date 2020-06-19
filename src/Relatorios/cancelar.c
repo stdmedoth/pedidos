@@ -2,6 +2,8 @@ int cad_relat_cancelar()
 {
 	int cont=1;
 	char code[MAX_CODE_LEN];
+	GtkTreeIter iter1;
+	enum {COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	GtkTreeStore *modelo_campos;
 
 	while(cont<=MAX_RELAT_CAMPOS)
@@ -21,6 +23,8 @@ int cad_relat_cancelar()
 	
 	modelo_campos = (GtkTreeStore*) gtk_tree_view_get_model(GTK_TREE_VIEW(cad_relat_treeview));
 	gtk_tree_store_clear(modelo_campos);
+	gtk_tree_store_append(modelo_campos,&iter1,NULL);
+	gtk_tree_store_set(modelo_campos,&iter1,COLUMN0,0,COLUMN1,"",COLUMN2,"",-1);
 	alterando_cad_rel=0;
 	concluindo_cad_rel=0;
 	gtk_widget_grab_focus(cad_rel_nome_entry);

@@ -175,6 +175,7 @@ int altera_ter()
 
 	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),FALSE);
+	gtk_widget_set_sensitive(psq_ter_button,FALSE);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
 

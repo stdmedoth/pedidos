@@ -24,18 +24,7 @@ int altera_prod()
 	{
 		g_print("produto não existe para ser alterado\n");
 		popup(NULL,"Produto não existe");
-		sprintf(task,"%i",tasker("produtos"));
-		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
-		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
-		gtk_text_buffer_get_start_iter (buffer,&inicio);
-		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);
-
+		cancelar_prod();
 		gtk_widget_grab_focus (GTK_WIDGET(nome_prod_field));
 		return 1;
 	}
@@ -75,6 +64,11 @@ int altera_prod()
 	memset(query,0x0,strlen(query));
 
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);
+	gtk_widget_set_sensitive(GTK_WIDGET(codigo_prod_field),FALSE);
+
+	gtk_widget_set_sensitive(GTK_WIDGET(psq_prod_codigo_button),FALSE);
+	gtk_widget_set_sensitive(GTK_WIDGET(prod_alterar_button),FALSE);
+
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Alterando");
 	return 0;
 }

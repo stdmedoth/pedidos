@@ -9,11 +9,14 @@ static GtkWidget *sigla_und_label,  *sigla_und_field, *sigla_und_frame;
 static GtkWidget *mult_und_label,   *mult_und_field, *mult_und_frame;
 static GtkWidget *medida_und_combo_box;
 static int medidas_und=0;
+
 static GtkWidget *psq_cad_und_button, *psq_cad_und_img, *psq_cad_und_box;
 
 static int altera_und();
 static int alterando_und=0;
 static int concluindo_und=0;
+
+static GtkWidget *und_concluir_button, *und_alterar_button, *und_excluir_button;
 
 #include "codigo.c"
 #include "nome.c"

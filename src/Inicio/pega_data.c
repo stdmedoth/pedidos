@@ -10,12 +10,12 @@ int pegar_data()
 	time_t tempo;
 	time(&tempo);
 	tempo_struct = localtime(&tempo);
-	
+
 	strcpy(dia_sys,"");
 	strcpy(mes_sys,"");
 	strcpy(ano_sys,"");
 	strcpy(data_sys,"");
-	
+
 	if(tempo_struct->tm_mday < 10)
 	{
 		sprintf(dia_sys,"0%i",tempo_struct->tm_mday);
@@ -24,7 +24,7 @@ int pegar_data()
 	{
 		sprintf(dia_sys,"%i",tempo_struct->tm_mday);
 	}
-	
+
 	if(tempo_struct->tm_mon < 10)
 	{
 		sprintf(mes_sys,"0%i",tempo_struct->tm_mon+1);
@@ -33,9 +33,9 @@ int pegar_data()
 	{
 		sprintf(mes_sys,"%i",tempo_struct->tm_mon+1);
 	}
-	
+
 	sprintf(ano_sys,"%i",tempo_struct->tm_year+1900);
-	
+
 	sprintf(data_sys,"%s-%s-%s",ano_sys,mes_sys,dia_sys);
 	return 0;
 }

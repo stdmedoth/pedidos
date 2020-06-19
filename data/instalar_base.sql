@@ -2,6 +2,10 @@ drop database if exists erp;
 create database erp;
 use erp;
 
+create table tipo_movimentos( code int primary key,
+  nome varchar(40) default 'TipoMovimentoSemNome'
+);
+
 create table operadores( code int primary key auto_increment,
 nome varchar(20) default 'OperadorSemNome',
 senha varchar(20) default ' ',

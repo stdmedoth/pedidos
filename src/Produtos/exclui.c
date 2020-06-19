@@ -31,7 +31,7 @@ int exclui_prod()
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);
 		gtk_text_buffer_delete (buffer,&inicio,&fim);
-		gtk_widget_grab_focus (GTK_WIDGET(listar));
+		gtk_widget_grab_focus (GTK_WIDGET(psq_prod_codigo_button));
 		return 1;
 	}
 	sprintf(query,"delete from produtos where code = '%s';",cod_delel);
@@ -48,20 +48,7 @@ int exclui_prod()
 	if(campo==NULL)
 	{
 		popup(NULL,"Deletado com sucesso");
-		sprintf(stringer,"%i",tasker("produtos"));
-		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),stringer);
-		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_faturado_prod_field),"");
-		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
-		gtk_text_buffer_get_start_iter (buffer,&inicio);
-		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);
-		gtk_widget_grab_focus (GTK_WIDGET(codigo_prod_field));
-		alterando_prod=0;
+		cancelar_prod();
 		return 0;
 	}
 	else

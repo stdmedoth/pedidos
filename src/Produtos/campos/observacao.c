@@ -19,6 +19,6 @@ int obs_prod()
 			popup(NULL,"As observações podem ter até 500 caracteres");
 			return 1;
 	}
-	gtk_widget_grab_focus(concluir);
+	gtk_widget_grab_focus(prod_concluir_button);
 	return 0;
 }

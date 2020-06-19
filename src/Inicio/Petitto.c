@@ -1,4 +1,5 @@
-#define DEBUG 
+#define DEBUG
+
 #ifdef DEBUG
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
@@ -8,9 +9,11 @@
 #include <locale.h>
 #include <errno.h>
 #include <gtk/gtk.h>
+
 #ifdef __linux__
 #include <mysql/mysql.h>
 #endif
+
 #include <time.h>
 #ifdef WIN32
 #include <windows.h>
@@ -37,7 +40,7 @@ GtkWidget *imagem_barra,*layout_barra;
 
 
 int main(int argc,char *argv[])
-{	
+{
 	gtk_disable_setlocale();
 
 	setlocale(LC_CTYPE,"pt_BR");
@@ -45,10 +48,9 @@ int main(int argc,char *argv[])
 	setlocale(LC_MONETARY,"en_US");
 	setlocale(LC_NUMERIC,"en_US");
 	gtk_init(&argc,&argv);
-	
-	//abrir_css(DESKTOP_STYLE);
+
+	abrir_css(DESKTOP_STYLE);
 	init();
 	gtk_main();
 	return 0;
 }
-

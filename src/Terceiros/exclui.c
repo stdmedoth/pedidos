@@ -97,7 +97,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		gtk_text_buffer_get_end_iter (buffer,&fim);
 		gtk_text_buffer_delete (buffer,&inicio,&fim);
 		gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),FALSE);
-		gtk_widget_grab_focus(GTK_WIDGET(listar_ter_buttom));
+		gtk_widget_grab_focus(GTK_WIDGET(psq_ter_button));
 		return 1;
 	}
 

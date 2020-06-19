@@ -1,8 +1,8 @@
-struct 
+struct
 {
-	
-	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_ELM_LEN+MAX_QUERY_ELM_LEN];
-	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_ELM_LEN];
+
+	char *campos;
+	char **campo_query;
 	int campos_qnt;
 }prod_query;
 static GtkWidget *relat_prod_code_entry,

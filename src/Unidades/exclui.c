@@ -20,7 +20,6 @@ int deleta_und()
 		gtk_entry_set_text(GTK_ENTRY(name_und_field),"");
 		gtk_entry_set_text(GTK_ENTRY(sigla_und_field),"");
 		gtk_entry_set_text(GTK_ENTRY(mult_und_field),"");
-		gtk_widget_grab_focus (GTK_WIDGET(listar));
 		return 1;
 	}
 	sprintf(query,"delete from unidades where code = '%s';",codigo);
@@ -41,4 +40,3 @@ int deleta_und()
 	alterando_und=0;
 	return 0;
 }
-

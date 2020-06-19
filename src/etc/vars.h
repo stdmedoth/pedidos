@@ -71,7 +71,7 @@
 #define REL_TER_IMG   "/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG   "/petitto/files/icones_opc/relatorio_est.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
-#define PDF_GEN       "/petitto/files/impressao/pdf.exe"
+#define PDF_GEN       "/petitto/files/impressao/wkhtmltopdf.exe"
 #define IMG_ENVIA     "/petitto/files/opcoes_padrao/enviar.png"
 #define ICON_PATH     "/petitto/files/opcoes_padrao/icones/"
 #define TER_RELAT_FILE    "/petitto/files/impressao/relatorios/terceiros/"

@@ -15,7 +15,7 @@ int relat_ter_query_fun()
 	}
 
 	while((row = mysql_fetch_row(res))!=NULL){
-		
+
 		if(campos_qnt==0)
 			sprintf(ter_query.campos," %s,",row[0]);
 		else
@@ -36,7 +36,7 @@ int relat_ter_query_fun()
 
 	ter_query.campos[strlen(ter_query.campos)-1] = '\0';
 
-	relat_ter_query_gchar = malloc(strlen(ini_query)+strlen(ter_query.campos)+strlen(end_query));
+	relat_ter_query_gchar = malloc(strlen(ini_query)+strlen(ter_query.campos)+strlen(end_query)+1);
 	sprintf(relat_ter_query_gchar,"%s%s%s",ini_query,ter_query.campos,end_query);
 	gtk_entry_set_text(GTK_ENTRY(relat_ter_query_entry),relat_ter_query_gchar);
 	gtk_widget_set_sensitive(relat_ter_query_entry,TRUE);

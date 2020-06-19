@@ -21,6 +21,11 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 		return 0;
 	}
 
+	for(int cont=0;cont<=strlen(valor);cont++)
+	{
+		if(valor[cont]==44)
+			valor[cont] = 46;
+	}
 	strcpy(formatar,valor);
 	sprintf(valor,"%.2f",atof(formatar));
 

@@ -26,7 +26,7 @@ int concluido_und()
 	{
 		gtk_widget_grab_focus(mult_und_field);
 		return 1;
-	}	
+	}
 	if(medida_und()!=0)
 	{
 		gtk_widget_grab_focus(medida_und_combo_box);
@@ -45,7 +45,6 @@ int concluido_und()
 			gtk_entry_set_text(GTK_ENTRY(name_und_field),"");
 			gtk_entry_set_text(GTK_ENTRY(sigla_und_field),"");
 			gtk_entry_set_text(GTK_ENTRY(mult_und_field),"");
-			gtk_widget_grab_focus (GTK_WIDGET(listar));
 			return 1;
 		}
 		sprintf(query,"insert into unidades(code,nome,sigla,multiplo,medida) values('%s','%s','%s',%s,%i);",
@@ -62,14 +61,13 @@ int concluido_und()
 				sigla_und,
 				mult_und,
 				medidas_und,
-				codigos_und);	
+				codigos_und);
 	}
 
-	if(enviar_query(query)==0)	
-	{	
+	if(enviar_query(query)==0)
+	{
 		autologger(query);
 		printf("Query envida com sucesso\n");
-		gtk_button_set_label(GTK_BUTTON(concluir),"concluido");
 		popup(NULL,"Concluido");
 		code[0] = '\0';
 		sprintf(code,"%i",tasker("unidades"));
@@ -85,7 +83,6 @@ int concluido_und()
 		popup(NULL,"O cadastro nao foi feito\nverifique os campos");
 		autologger(query);
 		printf("Query com erro\n");
-		gtk_button_set_label(GTK_BUTTON(concluir),"Tentar novamente");
 		code[0] = '\0';
 		sprintf(code,"%i",tasker("unidades"));
 		gtk_entry_set_text(GTK_ENTRY(code_und_field),code);
@@ -100,4 +97,3 @@ int concluido_und()
 	concluindo_und=0;
 	return 0;
 }
-

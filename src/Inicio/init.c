@@ -36,6 +36,7 @@ int desktop()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;
+	char markup[500];
 	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
@@ -47,7 +48,7 @@ int desktop()
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Sem dados para personalizar o sistema");
-		return 1;
+		gtk_main_quit();
 	}
 
 	personalizacao.tema = atoi(row[2]);
@@ -61,6 +62,9 @@ int desktop()
 	if(atoi(oper_code)==2)
 	{
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
+		GtkSettings *settings;
+		settings = gtk_settings_get_default();
+		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
 		nome_usuario_label = gtk_label_new("OPERADOR DE CORREÇÃO");
 	}
 	else
@@ -126,9 +130,24 @@ int desktop()
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
 	//fixed_sup_border = gtk_fixed_new();
+
+	razao = gtk_label_new(infos(0));
+	endereco = gtk_label_new(infos(1));
+	cnpj = gtk_label_new(infos(2));
+
 	fixed_razao = gtk_fixed_new();
 	fixed_endereco = gtk_fixed_new();
 	fixed_cnpj = gtk_fixed_new();
+
+	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,50,250);
+	gtk_widget_set_name(razao,"infos");
+
+	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,50,5);
+	gtk_widget_set_name(endereco,"infos");
+
+	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,50,5);
+	gtk_widget_set_name(cnpj,"infos");
+
 
 	nome_usuario_fixed = gtk_fixed_new();
 	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,100,200);
@@ -136,8 +155,6 @@ int desktop()
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_cnpj,0,0,0);
-
-    gtk_box_pack_start(GTK_BOX(superior_1),caixa_infos,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(superior),superior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(superior),superior_2,0,0,0);
@@ -152,7 +169,6 @@ int desktop()
 	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1290,750);
 	gtk_box_pack_start(GTK_BOX(juncao),superior,0,0,0);
 	gtk_box_pack_start(GTK_BOX(juncao),inferior,0,0,0);
-
 
 	gtk_box_pack_start(GTK_BOX(area_de_trabalho),juncao,0,0,0);
 
@@ -174,8 +190,9 @@ int desktop()
 
 	gtk_widget_set_size_request(imagem_desktop,1290,750);
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
-	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
 
@@ -191,22 +208,8 @@ int desktop()
 
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
-	gtk_window_set_default_size(GTK_WINDOW(janela_principal),300,350);
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
-
-	razao = gtk_label_new(infos(0));
-
-	endereco = gtk_label_new(infos(1));
-
-	cnpj = gtk_label_new(infos(2));
-
-
-	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,10,250);
-	gtk_widget_set_name(razao,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,10,5);
-	gtk_widget_set_name(endereco,"infos");
-	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,10,5);
-	gtk_widget_set_name(cnpj,"infos");
 
 	configurar_parametros();
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrando),NULL);
