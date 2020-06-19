@@ -35,7 +35,7 @@ static int concluir_orc()
 		}
 
 		sprintf(query,"insert into orcamentos( code, vendedor, cliente, tipopag, dia, observacoes, total) values(%s,1,%s,%i,'%s','%s',0.0);",
-		codigo_orc_gchar,cliente_orc_gchar,tipo_pag , data_sys ,observacoes_orc_gchar);
+		codigo_orc_gchar,cliente_orc_gchar,tipo_pag ,data_sys,observacoes_orc_gchar);
 
 		erro = enviar_query(query);
 		if(erro != 0 )

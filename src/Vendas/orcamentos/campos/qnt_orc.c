@@ -121,13 +121,13 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		codigo_prod_orc_gchar,
 		subgrp_prod_orc_cod_gchar);
 
-		if((vetor = consultar(query))==NULL)
+		if((vetor = consultar(query))==NULL){
+			popup(NULL,"Erro ao consultar saldo do estoque");
 			return 1;
+		}
 
 
-		campos = mysql_fetch_row(vetor);
-
-		if(!campos[0])
+		if((campos = mysql_fetch_row(vetor))==NULL)
 		{
 			if(orcamentos.criticar.prod_movimento != 0)
 			{
@@ -135,13 +135,13 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 				return 1;
 			}
 		}
-		else
+
 		if(atoi(campos[0])==orc_prod_saldo_limite)
 		{
 			if(orcamentos.criticar.prod_saldo_limite != 0 )
 				popup(NULL,"O Produto está ficando sem saldo!");
 		}
-		else
+
 		if(atoi(campos[0])<=0)
 		{
 			if(orcamentos.criticar.prod_saldo !=0)

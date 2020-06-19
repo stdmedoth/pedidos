@@ -121,7 +121,7 @@ int gerar_orc()
 	{
 		if(codigo_cli_orc()!=0)
 					return 1;
-		sprintf(query,"insert into orcamentos(code,vendedor,cliente,dia,observacoes,total) values(%s,1,%s,'%s-%s-%s','%s',0.0);",codigo_orc_gchar,cliente_orc_gchar,ano_sys,mes_sys,dia_sys,observacoes_orc_gchar);
+		sprintf(query,"insert into orcamentos(code,vendedor,cliente,dia,observacoes,total) values(%s,1,%s,'%s','%s',0.0);",codigo_orc_gchar,cliente_orc_gchar,data_sys,observacoes_orc_gchar);
 		erro = enviar_query(query);
 		if(erro != 0 )
 		{
