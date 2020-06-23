@@ -57,7 +57,7 @@ int entry_subgrp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	return 0;
 }
 
-int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
+int pesquisa_subgrp()
 {
 	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	GtkWidget *scrollwindow;
@@ -69,13 +69,13 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	GtkTreeIter filhos[6];
 	GtkWidget *pesquisa_entry;
 	GtkWidget *caixa_grande;
-	
+
 	GtkWidget *escolher_campo_button, *escolher_campo_img, *escolher_campo_fixed;
-	
+
 	MYSQL_RES *res[6];
 	MYSQL_ROW row[6];
 	char query[MAX_QUERY_LEN];
-	
+
 	caixa_grande = gtk_box_new(1,0);
 	pesquisa_entry = gtk_entry_new();
 	coluna1 = gtk_tree_view_column_new();
@@ -84,26 +84,26 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	celula2 = gtk_cell_renderer_text_new();
 	coluna3 = gtk_tree_view_column_new();
 	celula3 = gtk_cell_renderer_text_new();
-	
+
 	treeview = gtk_tree_view_new();
-	
+
 	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
-	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);	
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
-	
+
 	psq_subgrp_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_subgrp_wnd),3);
 	gtk_window_set_keep_above(GTK_WINDOW(psq_subgrp_wnd),TRUE);
 	gtk_widget_set_size_request(psq_subgrp_wnd,500,250);
-	
+
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
 	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
 	gtk_tree_view_column_set_visible(coluna1,FALSE);
 	gtk_tree_view_column_set_visible(coluna3,FALSE);
-	
+
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
 	gtk_tree_view_column_set_title(coluna2,"Nome");
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
@@ -115,11 +115,11 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
-	
+
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
 
-	sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = 1");
+	sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %i",find_subgrupos_restrict->grupo);
 	res[ROW_0] = consultar(query);
 	if(res[ROW_0] == NULL)
 	{
@@ -146,8 +146,8 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 				g_print("Inserindo codigo: %s nome: %s\n",row[ROW_1][0],row[ROW_1][1]);
 				gtk_tree_store_set(modelo,&filhos[ROW_1], COLUMN0,row[ROW_1][0], COLUMN1,row[ROW_1][1],COLUMN2,row[ROW_1][2],-1);
 				sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_1][0]);
-				res[ROW_2] = consultar(query);					
-				if(res[ROW_2] == NULL)	
+				res[ROW_2] = consultar(query);
+				if(res[ROW_2] == NULL)
 				{
 					return 1;
 				}
@@ -203,13 +203,13 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 
 	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);
 
-	
+
 	escolher_campo_button = gtk_button_new_with_label("Escolher");
 	escolher_campo_img = gtk_image_new_from_file(IMG_PROCR);
 	escolher_campo_fixed = gtk_fixed_new();
 	gtk_button_set_image(GTK_BUTTON(escolher_campo_button),escolher_campo_img);
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
-	
+
 	gtk_widget_set_size_request(scrollwindow,450,200);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_subgrp_wnd),10);
@@ -217,9 +217,10 @@ int pesquisa_subgrp(GtkWidget *button, GtkEntry *cod_subgrp_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_subgrp_wnd),caixa_grande);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_pesquisa),treeview);
-	pesquisa_global_alvo = GTK_ENTRY(cod_subgrp_entry);
+
+	pesquisa_global_alvo = GTK_ENTRY(find_subgrupos_restrict->entry);
+
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_subgrp_code),treeview);
 	gtk_widget_show_all(psq_subgrp_wnd);
 	return 0;
 }
-

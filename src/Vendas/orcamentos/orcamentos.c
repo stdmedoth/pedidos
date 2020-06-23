@@ -50,7 +50,7 @@ int tirar_linha(int id_ponteiro)
 		if(GTK_IS_WIDGET(linhas_prod_orc_frame[id_ponteiro])){
 			gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
 		}
-	}		
+	}
 
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
@@ -172,6 +172,9 @@ int adicionar_linha_orc()
 	}
 
 	gerar_total_geral();
+
+	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
+
 	codigo_orc_prod_box[itens_qnt] = gtk_box_new(0,0);
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
@@ -374,12 +377,15 @@ int adicionar_linha_orc()
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
-	g_signal_connect(subgrp_prod_orc_button[itens_qnt],"clicked",G_CALLBACK(pesquisa_subgrp),subgrp_prod_orc_cod_entry[itens_qnt]);
+
+	g_signal_connect(subgrp_prod_orc_button[itens_qnt],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
+	g_signal_connect(subgrp_prod_orc_cod_entry[itens_qnt],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[itens_qnt]);
+
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 
-	g_signal_connect(subgrp_prod_orc_cod_entry[itens_qnt],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[itens_qnt]);
+
 	g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(tipodesconto_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
@@ -557,6 +563,9 @@ int vnd_orc()
 	gtk_box_pack_end(GTK_BOX(caixa_orc_infos_e),observacoes_orc_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_d,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_e,0,0,0);
+
+
+	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 
 	codigo_orc_prod_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 
@@ -818,7 +827,10 @@ int vnd_orc()
 		#pragma GCC diagnostic ignored "-Wint-conversion"
 		g_signal_connect(botao_menos[cont],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[cont]);
 		g_signal_connect(codigo_prod_orc_entry[cont],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[cont]);
+
+		g_signal_connect(subgrp_prod_orc_button[cont],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
 		g_signal_connect(subgrp_prod_orc_cod_entry[cont],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[cont]);
+
 		g_signal_connect(pesquisa_prod[cont],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[cont]);
 		g_signal_connect(qnt_prod_orc_entry[cont],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[cont]);
 
@@ -830,7 +842,7 @@ int vnd_orc()
 
 		g_signal_connect(desconto_prod_orc_entry[cont],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[cont]);
 		g_signal_connect(total_prod_orc_entry[cont],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);
-		g_signal_connect(subgrp_prod_orc_button[cont],"clicked",G_CALLBACK(pesquisa_subgrp),subgrp_prod_orc_cod_entry[cont]);
+
 
 		gtk_widget_set_sensitive(botao_menos[cont],FALSE);
 		#pragma GCC diagnostic warning "-Wint-conversion"

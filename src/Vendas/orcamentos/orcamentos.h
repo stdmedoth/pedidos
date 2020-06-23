@@ -32,7 +32,6 @@ int inicializar_orc()
 	return 0;
 }
 
-
 static int tipo_pag=0, display=1;
 
 static int rec_altera_qnt=1;
@@ -59,6 +58,12 @@ static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alte
 static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
 static GtkWidget *caixa_opcoes_orc;
 //  GCHAR
+
+struct duo_widget{
+	int grupo;
+	int posicao;
+	GtkWidget *entry;
+}*find_subgrupos_restrict;
 
 static gchar *data_orc_gchar;
 
