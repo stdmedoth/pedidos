@@ -66,8 +66,7 @@ obs varchar(500) default ' ');
 create table grupos( code int primary key auto_increment,
 pai int default 0,
 nome varchar(20) default 'Grupo Sem Nome',
-nivel int default 1,
-foreign key(pai) references grupos(code));
+nivel int default 1 );
 
 create table unidades( code int primary key auto_increment,
 nome varchar(20) default ' ',
@@ -138,7 +137,7 @@ valor_orig int default 0,
 tipodesc int default 0,
 desconto float default 0.0,
 total float default 0.0,
-observacoes varchar(500) default ' ',
+observacoes varchar(500) default '',
 foreign key(code) references orcamentos(code));
 
 create table faturamento ( code int primary key auto_increment,

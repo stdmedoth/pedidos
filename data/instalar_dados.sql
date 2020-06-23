@@ -40,57 +40,88 @@ insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) valu
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),
 ('Fardo','Fardo', 15, 5),
-('Pacote','Pct', 20, 4),
+('Metro','Pct', 20, 4),
 ('Unidade','UND', 1, 4),
 ('Caixa','CX', 10, 4);
 
-insert into grupos(code,nome,pai,nivel) values
-(1,'RAIZ',1, 0),
-(2,'PERCALUX',1, 1),
-(3,'CABECEADO',1, 1),
-(4,'COLA',1, 1),
-(5,'FITILHO ACETINADO',1, 1),
-(6,'LINHA',1, 1),
-(7,'PELICULA',1, 1),
-(8,'RESISTÊNCIA',1, 1),
-(9,'ESPIRAIS', 1, 1),
-(10,'PLASTIFICAÇÕES', 1, 1),
-(11,'WERE-O', 1, 1),
-(12,'CAPAS DE PP', 1, 1),
-(13,'PAPELÃO', 1, 1),
+insert into grupos(nome,pai,nivel) values
+('RAIZ',1, 0);
 
-(14,'LISO', 2, 2),
-(15,'BICOLOR', 2, 2),
-(16,'METALIZADO', 2, 2),
-(17,'OURO/BRONZE', 2, 2),
-(18,'FOSCO',2, 2),
+insert into grupos(nome,pai,nivel) values
+('PERCALUX',1, 1),
+('CABECEADO',1, 1),
+('COLA',1, 1),
+('FITILHO',1, 1),
+('LINHA',1, 1),
+('PAPEL OFFSET',1, 1),
+('PELICULA',1, 1),
+('RESISTÊNCIA',1, 1),
+('ESPIRAIS', 1, 1),
+('CAPAS', 1, 1),
+('BOBINA PLASTIFICAÇÃO', 1, 1),
+('WERE-O', 1, 1),
+('POLASEAL', 1, 1),
+('PAPELÃO', 1, 1),
+('CLIPS PARA CRACHÁ', 1, 1),
+('MAQUINAS E EQUIPAMENTOS', 1, 1),
+('WIRE-O', 1, 1);
 
-(19,'ROLO 50M',3,2),
-(20,'ROLO 100M',3,2),
+insert into grupos(nome,pai,nivel) values
+('LISO', 2, 2),
+('BICOLOR', 2, 2),
+('METALIZADO', 2, 2),
+('OURO/BRONZE', 2, 2),
+('FOSCO',2, 2);
 
-(21,'Nº12', 13, 2),
-(22,'Nº15', 13, 2),
-(23,'Nº18', 13, 2),
-(24,'Nº20', 13, 2),
-(25,'Nº 20 (FACE BRANCA)', 13, 2),
+insert into grupos(nome,pai,nivel) values
+('ROLO 50M',3,2),
+('ROLO 100M',3,2),
+('METRO DIVERSO',3,2);
 
-(26,'1,30 LARG./25M',14,3),
-(27,'1,30 LARG./50M',14,3),
-(28,'1,30 LARG./25M',15,3),
-(29,'1,30 LARG./25M',16,3),
-(30,'1,30 LARG./25M',17,3),
+insert into grupos(nome,pai,nivel) values
+('LITRO', 4, 2),
+('GALAO 5 LITROS', 4, 2),
+('BALDE 10KG', 4, 2);
 
-(31,'AZUL', 18, 3),
-(32,'VERMELHO', 18, 3),
-(33,'AMARELO', 18, 3),
-(34,'VERDE', 18, 3),
-(35,'PRETO', 18, 3),
+insert into grupos(nome,pai,nivel) values
+('MARCAÇÃO DE PAGINAS',5,2);
 
-(36,'15 FOLHAS 1,7MM', 21,3),
-(37,'18 FOLHAS 1,7MM', 22,3),
-(38,'21 FOLHAS 1,7MM', 23,3),
-(39,'24 FOLHAS 1,7MM', 24,3),
-(40,'24 FOLHAS 1,7MM', 25,3);
+insert into grupos(nome,pai,nivel) values
+('N° 30 P/ CAPA DURA 2,500M',6,2),
+('N° 10 P/ CAPA DURA 300M',6,2),
+('N° 4 P/ CAPA DURA 200M ',6,2);
+
+insert into grupos(nome,pai,nivel) values
+('120G - P/ GUARDA',7,2);
+
+insert into grupos(nome,pai,nivel) values
+('AZUL', 20, 3),
+('VERMELHO', 20, 3),
+('AMARELO', 20, 3),
+('VERDE', 20, 3),
+('PRETO', 20, 3);
+
+insert into grupos(nome,pai,nivel) values
+('AZUL', 21, 3),
+('VERMELHO', 21, 3),
+('AMARELO', 21, 3),
+('VERDE', 21, 3),
+('PRETO', 21, 3);
+
+insert into grupos(nome,pai,nivel) values
+('AZUL', 22, 3),
+('VERMELHO', 22, 3),
+('AMARELO', 22, 3),
+('VERDE', 22, 3),
+('PRETO', 22, 3);
+
+insert into grupos(nome,pai,nivel) values
+('AZUL', 23, 3),
+('VERMELHO', 23, 3),
+('AMARELO', 23, 3),
+('VERDE', 23, 3),
+('PRETO', 23, 3);
+
 
 insert into terceiros (razao,doc,tipo_doc,ie,tipoc,tipo,cep,endereco,cidade,uf,numrua,tiporua,
 telefone,contatot ,celular , contatoc ,email,contatoe, transp_nome, transp_num,transp_logradouro ,

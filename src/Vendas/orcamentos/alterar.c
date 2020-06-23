@@ -54,7 +54,7 @@ int altera_orc()
 		return 1;
 	}
 
-	cont = 0;
+	cont = 1;
 	while(cont<MAX_PROD_ORC)
 	{
 		if(ativos[cont].id==1)
@@ -83,6 +83,7 @@ int altera_orc()
 		itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
 		adicionar_linha_orc();
 
+
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]))
 		{
 
@@ -104,16 +105,20 @@ int altera_orc()
 
 			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[TOTAL_ORC_PROD_COL]);
 
-			if(row[OBS_ORC_PROD_COL])
-			{
-				strcpy(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],row[OBS_ORC_PROD_COL]);
-
-				obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(obs_prod_orc_view[atoi(row[ITM_ORC_PROD_COL])]));
-
-				gtk_text_buffer_set_text(GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])]),
-
-				obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],strlen(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])]));
+			if(strlen(row[OBS_ORC_PROD_COL])>=MAX_OBS_LEN){
+				row[OBS_ORC_PROD_COL][MAX_OBS_LEN] = '\0';
 			}
+
+			obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])] = malloc(MAX_OBS_LEN);
+
+			strcpy(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],row[OBS_ORC_PROD_COL]);
+
+			obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(obs_prod_orc_view[atoi(row[ITM_ORC_PROD_COL])]));
+
+			gtk_text_buffer_set_text(GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])]),
+
+			obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],strlen(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])]));
+
 		}
 		rec_altera_qnt++;
 	}
@@ -149,15 +154,16 @@ int altera_orc()
 	{
 		cont=0;
 
-
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
 		sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
 		erro = enviar_query(query);
+
 		if(erro != 0 )
 		{
 			popup(NULL,"Erro ao tentar excluir orçamento vazio");
 			return 1;
 		}
+
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 		cancela_orc();
 		return 0;

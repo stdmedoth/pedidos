@@ -22,7 +22,7 @@ static int tirar_linha(int);
 static int vnd_orc();
 static int alterando_orc=0;
 static int concluindo_orc=0;
-static int aviso_estoque=0;
+static int aviso_estoque[MAX_PROD_ORC];
 
 int inicializar_orc()
 {

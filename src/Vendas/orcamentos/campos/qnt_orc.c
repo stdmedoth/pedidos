@@ -95,8 +95,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 				return 1;
 			}
 			break;
-
 	}
+
 	preco_prod_orc(NULL,posicao);
 
 	qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
@@ -115,7 +115,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	if(alterando_orc==0&&concluindo_orc==0&&aviso_estoque == 0)
+	if(alterando_orc==0 && concluindo_orc==0 && aviso_estoque[posicao] == 0)
 	{
 		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and subgrupo = %s",
 		codigo_prod_orc_gchar,
@@ -126,33 +126,38 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			return 1;
 		}
 
+		if((campos = mysql_fetch_row(vetor))!=NULL){
+			if(campos[0]){
+				if(atoi(campos[0])<=0){
+						if(orcamentos.criticar.prod_saldo){
+							popup(NULL,"Sem saldo");
+							aviso_estoque[posicao] = 1;
+							return 1;
+						}
+				}
 
-		if((campos = mysql_fetch_row(vetor))==NULL)
-		{
-			if(orcamentos.criticar.prod_movimento != 0)
-			{
-				popup(NULL,"O produto nunca foi movimentado em estoque");
-				return 1;
+				const int saldo_limite = 3;
+
+				if(atoi(campos[0])==saldo_limite){
+						if(orcamentos.criticar.prod_saldo_limite){
+							popup(NULL,"Saldo limite usado");
+							aviso_estoque[posicao] = 1;
+						}
+				}
+			}
+			else{
+				if(orcamentos.criticar.prod_movimento){
+					popup(NULL,"Sem nenhum movimento");
+				}
 			}
 		}
-
-		if(atoi(campos[0])==orc_prod_saldo_limite)
-		{
-			if(orcamentos.criticar.prod_saldo_limite != 0 )
-				popup(NULL,"O Produto está ficando sem saldo!");
-		}
-
-		if(atoi(campos[0])<=0)
-		{
-			if(orcamentos.criticar.prod_saldo !=0)
-			{
-				popup(NULL,"O Produto está zerado!");
-				return 1;
-			}
-		}
-		aviso_estoque = 1;
 	}
 
+	g_print("saldo limite: %i\nmovimento: %i\nsem saldo: %i\naviso_estoque: %i",
+	orcamentos.criticar.prod_saldo_limite,
+	orcamentos.criticar.prod_saldo,
+	orcamentos.criticar.prod_movimento,
+	aviso_estoque[posicao]);
 
 	g_print("Iniciando verificação de total\n");
 

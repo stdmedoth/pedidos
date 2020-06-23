@@ -46,8 +46,11 @@ int gerar_total_geral()
 
 int tirar_linha(int id_ponteiro)
 {
-	if(ativos[id_ponteiro].id == 1)
-		gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
+	if(ativos[id_ponteiro].id == 1){
+		if(GTK_IS_WIDGET(linhas_prod_orc_frame[id_ponteiro])){
+			gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
+		}
+	}		
 
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
@@ -337,6 +340,7 @@ int adicionar_linha_orc()
 	excluidos[itens_qnt].id = 0;
 	preco_alterado[itens_qnt] = 0;
 	valor_orig[itens_qnt] = 0;
+	aviso_estoque[itens_qnt] = 0;
 	ativos_qnt++;
 
 	if(alterando_orc==0)
@@ -418,7 +422,6 @@ int vnd_orc()
 	ativos_qnt=1;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
-	aviso_estoque = 0;
 
 	orc_notebook = gtk_notebook_new();
 
@@ -660,7 +663,7 @@ int vnd_orc()
 
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 
-	for(int pos=0;pos<MAX_PROD_ORC;pos++)
+	for(int pos=1;pos<MAX_PROD_ORC;pos++)
 	{
 		id_vetor[pos] = 0;
 		ativos[pos].id = 0;
@@ -668,6 +671,7 @@ int vnd_orc()
 		produto_inserido[pos] = 0;
 		preco_alterado[pos] = 0;
 		valor_orig[pos] = 0;
+		aviso_estoque[pos] = 0;
 	}
 
 	for(cont=1;cont<=PROD_LINHAS_ORC;cont++)

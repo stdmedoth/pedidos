@@ -29,7 +29,8 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	strcpy(formatar,valor);
 	sprintf(valor,"%.2f",atof(formatar));
 
-	gtk_entry_set_text(GTK_ENTRY(entrada),valor);
+	if(GTK_ENTRY(entrada)!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(entrada),valor);
 
 	//g_print("Finalizando funcao critica_real()\n");
 	return 0;

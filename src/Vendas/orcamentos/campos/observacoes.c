@@ -9,6 +9,7 @@ int observacoes_orc_get()
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffer),&inicio,&fim);
 
 	observacoes_orc_gchar = gtk_text_buffer_get_text(buffer,&inicio,&fim,TRUE);
+
 	g_print("Finalizando observacoes_orc_get()\n");
 	return 0;
 }

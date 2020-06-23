@@ -21,7 +21,7 @@ struct
 	int tema;
 }personalizacao;
 
-struct
+static struct
 {
 	struct parametros
 	{

@@ -10,7 +10,7 @@ GtkWidget *msg_abrir_orc_window;
 static GtkWidget *botao_radio1,*botao_radio2,*botao_radio3,*botao_radio4;
 
 
-int iniciar_escolha(char *gerando_file)
+int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 {
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(botao_radio1)))
 	{
@@ -27,7 +27,7 @@ int iniciar_escolha(char *gerando_file)
 	return 0;
 }
 
-int escolher_finalizacao()
+int escolher_finalizacao(char *gerando_file)
 {
 	GtkWidget *janela;
 	GtkWidget *botoes_frame,*botoes_caixa;
@@ -70,7 +70,7 @@ int escolher_finalizacao()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_opcoes,0,0,10);
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
-	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),NULL);
+	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),gerando_file);
 	g_signal_connect (botao_cancela,"clicked",G_CALLBACK(close_window_callback),janela);
 	gtk_widget_show_all(janela);
 	return 0;
@@ -82,7 +82,7 @@ int gerar_orc()
 	int cont,color=0;
 	char *query;
 	int conta_linhas=0;
-	int erro;
+	int erro,grupo_len;
 	char code[MAX_CODE_LEN];
 	char *formata_float,*formata_float2,*formata_float3;
 	double chartofloat,totalfloat;
@@ -91,12 +91,17 @@ int gerar_orc()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *gerando_file;
+	char **familia_char,*dest,*source;
 	conta_linhas = 0;
 	gerando_file = malloc(MAX_PATH_LEN*2);
 
 	formata_float = malloc(MAX_PRECO_LEN); //desconto
 	formata_float2 = malloc(MAX_PRECO_LEN); //quantidade
 	formata_float3 = malloc(MAX_PRECO_LEN); //preco
+
+	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
+	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
+	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
 	query = malloc(MAX_QUERY_LEN);
 	if(codigo_orc()!=0)
@@ -259,7 +264,7 @@ int gerar_orc()
 
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
-	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidades where o.code = %s;",codigo_orc_gchar);
+	sprintf(query,"select p.code, g.code,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p inner join grupos as g on p.code = o.produto join unidades as u on u.code = p.unidades and g.code = o.subgrupo where o.code = %s;",codigo_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -282,6 +287,7 @@ int gerar_orc()
 	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade Unitária</td>\n",IMG_IMP_QNT);
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Descrição do Produto</td>\n",IMG_IMP_PROD);
+	fprintf(orc,"<td id=\"prod-row1\">Obs.</td>\n");
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Valor Unitário.</td>\n",IMG_MONEY);
 	fprintf(orc,"<td id=\"prod-row1\">Desconto</td>\n");
 	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
@@ -308,7 +314,22 @@ int gerar_orc()
 		if(strlen(campos[1])>20)
 			campos[1][20] = '\0';
 
-		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],campos[1]);
+		if((grupo_len = rec_familia_nome(familia_char, atoi(campos[1]) ))<0){
+			popup(NULL,"Erro na criação do html para subgrupo");
+			return 1;
+		}
+		strcpy(dest,"");
+		strcpy(source,"");
+		for(int cont=grupo_len;cont>0;cont--)
+		{
+			sprintf(dest,"%s %s",source,familia_char[cont]);
+
+			strcpy(source,dest);
+		}
+
+		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],dest);
+		if(strlen(campos[8]))
+			fprintf(orc,"<td>%s</td>\n",campos[8]);
 		sprintf(formata_float,"%s",campos[4]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
@@ -381,7 +402,7 @@ int gerar_orc()
 	}
 	sprintf(formata_float,"%s",row[0]);
 
-	fprintf(orc,"<td  colspan=\"5\" id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));
+	fprintf(orc,"<td  colspan=\"6\" id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));
 	fprintf(orc,"</table>\n");
 
 	fprintf(orc,"<div>\n");
@@ -405,9 +426,9 @@ int gerar_orc()
 	fprintf(orc,"</body>\n");
 	fprintf(orc,"</html>\n");
 	fclose(orc);
-	escolher_finalizacao(gerando_file);
-	g_print("Abrindo janela de escolha para o arquivo\n");
 
+	g_print("Abrindo janela de escolha para o arquivo\n");
+	escolher_finalizacao(gerando_file);
 
 	cancela_orc();
 	return 0;

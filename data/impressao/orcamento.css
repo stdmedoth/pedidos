@@ -1,4 +1,4 @@
-@media print {  
+@media print {
   table {page-break-before: auto;}
 }
 
@@ -56,11 +56,12 @@
 	margin-top: 400px;
 	margin-left: 50px;
 	margin-right: 50px;
+  font-size: 10px;
 }
 
 #campo-itens:hover
 {
-	border-radius: 10px; 
+	border-radius: 10px;
 }
 
 #coluna-colorida
@@ -97,7 +98,7 @@ td:hover
 	margin-left: 0px;
 	border: solid 1px black;
 	background: solid 1px ffffff	;
-	border-radius: 1%; 
+	border-radius: 1%;
 }
 
 #string-black
@@ -112,7 +113,7 @@ td:hover
 }
 #separator
 {
-	
+
 }
 
 #obs-div2
@@ -123,7 +124,7 @@ td:hover
 	margin-bottom: 5px;
 	border: solid 1px grey;
 	padding: 20px;
-	height: 90px;	
+	height: 90px;
 	background: #ffffff;
 }
 
@@ -136,4 +137,3 @@ td:hover
 	height: 150px;
 	background: Lightgrey;
 }
-
