@@ -98,6 +98,8 @@ void login()
 
 	gtk_entry_set_placeholder_text(GTK_ENTRY(nome_entry),"Login:");
 	gtk_entry_set_placeholder_text(GTK_ENTRY(senha_entry),"Senha:");
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_entry),GTK_ENTRY_ICON_PRIMARY,"user-info");
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(senha_entry),GTK_ENTRY_ICON_PRIMARY,"dialog-password");
 	gtk_entry_set_input_purpose(GTK_ENTRY(senha_entry),GTK_INPUT_PURPOSE_PIN);
 	gtk_entry_set_visibility(GTK_ENTRY(senha_entry),FALSE);
 	caixa_nome = gtk_box_new(1,0);

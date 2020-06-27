@@ -24,6 +24,7 @@ int cad_ico(void)
 	und_ico = gtk_image_new_from_file(UND_IMG);
 	vin_ico = gtk_image_new_from_file(VINC_IMG);
 	grp_ico = gtk_image_new_from_file(GRP_IMG);
+	pag_ico = gtk_image_new_from_file(PAG_IMG);
 	crel_ico = gtk_image_new_from_file(REL_IMG);
 
 	//label dos icones
@@ -34,6 +35,7 @@ int cad_ico(void)
 	und_lbl = gtk_label_new("Nova Unidade Medida");
 	vin_lbl = gtk_label_new("Verificar vinculos");
 	grp_lbl = gtk_label_new("Grupo de Produtos");
+	pag_lbl = gtk_label_new("Cond. Pagamento");
 	crel_lbl = gtk_label_new("Novo Relatório");
 
 	//caixas onde ficarao os icones
@@ -79,13 +81,17 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_ico,0,0,0);
 
+	//icone condicao pagamento
+	gtk_box_pack_end(GTK_BOX(cad_box[5]),pag_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[5]),pag_ico,0,0,0);
+
 	//icone novo relatorio
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),crel_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),crel_ico,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
 	//icone verificar vinculos
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),vin_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),vin_ico,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_ico,0,0,0);
 
 
 	//icone cadastro de transacoes
@@ -104,8 +110,10 @@ int cad_ico(void)
 
 	g_signal_connect(eventos[4],"button_press_event",G_CALLBACK(cad_grupo),NULL);
 
-	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_relat),NULL);
+	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_pag),NULL);
 
-	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(vin_chaves),NULL);
+	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_relat),NULL);
+
+	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(vin_chaves),NULL);
 	return 0;
 }

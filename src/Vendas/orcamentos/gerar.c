@@ -24,6 +24,8 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 		desenhar_pdf(gerando_file);
 	}
 	g_print("Escolhida impressora %i\n",imp_opc);
+
+	cancela_orc();
 	return 0;
 }
 
@@ -430,6 +432,5 @@ int gerar_orc()
 	g_print("Abrindo janela de escolha para o arquivo\n");
 	escolher_finalizacao(gerando_file);
 
-	cancela_orc();
 	return 0;
 }

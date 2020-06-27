@@ -21,6 +21,11 @@ tema int default 0,
 janela_init bool default 0,
 janelas_keep_above bool default 0);
 
+create table pag_cond(code int primary key auto_increment,
+nome varchar(30) default 'Cond. Pag. sem Nome',
+vetor_dias varchar(100) default '1',
+qnt_parcelas int default 1);
+
 create table criticas(nome varchar(120),
 opcao_nome varchar(30) default 0,
 campo_nome varchar(30) default 0,
@@ -65,11 +70,11 @@ obs varchar(500) default ' ');
 
 create table grupos( code int primary key auto_increment,
 pai int default 0,
-nome varchar(20) default 'Grupo Sem Nome',
+nome varchar(50) default 'Grupo Sem Nome',
 nivel int default 1 );
 
 create table unidades( code int primary key auto_increment,
-nome varchar(20) default ' ',
+nome varchar(50) default ' ',
 sigla varchar(10) default ' ',
 multiplo int default 1,
 medida int default 0);

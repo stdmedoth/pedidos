@@ -1,13 +1,13 @@
 #define MAX_ICO_QNT 24
 #define LINE_ICO_QNT 2
 #define ICOL 5
-#define CAD_ICO_QNT 8
+#define CAD_ICO_QNT 9
 #define EST_ICO_QNT 3
 #define VND_ICO_QNT 1
 #define CMP_ICO_QNT 4
 #define REL_ICO_QNT 3
 
-//cadastros 
+//cadastros
 GtkWidget *prd_ico, *prd_lbl; //produtos
 GtkWidget *ter_ico, *ter_lbl; //terceiros
 GtkWidget *opr_ico, *opr_lbl; //operadores
@@ -16,6 +16,7 @@ GtkWidget *und_ico, *und_lbl; //unidades
 GtkWidget *ftr_ico, *ftr_lbl; //fatores
 GtkWidget *vin_ico, *vin_lbl; //vinculos
 GtkWidget *grp_ico, *grp_lbl; //grupos
+GtkWidget *pag_ico, *pag_lbl; //grupos
 GtkWidget *crel_ico,*crel_lbl; //grupos
 
 //estoque
@@ -52,5 +53,3 @@ GtkWidget **faturamentol;
 GtkWidget **estoquel;
 GtkWidget **financeirol;
 GtkWidget **relatoriosl;
-
-

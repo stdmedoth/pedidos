@@ -31,7 +31,7 @@ values ('Petitto','',4),
 
 
 insert into empresa(razao,endereco,cnpj)
-values ( 'Petitto Mat. p/ encadern. e carton.','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
+values ( 'Petitto Materiais para encadernação e cartonagem','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
 (4,1,1,1),

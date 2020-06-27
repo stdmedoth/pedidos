@@ -1,7 +1,9 @@
 static GtkWidget *lista_abas, *frame_lista_abas;
 static GtkWidget *botao_iniciar;
 static int controle_menu=0;
+
 //modulos ativos
+
 struct modulos
 {
 	int cadastro;

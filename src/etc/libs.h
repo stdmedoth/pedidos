@@ -32,6 +32,7 @@
 #include "../Estoque/entradas/entradas.h"
 #include "../Estoque/saidas/saidas.h"
 #include "../Estoque/cadastro/estoque.h"
+#include "../Vendas/condicoes_pag/cad_pag.h"
 #include "../Vendas/pedidos/pedidos.h"
 #include "../Vendas/pedidos/emitir.h"
 #include "../Vendas/pedidos/cancelar.h"
@@ -41,6 +42,7 @@
 #include "../Relatorios/relatorios/terceiros/terceiros.h"
 #include "../Relatorios/relatorios/movimentos/movimentos.h"
 #include "../Relatorios/pesquisar/relat_ptabs.h"
+
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"
@@ -59,6 +61,7 @@
 #include "../Produtos/cadastro_produtos.c"
 #include "../Unidades/cadastro_unidades.c"
 #include "../Compras/cadastro_compras.c"
+#include "../Vendas/condicoes_pag/cad_pag.c"
 #include "../Vendas/orcamentos/orcamentos.c"
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"

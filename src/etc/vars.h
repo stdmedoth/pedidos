@@ -64,6 +64,7 @@
 #define ENT_IMG       "/petitto/files/icones_opc/entradas.png"
 #define LMB_IMG       "/petitto/files/icones_opc/lembrete.png"
 #define UND_IMG       "/petitto/files/icones_opc/unidade.png"
+#define PAG_IMG       "/petitto/files/icones_opc/datas.png"
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
@@ -128,6 +129,7 @@
 #define SOL_IMG       "/usr/share/petitto/files/icones_opc/solicitacoes.png"
 #define ADD_SALDO     "/usr/share/petitto/files/icones_opc/add_saldo.png"
 #define REM_SALDO     "/usr/share/petitto/files/icones_opc/rem_saldo.png"
+#define PAG_IMG       "/usr/share/petitto/files/icones_opc/datas.png"
 #define REL_PROD_IMG  "/usr/share/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_TER_IMG   "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG   "/usr/share/petitto/files/icones_opc/relatorio_est.png"
@@ -193,7 +195,7 @@
 #define MAX_RAZ_LEN 400
 #define MAX_PRECO_LEN 15
 #define MAX_UND_LEN 10
-#define MAX_GRP_LEN 20
+#define MAX_GRP_LEN 50
 #define MAX_MRC_LEN 20
 #define MAX_FOR_LEN 100
 #define MAX_OBS_LEN 500
