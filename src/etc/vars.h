@@ -228,6 +228,7 @@
 #define MAX_RELAT_NOME 30
 #define MAX_CAMPO_NOME 30
 #define MAX_RELAT_CAMPOS 8
+#define MAX_PARC_QNT 20
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

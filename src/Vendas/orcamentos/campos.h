@@ -9,7 +9,7 @@
 #include "campos/desconto_orc.c"
 #include "campos/prod_obs_orc.c"
 #include "campos/observacoes.c"
-#include "campos/fat_vist.c"
+#include "campos/cond_pag.c"
 #include "orc_p_ped.c"
 #include "cancelar.c"
 #include "alterar.c"

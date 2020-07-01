@@ -81,6 +81,6 @@ int codigo_cli_orc()
 	}
 
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
-		gtk_widget_grab_focus(codigo_prod_orc_entry[1]);
+		gtk_widget_grab_focus(orc_cond_pag_entry);
 	return 0;
 }

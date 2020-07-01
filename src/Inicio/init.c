@@ -17,6 +17,11 @@ int desktop()
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
 	gchar *nome_usuario_gchar;
 
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char *query;
+	char markup[500];
+
 	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
 	param_image = gtk_image_new_from_file(PRMT_IMG);
@@ -33,10 +38,6 @@ int desktop()
 
 	layout = gtk_layout_new(NULL,NULL);
 
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	char markup[500];
 	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
@@ -125,7 +126,8 @@ int desktop()
 	inferior_2 = gtk_box_new(1,0);
 
 	barra = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	//gtk_widget_set_name(barra,"barra");
+	gtk_widget_set_name(barra,"barra");
+	gtk_widget_set_name(botao_iniciar,"botao_iniciar");
 
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
@@ -173,13 +175,13 @@ int desktop()
 	gtk_box_pack_start(GTK_BOX(area_de_trabalho),juncao,0,0,0);
 
 	gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,10);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,550);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,630);
 
-	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),70,60);
-	gtk_widget_set_size_request(GTK_WIDGET(param_button),70,60);
-	gtk_widget_set_size_request(GTK_WIDGET(sair_button),70,60);
+	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
 
 	gtk_widget_set_size_request(barra,80,750);
 	gtk_widget_set_size_request(layout_barra,80,750);

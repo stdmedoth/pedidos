@@ -9,9 +9,9 @@ int grupo_prod()
 		if(produtos.criticar.grupo==0)
 		{
 			gtk_widget_grab_focus(fornecedor_prod_field);
-			return 0;	
+			return 0;
 		}
-		popup(NULL,"Por favor, Insira um grupo para o produto"); 
+		popup(NULL,"Por favor, Insira um grupo para o produto");
 		return 1;
 	}
 	else
@@ -36,17 +36,19 @@ int grupo_prod()
 		g_print("Erro no MYSQL_RES* para grupos\n");
 		return 1;
 	}
-	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);	
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);
+
 	g_print("grupo: %s\n",grupos_prod);
+
 	if(concluindo_prod==0)
 	{
 		notebook_preco_grupo();
 		if(precos_produtos[1].ativo==1)
-			gtk_widget_grab_focus(entry_preco_grupo_prcvist[1]);
+			if(GTK_IS_WIDGET(entry_preco_grupo_prcvist[1]))
+				gtk_widget_grab_focus(entry_preco_grupo_prcvist[1]);
 	}
-	
-	
+
+
 	return 0;
 
 }
-	

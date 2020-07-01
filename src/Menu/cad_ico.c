@@ -89,15 +89,6 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
-	//icone verificar vinculos
-	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[7]),vin_ico,0,0,0);
-
-
-	//icone cadastro de transacoes
-    //gtk_box_pack_end(GTK_BOX(cad_box[6]),trs_lbl,0,0,0);
-	//gtk_box_pack_end(GTK_BOX(cad_box[6]),trs_ico,0,0,0);
-
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
 
@@ -114,6 +105,5 @@ int cad_ico(void)
 
 	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_relat),NULL);
 
-	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(vin_chaves),NULL);
 	return 0;
 }

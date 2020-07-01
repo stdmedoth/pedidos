@@ -22,8 +22,11 @@ janela_init bool default 0,
 janelas_keep_above bool default 0);
 
 create table pag_cond(code int primary key auto_increment,
-nome varchar(30) default 'Cond. Pag. sem Nome',
-vetor_dias varchar(100) default '1',
+nome varchar(40) default 'Cond. Pag. sem Nome',
+tipo int default 1,
+dia_fixo_flag int default 1,
+init_dia int default 1,
+intervalos int default 1,
 qnt_parcelas int default 1);
 
 create table criticas(nome varchar(120),

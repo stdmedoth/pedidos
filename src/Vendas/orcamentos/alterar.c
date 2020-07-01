@@ -35,7 +35,7 @@ int altera_orc()
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),row[0]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(faturado_avista_combo),atoi(row[1]));
+	gtk_entry_set_text(GTK_ENTRY(orc_cond_pag_entry),row[1]);
 	tipo_pag = atoi(row[1]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
 

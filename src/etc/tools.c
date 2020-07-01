@@ -150,7 +150,9 @@ static void popup(GtkWidget *widget,gchar *string)
 	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
 
 	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
-	gtk_widget_grab_focus(popup);
+
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
 	gtk_widget_show_all(popup);
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));

@@ -40,6 +40,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}
+
 	ativos[posicao].produto = atoi(codigo_prod_orc_gchar);
 
 	find_subgrupos_restrict->grupo = atoi(campos[2]);

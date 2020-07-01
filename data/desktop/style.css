@@ -6,40 +6,44 @@
   border: solid #dcdcdc 1px;
 }
 
-#caixa
-{
+#caixa{
   border-radius: 10px;
 }
 
-#acao_atual
-{
+#acao_atual{
   color: green;
 }
 
-#infos
-{
+#botao_iniciar{
+  background-color: white;
+  border-radius: 5px;
+}
+
+#barra{
+  border: solid 1px black;
+  background-color: #dcdcdc;
+}
+
+#infos{
   color: white;
   text-shadow: 5px 2px 8px #00238c;
   font-size: 20px;
 }
 
-#frame
-{
+#frame{
 
 }
 
-#frame2
-{
+#frame2{
 
 
 }
 
-#janela_login
-{
+#janela_login{
+  border-radius: 10px;
   border: solid 1px black;
 }
 
-#nome_operador
-{
+#nome_operador{
   color: white;
 }

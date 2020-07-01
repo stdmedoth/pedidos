@@ -23,6 +23,9 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		if(codigo_prod_orc(codigo_prod_orc_entry[posicao],posicao)!=0)
 			return 1;
 
+	for(int cont=0;cont<MAX_SUBGRUPO;cont++)
+		familia[cont] = 0;
+
 	if(strlen(subgrp_prod_orc_cod_gchar)>MAX_CODE_LEN)
 	{
 		popup(NULL,"Código do subgrupo é muito grande");
@@ -52,15 +55,19 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	if((grupo_len = rec_familia_nome(familia_char, atoi(subgrp_prod_orc_cod_gchar) ))<0)
 		return 1;
 
-	for(int cont=0;familia[cont]!=-1;cont++)
+	g_print("Verificando grupo até o pai\n");
+	for(int cont=0;cont<grupo_len;cont++)
 	{
+		g_print("%i : %i para pai %i\n",cont, familia[cont], atoi(row[0]));
 		if(familia[cont]==atoi(row[0]))
 		{
 			mesma_familia=1;
 			break;
 		}
 	}
-	g_print("grupo do produto %s, grupo inserido %s",row[0],subgrp_prod_orc_cod_gchar);
+
+	g_print("grupo do produto %s, grupo inserido %s\n",row[0],subgrp_prod_orc_cod_gchar);
+
 	if(mesma_familia==0)
 	{
 		popup(NULL,"Subgrupo não pertence à mesma familia do produto");

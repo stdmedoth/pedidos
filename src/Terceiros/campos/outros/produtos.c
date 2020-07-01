@@ -4,10 +4,10 @@ int produto_ter()
 	MYSQL_ROW campos;
 	char query[50];
 	prods_ter = (gchar*) gtk_entry_get_text(GTK_ENTRY(prod_ter_field));
-	
+
 	if(strlen(prods_ter)<=0)
 	{
-		popup(NULL,"Por favor, Insira produto que deseja vincular"); 
+		popup(NULL,"Por favor, Insira produto que deseja vincular");
 		gtk_widget_grab_focus(prod_ter_field);
 		return 1;
 	}
@@ -17,8 +17,9 @@ int produto_ter()
 		popup(NULL,"Código do produto é muito grande");
 		return 1;
 	}
-	
-	sprintf(query,"select nome from produtos where code = '%s'",prods_ter);
+
+	sprintf(query,"select grupo , nome from produtos where code = '%s'",prods_ter);
+
 	if((vetor = consultar(query))!=NULL)
 	{
 		campos = mysql_fetch_row(vetor);
@@ -34,12 +35,15 @@ int produto_ter()
 		g_print("Erro no MYSQL_RES* para produtos\n");
 		return 1;
 	}
-	
-	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod_ter),campos[0]);	
+
+	find_subgrupos_restrict->grupo = atoi(campos[0]);
+	find_subgrupos_restrict->posicao = 0;
+	find_subgrupos_restrict->entry = subgrp_ter_field;
+
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod_ter),campos[1]);
 	gtk_widget_grab_focus(subgrp_ter_field);
 	g_print("produto: %s\n",prods_ter);
-	
+
 	return 0;
 
 }
-	

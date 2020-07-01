@@ -47,8 +47,8 @@ static float desconto_geral_orc =0 ;
 
 //COMBO
 static GtkWidget **tipodesconto_prod_orc_combo;
-static GtkWidget *faturado_avista_combo, *faturado_avista_fixed, *faturado_avista_box;
-
+static GtkWidget *orc_cond_pag_entry, *orc_cond_pag_nome, *orc_cond_pag_frame, *orc_cond_pag_fixed, *orc_cond_pag_box, *orc_cond_pag_psq_button;
+gchar *orc_cond_pag_gchar;
 //  BUTTONS
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;

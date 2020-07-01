@@ -36,7 +36,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(faturado_avista_combo);
+				gtk_widget_grab_focus(orc_cond_pag_entry);
 				return 1;
 			}
 
@@ -71,7 +71,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(faturado_avista_combo);
+				gtk_widget_grab_focus(orc_cond_pag_entry);
 				return 1;
 			}
 
@@ -91,7 +91,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if(tipo_pag==0)
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(faturado_avista_combo);
+				gtk_widget_grab_focus(orc_cond_pag_entry);
 				return 1;
 			}
 			break;

@@ -23,4 +23,3 @@ int altera_prod();
 #include "campos/prc_fatur.c"
 #include "campos/fornecedor.c"
 #include "campos/observacao.c"
-
