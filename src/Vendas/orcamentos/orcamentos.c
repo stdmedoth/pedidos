@@ -173,8 +173,6 @@ int adicionar_linha_orc()
 
 	gerar_total_geral();
 
-	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
-
 	codigo_orc_prod_box[itens_qnt] = gtk_box_new(0,0);
 	sprintf(item_frame_char,"Item %i",itens_qnt);
 	linhas_prod_orc_frame[itens_qnt] =  gtk_frame_new(item_frame_char);
@@ -211,7 +209,6 @@ int adicionar_linha_orc()
 
 	subgrp_prod_orc_cod_entry[itens_qnt] =  gtk_entry_new();
 	subgrp_prod_orc_entry[itens_qnt] = gtk_entry_new();
-	subgrp_prod_orc_button[itens_qnt] = gtk_button_new();
 	subgrp_prod_orc_img = gtk_image_new_from_file(IMG_PESQ);
 	gtk_button_set_image(GTK_BUTTON(subgrp_prod_orc_button[itens_qnt]),subgrp_prod_orc_img);
 
@@ -378,6 +375,10 @@ int adicionar_linha_orc()
 
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 
+	find_subgrupos_restrict->grupo = 1;
+	find_subgrupos_restrict->posicao = itens_qnt;
+	find_subgrupos_restrict->entry = subgrp_prod_orc_cod_entry[itens_qnt];
+
 	g_signal_connect(subgrp_prod_orc_button[itens_qnt],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
 	g_signal_connect(subgrp_prod_orc_cod_entry[itens_qnt],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[itens_qnt]);
 
@@ -422,6 +423,7 @@ int vnd_orc()
 
 
 	alerta_obs = 0;
+	pag_cond = 0;
 	tipo_pag = 0;
 	itens_qnt = 1;
 	cont=1;
@@ -492,24 +494,24 @@ int vnd_orc()
 	gtk_widget_set_sensitive(cliente_orc_tel_entry,FALSE);
 	cliente_orc_box = gtk_box_new(0,0);
 
-	orc_cond_pag_psq_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(orc_cond_pag_psq_button),gtk_image_new_from_file(IMG_PESQ));
+	orc_pag_cond_psq_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(orc_pag_cond_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
-	orc_cond_pag_entry = gtk_entry_new();
-	orc_cond_pag_nome = gtk_entry_new();
-	orc_cond_pag_fixed = gtk_fixed_new();
-	orc_cond_pag_box = gtk_box_new(0,0);
-	gtk_entry_set_width_chars(GTK_ENTRY(orc_cond_pag_entry),8);
-	orc_cond_pag_frame = gtk_frame_new("Cond.Pag.");
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_cond_pag_nome),"Modelo Datas");
+	orc_pag_cond_entry = gtk_entry_new();
+	orc_pag_cond_nome = gtk_entry_new();
+	orc_pag_cond_fixed = gtk_fixed_new();
+	orc_pag_cond_box = gtk_box_new(0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_cond_entry),8);
+	orc_pag_cond_frame = gtk_frame_new("Cond.Pag.");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_pag_cond_nome),"Modelo Datas");
 
-	gtk_box_pack_start(GTK_BOX(orc_cond_pag_box),orc_cond_pag_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(orc_cond_pag_box),orc_cond_pag_psq_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(orc_cond_pag_box),orc_cond_pag_nome,0,0,0);
-	gtk_container_add(GTK_CONTAINER(orc_cond_pag_frame),orc_cond_pag_box);
-	gtk_fixed_put(GTK_FIXED(orc_cond_pag_fixed),orc_cond_pag_frame,10,10);
-	gtk_widget_set_size_request(orc_cond_pag_box,100,40);
-	gtk_widget_set_sensitive(orc_cond_pag_nome,FALSE);
+	gtk_box_pack_start(GTK_BOX(orc_pag_cond_box),orc_pag_cond_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_pag_cond_box),orc_pag_cond_psq_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_pag_cond_box),orc_pag_cond_nome,0,0,0);
+	gtk_container_add(GTK_CONTAINER(orc_pag_cond_frame),orc_pag_cond_box);
+	gtk_fixed_put(GTK_FIXED(orc_pag_cond_fixed),orc_pag_cond_frame,10,10);
+	gtk_widget_set_size_request(orc_pag_cond_box,100,40);
+	gtk_widget_set_sensitive(orc_pag_cond_nome,FALSE);
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,30);
@@ -564,8 +566,8 @@ int vnd_orc()
 	//gtk_fixed_put(GTK_FIXED(orc_infos_fixed),operacao_orc_frame,MARGEM_D,90);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
 
-	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_cond_pag_fixed,800,90);
-	//gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_cond_pag_fixed,0,0,0);
+	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,800,90);
+	//gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_pag_cond_fixed,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_d),orc_infos_fixed,0,0,0);
 	gtk_box_pack_end(GTK_BOX(caixa_orc_infos_e),observacoes_orc_frame,0,0,10);
@@ -762,7 +764,6 @@ int vnd_orc()
 		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),codigo_prod_orc_entry[cont],0,0,2);
 		gtk_entry_set_width_chars(GTK_ENTRY(codigo_prod_orc_entry[cont]),5);
 		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),pesquisa_prod[cont],0,0,2);
-		//gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),descricao_prod_orc_label[cont],0,0,2);
 		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),descricao_prod_orc_entry[cont],0,0,2);
 		gtk_widget_set_sensitive(descricao_prod_orc_entry[cont],FALSE);
 
@@ -835,6 +836,10 @@ int vnd_orc()
 		#pragma GCC diagnostic ignored "-Wint-conversion"
 		g_signal_connect(botao_menos[cont],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[cont]);
 		g_signal_connect(codigo_prod_orc_entry[cont],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[cont]);
+
+		find_subgrupos_restrict->grupo = 1;
+		find_subgrupos_restrict->posicao = cont;
+		find_subgrupos_restrict->entry = subgrp_prod_orc_cod_entry[cont];
 
 		g_signal_connect(subgrp_prod_orc_button[cont],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
 		g_signal_connect(subgrp_prod_orc_cod_entry[cont],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[cont]);
@@ -909,10 +914,9 @@ int vnd_orc()
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 
-	g_signal_connect(orc_cond_pag_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
+	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
-	g_signal_connect(orc_cond_pag_psq_button,"clicked",G_CALLBACK(psq_cond_pag),orc_cond_pag_entry);
-
+	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);

@@ -32,7 +32,7 @@ int inicializar_orc()
 	return 0;
 }
 
-static int tipo_pag=0, display=1;
+static int pag_cond=0, tipo_pag=0, display=1;
 
 static int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
@@ -47,8 +47,8 @@ static float desconto_geral_orc =0 ;
 
 //COMBO
 static GtkWidget **tipodesconto_prod_orc_combo;
-static GtkWidget *orc_cond_pag_entry, *orc_cond_pag_nome, *orc_cond_pag_frame, *orc_cond_pag_fixed, *orc_cond_pag_box, *orc_cond_pag_psq_button;
-gchar *orc_cond_pag_gchar;
+static GtkWidget *orc_pag_cond_entry, *orc_pag_cond_nome, *orc_pag_cond_frame, *orc_pag_cond_fixed, *orc_pag_cond_box, *orc_pag_cond_psq_button;
+gchar *orc_pag_cond_gchar;
 //  BUTTONS
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;

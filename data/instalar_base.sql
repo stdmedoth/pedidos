@@ -130,7 +130,7 @@ create table orcamentos( code int primary key auto_increment,
 vendedor int default 0,
 cliente int default 0,
 dia date default '2001-01-01',
-tipopag int default 1,
+cond_pag int default 1,
 total float default 0,
 observacoes varchar(500) default ' ',
 foreign key(cliente) references terceiros(code));

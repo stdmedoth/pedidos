@@ -89,11 +89,11 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
+	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_terc),NULL);
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_ter),NULL);
+	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_terc),NULL);
 
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(cad_oper),NULL);
 

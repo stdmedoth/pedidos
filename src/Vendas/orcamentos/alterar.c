@@ -13,44 +13,56 @@ int altera_orc()
 	rec_altera_qnt=1;
 	recebendo_prod_orc=1;
 
-	if(codigo_orc()!=0)
+	if(codigo_orc()!=0){
+		cancela_orc();
 		return 1;
+	}
 
-	if(observacoes_orc_get()!=0)
-			return 1;
+	if(observacoes_orc_get()!=0){
+		cancela_orc();
+		return 1;
+	}
 
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cliente, tipopag, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	sprintf(query,"select cliente, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
 
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao buscar orçamento");
+		cancela_orc();
 		return 1;
 	}
 
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Orçamento não existe para ser alterado");
+		cancela_orc();
 		return 1;
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(orc_cond_pag_entry),row[1]);
-	tipo_pag = atoi(row[1]);
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),row[1]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
+
+	gtk_widget_activate(cliente_orc_entry);
+	gtk_widget_activate(orc_pag_cond_entry);
 
 	if(row[4] && strlen(row[4]))
 	{
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[4],strlen(row[4]));
 	}
-	if(codigo_cli_orc()!=0)
+
+	if(codigo_cli_orc()!=0){
+		cancela_orc();
 		return 1;
+	}
 
 	sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro nos itens do orçamento");
+		cancela_orc();
 		return 1;
 	}
 
@@ -120,6 +132,7 @@ int altera_orc()
 			obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],strlen(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])]));
 
 		}
+
 		rec_altera_qnt++;
 	}
 
@@ -158,17 +171,17 @@ int altera_orc()
 		sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
 		erro = enviar_query(query);
 
-		if(erro != 0 )
+		if( erro != 0 )
 		{
 			popup(NULL,"Erro ao tentar excluir orçamento vazio");
+			cancela_orc();
 			return 1;
 		}
 
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-		cancela_orc();
+
 		return 0;
 	}
-
 
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);
 	gtk_widget_set_sensitive(codigo_orc_frame,FALSE);

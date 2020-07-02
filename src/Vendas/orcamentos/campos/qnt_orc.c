@@ -36,7 +36,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(orc_cond_pag_entry);
+				gtk_widget_grab_focus(orc_pag_cond_entry);
 				return 1;
 			}
 
@@ -71,7 +71,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(orc_cond_pag_entry);
+				gtk_widget_grab_focus(orc_pag_cond_entry);
 				return 1;
 			}
 
@@ -87,13 +87,15 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			}
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
 			break;
+
 		case 3:
 			if(tipo_pag==0)
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
-				gtk_widget_grab_focus(orc_cond_pag_entry);
+				gtk_widget_grab_focus(orc_pag_cond_entry);
 				return 1;
 			}
+			
 			break;
 	}
 

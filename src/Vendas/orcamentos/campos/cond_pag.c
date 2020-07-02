@@ -5,13 +5,13 @@ int rec_fat_vist()
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 
-	orc_cond_pag_gchar = (gchar *)gtk_entry_get_text (GTK_ENTRY(orc_cond_pag_entry));
-	if(strlen(orc_cond_pag_gchar)<=0){
+	orc_pag_cond_gchar = (gchar *)gtk_entry_get_text (GTK_ENTRY(orc_pag_cond_entry));
+	if(strlen(orc_pag_cond_gchar)<=0){
 		popup(NULL,"Insira o código do modelo de datas");
 		return 1;
 	}
 
-	sprintf(query,"select * from pag_cond where code = %s",orc_cond_pag_gchar);
+	sprintf(query,"select * from pag_cond where code = %s",orc_pag_cond_gchar);
 	if((res = consultar(query))==NULL){
 		return 1;
 	}
@@ -21,7 +21,8 @@ int rec_fat_vist()
 		return 1;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(orc_cond_pag_nome),row[1]);
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),row[1]);
+
 	if(atoi(row[6])>1)
 		tipo_pag = 1;
 	else
@@ -32,6 +33,7 @@ int rec_fat_vist()
 			break;
 		cont++;
 	}
+
 	while(cont < MAX_PROD_ORC);
 
 	for(int cont=0;cont<MAX_PROD_ORC;cont++)
@@ -41,6 +43,8 @@ int rec_fat_vist()
 			qnt_prod_orc(NULL,cont);
 		}
 	}
+
+	pag_cond = atoi(orc_pag_cond_gchar);
 
 	if(ativos[cont].id == 1)
 		gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);

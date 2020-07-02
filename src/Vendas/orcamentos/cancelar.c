@@ -37,6 +37,7 @@ int cancela_orc()
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
 	alerta_obs = 0;
+	pag_cond = 0;
 	tipo_pag = 0;
 	cont=0;
 	itens_qnt = 1;

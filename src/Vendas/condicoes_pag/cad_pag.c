@@ -207,7 +207,7 @@ int cad_pag(){
   g_signal_connect(pag_datas_entry,"activate",G_CALLBACK(pag_datas_fun),NULL);
 
   g_signal_connect(pag_psq_datas_button,"clicked",G_CALLBACK(psq_data),pag_datas_entry);
-  g_signal_connect(pag_psq_cod_button,"clicked",G_CALLBACK(psq_cond_pag),pag_cod_entry);
+  g_signal_connect(pag_psq_cod_button,"clicked",G_CALLBACK(psq_pag_cond),pag_cod_entry);
 
 
   g_signal_connect(pag_confirmar_button,"clicked",G_CALLBACK(pag_concluir_fun),NULL);

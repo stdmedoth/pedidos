@@ -1,4 +1,4 @@
-void receber_cond_pag_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_pag_cond_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -11,11 +11,11 @@ void receber_cond_pag_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
 	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
-	gtk_widget_destroy(psq_cond_pag_wnd);
+	gtk_widget_destroy(psq_pag_cond_wnd);
 }
 
-static GtkWidget *cond_pag_status_combo;
-int entry_cond_pag_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+static GtkWidget *pag_cond_status_combo;
+int entry_pag_cond_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
 	int status=0;
@@ -54,7 +54,7 @@ int entry_cond_pag_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	return 0;
 }
 
-int psq_cond_pag(GtkWidget *button, GtkEntry *cod_cond_pag_entry)
+int psq_pag_cond(GtkWidget *button, GtkEntry *cod_pag_cond_entry)
 {
 	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4, COLUMN5=5};
 	GtkWidget *scrollwindow;
@@ -93,11 +93,11 @@ int psq_cond_pag(GtkWidget *button, GtkEntry *cod_cond_pag_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
-	psq_cond_pag_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_cond_pag_wnd),3);
-	gtk_window_set_icon_name(GTK_WINDOW(psq_cond_pag_wnd),"system-search");
-	gtk_window_set_keep_above(GTK_WINDOW(psq_cond_pag_wnd),TRUE);
-	gtk_widget_set_size_request(psq_cond_pag_wnd,500,250);
+	psq_pag_cond_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_pag_cond_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_pag_cond_wnd),"system-search");
+	gtk_window_set_keep_above(GTK_WINDOW(psq_pag_cond_wnd),TRUE);
+	gtk_widget_set_size_request(psq_pag_cond_wnd,500,250);
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
@@ -161,17 +161,17 @@ int psq_cond_pag(GtkWidget *button, GtkEntry *cod_cond_pag_entry)
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
 
-	gtk_container_set_border_width(GTK_CONTAINER(psq_cond_pag_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_pag_cond_wnd),10);
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 
-	gtk_container_add(GTK_CONTAINER(psq_cond_pag_wnd),caixa_grande);
+	gtk_container_add(GTK_CONTAINER(psq_pag_cond_wnd),caixa_grande);
 
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_cond_pag_pesquisa),treeview);
-	pesquisa_global_alvo = GTK_ENTRY(cod_cond_pag_entry);
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_cond_pag_code),treeview);
-	gtk_widget_show_all(psq_cond_pag_wnd);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_pag_cond_pesquisa),treeview);
+	pesquisa_global_alvo = GTK_ENTRY(cod_pag_cond_entry);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_pag_cond_code),treeview);
+	gtk_widget_show_all(psq_pag_cond_wnd);
 	return 0;
 }
