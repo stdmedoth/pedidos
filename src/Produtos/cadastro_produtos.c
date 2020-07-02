@@ -312,7 +312,7 @@ int  cad_prod()
 	g_signal_connect(GTK_BUTTON(prod_cancelar_button),"clicked",G_CALLBACK(cancelar_prod),NULL);
 	g_signal_connect(GTK_BUTTON(prod_excluir_button),"clicked",G_CALLBACK(exclui_prod),NULL);
 
-	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_grp),GTK_ENTRY(grupo_prod_field));
+	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_subgrp_todos),grupo_prod_field);
 	g_signal_connect(GTK_BUTTON(atualiza_grupo_preco_button),"clicked",G_CALLBACK(insere_preco_grupos),NULL);
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));

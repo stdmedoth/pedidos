@@ -47,12 +47,15 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
+	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
 	if(rec_familia_vet(familia, atoi(subgrp_prod_orc_cod_gchar) )!=0)
 		return 1;
 
 	if((grupo_len = rec_familia_nome(familia_char, atoi(subgrp_prod_orc_cod_gchar) ))<0)
+		return 1;
+
+	if(!row[0])
 		return 1;
 
 	g_print("Verificando grupo até o pai\n");

@@ -572,7 +572,7 @@ int  cad_terc()
 
 
 	g_signal_connect(GTK_BUTTON(psq_ter_prod_button),"clicked",G_CALLBACK(psq_prod),prod_ter_field);
-	g_signal_connect(GTK_BUTTON(psq_ter_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
+	g_signal_connect(GTK_BUTTON(psq_ter_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp_todos),subgrp_ter_field);
 	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter_grupos),NULL);
 
 	//page 0

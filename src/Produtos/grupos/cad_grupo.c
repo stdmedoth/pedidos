@@ -65,6 +65,38 @@ int conclui_subgrupo()
 	return 0;
 }
 
+
+int altera_subgrupo()
+{
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	subgrpcode = malloc(MAX_CODE_LEN);
+	subgrpcode = (gchar*) gtk_entry_get_text(GTK_ENTRY(cod_subgrp_entry));
+	char query[MAX_QUERY_LEN];
+
+	sprintf(query,"select nome,pai from grupos where code = %s",subgrpcode);
+	if((res = consultar(query))==NULL)
+	{
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Subgrupo não existente");
+		gtk_widget_grab_focus(cod_subgrp_entry);
+		return 1;
+	}
+	gtk_entry_set_text(GTK_ENTRY(nome_subgrp_entry),row[0]);
+	gtk_entry_set_text(GTK_ENTRY(cod_subgrp_pai_entry),row[1]);
+	gtk_widget_activate(nome_subgrp_entry);
+	gtk_widget_activate(cod_subgrp_pai_entry);
+	gtk_widget_grab_focus(nome_subgrp_entry);
+	alterando_subgrp = 1;
+	gtk_widget_set_sensitive(cod_subgrp_entry,FALSE);
+	gtk_widget_set_sensitive(psq_subgrpo_button,FALSE);
+	gtk_widget_set_sensitive(altera_subgrp_button,FALSE);
+	return 0;
+}
+
 int cod_subgrp()
 {
 	subgrpcode = malloc(MAX_CODE_LEN);
@@ -80,6 +112,10 @@ int cod_subgrp()
 		return 1;
 	}
 
+	if(alterando_subgrp==0&&concluindo_subgrp==0)
+	{
+		altera_subgrupo();
+	}
 	return 0;
 }
 
@@ -181,36 +217,6 @@ int exclui_subgrupo()
 	return 0;
 }
 
-int altera_subgrupo()
-{
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	subgrpcode = malloc(MAX_CODE_LEN);
-	subgrpcode = (gchar*) gtk_entry_get_text(GTK_ENTRY(cod_subgrp_entry));
-	char query[MAX_QUERY_LEN];
-
-	sprintf(query,"select nome,pai from grupos where code = %s",subgrpcode);
-	if((res = consultar(query))==NULL)
-	{
-		return 1;
-	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Subgrupo não existente");
-		gtk_widget_grab_focus(cod_subgrp_entry);
-		return 1;
-	}
-	gtk_entry_set_text(GTK_ENTRY(nome_subgrp_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(cod_subgrp_pai_entry),row[1]);
-	gtk_widget_activate(nome_subgrp_entry);
-	gtk_widget_activate(cod_subgrp_pai_entry);
-	gtk_widget_grab_focus(nome_subgrp_entry);
-	alterando_subgrp = 1;
-	gtk_widget_set_sensitive(cod_subgrp_entry,FALSE);
-	gtk_widget_set_sensitive(psq_subgrpo_button,FALSE);
-	return 0;
-}
-
 int cancela_subgrupo()
 {
 	char code[MAX_CODE_LEN];
@@ -218,10 +224,13 @@ int cancela_subgrupo()
 	gtk_entry_set_text(GTK_ENTRY(cod_subgrp_entry),code);
 	gtk_entry_set_text(GTK_ENTRY(nome_subgrp_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cod_subgrp_pai_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_subgrg_pai),"");
 	gtk_widget_grab_focus(nome_subgrp_entry);
 	alterando_subgrp = 0;
 	concluindo_subgrp = 0;
 	gtk_widget_set_sensitive(cod_subgrp_entry,TRUE);
+	gtk_widget_set_sensitive(psq_subgrpo_button,TRUE);
+	gtk_widget_set_sensitive(altera_subgrp_button,TRUE);
 	return 0;
 }
 
@@ -336,9 +345,8 @@ int cad_subgrupo()
 	g_signal_connect(nome_subgrp_entry,"activate",G_CALLBACK(nome_subgrp),NULL);
 	g_signal_connect(cod_subgrp_pai_entry,"activate",G_CALLBACK(pai_subgrp),NULL);
 
-
-	g_signal_connect(psq_subgrpo_button,"clicked",G_CALLBACK(pesquisa_subgrp),cod_subgrp_entry);
-	g_signal_connect(psq_subgrp_pai_button,"clicked",G_CALLBACK(pesquisa_subgrp),cod_subgrp_pai_entry);
+	g_signal_connect(psq_subgrpo_button,"clicked",G_CALLBACK(pesquisa_subgrp_todos),cod_subgrp_entry);
+	g_signal_connect(psq_subgrp_pai_button,"clicked",G_CALLBACK(pesquisa_subgrp_todos),cod_subgrp_pai_entry);
 	gtk_widget_show_all(janela_subgrupo);
 	return 0;
 }
@@ -408,6 +416,7 @@ int altera_grupo()
 	gtk_widget_grab_focus(confirma_grp_button);
 	gtk_widget_set_sensitive(cod_grp_entry,FALSE);
 	gtk_widget_set_sensitive(psq_grp_button,FALSE);
+	gtk_widget_set_sensitive(altera_grp_button,FALSE);
 	alterando_grp = 1;
 	return 0;
 }
@@ -492,6 +501,9 @@ int cancela_grupo()
 	alterando_grp = 0;
 	concluindo_grp = 0;
 	gtk_widget_set_sensitive(cod_grp_entry,TRUE);
+	gtk_widget_set_sensitive(psq_grp_button,TRUE);
+	gtk_widget_set_sensitive(altera_grp_button,TRUE);
+
 	return 0;
 }
 
