@@ -14,7 +14,7 @@ int transp_cepc()
 	}
 	if(strlen(transp_cep)<=0)
 	{
-		if(terceiros.criticar.cep==0)
+		if(terceiros.criticar.entrega==0)
 		{
 			transp_cep = malloc(MAX_CEP_LEN);
 			strcpy(transp_cep,"");
@@ -56,9 +56,8 @@ int transp_cepc()
 	gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campos[1]);
 	gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campos[2]);
-	
+
 	gtk_widget_grab_focus(transp_logradouro_entry);
 	g_print("cep: %s\n",transp_cep);
 	return 0;
 }
-

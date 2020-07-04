@@ -14,6 +14,7 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(inscr_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
 	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);

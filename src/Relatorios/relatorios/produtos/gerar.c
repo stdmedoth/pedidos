@@ -3,7 +3,7 @@ int relat_prod_gerar_fun()
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
 	char *gerando_file;
-	int tipos_colunas[MAX_RELAT_CAMPOS];
+	int tipos_colunas[MAX_RELAT_CAMPOS],list_qnt=0;
 	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Produtos</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
 	char banner[55+strlen(IMG_IMP_LOGO)];
 
@@ -20,8 +20,10 @@ int relat_prod_gerar_fun()
 		g_print("erro no fopen\n");
 		sprintf(gerando_file,"%srelat%i.html",PROD_RELAT_FILE,cont);
 		cont++;
-		if(cont>100)
+		if(cont>100){
+			popup(NULL,"Varias tentativas de abrir o arquivo");
 			return 1;
+		}
 	}
 	while(!(relatorio_file = fopen(gerando_file,"w")));
 
@@ -33,6 +35,11 @@ int relat_prod_gerar_fun()
 
 	sprintf(query,"select b.nome,b.tipo_dado from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_prod_codigo_gchar);
 
+	if((res1 = consultar(query))==NULL){
+		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+		return 1;
+	}
+
 	fprintf(relatorio_file,html_header);
 	fprintf(relatorio_file,"<body>");
 	fprintf(relatorio_file,"<div id=\"div-titulo\">");
@@ -43,10 +50,6 @@ int relat_prod_gerar_fun()
 	fprintf(relatorio_file,"<h1>Relatório de Produtos</h1>");
 	fprintf(relatorio_file,"<table>");
 
-	if((res1 = consultar(query))==NULL){
-		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
-		return 1;
-	}
 	fprintf(relatorio_file,"<tr>");
 
 	cont=0;
@@ -68,6 +71,7 @@ int relat_prod_gerar_fun()
 	while((row2 = mysql_fetch_row(res2))!=NULL){
 		cont = 0;
 		fprintf(relatorio_file,"<tr>");
+		list_qnt++;
 		while(cont<prod_query.campos_qnt)
 		{
 			if(tipos_colunas[cont] == 1)//texto
@@ -94,6 +98,10 @@ int relat_prod_gerar_fun()
 			cont++;
 		}
 		fprintf(relatorio_file,"</tr>");
+	}
+	if(!list_qnt){
+		popup(NULL,"Nenhum listagem gerada");
+		return 0;
 	}
 
 	fprintf(relatorio_file,"</table>");

@@ -7,9 +7,9 @@ GtkWidget *concluir_ter_buttom,
 *excluir_ter_buttom;
 
 #include "campos.c"
+#include "cancela.c"
 #include "altera.c"
 #include "exclui.c"
-#include "cancela.c"
 #include "conclui.c"
 
 int inicializar_ter()

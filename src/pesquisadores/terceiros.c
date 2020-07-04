@@ -40,13 +40,13 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	switch(tipo_psq)
 	{
 		case 0:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where razao like '%c%s%c'",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where razao like '%c%s%c' limit 100",37,entrada,37);
 			break;
 		case 1:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where cidade like '%c%s%c'",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where cidade like '%c%s%c' limit 100",37,entrada,37);
 			break;
 		case 2:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where doc like '%c%s%c'",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where doc like '%c%s%c' limit 100",37,entrada,37);
 			break;
 	}
 	res = consultar(query);
@@ -153,7 +153,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros");
+	sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros  limit 100");
 	res = consultar(query);
 	if(res == NULL)
 	{
