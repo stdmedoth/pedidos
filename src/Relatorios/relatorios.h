@@ -9,6 +9,8 @@ static GtkWidget *cad_relat_treeview;
 static gchar *cad_rel_code_gchar,
 *cad_rel_nome_gchar;
 
+char campos_query[MAX_RELAT_CAMPOS][50];
+
 struct
 {
 	int codigo;

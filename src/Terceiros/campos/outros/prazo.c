@@ -8,14 +8,19 @@ int prazo_fun()
 		{
 			prazo_ter = malloc(sizeof(gchar*));
 			strcpy(prazo_ter,"");
-			gtk_widget_grab_focus(frete_pago_flag);
+			if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(frete_pago_flag)))
+				gtk_widget_grab_focus(frete_pago_entry);
+			else
+				gtk_widget_grab_focus(prod_ter_field);
 			return 0;
 		}
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
 		popup(NULL,"Insira uma data para o prazo do cliente");
 		return 1;
 	}
-
-	gtk_widget_grab_focus(frete_pago_flag);
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(frete_pago_flag)))
+		gtk_widget_grab_focus(frete_pago_entry);
+	else
+		gtk_widget_grab_focus(prod_ter_field);
 	return 0;
 }

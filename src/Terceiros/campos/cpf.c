@@ -2,9 +2,9 @@ int cpf_terc()
 {
 	int len,cont,cont2=0;
 	char formatar[20];
-	memset(formatar,0x0,20);	
+	memset(formatar,0x0,20);
 	doc_ter = malloc(20);
-	memset(doc_ter,0x0,20);	
+	memset(doc_ter,0x0,20);
 	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
 	len = strlen(doc_ter);
 	g_print("CPF %s\ncom %i digitos\n",doc_ter,len);
@@ -14,7 +14,7 @@ int cpf_terc()
 		{
 			doc_ter = malloc(sizeof(gchar *));
 			strcpy(doc_ter,"");
-			gtk_widget_grab_focus(GTK_WIDGET(code_ter_nfe_field));
+			gtk_widget_grab_focus(GTK_WIDGET(inscr_ter_field));
 			return 0;
 		}
 		g_print("CPF terceiro deve ser inserido\n");
@@ -22,7 +22,7 @@ int cpf_terc()
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_placeholder_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		vet_erro[DOC_ERR]=1;
+
 		return 1;
 	}
 	if(len==CPF_N_LEN)
@@ -48,10 +48,10 @@ int cpf_terc()
 				}
 				formatar[cont2] = doc_ter[cont];
 				printf("%s\n",formatar);
-				cont2++;	
+				cont2++;
 			}
 			formatar[cont2] = '\0';
-			vet_erro[DOC_ERR] = 0;
+
 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),formatar);
 	}
 	else
@@ -64,11 +64,11 @@ int cpf_terc()
 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 			gtk_entry_set_placeholder_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-			vet_erro[DOC_ERR]=1;
-			return 1;		
+
+			return 1;
 		}
-		vet_erro[DOC_ERR] = 0;
-		gtk_widget_grab_focus(code_ter_nfe_field);
+		
+		gtk_widget_grab_focus(inscr_ter_field);
 	}
 	else
 	{
@@ -77,10 +77,9 @@ int cpf_terc()
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_placeholder_text(GTK_ENTRY(doc_ter_field),"123.456.789-09");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		vet_erro[DOC_ERR]=1;
-		return 1;		
+
+		return 1;
 	}
-	
+
 	return 0;
 }
-

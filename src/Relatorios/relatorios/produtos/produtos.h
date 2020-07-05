@@ -6,8 +6,6 @@ struct
 	int campos_qnt;
 }prod_query;
 
-char campos_query[MAX_RELAT_CAMPOS][50];
-
 static int relat_prod_gerando=0;
 static GtkWidget *relat_prod_code_entry,
 *relat_prod_nome_entry,

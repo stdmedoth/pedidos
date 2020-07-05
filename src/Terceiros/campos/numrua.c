@@ -12,9 +12,11 @@ int numrua()
 	{
 		popup(NULL,"Deve ser inserido caracteres numéricos");
 		gtk_widget_grab_focus(address_num_field);
-		return 1;	
+		return 1;
 	}
-	
-	gtk_widget_grab_focus(type_ter_field);
+
+	if(escolha_tipo_ter()!=0)
+		return 1;
+
 	return 0;
 }

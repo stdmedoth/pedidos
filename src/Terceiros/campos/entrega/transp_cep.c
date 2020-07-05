@@ -34,7 +34,7 @@ int transp_cepc()
 	g_print("CEP: %s\n",transp_cep);
 	autologger("CEP:");
 	autologger(transp_cep);
-	sprintf(query,"select l.descricao, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",transp_cep);
+	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",transp_cep);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -53,10 +53,15 @@ int transp_cepc()
 		return 0;
 	}
 	g_print("cep_len: %li\n",strlen(transp_cep));
-	gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campos[0]);
-	gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campos[1]);
-	gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campos[2]);
-
+	if(campos[0])
+		gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campos[0]);
+	if(campos[1])
+		gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campos[1]);
+	if(campos[2])
+		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campos[2]);
+	if(campos[3])
+		gtk_entry_set_text(GTK_ENTRY(transp_bairro_entry),campos[3]);
+		
 	gtk_widget_grab_focus(transp_logradouro_entry);
 	g_print("cep: %s\n",transp_cep);
 	return 0;

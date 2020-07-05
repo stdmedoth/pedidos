@@ -46,15 +46,15 @@ int transp_codigo_fun()
 	row = mysql_fetch_row(res);
 	if(row==NULL)
 	{
-		popup(NULL,"Nenhum transportador para o código indicado");		
+		popup(NULL,"Nenhum transportador para o código indicado");
 		return 1;
 	}
 	if(row[RAZ_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),row[RAZ_TER_COL]);
-	
+
 	if(row[DOC_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry),row[DOC_TER_COL]);
-	
+
 	if(row[IE_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),row[IE_TER_COL]);
 

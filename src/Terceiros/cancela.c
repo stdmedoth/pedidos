@@ -20,6 +20,7 @@ void cancelar_ter()
 	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
+	gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
@@ -36,6 +37,7 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_num_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(transp_bairro_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),"");

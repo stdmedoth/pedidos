@@ -204,6 +204,7 @@
 #define MAX_CEP_LEN 10
 #define CEP_LEN 8
 #define MAX_ADR_LEN 300
+#define MAX_BAIRRO_LEN 100
 #define MAX_CID_LEN 50
 #define MAX_EST_LEN 50
 #define MAX_LOGR_LEN 300

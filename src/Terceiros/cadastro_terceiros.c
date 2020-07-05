@@ -26,6 +26,7 @@ int inicializar_ter()
 	doc_ter = malloc(CNPJ_S_LEN);
 	nomes_ter = malloc(MAX_RAZ_LEN);
 	endereco_ter = malloc(MAX_ADR_LEN);
+	bairro_ter = malloc(MAX_CID_LEN);
 	cep_ter = malloc(MAX_CEP_LEN);
 	tipo_ter = malloc(MAX_TIPO_LEN);
 	memset(tipo_ter,0x0,strlen(tipo_ter));
@@ -87,7 +88,7 @@ int  cad_terc()
 	GtkWidget *code, *code_ter_nfe_box, *doc, *inscr, *name, *address, *cep,*type, *address_num;
 	GtkWidget *celular, *telefone,*acao, *email, *observacoes,*prazo;
 	GtkWidget *observacoes_scroll;
-	GtkWidget *cid_uf_boxv1,*cid_uf_boxv2,*cid_uf_boxh;
+	GtkWidget *bair_cid_uf_boxv1,*bair_cid_uf_boxv2,*bair_cid_uf_boxv3,*bair_cid_uf_boxh;
 	GtkWidget *addr_log_num_box,*addr_log_num_fixed;
 
 	GtkWidget *ter_entrega_frame,*ter_endereco_frame;
@@ -133,9 +134,10 @@ int  cad_terc()
 	opcoes = gtk_box_new(0,0);
 	caixa_grande = gtk_box_new(1,0);
 
-	cid_uf_boxv1 = gtk_box_new(1,0);
-	cid_uf_boxv2 = gtk_box_new(1,0);
-	cid_uf_boxh = gtk_box_new(0,0);
+	bair_cid_uf_boxv1 = gtk_box_new(1,0);
+	bair_cid_uf_boxv2 = gtk_box_new(1,0);
+	bair_cid_uf_boxv3 = gtk_box_new(1,0);
+	bair_cid_uf_boxh = gtk_box_new(0,0);
 
 	ter_principal_label = gtk_label_new("Dados");
 	ter_contatos_label = gtk_label_new("Contatos");
@@ -203,7 +205,7 @@ int  cad_terc()
 	separator = gtk_separator_new(1);
 
 	doc_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Pessoa:");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Tipo Pessoa:");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurídica");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","Física");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"3","Sem CNPJ/CPF");
@@ -213,13 +215,14 @@ int  cad_terc()
 	doc_label = gtk_label_new("Documento:");
 	code_ter_nfe_label = gtk_label_new("Código para NF-e");
 	name_label = gtk_label_new("Nome: ");
-	inscr_label = gtk_label_new("IE:");
+	inscr_label = gtk_label_new("IE/RG:");
 	addr_log_num_box = gtk_box_new(0,0);
 	addr_log_num_fixed = gtk_fixed_new();
 	address_num = gtk_box_new(1,0);
 	cep_label = gtk_label_new("Cep: ");
 	address_label= gtk_label_new("Logradouro: ");
 	cidade_label= gtk_label_new("Cidade: ");
+	bairro_label = gtk_label_new("Bairro: ");
 	address_num_label = gtk_label_new("Número: ");
 	address_num_field = gtk_entry_new();
 	uf_label = gtk_label_new("UF: ");
@@ -279,6 +282,7 @@ int  cad_terc()
 	cep_ter_field = gtk_entry_new();
 	address_ter_field = gtk_entry_new();
 	cidade_ter_field = gtk_entry_new();
+	bairro_ter_field = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cep_ter_field),"");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
 	gtk_box_pack_start(GTK_BOX(psq_ter_cep_box),cep_ter_field,0,0,0);
@@ -288,7 +292,8 @@ int  cad_terc()
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(type_ter_field),0,("Escolha o tipo"));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"1",("Cliente"));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"2",("Fornecedor"));
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"3",("Ambos"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"3",("Cliente e Fornecedor"));
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(type_ter_field),"4",("Transportadora"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
 
 	celular_ter_field = gtk_entry_new();
@@ -354,22 +359,31 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(cep),psq_ter_cep_box,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cep),rua_combo,0,0,10);
 	gtk_box_pack_start(GTK_BOX(address),cep,0,0,5);
+
 	gtk_box_pack_start(GTK_BOX(addr_log_num_box),address,0,0,5);
-	gtk_box_pack_start(GTK_BOX(addr_log_num_box),addr_log_num_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(addr_log_num_box),addr_log_num_fixed,0,0,20);
+
 	gtk_container_add(GTK_CONTAINER(ter_endereco_frame),addr_log_num_box);
 
 	gtk_box_pack_start(GTK_BOX(address),address_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(address),address_ter_field,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxv1),cidade_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxv1),cidade_ter_field,0,0,5);
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxv2),uf_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxv2),uf_ter_field,0,0,5);
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxh),cid_uf_boxv1,0,0,10);
-	gtk_box_pack_start(GTK_BOX(cid_uf_boxh),cid_uf_boxv2,0,0,10);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv1),bairro_label,0,0,5);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv1),bairro_ter_field,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv2),cidade_label,0,0,5);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv2),cidade_ter_field,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv3),uf_label,0,0,5);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxv3),uf_ter_field,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxh),bair_cid_uf_boxv1,0,0,10);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxh),bair_cid_uf_boxv2,0,0,10);
+	gtk_box_pack_start(GTK_BOX(bair_cid_uf_boxh),bair_cid_uf_boxv3,0,0,10);
+
 	gtk_entry_set_width_chars(GTK_ENTRY(uf_ter_field),5);
 
-	gtk_box_pack_start(GTK_BOX(address),cid_uf_boxh,0,0,5);
+	gtk_box_pack_start(GTK_BOX(address),bair_cid_uf_boxh,0,0,5);
 	gtk_widget_set_size_request(address_ter_field,325,30);
 
 	type = gtk_box_new(1,0);
@@ -541,6 +555,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(inscr_ter_field),"activate",G_CALLBACK(inscr_terc),NULL);
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),NULL);
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
+	g_signal_connect(GTK_ENTRY(bairro_ter_field),"activate",G_CALLBACK(bairro_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_ter_field),"activate",G_CALLBACK(address_terc),NULL);
 	g_signal_connect(GTK_ENTRY(cidade_ter_field),"activate",G_CALLBACK(cidade_terc),NULL);
 	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);

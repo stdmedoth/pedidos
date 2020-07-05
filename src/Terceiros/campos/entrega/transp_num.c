@@ -5,8 +5,9 @@ int transp_num_fun()
 	{
 		if(terceiros.criticar.entrega==0)
 		{
-			transp_num = malloc(MAX_CODE_LEN);				
-			gtk_widget_grab_focus(transp_cidade_entry);
+			transp_num = malloc(MAX_CODE_LEN);
+			strcpy(transp_num,"");
+			gtk_widget_grab_focus(transp_bairro_entry);
 			return 0;
 		}
 		popup(NULL,"Insira o número da rua");
@@ -17,10 +18,9 @@ int transp_num_fun()
 	{
 		popup(NULL,"Deve ser inserido caracteres numéricos");
 		gtk_widget_grab_focus(transp_num_entry);
-		return 1;	
+		return 1;
 	}
-	
-	gtk_widget_grab_focus(transp_cidade_entry);
+
+	gtk_widget_grab_focus(transp_bairro_entry);
 	return 0;
 }
-

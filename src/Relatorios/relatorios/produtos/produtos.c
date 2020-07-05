@@ -113,7 +113,7 @@ void relat_prod_fun()
 	gtk_container_add(GTK_CONTAINER(relat_prod_ordem_frame), relat_prod_ordem_box);
 
 	fixed = gtk_fixed_new();
-	box = gtk_box_new(1,1);
+	box = gtk_box_new(1,0);
 	//gtk_fixed_put(GTK_FIXED(relat_prod_code_fixed),relat_prod_code_frame,0,0);
 	gtk_box_pack_start(GTK_BOX(box),relat_prod_code_fixed,0,0,1);
 

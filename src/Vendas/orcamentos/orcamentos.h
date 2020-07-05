@@ -59,12 +59,6 @@ static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_
 static GtkWidget *caixa_opcoes_orc;
 //  GCHAR
 
-struct duo_widget{
-	int grupo;
-	int posicao;
-	GtkWidget *entry;
-}*find_subgrupos_restrict;
-
 static gchar *data_orc_gchar;
 
 static gchar *cliente_orc_gchar;

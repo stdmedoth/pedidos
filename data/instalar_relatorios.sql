@@ -72,7 +72,7 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (2, 'Código NF-e',  'Visualizar código do terceiro para tirar nfe', 't.code_nfe',1),
 (2, 'Razão Social/Nome',  'Visualizar Nome ou Razão da empresa/pessoa', 't.razao',1),
 (2, 'Documento', 'CNPJ ou RG do Terceiro', 't.doc',1),
-(2, 'IE', 'CEP do Terceiro', 't.ie',1),
+(2, 'IE/RG', 'Inscrição/RG do Terceiro', 't.ie',1),
 (2, 'CEP', 'CEP do Terceiro', 't.cep',1),
 (2, 'Logradouro', 'Logradouro do Terceiro', 't.endereco',1),
 (2, 'Cidade', 'Cidade do Terceiro', 't.cidade',1),

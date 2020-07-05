@@ -7,7 +7,7 @@ int inscr_terc()
 		{
 			inscr_ter = malloc(sizeof(char*)*MAX_CID_LEN);
 			strcpy(inscr_ter,"");
-			gtk_widget_grab_focus(name_ter_field);
+			gtk_widget_grab_focus(code_ter_nfe_field);
 			return 0;
 		}
 		popup(NULL,"Por favor insira a Inscrição do terceiro");
@@ -22,7 +22,7 @@ int inscr_terc()
 	}
 
 
-	gtk_widget_grab_focus(name_ter_field);
+	gtk_widget_grab_focus(code_ter_nfe_field);
 	g_print("inscr: %s\n",inscr_ter);
 	return 0;
 }

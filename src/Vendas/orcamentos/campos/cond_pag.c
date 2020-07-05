@@ -33,7 +33,6 @@ int rec_fat_vist()
 			break;
 		cont++;
 	}
-
 	while(cont < MAX_PROD_ORC);
 
 	for(int cont=0;cont<MAX_PROD_ORC;cont++)

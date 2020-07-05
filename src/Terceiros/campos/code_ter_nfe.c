@@ -5,7 +5,7 @@ int code_ter_nfe()
 
 	if(strlen(codigos_ter_nfe)<=0)
 	{
-		gtk_widget_grab_focus(inscr_ter_field);
+		gtk_widget_grab_focus(name_ter_field);
 	}
 
 	if(strlen(codigos_ter_nfe)>MAX_CODE_LEN*2)
@@ -14,7 +14,7 @@ int code_ter_nfe()
 		gtk_widget_grab_focus(code_ter_nfe_field);
 	}
 
-	gtk_widget_grab_focus(inscr_ter_field);
+	gtk_widget_grab_focus(name_ter_field);
 
 	return 0;
 }

@@ -3,7 +3,7 @@ int relat_ter_codigo_fun()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	
+
 	relat_ter_codigo_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(relat_ter_code_entry));
 	if(strlen(relat_ter_codigo_gchar)<=0)
 	{
@@ -17,15 +17,38 @@ int relat_ter_codigo_fun()
 		popup(NULL,"Erro ao buscar nome do relatorio");
 		return 1;
 	}
-	
+
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Relatório não existente");
 		return 1;
 	}
 	gtk_entry_set_text(GTK_ENTRY(relat_ter_nome_entry),row[0]);
-	
-	relat_ter_query_fun();
-	relat_ter_gerar_fun();
+
+	sprintf(query,"select b.nome, b.query from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_ter_codigo_gchar);
+
+	if((res = consultar(query))==NULL){
+		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+		return 1;
+	}
+	cont=0;
+
+	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(relat_ter_ordem_combo),2);
+	if(relat_ter_gerando==0){
+		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(relat_ter_ordem_combo));
+
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_ter_ordem_combo),"Selecionar Ordem");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(relat_ter_ordem_combo),0);
+		while((row = mysql_fetch_row(res))!=NULL){
+
+			if(cont>MAX_RELAT_CAMPOS)
+				break;
+
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_ter_ordem_combo),row[0]);
+			strcpy(campos_query[cont],row[1]);
+			cont++;
+
+		}
+	}
 	return 0;
 }

@@ -28,6 +28,7 @@ static struct
 		int doc;
 		int inscricao;
 		int tipodoc;
+		int bairro;
 		int endereco;
 		int cep;
 		int cidade;

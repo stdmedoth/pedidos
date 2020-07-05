@@ -17,6 +17,7 @@ int mover_para_doc()
 	gtk_widget_grab_focus(doc_ter_field);
 	return 0;
 }
+
 int escolha_doc()
 {
 	int opcao;
@@ -28,7 +29,7 @@ int escolha_doc()
 			if(terceiros.criticar.tipodoc==0)
 			{
 				doc_ter = malloc(MAX_CODE_LEN);
-				strcpy(doc_ter,"");				
+				strcpy(doc_ter,"");
 				gtk_widget_grab_focus(inscr_ter_field);
 				return 0;
 			}
@@ -48,7 +49,7 @@ int escolha_doc()
 		case 3:
 			tipo_doc = 3;
 			doc_ter = malloc(MAX_CODE_LEN);
-			strcpy(doc_ter,"");				
+			strcpy(doc_ter,"");
 			gtk_widget_grab_focus(inscr_ter_field);
 			break;
 	}

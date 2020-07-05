@@ -24,21 +24,10 @@ int altera_ter()
 	{
 		g_print("terceiro não existe para ser alterado\n");
 		popup(NULL,"Terceiro não existe");
-		sprintf(task,"%i",tasker("terceiros"));
-		gtk_entry_set_text(GTK_ENTRY(code_ter_field),task);
-		gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
-		gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(address_ter_field),"");
-		gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),0);
-		gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
-		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
-		gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
-		gtk_widget_grab_focus (GTK_WIDGET(code_ter_field));
+		cancelar_ter();
 		return 1;
 	}
+
 	if(campo[COD_TER_NFE_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),campo[COD_TER_NFE_COL]);
 
@@ -89,6 +78,9 @@ int altera_ter()
 	if(campo[END_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[END_TER_COL]);
 
+	if(campo[BAIR_TER_COL]!=NULL)
+			gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),campo[BAIR_TER_COL]);
+
 	if(campo[CID_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),campo[CID_TER_COL]);
 
@@ -113,8 +105,8 @@ int altera_ter()
 	if(campo[CCEL_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),campo[CCEL_TER_COL]);
 
-	if(campo[EMAIl_TER_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[EMAIl_TER_COL]);
+	if(campo[EMAIL_TER_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[EMAIL_TER_COL]);
 
 	if(campo[TRSP_NOME_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[CEMAIL_TER_COL]);
@@ -136,6 +128,9 @@ int altera_ter()
 
 	if(campo[TRSP_CID_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campo[TRSP_CID_COL]);
+
+	if(campo[TRSP_BAIR_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_BAIR_COL]);
 
 	if(campo[TRSP_UF_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_UF_COL]);

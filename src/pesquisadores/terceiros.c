@@ -40,13 +40,13 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	switch(tipo_psq)
 	{
 		case 0:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where razao like '%c%s%c' limit 100",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where razao like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 1:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where cidade like '%c%s%c' limit 100",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where cidade like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 2:
-			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where doc like '%c%s%c' limit 100",37,entrada,37);
+			sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros where doc like '%c%s%c' limit 20",37,entrada,37);
 			break;
 	}
 	res = consultar(query);

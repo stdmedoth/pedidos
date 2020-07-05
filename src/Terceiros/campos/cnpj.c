@@ -12,7 +12,7 @@ int cnpj_terc()
 		{
 			doc_ter = malloc(sizeof(gchar *));
 			strcpy(doc_ter,"");
-			gtk_widget_grab_focus(GTK_WIDGET(code_ter_nfe_field));
+			gtk_widget_grab_focus(GTK_WIDGET(inscr_ter_field));
 			return 0;
 		}
 		g_print("CNPJ terceiro deve ser inserido\n");
@@ -53,7 +53,7 @@ int cnpj_terc()
 				}
 				formatar[cont2] = doc_ter[cont];
 				printf("%s\n",formatar);
-				cont2++;	
+				cont2++;
 			}
 			formatar[cont2] = '\0';
 			vet_erro[DOC_ERR] = 0;
@@ -70,10 +70,10 @@ int cnpj_terc()
 			gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-XX");
 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 			vet_erro[DOC_ERR]=1;
-			return 1;		
+			return 1;
 		}
 		vet_erro[DOC_ERR] = 0;
-		gtk_widget_grab_focus(code_ter_nfe_field);
+		gtk_widget_grab_focus(inscr_ter_field);
 	}
 	else
 	{
@@ -82,9 +82,8 @@ int cnpj_terc()
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-XX");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		vet_erro[DOC_ERR]=1;
-		return 1;		
+		return 1;
 	}
-	
+
 	return 0;
 }

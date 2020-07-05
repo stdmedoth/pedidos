@@ -37,7 +37,7 @@ int cep_terc()
 	g_print("CEP: %s\n",cep_ter);
 	autologger("CEP:");
 	autologger(cep_ter);
-	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep_ter);
+	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF, l.descricao_bairro from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep_ter);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -72,11 +72,13 @@ int cep_terc()
 	{
 		gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),7);
 	}
-	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),campos[2]);
-	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),campos[3]);
-	vet_erro[CEP_ERR]=0;
+	if(campos[2])
+		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),campos[2]);
+	if(campos[3])
+		gtk_entry_set_text(GTK_ENTRY(uf_ter_field),campos[3]);
+	if(campos[4])
+		gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),campos[4]);
 	gtk_widget_grab_focus(address_ter_field);
 	g_print("cep: %s\n",cep_ter);
 	return 0;
 }
-
