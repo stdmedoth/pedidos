@@ -230,6 +230,8 @@
 #define MAX_CAMPO_NOME 30
 #define MAX_RELAT_CAMPOS 8
 #define MAX_PARC_QNT 20
+#define MAX_NIVEL_GER_QNT 10
+#define MAX_NIVEL_GER_NOME 50
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

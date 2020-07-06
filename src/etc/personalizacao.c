@@ -4,8 +4,8 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 	int erro;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	
-	sprintf(query,"update perfil_desktop set desktop_img = %i where code = %s",numero,oper_code);
+
+	sprintf(query,"update perfil_desktop set desktop_img = %i where code = %i",numero,sessao_oper.code);
 	erro = enviar_query(query);
 	if(erro!=0)
 	{

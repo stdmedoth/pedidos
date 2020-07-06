@@ -24,18 +24,23 @@ values('Documento','terceiros','ter_doc',1),
 ('Avisar saldo próximo ao limite','orcamentos','orc_prod_saldo_limite',0),
 ('Pedidos cancelados são reaproveitados','orcamentos','orc_ped_cancelado',0);
 
-
 insert into operadores (nome,senha,nivel)
-values ('Petitto','',4),
-('Calistu','gnu',5);
+values ('Petitto',MD5(''),4),
+('Calistu',MD5('gnu'),5);
 
+insert into niveis_gerenciais (nome,nivel)
+values
+('Operacional',1),
+('Tático',2),
+('Estratégico',3),
+('Técnico Software',4);
 
 insert into empresa(razao,endereco,cnpj)
 values ( 'Petitto Materiais para encadernação e cartonagem','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
-(4,1,1,1),
-(0,1,1,1);
+(3,1,1,1),
+(3,1,1,1);
 
 insert into unidades (nome, sigla, multiplo, medida)
 values ('Folhas','Folhas', 1, 5),

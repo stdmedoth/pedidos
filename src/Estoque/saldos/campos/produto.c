@@ -18,7 +18,7 @@ int est_sld_prod_fun()
 		return 1;
 	if((campo = mysql_fetch_row(estado))==NULL)
 	{
-		popup(NULL,"O terceiro não existe");
+		popup(NULL,"O produto não existe");
 		return 1;
 	}
 

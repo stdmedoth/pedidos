@@ -15,8 +15,10 @@ void receber_ter_code(GtkWidget *button, GtkTreeView *treeview)
 	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
 		return ;
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
-	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
-	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	if(pesquisa_global_alvo){
+		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
+		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	}
 	gtk_widget_destroy(psq_ter_wnd);
 }
 
@@ -153,7 +155,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros  limit 100");
+	sprintf(query,"select code, razao, doc, cidade, transp_nome from terceiros  limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

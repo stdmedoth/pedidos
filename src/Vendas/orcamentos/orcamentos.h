@@ -17,6 +17,8 @@
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 
+const int saldo_limite = 3;
+
 static int altera_orc();
 static int tirar_linha(int);
 static int vnd_orc();
@@ -150,12 +152,10 @@ static GtkWidget *observacoes_orc,*buffer_orc;
 static GtkWidget *botao_orc_mais,**botao_menos;
 
 static int produto_inserido[MAX_PROD_ORC];
-int itens_qnt=1;
+static int itens_qnt=1;
 int id_vetor[MAX_PROD_ORC];
 
-
-
-struct itens_struct
+static struct itens_struct
 {
 	int id;
 	int item;

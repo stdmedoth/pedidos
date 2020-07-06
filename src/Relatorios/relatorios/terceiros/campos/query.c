@@ -5,12 +5,13 @@ int relat_ter_query_fun()
 	int campos_qnt=0;
 	char ini_query[] = "select";
 	char end_query[MAX_QUERY_LEN];
-	char query[MAX_QUERY_LEN];
+	char query[MAX_QUERY_LEN*3];
 	char campo_query_cp[MAX_QUERY_ELM_LEN];
-	char filtros_query_gchar[MAX_QUERY_LEN],filtros_order_by[MAX_QUERY_LEN/2];
+	char filtros_query_gchar[MAX_QUERY_LEN*2],filtros_order_by[MAX_QUERY_LEN];
 
 	gint relat_ter_cod_int1_int, relat_ter_cod_int2_int,
-	relat_ter_tipo_int1_int, relat_ter_tipo_int2_int,
+	relat_ter_tipo_int,
+	relat_ter_pes_int,
 	relat_ter_cep_int1_int, relat_ter_cep_int2_int,
 	relat_ter_ordem_int,relat_ter_cresc_int;
 
@@ -22,11 +23,12 @@ int relat_ter_query_fun()
 	relat_ter_cod_int1_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_cod_int1_entry));
 	relat_ter_cod_int2_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_cod_int2_entry));
 
-	relat_ter_tipo_int1_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_tipo_int1_entry));
-	relat_ter_tipo_int2_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_tipo_int2_entry));
+	relat_ter_tipo_int = gtk_combo_box_get_active(GTK_COMBO_BOX(relat_ter_tipo_combo));
 
 	relat_ter_cep_int1_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_cep_int1_entry));
 	relat_ter_cep_int2_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_ter_cep_int2_entry));
+
+	relat_ter_pes_int = gtk_combo_box_get_active(GTK_COMBO_BOX(relat_ter_pes_combo));
 
 	relat_ter_ordem_int = gtk_combo_box_get_active(GTK_COMBO_BOX(relat_ter_ordem_combo));
 	relat_ter_cresc_int = gtk_combo_box_get_active(GTK_COMBO_BOX(relat_ter_crescente_combo));
@@ -46,8 +48,24 @@ int relat_ter_query_fun()
 	if(relat_ter_cresc_int==1)
 		strcat(filtros_order_by," desc");
 
-	sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo >= %i and t.tipo <= %i and t.cep >= %i and t.cep <= %i %s",
-	relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_tipo_int1_int, relat_ter_tipo_int2_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
+	if(relat_ter_tipo_int == 0){
+
+			if(relat_ter_pes_int == 0)
+				sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
+				relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
+			else
+			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
+			relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_pes_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
+
+	}else{
+		if(relat_ter_pes_int == 0)
+			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
+			relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_tipo_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
+		else
+		sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
+		relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_tipo_int, relat_ter_pes_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
+	}
+
 
 	sprintf(query,"select b.query,t.inner_query from criador_relat as a inner join relat_tab_campos as b inner join relat_tabelas_id as t on a.campos = b.code and a.tabela = t.code where a.code = %s",relat_ter_codigo_gchar);
 
@@ -83,10 +101,11 @@ int relat_ter_query_fun()
 
 	sprintf(relat_ter_query_gchar,"%s%s%s %s",ini_query,ter_query.campos,end_query,filtros_query_gchar);
 
+	gtk_entry_set_text(GTK_ENTRY(relat_ter_query_entry),relat_ter_query_gchar);
+
 	relat_ter_gerar_fun();
 	relat_ter_gerando = 0;
-
-	gtk_entry_set_text(GTK_ENTRY(relat_ter_query_entry),relat_ter_query_gchar);
+	
 	gtk_widget_set_sensitive(relat_ter_query_entry,TRUE);
 
 	return 0;

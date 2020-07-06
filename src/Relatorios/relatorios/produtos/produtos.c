@@ -49,7 +49,7 @@ void relat_prod_fun()
 	relat_prod_query_entry = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(relat_prod_query_entry),"Query para análise");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(relat_prod_query_entry),GTK_ENTRY_ICON_PRIMARY,"utilities-system-monitor");
-	relat_prod_query_frame = gtk_frame_new("Query");
+	relat_prod_query_frame = gtk_frame_new("Query Debug:");
 	relat_prod_query_fixed = gtk_fixed_new();
 	gtk_container_add(GTK_CONTAINER(relat_prod_query_frame),relat_prod_query_entry);
 	gtk_fixed_put(GTK_FIXED(relat_prod_query_fixed),relat_prod_query_frame,20,20);

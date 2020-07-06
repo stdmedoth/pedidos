@@ -37,45 +37,46 @@ void verifica_senha()
 	nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
 
-	sprintf(query,"select code,senha from operadores where nome = '%s';",nome_gchar);
+	sprintf(query,"select code,nivel from operadores where nome = '%s' and senha = MD5('%s');",nome_gchar,senha_gchar);
+
 	res = consultar(query);
 	if(res==NULL)
 	{
 		popup(NULL,"Erro de comunicacao com banco");
 		return;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
+
+	if((row = mysql_fetch_row(res))!=NULL)
 	{
-		popup(NULL,"Usuário não existente");
-		gtk_widget_grab_focus(nome_entry);
-		return;
-	}
-	if(strcmp(row[1],senha_gchar)==0)
-	{
-		oper_code = malloc(MAX_OPER_LEN);
-		strcpy(oper_code,row[0]);
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		gtk_widget_destroy(janela_login);
+
+		sessao_oper.code = atoi(row[0]);
+		strcpy(sessao_oper.nome,nome_gchar);
+		sessao_oper.nivel = atoi(row[1]);
+
 		desktop();
 		return;
 	}
 	else
 	{
-		popup(NULL,"Senha incorreta");
+		popup(NULL,"Usuário ou Senha incorretos");
 		gtk_widget_grab_focus(senha_entry);
 		return;
 	}
+
 	return;
 }
 
 void login()
 {
+	GtkWidget *oper_psq_button, *oper_nome_box;
 	GtkWidget *nome_label,*senha_label;
 	GtkWidget *caixa_login,*caixa_nome,*caixa_senha,*caixa_opcoes;
 
 	GtkWidget *nome_fixed, *senha_fixed;
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_size_request(janela_login,200,200);
+	gtk_widget_set_size_request(janela_login,230,200);
 	gtk_window_set_decorated(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
@@ -84,6 +85,10 @@ void login()
 	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
 
 	gtk_window_set_position(GTK_WINDOW(janela_login),3);
+
+	oper_nome_box = gtk_box_new(0,0);
+	oper_psq_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(oper_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
 	nome_fixed = gtk_fixed_new();
 	senha_fixed = gtk_fixed_new();
@@ -108,20 +113,16 @@ void login()
 	caixa_login = gtk_box_new(1,0);
 
 	gtk_box_pack_start(GTK_BOX(caixa_nome),nome_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_nome),nome_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(oper_nome_box),nome_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(oper_nome_box),oper_psq_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_nome),oper_nome_box,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(caixa_senha),senha_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_senha),senha_entry,0,0,0);
 
-	#ifdef __linux__
 	gtk_fixed_put(GTK_FIXED(nome_fixed),caixa_nome,15,10);
 	gtk_fixed_put(GTK_FIXED(senha_fixed),caixa_senha,15,10);
-	#endif
-	#ifdef WIN32
-	gtk_fixed_put(GTK_FIXED(nome_fixed),caixa_nome,25,10);
-	gtk_fixed_put(GTK_FIXED(senha_fixed),caixa_senha,25,10);
-	#endif
-	gtk_entry_set_width_chars(GTK_ENTRY(nome_entry),20);
+
 	gtk_entry_set_width_chars(GTK_ENTRY(senha_entry),20);
 
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),enviar_login,0,0,20);
@@ -138,6 +139,8 @@ void login()
 	g_signal_connect(fechar_login,"clicked",G_CALLBACK(encerrar),NULL);
 	g_signal_connect(nome_entry,"activate",G_CALLBACK(passa_nome),NULL);
 	g_signal_connect(senha_entry,"activate",G_CALLBACK(passa_senha),NULL);
+
+	g_signal_connect(oper_psq_button,"clicked",G_CALLBACK(psq_oper),nome_entry);
 
 	g_handle_janela_login = g_signal_connect(janela_login,"destroy",G_CALLBACK(encerrando),NULL);
 

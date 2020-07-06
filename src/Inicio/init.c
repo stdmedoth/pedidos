@@ -1,9 +1,34 @@
+
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <time.h>
 GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 GtkWidget *janela_inicializacao;
+
+static void ativacao_app(){
+	GCancellable *cancellable;
+	GError *error;
+	cancellable = g_cancellable_new ();
+
+	aplicacao = gtk_application_new(NULL, G_APPLICATION_CAN_OVERRIDE_APP_ID);
+	g_application_register(G_APPLICATION(aplicacao),NULL,NULL);
+	janela_principal = gtk_application_window_new(aplicacao);
+
+	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
+	//if(personalizacao.janela_keep_above==1)
+		//gtk_window_set_keep_above(GTK_WINDOW(janela_principal), TRUE);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
+	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
+	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
+	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
+	gtk_window_maximize(GTK_WINDOW(janela_principal));
+
+	return ;
+}
+
 
 int desktop()
 {
@@ -21,6 +46,8 @@ int desktop()
 	MYSQL_ROW row;
 	char *query;
 	char markup[500];
+
+	ativacao_app();
 
 	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
@@ -40,16 +67,18 @@ int desktop()
 
 	query = malloc(MAX_QUERY_LEN);
 
-	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
+	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
+		gtk_main_quit();
 		return 1;
 	}
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Sem dados para personalizar o sistema");
 		gtk_main_quit();
+		return 1;
 	}
 
 	personalizacao.tema = atoi(row[2]);
@@ -60,21 +89,22 @@ int desktop()
 	settings = gtk_settings_get_default();
 	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	if(atoi(oper_code)==2)
+	if(sessao_oper.nivel>=5)
 	{
-		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		GtkSettings *settings;
+		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();
-		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
 		nome_usuario_label = gtk_label_new("OPERADOR DE CORREÇÃO");
+		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
 	}
 	else
 	{
-		sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %s",oper_code);
+		sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
 		res = consultar(query);
 		if(res==NULL)
 		{
 			popup(NULL,"Personalizacao com erro");
+			gtk_main_quit();
 			return 1;
 		}
 
@@ -96,23 +126,16 @@ int desktop()
 		else
 		{
 			popup(NULL,"Login indevido");
+			gtk_main_quit();
 			return 1;
 		}
 	}
-//	imagem_barra  = gtk_image_new_from_file(BARRA_IMG);
+
 	imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
 	layout_barra  = gtk_layout_new(NULL,NULL);
 	botao_iniciar = gtk_button_new_with_label("Menu");
 	gtk_widget_set_name(GTK_WIDGET(botao_iniciar),"botao");
-
-	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
-	//if(personalizacao.janela_keep_above==1)
-		//gtk_window_set_keep_above(GTK_WINDOW(janela_principal), TRUE);
-	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
-	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
-	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 
 	//criacao
 	caixa_infos = gtk_box_new(1,0);
@@ -196,26 +219,25 @@ int desktop()
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
-	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
+
 	menu();
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
-	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
 
 	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
 
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
-	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
-	gtk_window_maximize(GTK_WINDOW(janela_principal));
-
-	configurar_parametros();
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrando),NULL);
 	gtk_widget_show_all(janela_principal);
+
+	configurar_parametros();
+
 	gtk_widget_hide(lista_abas);
 	return 0;
 }
@@ -274,8 +296,8 @@ int init()
 
 	if(atoi(row[0])==0)
 	{
-		oper_code = malloc(MAX_OPER_LEN);
-		strcpy(oper_code,"1");
+		sessao_oper.code = 1;
+
 		if(desktop()!=0)
 		{
 			popup(NULL,"Erro na inicializacao");

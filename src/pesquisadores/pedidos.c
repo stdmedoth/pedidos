@@ -9,8 +9,10 @@ void receber_ped_code(GtkWidget *button, GtkTreeView *treeview)
 	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
 		return ;
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
-	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
-	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	if(pesquisa_global_alvo){
+		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
+		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	}
 	gtk_widget_destroy(psq_ped_wnd);
 }
 void mover_para_escrita(GtkComboBox *combo, GtkWidget *entry)
@@ -110,7 +112,8 @@ int psq_ped(GtkWidget *button, GtkEntry *cod_ped_entry)
 	psq_ped_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_ped_wnd),3);
 	gtk_window_set_icon_name(GTK_WINDOW(psq_ped_wnd),"system-search");
-	gtk_window_set_keep_above(GTK_WINDOW(psq_ped_wnd),TRUE);
+	if(personalizacao.janela_keep_above==1)
+		gtk_window_set_keep_above(GTK_WINDOW(psq_ped_wnd),TRUE);
 	gtk_widget_set_size_request(psq_ped_wnd,500,250);
 
 	ped_status_combo = gtk_combo_box_text_new();

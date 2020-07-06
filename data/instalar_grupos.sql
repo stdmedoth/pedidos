@@ -1,0 +1,15 @@
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Raiz',1,0);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Papelão',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Percalux',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Cabeceado',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Cola',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Linha',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Papel Offset',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Película',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Resistencia',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Espiral',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Capa',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Plastificação',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Clips P/ Crachá',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Máquinas e Equipamentos',1,1);
+INSERT INTO grupos(nome,pai,nivel) VALUES ('Wire-O',1,1);

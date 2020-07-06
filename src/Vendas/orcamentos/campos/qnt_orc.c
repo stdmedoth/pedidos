@@ -95,7 +95,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 				gtk_widget_grab_focus(orc_pag_cond_entry);
 				return 1;
 			}
-			
+
+
 			break;
 	}
 
@@ -119,9 +120,9 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 	if(alterando_orc==0 && concluindo_orc==0 && aviso_estoque[posicao] == 0)
 	{
-		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and subgrupo = %s",
-		codigo_prod_orc_gchar,
-		subgrp_prod_orc_cod_gchar);
+		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and subgrupo = %i",
+		atoi(codigo_prod_orc_gchar),
+		atoi(subgrp_prod_orc_cod_gchar));
 
 		if((vetor = consultar(query))==NULL){
 			popup(NULL,"Erro ao consultar saldo do estoque");
@@ -130,26 +131,27 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 		if((campos = mysql_fetch_row(vetor))!=NULL){
 			if(campos[0]){
+
 				if(atoi(campos[0])<=0){
 						if(orcamentos.criticar.prod_saldo){
 							popup(NULL,"Sem saldo");
-							aviso_estoque[posicao] = 1;
 							return 1;
 						}
 				}
 
-				const int saldo_limite = 3;
-
-				if(atoi(campos[0])==saldo_limite){
+				if(atoi(campos[0])<=saldo_limite){
 						if(orcamentos.criticar.prod_saldo_limite){
 							popup(NULL,"Saldo limite usado");
 							aviso_estoque[posicao] = 1;
 						}
 				}
 			}
+
 			else{
 				if(orcamentos.criticar.prod_movimento){
 					popup(NULL,"Sem nenhum movimento");
+					if(orcamentos.criticar.prod_saldo||orcamentos.criticar.prod_saldo_limite)
+						return 1;
 				}
 			}
 		}
@@ -228,6 +230,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(botao_orc_mais);
 	else
 		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+
+	preco_alterado[posicao] = 1;
 
 	g_print("Finalizando qnt_prod_orc()\n");
 

@@ -10,7 +10,6 @@
 #include "pesquisador.c"
 #include "personalizacao.c"
 #include "parametros.c"
-#include "operadores.c"
 #include "temas.c"
 #include "../Inicio/pega_data.c"
 
@@ -28,6 +27,7 @@
 #include "../pesquisadores/movimentos_estoque.h"
 #include "../pesquisadores/relatorios.h"
 #include "../pesquisadores/cond_pag.h"
+#include "../pesquisadores/operadores.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -61,7 +61,7 @@
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
 
-
+#include "operadores.c"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"
@@ -75,6 +75,7 @@
 #include "../pesquisadores/movimentos_estoque.c"
 #include "../pesquisadores/relatorios.c"
 #include "../pesquisadores/cond_pag.c"
+#include "../pesquisadores/operadores.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"

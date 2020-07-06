@@ -27,11 +27,13 @@ int iniciar_impressao(char *gerado, char *gerando_file)
 	infoBina.wShowWindow = SW_HIDE;
 	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina))
     {
+		popup(NULL,"Documento enviado para impressão");
 		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
 		CloseHandle(processInfoBina.hProcess);
 		CloseHandle(processInfoBina.hThread);
+	}else{
+		popup(NULL,"Algum erro ocorreu ao enviar o arquivo");
 	}
-	popup(NULL,"Documento enviado para impressão");
 
 	#endif
 
@@ -53,8 +55,6 @@ int desenhar_pdf(char *gerando_file)
 
 	if(strlen(gerado)>5)
 		gerado[strlen(gerado)-5] = '\0';
-
-
 
 	g_print("de %s para %s.pdf\n",gerando_file,gerado);
 	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);

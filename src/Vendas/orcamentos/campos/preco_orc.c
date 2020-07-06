@@ -11,6 +11,7 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
 		return 1;
 	}
+
 	for(int pos=0;pos<=strlen(preco_prod_orc_gchar);pos++)
 	{
 		if(preco_prod_orc_gchar[pos]==46||preco_prod_orc_gchar[pos]==44)
@@ -23,6 +24,7 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 			#endif
 		}
 	}
+
 	ativos[posicao].preco_f = atof(preco_prod_orc_gchar);
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);

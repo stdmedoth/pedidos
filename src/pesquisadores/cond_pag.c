@@ -9,8 +9,10 @@ void receber_pag_cond_code(GtkWidget *button, GtkTreeView *treeview)
 	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
 		return ;
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
-	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
-	gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	if(pesquisa_global_alvo){
+		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
+		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	}
 	gtk_widget_destroy(psq_pag_cond_wnd);
 }
 

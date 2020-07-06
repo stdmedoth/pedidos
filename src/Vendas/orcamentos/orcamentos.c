@@ -415,7 +415,8 @@ int vnd_orc()
 	GtkWidget * subgrp_prod_orc_img;
 	g_print("Entrando na opção de orcamentos\n");
 	janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_orcamento),TRUE);
+	if(personalizacao.janela_keep_above==1)
+		gtk_window_set_keep_above(GTK_WINDOW(janela_orcamento),TRUE);
 	gtk_widget_set_size_request(janela_orcamento,1350,600);
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);

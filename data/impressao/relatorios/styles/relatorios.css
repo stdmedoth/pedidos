@@ -1,3 +1,8 @@
+table { page-break-inside:auto }
+tr    { page-break-inside:avoid; page-break-after:auto }
+thead { display:table-header-group }
+tfoot { display:table-footer-group }
+
 #div-relat{
 	margin-top: 20px;
 }

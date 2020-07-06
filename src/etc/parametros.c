@@ -1,3 +1,4 @@
+
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
@@ -14,7 +15,7 @@ static int receber_personalizacao()
 
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select * from perfil_desktop where code = %s",oper_code);
+	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -50,7 +51,7 @@ int atualizar_personalizacao()
 	{
 		popup(NULL,"Erro ao configurar janela login");
 	}
-	sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %s",personalizacao.tema,personalizacao.janela_keep_above,oper_code);
+	sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema,personalizacao.janela_keep_above,sessao_oper.code);
 	if((erro = enviar_query(query))!=0)
 	{
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
@@ -70,7 +71,11 @@ int configurar_parametros()
 	MYSQL_ROW  row;
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
-		sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+		if(cont<=ter_critic_campos_qnt)
+			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+		else
+			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+
 		res = consultar(query);
 		if(res!=NULL)
 		{
@@ -295,7 +300,7 @@ int parametrizar()
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
 
-	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box;
+	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box, *outros_box;
 
 	GtkWidget *opcoes_box;
 
@@ -310,6 +315,7 @@ int parametrizar()
 
 	janela_parametros = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_parametros,600,400);
+	gtk_window_set_default_size(GTK_WINDOW(janela_parametros),600,400);
 	gtk_window_set_title(GTK_WINDOW(janela_parametros),"Parametros");
 	gtk_window_set_keep_above(GTK_WINDOW(janela_parametros),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_parametros),GTK_WIN_POS_CENTER_ALWAYS);
@@ -346,7 +352,6 @@ int parametrizar()
 	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),0);
 	gtk_fixed_put(GTK_FIXED(tema_combo_box_fixed),tema_combo_box,10,0);
 
-	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_init,0,0,5);
 	gtk_box_pack_start(GTK_BOX(personaliza_box),janela_keep_above,0,0,5);
 	gtk_box_pack_start(GTK_BOX(personaliza_box),tema_combo_box_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(personaliza_frame),personaliza_box);
@@ -387,6 +392,7 @@ int parametrizar()
 	terc_box = gtk_box_new(1,0);
 	prod_box = gtk_box_new(1,0);
 	orc_box = gtk_box_new(1,0);
+	outros_box = gtk_box_new(1,0);
 
 	gtk_widget_set_size_request(geral_box,580,400);
 
@@ -433,10 +439,15 @@ int parametrizar()
 
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_criticas_frame,0,0,10);
 
+	gtk_box_pack_start(GTK_BOX(outros_box),janela_init,0,0,5);
+
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),geral_box,gtk_label_new("Geral"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),terc_box,gtk_label_new("Terceiros"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),prod_box,gtk_label_new("Produtos"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),orc_box,gtk_label_new("Orçamentos")); /* atualizar mais tarde*/
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),orc_box,gtk_label_new("Orçamentos"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),outros_box,gtk_label_new("Gerencial"));
+	if(sessao_oper.nivel < NIVEL_GERENCIAL_CODE)
+		gtk_widget_set_sensitive(outros_box,FALSE);
 
 	receber_personalizacao();
 	ler_criticas();

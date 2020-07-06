@@ -27,8 +27,12 @@ create table if not exists tipo_movimentos( code int primary key,
 );
 
 create table if not exists operadores( code int primary key auto_increment,
-nome varchar(20) default 'OperadorSemNome',
-senha varchar(20) default '',
+nome varchar(50) default 'OperadorSemNome',
+senha varchar(50) default '',
+nivel int default 1);
+
+create table if not exists niveis_gerenciais( code int primary key auto_increment,
+nome varchar(50) default 'NivelGerencialSemNome',
 nivel int default 1);
 
 create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',

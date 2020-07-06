@@ -5,6 +5,7 @@ void inicializar_saidas()
 	est_said_subgrp_gchar = malloc(MAX_CODE_LEN);
 	est_said_qnt_gchar = malloc(MAX_CODE_LEN);
 	est_said_data_gchar	 = malloc(MAX_CODE_LEN);
+	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 }
 
 int est_saidas()
@@ -44,12 +45,12 @@ int est_saidas()
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"Saidas");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"list-remove");
-	
-	if(personalizacao.janela_keep_above==1)		
+
+	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
-	
+
 	inicializar_saidas();
-	
+
 	grid = gtk_grid_new();
 
 	est_said_confirma_button = gtk_button_new_with_label("Concluir");
@@ -70,11 +71,11 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),est_said_altera_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),est_said_exclui_button,0,0,5);
 	gtk_fixed_put(GTK_FIXED(caixa_fixed),caixa_opcoes,60,20);
-	
+
 	produto_box = gtk_box_new(0,0);
 	subgrupo_box = gtk_box_new(0,0);
 	cliente_box = gtk_box_new(0,0);
-	
+
 	psq_cod_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_cod_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_data_button = gtk_button_new();
@@ -85,7 +86,7 @@ int est_saidas()
 	gtk_button_set_image(GTK_BUTTON(psq_subgrp_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_client_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_client_button),gtk_image_new_from_file(IMG_PESQ));
-	
+
 	est_said_cod_frame = gtk_frame_new("Cód:. Saída");
 	est_said_cod_fixed = gtk_fixed_new();
 	est_said_cod_box = gtk_box_new(0,0);
@@ -94,7 +95,7 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),psq_cod_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_cod_frame),est_said_cod_box);
 	gtk_fixed_put(GTK_FIXED(est_said_cod_fixed),est_said_cod_frame,20,20);
-		
+
 	est_said_prod_frame = gtk_frame_new("Produto");
 	est_said_prod_fixed = gtk_fixed_new();
 	est_said_prod_entry = gtk_entry_new();
@@ -107,7 +108,7 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_prod_box),produto_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_prod_frame),est_said_prod_box);
 	gtk_fixed_put(GTK_FIXED(est_said_prod_fixed),est_said_prod_frame,20,20);
-	
+
 	est_said_est_frame = gtk_frame_new("Estoque");
 	est_said_est_fixed = gtk_fixed_new();
 	est_said_est_combo = gtk_combo_box_text_new();
@@ -125,7 +126,7 @@ int est_saidas()
 	{
 		sprintf(nome_estoque,"%s - %s",row[0],row[1]);
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_est_combo),nome_estoque);
-		
+
 		cont++;
 	}
 	if(cont==0)
@@ -135,7 +136,7 @@ int est_saidas()
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_est_combo),1);
 
-	
+
 	est_said_subgrp_frame = gtk_frame_new("Subgrupo");
 	est_said_subgrp_fixed = gtk_fixed_new();
 	est_said_campo_subgrp_prod = gtk_entry_new();
@@ -148,7 +149,7 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_subgrp_box),subgrupo_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_subgrp_frame),est_said_subgrp_box);
 	gtk_fixed_put(GTK_FIXED(est_said_subgrp_fixed),est_said_subgrp_frame,60,20);
-	
+
 	est_said_qnt_frame = gtk_frame_new("Quantidade");
 	est_said_qnt_entry = gtk_spin_button_new_with_range(0,100000000,0.005);
 	est_said_qnt_fixed = gtk_fixed_new();
@@ -156,7 +157,7 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_qnt_box),est_said_qnt_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_qnt_frame),est_said_qnt_box);
 	gtk_fixed_put(GTK_FIXED(est_said_qnt_fixed),est_said_qnt_frame,20,20);
-	
+
 	est_said_tipo_combo = gtk_combo_box_text_new();
 	est_said_tipo_fixed = gtk_fixed_new();
 	est_said_tipo_box = gtk_box_new(0,0);
@@ -167,7 +168,7 @@ int est_saidas()
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Venda");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Devolução Compra");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),2);
-	
+
 	est_said_data_frame = gtk_frame_new("Data");
 	est_said_data_entry = gtk_entry_new();
 	est_said_data_fixed = gtk_fixed_new();
@@ -176,7 +177,7 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_data_box),psq_data_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_data_frame),est_said_data_box);
 	gtk_fixed_put(GTK_FIXED(est_said_data_fixed),est_said_data_frame,60,20);
-		
+
 	est_said_client_frame = gtk_frame_new("Cliente/Fornecedor");
 	est_said_client_fixed = gtk_fixed_new();
 	est_said_client_entry = gtk_entry_new();
@@ -189,53 +190,53 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_client_box),cliente_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_client_frame),est_said_client_box);
 	gtk_fixed_put(GTK_FIXED(est_said_client_fixed),est_said_client_frame,20,20);
-	
+
 	est_said_ped_frame = gtk_frame_new("Vin. Pedido");
 	est_said_ped_fixed = gtk_fixed_new();
 	est_said_ped_entry = gtk_entry_new();
 	gtk_container_add(GTK_CONTAINER(est_said_ped_frame),est_said_ped_entry);
 	gtk_fixed_put(GTK_FIXED(est_said_ped_fixed),est_said_ped_frame,60,20);
 	gtk_entry_set_width_chars(GTK_ENTRY(est_said_ped_entry),15);
-	
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_cod_fixed,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_data_fixed,1,0,1,1);
-	
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_client_fixed,0,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_tipo_fixed,1,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_est_fixed,1,1,1,1);
-	
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_prod_fixed,0,2,1,1);
-	gtk_grid_attach(GTK_GRID(grid),est_said_subgrp_fixed,1,2,1,1);	
-	
+	gtk_grid_attach(GTK_GRID(grid),est_said_subgrp_fixed,1,2,1,1);
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_qnt_fixed,0,3,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_ped_fixed,1,3,1,1);
 
 	g_signal_connect(est_said_cod_entry,"activate",G_CALLBACK(est_said_codigo_fun),NULL);
-	
+
 	g_signal_connect(est_said_data_entry,"activate",G_CALLBACK(est_said_data_fun),NULL);
 	g_signal_connect(psq_data_button,"clicked",G_CALLBACK(psq_data),est_said_data_entry);
-	
+
 	g_signal_connect(est_said_client_entry,"activate",G_CALLBACK(est_said_client_fun),NULL);
 	g_signal_connect(psq_client_button,"clicked",G_CALLBACK(psq_ter),est_said_client_entry);
-	
+
 	g_signal_connect(est_said_prod_entry,"activate",G_CALLBACK(est_said_produto_fun),NULL);
 	g_signal_connect(psq_prod_button,"clicked",G_CALLBACK(psq_prod),est_said_prod_entry);
-	
+
 	g_signal_connect(est_said_tipo_combo,"changed",G_CALLBACK(est_said_tipo_fun),NULL);
-	
+
 	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
 
 	g_signal_connect(est_said_subgrp_entry,"activate",G_CALLBACK(est_said_subgrp_fun),NULL);
-	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),est_said_subgrp_entry);
-	
+	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
+
 	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
-	
+
 	g_signal_connect(est_said_tipo_combo,"changed",G_CALLBACK(est_said_tipo_fun),NULL);
-	
+
 	g_signal_connect(est_said_ped_entry,"activate",G_CALLBACK(est_said_ped_fun),NULL);
-	
+
 	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_mov),est_said_cod_entry);
-	
+
 	g_signal_connect(est_said_confirma_button,"activate",G_CALLBACK(est_said_confirmar_fun),NULL);
 	g_signal_connect(est_said_confirma_button,"clicked",G_CALLBACK(est_said_confirmar_fun),NULL);
 
@@ -247,19 +248,19 @@ int est_saidas()
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),grid,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_fixed,0,0,20);
-	
+
 	sprintf(code,"%i",tasker("movimento_estoque"));
-	gtk_entry_set_text(GTK_ENTRY(est_said_cod_entry),code);	
-	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),data_sys);	
+	gtk_entry_set_text(GTK_ENTRY(est_said_cod_entry),code);
+	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),data_sys);
 
 	gtk_widget_set_sensitive(est_said_data_entry,FALSE);
 	gtk_widget_grab_focus(est_said_client_entry);
-	
+
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
-	
+
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	gtk_widget_set_size_request(janela,600,550);
-	gtk_widget_show_all(janela);	
-	
+	gtk_widget_show_all(janela);
+
 	return 0;
 }

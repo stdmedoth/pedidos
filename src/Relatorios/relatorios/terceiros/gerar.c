@@ -9,7 +9,7 @@ int relat_ter_gerar_fun()
 
 	char query[MAX_QUERY_LEN];
 	FILE *relatorio_file;
-	int cont=0;
+	int cont=0,list_qnt=0;
 	gerando_file = malloc(500);
 
 	do{
@@ -55,21 +55,27 @@ int relat_ter_gerar_fun()
 	}
 
 	while((row2 = mysql_fetch_row(res2))!=NULL){
+		list_qnt++;
 		cont = 0;
 		fprintf(relatorio_file,"<tr>");
 		while(cont<ter_query.campos_qnt)
 		{
-			fprintf(relatorio_file,"<td>%s</td>",row2[cont]);
+			if(row2[cont])
+				fprintf(relatorio_file,"<td>%s</td>",row2[cont]);
 			cont++;
 		}
 		fprintf(relatorio_file,"</tr>");
+	}
+	if(!list_qnt){
+		popup(NULL,"Nenhum listagem gerada");
+		return 0;
 	}
 
 	fprintf(relatorio_file,"</table>");
 	fprintf(relatorio_file,"</div>");
 	fprintf(relatorio_file,"</body>");
 	fclose(relatorio_file);
-
+	imp_opc = 1;
 	desenhar_pdf(	gerando_file );
 
 	return 0;

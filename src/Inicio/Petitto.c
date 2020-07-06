@@ -19,6 +19,7 @@
 #include <mysql.h>
 #endif
 
+GtkApplication *aplicacao;
 
 GtkWidget  *janela_principal;
 GtkWidget *imagem_desktop;
@@ -47,10 +48,12 @@ int main(int argc,char *argv[])
 	setlocale(LC_MONETARY,"en_US");
 	setlocale(LC_NUMERIC,"en_US");
 
-	gtk_init(&argc,&argv);
+	gtk_init(&argc, &argv);
 
 	abrir_css(DESKTOP_STYLE);
-	init();
+	if(init())
+		return 1;
+	
 	gtk_main();
 	return 0;
 }
