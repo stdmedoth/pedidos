@@ -26,8 +26,10 @@ int oper_alterar()
 	MYSQL_ROW row;
 	query = malloc(MAX_QUERY_LEN);
 	oper_alterando = 1;
-	if(oper_passa_nome()!=0)
+	if(oper_passa_nome()!=0){
+		oper_cancelar();
 		return 1;
+	}
 
 	sprintf(query,"select * from operadores where nome = '%s'",oper_nome_gchar);
 	res = consultar(query);
@@ -35,7 +37,6 @@ int oper_alterar()
 	{
 		popup(NULL,"Erro com consulta do operador");
 		oper_cancelar();
-		g_print("Erro com alteracao de operador");
 		return 1;
 	}
 
@@ -57,7 +58,6 @@ int oper_alterar()
 
 	gtk_entry_set_text(GTK_ENTRY(oper_nome_entry),row[1]);
 	gtk_entry_set_text(GTK_ENTRY(oper_senha_entry),"");
-
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),atoi(row[3]));
 
 	return 0;
@@ -78,6 +78,7 @@ int oper_passa_nome()
 		popup(NULL,"Insira o nome!");
 		return 1;
 	}
+
 	if(oper_alterando==0){
 		query = malloc(MAX_QUERY_LEN);
 		sprintf(query,"select * from operadores where nome = '%s'",oper_nome_gchar);
@@ -96,8 +97,6 @@ int oper_passa_nome()
 			return 1;
 		}
 	}
-
-
 
 	gtk_widget_grab_focus(oper_senha_entry);
 	return 0;
@@ -215,17 +214,24 @@ int cad_oper()
 	GtkWidget *oper_button_box,*oper_button_fixed;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	oper_perm_qnt_niveis=0;
+
 	char query[MAX_QUERY_LEN];
 
-	niveis_gerenciais = malloc(MAX_NIVEL_GER_NOME*MAX_NIVEL_GER_QNT);
-
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	if(personalizacao.janela_keep_above==1)
+		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_widget_set_size_request(janela,450,300);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_title(GTK_WINDOW(janela),"Operadores");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");
 
+	janelas_gerenciadas.vetor_janelas[REG_CAD_OPER].reg_id = REG_CAD_OPER;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_OPER].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_OPER]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_OPER].janela_pointer = janela;
+
+	oper_alterando = 0;
 	oper_psq_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(oper_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
@@ -290,6 +296,8 @@ int cad_oper()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),oper_button_fixed,0,0,10);
 
 	sprintf(query, "select code, nome, nivel from niveis_gerenciais;");
+	niveis_gerenciais = malloc(MAX_NIVEL_GER_NOME*MAX_NIVEL_GER_QNT);
+	oper_perm_qnt_niveis = 0;
 
 	if((res = consultar(query))==NULL)
 		return 1;
@@ -316,6 +324,8 @@ int cad_oper()
 	g_signal_connect(oper_nome_entry,"activate",G_CALLBACK(oper_passa_nome),NULL);
 	g_signal_connect(oper_senha_entry,"activate",G_CALLBACK(oper_passa_senha),NULL);
 	g_signal_connect(oper_perm_entry,"activate",G_CALLBACK(oper_rec_nivel),NULL);
+
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_OPER]);
 
 	g_signal_connect(oper_perm_entry,"value-changed",G_CALLBACK(oper_rec_nivel),NULL);
 

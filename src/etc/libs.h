@@ -24,7 +24,8 @@
 #include "../pesquisadores/orcamentos.h"
 #include "../pesquisadores/pedidos.h"
 #include "../pesquisadores/ceps.h"
-#include "../pesquisadores/movimentos_estoque.h"
+#include "../pesquisadores/movimentos_ent_estoque.h"
+#include "../pesquisadores/movimentos_said_estoque.h"
 #include "../pesquisadores/relatorios.h"
 #include "../pesquisadores/cond_pag.h"
 #include "../pesquisadores/operadores.h"
@@ -61,6 +62,8 @@
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
 
+#include "../Canones/gerenciador_janelas.h"
+
 #include "operadores.c"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
@@ -72,7 +75,8 @@
 #include "../pesquisadores/orcamentos.c"
 #include "../pesquisadores/pedidos.c"
 #include "../pesquisadores/ceps.c"
-#include "../pesquisadores/movimentos_estoque.c"
+#include "../pesquisadores/movimentos_said_estoque.c"
+#include "../pesquisadores/movimentos_ent_estoque.c"
 #include "../pesquisadores/relatorios.c"
 #include "../pesquisadores/cond_pag.c"
 #include "../pesquisadores/operadores.c"
@@ -118,3 +122,4 @@
 #include "../Relatorios/pesquisar/relat_ptabs.c"
 #include "../Relatorios/relatorios/terceiros/terceiros.c"
 #include "../Relatorios/relatorios/movimentos/movimentos.c"
+#include "../Canones/gerenciador_janelas.c"

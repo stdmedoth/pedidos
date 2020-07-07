@@ -14,7 +14,7 @@ int imp_cli()
 		autologger("Erro na query de codigo no orcamento\n");
 		autologger(query);
 		fclose(orc);
-		return 1;	
+		return 1;
 	}
 	row = mysql_fetch_row(res);
 	if(row == NULL)
@@ -23,7 +23,7 @@ int imp_cli()
 		autologger((char*)mysql_error(&conectar));
 		return 1;
 	}
-	
+
 	fprintf(orc,"<div id=\"orc-cliente\" align=right>\n");
 	fprintf(orc,"<img src=\"%s\" alt=\"\"> Cliente: <span id=\"string-black\">%s</span> \n",IMG_IMP_CLI,row[0]);
 	fprintf(orc,"<hr>\n");

@@ -634,6 +634,19 @@ int cad_grupo()
 
 	char code[8];
 
+	janela_grupo = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_grupo),"emblem-documents");
+	gtk_widget_set_size_request(janela_grupo,900,500);
+	if(personalizacao.janela_keep_above==1)
+		gtk_window_set_keep_above(GTK_WINDOW(janela_grupo),TRUE);
+	gtk_window_set_position(GTK_WINDOW(janela_grupo),3);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].reg_id = REG_CAD_GRP;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].aberta = 1;
+	if(ger_janela_aberta(janela_grupo, &janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].janela_pointer = janela_grupo;
+
 	treeview = gtk_tree_view_new();
 	coluna1 = gtk_tree_view_column_new();
 	coluna2 = gtk_tree_view_column_new();
@@ -748,11 +761,6 @@ int cad_grupo()
 
 	layout_janela_grupo = gtk_layout_new(NULL,NULL);
 	caixa_grande = gtk_box_new(1,0);
-	janela_grupo = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_icon_name(GTK_WINDOW(janela_grupo),"emblem-documents");
-	gtk_widget_set_size_request(janela_grupo,900,500);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_grupo),TRUE);
-	gtk_window_set_position(GTK_WINDOW(janela_grupo),3);
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),cod_grupo_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),nome_grupo_fixed,0,0,0);
@@ -776,6 +784,7 @@ int cad_grupo()
 	g_signal_connect(altera_grp_button,"clicked",G_CALLBACK(altera_grupo),NULL);
 	g_signal_connect(cancela_grp_button,"clicked",G_CALLBACK(cancela_grupo),NULL);
 	g_signal_connect(exclui_grp_button,"clicked",G_CALLBACK(exclui_grupo),NULL);
+	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]);
 
 	gtk_widget_show_all(janela_grupo);
 	return 0;

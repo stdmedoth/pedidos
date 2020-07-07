@@ -11,14 +11,6 @@ int inicializar_prod()
 {
 	int i,cont;
 
-	for(cont=0;cont<=CAMPOS_QNT;cont++)
-	{
-		vet_erro[cont] = 0;
-	}
-
-	for(i=0;i<=CAMPOS_QNT;i++)
-		vet_erro[i] = 0;
-
 	codigos_prod = malloc(MAX_CODE_LEN);
 	nomes_prod = malloc(MAX_NAME_LEN);
 	precos_prod = malloc(MAX_PRECO_LEN);
@@ -29,12 +21,6 @@ int inicializar_prod()
 	precos_faturado_prod = malloc(MAX_MRC_LEN);
 	fornecedores_prod = malloc(MAX_FOR_LEN);
 	observacoes_prod = malloc(MAX_OBS_LEN);
-	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	imagem_ok = malloc(sizeof(GtkImage*)*MAX_PROD);
-	imagem_cancel = malloc(sizeof(GtkImage*)*MAX_PROD);
-	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 
 	return 0;
 }
@@ -64,11 +50,6 @@ int  cad_prod()
 	GtkWidget *acao;
 	GtkWidget *precos_box;
 
-	grupos_prod=NULL;
-	concluindo_prod=0;
-	alterando_prod=0;
-	cancelando_prod=0;
-
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"produtos");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
@@ -79,6 +60,17 @@ int  cad_prod()
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].reg_id = REG_CAD_PROD;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_PROD]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].janela_pointer = janela;
+
+	grupos_prod=NULL;
+	concluindo_prod=0;
+	alterando_prod=0;
+	cancelando_prod=0;
 
 	psq_forn_button = gtk_button_new();
 	psq_forn_img = gtk_image_new_from_file(IMG_PROCR);
@@ -318,6 +310,8 @@ int  cad_prod()
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);
+
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PROD]);
 
 	gtk_widget_set_name(vertical_box1,"vertical_box1");
 

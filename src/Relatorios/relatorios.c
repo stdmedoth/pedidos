@@ -37,6 +37,13 @@ void cad_relat()
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 
+	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].reg_id = REG_CAD_RELAT;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].aberta = 1;
+	if(ger_janela_aberta(janela_grupo, &janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]))
+		return ;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].janela_pointer = janela;
+
+
 	coluna0 = gtk_tree_view_column_new();
 	celula0 = gtk_cell_renderer_accel_new();
 
@@ -179,6 +186,8 @@ void cad_relat()
 
 	g_signal_connect(cad_rel_psqrow_button,"clicked",G_CALLBACK(psq_relat_campos),NULL);
 
+	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]);
+	
 	cont=0;
 	while(cont<MAX_RELAT_CAMPOS)
 	{

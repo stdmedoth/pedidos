@@ -75,8 +75,7 @@ int relat_ter_gerar_fun()
 	fprintf(relatorio_file,"</div>");
 	fprintf(relatorio_file,"</body>");
 	fclose(relatorio_file);
-	imp_opc = 1;
-	desenhar_pdf(	gerando_file );
 
+	escolher_finalizacao(gerando_file);
 	return 0;
 }

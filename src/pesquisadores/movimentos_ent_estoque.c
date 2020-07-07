@@ -1,4 +1,4 @@
-void receber_est_mov_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_est_ent_mov_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -14,18 +14,19 @@ void receber_est_mov_code(GtkWidget *button, GtkTreeView *treeview)
 		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
 	}
-	gtk_widget_destroy(psq_est_mov_wnd);
+	gtk_widget_destroy(psq_est_ent_mov_wnd);
 }
 
-int entry_est_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
+	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
     gtk_tree_store_clear(treestore);
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
+	char tipo_mov[30];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *source,*dest;
@@ -43,15 +44,18 @@ int entry_est_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where t.razao like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 and t.razao like '%c%s%c' limit 30",37,entrada,37);
+
 	res = consultar(query);
 	if(res == NULL)
 	{
 		return 1;
 	}
+
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 
+		int cont=0;
 		if((grupo_len = rec_familia_nome(familia_char, atoi(row[2]) ))<0)
 			break;
 
@@ -65,18 +69,24 @@ int entry_est_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 			strcpy(source,dest);
 		}
 
+		strcpy(tipo_mov,"Entrada");
+
+
+
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
 		COLUMN1,row[1],
 		COLUMN2,dest,
-		COLUMN3,row[3],-1);
+		COLUMN3,tipo_mov,
+		COLUMN4,row[4],
+		-1);
 	}
 	return 0;
 }
 
-int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
+int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 {
 	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
 	GtkWidget *scrollwindow;
@@ -127,11 +137,11 @@ int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
-	psq_est_mov_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_est_mov_wnd),3);
-	gtk_window_set_icon_name(GTK_WINDOW(psq_est_mov_wnd),"system-search");
-	gtk_window_set_keep_above(GTK_WINDOW(psq_est_mov_wnd),TRUE);
-	gtk_widget_set_size_request(psq_est_mov_wnd,500,250);
+	psq_est_ent_mov_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_est_ent_mov_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_est_ent_mov_wnd),"system-search");
+	gtk_window_set_keep_above(GTK_WINDOW(psq_est_ent_mov_wnd),TRUE);
+	gtk_widget_set_size_request(psq_est_ent_mov_wnd,500,250);
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
@@ -169,7 +179,7 @@ int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.saidas , m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente");
+	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 limit 30");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -193,19 +203,9 @@ int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
 
 			strcpy(source,dest);
 		}
-		if(atoi(row[3])>0)
-		{
-			strcpy(tipo_mov,"Entrada");
-		}
-		else
-		if(atoi(row[4])>0)
-		{
-			strcpy(tipo_mov,"Saída");
-		}
-		else
-		{
-			strcpy(tipo_mov,"Movimentação Vazia");
-		}
+
+		strcpy(tipo_mov,"Entrada");
+
 
 
 		gtk_tree_store_append(modelo,&campos,NULL);
@@ -215,7 +215,7 @@ int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
 		COLUMN1,row[1],
 		COLUMN2,dest,
 		COLUMN3,tipo_mov,
-		COLUMN4,row[5],
+		COLUMN4,row[4],
 		-1);
 	}
 
@@ -231,13 +231,13 @@ int psq_est_mov(GtkWidget *button, GtkEntry *cod_est_mov_entry)
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
-	gtk_container_set_border_width(GTK_CONTAINER(psq_est_mov_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_est_ent_mov_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
-	gtk_container_add(GTK_CONTAINER(psq_est_mov_wnd),caixa_grande);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_est_mov_pesquisa),treeview);
-	pesquisa_global_alvo = GTK_ENTRY(cod_est_mov_entry);
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_est_mov_code),treeview);
-	gtk_widget_show_all(psq_est_mov_wnd);
+	gtk_container_add(GTK_CONTAINER(psq_est_ent_mov_wnd),caixa_grande);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_est_ent_mov_pesquisa),treeview);
+	pesquisa_global_alvo = GTK_ENTRY(cod_est_ent_mov_entry);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_est_ent_mov_code),treeview);
+	gtk_widget_show_all(psq_est_ent_mov_wnd);
 	return 0;
 }

@@ -5,6 +5,13 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	MYSQL_ROW campos;
 	codigo_prod_orc_gchar = malloc(MAX_CODE_LEN);
 	codigo_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]));
+
+	if(adicionando_linha_ignore == 1){
+		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]),"");
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
+		return 0;
+	}
+
 	if(strlen(codigo_prod_orc_gchar)<=0)
 	{
 		popup(NULL,"O código do produto deve ser inserido");

@@ -1,26 +1,62 @@
 #define QUERY_LEN 1000
 #define RANDOM_STRING_SIZE 10
+int NAVEGATOR_SELECT = 1;
+#define BROTHER_IMP 1
+#define SAMSUNG_IMP 2
+#define PDF_IMP 3
+#define HTML_IMP 4
+
+GtkWidget *print_janela;
+
+GtkWidget *msg_abrir_orc_window;
+static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4;
 
 static int imp_opc=0;
 
+int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
+{
+	if(ponteiro)
+		if(GTK_IS_WIDGET(ponteiro))
+			gtk_widget_destroy(GTK_WIDGET(ponteiro));
+	return 0;
+}
+
 static void popup(GtkWidget *widget,gchar *string);
 
-int iniciar_impressao(char *gerado, char *gerando_file)
+int iniciar_impressao(char *gerado)
 {
 	g_print("Finalizando iniciar_impressao()\n");
 	g_print("%s para impressora\n",gerado);
 
-	#ifdef WIN32
 	char *chamada;
 
-	chamada = malloc(strlen(gerado)+50);
+	chamada = malloc(strlen(gerado)+strlen(COPY_PROG)+strlen(IMP_PORT1)+10);
 
-	g_print("%s para LPT1\n",gerado);
-	if(imp_opc==1)
-		sprintf(chamada,"xcopy %s LPT1",gerado);
-	if(imp_opc==2)
-		sprintf(chamada,"xcopy %s LPT2",gerado);
+	if(imp_opc==BROTHER_IMP){
+		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT1);
+		g_print("%s para %s\n",gerado,IMP_PORT1);
+	}
 
+	if(imp_opc==SAMSUNG_IMP){
+		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT2);
+		g_print("%s para %s\n",gerado,IMP_PORT2);
+	}
+
+	if(imp_opc==PDF_IMP){
+		if(NAVEGATOR_SELECT == 1)
+			sprintf(chamada,"%s %s",CHROME_PATH,gerado);
+		if(NAVEGATOR_SELECT == 2)
+			sprintf(chamada,"%s %s",FIREFOX_PATH,gerado);
+	}
+
+	if(imp_opc==HTML_IMP){
+		if(NAVEGATOR_SELECT == 1)
+			sprintf(chamada,"%s %s.html",CHROME_PATH,gerado);
+		if(NAVEGATOR_SELECT == 2)
+			sprintf(chamada,"%s %s.html",FIREFOX_PATH,gerado);
+	}
+
+	#ifdef WIN32
 	STARTUPINFO infoBina={sizeof(infoBina)};
 	PROCESS_INFORMATION processInfoBina;
 	infoBina.dwFlags = STARTF_USESHOWWINDOW;
@@ -34,30 +70,51 @@ int iniciar_impressao(char *gerado, char *gerando_file)
 	}else{
 		popup(NULL,"Algum erro ocorreu ao enviar o arquivo");
 	}
-
 	#endif
 
 	#ifdef __linux__
-		popup(NULL,gerado);
+	GError *erro=NULL;
+	GSubprocess *processo=NULL;
+
+	if(PDF_IMP||HTML_IMP){
+		if(NAVEGATOR_SELECT == 1)
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,CHROME_PATH,gerado,NULL);
+		if(NAVEGATOR_SELECT == 2)
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,FIREFOX_PATH,gerado,NULL);
+	}
+
+	if(processo==NULL)
+	{
+		if(erro)
+			g_print("Erro na impressao %s\n",erro->message);
+		popup(NULL,"Não foi possivel gerar documento");
+		return 1;
+	}
+
 	#endif
+	close_window_callback(NULL,(gpointer)print_janela);
 	g_print("Finalizando iniciar_impressao()\n");
+
 	return 0;
 }
 
 int desenhar_pdf(char *gerando_file)
 {
-	char *chamada,*gerado;
+	char *gerado, *chamada;
+
 	g_print("Iniciando desenhar_pdf()\n");
 
 	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
+
 	gerado = malloc(strlen(gerando_file)+1);
+
 	sprintf(gerado,"%s",gerando_file);
 
 	if(strlen(gerado)>5)
 		gerado[strlen(gerado)-5] = '\0';
 
-	g_print("de %s para %s.pdf\n",gerando_file,gerado);
 	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
+	g_print("%s\n",chamada);
 
 	#ifdef WIN32
 	STARTUPINFO infoBina={sizeof(infoBina)};
@@ -70,7 +127,7 @@ int desenhar_pdf(char *gerando_file)
 		CloseHandle(processInfoBina.hProcess);
 		CloseHandle(processInfoBina.hThread);
 		sprintf(gerado,"%s.pdf",gerado);
-		iniciar_impressao(gerado,gerando_file);
+		iniciar_impressao(gerado);
 	}
 	else
 	{
@@ -79,15 +136,97 @@ int desenhar_pdf(char *gerando_file)
 	}
 	#endif
 	#ifdef __linux__
-	if(system(chamada)!=0)
+
+	GError *erro;
+	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
+	if(processo == NULL)
 	{
+		g_print("Erro na impressao %s\n",erro->message);
 		popup(NULL,"Não foi possivel gerar documento");
 		return 1;
 	}
-	iniciar_impressao(gerado,gerando_file);
+	else{
+		iniciar_impressao(gerado);
+	}
+
 	#endif
 
 	g_print("Finalizando desenhar_pdf()\n");
+	return 0;
+}
+
+int iniciar_escolha(GtkWidget *widget , char *gerando_file)
+{
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio1)))
+	{
+		g_print("Escolhida impressora 1\n");
+		imp_opc = BROTHER_IMP;
+		desenhar_pdf(gerando_file);
+	}
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio2)))
+	{
+		imp_opc = SAMSUNG_IMP;
+		desenhar_pdf(gerando_file);
+	}
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio3)))
+	{
+		imp_opc = PDF_IMP;
+		desenhar_pdf(gerando_file);
+	}
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio4)))
+	{
+		imp_opc = HTML_IMP;
+		iniciar_impressao(gerando_file);
+	}
+	g_print("Escolhida impressora %i\n",imp_opc);
+	return 0;
+}
+
+int escolher_finalizacao(char *gerando_file)
+{
+	GtkWidget *botoes_frame,*botoes_caixa;
+
+	GtkWidget *botao_confirma,*botao_cancela;
+	GtkWidget *caixa_opcoes;
+
+	GtkWidget *caixa_grande;
+
+	print_janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_widget_set_size_request(print_janela,400,400);
+	gtk_window_set_position(GTK_WINDOW(print_janela),3);
+	gtk_window_set_keep_above(GTK_WINDOW(print_janela),TRUE);
+
+	botoes_caixa = gtk_box_new(1,0);
+	botoes_frame = gtk_frame_new("Escolha como finalizar:");
+
+	caixa_grande = gtk_box_new(1,0);
+
+	botao_confirma = gtk_button_new_with_label("Concluir");
+	botao_cancela = gtk_button_new_with_label("Cancelar");
+	caixa_opcoes = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,50);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
+
+	imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora BROTHER");
+	imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),"Enviar para Impressora SAMSUNG");
+
+	imp_botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio2),"Abrir PDF");
+	imp_botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio3),"Abrir HTML");
+
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio1,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio2,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio4,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(botoes_frame),botoes_caixa);
+
+	gtk_box_pack_start(GTK_BOX(caixa_grande),botoes_frame,0,0,50);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_opcoes,0,0,10);
+
+	gtk_container_add(GTK_CONTAINER(print_janela),caixa_grande);
+	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),gerando_file);
+	g_signal_connect (botao_cancela,"clicked",G_CALLBACK(close_window_callback),print_janela);
+	gtk_widget_show_all(print_janela);
 	return 0;
 }
 
@@ -103,11 +242,7 @@ char *randomizar_string()
     return res;
 }
 
-int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
-{
-	gtk_widget_destroy(GTK_WIDGET(ponteiro));
-	return 0;
-}
+
 int autologger(char *string)
 {
 	FILE *logger;
@@ -193,6 +328,7 @@ MYSQL_RES *consultar(char *query)
 	}
 
 	g_print("%s\n",query);
+
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

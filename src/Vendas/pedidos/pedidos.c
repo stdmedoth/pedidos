@@ -283,10 +283,14 @@ int vnd_ped()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela_pedidos),TRUE);
-
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
-
 	gtk_widget_set_size_request(janela_pedidos,820,480);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
 
 	caixa_grande = gtk_box_new(1,0);
 	caixa_scroll = gtk_scrolled_window_new(NULL,NULL);
@@ -411,6 +415,7 @@ int vnd_ped()
 	g_signal_connect(ped_cancelar_button,"clicked",G_CALLBACK(cancelar_ped),NULL);
 
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);
+	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);
 
 	gtk_widget_show_all(janela_pedidos);
 	return 0;

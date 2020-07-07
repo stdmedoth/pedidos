@@ -9,9 +9,10 @@ int  cad_und()
 	sprintf(task,"%i",tasker("unidades"));
 	GtkWidget *fixed, *fixed2, *fixed3, *fixed4;
 	GtkWidget *horizontal_box_one, *horizontal_box_two, *horizontal_box_three, *horizontal_box_four, *vertical_box;
-    GtkWidget *medida_und_fixed;
-    GtkWidget *separator1,*separator2;
+  GtkWidget *medida_und_fixed;
+  GtkWidget *separator1,*separator2;
 	GtkWidget *code, *name, *sigla, *mult;
+
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
@@ -19,6 +20,13 @@ int  cad_und()
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-engineering");
 	gtk_window_set_title(GTK_WINDOW(janela),"CADASTRO UNIDADES");
 	gtk_widget_set_size_request(janela,70,240);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_UND].reg_id = REG_CAD_UND;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_UND].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_UND]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_UND].janela_pointer = janela;
+
 	alterando_und=0;
 
 	psq_cad_und_button = gtk_button_new();
@@ -123,6 +131,8 @@ int  cad_und()
 	g_signal_connect(GTK_WIDGET(und_alterar_button),"clicked",G_CALLBACK(altera_und),NULL);
 
 	g_signal_connect(GTK_WIDGET(psq_cad_und_button),"clicked",G_CALLBACK(pesquisa_und),code_und_field);
+
+g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_UND]);
 
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,30,5);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),separator2,0,0,10);

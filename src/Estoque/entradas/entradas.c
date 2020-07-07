@@ -33,6 +33,9 @@ int est_entradas()
 
 	GtkWidget *produto_box, *subgrupo_box, *cliente_box;
 
+	alterando_mov_ent_est=0;
+	concluindo_mov_ent_est=0;
+
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
@@ -86,7 +89,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(est_ent_cod_box),est_ent_cod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_cod_box),psq_cod_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_cod_frame),est_ent_cod_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_cod_fixed),est_ent_cod_frame,60,20);
+	gtk_fixed_put(GTK_FIXED(est_ent_cod_fixed),est_ent_cod_frame,20,20);
 
 	est_ent_ped_frame = gtk_frame_new("Vin. Pedido");
 	est_ent_ped_fixed = gtk_fixed_new();
@@ -107,7 +110,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(produto_box),psq_prod_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_prod_box),produto_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_prod_frame),est_ent_prod_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_prod_fixed),est_ent_prod_frame,60,20);
+	gtk_fixed_put(GTK_FIXED(est_ent_prod_fixed),est_ent_prod_frame,20,20);
 
 	est_ent_est_frame = gtk_frame_new("Estoque");
 	est_ent_est_fixed = gtk_fixed_new();
@@ -148,7 +151,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(subgrupo_box),psq_subgrp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_subgrp_box),subgrupo_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_subgrp_frame),est_ent_subgrp_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_subgrp_fixed),est_ent_subgrp_frame,0,20);
+	gtk_fixed_put(GTK_FIXED(est_ent_subgrp_fixed),est_ent_subgrp_frame,60,20);
 
 	est_ent_qnt_frame = gtk_frame_new("Quantidade");
 	est_ent_qnt_entry = gtk_spin_button_new_with_range(0,100000000,0.005);
@@ -156,7 +159,7 @@ int est_entradas()
 	est_ent_qnt_box = gtk_box_new(0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_qnt_box),est_ent_qnt_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_qnt_frame),est_ent_qnt_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_qnt_fixed),est_ent_qnt_frame,60,20);
+	gtk_fixed_put(GTK_FIXED(est_ent_qnt_fixed),est_ent_qnt_frame,20,20);
 
 	est_ent_tipo_combo = gtk_combo_box_text_new();
 	est_ent_tipo_fixed = gtk_fixed_new();
@@ -190,7 +193,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_client_box),cliente_box,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_ent_client_frame),est_ent_client_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_client_fixed),est_ent_client_frame,60,20);
+	gtk_fixed_put(GTK_FIXED(est_ent_client_fixed),est_ent_client_frame,20,20);
 
 	gtk_grid_attach(GTK_GRID(grid),est_ent_cod_fixed,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_ent_data_fixed,1,0,1,1);
@@ -230,7 +233,7 @@ int est_entradas()
 
 	g_signal_connect(est_ent_ped_entry,"activate",G_CALLBACK(est_ent_ped_fun),NULL);
 
-	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_mov),est_ent_cod_entry);
+	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_ent_mov),est_ent_cod_entry);
 
 	g_signal_connect(est_ent_confirma_button,"activate",G_CALLBACK(est_ent_confirmar_fun),NULL);
 	g_signal_connect(est_ent_confirma_button,"clicked",G_CALLBACK(est_ent_confirmar_fun),NULL);
@@ -250,7 +253,7 @@ int est_entradas()
 	gtk_widget_grab_focus(est_ent_client_entry);
 
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,600,550);
+	gtk_widget_set_size_request(janela,580,500);
 
 	gtk_widget_show_all(janela);
 

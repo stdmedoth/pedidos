@@ -40,6 +40,7 @@ int desktop()
 	GtkWidget *sair_button, *sair_image;
 
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
+	GtkWidget *nivel_usuario_fixed ,*nivel_usuario_label;
 	gchar *nome_usuario_gchar;
 
 	MYSQL_RES *res;
@@ -89,46 +90,43 @@ int desktop()
 	settings = gtk_settings_get_default();
 	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	if(sessao_oper.nivel>=5)
+	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
+	res = consultar(query);
+	if(res==NULL)
+	{
+		popup(NULL,"Personalizacao com erro");
+		gtk_main_quit();
+		return 1;
+	}
+
+	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
+	g_print("Recebendo escolha de wallpaper e nome usuario\n");
+	row = mysql_fetch_row(res);
+	if(row!=NULL)
+	{
+		g_print("Trocando wallpaper\n");
+		imagem_desktop = gtk_image_new_from_file(DESKTOP);
+		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
+		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
+		gtk_widget_set_name(nome_usuario_label,"nome_operador");
+		trocar_desktop(NULL,NULL,atoi(row[1]));
+		g_print("Desktop com imagem personalizada\n");
+		autologger("Desktop com imagem personalizada\n");
+		autologger(row[1]);
+	}
+	else
+	{
+		popup(NULL,"Login indevido");
+		gtk_main_quit();
+		return 1;
+	}
+
+	if(sessao_oper.nivel>=4)
 	{
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();
-		nome_usuario_label = gtk_label_new("OPERADOR DE CORREÇÃO");
 		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
-	}
-	else
-	{
-		sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
-		res = consultar(query);
-		if(res==NULL)
-		{
-			popup(NULL,"Personalizacao com erro");
-			gtk_main_quit();
-			return 1;
-		}
-
-		nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-		g_print("Recebendo escolha de wallpaper e nome usuario\n");
-		row = mysql_fetch_row(res);
-		if(row!=NULL)
-		{
-			g_print("Trocando wallpaper\n");
-			imagem_desktop = gtk_image_new_from_file(DESKTOP);
-			sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
-			nome_usuario_label = gtk_label_new(nome_usuario_gchar);
-			gtk_widget_set_name(nome_usuario_label,"nome_operador");
-			trocar_desktop(NULL,NULL,atoi(row[1]));
-			g_print("Desktop com imagem personalizada\n");
-			autologger("Desktop com imagem personalizada\n");
-			autologger(row[1]);
-		}
-		else
-		{
-			popup(NULL,"Login indevido");
-			gtk_main_quit();
-			return 1;
-		}
 	}
 
 	imagem_barra = gtk_box_new(1,0);
@@ -173,9 +171,43 @@ int desktop()
 	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,50,5);
 	gtk_widget_set_name(cnpj,"infos");
 
+	sprintf(query, "select code, nome, nivel from niveis_gerenciais;");
+
+	niveis_gerenciais = malloc(MAX_NIVEL_GER_NOME*MAX_NIVEL_GER_QNT);
+	oper_perm_qnt_niveis = 0;
+
+	if((res = consultar(query))==NULL)
+		return 1;
+
+	while((row = mysql_fetch_row(res))!=NULL){
+
+		niveis_gerenciais[oper_perm_qnt_niveis] = malloc(MAX_NIVEL_GER_NOME);
+
+		strcpy(niveis_gerenciais[oper_perm_qnt_niveis],row[1]);
+
+		oper_perm_qnt_niveis++;
+
+		if(oper_perm_qnt_niveis>=MAX_NIVEL_GER_QNT)
+			break;
+	}
+
+	if(oper_perm_qnt_niveis<=0){
+		popup(NULL,"Faltam dados para niveis gerenciais");
+		return 1;
+	}
+
+	nivel_usuario_fixed = gtk_fixed_new();
+
+	if(sessao_oper.nivel-1<oper_perm_qnt_niveis)
+		nivel_usuario_label = gtk_label_new(niveis_gerenciais[sessao_oper.nivel-1]);
+	else
+		nivel_usuario_label = gtk_label_new("Nivel Ilimitado");
+
+	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
 	nome_usuario_fixed = gtk_fixed_new();
 	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,100,200);
+	gtk_fixed_put(GTK_FIXED(nivel_usuario_fixed),nivel_usuario_label,100,220);
 
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
@@ -216,6 +248,7 @@ int desktop()
 	gtk_widget_set_size_request(imagem_desktop,1290,750);
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
@@ -237,6 +270,7 @@ int desktop()
 	gtk_widget_show_all(janela_principal);
 
 	configurar_parametros();
+	iniciar_gerenciador_janela();
 
 	gtk_widget_hide(lista_abas);
 	return 0;
@@ -297,6 +331,8 @@ int init()
 	if(atoi(row[0])==0)
 	{
 		sessao_oper.code = 1;
+		sessao_oper.nivel = 3;
+
 
 		if(desktop()!=0)
 		{

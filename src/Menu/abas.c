@@ -12,6 +12,7 @@ struct modulos
 	int estoque;
 	int financeiro;
 	int relatorios;
+	int tecnicos;
 }ativar;
 
 int menu(void)
@@ -23,6 +24,8 @@ int menu(void)
 	ativar.estoque=1;
 	ativar.financeiro=0;
 	ativar.relatorios=1;
+	if(sessao_oper.nivel>=4)
+		ativar.tecnicos=1;
 
 	GtkWidget *principal,  *principal_label;
 	GtkWidget *cadastros,  *cadastros_label;
@@ -31,6 +34,7 @@ int menu(void)
 	GtkWidget *estoque,    *estoque_label;
 	GtkWidget *financeiro, *financeiro_label;
 	GtkWidget *relatorios, *relatorios_label;
+	GtkWidget *tecnicos, *tecnicos_label;
 
 	GtkWidget *lembrete_box, *lembrete_fixed , *lembrete_ico, *lembrete_label;
 
@@ -54,7 +58,7 @@ int menu(void)
 	estoque      = gtk_box_new(1,0);
 	financeiro   = gtk_box_new(1,0);
 	relatorios   = gtk_box_new(1,0);
-
+	tecnicos     = gtk_box_new(1,0);
 
 	lista_abas = gtk_notebook_new();
 	frame_lista_abas = gtk_frame_new(NULL);
@@ -66,6 +70,7 @@ int menu(void)
 	estoque_label     = gtk_label_new("ESTOQUE");
 	financeiro_label  = gtk_label_new("FINANCEIRO");
 	relatorios_label  = gtk_label_new("RELATÓRIOS");
+	tecnicos_label  = gtk_label_new("FERRAMENTAS TÉCNICAS");
 
 	texto_principal = gtk_label_new(texto);
 
@@ -93,6 +98,8 @@ int menu(void)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
 	if(ativar.relatorios)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label);
+	if(ativar.tecnicos)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),tecnicos,tecnicos_label);
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 

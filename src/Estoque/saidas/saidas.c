@@ -40,6 +40,9 @@ int est_saidas()
 	MYSQL_ROW row;
 	int cont=0;
 
+	alterando_mov_said_est=0;
+	concluindo_mov_said_est=0;
+
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
@@ -235,7 +238,7 @@ int est_saidas()
 
 	g_signal_connect(est_said_ped_entry,"activate",G_CALLBACK(est_said_ped_fun),NULL);
 
-	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_mov),est_said_cod_entry);
+	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_said_mov),est_said_cod_entry);
 
 	g_signal_connect(est_said_confirma_button,"activate",G_CALLBACK(est_said_confirmar_fun),NULL);
 	g_signal_connect(est_said_confirma_button,"clicked",G_CALLBACK(est_said_confirmar_fun),NULL);
@@ -259,7 +262,7 @@ int est_saidas()
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,600,550);
+	gtk_widget_set_size_request(janela,580,500);
 	gtk_widget_show_all(janela);
 
 	return 0;

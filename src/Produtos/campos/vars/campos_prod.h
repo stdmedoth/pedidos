@@ -18,14 +18,14 @@ static GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_at
 static GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img,*psq_qnt_atacado_img;
 static GtkWidget *psq_forn,*psq_subgrp,*psq_und,*psq_qnt_atacado;
 
-static GtkWidget *code_prod_label,  *nome_prod_label, 
+static GtkWidget *code_prod_label,  *nome_prod_label,
 *preco_prod_label, *peso_prod_label , *unidade_prod_label,
-*fornecedor_prod_label, *grupo_prod_label, 
+*fornecedor_prod_label, *grupo_prod_label,
 *preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
 
-static GtkWidget *codigo_prod_field, *nome_prod_field, 
+static GtkWidget *codigo_prod_field, *nome_prod_field,
 *preco_prod_field,  *peso_prod_field, *unidade_prod_field,
-*fornecedor_prod_field, *grupo_prod_field, 
+*fornecedor_prod_field, *grupo_prod_field,
 *preco_faturado_prod_field, *observacao_prod_field,*qnt_atacado_field;
 
 static GtkWidget *tipos_scroll_window, *tipos_scroll_caixa;

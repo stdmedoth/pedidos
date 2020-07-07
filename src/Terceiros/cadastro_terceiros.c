@@ -100,6 +100,24 @@ int  cad_terc()
 	GtkWidget *prod, *subgrp, *psq_prod_box, *psq_subgrp,
 	*prod_ter_label, *subgrp_ter_label;
 
+	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_widget_set_name(janela,"terceiros");
+	gtk_window_set_position(GTK_WINDOW(janela),3);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
+	gtk_window_set_title(GTK_WINDOW(janela),"Terceiros");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"avatar-default");
+	if(personalizacao.janela_keep_above==1)
+		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
+	gtk_widget_set_size_request(janela,800,600);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].reg_id = REG_CAD_TER;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_TER]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].janela_pointer = janela;
+
 	psq_ter_transp_button = gtk_button_new();
 	psq_ter_transp_img = gtk_image_new_from_file(IMG_PESQ);
 	gtk_button_set_image(GTK_BUTTON(psq_ter_transp_button),psq_ter_transp_img);
@@ -143,18 +161,6 @@ int  cad_terc()
 	ter_contatos_label = gtk_label_new("Contatos");
 	ter_entrega_label = gtk_label_new("Sobre Entrega");
 	ter_outros_label = gtk_label_new("Outros");
-
-	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_name(janela,"terceiros");
-	gtk_window_set_position(GTK_WINDOW(janela),3);
-	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-	gtk_window_set_title(GTK_WINDOW(janela),"Terceiros");
-	gtk_window_set_icon_name(GTK_WINDOW(janela),"avatar-default");
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
-	gtk_widget_set_size_request(janela,800,600);
 
 	acao = gtk_box_new(0,0);
 	acao_atual = gtk_label_new("Ação atual: ");
@@ -583,6 +589,8 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(psq_ter_button),"clicked",G_CALLBACK(psq_ter),code_ter_field);
 	g_signal_connect(GTK_BUTTON(cancelar_ter_buttom),"clicked",G_CALLBACK(cancelar_ter),NULL);
 	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),NULL);
+
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_TER]);
 
 	find_subgrupos_restrict->grupo = 1;
 	find_subgrupos_restrict->posicao = 0;

@@ -73,6 +73,9 @@
 #define REL_SLD_IMG   "/petitto/files/icones_opc/relatorio_est.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "/petitto/files/impressao/wkhtmltopdf.exe"
+#define COPY_PROG     "/petitto/files/impressao/cp.exe"
+#define IMP_PORT1     "LPT1"
+#define IMP_PORT2     "LPT2"
 #define IMG_ENVIA     "/petitto/files/opcoes_padrao/enviar.png"
 #define ICON_PATH     "/petitto/files/opcoes_padrao/icones/"
 #define TER_RELAT_FILE    "/petitto/files/impressao/relatorios/terceiros/"
@@ -81,11 +84,15 @@
 #define EST_RELAT_FILE    "/petitto/files/impressao/relatorios/estoque/"
 #define MOV_RELAT_FILE    "/petitto/files/impressao/relatorios/movimentos/"
 #define IMG_IMP_LOGO      "/petitto/files/impressao/imgs/logo_livro_texto.png"
+
 #endif
 
 #ifdef __linux__
 #define TEMA_PATH	  "/usr/share/themes/"
 #define PDF_GEN       "/usr/bin/wkhtmltopdf"
+#define COPY_PROG     "/usr/bin/cp"
+#define IMP_PORT1     "/usr/share/petitto/files/impressao/linux_print_emulator1/"
+#define IMP_PORT2     "/usr/share/petitto/files/impressao/linux_print_emulator2/"
 #define CHROME_PATH   "/bin/chromium"
 #define FIREFOX_PATH  "/bin/firefox"
 #define CT_CONF_PATH  "/usr/share/petitto/files/criticas.conf"

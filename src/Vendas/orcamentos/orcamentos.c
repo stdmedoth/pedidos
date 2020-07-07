@@ -114,7 +114,11 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	return 0;
 }
 
+void mover_scroll(){
 
+	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(prod_scroll_window));
+	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+}
 
 int adicionar_linha_orc()
 {
@@ -363,11 +367,6 @@ int adicionar_linha_orc()
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
 
-/*	GtkAdjustment * ajuste = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(prod_scroll_window));
-	gtk_adjustment_set_lower(ajuste,0);
-	gtk_adjustment_set_upper(ajuste,gtk_adjustment_get_upper(ajuste)+100);
-	gtk_adjustment_set_value(ajuste,gtk_adjustment_get_upper(ajuste));
-	gtk_container_set_focus_vadjustment(GTK_CONTAINER(prod_scroll_window),ajuste);*/
 
 	#pragma GCC diagnostic ignored "-Wint-conversion"
 	g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
@@ -421,6 +420,12 @@ int vnd_orc()
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_orcamento),"document-revert");
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].reg_id = REG_CAD_ORC;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta = 1;
+	if(ger_janela_aberta(janela_orcamento, &janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer = janela_orcamento;
 
 
 	alerta_obs = 0;
@@ -885,11 +890,10 @@ int vnd_orc()
 
 
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
-	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
 	gtk_container_add(GTK_CONTAINER(prod_scroll_window),prod_scroll_box);
 
-	gtk_scrolled_window_set_placement(GTK_SCROLLED_WINDOW(prod_scroll_window),GTK_CORNER_BOTTOM_LEFT);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (prod_scroll_window),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	gtk_box_pack_start(GTK_BOX(itens_orc_box),prod_scroll_window,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_orc_infos,0,0,0);
@@ -915,9 +919,13 @@ int vnd_orc()
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 
+	g_signal_connect(prod_scroll_box,"size-allocate",G_CALLBACK(mover_scroll ),NULL);
+
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
 	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);
+
+	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);

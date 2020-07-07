@@ -45,7 +45,6 @@ int cad_ico(void)
 		cad_box[cont] = gtk_box_new(1,0);
 		gtk_container_set_border_width(GTK_CONTAINER(cad_box[cont]),1);
 
-		//sprintf(name,"icone%i",cont);
 		gtk_widget_set_name(cad_box[cont],"icone");
 
 		eventos[cont] = gtk_event_box_new();
@@ -57,7 +56,6 @@ int cad_ico(void)
 			cont2=0;
 		}
 		gtk_box_pack_start(GTK_BOX(cadastrosl[linha]),eventos[cont],0,0,45);
-		//memset(name,0x0,strlen(name));
 		cont2++;
 	}
 
@@ -89,6 +87,7 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
+	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
 

@@ -4,8 +4,6 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	char *mensagem;
 	char *formatar;
 
-	//g_print("Iniciando funcao critica_real()\n");
-
 	formatar = malloc(MAX_PRECO_LEN);
 	mensagem = malloc(strlen("Caracter  incorreto")+MAX_PRECO_LEN);
 
@@ -29,9 +27,8 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	strcpy(formatar,valor);
 	sprintf(valor,"%.2f",atof(formatar));
 
-	if(GTK_ENTRY(entrada)!=NULL)
+	if(entrada && GTK_ENTRY(entrada)!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(entrada),valor);
 
-	//g_print("Finalizando funcao critica_real()\n");
 	return 0;
 }

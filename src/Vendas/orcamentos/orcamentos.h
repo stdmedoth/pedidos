@@ -26,6 +26,8 @@ static int alterando_orc=0;
 static int concluindo_orc=0;
 static int aviso_estoque[MAX_PROD_ORC];
 
+static int adicionando_linha_ignore=0;
+
 int inicializar_orc()
 {
 	int cont;

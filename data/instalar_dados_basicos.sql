@@ -26,12 +26,12 @@ values('Documento','terceiros','ter_doc',1),
 
 insert into operadores (nome,senha,nivel)
 values ('Petitto',MD5(''),4),
-('Calistu',MD5('gnu'),5);
+('Calistu',MD5('includeme'),5);
 
 insert into niveis_gerenciais (nome,nivel)
 values
 ('Operacional',1),
-('Tático',2),
+('Gerencial',2),
 ('Estratégico',3),
 ('Técnico Software',4);
 
