@@ -11,3 +11,7 @@ static GtkWidget *est_concluir_button,
 *est_psq_code_button;
 
 gchar *est_cad_cod_gchar, *est_cad_nome_gchar;
+
+int cad_est();
+
+void inicializar_est();

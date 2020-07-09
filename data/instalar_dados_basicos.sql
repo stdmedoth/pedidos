@@ -25,7 +25,7 @@ values('Documento','terceiros','ter_doc',1),
 ('Pedidos cancelados são reaproveitados','orcamentos','orc_ped_cancelado',0);
 
 insert into operadores (nome,senha,nivel)
-values ('Petitto',MD5(''),4),
+values ('Petitto',MD5(''),3),
 ('Calistu',MD5('password'),5);
 
 insert into niveis_gerenciais (nome,nivel)

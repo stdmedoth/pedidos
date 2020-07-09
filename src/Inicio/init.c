@@ -63,9 +63,9 @@ int desktop()
 	char *query;
 	char markup[500];
 
-
-	if(GTK_IS_WINDOW(janela_inicializacao))
-		gtk_widget_destroy(janela_inicializacao);
+	if(janela_inicializacao)
+		if(GTK_IS_WINDOW(janela_inicializacao))
+			gtk_widget_destroy(janela_inicializacao);
 
 	ativacao_app();
 
@@ -267,7 +267,6 @@ int desktop()
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
-
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 

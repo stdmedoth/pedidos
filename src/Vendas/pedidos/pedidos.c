@@ -286,12 +286,6 @@ int vnd_ped()
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
 	gtk_widget_set_size_request(janela_pedidos,820,480);
 
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
-
 	caixa_grande = gtk_box_new(1,0);
 	caixa_scroll = gtk_scrolled_window_new(NULL,NULL);
 	caixa_fixed = gtk_fixed_new();
@@ -324,6 +318,7 @@ int vnd_ped()
 	if(cont==0)
 	{
 		popup(NULL,"Sem nenhum estoque cadastrado");
+		cad_est();
 		return 1;
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_est_combo),1);
@@ -418,5 +413,12 @@ int vnd_ped()
 	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);
 
 	gtk_widget_show_all(janela_pedidos);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
+
 	return 0;
 }

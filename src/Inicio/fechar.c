@@ -39,25 +39,29 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 	switch(resultado)
 	{
 		case GTK_RESPONSE_ACCEPT:
-			g_signal_handler_disconnect(mensagem,handler_id);
 			encerrando();
 			break;
 
 		case GTK_RESPONSE_REJECT:
+			g_signal_handler_disconnect(mensagem,handler_id);
+
 			if(encerrar_manualmente){
-				g_signal_handler_disconnect(mensagem,handler_id);
 				encerrar_manualmente = 0;
 			}
 			else
 			{
-				g_signal_handler_disconnect(mensagem,handler_id);
-				desktop();
+				if(desktop()!=0){
+						popup(NULL,"Erro na reinicialização");
+						encerrando();
+				}
 			}
 
 			break;
 	}
 
-	gtk_widget_destroy(mensagem);
+	if(GTK_IS_WIDGET(mensagem))
+		gtk_widget_destroy(mensagem);
+
 	return 0;
 }
 
@@ -65,7 +69,6 @@ void botao_encerrar(){
 	encerrar_manualmente = 1;
 	encerrar(NULL,GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
 }
-
 
 void fechar_sessao(){
 	//variavel de encerramento ocorrida pelo proprio sistema (logoff)

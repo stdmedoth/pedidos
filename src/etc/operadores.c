@@ -34,6 +34,7 @@ void verifica_senha()
 
 	if((row = mysql_fetch_row(res))!=NULL)
 	{
+
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);

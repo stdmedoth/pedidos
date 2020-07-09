@@ -1,4 +1,8 @@
 int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
+
+  if(struct_wnd->reg_id == REG_PRINC_WIN)
+    iniciar_gerenciador_janela();
+
   struct_wnd->aberta = 1;
   struct_wnd->qnt_aberta++;
 

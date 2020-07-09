@@ -30,7 +30,7 @@ int cad_est_sld()
 	gtk_widget_set_size_request(GTK_WIDGET(janela),450,300);
 
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
-	
+
 	box = gtk_box_new(0,0);
 	caixa_grande = gtk_box_new(1,0);
 	caixa_linha1 = gtk_box_new(0,0);
@@ -94,6 +94,7 @@ int cad_est_sld()
 	if(cont==0)
 	{
 		popup(NULL,"Sem nenhum estoque cadastrado");
+		cad_est();
 		return 1;
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_sld_est_combo),1);

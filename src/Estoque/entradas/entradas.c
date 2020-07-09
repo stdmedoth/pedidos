@@ -135,6 +135,7 @@ int est_entradas()
 	if(cont==0)
 	{
 		popup(NULL,"Sem nenhum estoque cadastrado");
+		cad_est();
 		return 1;
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_ent_est_combo),1);

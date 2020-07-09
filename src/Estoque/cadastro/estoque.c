@@ -23,14 +23,10 @@ int cad_est()
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"x-package-repository");
 	gtk_widget_set_size_request(GTK_WIDGET(janela),450,300);
 
-	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].reg_id = REG_CAD_EST;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].aberta = 1;
-	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_EST]))
-		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].janela_pointer = janela;
-
 	est_psq_code = gtk_box_new(0,0);
 	linha2 = gtk_box_new(0,0);
+
+	est_cad_alterando=0;
 
 	caixa_grande = gtk_box_new(1,0);
 	caixa_opcoes = gtk_box_new(0,0);
@@ -97,5 +93,11 @@ int cad_est()
 	gtk_widget_grab_focus(est_nome_entry);
 
 	gtk_widget_show_all(janela);
+	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].reg_id = REG_CAD_EST;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_EST]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_EST].janela_pointer = janela;
+
 	return 0;
 }

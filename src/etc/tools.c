@@ -263,7 +263,7 @@ int autologger(char *string)
 		if(string1[cont] == '\n')
 			string1[cont] = ' ';
 
-	unvulned_query = malloc(strlen(string1));
+	unvulned_query = malloc(strlen(string1)*2);
 
 	if(primeira_conexao!=0)
 		mysql_real_escape_string(&conectar,unvulned_query,string1,strlen(string1));
