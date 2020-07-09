@@ -29,7 +29,6 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
 
-	g_print("float preco %.2f\n",ativos[posicao].preco_f);
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

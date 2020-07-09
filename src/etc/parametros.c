@@ -154,7 +154,6 @@ int ler_criticas()
 	MYSQL_ROW row;
 	char *query;
 	int cont=0;
-	g_print("Lendo Parametros\n");
 	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
@@ -421,7 +420,6 @@ int parametrizar()
 	while((row=mysql_fetch_row(res))!=NULL)
 	{
 		campos_de_critica[cont] = gtk_check_button_new_with_label(row[0]);
-		g_print("campo %i : %s\n",cont,row[0]);
 		if(cont<=ter_critic_campos_qnt)
 			gtk_box_pack_start(GTK_BOX(ter_criticas_box),campos_de_critica[cont],0,0,0);
 		else

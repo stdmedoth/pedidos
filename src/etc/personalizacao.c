@@ -11,7 +11,7 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 	{
 		popup(NULL,"Não foi possivel inserir imagem");
 	}
-	g_print("clicado  no wallpaper %i\n",numero);
+
 	switch(numero)
 	{
 		case 0:

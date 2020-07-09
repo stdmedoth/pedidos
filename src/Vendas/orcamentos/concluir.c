@@ -11,14 +11,11 @@ static int concluir_orc()
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
-		g_print("%s\n",query);
 		vetor = consultar(query);
 		if(vetor==NULL)
 		{
 			popup(NULL,"Erro na verificação da existencia do orcamento");
-			g_print("Erro na verificação da existencia do orcamento\n");
 			autologger("Erro na verificação da existencia do orcamento");
-			autologger(query);
 			return 1;
 		}
 
@@ -26,10 +23,7 @@ static int concluir_orc()
 		if(campos!=NULL)
 		{
 			popup(NULL,"Orçamento já existente! verifique o código");
-			g_print("Tentou usar código de orcamento já usado\n");
 			autologger("Erro na query de codigo no orcamento\nTentou usar código de orcamento já usado\n");
-			autologger(query);
-			vet_erro[COD_ERR] = 0;
 			gtk_widget_grab_focus(codigo_orc_entry);
 			return 1;
 		}
@@ -41,6 +35,7 @@ static int concluir_orc()
 		if(erro != 0 )
 		{
 			popup(NULL,"Erro ao tentar concluir orçamento");
+			autologger("Erro ao tentar concluir orçamento");
 			return 1;
 		}
 	}
@@ -79,6 +74,7 @@ static int concluir_orc()
 				if(erro != 0 )
 				{
 					popup(NULL,"Erro ao tentar gerar orçamento");
+					autologger("Erro ao tentar gerar orçamento");
 					return 1;
 				}
 			}
@@ -91,6 +87,7 @@ static int concluir_orc()
 					if(erro != 0 )
 					{
 						popup(NULL,"Erro ao tentar gerar orçamento");
+						autologger("Erro ao tentar gerar orçamento");
 						return 1;
 					}
 					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s), pag_cond = %i, observacoes = '%s' where code = %s",codigo_orc_gchar, pag_cond, observacoes_orc_gchar, codigo_orc_gchar);
@@ -98,6 +95,7 @@ static int concluir_orc()
 					if(erro != 0 )
 					{
 						popup(NULL,"Erro ao tentar calcular total");
+						autologger("Erro ao tentar calcular orçamento");
 						return 1;
 					}
 				}
@@ -115,6 +113,7 @@ static int concluir_orc()
 		if(erro != 0 )
 		{
 			popup(NULL,"Erro ao tentar calcular total");
+			autologger("Erro ao tentar calcular total");
 			return 1;
 		}
 	}

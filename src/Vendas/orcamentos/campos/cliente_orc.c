@@ -35,7 +35,6 @@ int codigo_cli_orc()
 	if(strlen(cliente_orc_gchar)<=0)
 	{
 		popup(NULL,"O código cliente deve ser inserido");
-
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
@@ -43,7 +42,6 @@ int codigo_cli_orc()
 	if(stoi(cliente_orc_gchar)==-1)
 	{
 		popup(NULL,"O código do cliente deve ser numérico");
-
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
@@ -53,9 +51,7 @@ int codigo_cli_orc()
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de cliente no orcamento\n");
 		autologger("Erro na query de cliente no orcamento\n");
-		autologger(query);
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}

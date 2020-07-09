@@ -4,20 +4,27 @@
 #include <time.h>
 GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
-GtkWidget *janela_inicializacao;
+static GtkWidget *janela_inicializacao;
 
 static void ativacao_app(){
-	GCancellable *cancellable;
-	GError *error;
-	cancellable = g_cancellable_new ();
 
-	aplicacao = gtk_application_new(NULL, G_APPLICATION_CAN_OVERRIDE_APP_ID);
-	g_application_register(G_APPLICATION(aplicacao),NULL,NULL);
+	if(janelas_gerenciadas.aplicacao.criada==0){
+		GCancellable *cancellable;
+		GError *error;
+		cancellable = g_cancellable_new ();
+
+		aplicacao = gtk_application_new(NULL, G_APPLICATION_CAN_OVERRIDE_APP_ID);
+		g_application_register(G_APPLICATION(aplicacao),NULL,NULL);
+		janelas_gerenciadas.aplicacao.criada = 1;
+	}
+
 	janela_principal = gtk_application_window_new(aplicacao);
+
+	autologger("aplicacao inicializando");
 
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
 	//if(personalizacao.janela_keep_above==1)
-		//gtk_window_set_keep_above(GTK_WINDOW(janela_principal), TRUE);
+	//gtk_window_set_keep_above(GTK_WINDOW(janela_principal), TRUE);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
@@ -25,6 +32,13 @@ static void ativacao_app(){
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
+
+	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
+	if(ger_janela_aberta(janela_principal, &janelas_gerenciadas.principal))
+		return ;
+	janelas_gerenciadas.principal.aberta = 1;
+
+	janelas_gerenciadas.principal.janela_pointer = janela_principal;
 
 	return ;
 }
@@ -36,8 +50,9 @@ int desktop()
 	GtkWidget  *juncao;
 	GtkWidget  *layout;
 	GtkWidget *fixed_menu;
-	GtkWidget *param_button,*param_image;
-	GtkWidget *sair_button, *sair_image;
+	GtkWidget *param_button;
+	GtkWidget *sair_button;
+	GtkWidget *logoff_button;
 
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
 	GtkWidget *nivel_usuario_fixed ,*nivel_usuario_label;
@@ -48,19 +63,21 @@ int desktop()
 	char *query;
 	char markup[500];
 
+
+	if(GTK_IS_WINDOW(janela_inicializacao))
+		gtk_widget_destroy(janela_inicializacao);
+
 	ativacao_app();
 
 	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
-	param_image = gtk_image_new_from_file(PRMT_IMG);
-	gtk_button_set_image(GTK_BUTTON(param_button),param_image);
+	gtk_button_set_image(GTK_BUTTON(param_button),gtk_image_new_from_icon_name("emblem-system",GTK_ICON_SIZE_DIALOG));
 
 	sair_button = gtk_button_new();
-	sair_image = gtk_image_new_from_file(EXIT_IMG);
-	gtk_button_set_image(GTK_BUTTON(sair_button),sair_image);
+	gtk_button_set_image(GTK_BUTTON(sair_button),gtk_image_new_from_icon_name("document-revert",GTK_ICON_SIZE_DIALOG));
 
-	g_print("Fechando janela init\n");
-	gtk_widget_destroy(janela_inicializacao);
+	logoff_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
 
 	pegar_data();
 
@@ -100,23 +117,19 @@ int desktop()
 	}
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-	g_print("Recebendo escolha de wallpaper e nome usuario\n");
 	row = mysql_fetch_row(res);
 	if(row!=NULL)
 	{
-		g_print("Trocando wallpaper\n");
 		imagem_desktop = gtk_image_new_from_file(DESKTOP);
 		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
 		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
 		gtk_widget_set_name(nome_usuario_label,"nome_operador");
 		trocar_desktop(NULL,NULL,atoi(row[1]));
-		g_print("Desktop com imagem personalizada\n");
-		autologger("Desktop com imagem personalizada\n");
-		autologger(row[1]);
 	}
 	else
 	{
 		popup(NULL,"Login indevido");
+		autologger("Login indevido");
 		gtk_main_quit();
 		return 1;
 	}
@@ -133,6 +146,7 @@ int desktop()
 	gtk_widget_set_name(imagem_barra,"barra");
 	layout_barra  = gtk_layout_new(NULL,NULL);
 	botao_iniciar = gtk_button_new_with_label("Menu");
+	gtk_button_set_image(GTK_BUTTON(botao_iniciar),gtk_image_new_from_icon_name("help-contents",GTK_ICON_SIZE_SMALL_TOOLBAR));
 	gtk_widget_set_name(GTK_WIDGET(botao_iniciar),"botao");
 
 	//criacao
@@ -231,12 +245,14 @@ int desktop()
 
 	gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,550);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,630);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,530);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,590);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,650);
 
 	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
 
 	gtk_widget_set_size_request(barra,80,750);
 	gtk_widget_set_size_request(layout_barra,80,750);
@@ -256,17 +272,23 @@ int desktop()
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 
 	menu();
+
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
 
 	g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
 
-	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(encerrar),janela_principal);
+	g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(botao_encerrar),janela_principal);
 
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
-	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrando),NULL);
+
+	g_signal_connect(GTK_BUTTON(logoff_button),"clicked",G_CALLBACK(fechar_sessao),NULL);
+
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
+
 	gtk_widget_show_all(janela_principal);
 
 	configurar_parametros();
@@ -294,8 +316,6 @@ int init()
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	query = malloc(MAX_QUERY_LEN);
 
-	g_print("inicializacao...\n");
-
 	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL)
 	{
@@ -308,19 +328,19 @@ int init()
 		return 1;
 	}
 
-	icone = gtk_icon_theme_get_default();
+	GtkSettings *settings = gtk_settings_get_default();
 	gchar **path;
 	int n_elements;
 
-	//return 0;
+	g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
+	icone = gtk_icon_theme_get_default();
+
 	gtk_icon_theme_get_search_path(icone,&path,&n_elements);
 	n_elements = n_elements+1;
 	path[n_elements-1] = malloc(strlen(ICON_PATH));
 	strcpy((char*)path[n_elements-1],ICON_PATH);
 
 	gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
-	for(int cont=0;cont<n_elements;cont++)
-		g_print("caminho tema %i : %s\n",cont,path[cont]);
 
 	//return 1;
 	gtk_widget_show_all(janela_inicializacao);
@@ -332,7 +352,6 @@ int init()
 	{
 		sessao_oper.code = 1;
 		sessao_oper.nivel = 3;
-
 
 		if(desktop()!=0)
 		{
@@ -347,7 +366,6 @@ int init()
 		gtk_widget_show_all(janela_login);
 	}
 
-	g_print("abrindo janela de inicio...\n");
 	inicializando=0;
 	return 0;
 }

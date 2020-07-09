@@ -7,21 +7,14 @@ int gerar_total_geral()
 	total_geral_orc = 0;
 	desconto_geral_orc = 0 ;
 
-	g_print("iniciando gerar_total_geral()\n");
 	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*2);
 	for(cont=1;cont<MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id == 1)
 		{
 			ativos[cont].total_f = ((ativos[cont].qnt_f)*(ativos[cont].preco_f))-(ativos[cont].desconto_f);
-			//g_print("Somando totais para %i\n",cont);
-			//g_print("TOTAL: %.2f\n",ativos[cont].total_f);
-			//g_print("PRECO: %.2f\n",ativos[cont].preco_f);
-			//g_print("DESCONTO: %.2f\n",ativos[cont].desconto_f);
 			total_geral_orc = total_geral_orc + ativos[cont].total_f;
 			desconto_geral_orc = desconto_geral_orc + ativos[cont].desconto_f;
-			//g_print("total: %.2f = %.2f + %.2f\n",total_geral_orc, total_geral_orc , ativos[cont].total_f);
-			//g_print("desconto: %.2f = %.2f + %.2f\n",desconto_geral_orc, desconto_geral_orc , ativos[cont].desconto_f);
 			if(total_geral_orc<0)
 			{
 				sprintf(muda_label,"R$ %.2f",total_geral_orc);
@@ -40,7 +33,6 @@ int gerar_total_geral()
 
 	sprintf(muda_label,"R$ %.2f",desconto_geral_orc);
 	gtk_label_set_text(GTK_LABEL(desconto_geral_orc_label),muda_label);
-	g_print("finalizando gerar_total_geral()\n");
 	return 0;
 }
 
@@ -54,7 +46,6 @@ int tirar_linha(int id_ponteiro)
 
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
-	g_print("Retirando %i\n",id_ponteiro);
 
 	ativos_qnt--;
 
@@ -99,7 +90,6 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
-	g_print("linha deletada %i\n",id_ponteiro);
 	ativos_qnt--;
 
 	if(ativos_qnt>1)
@@ -124,7 +114,6 @@ int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
 	GtkWidget *subgrp_prod_orc_img;
-	g_print("iniciando adicionar_linha_orc()\n");
 	char *query;
 	if(alterando_orc==0)
 	{
@@ -400,8 +389,6 @@ int adicionar_linha_orc()
 
 	gtk_widget_show_all(janela_orcamento);
 
-	g_print("finalizando adicionar_linha_orc()\n");
-
 	return 0;
 }
 
@@ -412,7 +399,6 @@ int vnd_orc()
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
 	GtkWidget * subgrp_prod_orc_img;
-	g_print("Entrando na opção de orcamentos\n");
 	janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela_orcamento),TRUE);

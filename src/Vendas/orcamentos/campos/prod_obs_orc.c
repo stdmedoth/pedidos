@@ -11,6 +11,5 @@ int obs_prod_orc_fun(GtkWidget *widget,int  posicao)
 			strcpy(obs_prod_orc_gchar[posicao],"");
 	}
 
-	g_print("observações do produto: '%s'\n",obs_prod_orc_gchar[posicao]);
 	return 0;
 }

@@ -53,7 +53,7 @@ int main(int argc,char *argv[])
 	abrir_css(DESKTOP_STYLE);
 	if(init())
 		return 1;
-	
+
 	gtk_main();
 	return 0;
 }

@@ -21,6 +21,7 @@ drop table if exists produtos;
 drop table if exists grupos;
 drop table if exists unidades;
 drop table if exists terceiros;
+drop table if exists logs;
 
 create table if not exists tipo_movimentos( code int primary key,
   nome varchar(40) default 'TipoMovimentoSemNome'
@@ -34,6 +35,8 @@ nivel int default 1);
 create table if not exists niveis_gerenciais( code int primary key auto_increment,
 nome varchar(50) default 'NivelGerencialSemNome',
 nivel int default 1);
+
+create table logs( descricao varchar (2000), data datetime);
 
 create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
 razao varchar(150) default 'Empresa Sem Nome',

@@ -3,7 +3,6 @@
 
 int gerar_orc()
 {
-	g_print("gerando orçamento...\n");
 	int cont,color=0;
 	char *query;
 	int conta_linhas=0;
@@ -38,7 +37,6 @@ int gerar_orc()
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de codigo no orcamento\n");
 		autologger("Erro na query de codigo no orcamento\n");
 		autologger(query);
 		vet_erro[COD_ERR] = 0;
@@ -141,9 +139,7 @@ int gerar_orc()
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de codigo no orcamento\n");
 		autologger("Erro na query de codigo no orcamento\n");
-		autologger(query);
 		fclose(orc);
 		return 1;
 	}
@@ -195,10 +191,7 @@ int gerar_orc()
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de codigo no orcamento\n");
 		autologger("Erro na query de codigo no orcamento\n");
-		autologger(query);
-		vet_erro[COD_ERR] = 0;
 		gtk_widget_grab_focus(codigo_orc_entry);
 		fclose(orc);
 		return 1;
@@ -264,7 +257,6 @@ int gerar_orc()
 		{
 
 			sprintf(formata_float,"%s",campos[6]);//pega desconto
-			g_print("campos[6] : %s\n",campos[6]);
 			critica_real(formata_float,NULL);
 
 			sprintf(formata_float2,"%s",campos[2]);//pega quantidade
@@ -284,25 +276,20 @@ int gerar_orc()
 			if(totalfloat>0)
 				chartofloat = chartofloat/totalfloat;
 
-			g_print("Desconto em reais\nchartofloat: %.2f\ntotalfloat: %.2f\ncampos[6]: %.2f\n",chartofloat,totalfloat,atof(campos[6]));
 			fprintf(orc,"<td>%.2f %c</td>\n",chartofloat,37);//desconto em R$ p/ %
 		}
 		else
 		if(atoi(campos[5])==1)//tipo desconto = %
 		{
 
-			g_print("campos[6] : %s\n",campos[6]);
-
 			fprintf(orc,"<td>%.2f %c</td>\n",atof(campos[6]),37);//desconto em %//atof(campos[6]),37);//desconto em %
 		}
 
-		g_print("campos[7] : %s\n",campos[7]);
 		sprintf(formata_float,"%s",campos[7]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));//total
 		fprintf(orc,"</tr>\n");
 		conta_linhas++;
-		g_print("linha %i\n",conta_linhas);
 
 		cont++;
 	}
@@ -353,7 +340,6 @@ int gerar_orc()
 	fprintf(orc,"</html>\n");
 	fclose(orc);
 
-	g_print("Abrindo janela de escolha para o arquivo\n");
 	escolher_finalizacao(gerando_file);
 
 	return 0;

@@ -10,9 +10,7 @@ int imp_cli()
 	if(res==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de codigo no orcamento\n");
 		autologger("Erro na query de codigo no orcamento\n");
-		autologger(query);
 		fclose(orc);
 		return 1;
 	}

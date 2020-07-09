@@ -1,17 +1,3 @@
-void encerrando()
-{
-	GtkWidget *janela, *label;
-	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	label = gtk_label_new("Encerrando...");
-	gtk_widget_set_size_request(janela,100,100);
-	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
-	gtk_container_add(GTK_CONTAINER(janela),label);
-	gtk_widget_show_all(janela);
-
-	gtk_main_quit();
-}
-
 void passa_nome()
 {
 	gtk_widget_grab_focus(senha_entry);
@@ -49,7 +35,8 @@ void verifica_senha()
 	if((row = mysql_fetch_row(res))!=NULL)
 	{
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
-		gtk_widget_destroy(janela_login);
+		if(GTK_IS_WIDGET(janela_login))
+			gtk_widget_destroy(janela_login);
 
 		sessao_oper.code = atoi(row[0]);
 		strcpy(sessao_oper.nome,nome_gchar);

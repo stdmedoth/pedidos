@@ -17,7 +17,6 @@ int ler_theme_dir()
 		{
 			nomes_temas[temas_qnt] = malloc(MAX_TEMA_LEN);
 			strcpy(nomes_temas[temas_qnt],tema_name);
-			g_print("temas: %s\n",nomes_temas[temas_qnt]);
 			temas_qnt++;
 			if(temas_qnt>MAX_TEMA_QNT)
 				break;

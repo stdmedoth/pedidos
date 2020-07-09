@@ -1,15 +1,3 @@
-void aumentar_opacidade(GtkWidget *widget,GdkEvent *event,gpointer data)
-{
-	g_print("Passou por widget\n");
-	gtk_widget_set_opacity(widget,1);
-}
-void diminuir_opacidade(GtkWidget *widget,GdkEvent *event,gpointer data)
-{
-	g_print("Passou por widget\n");
-	gtk_widget_set_opacity(widget,0.5);
-}
-
-
 int cad_ico(void)
 {
 

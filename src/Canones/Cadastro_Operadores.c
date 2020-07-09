@@ -86,7 +86,7 @@ int oper_passa_nome()
 		if(res==NULL)
 		{
 			popup(NULL,"Erro com a query\n\tConsulte Suporte");
-			g_print("Erro com consulta do operador");
+			autologger("Erro com consulta do operador");
 			return 1;
 		}
 		else
@@ -122,8 +122,6 @@ int oper_rec_nivel()
 
 	oper_perm_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(oper_perm_entry));
 
-	g_print("valor : %i\n",oper_perm_int);
-
 	gtk_label_set_text(GTK_LABEL(oper_perm_name_entry),niveis_gerenciais[oper_perm_int-1]);
 
 	return 0;
@@ -137,13 +135,10 @@ int oper_concluir()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
-	g_print("Verificado campo nome\n");
 	if(oper_passa_nome()!=0)
 		return 1;
-	g_print("Verificado campo senha\n");
 	if(oper_passa_senha()!=0)
 		return 1;
-	g_print("Verificado campo nivel\n");
 	if(oper_rec_nivel()!=0)
 		return 1;
 
@@ -157,7 +152,7 @@ int oper_concluir()
 		if(res==NULL)
 		{
 			popup(NULL,"Erro com a query\n\tConsulte Suporte");
-			g_print("Erro com alteracao de operador");
+			autologger("Erro com alteracao de operador");
 			return 1;
 		}
 		row = mysql_fetch_row(res);
@@ -177,7 +172,7 @@ int oper_concluir()
 	if(erro!=0)
 	{
 		popup(NULL,"Consulte Suporte!");
-		g_print("Erro na query\n");
+		autologger("Erro de query\n");
 		return 1;
 	}
 
@@ -188,12 +183,11 @@ int oper_concluir()
 		if(erro!=0)
 		{
 			popup(NULL,"Consulte Suporte!");
-			g_print("Erro na query\n");
+			autologger("Erro de query\n");
 			return 1;
 		}
 	}
 
-	g_print("Ok! operador criado\n");
 	if(oper_alterando == 0)
 		popup(NULL,"Operador Criado");
 	else

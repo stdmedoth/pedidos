@@ -21,6 +21,9 @@
 #define REG_TER_RELAT 14
 #define REG_MOV_RELAT 15
 
+#define REG_PRINC_WIN 9990
+#define REG_WIN_ENCERRA 9991
+
 #define REG_WIN_QNT 15
 
 const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
@@ -32,13 +35,20 @@ typedef struct{
   short aberta;
   int qnt_aberta;
   int qnt_fechada;
+  int criada;
+  int sys_close_wnd;
   GtkWidget *janela_pointer;
 }
 janelas_info;
 
-struct{
+static struct{
   janelas_info vetor_janelas[REG_WIN_QNT];
+  janelas_info principal;
+  janelas_info encerramento;
+  janelas_info aplicacao;
 }janelas_gerenciadas;
+
+int iniciar_gerenciador_janela();
 
 int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd);
 

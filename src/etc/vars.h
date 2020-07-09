@@ -239,6 +239,7 @@
 #define MAX_PARC_QNT 20
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50
+#define MAX_LOG_DESC 2000
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

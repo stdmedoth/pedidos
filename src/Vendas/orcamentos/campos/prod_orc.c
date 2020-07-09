@@ -31,10 +31,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	if(vetor==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
-		g_print("Erro na query de produtos no orcamento\n");
 		autologger("Erro na query de produtos no orcamento\n");
-		autologger(query);
-
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}
@@ -43,7 +40,6 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	{
 		popup(NULL,"Produto não existente");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
-
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}

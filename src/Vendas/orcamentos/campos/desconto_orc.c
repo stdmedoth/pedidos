@@ -2,7 +2,6 @@ int tipodesc;
 
 int desconto_prod_orc(GtkWidget *widget,int posicao)
 {
-	g_print("Analisando campo desconto\n");
 	ativos[posicao].desconto_f = 0;
 	strcpy(ativos[posicao].desconto_c,"");
 
@@ -34,10 +33,6 @@ int desconto_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	g_print("float desconto %.2f\n",ativos[posicao].desconto_f);
-	g_print("Ok!");
-
-	g_print("Total: ");
 	ativos[posicao].total_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))-ativos[posicao].desconto_f;
 	if(ativos[posicao].total_f<0)
 	{
@@ -45,12 +40,10 @@ int desconto_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(desconto_prod_orc_entry[posicao]);
 		return 1;
 	}
-	g_print("float: %.2f ",ativos[posicao].total_f);
 
 	if(total_prod_orc_gchar!=NULL)
 	{
 		sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
-		g_print("string: %s \n",total_prod_orc_gchar);
 		critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 
 		strcpy(ativos[posicao].total_c,total_prod_orc_gchar);

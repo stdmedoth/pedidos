@@ -69,8 +69,6 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		}
 	}
 
-	g_print("grupo do produto %s, grupo inserido %s\n",row[0],subgrp_prod_orc_cod_gchar);
-
 	if(mesma_familia==0)
 	{
 		popup(NULL,"Subgrupo não pertence à mesma familia do produto");

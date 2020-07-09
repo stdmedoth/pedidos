@@ -1,17 +1,37 @@
 #define QUERY_LEN 1000
 #define RANDOM_STRING_SIZE 10
 int NAVEGATOR_SELECT = 1;
+static int logging = 0;
 #define BROTHER_IMP 1
 #define SAMSUNG_IMP 2
 #define PDF_IMP 3
 #define HTML_IMP 4
 
 GtkWidget *print_janela;
-
+int enviar_query(char *query);
+int autologger(char *string);
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4;
 
 static int imp_opc=0;
+
+static MYSQL conectar;
+MYSQL_RES *vetor;
+static int primeira_conexao=0;
+
+void encerrando()
+{
+	char *enc_infos;
+	enc_infos = malloc(MAX_LOG_DESC);
+	//enviar aqui todas informacoes importantes para o banco
+	sprintf(enc_infos,"Finalizando aplicacao");
+	autologger(enc_infos);
+
+
+	gtk_main_quit();
+	return ;
+}
+
 
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 {
@@ -25,21 +45,16 @@ static void popup(GtkWidget *widget,gchar *string);
 
 int iniciar_impressao(char *gerado)
 {
-	g_print("Finalizando iniciar_impressao()\n");
-	g_print("%s para impressora\n",gerado);
-
 	char *chamada;
 
 	chamada = malloc(strlen(gerado)+strlen(COPY_PROG)+strlen(IMP_PORT1)+10);
 
 	if(imp_opc==BROTHER_IMP){
 		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT1);
-		g_print("%s para %s\n",gerado,IMP_PORT1);
 	}
 
 	if(imp_opc==SAMSUNG_IMP){
 		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT2);
-		g_print("%s para %s\n",gerado,IMP_PORT2);
 	}
 
 	if(imp_opc==PDF_IMP){
@@ -86,14 +101,13 @@ int iniciar_impressao(char *gerado)
 	if(processo==NULL)
 	{
 		if(erro)
-			g_print("Erro na impressao %s\n",erro->message);
+			autologger((char*)erro->message);
 		popup(NULL,"Não foi possivel gerar documento");
 		return 1;
 	}
 
 	#endif
 	close_window_callback(NULL,(gpointer)print_janela);
-	g_print("Finalizando iniciar_impressao()\n");
 
 	return 0;
 }
@@ -101,8 +115,6 @@ int iniciar_impressao(char *gerado)
 int desenhar_pdf(char *gerando_file)
 {
 	char *gerado, *chamada;
-
-	g_print("Iniciando desenhar_pdf()\n");
 
 	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
 
@@ -114,7 +126,6 @@ int desenhar_pdf(char *gerando_file)
 		gerado[strlen(gerado)-5] = '\0';
 
 	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
-	g_print("%s\n",chamada);
 
 	#ifdef WIN32
 	STARTUPINFO infoBina={sizeof(infoBina)};
@@ -141,8 +152,8 @@ int desenhar_pdf(char *gerando_file)
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
 	if(processo == NULL)
 	{
-		g_print("Erro na impressao %s\n",erro->message);
 		popup(NULL,"Não foi possivel gerar documento");
+		autologger((char*)erro->message);
 		return 1;
 	}
 	else{
@@ -150,8 +161,6 @@ int desenhar_pdf(char *gerando_file)
 	}
 
 	#endif
-
-	g_print("Finalizando desenhar_pdf()\n");
 	return 0;
 }
 
@@ -159,7 +168,6 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 {
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio1)))
 	{
-		g_print("Escolhida impressora 1\n");
 		imp_opc = BROTHER_IMP;
 		desenhar_pdf(gerando_file);
 	}
@@ -178,7 +186,6 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 		imp_opc = HTML_IMP;
 		iniciar_impressao(gerando_file);
 	}
-	g_print("Escolhida impressora %i\n",imp_opc);
 	return 0;
 }
 
@@ -245,22 +252,34 @@ char *randomizar_string()
 
 int autologger(char *string)
 {
-	FILE *logger;
-	char *string2;
-	string2 = malloc(100);
-	if(strlen(string)>100)
-		return 1;
-	sprintf(string2,"%s\n",string);
-	logger = fopen(LOGGER,"a+");
-	if(logger==NULL)
-	{
-		g_print("Erro no arquivo logger\n");
-		return 1;
-	}
-	fprintf(logger,"%s",string2);
-	fclose(logger);
+	char *string1, *string2,*unvulned_query;
+	logging = 1;
+	string1 = malloc(MAX_QUERY_LEN+strlen(string));
+	string2 = malloc(MAX_QUERY_LEN+strlen(string));
+
+	sprintf(string1,"%s\n",string);
+
+	for(int cont=0;cont<strlen(string1);cont++)
+		if(string1[cont] == '\n')
+			string1[cont] = ' ';
+
+	unvulned_query = malloc(strlen(string1));
+
+	if(primeira_conexao!=0)
+		mysql_real_escape_string(&conectar,unvulned_query,string1,strlen(string1));
+
+	sprintf(string2,"insert into logs(descricao,data) values('%s',CURRENT_TIMESTAMP());",unvulned_query);
+
+	if(strlen(string2)>MAX_LOG_DESC)
+		string2[MAX_LOG_DESC] = '\0';
+
+	if(enviar_query(string2)!=0)
+		g_print("Log não pode ser enviado");
+
+	logging = 0;
 	return 0;
 }
+
 GtkWidget *popup_fechar;
 static void popup(GtkWidget *widget,gchar *string)
 {
@@ -274,7 +293,8 @@ static void popup(GtkWidget *widget,gchar *string)
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
 
-	autologger(string);
+	if(logging == 0)
+		autologger(string);
 
 	gtk_window_set_position(GTK_WINDOW(popup),3);
 
@@ -295,9 +315,6 @@ static void popup(GtkWidget *widget,gchar *string)
 	gtk_widget_destroy(popup);
 	return ;
 }
-static MYSQL conectar;
-MYSQL_RES *vetor;
-static int primeira_conexao=0;
 
 MYSQL_RES *consultar(char *query)
 {
@@ -307,43 +324,35 @@ MYSQL_RES *consultar(char *query)
 		if(!mysql_init(&conectar))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
-			g_print("Erro mysql\n");
-			g_print("Erro: %s\n",mysql_error(&conectar));
-			autologger("Não foi possivel conectar ao servidor");
-			return NULL;
-		}
-		g_print("%s\n",query);
-		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
-		{
-			g_print("Erro mysql : %s\n",mysql_error(&conectar));
 			autologger((char*)mysql_error(&conectar));
 			return NULL;
 		}
-		if (!mysql_set_character_set(&conectar, "utf8"))
+		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
 		{
-			g_print("Novo caracter setado: %s\n",
-			mysql_character_set_name(&conectar));
+			autologger((char*)mysql_error(&conectar));
+			return NULL;
+		}
+
+		if (mysql_set_character_set(&conectar, "utf8"))
+		{
+			autologger("Erro ao setar caracter");
 		}
 		primeira_conexao=1;
 	}
 
-	g_print("%s\n",query);
-
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
-		autologger(query);
 		autologger((char*)mysql_error(&conectar));
-		g_print("Erro mysql : %s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
 		primeira_conexao=0;
 		return NULL;
 	}
+
 	vetor = mysql_store_result(&conectar);
 	if(vetor==NULL)
 	{
 		autologger((char*)mysql_error(&conectar));
-		g_print("%s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
 		primeira_conexao=0;
 		return NULL;
@@ -351,6 +360,7 @@ MYSQL_RES *consultar(char *query)
 	//mysql_close(&conectar);
 	return vetor;
 }
+
 int enviar_query(char *query)
 {
 	int err=1;
@@ -358,40 +368,46 @@ int enviar_query(char *query)
 	{
 		if(!mysql_init(&conectar))
 		{
-			g_print("Erro mysql : %s\n",mysql_error(&conectar));
 			popup(NULL,"Não foi possivel conectar ao servidor");
-			autologger("Não foi possivel conectar ao servidor");
+			if(logging == 0){
+				autologger("Não foi possivel conectar ao servidor");
+				autologger((char*)mysql_error(&conectar));
+			}
 			primeira_conexao=0;
 			return 1;
 		}
-		g_print("%s\n",query);
 		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
 		{
 
 			popup(NULL,"Não foi possivel conectar ao servidor");
-			g_print("Erro mysql : %s\n",mysql_error(&conectar));
-			autologger("Não foi possivel conectar ao servidor");
+
+			if(logging == 0){
+				autologger("Não foi possivel conectar ao servidor");
+				autologger((char*)mysql_error(&conectar));
+			}
 			primeira_conexao=0;
 			return 1;
 		}
-		if (!mysql_set_character_set(&conectar, "utf8"))
+
+		if (mysql_set_character_set(&conectar, "utf8"))
 		{
-			g_print("Novo caracter setado: %s\n",
-			mysql_character_set_name(&conectar));
+			autologger("Não foi possivel setar novo caracter");
 		}
 	}
+
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
-		g_print("%s\n",query);
-		autologger(query);
-		autologger((char*)mysql_error(&conectar));
-		g_print("Erro mysql %s\n",mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
+		if(logging == 0){
+			autologger(query);
+			autologger((char*)mysql_error(&conectar));
+		}
 		return 1;
 	}
 	return 0;
 }
+
 int tasker(char *table)
 {
 	char task[8];
@@ -403,7 +419,6 @@ int tasker(char *table)
 	int err=0,task_num=0;
 	char query[QUERY_LEN];
 
-	printf("Iniciando Tasker()\n");
 	sprintf(query,"select MAX(code) from %s;",table);
 	result_vetor = consultar(query);
 
@@ -431,8 +446,6 @@ int tasker(char *table)
 	{
 		return 1;
 	}
-	g_print("Query_code recebida com sucesso\n");
-	g_print("Tasker Finalizado\n");
 	return (task_num+1);
 }
 
@@ -445,7 +458,7 @@ char *infos(int pos)
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	requisicao = "select razao,endereco,cnpj from empresa;";
-	g_print("\nTestando Campo %i\n",pos);
+
 	vetor = consultar(requisicao);
 
 	if(vetor==NULL)
@@ -453,17 +466,14 @@ char *infos(int pos)
 		popup(NULL,"Erro ao receber dados da empresa");
 		return "";
 	}
-	g_print("Buscando %s\n",info[pos]);
+
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		g_print("%s não encontrado\n",info[pos]);
-		//popup(NULL,info[pos]);
+		autologger("Informacao de desktop não encontrada\n");
 		return "";
 	}
 
-	g_print("%s encontrado\n",info[pos]);
 	retorno = malloc(62);
-	g_print("%s\n",campos[pos]);
 
 	if(strlen(campos[pos])>=60)
 	{
