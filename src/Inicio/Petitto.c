@@ -19,21 +19,21 @@
 #include <mysql.h>
 #endif
 
-GtkApplication *aplicacao;
+static GtkApplication *aplicacao;
 
-GtkWidget  *janela_principal;
-GtkWidget *imagem_desktop;
+static GtkWidget  *janela_principal;
+static GtkWidget *imagem_desktop;
 #include <ctype.h>
 #include "../etc/libs.h"
 //#include "../etc/tipo_listagem.c"
 
 
-GtkWidget *superior, *superior_1, *superior_2;
-GtkWidget *inferior, *inferior_1, *inferior_2;
-GtkWidget *area_de_trabalho;
-GtkWidget *barra;
+static GtkWidget *superior, *superior_1, *superior_2;
+static GtkWidget *inferior, *inferior_1, *inferior_2;
+static GtkWidget *area_de_trabalho;
+static GtkWidget *barra;
 
-GtkWidget *imagem_barra,*layout_barra;
+static GtkWidget *imagem_barra,*layout_barra;
 #include "../Menu/icones.c"
 #include "../Menu/abas.c"
 #include "init.c"

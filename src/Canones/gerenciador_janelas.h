@@ -22,7 +22,8 @@
 #define REG_MOV_RELAT 15
 
 #define REG_PRINC_WIN 9990
-#define REG_WIN_ENCERRA 9991
+#define REG_INIT_FUN_WIN 9991
+#define REG_WIN_ENCERRA 9992
 
 #define REG_WIN_QNT 15
 
@@ -44,6 +45,7 @@ janelas_info;
 static struct{
   janelas_info vetor_janelas[REG_WIN_QNT];
   janelas_info principal;
+  janelas_info fundo_inicializacao;
   janelas_info encerramento;
   janelas_info aplicacao;
 }janelas_gerenciadas;

@@ -41,14 +41,16 @@ int iniciar_gerenciador_janela(){
     janelas_gerenciadas.vetor_janelas[cont].qnt_fechada = 0;
     janelas_gerenciadas.vetor_janelas[cont].aberta = 0;
 
-    if(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)
-      if(GTK_IS_WINDOW(janelas_gerenciadas.vetor_janelas[cont].janela_pointer))
+    if(janelas_gerenciadas.vetor_janelas[cont].aberta)
         gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
 
     janelas_gerenciadas.vetor_janelas[cont].janela_pointer = NULL;
   }
 
   janelas_gerenciadas.principal.aberta = 0;
+  janelas_gerenciadas.principal.qnt_aberta = 0;
+  janelas_gerenciadas.fundo_inicializacao.aberta = 0;
+  janelas_gerenciadas.fundo_inicializacao.qnt_aberta = 0;
 
   return 0;
 }

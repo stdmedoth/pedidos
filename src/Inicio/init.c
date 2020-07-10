@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <time.h>
-GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
-GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
+
+static GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
+static GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 static GtkWidget *janela_inicializacao;
 
 static void ativacao_app(){
 
-	if(janelas_gerenciadas.aplicacao.criada==0){
+	if(janelas_gerenciadas.aplicacao.criada==0 || !aplicacao){
 		GCancellable *cancellable;
 		GError *error;
 		cancellable = g_cancellable_new ();
@@ -63,9 +64,8 @@ int desktop()
 	char *query;
 	char markup[500];
 
-	if(janela_inicializacao)
-		if(GTK_IS_WINDOW(janela_inicializacao))
-			gtk_widget_destroy(janela_inicializacao);
+	if(janelas_gerenciadas.fundo_inicializacao.aberta)
+			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	ativacao_app();
 
@@ -296,6 +296,7 @@ int desktop()
 	gtk_widget_hide(lista_abas);
 	return 0;
 }
+
 int init()
 {
 	MYSQL_RES *res;
@@ -364,6 +365,11 @@ int init()
 		login();
 		gtk_widget_show_all(janela_login);
 	}
+	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
+	janelas_gerenciadas.fundo_inicializacao.aberta = 1;
+	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
+		return 1;
+	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
 	return 0;
