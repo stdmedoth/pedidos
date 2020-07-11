@@ -2,6 +2,7 @@
 #define RANDOM_STRING_SIZE 10
 int NAVEGATOR_SELECT = 1;
 static int logging = 0;
+
 #define BROTHER_IMP 1
 #define SAMSUNG_IMP 2
 #define PDF_IMP 3
@@ -45,122 +46,79 @@ static void popup(GtkWidget *widget,gchar *string);
 
 int iniciar_impressao(char *gerado)
 {
-	char *chamada;
-
-	chamada = malloc(strlen(gerado)+strlen(COPY_PROG)+strlen(IMP_PORT1)+10);
-
 	if(imp_opc==BROTHER_IMP){
-		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT1);
+		GError *erro=NULL;
+		GSubprocess *processo=NULL;
+
+		processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,IMP_PORT1,NULL);
+
+		if(!processo)
+		{
+			popup(NULL,"Não foi possivel enviar documento");
+			autologger(erro->message);
+			return 1;
+		}
 	}
 
 	if(imp_opc==SAMSUNG_IMP){
-		sprintf(chamada,"%s %s %s",COPY_PROG,gerado,IMP_PORT2);
+		GError *erro=NULL;
+		GSubprocess *processo=NULL;
+
+		processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,IMP_PORT2,NULL);
+
+		if(!processo)
+		{
+			popup(NULL,"Não foi possivel enviar documento");
+			autologger(erro->message);
+			return 1;
+		}
 	}
 
-	if(imp_opc==PDF_IMP){
-		if(NAVEGATOR_SELECT == 1)
-			sprintf(chamada,"%s %s",CHROME_PATH,gerado);
-		if(NAVEGATOR_SELECT == 2)
-			sprintf(chamada,"%s %s",FIREFOX_PATH,gerado);
-	}
 
-	if(imp_opc==HTML_IMP){
-		if(NAVEGATOR_SELECT == 1)
-			sprintf(chamada,"%s %s.html",CHROME_PATH,gerado);
-		if(NAVEGATOR_SELECT == 2)
-			sprintf(chamada,"%s %s.html",FIREFOX_PATH,gerado);
-	}
+	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
+		GError *erro=NULL;
+		GSubprocess *processo=NULL;
 
-	#ifdef WIN32
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
-	infoBina.dwFlags = STARTF_USESHOWWINDOW;
-	infoBina.wShowWindow = SW_HIDE;
-	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina))
-    {
-		popup(NULL,"Documento enviado para impressão");
-		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
-		CloseHandle(processInfoBina.hProcess);
-		CloseHandle(processInfoBina.hThread);
-	}else{
-		popup(NULL,"Algum erro ocorreu ao enviar o arquivo");
-	}
-	#endif
-
-	#ifdef __linux__
-	GError *erro=NULL;
-	GSubprocess *processo=NULL;
-
-	if(PDF_IMP||HTML_IMP){
 		if(NAVEGATOR_SELECT == 1)
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,CHROME_PATH,gerado,NULL);
+
 		if(NAVEGATOR_SELECT == 2)
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,FIREFOX_PATH,gerado,NULL);
-	}
 
-	if(processo==NULL)
-	{
-		if(erro)
-			autologger((char*)erro->message);
-		popup(NULL,"Não foi possivel gerar documento");
-		return 1;
+		if(!processo)
+		{
+			popup(NULL,"Não foi possivel abrir documento");
+			autologger(erro->message);
+			return 1;
+		}
 	}
-
-	#endif
-	close_window_callback(NULL,(gpointer)print_janela);
 
 	return 0;
 }
 
 int desenhar_pdf(char *gerando_file)
 {
-	char *gerado, *chamada;
+	char *gerado;
 
-	chamada = malloc(strlen(PDF_GEN)+strlen(gerando_file)*2+10);
-
-	gerado = malloc(strlen(gerando_file)+1);
+	gerado = malloc(strlen(gerando_file)+10);
 
 	sprintf(gerado,"%s",gerando_file);
 
 	if(strlen(gerado)>5)
 		gerado[strlen(gerado)-5] = '\0';
 
-	sprintf(chamada,"%s %s %s.pdf",PDF_GEN,gerando_file,gerado);
-
-	#ifdef WIN32
-	STARTUPINFO infoBina={sizeof(infoBina)};
-	PROCESS_INFORMATION processInfoBina;
-	infoBina.dwFlags = STARTF_USESHOWWINDOW;
-	infoBina.wShowWindow = SW_HIDE;
-	if (CreateProcess(NULL, chamada, NULL, NULL, FALSE, 0, NULL, NULL, &infoBina, &processInfoBina))
-    {
-		WaitForSingleObject(processInfoBina.hProcess, INFINITE);
-		CloseHandle(processInfoBina.hProcess);
-		CloseHandle(processInfoBina.hThread);
-		sprintf(gerado,"%s.pdf",gerado);
-		iniciar_impressao(gerado);
-	}
-	else
-	{
-		popup(NULL,"Não foi possivel gerar documento");
-		return 1;
-	}
-	#endif
-	#ifdef __linux__
-
-	GError *erro;
+	GError *erro=NULL;
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
-	if(processo == NULL)
+	if(!processo)
 	{
 		popup(NULL,"Não foi possivel gerar documento");
-		autologger((char*)erro->message);
+		autologger(erro->message);
 		return 1;
 	}
 	else{
 		iniciar_impressao(gerado);
 	}
 
-	#endif
 	return 0;
 }
 
@@ -186,6 +144,7 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 		imp_opc = HTML_IMP;
 		iniciar_impressao(gerando_file);
 	}
+	close_window_callback(NULL,(gpointer)print_janela);
 	return 0;
 }
 
@@ -233,6 +192,7 @@ int escolher_finalizacao(char *gerando_file)
 	gtk_container_add(GTK_CONTAINER(print_janela),caixa_grande);
 	g_signal_connect (botao_confirma,"clicked",G_CALLBACK(iniciar_escolha),gerando_file);
 	g_signal_connect (botao_cancela,"clicked",G_CALLBACK(close_window_callback),print_janela);
+
 	gtk_widget_show_all(print_janela);
 	return 0;
 }
@@ -274,7 +234,7 @@ int autologger(char *string)
 		string2[MAX_LOG_DESC] = '\0';
 
 	if(enviar_query(string2)!=0)
-		g_print("Log não pode ser enviado");
+		g_print("Log não pode ser enviado\n");
 
 	logging = 0;
 	return 0;

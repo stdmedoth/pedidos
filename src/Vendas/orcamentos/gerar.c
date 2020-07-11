@@ -6,7 +6,7 @@ int gerar_orc()
 	int cont,color=0;
 	char *query;
 	int conta_linhas=0;
-	int erro,grupo_len;
+	int erro,grupo_len,prods_sem_obs=0;
 	char code[MAX_CODE_LEN];
 	char *formata_float,*formata_float2,*formata_float3;
 	double chartofloat,totalfloat;
@@ -184,6 +184,20 @@ int gerar_orc()
 
 	fprintf(orc,"</div>\n");
 
+	sprintf(query,"select observacoes from Produto_Orcamento where code = %i and length(observacoes) != 0",atoi(codigo_orc_gchar));
+	vetor = consultar(query);
+	if(vetor==NULL)
+	{
+		popup(NULL,"Erro ao consultar existencia de observacoes");
+		autologger("Erro na query de codigo no orcamento\n");
+		gtk_widget_grab_focus(codigo_orc_entry);
+		fclose(orc);
+		return 1;
+	}
+	else
+	if((campos = mysql_fetch_row(vetor))==NULL)
+		prods_sem_obs = 1;
+
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
 	sprintf(query,"select p.code, g.code,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p inner join grupos as g on p.code = o.produto join unidades as u on u.code = p.unidades and g.code = o.subgrupo where o.code = %s;",codigo_orc_gchar);
@@ -206,7 +220,8 @@ int gerar_orc()
 	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade Unitária</td>\n",IMG_IMP_QNT);
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Descrição do Produto</td>\n",IMG_IMP_PROD);
-	fprintf(orc,"<td id=\"prod-row1\">Obs.</td>\n");
+	if(prods_sem_obs == 0)
+		fprintf(orc,"<td id=\"prod-row1\">Obs.</td>\n");
 	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Valor Unitário.</td>\n",IMG_MONEY);
 	fprintf(orc,"<td id=\"prod-row1\">Desconto</td>\n");
 	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
@@ -247,7 +262,7 @@ int gerar_orc()
 		}
 
 		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],dest);
-		if(strlen(campos[8]))
+		if(prods_sem_obs == 0)
 			fprintf(orc,"<td>%s</td>\n",campos[8]);
 		sprintf(formata_float,"%s",campos[4]);
 		critica_real(formata_float,NULL);

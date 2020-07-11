@@ -905,7 +905,7 @@ int vnd_orc()
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 
-	g_signal_connect(prod_scroll_box,"size-allocate",G_CALLBACK(mover_scroll ),NULL);
+	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(mover_scroll),NULL);
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
@@ -913,6 +913,7 @@ int vnd_orc()
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
 
+	cancela_orc();
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
 

@@ -6,7 +6,7 @@ int cancela_orc()
 	cont=1;
 	while(cont<MAX_PROD_ORC)
 	{
-		if(ativos[cont].id==1)
+		if(ativos[cont].id!=0)
 		{
 			tirar_linha(cont);
 		}

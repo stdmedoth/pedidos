@@ -58,7 +58,7 @@ int relat_prod_query_fun()
 		relat_prod_gerando = 0;
 		return 1;
 	}
-
+	campos_qnt=0;
 	while((row = mysql_fetch_row(res))!=NULL){
 
 		if(campos_qnt==0){
@@ -67,7 +67,7 @@ int relat_prod_query_fun()
 		}
 		else
 		{
-			prod_query.campos = malloc(strlen(campo_query_cp)+strlen(row[0])+3);
+			prod_query.campos = malloc(strlen(campo_query_cp)+strlen(row[0])+4);
 			sprintf(prod_query.campos," %s %s,",campo_query_cp,row[0]);//backup + campo novo
 		}
 
@@ -78,13 +78,17 @@ int relat_prod_query_fun()
 
 		strcpy(prod_query.campo_query[campos_qnt],row[0]);
 
-		g_print("%s\n",prod_query.campo_query[campos_qnt]);
-
 		end_query = malloc(strlen(row[1]));
 		sprintf(end_query,"%s",row[1]);
 
 		campos_qnt++;
 	}
+
+	if(campos_qnt<=0){
+		popup(NULL,"Campos de relatorios vazios");
+		return 1;
+	}
+	
 	prod_query.campos_qnt = campos_qnt;
 
 	prod_query.campos[strlen(prod_query.campos)-1] = '\0';

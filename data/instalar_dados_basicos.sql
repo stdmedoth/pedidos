@@ -58,3 +58,9 @@ insert into tipo_movimentos(code, nome) values
 (2,'Devolução Venda'),
 (3,'Compra'),
 (4,'Devolução Compra');
+
+insert into suporte_status(nome)
+values('Sem visualização'),
+('Visualizado pelo Suporte'),
+('Em andamento'),
+('Concluído');

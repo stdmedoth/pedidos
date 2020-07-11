@@ -3,7 +3,7 @@
 #define PASS "1234"
 #define DATABASE "erp"
 #ifdef WIN32
-#define CHROME_PATH     ""
+#define CHROME_PATH     "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\""
 #define FIREFOX_PATH    ""
 #define TEMA_PATH	  "/gtk/share/themes/"
 #define CT_CONF_PATH  "/petitto/files/criticas.conf"
@@ -240,6 +240,10 @@
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50
 #define MAX_LOG_DESC 2000
+#define MAX_POST_QNT 50
+
+#define MAX_SUP_TITLE_LEN 100
+#define MAX_SUP_DESC_LEN 1000
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

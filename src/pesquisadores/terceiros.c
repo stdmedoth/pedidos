@@ -200,7 +200,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_ter_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(cod_ter_entry);
-	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_ter_code),NULL);
+
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ter_code),treeview);
 	gtk_widget_show_all(psq_ter_wnd);
 	return 0;

@@ -1,8 +1,3 @@
-
-#include <stdio.h>
-#include <gtk/gtk.h>
-#include <time.h>
-
 static GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 static GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 static GtkWidget *janela_inicializacao;
@@ -54,6 +49,7 @@ int desktop()
 	GtkWidget *param_button;
 	GtkWidget *sair_button;
 	GtkWidget *logoff_button;
+	GtkWidget *suport_button;
 
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
 	GtkWidget *nivel_usuario_fixed ,*nivel_usuario_label;
@@ -78,6 +74,9 @@ int desktop()
 
 	logoff_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
+
+	suport_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("mail-send-receive",GTK_ICON_SIZE_DIALOG));
 
 	pegar_data();
 
@@ -245,7 +244,8 @@ int desktop()
 
 	gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,530);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,470);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,530);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,590);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,650);
 
@@ -253,6 +253,7 @@ int desktop()
 	gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
 
 	gtk_widget_set_size_request(barra,80,750);
 	gtk_widget_set_size_request(layout_barra,80,750);
@@ -283,6 +284,7 @@ int desktop()
 
 	g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
+	g_signal_connect(GTK_BUTTON(suport_button),"clicked",G_CALLBACK(suporte_princ_wnd),NULL);
 
 	g_signal_connect(GTK_BUTTON(logoff_button),"clicked",G_CALLBACK(fechar_sessao),NULL);
 

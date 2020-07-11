@@ -19,9 +19,8 @@ struct
 	int qnt_campos;
 	char nome[MAX_RELAT_NOME];
 	int status[MAX_RELAT_CAMPOS];
+}relat_struct;
 
-}
-relat_struct;
 static int relat_campo_atual=1;
 
 static int tabelas_bd_id=0;

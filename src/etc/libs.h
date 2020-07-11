@@ -56,6 +56,9 @@
 #include "../Relatorios/relatorios/terceiros/terceiros.h"
 #include "../Relatorios/relatorios/movimentos/movimentos.h"
 #include "../Relatorios/pesquisar/relat_ptabs.h"
+#include "../Suporte/suporte.h"
+#include "../Suporte/adicionar.h"
+#include "../Suporte/atualiza.h"
 
 #include "../Estoque/cadastro/conclui.h"
 #include "../Estoque/cadastro/cancela.h"
@@ -122,4 +125,8 @@
 #include "../Relatorios/pesquisar/relat_ptabs.c"
 #include "../Relatorios/relatorios/terceiros/terceiros.c"
 #include "../Relatorios/relatorios/movimentos/movimentos.c"
+#include "../Suporte/suporte.c"
+#include "../Suporte/adicionar.c"
+#include "../Suporte/atualiza.c"
+
 #include "../Canones/gerenciador_janelas.c"

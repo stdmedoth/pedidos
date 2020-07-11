@@ -140,7 +140,7 @@ int psq_oper(GtkWidget *button, GtkEntry *cod_oper_entry)
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_oper_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(cod_oper_entry);
-	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_oper_code),NULL);
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_oper_code),treeview);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_oper_code),treeview);
 	gtk_widget_show_all(psq_oper_wnd);
 	return 0;

@@ -157,7 +157,7 @@ int psq_cad_relat(GtkWidget *button, GtkEntry *cod_cad_relat_entry)
 	gtk_container_add(GTK_CONTAINER(psq_cad_relat_wnd),caixa_grande);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_cad_relat_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_cad_relat_entry);
-	//g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_cad_relat_code),treeview);
+
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_cad_relat_code),treeview);
 	gtk_widget_show_all(psq_cad_relat_wnd);
 	return 0;

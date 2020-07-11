@@ -36,7 +36,7 @@ int produto_ter()
 		return 1;
 	}
 
-	find_subgrupos_restrict->grupo = atoi(campos[0]);
+	find_subgrupos_restrict->grupo = 1;
 	find_subgrupos_restrict->posicao = 0;
 	find_subgrupos_restrict->entry = subgrp_ter_field;
 

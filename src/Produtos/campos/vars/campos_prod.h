@@ -11,6 +11,14 @@ static gchar *observacoes_prod=NULL;
 static GtkWidget *grupo_precos_tree;
 static GtkWidget *notebook_cad_prod;
 
+static int tipo_prod=0;
+static int tipo_class_prod=0;
+static char *data_alteracao_prod=NULL;
+static char *data_validade_prod=NULL;
+static int ativo_flag_prod=0;
+static float sld_min_lim_prod=0.0;
+static float sld_at_prod=0.0;
+
 static int grupo_nivel=0;
 static GtkWidget *atualiza_grupo_preco_button, *atualiza_grupo_preco_fixed;
 

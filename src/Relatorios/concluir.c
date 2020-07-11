@@ -2,22 +2,27 @@ int cad_relat_concluir()
 {
 	char list_campos[MAX_QUERY_LEN];
 	int cont=1;
-	
+
 	if(cad_relat_code()!=0)
 		return 1;
-	
+
 	if(cad_relat_nome()!=0)
 		return 1;
-	
+
 	if(cad_rel_tabel_fun()!=0)
 		return 1;
-	
+
 	if(relat_struct.qnt_campos==0)
 	{
 		popup(NULL,"Sem campos no relatorio");
 		return 1;
 	}
-	
+	else
+	if(relat_struct.qnt_campos==1){
+		popup(NULL,"Insira mais campos");
+		return 1;
+	}
+
 	while(cont<=MAX_RELAT_CAMPOS)
 	{
 		if(relat_struct.status[cont] == TRUE)
@@ -50,7 +55,7 @@ int cad_relat_concluir()
 						cad_rel_nome_gchar,
 						cad_rel_tabel_int,
 						relat_struct.campos_code[cont]);
-					}	
+					}
 				}
 			}
 			if(enviar_query(list_campos)!=0)
