@@ -76,7 +76,7 @@ int desktop()
 	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
 
 	suport_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("mail-send-receive",GTK_ICON_SIZE_DIALOG));
+	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("emblem-important",GTK_ICON_SIZE_DIALOG));
 
 	pegar_data();
 
@@ -244,8 +244,8 @@ int desktop()
 
 	gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,470);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,530);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,470);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,530);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,590);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,650);
 
@@ -354,7 +354,7 @@ int init()
 	{
 		sessao_oper.code = 1;
 		sessao_oper.nivel = 3;
-
+		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()!=0)
 		{
 			popup(NULL,"Erro na inicializacao");

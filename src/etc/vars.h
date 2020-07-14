@@ -3,8 +3,6 @@
 #define PASS "1234"
 #define DATABASE "erp"
 #ifdef WIN32
-#define CHROME_PATH     "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\""
-#define FIREFOX_PATH    ""
 #define TEMA_PATH	  "/gtk/share/themes/"
 #define CT_CONF_PATH  "/petitto/files/criticas.conf"
 #define ORC_PATH      "/petitto/files/impressao/"
@@ -93,8 +91,6 @@
 #define COPY_PROG     "/usr/bin/cp"
 #define IMP_PORT1     "/usr/share/petitto/files/impressao/linux_print_emulator1/"
 #define IMP_PORT2     "/usr/share/petitto/files/impressao/linux_print_emulator2/"
-#define CHROME_PATH   "/bin/chromium"
-#define FIREFOX_PATH  "/bin/firefox"
 #define CT_CONF_PATH  "/usr/share/petitto/files/criticas.conf"
 #define ORC_PATH 	  "/usr/share/petitto/files/impressao/"
 #define DESKTOP_STYLE "/usr/share/petitto/files/desktop/style.css"
@@ -179,7 +175,7 @@
 
 #define MAX_TEMA_LEN 50
 #define MAX_TEMA_QNT 50
-#define MAX_PATH_LEN 500
+#define MAX_PATH_LEN 1000
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
 #define MAX_PROD 400
@@ -240,10 +236,12 @@
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50
 #define MAX_LOG_DESC 2000
-#define MAX_POST_QNT 50
 
+#define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100
 #define MAX_SUP_DESC_LEN 1000
+#define MAX_SUP_STATUS_LEN 50
+#define MAX_SUP_TIPO_LEN 50
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

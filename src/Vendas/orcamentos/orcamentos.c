@@ -1,6 +1,20 @@
 #include "campos.h"
 #include <time.h>
 
+
+void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
+
+	if(movendo_scroll>1)
+		return ;
+
+	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
+	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+	movendo_scroll++;
+	
+	return ;
+
+}
+
 int gerar_total_geral()
 {
 	char *muda_label;
@@ -104,17 +118,13 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	return 0;
 }
 
-void mover_scroll(){
-
-	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(prod_scroll_window));
-	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-}
 
 int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
 	GtkWidget *subgrp_prod_orc_img;
 	char *query;
+	movendo_scroll=0;
 	if(alterando_orc==0)
 	{
 		if(codigo_orc()!=0)
@@ -374,14 +384,15 @@ int adicionar_linha_orc()
 	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 
-
 	g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(tipodesconto_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[itens_qnt]);
 	#pragma GCC diagnostic warning "-Wint-conversion"
+
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
+	g_signal_connect(prod_scroll_window,"size-allocate",G_CALLBACK(mover_orc_scroll),prod_scroll_window);
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 
@@ -903,9 +914,8 @@ int vnd_orc()
 
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
-	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 
-	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(mover_scroll),NULL);
+	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 

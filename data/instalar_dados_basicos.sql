@@ -42,13 +42,6 @@ insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) valu
 (3,1,1,1),
 (3,1,1,1);
 
-insert into unidades (nome, sigla, multiplo, medida)
-values ('Folhas','Folhas', 1, 5),
-('Fardo','Fardo', 15, 5),
-('Metro','Pct', 20, 4),
-('Unidade','UND', 1, 4),
-('Caixa','CX', 10, 4);
-
 insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');
@@ -58,9 +51,3 @@ insert into tipo_movimentos(code, nome) values
 (2,'Devolução Venda'),
 (3,'Compra'),
 (4,'Devolução Compra');
-
-insert into suporte_status(nome)
-values('Sem visualização'),
-('Visualizado pelo Suporte'),
-('Em andamento'),
-('Concluído');

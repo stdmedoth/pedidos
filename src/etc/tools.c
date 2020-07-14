@@ -1,10 +1,11 @@
 #define QUERY_LEN 1000
 #define RANDOM_STRING_SIZE 10
-int NAVEGATOR_SELECT = 1;
 static int logging = 0;
 
-#define BROTHER_IMP 1
-#define SAMSUNG_IMP 2
+#define IMP_PATH1 1
+#define IMP_PATH2 2
+#define IMP_PATH3 3
+
 #define PDF_IMP 3
 #define HTML_IMP 4
 
@@ -20,14 +21,27 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+void mover_scroll(GtkWidget *widget, GtkWidget *scroll_window){
+
+	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
+	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+	return ;
+
+}
+
+void get_filename_to_entry(GtkFileChooserButton *fchooser, GtkEntry *entry){
+		gtk_entry_set_text(entry,gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fchooser)));
+}
+
 void encerrando()
 {
 	char *enc_infos;
 	enc_infos = malloc(MAX_LOG_DESC);
 	//enviar aqui todas informacoes importantes para o banco
-	sprintf(enc_infos,"Finalizando aplicacao");
-	autologger(enc_infos);
 
+	//sprintf(enc_infos,"Finalizando aplicacao");
+
+	//autologger(enc_infos);
 
 	gtk_main_quit();
 	return ;
@@ -46,44 +60,60 @@ static void popup(GtkWidget *widget,gchar *string);
 
 int iniciar_impressao(char *gerado)
 {
-	if(imp_opc==BROTHER_IMP){
-		GError *erro=NULL;
-		GSubprocess *processo=NULL;
 
-		processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,IMP_PORT1,NULL);
+	GError *erro=NULL;
+	GSubprocess *processo=NULL;
 
-		if(!processo)
-		{
-			popup(NULL,"Não foi possivel enviar documento");
-			autologger(erro->message);
-			return 1;
-		}
+	switch (imp_opc)
+	{
+
+		case IMP_PATH1:
+
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path1,NULL);
+
+			if(!processo)
+			{
+				popup(NULL,"Não foi possivel enviar documento");
+				autologger(erro->message);
+				return 1;
+			}
+			break;
+
+		case IMP_PATH2:
+
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path2,NULL);
+
+			if(!processo)
+			{
+				popup(NULL,"Não foi possivel enviar documento");
+				autologger(erro->message);
+				return 1;
+			}
+			break;
+
+		case IMP_PATH3:
+
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path3,NULL);
+
+			if(!processo)
+			{
+				popup(NULL,"Não foi possivel enviar documento");
+				autologger(erro->message);
+				return 1;
+			}
+			break;
 	}
-
-	if(imp_opc==SAMSUNG_IMP){
-		GError *erro=NULL;
-		GSubprocess *processo=NULL;
-
-		processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,IMP_PORT2,NULL);
-
-		if(!processo)
-		{
-			popup(NULL,"Não foi possivel enviar documento");
-			autologger(erro->message);
-			return 1;
-		}
-	}
-
 
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
+
 		GError *erro=NULL;
 		GSubprocess *processo=NULL;
 
-		if(NAVEGATOR_SELECT == 1)
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,CHROME_PATH,gerado,NULL);
+		if(navegadores.navegador_pdr == 1)
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path1,gerado,NULL);
 
-		if(NAVEGATOR_SELECT == 2)
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,FIREFOX_PATH,gerado,NULL);
+		if(navegadores.navegador_pdr == 2)
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path2,gerado,NULL);
 
 		if(!processo)
 		{
@@ -126,14 +156,15 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 {
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio1)))
 	{
-		imp_opc = BROTHER_IMP;
+		imp_opc = IMP_PATH1;
 		desenhar_pdf(gerando_file);
 	}
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio2)))
 	{
-		imp_opc = SAMSUNG_IMP;
+		imp_opc = IMP_PATH2;
 		desenhar_pdf(gerando_file);
 	}
+
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio3)))
 	{
 		imp_opc = PDF_IMP;
@@ -145,6 +176,7 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 		iniciar_impressao(gerando_file);
 	}
 	close_window_callback(NULL,(gpointer)print_janela);
+
 	return 0;
 }
 
@@ -217,12 +249,14 @@ int autologger(char *string)
 	string1 = malloc(MAX_QUERY_LEN+strlen(string));
 	string2 = malloc(MAX_QUERY_LEN+strlen(string));
 
-	sprintf(string1,"%s\n",string);
+	sprintf(string1,"%s",string);
 
-	for(int cont=0;cont<strlen(string1);cont++)
+	for(int cont=0;cont<strlen(string1);cont++){
 		if(string1[cont] == '\n')
 			string1[cont] = ' ';
-
+		if(string1[cont] == '\0' || string1[cont] == -1)
+			break;
+	}
 	unvulned_query = malloc(strlen(string1)*2);
 
 	if(primeira_conexao!=0)
@@ -234,7 +268,7 @@ int autologger(char *string)
 		string2[MAX_LOG_DESC] = '\0';
 
 	if(enviar_query(string2)!=0)
-		g_print("Log não pode ser enviado\n");
+		g_print("Log não pode ser enviado\n%s\n",string2);
 
 	logging = 0;
 	return 0;
@@ -299,7 +333,9 @@ MYSQL_RES *consultar(char *query)
 		}
 		primeira_conexao=1;
 	}
-
+	#ifdef QUERY_DEBUG
+	g_print("%s\n",query);
+	#endif
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
@@ -338,7 +374,6 @@ int enviar_query(char *query)
 		}
 		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
 		{
-
 			popup(NULL,"Não foi possivel conectar ao servidor");
 
 			if(logging == 0){
@@ -355,6 +390,9 @@ int enviar_query(char *query)
 		}
 	}
 
+	#ifdef QUERY_DEBUG
+	g_print("%s\n",query);
+	#endif
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

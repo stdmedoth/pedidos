@@ -12,6 +12,8 @@ drop table if exists preco_cliente;
 drop table if exists preco_grupo;
 drop table if exists precos;
 drop table if exists tipo_movimentos;
+drop table if exists suporte_posts;
+drop table if exists suporte_status;
 drop table if exists operadores;
 drop table if exists empresa;
 drop table if exists perfil_desktop;
@@ -22,6 +24,15 @@ drop table if exists grupos;
 drop table if exists unidades;
 drop table if exists terceiros;
 drop table if exists logs;
+drop table if exists confs;
+
+create table if not exists confs(  code int primary key,
+  navegador_path1 varchar(1000) default '' not null,
+  navegador_path2 varchar(1000) default '' not null,
+  navegador_pdr int default 1 not null,
+  imp_path1 varchar(1000) default '' not null,
+  imp_path2 varchar(1000) default '' not null,
+  imp_path3 varchar(1000) default '' not null);
 
 create table if not exists tipo_movimentos( code int primary key,
   nome varchar(40) default 'TipoMovimentoSemNome'

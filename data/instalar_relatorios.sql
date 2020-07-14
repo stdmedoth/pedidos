@@ -60,9 +60,9 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),
 (1, 'Nome',  'Visualizar nome do produto', 'p.nome ',1),
 (1, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
-(1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',3),
-(1, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome',3),
-(1, 'Fornecedor', 'Terceiro fornecedor do produto', 't.razao',2),
+(1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),
+(1, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome',1),
+(1, 'Fornecedor', 'Terceiro fornecedor do produto', 't.razao',1),
 (1, 'Grupo', 'Grupo vinculado ao produto', 'g.nome',1),
 (1, 'Nivel Grupo', 'Nivel do grupo vinculado (Não utilizado)', 'p.grupo_nivel',2),
 (1, 'Observações', 'Observações do produto', 'observacoes',1);

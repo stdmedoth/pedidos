@@ -5,6 +5,8 @@ GtkWidget **campos_de_critica;
 
 //combo_box de produtos
 GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
+GtkWidget *tecn_param_nav_path1_entry, *tecn_param_nav_path2_entry, *tecn_param_nav_choose1_radio, *tecn_param_nav_choose2_radio;
+GtkWidget *tecn_param_imp_path1_entry, *tecn_param_imp_path2_entry, *tecn_param_imp_path3_entry;
 
 //quantidade de flags/aba
 const int ter_critic_campos_qnt=13,
@@ -113,6 +115,18 @@ char *critica_campos[] =
 	"orc_prod_saldo_limite",
 	"orc_ped_cancelado"
 };
+
+static struct {
+	int navegador_pdr;
+	gchar navegador_path1[MAX_PATH_LEN];
+	gchar navegador_path2[MAX_PATH_LEN];
+}navegadores;
+
+static struct {
+	gchar imp_path1[MAX_PATH_LEN];
+	gchar imp_path2[MAX_PATH_LEN];
+	gchar imp_path3[MAX_PATH_LEN];
+}impressoras;
 
 char *desktop_images_vet[] =
 {

@@ -1,10 +1,12 @@
 
+
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
 	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
+
 	return 0;
 }
 
@@ -298,8 +300,14 @@ int parametrizar()
 	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
-
-	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box, *outros_box;
+	GtkWidget *tecn_caminhos_box, *tecn_caminhos_frame, *tecn_caminhos_fixed;
+	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box, *gerencial_box, *tecnico_box, *outros_box;
+	GtkWidget *tecn_param_nav_path1_frame, *tecn_param_nav_path2_frame, *tecn_param_nav_choose_frame;
+	GtkWidget *tecn_param_imp_path1_frame, *tecn_param_imp_path2_frame, *tecn_param_imp_path3_frame;
+	GtkWidget *tecn_param_nav_path1_box, *tecn_param_nav_path2_box, *tecn_param_nav_choose_box;
+	GtkWidget *tecn_param_imp_path1_box, *tecn_param_imp_path2_box, *tecn_param_imp_path3_box;
+	GtkWidget *tecn_param_nav_path1_fchoose, *tecn_param_nav_path2_fchoose, *tecn_param_nav_choose_fchoose;
+	GtkWidget *tecn_param_imp_path1_fchoose, *tecn_param_imp_path2_fchoose, *tecn_param_imp_path3_fchoose;
 
 	GtkWidget *opcoes_box;
 
@@ -391,7 +399,97 @@ int parametrizar()
 	terc_box = gtk_box_new(1,0);
 	prod_box = gtk_box_new(1,0);
 	orc_box = gtk_box_new(1,0);
+	gerencial_box = gtk_box_new(1,0);
+	tecnico_box = gtk_box_new(1,0);
 	outros_box = gtk_box_new(1,0);
+
+	tecn_param_nav_choose1_radio = gtk_radio_button_new_with_label(NULL,"Escolher como padrão");
+	tecn_param_nav_choose2_radio = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(tecn_param_nav_choose1_radio),"Escolher como padrão");
+
+	tecn_param_nav_path1_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(tecn_param_nav_path1_entry),50);
+	tecn_param_nav_path2_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(tecn_param_nav_path2_entry),50);
+
+	tecn_param_imp_path1_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(tecn_param_imp_path1_entry),50);
+	tecn_param_imp_path2_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(tecn_param_imp_path2_entry),50);
+	tecn_param_imp_path3_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(tecn_param_imp_path3_entry),50);
+
+	tecn_param_nav_path1_frame = gtk_frame_new("navegador 1");
+	tecn_param_nav_path2_frame = gtk_frame_new("navegador 2");
+
+	tecn_param_imp_path1_frame = gtk_frame_new("Impressora 1");
+	tecn_param_imp_path2_frame = gtk_frame_new("Impressora 2");
+	tecn_param_imp_path3_frame = gtk_frame_new("Impressora 3");
+
+	tecn_param_nav_path1_box = gtk_box_new(0,0);
+	tecn_param_nav_path2_box = gtk_box_new(0,0);
+
+	tecn_param_imp_path1_box = gtk_box_new(0,0);
+	tecn_param_imp_path2_box = gtk_box_new(0,0);
+	tecn_param_imp_path3_box = gtk_box_new(0,0);
+
+	tecn_param_nav_path1_fchoose = gtk_file_chooser_button_new("Escolher Impressora 1",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_nav_path2_fchoose = gtk_file_chooser_button_new("Escolher Impressora 2",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+
+	tecn_param_imp_path1_fchoose = gtk_file_chooser_button_new("Escolher Nav. 1",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_imp_path2_fchoose = gtk_file_chooser_button_new("Escolher Nav. 2",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_imp_path3_fchoose = gtk_file_chooser_button_new("Escolher Nav. 3",GTK_FILE_CHOOSER_ACTION_OPEN);
+
+	tecn_param_nav_path1_box = gtk_box_new(0,0);
+	tecn_param_nav_path2_box = gtk_box_new(0,0);
+
+	tecn_param_imp_path1_box = gtk_box_new(0,0);
+	tecn_param_imp_path2_box = gtk_box_new(0,0);
+	tecn_param_imp_path3_box = gtk_box_new(0,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path1_box),tecn_param_nav_path1_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path1_box),tecn_param_nav_path1_fchoose,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path1_box),tecn_param_nav_choose1_radio,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path2_box),tecn_param_nav_path2_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path2_box),tecn_param_nav_path2_fchoose,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_nav_path2_box),tecn_param_nav_choose2_radio,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path1_box),tecn_param_imp_path1_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path1_box),tecn_param_imp_path1_fchoose,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path2_box),tecn_param_imp_path2_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path2_box),tecn_param_imp_path2_fchoose,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path3_box),tecn_param_imp_path3_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tecn_param_imp_path3_box),tecn_param_imp_path3_fchoose,0,0,0);
+
+	gtk_container_add(GTK_CONTAINER(tecn_param_nav_path1_frame),tecn_param_nav_path1_box);
+	gtk_container_add(GTK_CONTAINER(tecn_param_nav_path2_frame),tecn_param_nav_path2_box);
+
+	gtk_container_add(GTK_CONTAINER(tecn_param_imp_path1_frame),tecn_param_imp_path1_box);
+	gtk_container_add(GTK_CONTAINER(tecn_param_imp_path2_frame),tecn_param_imp_path2_box);
+	gtk_container_add(GTK_CONTAINER(tecn_param_imp_path3_frame),tecn_param_imp_path3_box);
+
+	g_signal_connect(tecn_param_nav_path1_fchoose,"file-set",G_CALLBACK(get_filename_to_entry),tecn_param_nav_path1_entry);
+	g_signal_connect(tecn_param_nav_path2_fchoose,"file-set",G_CALLBACK(get_filename_to_entry),tecn_param_nav_path2_entry);
+
+	g_signal_connect(tecn_param_imp_path1_fchoose,"file-set",G_CALLBACK(get_filename_to_entry),tecn_param_imp_path1_entry);
+	g_signal_connect(tecn_param_imp_path2_fchoose,"file-set",G_CALLBACK(get_filename_to_entry),tecn_param_imp_path2_entry);
+	g_signal_connect(tecn_param_imp_path3_fchoose,"file-set",G_CALLBACK(get_filename_to_entry),tecn_param_imp_path3_entry);
+
+	tecn_caminhos_box = gtk_box_new(1,0);
+	tecn_caminhos_frame = gtk_frame_new("Caminhos");
+	tecn_caminhos_fixed = gtk_fixed_new();
+
+	gtk_box_pack_start(GTK_BOX(tecn_caminhos_box),tecn_param_nav_path1_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(tecn_caminhos_box),tecn_param_nav_path2_frame,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(tecn_caminhos_box),tecn_param_imp_path1_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(tecn_caminhos_box),tecn_param_imp_path2_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(tecn_caminhos_box),tecn_param_imp_path3_frame,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(tecn_caminhos_frame),tecn_caminhos_box);
+	gtk_fixed_put(GTK_FIXED(tecn_caminhos_fixed),tecn_caminhos_frame,20,20);
 
 	gtk_widget_set_size_request(geral_box,580,400);
 
@@ -428,6 +526,19 @@ int parametrizar()
 
 		cont++;
 	}
+	sprintf(query,"select * from confs");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro consultando configurações técnicas");
+		return 1;
+	}
+	cont=0;
+
+	while((row=mysql_fetch_row(res))!=NULL)
+	{
+
+		cont++;
+	}
 
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
 
@@ -437,13 +548,18 @@ int parametrizar()
 
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_criticas_frame,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(outros_box),janela_init,0,0,5);
+	gtk_box_pack_start(GTK_BOX(tecnico_box),tecn_caminhos_fixed,0,0,10);
+
+	gtk_box_pack_start(GTK_BOX(gerencial_box),janela_init,0,0,5);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),geral_box,gtk_label_new("Geral"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),terc_box,gtk_label_new("Terceiros"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),prod_box,gtk_label_new("Produtos"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),orc_box,gtk_label_new("Orçamentos"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),outros_box,gtk_label_new("Gerencial"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),gerencial_box,gtk_label_new("Gerencial"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),tecnico_box,gtk_label_new("Técnico"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),outros_box,gtk_label_new("Outros"));
+
 	if(sessao_oper.nivel < NIVEL_GERENCIAL_CODE)
 		gtk_widget_set_sensitive(outros_box,FALSE);
 
