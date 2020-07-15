@@ -1,5 +1,5 @@
 <div align="center">
-<h1>ERP Petitto</h1>
+<h1>Sistema de Pedidos</h1>
 Este Programa está em fase de desenvolvimento<br>
 Sendo criado usando linguagem C, com Mysql API e GTK3.0<br>
 
