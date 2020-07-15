@@ -53,9 +53,8 @@ static int gerar_total_geral()
 int tirar_linha(int id_ponteiro)
 {
 	if(ativos[id_ponteiro].id == 1){
-		if(GTK_IS_WIDGET(linhas_prod_orc_frame[id_ponteiro])){
+			g_object_ref(linhas_prod_orc_frame[id_ponteiro]);
 			gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
-		}
 	}
 
 	ativos[id_ponteiro].id = 0;
@@ -99,9 +98,10 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 		}
 	}
 
-	if(ativos[id_ponteiro].id == 1)
+	if(ativos[id_ponteiro].id == 1){
 		gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
-
+		g_object_ref(linhas_prod_orc_frame[id_ponteiro]);
+	}
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
 	ativos_qnt--;
@@ -125,6 +125,7 @@ static int adicionar_linha_orc()
 	GtkWidget *subgrp_prod_orc_img;
 	char *query;
 	movendo_scroll=0;
+	
 	if(alterando_orc==0)
 	{
 		if(codigo_orc()!=0)
@@ -261,6 +262,7 @@ static int adicionar_linha_orc()
 
 	if(GTK_IS_WIDGET(botao_orc_mais))
 	{
+		g_object_ref(botao_orc_mais);
 		gtk_widget_destroy(botao_orc_mais);
 	}
 
