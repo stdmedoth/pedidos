@@ -293,6 +293,7 @@ int desktop()
 	gtk_widget_show_all(janela_principal);
 
 	configurar_parametros();
+	
 	iniciar_gerenciador_janela();
 
 	gtk_widget_hide(lista_abas);

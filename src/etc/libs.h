@@ -2,6 +2,7 @@
 #include "vars.h"
 #include "stoi.h"
 
+#include "../Canones/gerenciador_janelas.h"
 #include "parametros.h"
 #include "operadores.h"
 
@@ -64,8 +65,6 @@
 #include "../Estoque/cadastro/cancela.h"
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
-
-#include "../Canones/gerenciador_janelas.h"
 
 #include "operadores.c"
 #include "../pesquisadores/grupos.c"

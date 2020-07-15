@@ -24,27 +24,20 @@ static int tirar_linha(int);
 static int vnd_orc();
 static int alterando_orc=0;
 static int concluindo_orc=0;
-static int aviso_estoque[MAX_PROD_ORC];
+static int copiando_orc=0;
+static int aviso_estoque[MAX_PROD_ORC+1];
 
 static int movendo_scroll=0;
 static int adicionando_linha_ignore=0;
-
-int inicializar_orc()
-{
-	int cont;
-	for(cont=0;cont<=CAMPOS_QNT;cont++)
-		vet_erro[cont] = 0;
-	return 0;
-}
 
 static int pag_cond=0, tipo_pag=0, display=1;
 
 static int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
 
-int preco_prod_orc(GtkWidget *widget,int posicao);
-int preco_alterado[MAX_PROD], valor_orig[MAX_PROD];
-int pressionado=0;
+static int preco_prod_orc(GtkWidget *widget,int posicao);
+static int preco_alterado[MAX_PROD+1], valor_orig[MAX_PROD+1];
+static int pressionado=0;
 static int ativos_qnt=1;
 
 static float total_geral_orc =0 ;
@@ -59,7 +52,7 @@ gchar *orc_pag_cond_gchar;
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
 
-static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button;
+static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button, *copia_orc_button;
 static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
 static GtkWidget *caixa_opcoes_orc;
 //  GCHAR
@@ -81,7 +74,7 @@ static gchar *codigo_prod_orc_gchar,
 *desconto_prod_orc_gchar,
 *total_prod_orc_gchar;
 
-int gerar_total_geral();
+static int gerar_total_geral();
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
@@ -148,15 +141,15 @@ static GtkWidget *prod_scroll_window,*prod_scroll_box;
 static GtkWidget *img_botao_orc_mais,**img_botao_menos;
 
 static int cont;
-int adicionar_linha_orc();
+static int adicionar_linha_orc();
 static GtkWidget *observacoes_orc,*buffer_orc;
 
 //Botoes
 static GtkWidget *botao_orc_mais,**botao_menos;
 
-static int produto_inserido[MAX_PROD_ORC];
+static int produto_inserido[MAX_PROD_ORC+1];
 static int itens_qnt=1;
-int id_vetor[MAX_PROD_ORC];
+int id_vetor[MAX_PROD_ORC+1];
 
 static struct itens_struct
 {
@@ -175,8 +168,8 @@ static struct itens_struct
 	char desconto_c[MAX_PRECO_LEN];
 	char total_c[MAX_PRECO_LEN];
 	char origem_preco[15];
-}ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
+}ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
 
-GtkTextBuffer  **obs_prod_orc_buffer;
-GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
-gchar **obs_prod_orc_gchar;
+static GtkTextBuffer  **obs_prod_orc_buffer;
+static GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
+static gchar **obs_prod_orc_gchar;

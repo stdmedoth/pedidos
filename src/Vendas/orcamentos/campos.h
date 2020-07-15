@@ -14,4 +14,5 @@
 #include "cancelar.c"
 #include "alterar.c"
 #include "concluir.c"
+#include "copia.c"
 #include "gerar.c"

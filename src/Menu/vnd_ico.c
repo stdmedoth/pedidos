@@ -35,10 +35,8 @@ int vnd_ico(void)
 
 
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(vnd_orc),NULL);
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_orc),NULL);
 
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(vnd_ped),NULL);
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_ped),NULL);
 
 	return 0;
 }

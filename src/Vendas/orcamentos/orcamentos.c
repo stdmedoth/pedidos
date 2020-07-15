@@ -10,19 +10,19 @@ void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_w
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
 	movendo_scroll++;
-	
+
 	return ;
 
 }
 
-int gerar_total_geral()
+static int gerar_total_geral()
 {
 	char *muda_label;
 	total_geral_orc = 0;
 	desconto_geral_orc = 0 ;
 
 	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*2);
-	for(cont=1;cont<MAX_PROD_ORC;cont++)
+	for(cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id == 1)
 		{
@@ -75,7 +75,7 @@ int tirar_linha(int id_ponteiro)
 	return 0;
 }
 
-int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
+static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
 	int erro;
 	char *query;
@@ -119,7 +119,7 @@ int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 }
 
 
-int adicionar_linha_orc()
+static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
 	GtkWidget *subgrp_prod_orc_img;
@@ -424,7 +424,6 @@ int vnd_orc()
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer = janela_orcamento;
 
-
 	alerta_obs = 0;
 	pag_cond = 0;
 	tipo_pag = 0;
@@ -433,6 +432,8 @@ int vnd_orc()
 	ativos_qnt=1;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
+	concluindo_orc=0;
+	copiando_orc=0;
 
 	orc_notebook = gtk_notebook_new();
 
@@ -453,9 +454,11 @@ int vnd_orc()
 
 	codigo_orc_label = gtk_label_new("Orçamento:");
 	codigo_orc_entry = gtk_entry_new();
+	copia_orc_button = gtk_button_new();
 	pesquisa_orc = gtk_button_new();
 	img_pesquisa_orc = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(pesquisa_orc),img_pesquisa_orc);
+	gtk_button_set_image(GTK_BUTTON(copia_orc_button),gtk_image_new_from_icon_name("edit-copy",GTK_ICON_SIZE_SMALL_TOOLBAR));
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	codigo_orc_box = gtk_box_new(0,0);
@@ -463,6 +466,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(codigo_orc_box),codigo_orc_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(codigo_orc_box),codigo_orc_entry,0,0,5);
 	gtk_box_pack_start(GTK_BOX(codigo_orc_box),pesquisa_orc,0,0,5);
+	gtk_box_pack_start(GTK_BOX(codigo_orc_box),copia_orc_button,0,0,5);
 	gtk_entry_set_width_chars(GTK_ENTRY(codigo_orc_entry),8);
 	gtk_container_add(GTK_CONTAINER(codigo_orc_frame),codigo_orc_box);
 
@@ -577,7 +581,6 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_d,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_e,0,0,0);
 
-
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 
 	codigo_orc_prod_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
@@ -685,7 +688,7 @@ int vnd_orc()
 
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 
-	for(int pos=1;pos<MAX_PROD_ORC;pos++)
+	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
 	{
 		id_vetor[pos] = 0;
 		ativos[pos].id = 0;
@@ -696,195 +699,7 @@ int vnd_orc()
 		aviso_estoque[pos] = 0;
 	}
 
-	for(cont=1;cont<=PROD_LINHAS_ORC;cont++)
-	{
-		sprintf(item_frame_char,"Item %i",cont);
-		linhas_prod_orc_frame[cont] =  gtk_frame_new(item_frame_char);
-		gtk_widget_set_name(linhas_prod_orc_frame[cont],"frame2");
-		linhas_prod_orc_box[cont] = gtk_box_new(0,0);
-		linhas2_prod_orc_box[cont] = gtk_box_new(0,0);
-		juncao_linha_prod_orc_box[cont] = gtk_box_new(1,0);
-		preco_alterado[cont] = 0;
-		valor_orig[cont] = 0;
-		codigo_prod_orc_label[cont] = gtk_label_new("Cód");
-		codigo_prod_orc_entry[cont] = gtk_entry_new();
-
-		codigo_orc_prod_box[cont] = gtk_box_new(0,0);
-
-		subgrp_prod_orc_box[cont] = gtk_box_new(0,0);
-		subgrp_prod_orc_frame[cont] = gtk_frame_new("Subgrupo");
-		subgrp_prod_orc_entry[cont] = gtk_entry_new();
-		subgrp_prod_orc_cod_entry[cont] =  gtk_entry_new();
-		subgrp_prod_orc_button[cont] = gtk_button_new();
-		subgrp_prod_orc_img = gtk_image_new_from_file(IMG_PESQ);
-
-		codigo_prod_orc_frame[cont] = gtk_frame_new("Código Produto");
-		desconto_prod_orc_frame[cont] = gtk_frame_new("Desconto");
-		desconto_prod_orc_box[cont] = gtk_box_new(0,0);
-
-		preco_prod_orc_frame[cont] = gtk_frame_new("Preço");
-		preco_prod_orc_box[cont] = gtk_box_new(0,0);
-
-		qnt_prod_orc_frame[cont] = gtk_frame_new("Unidades:");
-		qnt_prod_orc_box[cont] = gtk_box_new(0,0);
-
-		gtk_button_set_image(GTK_BUTTON(subgrp_prod_orc_button[cont]),subgrp_prod_orc_img);
-
-		pesquisa_prod[cont] = gtk_button_new();
-		img_pesquisa_prod[cont] = gtk_image_new_from_file(IMG_PESQ);
-		gtk_button_set_image(GTK_BUTTON(pesquisa_prod[cont]),img_pesquisa_prod[cont]);
-
-		descricao_prod_orc_label[cont] = gtk_label_new("Descr.");
-		descricao_prod_orc_entry[cont] = gtk_entry_new();
-		qnt_prod_orc_label[cont] = gtk_label_new("Qnt:");
-		qnt_prod_orc_entry[cont] = gtk_entry_new();
-		preco_prod_orc_label[cont] = gtk_label_new("Vlr:");
-		preco_prod_orc_entry[cont] =  gtk_entry_new();
-
-		obs_prod_orc_gchar[cont] = malloc(MAX_OBS_LEN);
-
-		orig_preco_prod_orc_combo[cont] = gtk_combo_box_text_new();
-		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[cont]),0,"Origem");
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[cont]),"Tabela");
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[cont]),"Cliente");
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[cont]),"Operador");
-		gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[cont]),0);
-
-		tipodesconto_prod_orc_combo[cont] = gtk_combo_box_text_new();
-		desconto_prod_orc_label[cont] = gtk_label_new("Desconto");
-		desconto_prod_orc_entry[cont] = gtk_entry_new();
-		total_prod_orc_label[cont] = gtk_label_new("Total");
-		total_prod_orc_entry[cont] = gtk_entry_new();
-		img_botao_menos[cont] = gtk_image_new_from_file(IMG_MENOS);
-		botao_menos[cont] = gtk_button_new();
-		gtk_button_set_image(GTK_BUTTON(botao_menos[cont]),img_botao_menos[cont]);
-
-		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[cont]),"0","R$");
-		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[cont]),"1","%");
-		gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[cont]),1);
-
-		//gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),codigo_prod_orc_label[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),codigo_prod_orc_entry[cont],0,0,2);
-		gtk_entry_set_width_chars(GTK_ENTRY(codigo_prod_orc_entry[cont]),5);
-		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),pesquisa_prod[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[cont]),descricao_prod_orc_entry[cont],0,0,2);
-		gtk_widget_set_sensitive(descricao_prod_orc_entry[cont],FALSE);
-
-		obs_prod_orc_view[cont] = gtk_text_view_new();
-		obs_prod_orc_frame[cont] = gtk_frame_new("Observações");
-		obs_prod_orc_scroll[cont] = gtk_scrolled_window_new(NULL,NULL);
-		obs_prod_orc_fixed[cont] = gtk_fixed_new();
-		gtk_container_add(GTK_CONTAINER(obs_prod_orc_scroll[cont]),obs_prod_orc_view[cont]);
-		gtk_container_add(GTK_CONTAINER(obs_prod_orc_frame[cont]),obs_prod_orc_scroll[cont]);
-		gtk_fixed_put(GTK_FIXED(obs_prod_orc_fixed[cont]),obs_prod_orc_frame[cont],10,0);
-
-		gtk_widget_set_size_request(obs_prod_orc_scroll[cont],500,30);
-		gtk_widget_set_size_request(obs_prod_orc_view[cont],500,30);
-
-
-		gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[cont]),codigo_orc_prod_box[cont]);
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),codigo_prod_orc_frame[cont],0,0,15);
-
-		gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[cont]),subgrp_prod_orc_cod_entry[cont],0,0,2);
-
-		gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[cont]),subgrp_prod_orc_button[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[cont]),subgrp_prod_orc_entry[cont],0,0,2);
-		gtk_container_add(GTK_CONTAINER(subgrp_prod_orc_frame[cont]),subgrp_prod_orc_box[cont]);
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),subgrp_prod_orc_frame[cont],0,0,2);
-		gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[cont]),"Código Subrupo");
-		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[cont]),5);
-		gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_entry[cont]),"Código Subrupo");
-		gtk_widget_set_sensitive(subgrp_prod_orc_entry[cont],FALSE);
-		gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[cont]),30);
-
-
-		gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[cont]),qnt_prod_orc_label[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[cont]),qnt_prod_orc_entry[cont],0,0,2);
-		gtk_container_add(GTK_CONTAINER(qnt_prod_orc_frame[cont]),qnt_prod_orc_box[cont]);
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),qnt_prod_orc_frame[cont],0,0,2);
-		gtk_entry_set_width_chars(GTK_ENTRY(qnt_prod_orc_entry[cont]),5);
-
-		gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[cont]),orig_preco_prod_orc_combo[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[cont]),preco_prod_orc_label[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[cont]),preco_prod_orc_entry[cont],0,0,2);
-		gtk_container_add(GTK_CONTAINER(preco_prod_orc_frame[cont]),preco_prod_orc_box[cont]);
-		gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[cont]),8);
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),preco_prod_orc_frame[cont],0,0,2);
-		gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_orc_entry[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
-
-		//gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_label[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),desconto_prod_orc_entry[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[cont]),tipodesconto_prod_orc_combo[cont],0,0,2);
-		gtk_container_add(GTK_CONTAINER(desconto_prod_orc_frame[cont]),desconto_prod_orc_box[cont]);
-		gtk_entry_set_width_chars(GTK_ENTRY(desconto_prod_orc_entry[cont]),4);
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),desconto_prod_orc_frame[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(linhas2_prod_orc_box[cont]),obs_prod_orc_fixed[cont],0,0,2);
-
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),total_prod_orc_label[cont],0,0,2);
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),total_prod_orc_entry[cont],0,0,2);
-
-		gtk_entry_set_width_chars(GTK_ENTRY(total_prod_orc_entry[cont]),8);
-
-		gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),botao_menos[cont],0,0,2);
-
-		id_vetor[cont] = cont;
-		ativos[cont].id = 1;
-		excluidos[cont].id = 0;
-
-		#pragma GCC diagnostic ignored "-Wint-conversion"
-		g_signal_connect(botao_menos[cont],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[cont]);
-		g_signal_connect(codigo_prod_orc_entry[cont],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[cont]);
-
-		find_subgrupos_restrict->grupo = 1;
-		find_subgrupos_restrict->posicao = cont;
-		find_subgrupos_restrict->entry = subgrp_prod_orc_cod_entry[cont];
-
-		g_signal_connect(subgrp_prod_orc_button[cont],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
-		g_signal_connect(subgrp_prod_orc_cod_entry[cont],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[cont]);
-
-		g_signal_connect(pesquisa_prod[cont],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[cont]);
-		g_signal_connect(qnt_prod_orc_entry[cont],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[cont]);
-
-		g_signal_connect(preco_prod_orc_entry[cont],"activate",G_CALLBACK(preco_prod_orc),id_vetor[cont]);
-
-		g_signal_connect(tipodesconto_prod_orc_combo[cont],"changed",G_CALLBACK(desconto_prod_orc),id_vetor[cont]);
-
-		g_signal_connect(orig_preco_prod_orc_combo[cont],"changed",G_CALLBACK(orig_preco_prod_orc),id_vetor[cont]);
-
-		g_signal_connect(desconto_prod_orc_entry[cont],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[cont]);
-		g_signal_connect(total_prod_orc_entry[cont],"activate",G_CALLBACK(total_prod_orc),id_vetor[cont]);
-
-
-		gtk_widget_set_sensitive(botao_menos[cont],FALSE);
-		#pragma GCC diagnostic warning "-Wint-conversion"
-
-		if(cont==PROD_LINHAS_ORC)
-		{
-			img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
-			botao_orc_mais = gtk_button_new();
-			gtk_button_set_image(GTK_BUTTON(botao_orc_mais),img_botao_orc_mais);
-			gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[cont]),botao_orc_mais,0,0,2);
-		}
-
-		gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[cont]),linhas_prod_orc_box[cont],0,0,5);
-		gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[cont]),linhas2_prod_orc_box[cont],0,0,5);
-
-		gtk_container_add(GTK_CONTAINER(linhas_prod_orc_frame[cont]),juncao_linha_prod_orc_box[cont]);
-		gtk_widget_set_size_request(linhas_prod_orc_frame[cont],1100,30);
-
-		gtk_box_pack_start(GTK_BOX(prod_scroll_box),linhas_prod_orc_frame[cont],0,0,2);
-
-		itens_qnt++;
-		ativos_qnt++;
-	}
-
 	g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(psq_ter),cliente_orc_entry);
-
 
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 
@@ -910,12 +725,13 @@ int vnd_orc()
 	g_signal_connect(cancelar_orc_button,"clicked",G_CALLBACK(cancela_orc),NULL);
 	g_signal_connect(alterar_orc_button,"clicked",G_CALLBACK(altera_orc),NULL);
 	g_signal_connect(pedido_orc_button,"clicked",G_CALLBACK(gera_orc_ped),NULL);
+	g_signal_connect(copia_orc_button,"clicked",G_CALLBACK(copia_orc_fun),NULL);
 	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(psq_orc),codigo_orc_entry);
 
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 
-	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
+
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
@@ -924,6 +740,7 @@ int vnd_orc()
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
 
 	cancela_orc();
+
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
 

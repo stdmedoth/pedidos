@@ -48,13 +48,11 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ('Movimentos estoque','Tabela responsável por mostrar movimentações de produtos no estoque',
 ' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code;',10),
 
-('Produtos por Orçamento/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from Produto_Orcamento as p_o',10),
+('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
+' from Produto_Orcamento as p_o inner join',10),
 
 ('Faturamento','Tabela responsável pela visualização de valor das vendas',
   ' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7);
-
-
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),

@@ -42,6 +42,11 @@ insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) valu
 (3,1,1,1),
 (3,1,1,1);
 
+insert into confs(navegador_path1,navegador_path2,navegador_pdr,imp_path1,imp_path2,imp_path3)
+values ('','',1,'','',''),
+('','',1,'','','');
+
+
 insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');

@@ -1,12 +1,12 @@
-int cancela_orc()
+static int cancela_orc()
 {
 	char code[MAX_CODE_LEN];
 	GtkTextBuffer *buffer;
 
 	cont=1;
-	while(cont<MAX_PROD_ORC)
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
-		if(ativos[cont].id!=0)
+		if(ativos[cont].id==1)
 		{
 			tirar_linha(cont);
 		}
@@ -16,9 +16,6 @@ int cancela_orc()
 		valor_orig[cont] = 0;
 		id_vetor[cont] = 0;
 		produto_inserido[cont] = 0;
-		ativos[cont].id = 0;
-		excluidos[cont].id = 1;
-		cont++;
 	}
 
 	sprintf(code,"%i",tasker("orcamentos"));
@@ -27,6 +24,8 @@ int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),"");
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",-1);
 
@@ -36,19 +35,22 @@ int cancela_orc()
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
-	alerta_obs = 0;
+	cont=1;
 	pag_cond = 0;
 	tipo_pag = 0;
-	cont=0;
 	itens_qnt = 1;
-	ativos_qnt=1;
-	rec_altera_qnt=1;
-	alterando_orc=0;
-	concluindo_orc=0;
+	alerta_obs = 0;
+	ativos_qnt = 1;
+	copiando_orc = 0;
+	alterando_orc = 0;
+	rec_altera_qnt = 1;
+	concluindo_orc = 0;
 
 	adicionar_linha_orc();
 
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
-	gtk_widget_set_sensitive(codigo_orc_frame,TRUE);
+	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
+	gtk_widget_set_sensitive(pesquisa_orc,TRUE);
+	gtk_widget_set_sensitive(copia_orc_button,TRUE);
 	return 0;
 }

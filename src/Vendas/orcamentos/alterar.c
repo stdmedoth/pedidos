@@ -1,5 +1,5 @@
 static int recebendo_prod_orc=0;
-int altera_orc()
+static int altera_orc()
 {
 	char *query;
 	int cont=1,erro=0;
@@ -7,6 +7,7 @@ int altera_orc()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	GtkTextBuffer *buffer;
+	char tmp_cod_orc[MAX_CODE_LEN];
 
 	g_print("Iniciando alterar\n");
 	alterando_orc=1;
@@ -18,13 +19,21 @@ int altera_orc()
 		return 1;
 	}
 
+	strcpy(tmp_cod_orc, codigo_orc_gchar);
+
+	cancela_orc();
+
+	alterando_orc=1;
+	rec_altera_qnt=1;
+	recebendo_prod_orc=1;
+
 	if(observacoes_orc_get()!=0){
 		cancela_orc();
 		return 1;
 	}
 
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cliente, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	sprintf(query,"select cliente, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -47,8 +56,7 @@ int altera_orc()
 	gtk_widget_activate(cliente_orc_entry);
 	gtk_widget_activate(orc_pag_cond_entry);
 
-	if(row[4] && strlen(row[4]))
-	{
+	if(row[4] && strlen(row[4])){
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[4],strlen(row[4]));
 	}
@@ -58,22 +66,18 @@ int altera_orc()
 		return 1;
 	}
 
-	sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
-	if((res = consultar(query))==NULL)
-	{
+	sprintf(query,"select * from Produto_Orcamento where code = %s",tmp_cod_orc);
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro nos itens do orçamento");
 		cancela_orc();
 		return 1;
 	}
 
-	cont = 1;
-	while(cont<MAX_PROD_ORC)
-	{
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
 		if(ativos[cont].id==1)
 		{
 			tirar_linha(cont);
 		}
-		cont++;
 	}
 
 	while((row = mysql_fetch_row(res))!=NULL)
@@ -94,7 +98,6 @@ int altera_orc()
 
 		itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
 		adicionar_linha_orc();
-
 
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]))
 		{
@@ -140,8 +143,7 @@ int altera_orc()
 
 	recebendo_prod_orc=0;
 
-	cont=1;
-	while(cont<MAX_PROD_ORC)
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id==1)
 		{
@@ -160,7 +162,6 @@ int altera_orc()
 			gerar_total_geral();
 		}
 		ativos_qnt++;
-		cont++;
 	}
 
 	if(rec_altera_qnt==1)
@@ -168,7 +169,7 @@ int altera_orc()
 		cont=0;
 
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
-		sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
+		sprintf(query,"delete from orcamentos where code = %s",tmp_cod_orc);
 		erro = enviar_query(query);
 
 		if( erro != 0 )
@@ -182,8 +183,10 @@ int altera_orc()
 
 		return 0;
 	}
+	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
 
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);
-	gtk_widget_set_sensitive(codigo_orc_frame,FALSE);
+	gtk_widget_set_sensitive(codigo_orc_entry,FALSE);
+	gtk_widget_set_sensitive(pesquisa_orc,FALSE);
 	return 0;
 }

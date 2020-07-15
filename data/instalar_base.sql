@@ -26,7 +26,7 @@ drop table if exists terceiros;
 drop table if exists logs;
 drop table if exists confs;
 
-create table if not exists confs(  code int primary key,
+create table if not exists confs(  code int primary key auto_increment,
   navegador_path1 varchar(1000) default '' not null,
   navegador_path2 varchar(1000) default '' not null,
   navegador_pdr int default 1 not null,

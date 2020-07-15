@@ -1,9 +1,3 @@
-int inicializar_ped()
-{
-
-	return 0;
-}
-
 int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=6,

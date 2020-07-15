@@ -28,14 +28,8 @@ int rec_fat_vist()
 	else
 		tipo_pag = 2;
 
-	do{
-		if(ativos[cont].id == 1)
-			break;
-		cont++;
-	}
-	while(cont < MAX_PROD_ORC);
 
-	for(int cont=0;cont<MAX_PROD_ORC;cont++)
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id==1)
 		{
@@ -45,8 +39,10 @@ int rec_fat_vist()
 
 	pag_cond = atoi(orc_pag_cond_gchar);
 
-	if(ativos[cont].id == 1)
-		gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
-
-	return 1;
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+		if(ativos[cont].id == 1){
+			gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
+			break;
+		}
+	return 0;
 }

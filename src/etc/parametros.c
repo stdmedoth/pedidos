@@ -6,6 +6,38 @@ static int ler_personalizacao()
 	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
+	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
+	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
+
+	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
+	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
+
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose1_radio))){
+			if(!strlen(navegadores.navegador_path1)){
+				popup(NULL,"Navegador padrão não configurado");
+				return 1;
+			}
+			navegadores.navegador_pdr = 1;
+	}
+
+
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose2_radio))){
+		if(!strlen(navegadores.navegador_path2)){
+			popup(NULL,"Navegador padrão não configurado");
+			return 1;
+		}
+
+		navegadores.navegador_pdr = 2;
+	}
+
+	strcpy(impressoras.imp_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path1_entry)));
+	strcpy(impressoras.imp_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path2_entry)));
+	strcpy(impressoras.imp_path3,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path3_entry)));
+	if(!strlen(impressoras.imp_path1)&&!strlen(impressoras.imp_path2)&&!strlen(impressoras.imp_path3)){
+		popup(NULL,"Nenhuma impressora mapeada");
+		return 1;
+	}
+
 
 	return 0;
 }
@@ -39,6 +71,42 @@ static int receber_personalizacao()
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));
 
+	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
+
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber dados de configuração");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem dados para configurar o sistema");
+		return 1;
+	}
+
+	strcpy(navegadores.navegador_path1,row[1]);
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_nav_path1_entry),row[1]);
+
+	strcpy(navegadores.navegador_path2,row[2]);
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_nav_path2_entry),row[2]);
+
+	navegadores.navegador_pdr = atoi(row[3]);
+	if(atoi(row[3])==1)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose1_radio),atoi(row[3]));
+	if(atoi(row[3])==2)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose2_radio),atoi(row[3]));
+
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path1_entry),row[4]);
+	strcpy(impressoras.imp_path1,row[4]);
+
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path2_entry),row[5]);
+	strcpy(impressoras.imp_path2,row[5]);
+
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path2_entry),row[6]);
+	strcpy(impressoras.imp_path2,row[5]);
+
+
 	return 0;
 }
 
@@ -47,7 +115,8 @@ int atualizar_personalizacao()
 	int erro;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	ler_personalizacao();
+	if(ler_personalizacao())
+		return 1;
 	sprintf(query,"update perfil_desktop set janela_init = %i",personalizacao.janela_init);
 	if((erro = enviar_query(query))!=0)
 	{
@@ -60,93 +129,14 @@ int atualizar_personalizacao()
 		return 1;
 	}
 
-	receber_personalizacao();
-	return 0;
-}
-
-int configurar_parametros()
-{
-	int cont;
-	char *query;
-	query = malloc(MAX_QUERY_LEN);
-	MYSQL_RES *res;
-	MYSQL_ROW  row;
-	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
+	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegadores.navegador_path1,navegadores.navegador_path2,navegadores.navegador_pdr,impressoras.imp_path1,impressoras.imp_path2,impressoras.imp_path3,sessao_oper.code);
+	if((erro = enviar_query(query))!=0)
 	{
-		if(cont<=ter_critic_campos_qnt)
-			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
-		else
-			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
-
-		res = consultar(query);
-		if(res!=NULL)
-		{
-			row = mysql_fetch_row(res);
-			if(row!=NULL)
-			{
-				if(atoi(row[0])==1)
-				{
-					switch(cont)
-					{
-						case 0:
-							terceiros.criticar.doc = 1;
-							break;
-						case 1:
-							terceiros.criticar.tipodoc = 1;
-							break;
-						case 2:
-							terceiros.criticar.endereco =1;
-							break;
-						case 3:
-							terceiros.criticar.cep = 1;
-							break;
-						case 4:
-							terceiros.criticar.tipo = 1;
-							break;
-						case 5:
-							terceiros.criticar.celular =1;
-							break;
-						case 6:
-							terceiros.criticar.contatoc =1 ;
-							break;
-						case 7:
-							terceiros.criticar.telefone =1 ;
-							break;
-						case 8:
-							terceiros.criticar.contatot =1;
-							break;
-						case 9:
-							terceiros.criticar.email = 1;
-							break;
-						case 10:
-							terceiros.criticar.contatoe = 1;
-							break;
-						case 11:
-							terceiros.criticar.entrega = 1;
-							break;
-						case 12:
-							terceiros.criticar.prazo = 1;
-							break;
-						case 13:
-							terceiros.criticar.vlr_frete_pago = 1;
-							break;
-						case 14:
-							orcamentos.criticar.prod_movimento = 1;
-							break;
-						case 15:
-							orcamentos.criticar.prod_saldo = 1;
-							break;
-						case 16:
-							orcamentos.criticar.prod_saldo_limite = 1;
-							break;
-						case 17:
-								orcamentos.criticar.orc_ped_cancelado = 1;
-								break;
-					}
-				}
-			}
-		}
+		popup(NULL,"Erro ao enviar dados para configuração do sistema");
+		return 1;
 	}
+
+	receber_personalizacao();
 	return 0;
 }
 
@@ -327,6 +317,13 @@ int parametrizar()
 	gtk_window_set_keep_above(GTK_WINDOW(janela_parametros),TRUE);
 	gtk_window_set_position(GTK_WINDOW(janela_parametros),GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_parametros),"preferences-system");
+
+	janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN].reg_id = REG_PARAM_WIN;
+	janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN].aberta = 1;
+	if(ger_janela_aberta(janela_parametros, &janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN].janela_pointer = janela_parametros;
+
 	notebook = gtk_notebook_new();
 	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
 
@@ -432,12 +429,12 @@ int parametrizar()
 	tecn_param_imp_path2_box = gtk_box_new(0,0);
 	tecn_param_imp_path3_box = gtk_box_new(0,0);
 
-	tecn_param_nav_path1_fchoose = gtk_file_chooser_button_new("Escolher Impressora 1",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	tecn_param_nav_path2_fchoose = gtk_file_chooser_button_new("Escolher Impressora 2",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_nav_path1_fchoose = gtk_file_chooser_button_new("Escolher Impressora 1",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_nav_path2_fchoose = gtk_file_chooser_button_new("Escolher Impressora 2",GTK_FILE_CHOOSER_ACTION_OPEN);
 
-	tecn_param_imp_path1_fchoose = gtk_file_chooser_button_new("Escolher Nav. 1",GTK_FILE_CHOOSER_ACTION_OPEN);
-	tecn_param_imp_path2_fchoose = gtk_file_chooser_button_new("Escolher Nav. 2",GTK_FILE_CHOOSER_ACTION_OPEN);
-	tecn_param_imp_path3_fchoose = gtk_file_chooser_button_new("Escolher Nav. 3",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_imp_path1_fchoose = gtk_file_chooser_button_new("Escolher Nav. 1",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_imp_path2_fchoose = gtk_file_chooser_button_new("Escolher Nav. 2",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_imp_path3_fchoose = gtk_file_chooser_button_new("Escolher Nav. 3",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
 	tecn_param_nav_path1_box = gtk_box_new(0,0);
 	tecn_param_nav_path2_box = gtk_box_new(0,0);
@@ -572,6 +569,7 @@ int parametrizar()
 
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);
+	g_signal_connect(janela_parametros,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]);
 
 	gtk_widget_show_all(janela_parametros);
 	return 0;

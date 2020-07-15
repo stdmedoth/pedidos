@@ -183,7 +183,15 @@ int oper_concluir()
 		if(erro!=0)
 		{
 			popup(NULL,"Consulte Suporte!");
-			autologger("Erro de query\n");
+			autologger("Erro adicionando novo perfil para o operador");
+			return 1;
+		}
+
+		sprintf(query,"insert into confs(navegador_path1,navegador_path2,navegador_pdr,imp_path1,imp_path2,imp_path3) values ('','',1,'','','');");
+		erro = enviar_query(query);
+		if(erro!=0)
+		{
+			autologger("Erro adicionando novos caminhos para o operador");
 			return 1;
 		}
 	}

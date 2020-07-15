@@ -14,7 +14,7 @@ int enviar_query(char *query);
 int autologger(char *string);
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4;
-
+static int imps_qnt=0, navs_qnt=0;
 static int imp_opc=0;
 
 static MYSQL conectar;
@@ -26,6 +26,22 @@ void mover_scroll(GtkWidget *widget, GtkWidget *scroll_window){
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
 	return ;
+
+}
+
+char *get_elem_from_path(char *path){
+	char *new_path;
+	new_path = malloc(strlen(path));
+	int cont1=0;
+	for(int cont2=0;cont2<=strlen(path);cont2++){
+		new_path[cont1] = path[cont2];
+
+		cont1++;
+
+		if(path[cont2] == '\\'||path[cont2] == '/')
+			cont1 = 0;
+	}
+	return new_path;
 
 }
 
@@ -57,6 +73,26 @@ int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 }
 
 static void popup(GtkWidget *widget,gchar *string);
+
+void carregar_navimps(){
+	imps_qnt=0;
+	navs_qnt=0;
+
+	if(strlen(impressoras.imp_path1))
+		imps_qnt++;
+
+	if(strlen(impressoras.imp_path2))
+		imps_qnt++;
+
+	if(strlen(impressoras.imp_path3))
+		imps_qnt++;
+
+	if(strlen(navegadores.navegador_path1))
+		navs_qnt++;
+
+	if(strlen(navegadores.navegador_path1))
+		navs_qnt++;
+}
 
 int iniciar_impressao(char *gerado)
 {
@@ -139,6 +175,7 @@ int desenhar_pdf(char *gerando_file)
 
 	GError *erro=NULL;
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
+
 	if(!processo)
 	{
 		popup(NULL,"Não foi possivel gerar documento");
@@ -157,26 +194,30 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio1)))
 	{
 		imp_opc = IMP_PATH1;
-		desenhar_pdf(gerando_file);
+		if(desenhar_pdf(gerando_file))
+			return 1;
 	}
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio2)))
 	{
 		imp_opc = IMP_PATH2;
-		desenhar_pdf(gerando_file);
+		if(desenhar_pdf(gerando_file))
+			return 1;
 	}
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio3)))
 	{
 		imp_opc = PDF_IMP;
-		desenhar_pdf(gerando_file);
+		if(desenhar_pdf(gerando_file))
+			return 1;
 	}
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio4)))
 	{
 		imp_opc = HTML_IMP;
-		iniciar_impressao(gerando_file);
+		if(iniciar_impressao(gerando_file))
+			return 1;
 	}
-	close_window_callback(NULL,(gpointer)print_janela);
 
+	close_window_callback(NULL,(gpointer)print_janela);
 	return 0;
 }
 
@@ -188,6 +229,10 @@ int escolher_finalizacao(char *gerando_file)
 	GtkWidget *caixa_opcoes;
 
 	GtkWidget *caixa_grande;
+	char *imp1_name, *imp2_name, *imp3_name;
+	imp1_name = malloc(MAX_PATH_LEN+20);
+	imp2_name = malloc(MAX_PATH_LEN+20);
+	imp3_name = malloc(MAX_PATH_LEN+20);
 
 	print_janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(print_janela,400,400);
@@ -205,16 +250,35 @@ int escolher_finalizacao(char *gerando_file)
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,50);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
 
-	imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,"Enviar para Impressora BROTHER");
-	imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),"Enviar para Impressora SAMSUNG");
+	if(!imps_qnt && !navs_qnt){
+		popup(NULL,"Não há impressoras ou navegadores configurados!");
+		return 1;
+	}
 
-	imp_botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio2),"Abrir PDF");
-	imp_botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio3),"Abrir HTML");
+	if(strlen(impressoras.imp_path1)){
+		sprintf(imp1_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path1));
+		imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,imp1_name);
+		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio1,0,0,5);
+	}
 
-	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio1,0,0,5);
-	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio2,0,0,5);
-	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
-	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio4,0,0,5);
+	if(strlen(impressoras.imp_path2)){
+		sprintf(imp2_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path2));
+		imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),imp2_name);
+		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio2,0,0,5);
+	}
+
+	if(strlen(impressoras.imp_path3)){
+		sprintf(imp3_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path3));
+		imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),imp3_name);
+		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
+	}
+
+	if(navs_qnt){
+		imp_botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio2),"Abrir PDF");
+		imp_botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio3),"Abrir HTML");
+		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
+		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio4,0,0,5);
+	}
 
 	gtk_container_add(GTK_CONTAINER(botoes_frame),botoes_caixa);
 
@@ -482,4 +546,114 @@ char *infos(int pos)
 	sprintf(retorno,"%s",campos[pos]);
 
 	return retorno;
+}
+
+int configurar_parametros()
+{
+	int cont;
+	char *query;
+	query = malloc(MAX_QUERY_LEN);
+	MYSQL_RES *res;
+	MYSQL_ROW  row;
+	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
+	{
+		if(cont<=ter_critic_campos_qnt)
+			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
+		else
+			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+
+		res = consultar(query);
+		if(res!=NULL)
+		{
+			row = mysql_fetch_row(res);
+			if(row!=NULL)
+			{
+				if(atoi(row[0])==1)
+				{
+					switch(cont)
+					{
+						case 0:
+							terceiros.criticar.doc = 1;
+							break;
+						case 1:
+							terceiros.criticar.tipodoc = 1;
+							break;
+						case 2:
+							terceiros.criticar.endereco =1;
+							break;
+						case 3:
+							terceiros.criticar.cep = 1;
+							break;
+						case 4:
+							terceiros.criticar.tipo = 1;
+							break;
+						case 5:
+							terceiros.criticar.celular =1;
+							break;
+						case 6:
+							terceiros.criticar.contatoc =1 ;
+							break;
+						case 7:
+							terceiros.criticar.telefone =1 ;
+							break;
+						case 8:
+							terceiros.criticar.contatot =1;
+							break;
+						case 9:
+							terceiros.criticar.email = 1;
+							break;
+						case 10:
+							terceiros.criticar.contatoe = 1;
+							break;
+						case 11:
+							terceiros.criticar.entrega = 1;
+							break;
+						case 12:
+							terceiros.criticar.prazo = 1;
+							break;
+						case 13:
+							terceiros.criticar.vlr_frete_pago = 1;
+							break;
+						case 14:
+							orcamentos.criticar.prod_movimento = 1;
+							break;
+						case 15:
+							orcamentos.criticar.prod_saldo = 1;
+							break;
+						case 16:
+							orcamentos.criticar.prod_saldo_limite = 1;
+							break;
+						case 17:
+								orcamentos.criticar.orc_ped_cancelado = 1;
+								break;
+					}
+				}
+			}
+		}
+	}
+
+	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
+
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber dados de configuração");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem dados para configurar o sistema");
+		return 1;
+	}
+
+	strcpy(navegadores.navegador_path1,row[1]);
+	strcpy(navegadores.navegador_path2,row[2]);
+	navegadores.navegador_pdr = atoi(row[3]);
+
+	strcpy(impressoras.imp_path1,row[4]);
+	strcpy(impressoras.imp_path2,row[5]);
+	strcpy(impressoras.imp_path3,row[6]);
+
+	carregar_navimps();
+	return 0;
 }

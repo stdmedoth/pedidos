@@ -21,13 +21,15 @@
 #define REG_TER_RELAT 14
 #define REG_MOV_RELAT 15
 
-#define REG_SUP 16
+#define REG_SUP_WIN 16
+
+#define REG_PARAM_WIN 17
 
 #define REG_PRINC_WIN 9990
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
 
-#define REG_WIN_QNT 17
+#define REG_WIN_QNT 18
 
 const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
 "Cad. Grupos", "Cad. Condições", "Cad. Relatorios", "Orçamentos", "Pedidos", "Cad. Estoque", "Entradas",

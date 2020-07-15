@@ -125,12 +125,12 @@ int suporte_princ_wnd(){
   }
   carrega_posts(res);
 
-  janelas_gerenciadas.vetor_janelas[REG_SUP].reg_id = REG_SUP;
-  janelas_gerenciadas.vetor_janelas[REG_SUP].aberta = 1;
+  janelas_gerenciadas.vetor_janelas[REG_SUP_WIN].reg_id = REG_SUP_WIN;
+  janelas_gerenciadas.vetor_janelas[REG_SUP_WIN].aberta = 1;
 
-  if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_SUP]))
+  if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_SUP_WIN]))
     return 1;
-  janelas_gerenciadas.vetor_janelas[REG_SUP].janela_pointer = janela;
+  janelas_gerenciadas.vetor_janelas[REG_SUP_WIN].janela_pointer = janela;
 
   gtk_box_pack_start(GTK_BOX(caixa_postlist),suport_grid,0,0,10);
 
@@ -157,7 +157,7 @@ int suporte_princ_wnd(){
 
   g_signal_connect(sup_psq_status_combo,"changed",G_CALLBACK(post_recarregar_posts),scroll_postlist);
 
-  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_SUP]);
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_SUP_WIN]);
 
   gtk_container_add(GTK_CONTAINER(janela),frame);
   gtk_widget_show_all(janela);
