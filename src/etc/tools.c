@@ -13,7 +13,7 @@ GtkWidget *print_janela;
 int enviar_query(char *query);
 int autologger(char *string);
 GtkWidget *msg_abrir_orc_window;
-static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4;
+static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4, *imp_botao_radio5;
 static int imps_qnt=0, navs_qnt=0;
 static int imp_opc=0;
 
@@ -197,6 +197,7 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 		if(desenhar_pdf(gerando_file))
 			return 1;
 	}
+
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio2)))
 	{
 		imp_opc = IMP_PATH2;
@@ -206,11 +207,18 @@ int iniciar_escolha(GtkWidget *widget , char *gerando_file)
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio3)))
 	{
+		imp_opc = IMP_PATH3;
+		if(desenhar_pdf(gerando_file))
+			return 1;
+	}
+
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio4)))
+	{
 		imp_opc = PDF_IMP;
 		if(desenhar_pdf(gerando_file))
 			return 1;
 	}
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio4)))
+	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(imp_botao_radio5)))
 	{
 		imp_opc = HTML_IMP;
 		if(iniciar_impressao(gerando_file))
@@ -255,29 +263,42 @@ int escolher_finalizacao(char *gerando_file)
 		return 1;
 	}
 
-	if(strlen(impressoras.imp_path1)){
-		sprintf(imp1_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path1));
-		imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,imp1_name);
-		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio1,0,0,5);
-	}
 
-	if(strlen(impressoras.imp_path2)){
-		sprintf(imp2_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path2));
-		imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),imp2_name);
-		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio2,0,0,5);
-	}
+	sprintf(imp1_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path1));
+	imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,imp1_name);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio1,0,0,5);
+	sprintf(imp2_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path2));
+	imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),imp2_name);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio2,0,0,5);
+	sprintf(imp3_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path3));
+	imp_botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio2),imp3_name);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
+	imp_botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio3),"Abrir PDF");
+	imp_botao_radio5 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio4),"Abrir HTML");
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio4,0,0,5);
+	gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio5,0,0,5);
 
-	if(strlen(impressoras.imp_path3)){
-		sprintf(imp3_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path3));
-		imp_botao_radio2 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio1),imp3_name);
-		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
-	}
+	if(strlen(impressoras.imp_path1))
+		gtk_widget_set_sensitive(imp_botao_radio1,TRUE);
+		else
+		gtk_widget_set_sensitive(imp_botao_radio1,FALSE);
+
+	if(strlen(impressoras.imp_path2))
+		gtk_widget_set_sensitive(imp_botao_radio2,TRUE);
+		else
+		gtk_widget_set_sensitive(imp_botao_radio2,FALSE);
+
+	if(strlen(impressoras.imp_path3))
+		gtk_widget_set_sensitive(imp_botao_radio3,TRUE);
+		else
+		gtk_widget_set_sensitive(imp_botao_radio3,FALSE);
 
 	if(navs_qnt){
-		imp_botao_radio3 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio2),"Abrir PDF");
-		imp_botao_radio4 = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(imp_botao_radio3),"Abrir HTML");
-		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio3,0,0,5);
-		gtk_box_pack_start(GTK_BOX(botoes_caixa),imp_botao_radio4,0,0,5);
+		gtk_widget_set_sensitive(imp_botao_radio4,TRUE);
+		gtk_widget_set_sensitive(imp_botao_radio5,TRUE);
+	}else{
+		gtk_widget_set_sensitive(imp_botao_radio4,FALSE);
+		gtk_widget_set_sensitive(imp_botao_radio5,FALSE);
 	}
 
 	gtk_container_add(GTK_CONTAINER(botoes_frame),botoes_caixa);

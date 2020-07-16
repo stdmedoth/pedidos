@@ -25,7 +25,7 @@
   }
 
   cancela_orc();
-  
+
   sprintf(task_atual_char,"%i",task_atual_int);
   gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),task_atual_char);
 

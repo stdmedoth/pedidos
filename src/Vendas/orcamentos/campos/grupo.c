@@ -1,4 +1,4 @@
-//arrumar mensagem na segunda tentativa de erro
+static char *source_grp_name,*dest_grp_name;
 
 int subgrp_prod_orc(GtkWidget *widget,int posicao)
 {
@@ -9,13 +9,10 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	int familia[MAX_SUBGRUPO],mesma_familia=0;
 	char query[MAX_QUERY_LEN];
 	char grupo_pai[MAX_CODE_LEN];
-	char *source,*dest;
 	char **familia_char;
 
-	char mensagem[] = "O código deve ser de nível            ";
-
-	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
+	source_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
+	dest_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
 	subgrp_prod_orc_cod_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]));
 
@@ -75,18 +72,18 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	strcpy(dest,"");
-	strcpy(source,"");
+	strcpy(dest_grp_name,"");
+	strcpy(source_grp_name,"");
 
 	for(int cont=grupo_len;cont>0;cont--)
 	{
-		sprintf(dest,"%s %s",source,familia_char[cont]);
+		sprintf(dest_grp_name,"%s %s",source_grp_name,familia_char[cont]);
 
-		strcpy(source,dest);
+		strcpy(source_grp_name,dest_grp_name);
 	}
 
 	ativos[posicao].subgrupo = atoi(subgrp_prod_orc_cod_gchar);
-	gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),dest);
+	gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),dest_grp_name);
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

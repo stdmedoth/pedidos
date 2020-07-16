@@ -182,7 +182,7 @@
 #define MAX_QUERY_ELM_LEN 300
 #define MAX_QUERY_LEN (MAX_QUERY_ELM_LEN*50)
 #define CONECT_QNT 1
-#define CODE_LEN 10
+#define CODE_LEN 15
 #define CNPJ_N_LEN 14
 #define CNPJ_S_LEN 18
 #define MAX_INSC_LEN 20
@@ -193,7 +193,7 @@
 #define TERC_QNT  10000
 #define PROD_QNT  10000
 #define ROWS_QNT 30
-#define MAX_CODE_LEN 10
+#define MAX_CODE_LEN 15
 #define MAX_NAME_LEN 400
 #define MAX_RAZ_LEN 400
 #define MAX_PRECO_LEN 15

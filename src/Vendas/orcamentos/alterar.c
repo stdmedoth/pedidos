@@ -62,6 +62,7 @@ static int altera_orc()
 	}
 
 	if(codigo_cli_orc()!=0){
+		autologger("Erro no código do cliente durante alteracao");
 		cancela_orc();
 		return 1;
 	}
@@ -105,6 +106,7 @@ static int altera_orc()
 			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[PROD_ORC_PROD_COL]);
 
 			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),row[SUBGRP_ORC_PROD_COL]);
+			ativos[atoi(row[ITM_ORC_PROD_COL])].subgrupo = atoi(row[SUBGRP_ORC_PROD_COL]);
 
 			valor_orig[atoi(row[ITM_ORC_PROD_COL])] = atoi(row[VLR_ORIG_ORC_PROD_COL]);
 
@@ -142,6 +144,7 @@ static int altera_orc()
 	gtk_widget_activate(botao_orc_mais);
 
 	recebendo_prod_orc=0;
+	ativos_qnt=1;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
@@ -160,8 +163,9 @@ static int altera_orc()
 			obs_prod_orc_fun(NULL,cont);
 
 			gerar_total_geral();
+			ativos_qnt++;
 		}
-		ativos_qnt++;
+
 	}
 
 	if(rec_altera_qnt==1)
@@ -183,6 +187,7 @@ static int altera_orc()
 
 		return 0;
 	}
+
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
 
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);

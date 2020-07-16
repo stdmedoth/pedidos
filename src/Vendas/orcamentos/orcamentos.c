@@ -53,12 +53,12 @@ static int gerar_total_geral()
 int tirar_linha(int id_ponteiro)
 {
 	if(ativos[id_ponteiro].id == 1){
-			g_object_ref(linhas_prod_orc_frame[id_ponteiro]);
-			gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
+			gtk_grid_remove_row(GTK_GRID(orc_prods_grid),id_ponteiro);
 	}
 
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
+	find_subgrupos_restrict->posicao = 0;
 
 	ativos_qnt--;
 
@@ -99,11 +99,11 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	}
 
 	if(ativos[id_ponteiro].id == 1){
-		gtk_widget_destroy(linhas_prod_orc_frame[id_ponteiro]);
-		g_object_ref(linhas_prod_orc_frame[id_ponteiro]);
+		gtk_grid_remove_row(GTK_GRID(orc_prods_grid),id_ponteiro);
 	}
 	ativos[id_ponteiro].id = 0;
 	excluidos[id_ponteiro].id = 1;
+	find_subgrupos_restrict->posicao = 0;
 	ativos_qnt--;
 
 	if(ativos_qnt>1)
@@ -125,7 +125,7 @@ static int adicionar_linha_orc()
 	GtkWidget *subgrp_prod_orc_img;
 	char *query;
 	movendo_scroll=0;
-	
+
 	if(alterando_orc==0)
 	{
 		if(codigo_orc()!=0)
@@ -338,7 +338,7 @@ static int adicionar_linha_orc()
 
 	gtk_widget_set_size_request(linhas_prod_orc_frame[itens_qnt],1100,30);
 
-	gtk_box_pack_start(GTK_BOX(prod_scroll_box),linhas_prod_orc_frame[itens_qnt],0,0,10);
+	gtk_grid_attach(GTK_GRID(orc_prods_grid),linhas_prod_orc_frame[itens_qnt],0,itens_qnt,1,1);
 
 	id_vetor[itens_qnt] = itens_qnt;
 	ativos[itens_qnt].id = 1;
@@ -687,6 +687,7 @@ int vnd_orc()
 
 	linhas_prod_orc_frame = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	prod_scroll_box = gtk_box_new(1,0);
+	orc_prods_grid = gtk_grid_new();
 
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 
@@ -706,6 +707,7 @@ int vnd_orc()
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 
 	gtk_container_add(GTK_CONTAINER(prod_scroll_window),prod_scroll_box);
+	gtk_box_pack_start(GTK_BOX(prod_scroll_box),orc_prods_grid,0,0,0);
 
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (prod_scroll_window),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 

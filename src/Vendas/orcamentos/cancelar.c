@@ -36,14 +36,15 @@ static int cancela_orc()
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
 	cont=1;
+	itens_qnt = 1;
+	ativos_qnt = 1;
+	rec_altera_qnt = 1;
+
 	pag_cond = 0;
 	tipo_pag = 0;
-	itens_qnt = 1;
 	alerta_obs = 0;
-	ativos_qnt = 1;
 	copiando_orc = 0;
 	alterando_orc = 0;
-	rec_altera_qnt = 1;
 	concluindo_orc = 0;
 
 	adicionar_linha_orc();
