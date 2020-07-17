@@ -1,3 +1,10 @@
+#define PED_CODE_COL 0
+#define PED_VENDDOR_COL 1
+#define PED_CLI_COL 2
+#define PED_DATE_COL 3
+#define PED_TOT_COL 4
+#define PED_STATUS_COL 5
+
 static GtkWidget *janela_pedidos;
 static GtkWidget *ped_cod_entry;
 static GtkWidget *ped_ter_entry;

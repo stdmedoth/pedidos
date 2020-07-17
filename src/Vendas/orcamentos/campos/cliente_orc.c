@@ -76,7 +76,7 @@ int codigo_cli_orc()
 		ter_alert_obs();
 		alerta_obs = 1;
 	}
-	if(strlen(campos[4])){
+	if(strlen(campos[4]) && orc_pag_cond_activated==0){
 		gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
 		gtk_widget_activate(orc_pag_cond_entry);
 	}

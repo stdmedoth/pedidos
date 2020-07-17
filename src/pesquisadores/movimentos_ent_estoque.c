@@ -223,7 +223,7 @@ int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 
 	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);
 
-	escolher_campo_button = gtk_button_new_with_label("Escolher");
+	escolher_campo_button = gtk_button_new_with_label("Selecionar");
 	escolher_campo_img = gtk_image_new_from_file(IMG_PROCR);
 	escolher_campo_fixed = gtk_fixed_new();
 	gtk_button_set_image(GTK_BUTTON(escolher_campo_button),escolher_campo_img);

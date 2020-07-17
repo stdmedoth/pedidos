@@ -513,7 +513,7 @@ int enviar_query(char *query)
 			autologger(query);
 			autologger((char*)mysql_error(&conectar));
 		}
-		return 1;
+		return err;
 	}
 	return 0;
 }

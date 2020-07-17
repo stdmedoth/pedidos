@@ -30,12 +30,12 @@ int emitir_ped()
 		return 1;
 	}
 
-	if(atoi(row[0])==1)
+	if(atoi(row[0])==STATUS_PED_EMIT)
 	{
 		popup(NULL,"Pedido já emitido");
 		return 1;
 	}
-	if(atoi(row[0])==2)
+	if(atoi(row[0])==STATUS_PED_CAN)
 	{
 		popup(NULL,"Pedido cancelado");
 		if(orcamentos.criticar.orc_ped_cancelado == 0)

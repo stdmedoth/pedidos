@@ -38,6 +38,7 @@ int rec_fat_vist()
 	}
 
 	pag_cond = atoi(orc_pag_cond_gchar);
+	orc_pag_cond_activated=1;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		if(ativos[cont].id == 1){

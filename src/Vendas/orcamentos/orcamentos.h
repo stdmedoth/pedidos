@@ -28,8 +28,10 @@ static int vnd_orc();
 static int alterando_orc=0;
 static int concluindo_orc=0;
 static int copiando_orc=0;
+static int excluindo_orc=0;
 
 static int aviso_estoque[MAX_PROD_ORC+1];
+static int orc_pag_cond_activated=0;
 
 static int movendo_scroll=0;
 static int adicionando_linha_ignore=0;

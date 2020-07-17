@@ -55,7 +55,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	}
 	if((row = mysql_fetch_row(res))==NULL)
 	{
-		popup(NULL,"Orcamento Inexistente");
+		popup(NULL,"Orcamento foi excluído");
 		return 1;
 	}
 

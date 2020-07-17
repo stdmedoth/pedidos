@@ -13,6 +13,7 @@
 #include "orc_p_ped.c"
 #include "cancelar.c"
 #include "alterar.c"
+#include "excluir.c"
 #include "concluir.c"
 #include "copia.c"
 #include "gerar.c"

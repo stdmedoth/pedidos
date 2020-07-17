@@ -409,8 +409,10 @@ int vnd_orc()
 	char code[10];
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
+
 	GtkWidget * subgrp_prod_orc_img;
-	janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 0)
+		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela_orcamento),TRUE);
 	gtk_widget_set_size_request(janela_orcamento,1350,600);
@@ -723,6 +725,7 @@ int vnd_orc()
 	g_signal_connect(gerar_orc_button,"clicked",G_CALLBACK(gerar_orc),NULL);
 	g_signal_connect(cancelar_orc_button,"clicked",G_CALLBACK(cancela_orc),NULL);
 	g_signal_connect(alterar_orc_button,"clicked",G_CALLBACK(altera_orc),NULL);
+	g_signal_connect(excluir_orc_button,"clicked",G_CALLBACK(excluir_orc),NULL);
 	g_signal_connect(pedido_orc_button,"clicked",G_CALLBACK(gera_orc_ped),NULL);
 	g_signal_connect(copia_orc_button,"clicked",G_CALLBACK(copia_orc_fun),NULL);
 	g_signal_connect(pesquisa_orc,"clicked",G_CALLBACK(psq_orc),codigo_orc_entry);

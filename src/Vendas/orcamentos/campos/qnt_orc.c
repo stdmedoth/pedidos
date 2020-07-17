@@ -80,12 +80,14 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			{
 				return 1;
 			}
+
 			if((campos = mysql_fetch_row(vetor))==NULL)
 			{
 				popup(NULL,"Produto sem preço vinculado ao cliente");
 				gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
 				return 1;
 			}
+
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
 			break;
 

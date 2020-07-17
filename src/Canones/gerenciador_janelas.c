@@ -59,9 +59,9 @@ int gerenciador_janela(){
 
   for(int cont=0;cont<REG_WIN_QNT;cont++){
       if(janelas_gerenciadas.vetor_janelas[cont].qnt_aberta>MAX_WND1_ABRT){
-        janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 1;
         if(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)
           if(GTK_WINDOW(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){
+            janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 1;
             gtk_window_present(GTK_WINDOW(janelas_gerenciadas.vetor_janelas[cont].janela_pointer));
             return 1;
           }

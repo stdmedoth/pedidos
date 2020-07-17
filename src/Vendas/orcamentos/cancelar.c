@@ -42,12 +42,15 @@ static int cancela_orc()
 	ativos_qnt = 1;
 	rec_altera_qnt = 1;
 
+
 	pag_cond = 0;
 	tipo_pag = 0;
 	alerta_obs = 0;
 	copiando_orc = 0;
 	alterando_orc = 0;
 	concluindo_orc = 0;
+	excluindo_orc = 0;
+	orc_pag_cond_activated=0;
 
 	adicionar_linha_orc();
 

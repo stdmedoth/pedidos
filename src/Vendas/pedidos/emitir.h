@@ -1,1 +1,2 @@
-
+#define STATUS_PED_EMIT 1
+#define STATUS_PED_CAN 2
