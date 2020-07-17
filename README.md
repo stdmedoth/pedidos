@@ -33,5 +33,5 @@ Sendo criado usando linguagem C, com Mysql API e GTK3.0<br>
 </ul>
 </div>
 
-<img width="70%" src="https://i.imgur.com/l5vgbtx.png">
+<img width="70%" src="https://i.imgur.com/TDk2JXl.png">
 </div>
