@@ -188,8 +188,7 @@ static int adicionar_linha_orc()
 	codigo_prod_orc_label[itens_qnt] = gtk_label_new("Cód");
 	codigo_prod_orc_entry[itens_qnt] = gtk_entry_new();
 	pesquisa_prod[itens_qnt] = gtk_button_new();
-	img_pesquisa_prod[itens_qnt] = gtk_image_new_from_file(IMG_PESQ);
-	gtk_button_set_image(GTK_BUTTON(pesquisa_prod[itens_qnt]),img_pesquisa_prod[itens_qnt]);
+	gtk_button_set_image(GTK_BUTTON(pesquisa_prod[itens_qnt]), gtk_image_new_from_file(IMG_PESQ));
 
 	subgrp_prod_orc_box[itens_qnt] = gtk_box_new(0,0);
 	subgrp_prod_orc_frame[itens_qnt] = gtk_frame_new("Subgrupo");
@@ -262,7 +261,6 @@ static int adicionar_linha_orc()
 
 	if(GTK_IS_WIDGET(botao_orc_mais))
 	{
-		g_object_ref(botao_orc_mais);
 		gtk_widget_destroy(botao_orc_mais);
 	}
 
@@ -458,8 +456,7 @@ int vnd_orc()
 	codigo_orc_entry = gtk_entry_new();
 	copia_orc_button = gtk_button_new();
 	pesquisa_orc = gtk_button_new();
-	img_pesquisa_orc = gtk_image_new_from_file(IMG_PROCR);
-	gtk_button_set_image(GTK_BUTTON(pesquisa_orc),img_pesquisa_orc);
+	gtk_button_set_image(GTK_BUTTON(pesquisa_orc),gtk_image_new_from_file(IMG_PROCR));
 	gtk_button_set_image(GTK_BUTTON(copia_orc_button),gtk_image_new_from_icon_name("edit-copy",GTK_ICON_SIZE_SMALL_TOOLBAR));
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
@@ -489,8 +486,7 @@ int vnd_orc()
 	cliente_orc_label = gtk_label_new("Insira o Código: ");
 	cliente_orc_entry = gtk_entry_new();
 	pesquisa_ter = gtk_button_new();
-	img_pesquisa_ter = gtk_image_new_from_file(IMG_PESQ);
-	gtk_button_set_image(GTK_BUTTON(pesquisa_ter),img_pesquisa_ter);
+	gtk_button_set_image(GTK_BUTTON(pesquisa_ter),gtk_image_new_from_file(IMG_PESQ));
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_entry),"Código");
 	cliente_orc_name_entry = gtk_entry_new();
 	gtk_widget_set_sensitive(cliente_orc_name_entry,FALSE);
@@ -639,7 +635,6 @@ int vnd_orc()
 	transp_orc_box = gtk_box_new(1,0);
 
 	pesquisa_prod = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
-	img_pesquisa_prod = malloc(sizeof(GtkImage*)*MAX_PROD_ORC);
 
 	img_botao_menos = malloc(sizeof(GtkImage*)*MAX_PROD_ORC);
 	botao_menos = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
@@ -734,8 +729,6 @@ int vnd_orc()
 
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
-
-
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 

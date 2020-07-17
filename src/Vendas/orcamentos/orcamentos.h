@@ -24,15 +24,17 @@ const int saldo_limite = 3;
 static int altera_orc();
 static int tirar_linha(int);
 static int vnd_orc();
+
 static int alterando_orc=0;
 static int concluindo_orc=0;
 static int copiando_orc=0;
+
 static int aviso_estoque[MAX_PROD_ORC+1];
 
 static int movendo_scroll=0;
 static int adicionando_linha_ignore=0;
 
-static int pag_cond=0, tipo_pag=0, display=1;
+static int pag_cond=0, tipo_pag=0;
 
 static int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
@@ -52,7 +54,6 @@ gchar *orc_pag_cond_gchar;
 //  BUTTONS
 
 static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
-static GtkWidget *img_pesquisa_orc,*img_pesquisa_ter,**img_pesquisa_prod;
 
 static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button, *copia_orc_button;
 static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
@@ -115,7 +116,6 @@ static GtkWidget **codigo_prod_orc_label,
 //  ENTRYs
 
 static GtkWidget *codigo_orc_entry,*operacao_orc_entry,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
-
 
 static GtkWidget **codigo_orc_prod_box;
 

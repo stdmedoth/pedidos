@@ -190,6 +190,7 @@ int psq_ped(GtkWidget *button, GtkEntry *cod_ped_entry)
 	gtk_container_add(GTK_CONTAINER(psq_ped_wnd),caixa_grande);
 
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_ped_pesquisa),treeview);
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_ped_wnd);
 	g_signal_connect(ped_status_combo,"changed",G_CALLBACK(mover_para_escrita),pesquisa_entry);
 	pesquisa_global_alvo = GTK_ENTRY(cod_ped_entry);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ped_code),treeview);

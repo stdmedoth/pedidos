@@ -1,7 +1,7 @@
   static int copia_orc_fun(){
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char query[MAX_QUERY_LEN];
+  char query[MAX_QUERY_LEN*2];
   int task_atual_int=0;
   char task_atual_char[MAX_CODE_LEN];
 
@@ -19,17 +19,20 @@
   }
 
   sprintf(query,"insert into Produto_Orcamento select %i,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes from Produto_Orcamento where code = %s;",task_atual_int,codigo_orc_gchar);
+
   if(enviar_query(query)!=0){
     popup(NULL,"Não foi possivel copiar produtos do orcamento");
     return 1;
   }
 
-  cancela_orc();
 
   sprintf(task_atual_char,"%i",task_atual_int);
   gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),task_atual_char);
 
-  altera_orc();
+  if(altera_orc()!=0){
+    popup(NULL,"Erro ao abrir cópia");
+    return 1;
+  }
 
   gtk_widget_set_sensitive(copia_orc_button,FALSE);
 

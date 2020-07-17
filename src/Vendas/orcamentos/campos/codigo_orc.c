@@ -18,7 +18,7 @@ int codigo_orc()
 		return 1;
 	}
 
-	if(alterando_orc==0&&concluindo_orc==0&&copiando_orc==0)
+	if(alterando_orc==0 && concluindo_orc==0 && copiando_orc==0)
 	{
 		sprintf(query,"select code from orcamentos where code = '%s'",codigo_orc_gchar);
 		vetor = consultar(query);

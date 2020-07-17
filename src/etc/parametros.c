@@ -324,6 +324,8 @@ int parametrizar()
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN].janela_pointer = janela_parametros;
 
+	gtk_widget_show_all(janela_parametros);
+
 	notebook = gtk_notebook_new();
 	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
 

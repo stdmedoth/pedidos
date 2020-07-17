@@ -33,7 +33,7 @@
 
 const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
 "Cad. Grupos", "Cad. Condições", "Cad. Relatorios", "Orçamentos", "Pedidos", "Cad. Estoque", "Entradas",
-"Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte"};
+"Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte", "Parametros"};
 
 typedef struct{
   int reg_id;

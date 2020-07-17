@@ -88,7 +88,7 @@ int relat_prod_query_fun()
 		popup(NULL,"Campos de relatorios vazios");
 		return 1;
 	}
-	
+
 	prod_query.campos_qnt = campos_qnt;
 
 	prod_query.campos[strlen(prod_query.campos)-1] = '\0';
@@ -97,7 +97,11 @@ int relat_prod_query_fun()
 
 	sprintf(relat_prod_query_gchar,"%s%s%s %s",ini_query,prod_query.campos,end_query,filtros_query_gchar);
 	gtk_entry_set_text(GTK_ENTRY(relat_prod_query_entry),relat_prod_query_gchar);
-	relat_prod_gerar_fun();
+
+	if(relat_prod_gerar_fun()!=0)
+		return 1;
+
 	relat_prod_gerando = 0;
+
 	return 0;
 }

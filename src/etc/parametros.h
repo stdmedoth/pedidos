@@ -1,6 +1,7 @@
 //combo_box de terceiros
 static gchar **nomes_temas;
 static int temas_qnt=0;
+static int orc_estoque_padrao=1;
 GtkWidget **campos_de_critica;
 
 //combo_box de produtos

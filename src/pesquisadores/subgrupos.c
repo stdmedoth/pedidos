@@ -260,7 +260,7 @@ int pesquisa_subgrp()
 						//camada 5
 						while((row[ROW_4] = mysql_fetch_row(res[ROW_4]))!=NULL)
 						{
-							if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_5][0]) ))<0)
+							if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_4][0]) ))<0)
 								return 1;
 							strcpy(dest,"");
 							strcpy(source,"");
@@ -323,6 +323,7 @@ int pesquisa_subgrp()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_subgrp_wnd),caixa_grande);
 
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_subgrp_wnd);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(find_subgrupos_restrict->entry);

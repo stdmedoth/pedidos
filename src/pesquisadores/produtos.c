@@ -171,6 +171,8 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_container_add(GTK_CONTAINER(psq_prod_wnd),caixa_grande);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_prod_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_prod_entry);
+
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_prod_wnd);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_prod_code),treeview);
 	gtk_widget_show_all(psq_prod_wnd);
 	return 0;

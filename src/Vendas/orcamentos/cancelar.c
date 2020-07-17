@@ -18,6 +18,8 @@ static int cancela_orc()
 		produto_inserido[cont] = 0;
 	}
 
+	gtk_grid_remove_column(GTK_GRID(orc_prods_grid),0);
+
 	sprintf(code,"%i",tasker("orcamentos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");

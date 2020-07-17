@@ -42,12 +42,9 @@ int emitir_ped()
 		{
 			return 1;
 		}
-		//por enquanto deixar com return, e posteriormente quando a função estiver mais estruturada retirar o return
-
-		//return 1;
 	}
 
-	if(gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo))<0)
+	if(gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo))<=0)
 	{
 		popup(NULL,"Selecione um estoque");
 		gtk_widget_grab_focus(ped_est_combo);

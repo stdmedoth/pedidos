@@ -47,6 +47,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if((campos = mysql_fetch_row(vetor))==NULL)
 			{
 				popup(NULL,"Produto sem preço vinculado à tabela");
+				gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
 				return 1;
 			}
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
@@ -82,6 +83,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if((campos = mysql_fetch_row(vetor))==NULL)
 			{
 				popup(NULL,"Produto sem preço vinculado ao cliente");
+				gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
 				return 1;
 			}
 			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
@@ -118,9 +120,10 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 	if(alterando_orc==0 && concluindo_orc==0 && aviso_estoque[posicao] == 0)
 	{
-		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and subgrupo = %i",
+		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and subgrupo = %i and estoque = %i",
 		atoi(codigo_prod_orc_gchar),
-		atoi(subgrp_prod_orc_cod_gchar));
+		atoi(subgrp_prod_orc_cod_gchar),
+		orc_estoque_padrao);
 
 		if((vetor = consultar(query))==NULL){
 			popup(NULL,"Erro ao consultar saldo do estoque");
@@ -132,14 +135,14 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 				if(atoi(campos[0])<=0){
 						if(orcamentos.criticar.prod_saldo){
-							popup(NULL,"Sem saldo");
+							popup(NULL,"Produto sem Saldo");
 							return 1;
 						}
 				}
 
 				if(atoi(campos[0])<=saldo_limite){
 						if(orcamentos.criticar.prod_saldo_limite){
-							popup(NULL,"Saldo limite usado");
+							popup(NULL,"Aviso de saldo limite");
 							aviso_estoque[posicao] = 1;
 						}
 				}
@@ -154,7 +157,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			}
 		}
 	}
-
 
 	preco_prod_orc(preco_prod_orc_entry[posicao],posicao);
 

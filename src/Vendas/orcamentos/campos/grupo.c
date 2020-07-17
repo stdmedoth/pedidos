@@ -1,5 +1,3 @@
-static char *source_grp_name,*dest_grp_name;
-
 int subgrp_prod_orc(GtkWidget *widget,int posicao)
 {
 	MYSQL_RES *res;
@@ -8,24 +6,32 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	int grupo_len=0;
 	int familia[MAX_SUBGRUPO],mesma_familia=0;
 	char query[MAX_QUERY_LEN];
-	char grupo_pai[MAX_CODE_LEN];
+	char *source_grp_name,*dest_grp_name;
+	char grupo_pai[MAX_CODE_LEN+1];
 	char **familia_char;
 
-	source_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
+	source_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
+	dest_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
+	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
 
 	subgrp_prod_orc_cod_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]));
 
-	if(GTK_IS_WIDGET(codigo_prod_orc_entry[posicao]))
-		if(codigo_prod_orc(codigo_prod_orc_entry[posicao],posicao)!=0)
-			return 1;
-
+	if(produto_inserido[posicao] == 0){
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
+		return 1;
+	}
 	for(int cont=0;cont<MAX_SUBGRUPO;cont++)
 		familia[cont] = 0;
 
 	if(strlen(subgrp_prod_orc_cod_gchar)>MAX_CODE_LEN)
 	{
 		popup(NULL,"Código do subgrupo é muito grande");
+		gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
+		return 1;
+	}
+	if(strlen(subgrp_prod_orc_cod_gchar)<=0)
+	{
+		popup(NULL,"Falta código do subgrupo");
 		gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 		return 1;
 	}
@@ -44,13 +50,16 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-
 	if(rec_familia_vet(familia, atoi(subgrp_prod_orc_cod_gchar) )!=0)
 		return 1;
 
 	if((grupo_len = rec_familia_nome(familia_char, atoi(subgrp_prod_orc_cod_gchar) ))<0)
 		return 1;
+
+	if(grupo_len == -1){
+		popup(NULL,"Erro ao percorrer grupo");
+		return 1;
+	}
 
 	if(!row[0])
 		return 1;
@@ -59,6 +68,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	for(int cont=0;cont<grupo_len;cont++)
 	{
 		g_print("%i : %i para pai %i\n",cont, familia[cont], atoi(row[0]));
+
 		if(familia[cont]==atoi(row[0]))
 		{
 			mesma_familia=1;
@@ -72,18 +82,31 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	strcpy(dest_grp_name,"");
-	strcpy(source_grp_name,"");
+	strcpy(dest_grp_name,"\0");
+	strcpy(source_grp_name,"\0");
 
-	for(int cont=grupo_len;cont>0;cont--)
-	{
+	for(int cont=grupo_len;cont>0;cont--){
+
+		if(!familia_char[cont]){
+			popup(NULL,"Elemento do grupo com ponteiro nulo");
+			break;
+		}
+
 		sprintf(dest_grp_name,"%s %s",source_grp_name,familia_char[cont]);
+		if(strlen(dest_grp_name)>MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO){
+			popup(NULL,"Nome grupo excedeu memoria");
+		}
 
 		strcpy(source_grp_name,dest_grp_name);
+		if(strlen(source_grp_name)>MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO){
+			popup(NULL,"Nome grupo excedeu memoria");
+			break;
+		}
+
 	}
 
 	ativos[posicao].subgrupo = atoi(subgrp_prod_orc_cod_gchar);
-	gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),dest_grp_name);
+	gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_entry[posicao]),source_grp_name);
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

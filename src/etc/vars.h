@@ -198,7 +198,7 @@
 #define MAX_RAZ_LEN 400
 #define MAX_PRECO_LEN 15
 #define MAX_UND_LEN 10
-#define MAX_GRP_LEN 50
+#define MAX_GRP_LEN 100
 #define MAX_MRC_LEN 20
 #define MAX_FOR_LEN 100
 #define MAX_OBS_LEN 500
@@ -227,7 +227,7 @@
 #define MAX_SEN_LEN 30
 #define MAX_DATE_LEN 8
 #define MAX_FETCH_ROW 3000
-#define MAX_SUBGRUPO 20
+#define MAX_SUBGRUPO 30
 #define MAX_EST_NOME 20
 #define MAX_RELAT_NOME 30
 #define MAX_CAMPO_NOME 30

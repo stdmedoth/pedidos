@@ -1,10 +1,11 @@
 static int alerta_obs=0;
-gchar *orc_ter_obs_char;
+static gchar *orc_ter_obs_char;
 
 void ter_alert_obs()
 {
 		GtkWidget *janela,*obs_label,*box,*fixed_fecha,*botao_fecha,*obs_caixa;
 		janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		gtk_widget_set_name(janela,"caixa_frame");
 		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
 		gtk_window_set_title(GTK_WINDOW(janela),"Aviso de Observações");
 		gtk_window_set_position(GTK_WINDOW(janela),3);
@@ -46,7 +47,7 @@ int codigo_cli_orc()
 		return 1;
 	}
 
-	sprintf(query,"select razao,endereco,telefone,obs from terceiros where code = %s",cliente_orc_gchar);
+	sprintf(query,"select razao,endereco,telefone,obs,prazo from terceiros where code = %s",cliente_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -75,7 +76,10 @@ int codigo_cli_orc()
 		ter_alert_obs();
 		alerta_obs = 1;
 	}
-
+	if(strlen(campos[4])){
+		gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
+		gtk_widget_activate(orc_pag_cond_entry);
+	}
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
 		gtk_widget_grab_focus(orc_pag_cond_entry);
 	return 0;

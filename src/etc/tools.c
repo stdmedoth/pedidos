@@ -21,6 +21,33 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *codigo;
+	codigo = malloc(MAX_CODE_LEN);
+
+	/*if(GTK_TREE_VIEW(button))
+	{
+		treeview = GTK_TREE_VIEW(button);
+	}*/
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
+		return ;
+	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
+
+	if(pesquisa_global_alvo){
+		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
+		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	}
+
+	gtk_widget_destroy(window);
+}
+
+
 void mover_scroll(GtkWidget *widget, GtkWidget *scroll_window){
 
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));

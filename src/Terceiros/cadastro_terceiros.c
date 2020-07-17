@@ -90,6 +90,7 @@ int  cad_terc()
 	GtkWidget *observacoes_scroll;
 	GtkWidget *bair_cid_uf_boxv1,*bair_cid_uf_boxv2,*bair_cid_uf_boxv3,*bair_cid_uf_boxh;
 	GtkWidget *addr_log_num_box,*addr_log_num_fixed;
+	GtkWidget *prazo_box;
 
 	GtkWidget *ter_entrega_frame,*ter_endereco_frame;
 
@@ -99,6 +100,7 @@ int  cad_terc()
 
 	GtkWidget *prod, *subgrp, *psq_prod_box, *psq_subgrp,
 	*prod_ter_label, *subgrp_ter_label;
+
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"terceiros");
@@ -117,6 +119,8 @@ int  cad_terc()
 	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_TER]))
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].janela_pointer = janela;
+
+	inicializar_ter();
 
 	psq_ter_transp_button = gtk_button_new();
 	psq_ter_transp_img = gtk_image_new_from_file(IMG_PESQ);
@@ -444,8 +448,18 @@ int  cad_terc()
 	gtk_widget_set_name(prazo,"caixa");
 	prazo_ter_label = gtk_label_new("Prazo padrão");
 	prazo_ter_field = gtk_entry_new();
+	campo_nome_cond_ter = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(prazo_ter_field),5);
+	gtk_entry_set_width_chars(GTK_ENTRY(prazo_ter_field),8);
+	prazo_box = gtk_box_new(0,0);
+	psq_ter_cond_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(psq_ter_cond_button),gtk_image_new_from_file(IMG_PESQ));
 	gtk_box_pack_start(GTK_BOX(prazo),prazo_ter_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(prazo),prazo_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo_box),prazo_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo_box),psq_ter_cond_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo_box),campo_nome_cond_ter,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prazo),prazo_box,0,0,0);
+
 
 	ter_img_box = gtk_box_new(1,0);
 	ter_img_buttons_box = gtk_box_new(0,0);
@@ -581,6 +595,8 @@ int  cad_terc()
 
 	g_signal_connect(GTK_BUTTON(psq_ter_cep_button),"clicked",G_CALLBACK(psq_cep),cep_ter_field);
 
+	g_signal_connect(psq_ter_cond_button,"clicked",G_CALLBACK(psq_pag_cond),prazo_ter_field);
+
 	g_signal_connect(GTK_ENTRY(prod_ter_field),"activate",G_CALLBACK(produto_ter),NULL);
 	g_signal_connect(GTK_ENTRY(subgrp_ter_field),"activate",G_CALLBACK(grupo_ter),NULL);
 
@@ -652,6 +668,8 @@ int  cad_terc()
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	gtk_widget_set_sensitive(frete_pago_entry,FALSE);
+	gtk_widget_set_sensitive(campo_nome_cond_ter,FALSE);
+	
 	gtk_widget_show_all(janela);
 	gtk_widget_grab_focus(doc_ter_field);
 

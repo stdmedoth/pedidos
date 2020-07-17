@@ -22,6 +22,32 @@ void receber_ter_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_widget_destroy(psq_ter_wnd);
 }
 
+void receber_ter_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, gpointer pointer)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *codigo;
+	codigo = malloc(MAX_CODE_LEN);
+
+	/*if(GTK_TREE_VIEW(button))
+	{
+		treeview = GTK_TREE_VIEW(button);
+	}*/
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
+		return ;
+	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
+
+	if(pesquisa_global_alvo){
+		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
+		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
+	}
+
+	gtk_widget_destroy(psq_ter_wnd);
+}
+
 int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
@@ -196,7 +222,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_ter_wnd),caixa_grande);
 
-
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_ter_code_space),treeview);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_ter_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(cod_ter_entry);

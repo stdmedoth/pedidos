@@ -20,7 +20,7 @@ int relat_prod_gerar_fun()
 		g_print("erro no fopen\n");
 		sprintf(gerando_file,"%srelat%i.html",PROD_RELAT_FILE,cont);
 		cont++;
-		if(cont>100){
+		if(cont>3){
 			popup(NULL,"Varias tentativas de abrir o arquivo");
 			return 1;
 		}
@@ -109,6 +109,7 @@ int relat_prod_gerar_fun()
 	fprintf(relatorio_file,"</body>");
 	fclose(relatorio_file);
 
-	escolher_finalizacao(gerando_file);
+	if(escolher_finalizacao(gerando_file))
+		return 1;
 	return 0;
 }

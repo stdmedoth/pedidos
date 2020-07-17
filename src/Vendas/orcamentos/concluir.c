@@ -8,6 +8,31 @@ static int concluir_orc()
 	concluindo_orc=1;
 	if(observacoes_orc_get()!=0)
 		return 1;
+
+	for(cont=1;cont<MAX_PROD_ORC;cont++)
+	{
+		if( ativos[cont].id == 1 && produto_inserido[cont] == 1 )
+		{
+
+			if(codigo_cli_orc()!=0)
+				return 1;
+			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
+				return 1;
+			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
+				return 1;
+			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
+				return 1;
+			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
+				return 1;
+			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
+				return 1;
+			if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0)
+				return 1;
+			if(obs_prod_orc_fun(obs_prod_orc_view[cont],cont)!=0)
+				return 1;
+		}
+	}
+
 	if(alterando_orc==0)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);

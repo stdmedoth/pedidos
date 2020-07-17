@@ -67,7 +67,7 @@ static int altera_orc()
 		return 1;
 	}
 
-	sprintf(query,"select * from Produto_Orcamento where code = %s",tmp_cod_orc);
+	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro nos itens do orçamento");
 		cancela_orc();
@@ -95,15 +95,17 @@ static int altera_orc()
 		g_print("tipodesc: %s\n", row[TIP_DESC_ORC_PROD_COL]);
 		g_print("desconto: %s\n", row[DESC_ORC_PROD_COL]);
 		g_print("total: %s\n\n", row[TOTAL_ORC_PROD_COL]);
-		g_print("total: %s\n\n", row[OBS_ORC_PROD_COL]);
+		g_print("Observacao: %s\n\n", row[OBS_ORC_PROD_COL]);
 
 		itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
+
 		adicionar_linha_orc();
 
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]))
 		{
 
 			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[PROD_ORC_PROD_COL]);
+			ativos[atoi(row[ITM_ORC_PROD_COL])].produto = atoi(row[PROD_ORC_PROD_COL]);
 
 			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),row[SUBGRP_ORC_PROD_COL]);
 			ativos[atoi(row[ITM_ORC_PROD_COL])].subgrupo = atoi(row[SUBGRP_ORC_PROD_COL]);
@@ -141,32 +143,49 @@ static int altera_orc()
 		rec_altera_qnt++;
 	}
 
-	gtk_widget_activate(botao_orc_mais);
-
-	recebendo_prod_orc=0;
-	ativos_qnt=1;
-
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id==1)
 		{
-			gtk_widget_activate(codigo_prod_orc_entry[cont]);
+			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
-			gtk_widget_activate(subgrp_prod_orc_cod_entry[cont]);
+			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
-			gtk_widget_activate(preco_prod_orc_entry[cont]);
+			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
-			gtk_widget_activate(desconto_prod_orc_entry[cont]);
+			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
-			gtk_widget_activate(total_prod_orc_entry[cont]);
+			if(total_prod_orc(total_prod_orc_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
-			obs_prod_orc_fun(NULL,cont);
+			if(obs_prod_orc_fun(NULL,cont)){
+				cancela_orc();
+				return 1;
+			}
 
 			gerar_total_geral();
 			ativos_qnt++;
 		}
 
 	}
+	adicionar_linha_orc();
+
+	recebendo_prod_orc=0;
+	ativos_qnt=1;
 
 	if(rec_altera_qnt==1)
 	{

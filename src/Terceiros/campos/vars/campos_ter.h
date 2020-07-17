@@ -118,11 +118,11 @@ static GtkWidget *transp_codigo_entry,
 *transp_telefone_entry,
 *transp_obs_entry;
 
-static GtkWidget *campo_nome_prod_ter, *campo_nome_subgrp_ter;
+static GtkWidget *campo_nome_cond_ter,*campo_nome_prod_ter, *campo_nome_subgrp_ter;
 static GtkWidget *psq_ter_transp_button, *psq_ter_cep_button, *psq_ter_transpcep_button;
 static GtkWidget *psq_ter_transp_img, *psq_ter_cep_img, *psq_ter_transpcep_img;
 static GtkWidget *psq_ter_transp_box, *psq_ter_cep_box, *psq_ter_transpcep_box;
-static GtkWidget *psq_ter_prod_button, *psq_ter_subgrp_button;
+static GtkWidget *psq_ter_cond_button,*psq_ter_prod_button, *psq_ter_subgrp_button;
 static GtkWidget *ter_trsp_label,*ter_trsp_entry;
 static GtkWidget *win_tipo_ter;
 

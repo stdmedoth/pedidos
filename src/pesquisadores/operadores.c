@@ -24,6 +24,7 @@ void receber_oper_code(GtkWidget *button, GtkTreeView *treeview)
 	gtk_widget_destroy(psq_oper_wnd);
 }
 
+
 int entry_oper_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=1,COLUMN0=0};
@@ -140,7 +141,7 @@ int psq_oper(GtkWidget *button, GtkEntry *cod_oper_entry)
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_oper_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(cod_oper_entry);
-	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_oper_code),treeview);
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_oper_wnd);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_oper_code),treeview);
 	gtk_widget_show_all(psq_oper_wnd);
 	return 0;

@@ -140,7 +140,6 @@ void relat_prod_fun()
 	gtk_box_pack_start(GTK_BOX(caixa),relat_prod_opcoes_fixed,0,0,1);
 	gtk_box_pack_start(GTK_BOX(caixa),relat_prod_query_fixed,0,0,1);
 
-
 	tabelas_bd_id=1;
 
 	g_signal_connect(psq_relat_prod_code,"clicked",G_CALLBACK(psq_tables_relat),relat_prod_code_entry);
@@ -148,7 +147,6 @@ void relat_prod_fun()
 	g_signal_connect(relat_prod_gerar_button,"clicked",G_CALLBACK(relat_prod_query_fun),NULL);
 
 	g_signal_connect(relat_prod_code_entry,"activate",G_CALLBACK(relat_prod_codigo_fun),NULL);
-
 
 	gtk_widget_set_sensitive(relat_prod_nome_entry,FALSE);
 	gtk_widget_set_sensitive(relat_prod_code_entry,FALSE);
