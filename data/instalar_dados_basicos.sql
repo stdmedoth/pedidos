@@ -51,8 +51,8 @@ insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');
 
-insert into tipo_movimentos(code, nome) values
-(1,'Venda'),
-(2,'Devolução Venda'),
-(3,'Compra'),
-(4,'Devolução Compra');
+insert into tipo_movimentos(code,id,nome) values
+(1,0,'Venda'),
+(2,1,'Devolução Venda'),
+(3,2,'Compra'),
+(4,3,'Devolução Compra');

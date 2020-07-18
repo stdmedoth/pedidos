@@ -35,8 +35,6 @@ int relat_prod_codigo_fun()
 		return 1;
 	}
 
-
-
 	if(relat_prod_gerando==0){
 		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(relat_prod_ordem_combo));
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_prod_ordem_combo),"Selecionar Ordem");

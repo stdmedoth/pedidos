@@ -56,11 +56,7 @@ int conclui_subgrupo()
 		return 1;
 	}
 	cancela_subgrupo();
-	gtk_widget_destroy(janela_grupo);
-	gtk_widget_destroy(janela_subgrupo);
-	cad_grupo();
 	popup(NULL,mensagem);
-
 	gtk_widget_grab_focus(cod_subgrp_entry);
 	return 0;
 }
@@ -449,8 +445,6 @@ int conclui_grupo()
 		return 1;
 	}
 	cancela_grupo();
-	gtk_widget_destroy(janela_grupo);
-	cad_grupo();
 
 	popup(NULL,mensagem);
 
@@ -684,7 +678,7 @@ int cad_grupo()
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
 	gtk_widget_set_size_request(treeview,430,210);
-	//gtk_tree_view_expand_all(GTK_TREE_VIEW(treeview));
+	gtk_tree_view_expand_all(GTK_TREE_VIEW(treeview));
 	g_object_unref(modelo);
 
 	psq_grp_button = gtk_button_new();

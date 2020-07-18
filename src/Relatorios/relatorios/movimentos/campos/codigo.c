@@ -23,10 +23,33 @@ int relat_mov_codigo_fun()
 		popup(NULL,"Relatório não existente");
 		return 1;
 	}
-	
+
 	gtk_entry_set_text(GTK_ENTRY(relat_mov_nome_entry),row[0]);
-	relat_mov_query_fun();
-	relat_mov_gerar_fun();
+
+
+	sprintf(query,"select b.nome, b.query from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_mov_codigo_gchar);
+
+	if((res = consultar(query))==NULL){
+		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+		return 1;
+	}
+
+	cont=0;
+	if(relat_mov_gerando==0){
+		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(relat_mov_ordem_combo));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_ordem_combo),"Selecionar Ordem");
+		gtk_combo_box_set_active(GTK_COMBO_BOX(relat_mov_ordem_combo),0);
+		while((row = mysql_fetch_row(res))!=NULL){
+
+			if(cont>MAX_RELAT_CAMPOS)
+				break;
+
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_ordem_combo),row[0]);
+			strcpy(campos_query[cont],row[1]);
+			cont++;
+
+		}
+	}
 
 	g_print("Finalizando relat_mov_codigo_fun()\n");
 	return 0;

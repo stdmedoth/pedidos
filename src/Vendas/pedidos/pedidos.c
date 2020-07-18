@@ -47,7 +47,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
-	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(o.dia, \"%%d/%%m/%%y\")), o.pag_cond from orcamentos as o inner join terceiros as c on o.cliente = c.code where o.code = %s",entrada);
+	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -55,7 +55,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	}
 	if((row = mysql_fetch_row(res))==NULL)
 	{
-		popup(NULL,"Orcamento foi excluído");
+		popup(NULL,"Pedido não existe");
 		return 1;
 	}
 

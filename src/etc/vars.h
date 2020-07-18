@@ -243,6 +243,14 @@
 #define MAX_SUP_STATUS_LEN 50
 #define MAX_SUP_TIPO_LEN 50
 
+//id das operacoes
+#define VENDA 0
+#define DEV_VENDA 1
+#define COMPRA 2
+#define DEV_COMPRA 3
+#define OUTRAS_OPERACOES 3
+
+
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;
 GtkIconTheme *icone;

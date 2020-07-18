@@ -99,7 +99,6 @@ void relat_prod_fun()
 	gtk_box_pack_start(GTK_BOX(relat_prod_cod_int_box),relat_prod_cod_int2_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(relat_prod_cod_int_frame), relat_prod_cod_int_box);
 
-
 	gtk_box_pack_start(GTK_BOX(relat_prod_forn_int_box),relat_prod_forn_int1_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(relat_prod_forn_int_box),relat_prod_forn_int2_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(relat_prod_forn_int_frame), relat_prod_forn_int_box);

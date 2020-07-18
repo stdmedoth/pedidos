@@ -25,6 +25,11 @@ drop table if exists unidades;
 drop table if exists terceiros;
 drop table if exists logs;
 drop table if exists confs;
+drop table if exists dados;
+drop table if exists criador_relat;
+drop table if exists relat_tab_campos;
+drop table if exists relat_tabelas_id;
+
 
 create table if not exists confs(  code int primary key auto_increment,
   navegador_path1 varchar(1000) default '' not null,
@@ -35,6 +40,7 @@ create table if not exists confs(  code int primary key auto_increment,
   imp_path3 varchar(1000) default '' not null);
 
 create table if not exists tipo_movimentos( code int primary key,
+  id int not null default 0,
   nome varchar(40) default 'TipoMovimentoSemNome'
 );
 
@@ -159,14 +165,17 @@ valor_vist float default 0.0,
 foreign key(cliente) references terceiros(code));
 
 create table if not exists pedidos( code int primary key auto_increment,
+tipo_mov int default 1,
 vendedor int default 1,
 cliente int default 1,
 data_mov date default '2001-01-01',
+pag_cond int default 1,
 total float default 0.0,
 status int default 0,
 foreign key(cliente) references terceiros(code));
 
 create table if not exists orcamentos( code int primary key auto_increment,
+tipo_mov int default 1,
 vendedor int default 0,
 cliente int default 0,
 dia date default '2001-01-01',

@@ -93,7 +93,7 @@ int emitir_ped()
 
 	//calculando estoques
 
-	sprintf(query,"select p.produto, p.subgrupo, p.unidades, o.cliente, o.dia from Produto_Orcamento as p inner join orcamentos as o on p.code = o.code where o.code = %s",
+	sprintf(query,"select p.produto, p.subgrupo, p.unidades, o.cliente, o.data_mov, o.tipo_mov from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %s",
 	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
 
 	res = consultar(query);
@@ -106,17 +106,18 @@ int emitir_ped()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		//tipo_mov
-		//1 = manual
-		//2 = venda
-		//3 = compra
-		//4 = devolucao venda
-		//5 = devolucao compra
-
-		sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', 2)",
-		gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
-		gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
-		row[0], row[1], row[2],row[3],row[4]);
+		if(atoi(row[5]) == VENDA || atoi(row[5]) == DEV_COMPRA){
+			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', %s)",
+			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
+			gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
+			row[0], row[1], row[2],row[3],row[4],row[5]);
+		}else
+		if(atoi(row[5]) == DEV_VENDA || atoi(row[5]) == COMPRA){
+			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', %s)",
+			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
+			gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
+			row[0], row[1], row[2],row[3],row[4],row[5]);
+		}
 		if(enviar_query(query)!=0)
 		{
 			popup(NULL,"Erro ao dar entrada no estoque");

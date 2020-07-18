@@ -46,7 +46,7 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ' from pedidos as p',5),
 
 ('Movimentos estoque','Tabela responsável por mostrar movimentações de produtos no estoque',
-' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code;',10),
+' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code',10),
 
 ('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
 ' from Produto_Orcamento as p_o inner join',10),

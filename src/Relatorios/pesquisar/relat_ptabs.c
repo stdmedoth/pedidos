@@ -9,9 +9,10 @@ void receber_tables_relat_code(GtkWidget *button, GtkTreeView *treeview)
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
 
-	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
+	if(!gtk_tree_selection_get_selected(selection, &model, &iter)){
+		popup(NULL,"Selecione o ítem");
 		return ;
-
+	}
 	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
 
 	gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);

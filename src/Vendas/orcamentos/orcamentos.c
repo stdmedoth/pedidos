@@ -407,6 +407,7 @@ static int adicionar_linha_orc()
 int vnd_orc()
 {
 	char code[10];
+
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
 
@@ -472,17 +473,17 @@ int vnd_orc()
 	gtk_container_add(GTK_CONTAINER(codigo_orc_frame),codigo_orc_box);
 
 	operacao_orc_label = gtk_label_new("Operação:");
-	operacao_orc_entry = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(operacao_orc_entry),0,"Escolher");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(operacao_orc_entry),"1","Venda");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(operacao_orc_entry),"2","Em desenvolvimento");
-	gtk_widget_set_sensitive(operacao_orc_entry,FALSE);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(operacao_orc_entry),1);
+	operacao_orc_combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),0,"Venda");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),"Devolução Venda");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),"Compra");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),"Devolução Compra");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(operacao_orc_combo),0);
 
 	operacao_orc_box = gtk_box_new(0,0);
 	operacao_orc_frame = gtk_frame_new("Tipo de Operação");
 	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_entry,0,0,52);
+	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_combo,0,0,52);
 	gtk_container_add(GTK_CONTAINER(operacao_orc_frame),operacao_orc_box);
 
 	cliente_orc_label = gtk_label_new("Insira o Código: ");

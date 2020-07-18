@@ -117,7 +117,7 @@ static GtkWidget **codigo_prod_orc_label,
 
 //  ENTRYs
 
-static GtkWidget *codigo_orc_entry,*operacao_orc_entry,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
+static GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
 
 static GtkWidget **codigo_orc_prod_box;
 
@@ -173,6 +173,8 @@ static struct itens_struct
 	char total_c[MAX_PRECO_LEN];
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
+
+static int operacao_orc_int=0;
 
 static GtkTextBuffer  **obs_prod_orc_buffer;
 static GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;

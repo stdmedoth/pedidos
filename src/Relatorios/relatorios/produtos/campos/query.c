@@ -4,8 +4,8 @@ int relat_prod_query_fun()
 	MYSQL_ROW row;
 	int campos_qnt=0;
 	char ini_query[] = "select";
-	char *end_query;
 	char query[MAX_QUERY_LEN];
+	char *end_query;
 	char *campo_query_cp;
 	char filtros_query_gchar[MAX_QUERY_LEN],filtros_order_by[MAX_QUERY_LEN/2];
 
@@ -14,7 +14,7 @@ int relat_prod_query_fun()
 	relat_prod_grp_int1_int, relat_prod_grp_int2_int,
 	relat_prod_ordem_int,relat_prod_cresc_int;
 
-	relat_prod_gerando = 1;
+	relat_prod_gerando=1;
 
 	if(relat_prod_codigo_fun()!=0)
 		return 1;

@@ -34,6 +34,6 @@ int codigo_orc()
 
 	}
 
-	gtk_widget_grab_focus(operacao_orc_entry);
+	gtk_widget_grab_focus(operacao_orc_combo);
 	return 0;
 }

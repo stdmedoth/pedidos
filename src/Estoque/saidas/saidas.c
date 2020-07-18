@@ -168,10 +168,9 @@ int est_saidas()
 	gtk_box_pack_start(GTK_BOX(est_said_tipo_box),est_said_tipo_combo,0,0,0);
 	gtk_fixed_put(GTK_FIXED(est_said_tipo_fixed),est_said_tipo_box,60,20);
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Tipo Movimento");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Normal");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Venda");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_tipo_combo),"Devolução Compra");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),2);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),0);
 
 	est_said_data_frame = gtk_frame_new("Data");
 	est_said_data_entry = gtk_entry_new();

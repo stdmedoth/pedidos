@@ -33,7 +33,7 @@ static int altera_orc()
 	}
 
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select cliente, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
+	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -50,15 +50,16 @@ static int altera_orc()
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),row[1]);
-	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[2]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(operacao_orc_combo),atoi(row[1]));
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),row[2]);
+	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[3]);
 
 	gtk_widget_activate(cliente_orc_entry);
 	gtk_widget_activate(orc_pag_cond_entry);
 
-	if(row[4] && strlen(row[4])){
+	if(row[4] && strlen(row[5])){
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
-		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[4],strlen(row[4]));
+		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[5],strlen(row[5]));
 	}
 
 	if(codigo_cli_orc()!=0){

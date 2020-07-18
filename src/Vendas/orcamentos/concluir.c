@@ -16,6 +16,9 @@ static int concluir_orc()
 
 			if(codigo_cli_orc()!=0)
 				return 1;
+			if(operacao_orc_orc()!=0)
+				return 1;
+
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
@@ -53,8 +56,8 @@ static int concluir_orc()
 			return 1;
 		}
 
-		sprintf(query,"insert into orcamentos( code, vendedor, cliente, pag_cond, dia, observacoes, total) values(%s,1,%s,%i,'%s','%s',0.0);",
-		codigo_orc_gchar,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
+		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, dia, observacoes, total) values(%s,%i,1,%s,%i,'%s','%s',0.0);",
+		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
 
 		erro = enviar_query(query);
 		if(erro != 0 )
@@ -115,7 +118,7 @@ static int concluir_orc()
 						autologger("Erro ao tentar gerar orçamento");
 						return 1;
 					}
-					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s), pag_cond = %i, observacoes = '%s' where code = %s",codigo_orc_gchar, pag_cond, observacoes_orc_gchar, codigo_orc_gchar);
+					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s), pag_cond = %i, observacoes = '%s', tipo_mov = %i where code = %s",codigo_orc_gchar, pag_cond, observacoes_orc_gchar, operacao_orc_int, codigo_orc_gchar);
 					erro = enviar_query(query);
 					if(erro != 0 )
 					{

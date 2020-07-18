@@ -108,6 +108,8 @@ int relat_mov_gerar_fun()
 		return 1;
 	g_print("Finalizando relat_mov_gerar_fun()\n");
 
-	desenhar_pdf(gerando_file);
+	if(escolher_finalizacao(gerando_file))
+		return 1;
+
 	return 0;
 }
