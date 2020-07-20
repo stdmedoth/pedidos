@@ -1,7 +1,7 @@
 static int recebendo_prod_orc=0;
 static int altera_orc()
 {
-	char *query;
+	char query[MAX_QUERY_LEN];
 	int cont=1,erro=0;
 	char code[MAX_CODE_LEN];
 	MYSQL_RES *res;
@@ -19,6 +19,23 @@ static int altera_orc()
 		return 1;
 	}
 
+	sprintf(query,"select status from pedidos where code = %s",codigo_orc_gchar);
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao buscar vinculos de pedidos");
+		cancela_orc();
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))!=NULL)
+	{
+		if(atoi(row[0]) == STATUS_PED_EMIT){
+			popup(NULL,"Existe um pedido emitido para este orçamento");
+			cancela_orc();
+			return 1;
+		}
+	}
+
 	strcpy(tmp_cod_orc, codigo_orc_gchar);
 
 	cancela_orc();
@@ -32,7 +49,6 @@ static int altera_orc()
 		return 1;
 	}
 
-	query = malloc(MAX_QUERY_LEN);
 	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL)
@@ -104,26 +120,37 @@ static int altera_orc()
 
 		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]))
 		{
-
-			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[PROD_ORC_PROD_COL]);
+			codigo_prod_orc_gchar = malloc(strlen(row[PROD_ORC_PROD_COL]));
+			strcpy(codigo_prod_orc_gchar,row[PROD_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),codigo_prod_orc_gchar);
 			ativos[atoi(row[ITM_ORC_PROD_COL])].produto = atoi(row[PROD_ORC_PROD_COL]);
 
-			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),row[SUBGRP_ORC_PROD_COL]);
+			subgrp_prod_orc_cod_gchar = malloc(strlen(row[SUBGRP_ORC_PROD_COL]));
+			strcpy(subgrp_prod_orc_cod_gchar,row[SUBGRP_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),subgrp_prod_orc_cod_gchar);
 			ativos[atoi(row[ITM_ORC_PROD_COL])].subgrupo = atoi(row[SUBGRP_ORC_PROD_COL]);
 
 			valor_orig[atoi(row[ITM_ORC_PROD_COL])] = atoi(row[VLR_ORIG_ORC_PROD_COL]);
 
-			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[UND_ORC_PROD_COL]);
+			qnt_prod_orc_gchar = malloc(strlen(row[UND_ORC_PROD_COL]));
+			strcpy(qnt_prod_orc_gchar,row[UND_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),qnt_prod_orc_gchar);
 
 			gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[atoi(row[ITM_ORC_PROD_COL])]),valor_orig[atoi(row[ITM_ORC_PROD_COL])]);
 
 			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[ITM_ORC_PROD_COL])]),atoi(row[TIP_DESC_ORC_PROD_COL]));
 
-			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[VLR_ORC_PROD_COL]);
+			preco_prod_orc_gchar = malloc(strlen(row[VLR_ORC_PROD_COL]));
+			strcpy(preco_prod_orc_gchar,row[VLR_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),preco_prod_orc_gchar);
 
-			gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[DESC_ORC_PROD_COL]);
+			desconto_prod_orc_gchar = malloc(strlen(row[DESC_ORC_PROD_COL]));
+			strcpy(desconto_prod_orc_gchar,row[DESC_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),desconto_prod_orc_gchar);
 
-			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),row[TOTAL_ORC_PROD_COL]);
+			desconto_prod_orc_gchar = malloc(strlen(row[TOTAL_ORC_PROD_COL]));
+			strcpy(desconto_prod_orc_gchar,row[TOTAL_ORC_PROD_COL]);
+			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),desconto_prod_orc_gchar);
 
 			if(strlen(row[OBS_ORC_PROD_COL])>=MAX_OBS_LEN){
 				row[OBS_ORC_PROD_COL][MAX_OBS_LEN] = '\0';
@@ -157,6 +184,10 @@ static int altera_orc()
 				cancela_orc();
 				return 1;
 			}
+			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)){
+				cancela_orc();
+				return 1;
+			}
 
 			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)){
 				cancela_orc();
@@ -164,11 +195,6 @@ static int altera_orc()
 			}
 
 			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)){
-				cancela_orc();
-				return 1;
-			}
-
-			if(total_prod_orc(total_prod_orc_entry[cont],cont)){
 				cancela_orc();
 				return 1;
 			}

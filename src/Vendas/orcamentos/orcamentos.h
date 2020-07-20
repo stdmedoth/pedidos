@@ -17,7 +17,7 @@
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 
-static GtkWidget *orc_prods_grid;
+GtkWidget *orc_prods_grid;
 
 const int saldo_limite = 3;
 
@@ -50,16 +50,16 @@ static float total_geral_orc =0 ;
 static float desconto_geral_orc =0 ;
 
 //COMBO
-static GtkWidget **tipodesconto_prod_orc_combo;
-static GtkWidget *orc_pag_cond_entry, *orc_pag_cond_nome, *orc_pag_cond_frame, *orc_pag_cond_fixed, *orc_pag_cond_box, *orc_pag_cond_psq_button;
+GtkWidget **tipodesconto_prod_orc_combo;
+GtkWidget *orc_pag_cond_entry, *orc_pag_cond_nome, *orc_pag_cond_frame, *orc_pag_cond_fixed, *orc_pag_cond_box, *orc_pag_cond_psq_button;
 gchar *orc_pag_cond_gchar;
 //  BUTTONS
 
-static GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
+GtkWidget *pesquisa_orc,*pesquisa_ter,**pesquisa_prod;
 
-static GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button, *copia_orc_button;
-static GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
-static GtkWidget *caixa_opcoes_orc;
+GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc_button,*cancelar_orc_button,*excluir_orc_button, *copia_orc_button;
+GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
+GtkWidget *caixa_opcoes_orc;
 //  GCHAR
 
 static gchar *data_orc_gchar;
@@ -84,30 +84,30 @@ static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
 //  FRAMES/BOX
-static GtkWidget **codigo_prod_orc_frame;
-static GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
-static GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
-static GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
-static GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
+GtkWidget **codigo_prod_orc_frame;
+GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
+GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
+GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
+GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
 
 
-static GtkWidget *data_orc_frame;
-static GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
-static GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
+GtkWidget *data_orc_frame;
+GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
+GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
 
 // FIXEDs
-static GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
-static GtkWidget *opcoes_orc_fixed;
+GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
+GtkWidget *opcoes_orc_fixed;
 
-static GtkWidget **obs_prod_orc_scroll,**obs_prod_orc_fixed;
+GtkWidget **obs_prod_orc_scroll,**obs_prod_orc_fixed;
 
 // LABELS
 
 //static GtkWidget *data_orc_label;
-static GtkWidget *total_geral_orc_label,*desconto_geral_orc_label;
+GtkWidget *total_geral_orc_label,*desconto_geral_orc_label;
 
-static GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
-static GtkWidget **codigo_prod_orc_label,
+GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
+GtkWidget **codigo_prod_orc_label,
 **descricao_prod_orc_label,
 **qnt_prod_orc_label,
 **preco_prod_orc_label,
@@ -117,11 +117,11 @@ static GtkWidget **codigo_prod_orc_label,
 
 //  ENTRYs
 
-static GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
+GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
 
-static GtkWidget **codigo_orc_prod_box;
+GtkWidget **codigo_orc_prod_box;
 
-static GtkWidget **codigo_prod_orc_entry,
+GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
 **subgrp_prod_orc_entry, **subgrp_prod_orc_cod_entry,
 **subgrp_prod_orc_button,
@@ -130,26 +130,26 @@ static GtkWidget **codigo_prod_orc_entry,
 **desconto_prod_orc_entry,
 **total_prod_orc_entry;
 
-static GtkWidget *data_orc_entry;
+GtkWidget *data_orc_entry;
 
 //  BOXES
-static GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
-static GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,
+GtkWidget *caixa_orc_infos_c;/*,*caixa_orc_infos_b;*/
+GtkWidget *codigo_orc_box,*operacao_orc_box,*cliente_orc_box,*itens_orc_box,*transp_orc_box,*outros_orc_box,
 **linhas_prod_orc_box,
 **linhas2_prod_orc_box,
 **juncao_linha_prod_orc_box ;
-static GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
+GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
 
 //  CONTAINERS
-static GtkWidget *prod_scroll_window,*prod_scroll_box;
-static GtkWidget *img_botao_orc_mais,**img_botao_menos;
+GtkWidget *prod_scroll_window,*prod_scroll_box;
+GtkWidget *img_botao_orc_mais,**img_botao_menos;
 
 static int cont;
 static int adicionar_linha_orc();
-static GtkWidget *observacoes_orc,*buffer_orc;
+GtkWidget *observacoes_orc,*buffer_orc;
 
 //Botoes
-static GtkWidget *botao_orc_mais,**botao_menos;
+GtkWidget *botao_orc_mais,**botao_menos;
 
 static int produto_inserido[MAX_PROD_ORC+1];
 static int itens_qnt=1;
@@ -176,6 +176,6 @@ static struct itens_struct
 
 static int operacao_orc_int=0;
 
-static GtkTextBuffer  **obs_prod_orc_buffer;
-static GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
+GtkTextBuffer  **obs_prod_orc_buffer;
+GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;

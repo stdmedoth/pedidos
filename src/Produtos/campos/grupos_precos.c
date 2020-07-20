@@ -16,7 +16,6 @@ struct
 
 int insere_preco_grupos()
 {
-
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	int cont=1;
@@ -122,7 +121,8 @@ int insere_preco_grupos()
 void prod_preco_vista_fun(GtkWidget *entry,int posicao)
 {
 	//passa o foco do campo preco à vista para faturado
-	gtk_widget_grab_focus(entry_preco_grupo_prcfat[posicao]);
+	if(precos_produtos[posicao].ativo == 1)
+		gtk_widget_grab_focus(entry_preco_grupo_prcfat[posicao]);
 }
 
 void prod_preco_fat_fun(GtkWidget *entry,int posicao)
@@ -151,7 +151,9 @@ GtkWidget *notebook_preco_grupo()
 	entry_preco_grupo_prcvist = malloc(MAX_SUBGRUPO*sizeof(GtkEntry));
 	entry_preco_grupo_prcfat = malloc(MAX_SUBGRUPO*sizeof(GtkEntry));
 
-	int cont=1;
+	int cont=0;
+	for(int cont=0;cont<MAX_SUBGRUPO;cont++)
+		precos_produtos[cont].ativo=0;
 
 	gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);
 	gtk_grid_remove_column (GTK_GRID(grid1_grupo),0);

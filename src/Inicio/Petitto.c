@@ -51,6 +51,9 @@ int main(int argc,char *argv[])
 
 	gtk_init(&argc, &argv);
 
+	if(rec_vars_from_file())
+		return 1;
+
 	abrir_css(DESKTOP_STYLE);
 	if(init())
 		return 1;

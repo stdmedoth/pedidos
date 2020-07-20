@@ -55,7 +55,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 						encerrando();
 				}
 			}
-
+			autologger("Reiniciando janela principal");
 			break;
 	}
 

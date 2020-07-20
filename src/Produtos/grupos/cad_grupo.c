@@ -205,9 +205,6 @@ int exclui_subgrupo()
 		return 1;
 	}
 	cancela_subgrupo();
-	gtk_widget_destroy(janela_grupo);
-	gtk_widget_destroy(janela_subgrupo);
-	cad_grupo();
 	popup(NULL,"Subgrupo excluido com sucesso");
 	gtk_widget_grab_focus(cod_subgrp_entry);
 	return 0;
@@ -476,11 +473,7 @@ int exclui_grupo()
 		popup(NULL,"Não foi possivel excluir grupo");
 		return 1;
 	}
-
-	gtk_widget_destroy(janela_grupo);
 	cancela_grupo();
-	cad_grupo();
-
 	popup(NULL,"Grupo excluído com sucesso");
 	return 0;
 }

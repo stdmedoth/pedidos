@@ -1,3 +1,4 @@
+#include "tools.h"
 #include "css.c"
 #include "vars.h"
 #include "stoi.h"
@@ -6,6 +7,7 @@
 #include "parametros.h"
 #include "operadores.h"
 
+#include "receber_confs.c"
 #include "tools.c"
 #include "criticas.c"
 #include "pesquisador.c"

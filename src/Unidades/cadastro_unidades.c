@@ -55,6 +55,7 @@ int  cad_und()
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Massa");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tempo");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Unidade");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Volume");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Genérico");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),0);
 

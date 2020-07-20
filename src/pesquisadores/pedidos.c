@@ -35,6 +35,7 @@ int entry_ped_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+
 	gchar *entrada = malloc(MAX_GRP_LEN);
 	entrada = (gchar*)gtk_entry_get_text(widget);
 	GtkTreeIter colunas, campos;
@@ -44,11 +45,11 @@ int entry_ped_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	if(status!=0)
 	{
 		status--;
-		sprintf(query,"select p.code, c.razao, p.data_mov, p.total from pedidos as p inner join terceiros as c on c.code = p.cliente where p.cliente like '%c%s%c' and p.status = %i",37,entrada,37,status);
+		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c' and p.status = %i",37,entrada,37,status);
 	}
 	else
 	{
-		sprintf(query,"select p.code, c.razao, p.data_mov, p.total from pedidos as p inner join terceiros as c on c.code = p.cliente where p.cliente like '%c%s%c'",37,entrada,37);
+		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c'",37,entrada,37);
 	}
 
 	res = consultar(query);

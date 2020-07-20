@@ -339,7 +339,7 @@ int vnd_ped()
 	ped_cod_entry = gtk_entry_new();
 	ped_cod_fixed = gtk_fixed_new();
 	ped_cod_box = gtk_box_new(0,0);
-	ped_cod_frame = gtk_frame_new("Orçamento:");
+	ped_cod_frame = gtk_frame_new("Pedido:");
 	gtk_box_pack_start(GTK_BOX(ped_cod_box),ped_cod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(ped_cod_box),ped_psq_cod_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(ped_cod_frame),ped_cod_box);

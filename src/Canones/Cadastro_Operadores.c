@@ -19,6 +19,50 @@ int oper_cancelar()
 	return 0;
 }
 
+int oper_excluir(){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char oper_codigo_tmp[MAX_CODE_LEN];
+	char query[MAX_QUERY_LEN];
+
+	sprintf(query,"select * from operadores where nome = '%s'",oper_nome_gchar);
+	if((res = consultar(query))==NULL){
+		popup(NULL,"Erro com consulta do operador");
+		return 1;
+	}
+	row = mysql_fetch_row(res);
+	if(row==NULL)
+	{
+		popup(NULL,"Operador não existente");
+		oper_cancelar();
+		return 1;
+	}
+	 strcpy(oper_codigo_tmp,row[0]);
+
+	if(sessao_oper.nivel<=atoi(row[3])){
+		popup(NULL,"Sem permissao para excluir operador");
+		oper_cancelar();
+		return 1;
+	}
+
+	sprintf(query,"delete from operadores where code = '%s'",oper_codigo_tmp);
+	if((enviar_query(query))!=0){
+		popup(NULL,"Não foi possivel excluir operador");
+		return 1;
+	}
+
+	sprintf(query,"delete from perfil_desktop where code = '%s'",oper_codigo_tmp);
+	if((enviar_query(query))!=0){
+		popup(NULL,"Não foi possivel excluir operador");
+		return 1;
+	}
+
+	popup(NULL,"Excluído com sucesso");
+	oper_cancelar();
+	return 0;
+
+}
+
 int oper_alterar()
 {
 	char *query;
@@ -26,6 +70,7 @@ int oper_alterar()
 	MYSQL_ROW row;
 	query = malloc(MAX_QUERY_LEN);
 	oper_alterando = 1;
+
 	if(oper_passa_nome()!=0){
 		oper_cancelar();
 		return 1;
@@ -72,7 +117,7 @@ int oper_passa_nome()
 
 	oper_nome_gchar = malloc(sizeof(char)*MAX_OPER_LEN);
 	oper_nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(oper_nome_entry));
-	gtk_entry_set_max_length(GTK_ENTRY(oper_nome_entry),sizeof(char)*MAX_OPER_LEN);
+
 	if(strlen(oper_nome_gchar)<=0)
 	{
 		popup(NULL,"Insira o nome!");
@@ -108,11 +153,11 @@ int oper_passa_senha()
 	oper_senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(oper_senha_entry));
 	if(strlen(oper_senha_gchar)<=0)
 	{
-
-		popup(NULL,"Insira o senha!");
-		return 1;
+		//popup(NULL,"Insira o senha!");
+		//return 1;
+		oper_senha_gchar = malloc(MAX_SEN_LEN);
+		strcpy(oper_senha_gchar,"");
 	}
-	gtk_entry_set_max_length(GTK_ENTRY(oper_nome_entry),sizeof(char)*MAX_OPER_LEN);
 	gtk_widget_grab_focus(oper_perm_entry);
 	return 0;
 }
@@ -244,9 +289,10 @@ int cad_oper()
 
 	if(sessao_oper.nivel>1)
 		oper_perm_entry = gtk_spin_button_new_with_range(1,sessao_oper.nivel-1,1);
-	else
+	else{
 		oper_perm_entry = gtk_spin_button_new_with_range(1,1,1);
-
+		gtk_widget_set_sensitive(oper_perm_entry,FALSE);
+	}
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),1);
 
 	oper_nome_frame = gtk_frame_new("Nome:");
@@ -320,6 +366,7 @@ int cad_oper()
 		popup(NULL,"Faltam dados para niveis gerenciais");
 		return 1;
 	}
+	gtk_entry_set_max_length(GTK_ENTRY(oper_nome_entry),sizeof(char)*MAX_OPER_LEN);
 
 	g_signal_connect(oper_psq_button,"clicked",G_CALLBACK(psq_oper),oper_nome_entry);
 
@@ -333,8 +380,10 @@ int cad_oper()
 
 	g_signal_connect(cad_oper_concluir_button,"clicked",G_CALLBACK(oper_concluir),NULL);
 	g_signal_connect(cad_oper_alterar_button,"clicked",G_CALLBACK(oper_alterar),NULL);
+	g_signal_connect(cad_oper_excluir_button,"clicked",G_CALLBACK(oper_excluir),NULL);
 	g_signal_connect(cad_oper_cancelar_button,"clicked",G_CALLBACK(oper_cancelar),NULL);
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	gtk_widget_show_all(janela);
+
 	return 0;
 }

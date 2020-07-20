@@ -5,11 +5,13 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
 
-	sprintf(query,"update perfil_desktop set desktop_img = %i where code = %i",numero,sessao_oper.code);
-	erro = enviar_query(query);
-	if(erro!=0)
-	{
-		popup(NULL,"Não foi possivel inserir imagem");
+	if(inicializando == 1){
+		sprintf(query,"update perfil_desktop set desktop_img = %i where code = %i",numero,sessao_oper.code);
+		erro = enviar_query(query);
+		if(erro!=0)
+		{
+			popup(NULL,"Não foi possivel inserir imagem");
+		}
 	}
 
 	switch(numero)

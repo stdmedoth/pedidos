@@ -6,6 +6,7 @@ static int ler_personalizacao()
 	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
+
 	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
 	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
 
@@ -103,9 +104,8 @@ static int receber_personalizacao()
 	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path2_entry),row[5]);
 	strcpy(impressoras.imp_path2,row[5]);
 
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path2_entry),row[6]);
-	strcpy(impressoras.imp_path2,row[5]);
-
+	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path3_entry),row[6]);
+	strcpy(impressoras.imp_path2,row[6]);
 
 	return 0;
 }
@@ -114,7 +114,16 @@ int atualizar_personalizacao()
 {
 	int erro;
 	char *query;
+	char *navegador_path1,*navegador_path2,*imp_path1,*imp_path2,*imp_path3;
+
 	query = malloc(MAX_QUERY_LEN);
+
+	navegador_path1 = malloc(MAX_PATH_LEN);
+	navegador_path2 = malloc(MAX_PATH_LEN);
+	imp_path1 = malloc(MAX_PATH_LEN);
+	imp_path2 = malloc(MAX_PATH_LEN);
+	imp_path3 = malloc(MAX_PATH_LEN);
+
 	if(ler_personalizacao())
 		return 1;
 	sprintf(query,"update perfil_desktop set janela_init = %i",personalizacao.janela_init);
@@ -129,13 +138,21 @@ int atualizar_personalizacao()
 		return 1;
 	}
 
-	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegadores.navegador_path1,navegadores.navegador_path2,navegadores.navegador_pdr,impressoras.imp_path1,impressoras.imp_path2,impressoras.imp_path3,sessao_oper.code);
+	mysql_real_escape_string(&conectar,navegador_path1,navegadores.navegador_path1,strlen(navegadores.navegador_path1));
+	mysql_real_escape_string(&conectar,navegador_path2,navegadores.navegador_path2,strlen(navegadores.navegador_path2));
+
+	mysql_real_escape_string(&conectar,imp_path1,impressoras.imp_path1,strlen(impressoras.imp_path1));
+	mysql_real_escape_string(&conectar,imp_path2,impressoras.imp_path2,strlen(impressoras.imp_path2));
+	mysql_real_escape_string(&conectar,imp_path3,impressoras.imp_path3,strlen(impressoras.imp_path3));
+
+	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegador_path1,navegador_path2,navegadores.navegador_pdr,imp_path1,imp_path2,imp_path3,sessao_oper.code);
+
 	if((erro = enviar_query(query))!=0)
 	{
 		popup(NULL,"Erro ao enviar dados para configuração do sistema");
 		return 1;
 	}
-
+	g_print("confs:\n%s\n",query);
 	receber_personalizacao();
 	return 0;
 }
@@ -323,8 +340,6 @@ int parametrizar()
 	if(ger_janela_aberta(janela_parametros, &janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]))
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN].janela_pointer = janela_parametros;
-
-	gtk_widget_show_all(janela_parametros);
 
 	notebook = gtk_notebook_new();
 	vet_pos = malloc(sizeof(int*)*WALLPAPERS_QNT);
@@ -562,12 +577,14 @@ int parametrizar()
 	if(sessao_oper.nivel < NIVEL_GERENCIAL_CODE)
 		gtk_widget_set_sensitive(outros_box,FALSE);
 
-	receber_personalizacao();
-	ler_criticas();
-
 	gtk_box_pack_start(GTK_BOX(caixona),notebook,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixona),opcoes_box,0,0,20);
 	gtk_container_add(GTK_CONTAINER(janela_parametros),caixona);
+	gtk_widget_show_all(janela_parametros);
+
+	receber_personalizacao();
+	ler_criticas();
+
 
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);

@@ -17,6 +17,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	subgrp_prod_orc_cod_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]));
 
 	if(produto_inserido[posicao] == 0){
+		popup(NULL,"Insira o produto!");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}

@@ -10,8 +10,7 @@ static int logging = 0;
 #define HTML_IMP 4
 
 GtkWidget *print_janela;
-int enviar_query(char *query);
-int autologger(char *string);
+
 GtkWidget *msg_abrir_orc_window;
 static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4, *imp_botao_radio5;
 static int imps_qnt=0, navs_qnt=0;
@@ -98,8 +97,6 @@ int close_window_callback(GtkWidget *widget,gpointer *ponteiro)
 			gtk_widget_destroy(GTK_WIDGET(ponteiro));
 	return 0;
 }
-
-static void popup(GtkWidget *widget,gchar *string);
 
 void carregar_navimps(){
 	imps_qnt=0;
@@ -210,7 +207,11 @@ int desenhar_pdf(char *gerando_file)
 		return 1;
 	}
 	else{
-		iniciar_impressao(gerado);
+		g_usleep(G_USEC_PER_SEC*3);
+		if(iniciar_impressao(gerado))
+			return 1;
+		else
+			popup(NULL,"Processo finalizado");
 	}
 
 	return 0;
@@ -285,11 +286,12 @@ int escolher_finalizacao(char *gerando_file)
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_confirma,0,0,50);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes),botao_cancela,0,0,5);
 
+	carregar_navimps();
+
 	if(!imps_qnt && !navs_qnt){
 		popup(NULL,"Não há impressoras ou navegadores configurados!");
 		return 1;
 	}
-
 
 	sprintf(imp1_name,"Enviar para %s",get_elem_from_path(impressoras.imp_path1));
 	imp_botao_radio1 = gtk_radio_button_new_with_label(NULL,imp1_name);
@@ -353,6 +355,20 @@ char *randomizar_string()
     return res;
 }
 
+int file_logger(char *string){
+	FILE *logger;
+
+	logger = fopen(LOGGER,"a+");
+
+	if(logger)
+		fprintf(logger,"%s\n",string);
+	else{
+		popup(NULL,"Não foi possivel atualizar logs, verifique com suporte");
+		return 1;
+	}
+	fclose(logger);
+	return 0;
+}
 
 int autologger(char *string)
 {
@@ -382,11 +398,14 @@ int autologger(char *string)
 	if(enviar_query(string2)!=0)
 		g_print("Log não pode ser enviado\n%s\n",string2);
 
+	file_logger(string2);
+
 	logging = 0;
 	return 0;
 }
 
 GtkWidget *popup_fechar;
+
 static void popup(GtkWidget *widget,gchar *string)
 {
 	int len;
@@ -425,6 +444,9 @@ static void popup(GtkWidget *widget,gchar *string)
 MYSQL_RES *consultar(char *query)
 {
 	int err=1;
+	FILE *backup_query;
+	backup_query = fopen(BACKUP_QUERY_FILE,"+a");
+
 	if(primeira_conexao==0)
 	{
 		if(!mysql_init(&conectar))
@@ -433,9 +455,9 @@ MYSQL_RES *consultar(char *query)
 			autologger((char*)mysql_error(&conectar));
 			return NULL;
 		}
-		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
+
+		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
-			autologger((char*)mysql_error(&conectar));
 			return NULL;
 		}
 
@@ -445,6 +467,7 @@ MYSQL_RES *consultar(char *query)
 		}
 		primeira_conexao=1;
 	}
+
 	#ifdef QUERY_DEBUG
 	g_print("%s\n",query);
 	#endif
@@ -465,12 +488,19 @@ MYSQL_RES *consultar(char *query)
 		primeira_conexao=0;
 		return NULL;
 	}
-	//mysql_close(&conectar);
+
+	if(backup_query){
+		fprintf(backup_query,"%s\n",query);
+		fclose(backup_query);
+	}
 	return vetor;
 }
 
 int enviar_query(char *query)
 {
+	FILE *backup_query;
+	backup_query = fopen(BACKUP_QUERY_FILE,"a+");
+
 	int err=1;
 	if(primeira_conexao==0)
 	{
@@ -484,7 +514,7 @@ int enviar_query(char *query)
 			primeira_conexao=0;
 			return 1;
 		}
-		if(!mysql_real_connect(&conectar,SERVER,USER,PASS,DATABASE,0,NULL,0))
+		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
 
@@ -500,6 +530,7 @@ int enviar_query(char *query)
 		{
 			autologger("Não foi possivel setar novo caracter");
 		}
+		primeira_conexao=1;
 	}
 
 	#ifdef QUERY_DEBUG
@@ -515,6 +546,11 @@ int enviar_query(char *query)
 		}
 		return err;
 	}
+	if(backup_query){
+		fprintf(backup_query,"%s\n",query);
+		fclose(backup_query);
+	}
+
 	return 0;
 }
 

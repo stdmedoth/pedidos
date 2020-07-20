@@ -1,6 +1,7 @@
 create database if not exists erp;
 use erp;
 
+drop table if exists niveis_gerenciais;
 drop table if exists tipo_pagamento;
 drop table if exists movimento_estoque;
 drop table if exists estoques;
@@ -223,6 +224,13 @@ foreign key(produto) references produtos(code),
 foreign key(subgrupo) references grupos(code));
 
 create table if not exists tipo_pagamento( code int, nome varchar(50));
+
+create table if not exists wnd_logger(id_janela int,
+nome_janela varchar(100),
+estado int,
+qnt_aberta int,
+operador int,
+tempo datetime);
 
 create table if not exists cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
 descricao varchar(100) DEFAULT NULL,

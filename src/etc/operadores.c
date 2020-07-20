@@ -1,5 +1,14 @@
+gchar *oper_nome_login,*oper_senha_login;
+
 void passa_nome()
 {
+	oper_nome_login = malloc(MAX_OPER_LEN);
+	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
+	if(!strlen(oper_nome_login)){
+		popup(NULL,"Insira o operador");
+		gtk_widget_grab_focus(nome_entry);
+		return ;
+	}
 	gtk_widget_grab_focus(senha_entry);
 }
 
@@ -14,16 +23,15 @@ void verifica_senha()
 	char *query;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	gchar *nome_gchar,*senha_gchar;
 
-	nome_gchar = malloc(MAX_OPER_LEN);
-	senha_gchar = malloc(MAX_SEN_LEN);
+	oper_nome_login = malloc(MAX_OPER_LEN);
+	oper_senha_login = malloc(MAX_SEN_LEN);
 	query = malloc(MAX_QUERY_LEN);
 
-	nome_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
-	senha_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
+	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
+	oper_senha_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
 
-	sprintf(query,"select code,nivel from operadores where nome = '%s' and senha = MD5('%s');",nome_gchar,senha_gchar);
+	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",oper_nome_login,oper_senha_login);
 
 	res = consultar(query);
 	if(res==NULL)
@@ -34,14 +42,13 @@ void verifica_senha()
 
 	if((row = mysql_fetch_row(res))!=NULL)
 	{
-
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);
 
 		sessao_oper.code = atoi(row[0]);
-		strcpy(sessao_oper.nome,nome_gchar);
-		sessao_oper.nivel = atoi(row[1]);
+		strcpy(sessao_oper.nome,row[1]);
+		sessao_oper.nivel = atoi(row[2]);
 
 		desktop();
 		return;

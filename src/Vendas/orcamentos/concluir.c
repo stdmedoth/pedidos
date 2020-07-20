@@ -110,6 +110,7 @@ static int concluir_orc()
 			{
 				if(inseridos_na_alteracao<rec_altera_qnt)
 				{
+					g_print("Atualizando %i\n",cont);
 					sprintf(query,"update Produto_Orcamento set produto = %i, subgrupo = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s, observacoes = '%s' where code = %s and item = %i",ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont],codigo_orc_gchar,cont);
 					erro = enviar_query(query);
 					if(erro != 0 )
@@ -118,6 +119,7 @@ static int concluir_orc()
 						autologger("Erro ao tentar gerar orçamento");
 						return 1;
 					}
+
 					sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s), pag_cond = %i, observacoes = '%s', tipo_mov = %i where code = %s",codigo_orc_gchar, pag_cond, observacoes_orc_gchar, operacao_orc_int, codigo_orc_gchar);
 					erro = enviar_query(query);
 					if(erro != 0 )
@@ -134,16 +136,16 @@ static int concluir_orc()
 				}
 				inseridos_na_alteracao++;
 			}
+			sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s),pag_cond = %i, observacoes = '%s' where code = %s",codigo_orc_gchar,pag_cond,observacoes_orc_gchar,codigo_orc_gchar);
+			erro = enviar_query(query);
+			if(erro != 0 )
+			{
+				popup(NULL,"Erro ao tentar calcular total");
+				autologger("Erro ao tentar calcular total");
+				return 1;
+			}
+		}
 
-		}
-		sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s),pag_cond = %i, observacoes = '%s' where code = %s",codigo_orc_gchar,pag_cond,observacoes_orc_gchar,codigo_orc_gchar);
-		erro = enviar_query(query);
-		if(erro != 0 )
-		{
-			popup(NULL,"Erro ao tentar calcular total");
-			autologger("Erro ao tentar calcular total");
-			return 1;
-		}
 	}
 	popup(NULL,"Orcamento concluido");
 

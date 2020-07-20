@@ -11,12 +11,11 @@ static void ativacao_app(){
 
 		aplicacao = gtk_application_new(NULL, G_APPLICATION_CAN_OVERRIDE_APP_ID);
 		g_application_register(G_APPLICATION(aplicacao),NULL,NULL);
+		//g_application_run(G_APPLICATION(aplicacao),0,NULL);
 		janelas_gerenciadas.aplicacao.criada = 1;
+		autologger("aplicacao inicializando");
 	}
-
 	janela_principal = gtk_application_window_new(aplicacao);
-
-	autologger("aplicacao inicializando");
 
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
 	//if(personalizacao.janela_keep_above==1)
@@ -51,6 +50,7 @@ int desktop()
 	GtkWidget *logoff_button;
 	GtkWidget *suport_button;
 
+	GtkWidget *hostname_fixed, *hostname_label;
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
 	GtkWidget *nivel_usuario_fixed ,*nivel_usuario_label;
 	gchar *nome_usuario_gchar;
@@ -127,8 +127,7 @@ int desktop()
 	}
 	else
 	{
-		popup(NULL,"Login indevido");
-		autologger("Login indevido");
+		popup(NULL,"Login sem personalizacao");
 		gtk_main_quit();
 		return 1;
 	}
@@ -175,7 +174,7 @@ int desktop()
 	fixed_endereco = gtk_fixed_new();
 	fixed_cnpj = gtk_fixed_new();
 
-	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,50,250);
+	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,50,300);
 	gtk_widget_set_name(razao,"infos");
 
 	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,50,5);
@@ -218,9 +217,17 @@ int desktop()
 
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
+	hostname_fixed = gtk_fixed_new();
+	hostname_label = gtk_label_new(server_confs.server_endereco);
+
+	gtk_widget_set_name(hostname_fixed,"hostname-label");
+	gtk_widget_set_name(hostname_label,"hostname-label");
+
 	nome_usuario_fixed = gtk_fixed_new();
 	gtk_fixed_put(GTK_FIXED(nome_usuario_fixed),nome_usuario_label,100,200);
 	gtk_fixed_put(GTK_FIXED(nivel_usuario_fixed),nivel_usuario_label,100,220);
+
+	gtk_fixed_put(GTK_FIXED(hostname_fixed),hostname_label,100,240);
 
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_razao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
@@ -266,6 +273,7 @@ int desktop()
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
@@ -293,7 +301,7 @@ int desktop()
 	gtk_widget_show_all(janela_principal);
 
 	configurar_parametros();
-	
+
 	iniciar_gerenciador_janela();
 
 	gtk_widget_hide(lista_abas);
@@ -325,6 +333,7 @@ int init()
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
+
 	if((row = mysql_fetch_row(res))==NULL)
 	{
 		popup(NULL,"Sem dados para personalizar o sistema");

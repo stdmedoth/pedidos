@@ -355,7 +355,10 @@ int gerar_orc()
 	fprintf(orc,"</html>\n");
 	fclose(orc);
 
-	escolher_finalizacao(gerando_file);
+	if(escolher_finalizacao(gerando_file)){
+		cancela_orc();
+		return 1;
+	}
 
 	return 0;
 }

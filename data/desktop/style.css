@@ -19,6 +19,15 @@
   border: solid 1px black;
 }
 
+#hostname-label{
+  background: grey;
+  padding: 5px;
+  border: solid 1px black;
+  color: Gainsboro;
+  text-shadow: 5px 2px 5px #00238c;
+  font-size: 15px;
+}
+
 #infos{
   color: white;
   text-shadow: 5px 2px 5px #00238c;

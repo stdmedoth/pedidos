@@ -1,6 +1,4 @@
 #include "campos.h"
-#include <time.h>
-
 
 void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
 
@@ -42,6 +40,7 @@ static int gerar_total_geral()
 			}
 		}
 	}
+
 	sprintf(muda_label,"R$ %.2f",total_geral_orc);
 	gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
 
@@ -114,6 +113,17 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	{
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
+
+	cont=1;
+	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
+	{
+		if(ativos[pos].id == 1){
+			gtk_widget_set_sensitive(botao_menos[pos],TRUE);
+			cont = pos;
+		}
+	}
+	if(cont<MAX_PROD_ORC)
+		gtk_widget_set_sensitive(botao_menos[cont],FALSE);
 
 	return 0;
 }
@@ -261,11 +271,15 @@ static int adicionar_linha_orc()
 
 	if(GTK_IS_WIDGET(botao_orc_mais))
 	{
+ 		g_object_unref(botao_orc_mais);
 		gtk_widget_destroy(botao_orc_mais);
+
 	}
 
 	img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
 	botao_orc_mais  = gtk_button_new();
+	g_object_ref(botao_orc_mais);
+	g_object_ref_sink(botao_orc_mais);
 	gtk_button_set_image(GTK_BUTTON(botao_orc_mais),img_botao_orc_mais);
 
 	botao_menos[itens_qnt] = gtk_button_new();
@@ -346,15 +360,17 @@ static int adicionar_linha_orc()
 	aviso_estoque[itens_qnt] = 0;
 	ativos_qnt++;
 
-	if(alterando_orc==0)
+	cont=1;
+	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
 	{
-		if(ativos[itens_qnt-1].id == 1)
-		{
-			if(GTK_IS_BUTTON(botao_menos[itens_qnt-1]))
-				gtk_widget_set_sensitive(botao_menos[itens_qnt-1],TRUE);
-			gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
+		if(ativos[pos].id == 1){
+			gtk_widget_set_sensitive(botao_menos[pos],TRUE);
+			cont=pos;
 		}
 	}
+	if(cont<MAX_PROD_ORC)
+		gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
+
 
 	if(ativos_qnt>2)
 	{

@@ -1,10 +1,6 @@
-#define SERVER "localhost"
-#define USER "petitto"
-#define PASS "1234"
-#define DATABASE "erp"
 #ifdef WIN32
-#define TEMA_PATH	  "/gtk/share/themes/"
-#define CT_CONF_PATH  "/petitto/files/criticas.conf"
+#define SERVER_CONF   "/petitto/files/server.conf"
+#define TEMA_PATH	    "/gtk/share/themes/"
 #define ORC_PATH      "/petitto/files/impressao/"
 #define IMG_REC       "/petitto/files/opcoes_padrao/recarregar.png"
 #define IMG_MONEY     "/petitto/files/opcoes_padrao/cash-outline.png"
@@ -82,16 +78,17 @@
 #define EST_RELAT_FILE    "/petitto/files/impressao/relatorios/estoque/"
 #define MOV_RELAT_FILE    "/petitto/files/impressao/relatorios/movimentos/"
 #define IMG_IMP_LOGO      "/petitto/files/impressao/imgs/logo_livro_texto.png"
+#define BACKUP_QUERY_FILE "/petitto/files/backup_querys"
 
 #endif
 
 #ifdef __linux__
+#define SERVER_CONF "/usr/share/petitto/files/server.conf"
 #define TEMA_PATH	  "/usr/share/themes/"
 #define PDF_GEN       "/usr/bin/wkhtmltopdf"
 #define COPY_PROG     "/usr/bin/cp"
 #define IMP_PORT1     "/usr/share/petitto/files/impressao/linux_print_emulator1/"
 #define IMP_PORT2     "/usr/share/petitto/files/impressao/linux_print_emulator2/"
-#define CT_CONF_PATH  "/usr/share/petitto/files/criticas.conf"
 #define ORC_PATH 	  "/usr/share/petitto/files/impressao/"
 #define DESKTOP_STYLE "/usr/share/petitto/files/desktop/style.css"
 #define DESKTOP       "/usr/share/petitto/files/desktop.png"
@@ -110,7 +107,7 @@
 #define THUMBDESKTOP6 "/usr/share/petitto/files/thumbs/thumbdesktop6.png"
 #define ICO           "/usr/share/petitto/files/ico.ico"
 #define INIT_IMAGE    "/usr/share/petitto/files/init.jpg"
-#define LOGGER        "/usr/share/petitto/files/logger"
+#define LOGGER        "/usr/share/petitto/files/logger.log"
 #define BACKUP        "/usr/share/petitto/files/backup"
 #define BANNER        "/usr/share/petitto/files/princ_imgs/banner.png"
 #define MSG_PRINC     "/usr/share/petitto/files/msg"
@@ -156,12 +153,13 @@
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
 #define ICON_PATH     "/usr/share/petitto/files/opcoes_padrao/icones/"
-#define TER_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/terceiros/"
-#define PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/produtos/"
-#define VND_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/vendas/"
-#define EST_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/estoque/"
-#define MOV_RELAT_FILE  "/usr/share/petitto/files/impressao/relatorios/movimentos/"
-#define IMG_IMP_LOGO  "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
+#define TER_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE   "/usr/share/petitto/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/estoque/"
+#define MOV_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/movimentos/"
+#define IMG_IMP_LOGO      "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
+#define BACKUP_QUERY_FILE "/usr/share/petitto/files/backup_querys"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -236,6 +234,15 @@
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50
 #define MAX_LOG_DESC 2000
+
+#define MAX_SERVER_LEN 50
+#define MAX_CONF_STRING_LEN 2000
+#define MAX_VAR_LEN 100
+#define SERVER_VAR_NAME "server="
+#define USER_VAR_NAME "usuario="
+#define SENHA_VAR_NAME "senha="
+#define DATABASE_VAR_NAME "banco="
+
 
 #define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100

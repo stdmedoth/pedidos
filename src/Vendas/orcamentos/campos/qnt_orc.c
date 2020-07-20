@@ -196,6 +196,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	ativos[posicao].total_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))-ativos[posicao].desconto_f;
 
 	sprintf(total_prod_orc_gchar,"%.2f",ativos[posicao].total_f);
+	gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[posicao]),total_prod_orc_gchar);
 
 	critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
 	strcpy(ativos[posicao].total_c,total_prod_orc_gchar);

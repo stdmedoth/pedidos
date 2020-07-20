@@ -9,7 +9,7 @@ void gera_orc_ped()
 	{
 		return ;
 	}
-	sprintf(query,"select code from pedidos where code = %s",codigo_orc_gchar);
+	sprintf(query,"select code,status from pedidos where code = %s",codigo_orc_gchar);
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -18,7 +18,11 @@ void gera_orc_ped()
 	}
 	if((row = mysql_fetch_row(res))!=NULL)
 	{
-		popup(NULL,"Orcamento já virou pedido");
+		if(atoi(row[1])==STATUS_PED_EMIT)
+			popup(NULL,"Orcamento já é um pedido emitido");
+		if(atoi(row[1])==STATUS_PED_CAN)
+			popup(NULL,"Orcamento já é um pedido cancelado");
+			
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return ;
 	}
