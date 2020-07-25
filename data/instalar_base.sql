@@ -1,6 +1,3 @@
-create database if not exists erp;
-use erp;
-
 drop table if exists niveis_gerenciais;
 drop table if exists tipo_pagamento;
 drop table if exists movimento_estoque;
@@ -33,12 +30,14 @@ drop table if exists relat_tabelas_id;
 
 
 create table if not exists confs(  code int primary key auto_increment,
-  navegador_path1 varchar(1000) default '' not null,
-  navegador_path2 varchar(1000) default '' not null,
-  navegador_pdr int default 1 not null,
-  imp_path1 varchar(1000) default '' not null,
-  imp_path2 varchar(1000) default '' not null,
-  imp_path3 varchar(1000) default '' not null);
+navegador_path1 varchar(1000) default '' not null,
+navegador_path2 varchar(1000) default '' not null,
+navegador_pdr int default 1 not null,
+imp_path1 varchar(1000) default '' not null,
+imp_path2 varchar(1000) default '' not null,
+imp_path3 varchar(1000) default '' not null,
+print_logs int not null default 0,
+bd_logs int not null default 0);
 
 create table if not exists tipo_movimentos( code int primary key,
   id int not null default 0,
@@ -150,7 +149,7 @@ valor_vist float default 0.0,
 foreign key(produto) references produtos(code),
 foreign key(terceiro) references terceiros(code));
 
-create table preco_grupo( code int primary key auto_increment,
+create table if not exists preco_grupo( code int primary key auto_increment,
 produto int default 1,
 grupo int default 1,
 valor_fat float default 0.0,
@@ -222,6 +221,15 @@ tipo_mov int default 0,
 foreign key(estoque) references estoques(code),
 foreign key(produto) references produtos(code),
 foreign key(subgrupo) references grupos(code));
+
+create table saldo_min_grupo( code int primary key auto_increment,
+produto int  not null default 1,
+grupo int  not null default 1,
+saldo_min float  not null default 0.0,
+estoque int  not null default 1,
+foreign key(produto) references produtos(code),
+foreign key(grupo) references grupos(code),
+foreign key(estoque) references estoques(code));
 
 create table if not exists tipo_pagamento( code int, nome varchar(50));
 

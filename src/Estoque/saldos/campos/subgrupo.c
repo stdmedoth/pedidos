@@ -17,7 +17,7 @@ int est_sald_subgrp_fun()
 		gtk_widget_grab_focus(est_sld_grp_cod_entry);
 		return 1;
 	}
-	sprintf(query,"select * from grupos where code = %s",est_sld_subgrp_cod_gchar);
+	sprintf(query,"select * from grupos where code = %i",atoi(est_sld_subgrp_cod_gchar));
 	if((estado = consultar(query))==NULL)
 		return 1;
 
@@ -45,7 +45,8 @@ int est_sald_subgrp_fun()
 	gtk_entry_set_text(GTK_ENTRY(est_sld_grp_nome_entry),dest);
 	gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
 
-	sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and subgrupo = %s and estoque = %i",
+	sprintf(query,"select SUM(entradas) - SUM(saidas),(select MAX(date_format(data_mov,'%cd/%cm/%cY')) from movimento_estoque) from movimento_estoque where produto = %s and subgrupo = %s and estoque = %i",
+	37,37,37,
 	est_sld_prod_cod_gchar,
 	est_sld_subgrp_cod_gchar,
 	est_sld_prod_est_int);
@@ -56,17 +57,32 @@ int est_sald_subgrp_fun()
 	if((campo = mysql_fetch_row(estado))==NULL)
 	{
 		popup(NULL,"O produto está sem saldo no estoque");
+		gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),"");
 		return 1;
 	}
 	if(campo[0])
 	{
 		sprintf(valor,"%.3f",atof(campo[0]));
 		gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),valor);
+		gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),campo[1]);
 	}
 	else
 	{
 		popup(NULL,"O produto nunca foi movimentado");
+		gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),"");
 		return 1;
+	}
+
+	sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and grupo = %i",atoi(est_sld_prod_cod_gchar),atoi(est_sld_subgrp_cod_gchar));
+	if((estado = consultar(query))==NULL)
+		return 1;
+
+	if((campo = mysql_fetch_row(estado))!=NULL)
+	{
+		sprintf(valor,"%.3f",atof(campo[0]));
+		gtk_entry_set_text(GTK_ENTRY(est_sld_min_entry),valor);
 	}
 
 	return 0;

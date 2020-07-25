@@ -1,12 +1,10 @@
-use erp;
-
 create table dados (code int primary key,
 nome varchar(50) not null default 'TipoIndefinido');
 
 create table relat_tabelas_id( code int primary key auto_increment,
 nome varchar(50) not null,
 sobre varchar(300),
-inner_query varchar(300),
+inner_query varchar(1000),
 qnt_colunas int);
 
 create table relat_tab_campos( code int primary key auto_increment,
@@ -48,11 +46,11 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ('Movimentos estoque','Tabela responsável por mostrar movimentações de produtos no estoque',
 ' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code',10),
 
-('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from Produto_Orcamento as p_o inner join',10),
-
 ('Faturamento','Tabela responsável pela visualização de valor das vendas',
-  ' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7);
+' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7)
+
+('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
+' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_o.produto = p.code and p_o.subgrupo = o_g.code',15);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),
@@ -123,9 +121,26 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (5, 'Data','Data do movimento', 'm_e.data_mov',5);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
-(7, 'Cód.','Código dos movimentos de venda', 'f.code',2),
-(7, 'Cód. Pedido','Código dos pedido vinculado ao faturamento', 'p.code',2),
-(7, 'Valor Entrada','Valor de entradas faturamento', 'f.entrada',4),
-(7, 'Valor Saída','Valor de entradas faturamento', 'f.saida',4),
-(7, 'Data','Data do movimento no faturamento', 'f.data_mov',5),
-(7, 'Tipo','Tipo de movimento(venda,devolução)', 't_m.nome',1);
+(6, 'Cód.','Código dos movimentos de venda', 'f.code',2),
+(6, 'Cód. Pedido','Código dos pedido vinculado ao faturamento', 'p.code',2),
+(6, 'Valor Entrada','Valor de entradas faturamento', 'f.entrada',4),
+(6, 'Valor Saída','Valor de saidas faturamento', 'f.saida',4),
+(6, 'Data','Data do movimento no faturamento', 'f.data_mov',5),
+(6, 'Tipo','Tipo de movimento(venda,devolução)', 't_m.nome',1);
+
+insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
+(7, 'Código Orc.','Código dos orcamentos gerados', 'o.code',2),
+(7, 'Cliente','Cliente vinculado ao orcamento', 't.razao',1),
+(7, 'Data de Criação', 'Data dos dos orcamentos gerados', 'o.dia',5),
+(7, 'tipopag','Tipo de pagamento (faturado, a vista)', 'tp.nome',1),
+(7, 'Total','Valor Totaldo orcamento', 'o.total',3),
+(7, 'Observacoes','Observações contidas no orçamento', 'o.obeservacoes',1),
+(7, 'Código Pród.' , 'Visualizar código do produto', 'p.code',2),
+(7, 'Nome',  'Visualizar nome do produto', 'p.nome ',1),
+(7, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
+(7, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),
+(7, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome',1),
+(7, 'Fornecedor', 'Terceiro fornecedor do produto', 't.razao',1),
+(7, 'Grupo', 'Grupo vinculado ao produto', 'g.nome',1),
+(7, 'Nivel Grupo', 'Nivel do grupo vinculado (Não utilizado)', 'p.grupo_nivel',2),
+(7, 'Observações', 'Observações do produto', 'o.observacoes',1);

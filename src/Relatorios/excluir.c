@@ -5,7 +5,7 @@ int cad_relat_excluir()
 	char query[MAX_QUERY_LEN];
 	if(cad_relat_code()!=0)
 		return 1;
-			
+
 	sprintf(query,"select * from criador_relat where code = %s",cad_rel_code_gchar);
 	if((row = mysql_fetch_row(consultar(query)))==NULL)
 	{
@@ -13,7 +13,7 @@ int cad_relat_excluir()
 		popup(NULL,"Relatório não existe para ser excluido");
 		return 1;
 	}
-	
+
 	sprintf(query,"delete from criador_relat where code = %s",cad_rel_code_gchar);
 	if(enviar_query(query)!=0)
 	{
@@ -22,5 +22,5 @@ int cad_relat_excluir()
 	}
 	popup(NULL,"Relatorio excluido com sucesso!");
 	cad_relat_cancelar();
-	return 0;	
+	return 0;
 }

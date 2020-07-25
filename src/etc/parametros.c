@@ -7,6 +7,8 @@ static int ler_personalizacao()
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
 
+	orc_params.est_orc_padrao = gtk_spin_button_get_value(GTK_SPIN_BUTTON(est_orc_padrao));
+
 	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
 	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
 
@@ -72,6 +74,21 @@ static int receber_personalizacao()
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));
 
+	sprintf(query,"select * from orc_param");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber parametros de orçamentos");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem dados para parametrizar orçamentos");
+		return 1;
+	}
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(est_orc_padrao),atoi(row[0]));
+	orc_params.est_orc_padrao = atoi(row[0]);
+
 	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
 
 	if((res = consultar(query))==NULL)
@@ -126,6 +143,7 @@ int atualizar_personalizacao()
 
 	if(ler_personalizacao())
 		return 1;
+
 	sprintf(query,"update perfil_desktop set janela_init = %i",personalizacao.janela_init);
 	if((erro = enviar_query(query))!=0)
 	{
@@ -152,7 +170,14 @@ int atualizar_personalizacao()
 		popup(NULL,"Erro ao enviar dados para configuração do sistema");
 		return 1;
 	}
-	g_print("confs:\n%s\n",query);
+	sprintf(query,"update orc_param set est_orc_padrao = '%i'",
+	orc_params.est_orc_padrao);
+	if((erro = enviar_query(query))!=0)
+	{
+		popup(NULL,"Erro ao enviar dados para configuração do sistema");
+		return 1;
+	}
+
 	receber_personalizacao();
 	return 0;
 }
@@ -304,6 +329,8 @@ int parametrizar()
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box,*orc_criticas_box;
 	GtkWidget *personaliza_box,*personaliza_frame;
 	GtkWidget *tema_combo_box_fixed;
+	GtkWidget *orc_parametros_frame, *orc_parametros_box, *orc_parametros_fixed;
+	GtkWidget *est_orc_padrao_frame;
 	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
@@ -315,6 +342,7 @@ int parametrizar()
 	GtkWidget *tecn_param_imp_path1_box, *tecn_param_imp_path2_box, *tecn_param_imp_path3_box;
 	GtkWidget *tecn_param_nav_path1_fchoose, *tecn_param_nav_path2_fchoose, *tecn_param_nav_choose_fchoose;
 	GtkWidget *tecn_param_imp_path1_fchoose, *tecn_param_imp_path2_fchoose, *tecn_param_imp_path3_fchoose;
+	GtkWidget *tecn_param_scroll, *tecn_param_box;
 
 	GtkWidget *opcoes_box;
 
@@ -505,6 +533,15 @@ int parametrizar()
 	gtk_container_add(GTK_CONTAINER(tecn_caminhos_frame),tecn_caminhos_box);
 	gtk_fixed_put(GTK_FIXED(tecn_caminhos_fixed),tecn_caminhos_frame,20,20);
 
+	tecn_param_scroll = gtk_scrolled_window_new(NULL,NULL);
+	tecn_param_box = gtk_box_new(1,0);
+
+	gtk_box_pack_start(GTK_BOX(tecn_param_box),tecn_caminhos_fixed,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(tecn_param_scroll),tecn_param_box);
+
+	gtk_widget_set_size_request(tecn_param_box,580,400);
+	gtk_widget_set_size_request(tecn_param_scroll,580,400);
 	gtk_widget_set_size_request(geral_box,580,400);
 
 	gtk_box_pack_start(GTK_BOX(geral_box),wallpapers_frame,0,0,10);
@@ -521,10 +558,21 @@ int parametrizar()
 	orc_criticas_frame = gtk_frame_new("Produto em Orçamentos");
 	orc_criticas_box = gtk_box_new(1,0);
 
+	orc_parametros_fixed = gtk_fixed_new();
+	est_orc_padrao = gtk_spin_button_new_with_range(1,5,1);
+	est_orc_padrao_frame = gtk_frame_new("Estoque padrão");
+	orc_parametros_frame = gtk_frame_new("Parâmetros Orçamentos");
+	orc_parametros_box = gtk_box_new(1,0);
+	gtk_container_add(GTK_CONTAINER(est_orc_padrao_frame),est_orc_padrao);
+	gtk_box_pack_start(GTK_BOX(orc_parametros_box),est_orc_padrao_frame,0,0,0);
+	gtk_container_add(GTK_CONTAINER(orc_parametros_frame),orc_parametros_box);
+	gtk_fixed_put(GTK_FIXED(orc_parametros_fixed),orc_parametros_frame,20,0);
+
 	sprintf(query,"select nome from criticas");
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro consultando nome dos campos de criticas");
+
 		return 1;
 	}
 	cont=0;
@@ -540,6 +588,7 @@ int parametrizar()
 
 		cont++;
 	}
+
 	sprintf(query,"select * from confs");
 	if((res = consultar(query))==NULL)
 	{
@@ -561,8 +610,9 @@ int parametrizar()
 	gtk_container_add(GTK_CONTAINER(orc_criticas_frame),orc_criticas_box);
 
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_criticas_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(orc_box),orc_parametros_fixed,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(tecnico_box),tecn_caminhos_fixed,0,0,10);
+	gtk_box_pack_start(GTK_BOX(tecnico_box),tecn_param_scroll,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(gerencial_box),janela_init,0,0,5);
 
@@ -589,7 +639,7 @@ int parametrizar()
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);
 	g_signal_connect(janela_parametros,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]);
-
 	gtk_widget_show_all(janela_parametros);
+
 	return 0;
 }

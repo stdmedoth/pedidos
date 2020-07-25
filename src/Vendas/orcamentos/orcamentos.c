@@ -242,7 +242,10 @@ static int adicionar_linha_orc()
 	desconto_prod_orc_label[itens_qnt] = gtk_label_new("Desconto");
 	desconto_prod_orc_entry[itens_qnt] = gtk_entry_new();
 
-	total_prod_orc_label[itens_qnt] = gtk_label_new("Total");
+
+	total_prod_orc_fixed[itens_qnt] = gtk_fixed_new();
+	total_prod_orc_frame[itens_qnt] = gtk_frame_new("Total");
+	total_prod_orc_box[itens_qnt] = gtk_box_new(1,0);
 	total_prod_orc_entry[itens_qnt] = gtk_entry_new();
 
 	obs_prod_orc_view[itens_qnt] = gtk_text_view_new();
@@ -293,6 +296,7 @@ static int adicionar_linha_orc()
 	//gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[itens_qnt]),descricao_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[itens_qnt]),descricao_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_widget_set_sensitive(descricao_prod_orc_entry[itens_qnt],FALSE);
+	gtk_widget_set_name(descricao_prod_orc_entry[itens_qnt],"entry_unsensetivate");
 
 	gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[itens_qnt]),codigo_orc_prod_box[itens_qnt]);
 
@@ -308,6 +312,7 @@ static int adicionar_linha_orc()
 	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),5);
 	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),30);
 	gtk_widget_set_sensitive(subgrp_prod_orc_entry[itens_qnt],FALSE);
+	gtk_widget_set_name(subgrp_prod_orc_entry[itens_qnt],"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_entry[itens_qnt],0,0,2);
@@ -333,9 +338,12 @@ static int adicionar_linha_orc()
 
 	gtk_entry_set_width_chars(GTK_ENTRY(desconto_prod_orc_entry[itens_qnt]),4);
 
-	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),total_prod_orc_label[itens_qnt],0,0,2);
-	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),total_prod_orc_entry[itens_qnt],0,0,2);
+	gtk_box_pack_start(GTK_BOX(total_prod_orc_box[itens_qnt]),total_prod_orc_entry[itens_qnt],0,0,2);
+	gtk_container_add(GTK_CONTAINER(total_prod_orc_frame[itens_qnt]),total_prod_orc_box[itens_qnt]);
+	gtk_fixed_put(GTK_FIXED(total_prod_orc_fixed[itens_qnt]),total_prod_orc_frame[itens_qnt],0,0);
 	gtk_entry_set_width_chars(GTK_ENTRY(total_prod_orc_entry[itens_qnt]),8);
+
+	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),total_prod_orc_fixed[itens_qnt],0,0,2);
 
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),botao_menos[itens_qnt],0,0,2);
@@ -518,6 +526,11 @@ int vnd_orc()
 	gtk_widget_set_sensitive(cliente_orc_tel_entry,FALSE);
 	cliente_orc_box = gtk_box_new(0,0);
 
+	gtk_widget_set_name(cliente_orc_entry,"entry_unsensetivate");
+	gtk_widget_set_name(cliente_orc_name_entry,"entry_unsensetivate");
+	gtk_widget_set_name(cliente_orc_end_entry,"entry_unsensetivate");
+	gtk_widget_set_name(cliente_orc_tel_entry,"entry_unsensetivate");
+
 	orc_pag_cond_psq_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(orc_pag_cond_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
@@ -536,6 +549,7 @@ int vnd_orc()
 	gtk_fixed_put(GTK_FIXED(orc_pag_cond_fixed),orc_pag_cond_frame,10,10);
 	gtk_widget_set_size_request(orc_pag_cond_box,100,40);
 	gtk_widget_set_sensitive(orc_pag_cond_nome,FALSE);
+	gtk_widget_set_name(orc_pag_cond_nome,"entry_unsensetivate");
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,30);
@@ -617,6 +631,10 @@ int vnd_orc()
 	qnt_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
 	qnt_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 
+	total_prod_orc_frame = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	total_prod_orc_box = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
+	total_prod_orc_fixed = malloc(sizeof(GtkFixed)*MAX_PROD_ORC);
+
 	juncao_linha_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 	linhas_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 	linhas2_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
@@ -632,7 +650,6 @@ int vnd_orc()
 	preco_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
 	orig_preco_prod_orc_combo = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
 	desconto_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	total_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
 
 	obs_prod_orc_view = malloc(sizeof(GtkTextView*)*MAX_PROD_ORC);
 	obs_prod_orc_scroll = malloc(sizeof(GtkScrolledWindow*)*MAX_PROD_ORC);

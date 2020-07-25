@@ -9,16 +9,16 @@ static GtkWidget *cad_relat_treeview;
 static gchar *cad_rel_code_gchar,
 *cad_rel_nome_gchar;
 
-char campos_query[MAX_RELAT_CAMPOS][50];
+static char campos_query[MAX_RELAT_CAMPOS+1][500];
 
-struct
+static struct
 {
 	int codigo;
-	int campos_code[MAX_RELAT_CAMPOS];
-	int campos_code_bkp[MAX_RELAT_CAMPOS];
+	int campos_code[MAX_RELAT_CAMPOS+1];
+	int campos_code_bkp[MAX_RELAT_CAMPOS+1];
 	int qnt_campos;
 	char nome[MAX_RELAT_NOME];
-	int status[MAX_RELAT_CAMPOS];
+	int status[MAX_RELAT_CAMPOS+1];
 }relat_struct;
 
 static int relat_campo_atual=1;

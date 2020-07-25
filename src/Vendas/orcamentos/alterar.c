@@ -1,4 +1,3 @@
-static int recebendo_prod_orc=0;
 static int altera_orc()
 {
 	char query[MAX_QUERY_LEN];

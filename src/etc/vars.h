@@ -62,9 +62,10 @@
 #define FATOR_IMG     "/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "/petitto/files/icones_opc/parametros.png"
 #define VINC_IMG      "/petitto/files/icones_opc/vinculos.png"
-#define REL_PROD_IMG  "/petitto/files/icones_opc/relatorio_prod.png"
-#define REL_TER_IMG   "/petitto/files/icones_opc/relatorio_ter.png"
-#define REL_SLD_IMG   "/petitto/files/icones_opc/relatorio_est.png"
+#define REL_PROD_IMG       "/petitto/files/icones_opc/relatorio_prod.png"
+#define REL_TER_IMG        "/petitto/files/icones_opc/relatorio_ter.png"
+#define REL_SLD_IMG        "/petitto/files/icones_opc/relatorio_est.png"
+#define REL_ORC_PROD_IMG   "/petitto/files/icones_opc/relatorio_orc_prod.png"
 #define EXIT_IMG      "/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "/petitto/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG     "/petitto/files/impressao/cp.exe"
@@ -72,11 +73,13 @@
 #define IMP_PORT2     "LPT2"
 #define IMG_ENVIA     "/petitto/files/opcoes_padrao/enviar.png"
 #define ICON_PATH     "/petitto/files/opcoes_padrao/icones/"
-#define TER_RELAT_FILE    "/petitto/files/impressao/relatorios/terceiros/"
-#define PROD_RELAT_FILE    "/petitto/files/impressao/relatorios/produtos/"
-#define VND_RELAT_FILE    "/petitto/files/impressao/relatorios/vendas/"
-#define EST_RELAT_FILE    "/petitto/files/impressao/relatorios/estoque/"
-#define MOV_RELAT_FILE    "/petitto/files/impressao/relatorios/movimentos/"
+#define TER_RELAT_FILE      "/petitto/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE     "/petitto/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE      "/petitto/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE      "/petitto/files/impressao/relatorios/estoque/"
+#define MOV_RELAT_FILE      "/petitto/files/impressao/relatorios/movimentos/"
+#define ORC_PROD_RELAT_FILE "/petitto/files/impressao/relatorios/orc_prod/"
+
 #define IMG_IMP_LOGO      "/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/petitto/files/backup_querys"
 
@@ -130,9 +133,10 @@
 #define ADD_SALDO     "/usr/share/petitto/files/icones_opc/add_saldo.png"
 #define REM_SALDO     "/usr/share/petitto/files/icones_opc/rem_saldo.png"
 #define PAG_IMG       "/usr/share/petitto/files/icones_opc/datas.png"
-#define REL_PROD_IMG  "/usr/share/petitto/files/icones_opc/relatorio_prod.png"
-#define REL_TER_IMG   "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
-#define REL_SLD_IMG   "/usr/share/petitto/files/icones_opc/relatorio_est.png"
+#define REL_PROD_IMG       "/usr/share/petitto/files/icones_opc/relatorio_prod.png"
+#define REL_TER_IMG        "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
+#define REL_SLD_IMG        "/usr/share/petitto/files/icones_opc/relatorio_est.png"
+#define REL_ORC_PROD_IMG   "/usr/share/petitto/files/icones_opc/relatorio_orc_prod.png"
 #define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"
 #define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"
 #define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"
@@ -153,11 +157,12 @@
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
 #define ICON_PATH     "/usr/share/petitto/files/opcoes_padrao/icones/"
-#define TER_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/terceiros/"
-#define PROD_RELAT_FILE   "/usr/share/petitto/files/impressao/relatorios/produtos/"
-#define VND_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/vendas/"
-#define EST_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/estoque/"
-#define MOV_RELAT_FILE    "/usr/share/petitto/files/impressao/relatorios/movimentos/"
+#define TER_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE     "/usr/share/petitto/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/estoque/"
+#define MOV_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/movimentos/"
+#define ORC_PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/orc_prod/"
 #define IMG_IMP_LOGO      "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/usr/share/petitto/files/backup_querys"
 #endif
@@ -229,7 +234,7 @@
 #define MAX_EST_NOME 20
 #define MAX_RELAT_NOME 30
 #define MAX_CAMPO_NOME 30
-#define MAX_RELAT_CAMPOS 8
+#define MAX_RELAT_CAMPOS 15
 #define MAX_PARC_QNT 20
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50

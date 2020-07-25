@@ -120,7 +120,7 @@ void carregar_navimps(){
 
 int iniciar_impressao(char *gerado)
 {
-
+	char chamada[MAX_PATH_LEN*3];
 	GError *erro=NULL;
 	GSubprocess *processo=NULL;
 
@@ -128,9 +128,9 @@ int iniciar_impressao(char *gerado)
 	{
 
 		case IMP_PATH1:
-
+			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path1);
+			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path1,NULL);
-
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -140,9 +140,9 @@ int iniciar_impressao(char *gerado)
 			break;
 
 		case IMP_PATH2:
-
+			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path2);
+			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path2,NULL);
-
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -152,9 +152,9 @@ int iniciar_impressao(char *gerado)
 			break;
 
 		case IMP_PATH3:
-
+			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path3);
+			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path3,NULL);
-
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -169,12 +169,16 @@ int iniciar_impressao(char *gerado)
 		GError *erro=NULL;
 		GSubprocess *processo=NULL;
 
-		if(navegadores.navegador_pdr == 1)
+		if(navegadores.navegador_pdr == 1){
+			sprintf(chamada,"%s %s",navegadores.navegador_path1,gerado);
+			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path1,gerado,NULL);
-
-		if(navegadores.navegador_pdr == 2)
+		}
+		if(navegadores.navegador_pdr == 2){
+			sprintf(chamada,"%s %s",navegadores.navegador_path2,gerado);
+			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path2,gerado,NULL);
-
+		}
 		if(!processo)
 		{
 			popup(NULL,"Não foi possivel abrir documento");
@@ -739,5 +743,19 @@ int configurar_parametros()
 	strcpy(impressoras.imp_path3,row[6]);
 
 	carregar_navimps();
+
+	sprintf(query,"select * from orc_param");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber parametros de orçamentos");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem dados para parametrizar orçamentos");
+		return 1;
+	}
+	orc_params.est_orc_padrao = atoi(row[0]);
 	return 0;
 }

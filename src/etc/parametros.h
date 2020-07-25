@@ -1,7 +1,6 @@
 //combo_box de terceiros
 static gchar **nomes_temas;
 static int temas_qnt=0;
-static int orc_estoque_padrao=1;
 GtkWidget **campos_de_critica;
 
 //combo_box de produtos
@@ -15,7 +14,10 @@ orc_critic_campos_qnt=17;
 
 int temas();
 static int orc_prod_saldo_limite=0;
-static GtkWidget *janela_init,*janela_keep_above,*tema_combo_box;
+static GtkWidget *janela_init,
+*janela_keep_above,
+*tema_combo_box,
+*est_orc_padrao;
 
 struct
 {
@@ -128,6 +130,10 @@ static struct {
 	gchar imp_path2[MAX_PATH_LEN];
 	gchar imp_path3[MAX_PATH_LEN];
 }impressoras;
+
+static struct {
+		int est_orc_padrao;
+}orc_params;
 
 char *desktop_images_vet[] =
 {

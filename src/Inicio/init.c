@@ -325,6 +325,9 @@ int init()
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
+	gtk_widget_show_all(janela_inicializacao);
+
+
 	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
@@ -355,7 +358,6 @@ int init()
 	gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 
 	//return 1;
-	gtk_widget_show_all(janela_inicializacao);
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();

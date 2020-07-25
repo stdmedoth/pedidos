@@ -8,6 +8,9 @@ int est_cad_code()
 		return 1;
 	}
 
+	if(est_cad_alterando == 0){
+		est_cad_alterar();
+	}
 
 	gtk_widget_grab_focus(est_nome_entry);
 	return 0;

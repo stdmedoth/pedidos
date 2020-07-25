@@ -8,7 +8,7 @@ int bairro_terc()
 		{
 			bairro_ter = malloc(sizeof(char*)*MAX_CID_LEN);
 			strcpy(bairro_ter,"");
-			gtk_widget_grab_focus(uf_ter_field);
+			gtk_widget_grab_focus(cidade_ter_field);
 			return 0;
 		}
 		popup(NULL,"Por favor insira o bairro do terceiro");
@@ -24,7 +24,7 @@ int bairro_terc()
 	}
 	else
 	{
-		gtk_widget_grab_focus(uf_ter_field);
+		gtk_widget_grab_focus(cidade_ter_field);
 	}
 	g_print("bairro: %s\n",bairro_ter);
 	return 0;

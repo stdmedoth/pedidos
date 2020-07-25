@@ -106,6 +106,7 @@ int est_saidas()
 	est_said_prod_box = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(est_said_prod_box),est_said_campo_nome_prod,0,0,0);
 	gtk_widget_set_sensitive(est_said_campo_nome_prod,FALSE);
+	gtk_widget_set_name(est_said_campo_nome_prod,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(produto_box),est_said_prod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(produto_box),psq_prod_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_said_prod_box),produto_box,0,0,0);
@@ -148,6 +149,7 @@ int est_saidas()
 	est_said_subgrp_box = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(est_said_subgrp_box),est_said_campo_subgrp_prod,0,0,0);
 	gtk_widget_set_sensitive(est_said_campo_subgrp_prod,FALSE);
+	gtk_widget_set_name(est_said_campo_subgrp_prod,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(subgrupo_box),est_said_subgrp_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(subgrupo_box),psq_subgrp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_said_subgrp_box),subgrupo_box,0,0,0);
@@ -188,6 +190,7 @@ int est_saidas()
 	est_said_client_box = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(est_said_client_box),est_said_campo_nome_client,0,0,0);
 	gtk_widget_set_sensitive(est_said_campo_nome_client,FALSE);
+	gtk_widget_set_name(est_said_campo_nome_client,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_said_client_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_said_client_box),cliente_box,0,0,0);
@@ -257,6 +260,7 @@ int est_saidas()
 	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),data_sys);
 
 	gtk_widget_set_sensitive(est_said_data_entry,FALSE);
+	gtk_widget_set_name(est_said_data_entry,"entry_unsensetivate");
 	gtk_widget_grab_focus(est_said_client_entry);
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);

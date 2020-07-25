@@ -186,7 +186,7 @@ void cad_relat()
 
 	g_signal_connect(cad_rel_psqrow_button,"clicked",G_CALLBACK(psq_relat_campos),NULL);
 
-	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]);
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]);
 
 	cont=0;
 	while(cont<MAX_RELAT_CAMPOS)

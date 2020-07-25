@@ -19,12 +19,13 @@
 
 GtkWidget *orc_prods_grid;
 
-const int saldo_limite = 3;
+static float saldo_limite = 3;
 
 static int altera_orc();
 static int tirar_linha(int);
 static int vnd_orc();
 
+static int recebendo_prod_orc=0;
 static int alterando_orc=0;
 static int concluindo_orc=0;
 static int copiando_orc=0;
@@ -89,6 +90,7 @@ GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
 GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
 GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
 GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
+GtkWidget **total_prod_orc_frame,**total_prod_orc_box, **total_prod_orc_fixed;
 
 
 GtkWidget *data_orc_frame;
@@ -112,8 +114,7 @@ GtkWidget **codigo_prod_orc_label,
 **qnt_prod_orc_label,
 **preco_prod_orc_label,
 **orig_preco_prod_orc_combo,
-**desconto_prod_orc_label,
-**total_prod_orc_label;
+**desconto_prod_orc_label;
 
 //  ENTRYs
 
@@ -174,6 +175,7 @@ static struct itens_struct
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
 
+static int sinal_operacao_int=0;
 static int operacao_orc_int=0;
 
 GtkTextBuffer  **obs_prod_orc_buffer;

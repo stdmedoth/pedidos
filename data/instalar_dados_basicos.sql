@@ -1,4 +1,3 @@
-use erp;
 create user 'petitto'@'localhost' identified by '1234';
 grant all privileges on *.* to 'petitto'@'localhost';
 flush privileges;

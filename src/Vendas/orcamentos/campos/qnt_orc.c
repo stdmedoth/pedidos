@@ -5,7 +5,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	int tipodesc;
 
 	MYSQL_RES *vetor;
-	MYSQL_ROW campos;
+	MYSQL_ROW campos,row;
 
 	ativos[posicao].qnt_f = 0;
 
@@ -120,13 +120,17 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	if(alterando_orc==0 && concluindo_orc==0 && aviso_estoque[posicao] == 0)
+	if(recebendo_prod_orc == 0)
 	{
-		sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and subgrupo = %i and estoque = %i",
+		operacao_orc_orc();
+		sprintf(query,"select SUM(entradas) - SUM(saidas) %c %i from movimento_estoque where produto = %i and subgrupo = %i and estoque = %i",
+		sinal_operacao_int,
+		atoi(qnt_prod_orc_gchar),
 		atoi(codigo_prod_orc_gchar),
 		atoi(subgrp_prod_orc_cod_gchar),
-		orc_estoque_padrao);
+		orc_params.est_orc_padrao);
 
+		g_print("query atual %s\n",query);
 		if((vetor = consultar(query))==NULL){
 			popup(NULL,"Erro ao consultar saldo do estoque");
 			return 1;
@@ -135,21 +139,33 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		if((campos = mysql_fetch_row(vetor))!=NULL){
 			if(campos[0]){
 
-				if(atoi(campos[0])<=0){
+				if(atoi(campos[0])<0){
+
 						if(orcamentos.criticar.prod_saldo){
-							popup(NULL,"Produto sem Saldo");
+							popup(NULL,"Produto com saldo insuficiente");
 							return 1;
 						}
 				}
 
-				if(atoi(campos[0])<=saldo_limite){
-						if(orcamentos.criticar.prod_saldo_limite){
-							popup(NULL,"Aviso de saldo limite");
-							aviso_estoque[posicao] = 1;
-						}
+				sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and grupo = %i and estoque = %i",
+				atoi(codigo_prod_orc_gchar),
+				atoi(subgrp_prod_orc_cod_gchar),
+				orc_params.est_orc_padrao);
+
+				if((vetor = consultar(query))==NULL)
+					return 1;
+
+				if((row = mysql_fetch_row(vetor))!=NULL){
+					saldo_limite = atof(row[0]);
+
+					if(atoi(campos[0])<=saldo_limite && aviso_estoque[posicao] == 0){
+							if(orcamentos.criticar.prod_saldo_limite){
+								popup(NULL,"Aviso de saldo mínimo");
+								aviso_estoque[posicao] = 1;
+							}
+					}
 				}
 			}
-
 			else{
 				if(orcamentos.criticar.prod_movimento){
 					popup(NULL,"Sem nenhum movimento");

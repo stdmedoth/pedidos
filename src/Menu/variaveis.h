@@ -5,7 +5,7 @@
 #define EST_ICO_QNT 3
 #define VND_ICO_QNT 1
 #define CMP_ICO_QNT 4
-#define REL_ICO_QNT 3
+#define REL_ICO_QNT 4
 
 //cadastros
 GtkWidget *prd_ico, *prd_lbl; //produtos
@@ -39,6 +39,7 @@ GtkWidget *ent_nfe_ico, *ent_nfe_lbl;
 GtkWidget *rel_prd_ico, *rel_prd_lbl;
 GtkWidget *rel_ter_ico, *rel_ter_lbl;
 GtkWidget *rel_est_ico, *rel_est_lbl;
+GtkWidget *rel_orc_prod_ico, *rel_orc_prod_lbl;
 
 GtkWidget *cad_box[CAD_ICO_QNT];
 GtkWidget *est_box[EST_ICO_QNT];

@@ -3,6 +3,13 @@
 
 int gerar_orc()
 {
+	carregar_navimps();
+
+	if(!imps_qnt && !navs_qnt){
+		popup(NULL,"Não há impressoras ou navegadores configurados!");
+		return 1;
+	}
+
 	int cont,color=0;
 	char *query;
 	int conta_linhas=0;
@@ -49,8 +56,8 @@ int gerar_orc()
 	{
 		if(codigo_cli_orc()!=0)
 					return 1;
-		sprintf(query,"insert into orcamentos( code, vendedor, cliente, pag_cond, dia, observacoes, total) values(%s,1,%s,%i,'%s','%s',0.0);",
-		codigo_orc_gchar,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
+		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, dia, observacoes, total) values(%s,%i,1,%s,%i,'%s','%s',0.0);",
+		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
 		erro = enviar_query(query);
 		if(erro != 0 )
 		{

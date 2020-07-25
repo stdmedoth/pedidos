@@ -6,8 +6,10 @@ static GtkWidget *est_ent_cod_entry,
 *est_ent_tipo_combo,
 *est_ent_data_entry,
 *est_ent_client_entry;
+
 GtkWidget *est_ent_est_combo;
 gint est_ent_est_int;
+gint cancelando_mov_ent_est;
 
 static GtkWidget *est_ent_campo_nome_prod,
 *est_ent_campo_subgrp_prod,
@@ -19,9 +21,9 @@ est_ent_year_int;
 
 static gint est_ent_tipo_int;
 
-GtkWidget *est_ent_confirma_button, 
-*est_ent_cancela_button, 
-*est_ent_altera_button, 
+GtkWidget *est_ent_confirma_button,
+*est_ent_cancela_button,
+*est_ent_altera_button,
 *est_ent_exclui_button;
 
 static gchar *est_ent_cod_gchar,
@@ -62,5 +64,3 @@ void est_ent_alterar_fun();
 #include "cancelar.c"
 #include "confirmar.c"
 #include "alterar.c"
-
-

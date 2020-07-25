@@ -1,0 +1,1 @@
+int excluir_ped();

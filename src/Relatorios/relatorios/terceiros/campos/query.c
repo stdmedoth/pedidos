@@ -105,7 +105,7 @@ int relat_ter_query_fun()
 
 	relat_ter_gerar_fun();
 	relat_ter_gerando = 0;
-	
+
 	gtk_widget_set_sensitive(relat_ter_query_entry,TRUE);
 
 	return 0;

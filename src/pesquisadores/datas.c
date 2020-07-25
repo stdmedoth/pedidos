@@ -39,6 +39,7 @@ void psq_data(GtkWidget *widget, GtkWidget *cod_grp_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),botao_fixed,0,0,5);
 	gtk_container_add(GTK_CONTAINER(psq_datas_window),caixa_grande);
 
+
 	g_signal_connect(botao_seleciona,"clicked",G_CALLBACK(pega_data),pesquisa_global_alvo);
 	gtk_widget_grab_focus(botao_seleciona);
 

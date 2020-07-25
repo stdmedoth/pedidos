@@ -47,7 +47,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
-	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
+	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond,tipo_mov from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -58,6 +58,11 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		popup(NULL,"Pedido não existe");
 		return 1;
 	}
+
+	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[0]);
+	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),atoi(row[3]));
+	gtk_widget_set_sensitive(ped_tipo_combo,FALSE);
 
 	sprintf(query,"select * from pag_cond where code = %s",row[2]);
 
@@ -75,8 +80,6 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	else
 		strcpy(tipo_pag,"À Vista");
 
-	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
 	gtk_entry_set_text(GTK_ENTRY(ped_pag_entry),tipo_pag);
 
 	sprintf(query,"select p.nome, o.subgrupo, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
@@ -263,9 +266,10 @@ int vnd_ped()
 	GtkWidget *ped_cod_fixed, *ped_cod_box, *ped_cod_frame;
 	GtkWidget *ped_ter_fixed, *ped_ter_box, *ped_ter_frame;
 	GtkWidget *ped_data_fixed, *ped_data_box, *ped_data_frame;
-	GtkWidget *ped_opcoes_fixed, *ped_opcoes_box, *ped_opcoes_frame, *ped_emitir_button, *ped_cancelar_button;
+	GtkWidget *ped_opcoes_fixed, *ped_opcoes_box, *ped_opcoes_frame, *ped_emitir_button, *ped_cancelar_button, *ped_excluir_button;
 	GtkWidget *ped_pag_fixed, *ped_pag_box, *ped_pag_frame;
 	GtkWidget *ped_est_fixed, *ped_est_box, *ped_est_frame;
+	GtkWidget *ped_tipo_fixed, *ped_tipo_box, *ped_tipo_frame;
 
 	GtkWidget *treeview;
 	GtkWidget *caixa_grande;
@@ -315,10 +319,15 @@ int vnd_ped()
 		cad_est();
 		return 1;
 	}
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_est_combo),1);
 
 	ped_emitir_button = gtk_button_new_with_label("Emitir");
+	gtk_button_set_image(GTK_BUTTON(ped_emitir_button),gtk_image_new_from_icon_name("emblem-ok",GTK_ICON_SIZE_LARGE_TOOLBAR));
 	ped_cancelar_button = gtk_button_new_with_label("Cancelar");
+	gtk_button_set_image(GTK_BUTTON(ped_cancelar_button),gtk_image_new_from_icon_name("emblem-unreadable",GTK_ICON_SIZE_LARGE_TOOLBAR));
+	ped_excluir_button = gtk_button_new_with_label("Excluir");
+	gtk_button_set_image(GTK_BUTTON(ped_excluir_button),gtk_image_new_from_icon_name("user-trash",GTK_ICON_SIZE_LARGE_TOOLBAR));
 
 	ped_opcoes_fixed = gtk_fixed_new();
 	ped_opcoes_box = gtk_box_new(0,0);
@@ -326,8 +335,22 @@ int vnd_ped()
 
 	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_emitir_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_cancelar_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_excluir_button,0,0,10);
 	gtk_container_add(GTK_CONTAINER(ped_opcoes_frame),ped_opcoes_box);
-	gtk_fixed_put(GTK_FIXED(ped_opcoes_fixed),ped_opcoes_frame,20,20);
+	gtk_fixed_put(GTK_FIXED(ped_opcoes_fixed),ped_opcoes_frame,40,20);
+
+	ped_tipo_combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ped_tipo_combo),0,"Venda");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ped_tipo_combo),"Devolução Venda");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ped_tipo_combo),"Compra");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ped_tipo_combo),"Devolução Compra");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),0);
+	ped_tipo_fixed = gtk_fixed_new();
+	ped_tipo_box = gtk_box_new(0,0);
+	ped_tipo_frame = gtk_frame_new("Tipo Operação");
+	gtk_box_pack_start(GTK_BOX(ped_tipo_box),ped_tipo_combo,0,0,10);
+	gtk_container_add(GTK_CONTAINER(ped_tipo_frame),ped_tipo_box);
+	gtk_fixed_put(GTK_FIXED(ped_tipo_fixed),ped_tipo_frame,10,10);
 
 	linha1 = gtk_box_new(0,0);
 	linha2 = gtk_box_new(0,0);
@@ -387,8 +410,11 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(linha1),ped_cod_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_data_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_pag_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linha1),ped_tipo_fixed,0,0,0);
+
 	gtk_box_pack_start(GTK_BOX(linha2),ped_ter_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha2),ped_est_fixed,0,0,0);
+
 	gtk_box_pack_start(GTK_BOX(linha3),caixa_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha4),ped_opcoes_fixed,0,0,0);
 
@@ -402,6 +428,7 @@ int vnd_ped()
 	g_signal_connect(ped_psq_cod_button,"clicked",G_CALLBACK(psq_ped),ped_cod_entry);
 	g_signal_connect(ped_emitir_button,"clicked",G_CALLBACK(emitir_ped),NULL);
 	g_signal_connect(ped_cancelar_button,"clicked",G_CALLBACK(cancelar_ped),NULL);
+	g_signal_connect(ped_excluir_button,"clicked",G_CALLBACK(excluir_ped),NULL);
 
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);
 	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);

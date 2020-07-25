@@ -106,5 +106,6 @@ int relat_mov_query_fun()
 	sprintf(relat_mov_query_gchar,"%s%s%s %s",ini_query,mov_query.campos,end_query,filtros_query_gchar);
 	gtk_entry_set_text(GTK_ENTRY(relat_mov_query_entry),relat_mov_query_gchar);
 	relat_mov_gerar_fun();
+	relat_mov_gerando=0;
 	return 0;
 }

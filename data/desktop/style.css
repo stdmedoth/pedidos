@@ -66,3 +66,9 @@
 #combo-box-medio{
   font-size: 13px;
 }
+
+#entry_unsensetivate{
+  color: #393e46;
+  font-weight: bold;
+  text-shadow: 1px 1px 10px grey;
+}

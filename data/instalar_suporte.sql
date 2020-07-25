@@ -1,4 +1,3 @@
-use erp;
 drop table if exists suporte_posts;
 drop table if exists suporte_status;
 

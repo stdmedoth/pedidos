@@ -106,6 +106,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(est_ent_prod_box),est_ent_campo_nome_prod,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(est_ent_campo_nome_prod),"Nome Produto");
 	gtk_widget_set_sensitive(est_ent_campo_nome_prod,FALSE);
+	gtk_widget_set_name(est_ent_campo_nome_prod,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(produto_box),est_ent_prod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(produto_box),psq_prod_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_prod_box),produto_box,0,0,0);
@@ -148,6 +149,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(est_ent_subgrp_box),est_ent_campo_subgrp_prod,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(est_ent_campo_subgrp_prod),"Nome SubGrupo.");
 	gtk_widget_set_sensitive(est_ent_campo_subgrp_prod,FALSE);
+	gtk_widget_set_name(est_ent_campo_subgrp_prod,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(subgrupo_box),est_ent_subgrp_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(subgrupo_box),psq_subgrp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_subgrp_box),subgrupo_box,0,0,0);
@@ -189,6 +191,7 @@ int est_entradas()
 	gtk_box_pack_start(GTK_BOX(est_ent_client_box),est_ent_campo_nome_client,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(est_ent_campo_nome_client),"Nome Cliente");
 	gtk_widget_set_sensitive(est_ent_campo_nome_client,FALSE);
+	gtk_widget_set_name(est_ent_campo_nome_client,"entry_unsensetivate");
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_ent_client_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_ent_client_box),cliente_box,0,0,0);
@@ -249,6 +252,7 @@ int est_entradas()
 	gtk_entry_set_text(GTK_ENTRY(est_ent_data_entry),data_sys);
 
 	gtk_widget_set_sensitive(est_ent_data_entry,FALSE);
+	gtk_widget_set_name(est_ent_data_entry,"entry_unsensetivate");
 
 	gtk_widget_grab_focus(est_ent_client_entry);
 
