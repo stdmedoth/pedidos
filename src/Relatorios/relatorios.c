@@ -39,7 +39,7 @@ void cad_relat()
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].reg_id = REG_CAD_RELAT;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].aberta = 1;
-	if(ger_janela_aberta(janela_grupo, &janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]))
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]))
 		return ;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].janela_pointer = janela;
 

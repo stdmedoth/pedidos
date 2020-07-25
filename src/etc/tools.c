@@ -583,14 +583,9 @@ int tasker(char *table)
 	{
 		return 1;
 	}
-
-	#ifdef __linux__
-	sprintf(task,"%s",campos[0]);
-	task_num = stoi(task);
-	#endif
-	#ifdef WIN32
-	task_num = stoi(campos[0]);
-	#endif
+	
+	if(campos[0])
+		task_num = atoi(campos[0]);
 
 	if(task_num==-1)
 	{

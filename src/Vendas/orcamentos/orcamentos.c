@@ -510,7 +510,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_combo,0,0,52);
 	gtk_container_add(GTK_CONTAINER(operacao_orc_frame),operacao_orc_box);
 
-	cliente_orc_label = gtk_label_new("Insira o Código: ");
+	cliente_orc_label = gtk_label_new("Cliente: ");
 	cliente_orc_entry = gtk_entry_new();
 	pesquisa_ter = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(pesquisa_ter),gtk_image_new_from_file(IMG_PESQ));
@@ -552,7 +552,7 @@ int vnd_orc()
 	gtk_widget_set_name(orc_pag_cond_nome,"entry_unsensetivate");
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
-	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,30);
+	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,10);
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),pesquisa_ter,0,0,1);
 
@@ -746,9 +746,8 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_orc_infos,0,0,0);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),itens_orc_box,gtk_label_new("Itens"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),transp_orc_box,gtk_label_new("Transporte"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),outros_orc_box,gtk_label_new("Outros"));
-
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),orc_entrega_campos(),gtk_label_new("Transporte"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),orc_campos_datas(),gtk_label_new("Outros"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),orc_notebook,0,0,10);
 	gtk_box_pack_end(GTK_BOX(caixa_grande),opcoes_orc_fixed,0,0,10);
@@ -768,6 +767,8 @@ int vnd_orc()
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
+
+	g_signal_connect(orc_pag_datas_entry,"activate",G_CALLBACK(orc_pag_datas_fun),NULL);
 
 	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);
 

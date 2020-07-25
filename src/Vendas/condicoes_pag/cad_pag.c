@@ -46,9 +46,9 @@ int cad_pag(){
 
   janelas_gerenciadas.vetor_janelas[REG_CAD_COND].reg_id = REG_CAD_COND;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_COND].aberta = 1;
-	if(ger_janela_aberta(janela_grupo, &janelas_gerenciadas.vetor_janelas[REG_CAD_COND]))
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_COND]))
 		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_COND].janela_pointer = janela_grupo;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_COND].janela_pointer = janela;
 
 
   pag_confirmar_button = gtk_button_new_with_label("Confirmar");
@@ -75,7 +75,7 @@ int cad_pag(){
   pag_datas_tree = gtk_tree_view_new_with_model((GtkTreeModel*)pag_datas_model);
   pag_datas_fixed = gtk_fixed_new();
   pag_datas_box = gtk_box_new(1,0);
-  pag_datas_frame = gtk_frame_new("Área de Teste");;
+  pag_datas_frame = gtk_frame_new("Área de Teste");
 
   coluna1 = gtk_tree_view_column_new();
   celula1 = gtk_cell_renderer_text_new();
@@ -224,7 +224,7 @@ int cad_pag(){
 
   g_signal_connect(pag_dia_fixo_check,"toggled",G_CALLBACK(pag_dia_fixo_fun),NULL);
 
-  g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_COND]);
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_COND]);
 
   gtk_widget_set_sensitive(pag_init_spin,FALSE);
   gtk_widget_set_sensitive(pag_datas_entry,FALSE);

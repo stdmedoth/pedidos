@@ -13,7 +13,7 @@
 
 GtkWidget *entrega_campos()
 {
-	GtkWidget *caixa_grande;
+	GtkWidget *caixa_grande,*colunas,*linhas;
 
 	GtkWidget *transp_codigo,
 	*transp_nome,
@@ -58,8 +58,10 @@ GtkWidget *entrega_campos()
 	linha2 = gtk_box_new(0,0);
 	linha3 = gtk_box_new(1,0);
 	linha4 = gtk_box_new(0,0);
-	caixa_grande = gtk_box_new(1,0);
 
+	linhas = gtk_box_new(1,0);
+	caixa_grande = gtk_box_new(1,0);
+	colunas = gtk_box_new(0,0);
 	dados_transp_box = gtk_box_new(1,0);
 
 	dados_transp_frame = gtk_frame_new("Dados Transportadora");
@@ -88,7 +90,7 @@ GtkWidget *entrega_campos()
 	transp_obs_fixed = gtk_fixed_new();
 
 	transp_obs_scroll = gtk_scrolled_window_new(NULL,NULL);
-	gtk_widget_set_size_request(transp_obs_scroll,550,90);
+	gtk_widget_set_size_request(transp_obs_scroll,550,150);
 
 	transp_codigo_label = gtk_label_new("Codigo");
 	transp_codigo_entry = gtk_entry_new();
@@ -186,15 +188,15 @@ GtkWidget *entrega_campos()
 	gtk_box_pack_start(GTK_BOX(transp_obs),transp_obs_label,0,0,5);
 	gtk_box_pack_start(GTK_BOX(transp_obs),transp_obs_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(obs_transp_frame),transp_obs);
-	gtk_widget_set_size_request(transp_obs,550,90);
-	gtk_widget_set_size_request(obs_transp_frame,550,90);
-	gtk_widget_set_size_request(transp_obs_entry,550,50);
 
-	#ifdef __linux__
+	gtk_widget_set_size_request(transp_obs,550,150);
+	gtk_widget_set_size_request(obs_transp_frame,550,150);
+	gtk_widget_set_size_request(transp_obs_entry,550,150);
+	gtk_widget_set_size_request(transp_obs_scroll,550,150);
+
 	gtk_container_add(GTK_CONTAINER(transp_obs_scroll),obs_transp_frame);
-	#endif
 
-	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,100,0);
+	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,0,15);
 
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_logradouro,0,0,5);
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_num,0,0,5);
@@ -220,9 +222,13 @@ GtkWidget *entrega_campos()
 	gtk_container_add(GTK_CONTAINER(endr_entrega_frame),linha3);
 	gtk_fixed_put(GTK_FIXED(transp_endr_fixed),endr_entrega_frame,100,0);
 
-	gtk_box_pack_start(GTK_BOX(caixa_grande),dados_transp_fixed,0,0,5);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),transp_endr_fixed,0,0,5);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),transp_obs_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(linhas),dados_transp_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(linhas),transp_endr_fixed,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(colunas),linhas,0,0,5);
+	gtk_box_pack_start(GTK_BOX(colunas),transp_obs_fixed,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(caixa_grande),colunas,0,0,5);
 
 	g_signal_connect(GTK_BUTTON(psq_ter_transp_button),"clicked",G_CALLBACK(psq_ter),transp_codigo_entry);
 	g_signal_connect(GTK_BUTTON(psq_ter_transpcep_button),"clicked",G_CALLBACK(psq_cep),transp_cep_entry);

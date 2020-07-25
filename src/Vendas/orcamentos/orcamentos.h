@@ -17,6 +17,8 @@
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 
+GtkWidget *orc_data_vlr_lists_box, **orc_data_lists_entry, **orc_vlr_lists_entry, *orc_data_vlr_lists_grid;
+
 GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;

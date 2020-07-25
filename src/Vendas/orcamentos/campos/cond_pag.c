@@ -4,6 +4,8 @@ int rec_fat_vist()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+	char data_atual[42];
+	strcpy(data_atual,data_sys);
 
 	orc_pag_cond_gchar = (gchar *)gtk_entry_get_text (GTK_ENTRY(orc_pag_cond_entry));
 	if(strlen(orc_pag_cond_gchar)<=0){
@@ -28,6 +30,19 @@ int rec_fat_vist()
 	else
 		tipo_pag = 2;
 
+	orc_pag_tipo_int = atoi(row[2]);
+
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry),data_atual);
+
+	orc_pag_dia_fixo_int = atoi(row[3]);
+	if(orc_pag_dia_fixo_int==1)
+		orc_pag_init_int = atoi(row[4]);
+	else
+		orc_pag_init_int = atoi(dia_sys);
+
+	orc_pag_parc_int = atoi(row[5]);
+
+	orc_pag_parc_qnt_int = atoi(row[6]);
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
@@ -40,10 +55,12 @@ int rec_fat_vist()
 	pag_cond = atoi(orc_pag_cond_gchar);
 	orc_pag_cond_activated=1;
 
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
 		if(ativos[cont].id == 1){
 			gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
 			break;
 		}
+	}
+	orc_pag_datas_fun();
 	return 0;
 }
