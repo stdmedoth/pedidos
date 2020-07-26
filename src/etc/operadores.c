@@ -37,7 +37,7 @@ void verifica_senha()
 	if(res==NULL)
 	{
 		popup(NULL,"Erro de comunicacao com banco");
-		return;
+		gtk_main_quit();
 	}
 
 	if((row = mysql_fetch_row(res))!=NULL)
@@ -50,8 +50,9 @@ void verifica_senha()
 		strcpy(sessao_oper.nome,row[1]);
 		sessao_oper.nivel = atoi(row[2]);
 
-		desktop();
-		return;
+		if(desktop()!=0)
+			gtk_main_quit();
+		return ;
 	}
 	else
 	{

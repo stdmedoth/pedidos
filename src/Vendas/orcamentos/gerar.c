@@ -56,14 +56,17 @@ int gerar_orc()
 	{
 		if(codigo_cli_orc()!=0)
 					return 1;
-		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, dia, observacoes, total) values(%s,%i,1,%s,%i,'%s','%s',0.0);",
+
+		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, dia, observacoes) values(%s,%i,1,%s,%i,STR_TO_DATE('%s','%%d/%%m/%%Y'),'%s');",
 		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
+
 		erro = enviar_query(query);
 		if(erro != 0 )
 		{
 			popup(NULL,"Erro ao tentar gerar orçamento");
 			return 1;
 		}
+		alterando_orc=1;
 		for(cont=1;cont<itens_qnt-1;cont++)
 		{
 			if(ativos[cont].id == 1)

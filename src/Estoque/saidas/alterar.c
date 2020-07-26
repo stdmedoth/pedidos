@@ -1,8 +1,12 @@
 void est_said_alterar_fun()
 {
-	char query[MAX_QUERY_LEN];
+	char query[MAX_QUERY_LEN], data_gchar[42];
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
+	int dia,mes,ano;
+
+	GDateTime  *gdate;
+	GTimeZone *timezone;
 
 	alterando_mov_said_est=1;
 
@@ -19,7 +23,20 @@ void est_said_alterar_fun()
 		return ;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),campo[DATA_MOV_EST]);
+	if(sscanf(campo[DATA_MOV_EST], "%d-%d-%d", &ano, &mes, &dia) == EOF)
+  {
+    g_print("Erro no parser de data: %s\n",strerror(errno));
+    return ;
+  }
+
+	timezone = g_time_zone_new(NULL);
+
+	gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
+	if(!g_date_time_format(gdate,"%d/%m/%Y")){
+		popup(NULL,"Data incorreta");
+	}
+
+	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),g_date_time_format(gdate,"%d/%m/%Y"));
 	gtk_widget_activate(est_said_data_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_said_client_entry),campo[CLI_MOV_EST]);
 	gtk_widget_activate(est_said_client_entry);
@@ -39,6 +56,6 @@ void est_said_alterar_fun()
 
 	if(atoi(campo[TIPO_MOV_EST])  == DEV_COMPRA)
 		gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),2);
-		
+
 	gtk_widget_set_sensitive(est_said_altera_button,FALSE);
 }

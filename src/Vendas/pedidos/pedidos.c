@@ -276,6 +276,12 @@ int vnd_ped()
 	GtkWidget *caixa_scroll, *caixa_produtos, *caixa_fixed;
 	GtkWidget *linha1,*linha2,*linha3,*linha4;
 
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
+
+
 	janela_pedidos = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_pedidos),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");
@@ -284,6 +290,8 @@ int vnd_ped()
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
 	gtk_widget_set_size_request(janela_pedidos,820,480);
 
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
+	
 	caixa_grande = gtk_box_new(1,0);
 	caixa_scroll = gtk_scrolled_window_new(NULL,NULL);
 	caixa_fixed = gtk_fixed_new();
@@ -300,6 +308,7 @@ int vnd_ped()
 	gtk_fixed_put(GTK_FIXED(ped_est_fixed),ped_est_frame,10,10);
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ped_est_combo),"Escolha o estoque");
 
+	cont=0;
 	sprintf(query,"select code,nome from estoques");
 	if((res = consultar(query))==NULL)
 	{
@@ -434,12 +443,5 @@ int vnd_ped()
 	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);
 
 	gtk_widget_show_all(janela_pedidos);
-
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
-
 	return 0;
 }

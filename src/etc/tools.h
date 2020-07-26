@@ -1,5 +1,5 @@
 
-int file_logger(char *string);  
+int file_logger(char *string);
 
 void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window);
 
@@ -12,16 +12,6 @@ void get_filename_to_entry(GtkFileChooserButton *fchooser, GtkEntry *entry);
 void encerrando();
 
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro);
-
-void carregar_navimps();
-
-int iniciar_impressao(char *gerado);
-
-int desenhar_pdf(char *gerando_file);
-
-int iniciar_escolha(GtkWidget *widget , char *gerando_file);
-
-int escolher_finalizacao(char *gerando_file);
 
 char *randomizar_string();
 

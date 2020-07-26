@@ -163,7 +163,9 @@ static struct itens_struct
 	int id;
 	int item;
 	int produto;
+	char produto_nome[MAX_NAME_LEN];
 	int subgrupo;
+	char subgrupo_nome[MAX_NAME_LEN];
 	float qnt_f;
 	float preco_f;
 	float desconto_f;

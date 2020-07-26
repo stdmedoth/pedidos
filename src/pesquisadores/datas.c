@@ -3,7 +3,8 @@ void pega_data(GtkWidget *widget, GtkEntry *entry)
 	guint dia,mes,ano;
 	char data[15];
 	gtk_calendar_get_date(GTK_CALENDAR(calendario_data),&ano,&mes,&dia);
-	sprintf(data,"%i-%i-%i", ano, mes+1, dia);
+	sprintf(data,"%i/%i/%i", dia, mes+1, ano);
+
 	if(pesquisa_global_alvo){
 		gtk_entry_set_text(pesquisa_global_alvo,data);
 		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));

@@ -2,30 +2,8 @@ static GtkWidget *lista_abas, *frame_lista_abas;
 static GtkWidget *botao_iniciar;
 static int controle_menu=0;
 
-//modulos ativos
-
-struct modulos
-{
-	int cadastro;
-	int compras;
-	int faturamento;
-	int estoque;
-	int financeiro;
-	int relatorios;
-	int tecnicos;
-}ativar;
-
 int menu(void)
 {
-
-	ativar.cadastro=1;
-	ativar.compras=0;
-	ativar.faturamento=1;
-	ativar.estoque=1;
-	ativar.financeiro=0;
-	ativar.relatorios=1;
-	if(sessao_oper.nivel>=4)
-		ativar.tecnicos=1;
 
 	GtkWidget *principal,  *principal_label;
 	GtkWidget *cadastros,  *cadastros_label;

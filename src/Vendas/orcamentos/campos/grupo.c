@@ -9,7 +9,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 	char *source_grp_name,*dest_grp_name;
 	char grupo_pai[MAX_CODE_LEN+1];
 	char **familia_char;
-
+	ativos[posicao].subgrupo = 0;
 	source_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
 	dest_grp_name = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
 	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO+1);
@@ -51,19 +51,27 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	if(rec_familia_vet(familia, atoi(subgrp_prod_orc_cod_gchar) )!=0)
+	if(rec_familia_vet(familia, atoi(subgrp_prod_orc_cod_gchar) )!=0){
+		popup(NULL,"Erro ao calcular niveis do grupo");
 		return 1;
+	}
 
-	if((grupo_len = rec_familia_nome(familia_char, atoi(subgrp_prod_orc_cod_gchar) ))<0)
+
+	if((grupo_len = rec_familia_nome(familia_char, atoi(subgrp_prod_orc_cod_gchar) ))<0){
+		popup(NULL,"Erro ao juntar nomes de grupos");
 		return 1;
+	}
+
 
 	if(grupo_len == -1){
 		popup(NULL,"Erro ao percorrer grupo");
 		return 1;
 	}
 
-	if(!row[0])
+	if(!row[0]){
+		popup(NULL,"Produto com grupo nulo");
 		return 1;
+	}
 
 	g_print("Verificando grupo até o pai\n");
 	for(int cont=0;cont<grupo_len;cont++)
@@ -83,14 +91,19 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	strcpy(dest_grp_name,"\0");
-	strcpy(source_grp_name,"\0");
+	strcpy(dest_grp_name,"");
+	strcpy(source_grp_name,"");
+
 
 	for(int cont=grupo_len;cont>0;cont--){
 
 		if(!familia_char[cont]){
 			popup(NULL,"Elemento do grupo com ponteiro nulo");
 			break;
+		}
+		
+		if(cont==grupo_len){
+			strcpy(familia_char[cont],ativos[posicao].produto_nome);
 		}
 
 		sprintf(dest_grp_name,"%s %s",source_grp_name,familia_char[cont]);
@@ -103,7 +116,6 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 			popup(NULL,"Nome grupo excedeu memoria");
 			break;
 		}
-
 	}
 
 	ativos[posicao].subgrupo = atoi(subgrp_prod_orc_cod_gchar);

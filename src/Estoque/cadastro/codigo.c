@@ -9,7 +9,16 @@ int est_cad_code()
 	}
 
 	if(est_cad_alterando == 0){
-		est_cad_alterar();
+		MYSQL_RES *res;
+		MYSQL_ROW row;
+		char query[MAX_QUERY_LEN];
+		sprintf(query,"select * from estoques where code = %i",atoi(est_cad_cod_gchar));
+		if((res = consultar(query))==NULL)
+			return 1;
+
+		if((row = mysql_fetch_row(res))!=NULL){
+			est_cad_alterar();
+		}
 	}
 
 	gtk_widget_grab_focus(est_nome_entry);

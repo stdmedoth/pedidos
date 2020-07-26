@@ -20,7 +20,7 @@ int pag_datas_fun(void){
 
   data_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(pag_datas_entry));
 
-  if(sscanf(data_gchar, "%d-%d-%d", &ano, &mes, &dia) == EOF)
+  if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF)
   {
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return 1;

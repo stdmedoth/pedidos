@@ -5,6 +5,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	MYSQL_ROW campos;
 	codigo_prod_orc_gchar = malloc(MAX_CODE_LEN);
 	codigo_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]));
+	ativos[posicao].produto = 0;
 
 	if(adicionando_linha_ignore == 1){
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]),"");
@@ -14,6 +15,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 
 	if(strlen(codigo_prod_orc_gchar)<=0)
 	{
+		produto_inserido[posicao] = 0;
 		popup(NULL,"O código do produto deve ser inserido");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 
@@ -45,6 +47,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	}
 
 	ativos[posicao].produto = atoi(codigo_prod_orc_gchar);
+	strcpy(ativos[posicao].produto_nome,campos[0]);
 
 	find_subgrupos_restrict->grupo = atoi(campos[2]);
 	find_subgrupos_restrict->posicao = posicao;

@@ -57,7 +57,7 @@ int desktop()
 
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	char *query;
+	char *query = malloc(MAX_QUERY_LEN);
 	char markup[500];
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
@@ -65,24 +65,54 @@ int desktop()
 
 	ativacao_app();
 
+	sprintf(query,"select data_vencimento - now() from contratos");
+	if((res = consultar(query))==NULL){
+		popup(NULL,"Erro ao buscar status do serviço");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL){
+		popup(NULL,"Serviço sem contrato definido, verifique!");
+	}else{
+		if(atof(row[0])<=0){
+			popup(NULL,"Serviço Expirado");
+			return 1;
+		}
+	}
+	sprintf(query,"select * from contratos");
+	if((res = consultar(query))==NULL){
+		popup(NULL,"Não foi possivel receber lista de permissões");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))!=NULL){
+		ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
+		ativar.compras=atoi(row[CONTRATO_CMP_COL]);
+		ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
+		ativar.estoque=atoi(row[CONTRATO_EST_COL]);
+		ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
+		ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
+	}else{
+		popup(NULL,"Não há lista de permissões");
+		return 1;
+	}
+	if(sessao_oper.nivel>=TECNICO_LEVEL)
+		ativar.tecnicos=1;
+
 	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(param_button),gtk_image_new_from_icon_name("emblem-system",GTK_ICON_SIZE_DIALOG));
 
 	sair_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(sair_button),gtk_image_new_from_icon_name("document-revert",GTK_ICON_SIZE_DIALOG));
+	gtk_button_set_image(GTK_BUTTON(sair_button),gtk_image_new_from_icon_name("application-exit",GTK_ICON_SIZE_DIALOG));
 
 	logoff_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
 
 	suport_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("emblem-important",GTK_ICON_SIZE_DIALOG));
+	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("task-due",GTK_ICON_SIZE_DIALOG));
 
 	pegar_data();
 
 	layout = gtk_layout_new(NULL,NULL);
-
-	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
 	if((res = consultar(query))==NULL)
@@ -253,13 +283,13 @@ int desktop()
 	gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,470);
 	gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,530);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,590);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,650);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,590);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,650);
 
 	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
-	gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
 
 	gtk_widget_set_size_request(barra,80,750);
@@ -279,7 +309,8 @@ int desktop()
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 
-	menu();
+	if(menu()!=0)
+		return 1;
 
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);

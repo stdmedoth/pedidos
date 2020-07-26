@@ -13,7 +13,7 @@
 
 GtkWidget *entrega_campos()
 {
-	GtkWidget *caixa_grande,*colunas,*linhas;
+	GtkWidget *caixa_grande,*linhas;
 
 	GtkWidget *transp_codigo,
 	*transp_nome,
@@ -61,7 +61,6 @@ GtkWidget *entrega_campos()
 
 	linhas = gtk_box_new(1,0);
 	caixa_grande = gtk_box_new(1,0);
-	colunas = gtk_box_new(0,0);
 	dados_transp_box = gtk_box_new(1,0);
 
 	dados_transp_frame = gtk_frame_new("Dados Transportadora");
@@ -189,14 +188,14 @@ GtkWidget *entrega_campos()
 	gtk_box_pack_start(GTK_BOX(transp_obs),transp_obs_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(obs_transp_frame),transp_obs);
 
-	gtk_widget_set_size_request(transp_obs,550,150);
-	gtk_widget_set_size_request(obs_transp_frame,550,150);
-	gtk_widget_set_size_request(transp_obs_entry,550,150);
-	gtk_widget_set_size_request(transp_obs_scroll,550,150);
+	gtk_widget_set_size_request(transp_obs,550,100);
+	gtk_widget_set_size_request(obs_transp_frame,550,100);
+	gtk_widget_set_size_request(transp_obs_entry,550,100);
+	gtk_widget_set_size_request(transp_obs_scroll,550,100);
 
 	gtk_container_add(GTK_CONTAINER(transp_obs_scroll),obs_transp_frame);
 
-	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,0,15);
+	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,100,0);
 
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_logradouro,0,0,5);
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_num,0,0,5);
@@ -224,11 +223,9 @@ GtkWidget *entrega_campos()
 
 	gtk_box_pack_start(GTK_BOX(linhas),dados_transp_fixed,0,0,5);
 	gtk_box_pack_start(GTK_BOX(linhas),transp_endr_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(linhas),transp_obs_fixed,0,0,5);
 
-	gtk_box_pack_start(GTK_BOX(colunas),linhas,0,0,5);
-	gtk_box_pack_start(GTK_BOX(colunas),transp_obs_fixed,0,0,5);
-
-	gtk_box_pack_start(GTK_BOX(caixa_grande),colunas,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),linhas,0,0,5);
 
 	g_signal_connect(GTK_BUTTON(psq_ter_transp_button),"clicked",G_CALLBACK(psq_ter),transp_codigo_entry);
 	g_signal_connect(GTK_BUTTON(psq_ter_transpcep_button),"clicked",G_CALLBACK(psq_cep),transp_cep_entry);

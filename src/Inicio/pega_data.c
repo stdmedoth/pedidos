@@ -36,6 +36,6 @@ int pegar_data()
 
 	sprintf(ano_sys,"%i",tempo_struct->tm_year+1900);
 
-	sprintf(data_sys,"%s-%s-%s",ano_sys,mes_sys,dia_sys);
+	sprintf(data_sys,"%s/%s/%s",dia_sys,mes_sys,ano_sys);
 	return 0;
 }

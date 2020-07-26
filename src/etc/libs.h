@@ -1,4 +1,5 @@
 #include "tools.h"
+#include "impressao.h"
 #include "css.c"
 #include "vars.h"
 #include "stoi.h"
@@ -9,6 +10,7 @@
 
 #include "receber_confs.c"
 #include "tools.c"
+#include "impressao.c"
 #include "criticas.c"
 #include "pesquisador.c"
 #include "personalizacao.c"
