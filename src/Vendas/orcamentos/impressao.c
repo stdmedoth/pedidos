@@ -23,16 +23,26 @@ int imp_cli()
 	}
 
 	fprintf(orc,"<div id=\"orc-cliente\" align=right>\n");
-	fprintf(orc,"<img src=\"%s\" alt=\"\"> Cliente: <span id=\"string-black\">%s</span> \n",IMG_IMP_CLI,row[0]);
-	fprintf(orc,"<hr>\n");
-	fprintf(orc,"<img src=\"%s\" alt=\"\"> Endereco: <span id=\"string-black\">%s,%s</span> \n",IMG_IMP_LOCAL,row[1],row[2]);
-	fprintf(orc,"<hr>\n");
-	fprintf(orc,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[3]);
-	fprintf(orc,"<hr>\n");
-	fprintf(orc,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[4]);
-	fprintf(orc,"<hr>\n");
-	fprintf(orc,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[5]);
-	fprintf(orc,"<hr>\n");
+	if(strlen(row[0])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Cliente: <span id=\"string-black\">%s</span> \n",IMG_IMP_CLI,row[0]);
+		fprintf(orc,"<hr>\n");
+	}
+	if(strlen(row[1])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Endereco: <span id=\"string-black\">%s,%s</span> \n",IMG_IMP_LOCAL,row[1],row[2]);
+		fprintf(orc,"<hr>\n");
+	}
+	if(strlen(row[3])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[3]);
+		fprintf(orc,"<hr>\n");
+	}
+	if(strlen(row[4])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[4]);
+		fprintf(orc,"<hr>\n");
+	}
+	if(strlen(row[5])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[5]);
+		fprintf(orc,"<hr>\n");
+	}
 	fprintf(orc,"</div>\n");
 	return 0;
 }

@@ -6,27 +6,33 @@ int orc_transp_cepc()
 	MYSQL_ROW campos;
 	query = malloc(QUERY_LEN);
 	orc_transp_cep = (gchar *) gtk_entry_get_text(GTK_ENTRY(orc_transp_cep_entry));
-	if(strlen(orc_transp_cep)>=MAX_CEP_LEN)
-	{
-		popup(NULL,"CEP muito grande\nPor favor verifique");
-		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
-		return 1;
-	}
+
 	if(strlen(orc_transp_cep)<=0)
 	{
-		if(terceiros.criticar.entrega==0)
+		if(orc_com_entrega == 0)
 		{
 			orc_transp_cep = malloc(MAX_CEP_LEN);
 			strcpy(orc_transp_cep,"");
 			gtk_widget_grab_focus(orc_transp_logradouro_entry);
 			return 0;
 		}
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		popup(NULL,"Por favor insira um cep");
 		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
 		return 1;
 	}
+
+	if(strlen(orc_transp_cep)>=MAX_CEP_LEN)
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
+		popup(NULL,"CEP muito grande\nPor favor verifique");
+		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
+		return 1;
+	}
+
 	if(strlen(orc_transp_cep)!=CEP_LEN)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		popup(NULL,"Insira o CEP com formato indicado");
 		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
 		return 1;
@@ -38,6 +44,7 @@ int orc_transp_cepc()
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		popup(NULL,"Erro na query para CEP\n\tConsulte suporte");
 		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
 		return 1;
@@ -49,10 +56,11 @@ int orc_transp_cepc()
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(orc_transp_cep);
 		orc_transp_msg_cep = 1;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		gtk_widget_grab_focus(orc_transp_logradouro_entry);
 		return 0;
 	}
-	g_print("cep_len: %li\n",strlen(orc_transp_cep));
+
 	if(campos[0])
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),campos[0]);
 	if(campos[1])

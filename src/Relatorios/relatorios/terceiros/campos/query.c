@@ -9,12 +9,6 @@ int relat_ter_query_fun()
 	char campo_query_cp[MAX_QUERY_ELM_LEN];
 	char filtros_query_gchar[MAX_QUERY_LEN*2],filtros_order_by[MAX_QUERY_LEN];
 
-	gint relat_ter_cod_int1_int, relat_ter_cod_int2_int,
-	relat_ter_tipo_int,
-	relat_ter_pes_int,
-	relat_ter_cep_int1_int, relat_ter_cep_int2_int,
-	relat_ter_ordem_int,relat_ter_cresc_int;
-
 	relat_ter_gerando = 1;
 
 	if(relat_ter_codigo_fun()!=0)

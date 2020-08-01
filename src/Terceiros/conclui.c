@@ -114,24 +114,11 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(contatoe_ter_field);
 		return 1;
 	}
-	if(transp_nomec()!=0)
-	{
+	if(transp_codigo_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
-		gtk_widget_grab_focus(transp_nome_entry);
+		gtk_widget_grab_focus(transp_codigo_entry);
 		return 1;
-	}
-	if(transp_cnpjc()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
-		gtk_widget_grab_focus(transp_cnpj_entry);
-		return 1;
-	}
 
-	if(transp_ie_fun()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
-		gtk_widget_grab_focus(transp_ie_entry);
-		return 1;
 	}
 
 	if(transp_cepc()!=0)
@@ -139,8 +126,8 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_cep_entry);
 		return 1;
-
 	}
+
 	if(transp_logr_fun()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
@@ -246,8 +233,8 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	g_print("Query envida com sucesso\n");
 
 	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
-	popup(NULL,"Concluido");
 	cancelar_ter();
+	popup(NULL,"Concluido");
 	printf("finalizando conclui_ter()\n");
 
 //	gtk_widget_grab_focus (GTK_WIDGET(name_ter_field));

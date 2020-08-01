@@ -1,3 +1,15 @@
+#define TRANSP_CODE_COL 0
+#define TRANSP_TRSP_COL 1
+#define TRANSP_CLI_COL 2
+#define TRANSP_CEP1_COL 3
+#define TRANSP_CEP2_COL 4
+#define TRANSP_NUM_COL 5
+#define TRANSP_ORC_COL 6
+#define TRANP_VLR_COL 7
+#define TRANP_OBS_COL 8
+
+static int orc_com_entrega=0;
+
 static gchar *orc_transp_codigo=NULL,
 *orc_transp_nome=NULL,
 *orc_transp_num=NULL,
@@ -24,4 +36,4 @@ static GtkWidget *orc_transp_codigo_entry,
 *orc_transp_telefone_entry,
 *orc_transp_obs_entry;
 
-GtkWidget *psq_ter_orc_transp_button, *psq_ter_orc_transp_img, *psq_ter_orc_transp_box;
+GtkWidget *psq_ter_orc_transp_button, *psq_ter_orc_transp_img, *psq_ter_orc_transp_box, *psq_ter_orc_transpcep_box;

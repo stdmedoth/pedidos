@@ -355,6 +355,10 @@ int parametrizar()
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 
+	gpointer loading = carregando_wnd();
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
 	janela_parametros = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_parametros,600,400);
 	gtk_window_set_default_size(GTK_WINDOW(janela_parametros),600,400);
@@ -635,11 +639,11 @@ int parametrizar()
 	receber_personalizacao();
 	ler_criticas();
 
-
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);
 	g_signal_connect(janela_parametros,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]);
 	gtk_widget_show_all(janela_parametros);
 
+	gtk_widget_destroy(loading);
 	return 0;
 }

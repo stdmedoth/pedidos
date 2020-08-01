@@ -19,16 +19,17 @@ Sendo criado usando linguagem C, com Mysql API e GTK3.0<br>
 <li>Pedidos possuem status Pendente/Emitido/Cancelado</li>
 <li>Emissão de pedido movimenta estoque e faturamento</li>
 <li>Cancelamento de pedido reverte movimento de estoque e faturamento</li>
+<li>Condições de pagamentos vinculadas com clientes</li>
 </ul>
 </div>
 
 <div>
 <h3>Estoque</h3>
 <ul>
-<li>Cadastro de multiplos estoques</li>
+<li>Cadastro de múltiplos estoques</li>
 <li>Entrada e Saída manual de produtos</li>
 <li>Escolha de tipo de movimentação (compra/venda/devolução de compra ou venda)</li>
-<li>Vinculo de movimentação com pedido</li>
+<li>Vínculo de movimentação com pedido</li>
 <li>Visualização de saldos</li>
 </ul>
 </div>

@@ -15,7 +15,6 @@ int suporte_princ_wnd(){
   gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
   gtk_window_set_title(GTK_WINDOW(janela),"Suporte");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");
-  gtk_application_add_window(aplicacao,GTK_WINDOW(janela));
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   gtk_window_set_default_size(GTK_WINDOW(janela),600,500);
 
@@ -42,6 +41,7 @@ int suporte_princ_wnd(){
 
   postlist = malloc(MAX_POST_QNT*sizeof(GtkBox*));
   titulo_list = malloc(MAX_POST_QNT*sizeof(GtkEntry*));
+  titulo_list_frame = malloc(MAX_POST_QNT*sizeof(GtkEntry*));
   descr_list = malloc(MAX_POST_QNT*sizeof(GtkTextView*));
   sup_atualiza_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));
   sup_deleta_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));

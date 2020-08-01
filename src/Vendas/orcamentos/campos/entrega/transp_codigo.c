@@ -1,28 +1,30 @@
 int orc_transp_codigo_fun()
 {
 	char code[10];
-	char *query;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
+
 	orc_transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(orc_transp_codigo_entry));
 	if(strlen(orc_transp_codigo)<=0)
 	{
-		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_nome_entry));
-		return 1;
+		orc_com_entrega = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		return 0;
 	}
+
 	if(stoi(orc_transp_codigo)==-1)
 	{
 		if(strlen(orc_transp_codigo)>8)
 		{
 			g_print("Codigo terceiro muito grande %s\n",orc_transp_codigo);
-			popup(NULL,"Por favor tente com um código menor\nO código do terceiro está enorme");
-			return -1;
+			popup(NULL,"O código do terceiro excedeu o limite");
+			return 1;
 		}
 		else
 		{
 			g_print("Codigo do terceiro incorreto %s\n",orc_transp_codigo);
-			popup(NULL,"Codigo terceiro deve ser numérico\nCaso não seja necessário, não mude o código padrão");
+			popup(NULL,"Codigo terceiro deve ser numérico");
 			code[0] = '\0';
 			sprintf(code,"%i",tasker("terceiros"));
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),code);
@@ -49,16 +51,17 @@ int orc_transp_codigo_fun()
 		popup(NULL,"Nenhum transportador para o código indicado");
 		return 1;
 	}
-	if(row[RAZ_TER_COL]!=NULL)
+	if(row[RAZ_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),row[RAZ_TER_COL]);
 
-	if(row[DOC_TER_COL]!=NULL)
+	if(row[DOC_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),row[DOC_TER_COL]);
 
-	if(row[IE_TER_COL]!=NULL)
+	if(row[IE_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row[IE_TER_COL]);
 
+	orc_com_entrega = 1;
+
 	gtk_widget_grab_focus(orc_transp_nome_entry);
-	g_print("codigo: %s\n",orc_transp_codigo);
 	return 0;
 }

@@ -27,23 +27,30 @@ table {
   width: 100%;
 }
 
-th {
-	background: Gainsboro;
-	font-weight: bold;
-	color: black;
-	padding: 10px;
-	font-size: 25px;
-  height: 50px;
+tr:nth-child(even) {background-color: #f2f2f2;}
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-td{
-	font-size: 20x;
-	font-weight: normal;
-	padding: 10px;
+th, td {
+  text-align: left;
+  padding: 8px;
 }
 
+tr:nth-child(even) {background-color: #f2f2f2;}
 
-table, th, td {
-	border: 1px solid black;
-	border-collapse: separate;
+.header-cod-table{
+	background: FloralWhite;
+	border: solid 1px Gainsboro;
+
+}
+
+.legendas{
+	border-style: inset;
+}
+
+.tabela-conteudo{
+	margin-top: 20px;
+	border-style: inset;
 }

@@ -3,8 +3,8 @@ static int altera_orc()
 	char query[MAX_QUERY_LEN];
 	int cont=1,erro=0;
 	char code[MAX_CODE_LEN];
-	MYSQL_RES *res;
-	MYSQL_ROW row;
+	MYSQL_RES *res, *res2;
+	MYSQL_ROW row, row2;
 	GtkTextBuffer *buffer;
 	char tmp_cod_orc[MAX_CODE_LEN];
 
@@ -47,7 +47,7 @@ static int altera_orc()
 		cancela_orc();
 		return 1;
 	}
-
+	//buscando informações basicas de orçamentos
 	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL)
@@ -82,6 +82,38 @@ static int altera_orc()
 		cancela_orc();
 		return 1;
 	}
+	//buscando informações basicas de transporte
+	sprintf(query,"select * from servico_transporte where orcamento = %s",tmp_cod_orc);
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao buscar serviço de transporte");
+		cancela_orc();
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		orc_com_entrega = 0;
+	}else{
+		sprintf(query,"select razao,doc,ie from terceiros where code = %s",row[TRANSP_TRSP_COL]);
+		if((res2 = consultar(query))==NULL)
+		{
+			popup(NULL,"Erro ao buscar serviço de transporte");
+			cancela_orc();
+			return 1;
+		}
+		if((row2 = mysql_fetch_row(res2))==NULL)
+		{
+			popup(NULL,"Transportadora da entrega não existe, verifique o cadastro");
+		}else{
+			gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),row2[0]);
+			gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),row2[1]);
+			gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row2[2]);
+		}
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRANSP_TRSP_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRANSP_CEP2_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRANSP_NUM_COL]);
+	}
+
 
 	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
 	if((res = consultar(query))==NULL){
@@ -99,19 +131,32 @@ static int altera_orc()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		g_print("\n\nAdicionando item %s à alteração \n", row[1]);
-		g_print("Dados:\n");
-		g_print("code: %s\n", row[COD_ORC_PROD_COL]);
-		g_print("item: %s\n", row[ITM_ORC_PROD_COL]);
-		g_print("produto: %s\n", row[PROD_ORC_PROD_COL]);
-		g_print("subgrupo: %s\n", row[SUBGRP_ORC_PROD_COL]);
-		g_print("unidades: %s\n", row[UND_ORC_PROD_COL]);
-		g_print("valor_unit: %s\n", row[VLR_ORC_PROD_COL]);
-		g_print("valor_orig: %s\n", row[VLR_ORIG_ORC_PROD_COL]);
-		g_print("tipodesc: %s\n", row[TIP_DESC_ORC_PROD_COL]);
-		g_print("desconto: %s\n", row[DESC_ORC_PROD_COL]);
-		g_print("total: %s\n\n", row[TOTAL_ORC_PROD_COL]);
-		g_print("Observacao: %s\n\n", row[OBS_ORC_PROD_COL]);
+		//arquivando as informacoes da alteração
+		file_logger("\n\nAdicionando item %s à alteração \n");
+		file_logger(row[1]);
+		file_logger("Dados:\n");
+		file_logger("code: %s\n");
+		file_logger(row[COD_ORC_PROD_COL]);
+		file_logger("item: %s\n");
+		file_logger(row[ITM_ORC_PROD_COL]);
+		file_logger("produto: %s\n");
+		file_logger(row[PROD_ORC_PROD_COL]);
+		file_logger("subgrupo: %s\n");
+		file_logger(row[SUBGRP_ORC_PROD_COL]);
+		file_logger("unidades: %s\n");
+		file_logger(row[UND_ORC_PROD_COL]);
+		file_logger("valor_unit: %s\n");
+		file_logger(row[VLR_ORC_PROD_COL]);
+		file_logger("valor_orig: %s\n");
+		file_logger(row[VLR_ORIG_ORC_PROD_COL]);
+		file_logger("tipodesc: %s\n");
+		file_logger(row[TIP_DESC_ORC_PROD_COL]);
+		file_logger("desconto: %s\n");
+		file_logger(row[DESC_ORC_PROD_COL]);
+		file_logger("total: %s\n\n");
+		file_logger(row[TOTAL_ORC_PROD_COL]);
+		file_logger("Observacao: %s\n\n");
+		file_logger(row[OBS_ORC_PROD_COL]);
 
 		itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
 
@@ -234,6 +279,8 @@ static int altera_orc()
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
+
+	orc_transp_alterar_fun();
 
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);
 	gtk_widget_set_sensitive(codigo_orc_entry,FALSE);

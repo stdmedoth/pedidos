@@ -29,6 +29,14 @@ static GtkWidget *relat_orc_prod_psq_prod_button;
 static GtkWidget *relat_orc_prod_psq_grp_button;
 static GtkWidget *relat_orc_prod_psq_ped_button;
 
+gint relat_orc_prod_int1_orc_prod_int, relat_orc_prod_int2_orc_prod_int,
+relat_orc_prod_int1_ter_int, relat_orc_prod_int2_ter_int,
+relat_orc_prod_int1_prod_int, relat_orc_prod_int2_prod_int,
+relat_orc_prod_int1_grp_int, relat_orc_prod_int2_grp_int,
+relat_orc_prod_int1_ped_int, relat_orc_prod_int2_ped_int,
+relat_orc_prod_tipo_int,
+relat_orc_prod_ordem_int,relat_orc_prod_cresc_int;
+
 static GtkWidget *relat_orc_prod_code_entry,
 *relat_orc_prod_nome_entry,
 *relat_orc_prod_query_entry;
@@ -47,4 +55,7 @@ int relat_orc_prod_gerar_fun();
 
 #include "campos/codigo.c"
 #include "campos/query.c"
+#include "campos/orc_prod.c"
+#include "campos/prod.c"
+#include "campos/terceiro.c"
 #include "gerar.c"

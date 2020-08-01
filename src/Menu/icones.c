@@ -5,6 +5,7 @@ GtkWidget **eventos;
 #include "vnd_ico.c"
 #include "cmp_ico.c"
 #include "rel_ico.c"
+#include "tcn_ico.c"
 
 int add_icones(void)
 {
@@ -18,6 +19,7 @@ int add_icones(void)
 	estoquel     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	financeirol  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	relatoriosl  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	tecnicosl    = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 	{
@@ -28,6 +30,7 @@ int add_icones(void)
 		estoquel[cont]     = gtk_box_new(0,0);
 		financeirol[cont]  = gtk_box_new(0,0);
 		relatoriosl[cont]  = gtk_box_new(0,0);
+		tecnicosl[cont]  = gtk_box_new(0,0);
 	}
 
 	cad_ico();
@@ -35,5 +38,6 @@ int add_icones(void)
 	estq_ico();
 	cmp_ico();
 	rel_ico();
+	tcn_ico();
 	return 0;
 }

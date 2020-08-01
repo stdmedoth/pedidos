@@ -20,27 +20,30 @@ void passa_senha()
 void verifica_senha()
 {
 
-	char *query;
+	char query[MAX_QUERY_LEN];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-
+	char unvulned_nome[MAX_OPER_LEN];
+	char unvulned_senha[MAX_SEN_LEN];
 	oper_nome_login = malloc(MAX_OPER_LEN);
 	oper_senha_login = malloc(MAX_SEN_LEN);
-	query = malloc(MAX_QUERY_LEN);
 
 	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	oper_senha_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
 
-	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",oper_nome_login,oper_senha_login);
+	mysql_real_escape_string(&conectar,unvulned_nome,oper_nome_login,strlen(oper_nome_login));
+	mysql_real_escape_string(&conectar,unvulned_senha,oper_senha_login,strlen(oper_senha_login));
 
-	res = consultar(query);
-	if(res==NULL)
+	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
+
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro de comunicacao com banco");
-		gtk_main_quit();
+		encerrando();
+		return ;
 	}
 
-	if((row = mysql_fetch_row(res))!=NULL)
+	if((row = mysql_fetch_row(res)))
 	{
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		if(GTK_IS_WIDGET(janela_login))
@@ -51,7 +54,7 @@ void verifica_senha()
 		sessao_oper.nivel = atoi(row[2]);
 
 		if(desktop()!=0)
-			gtk_main_quit();
+			encerrando();
 		return ;
 	}
 	else

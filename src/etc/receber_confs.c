@@ -1,20 +1,30 @@
 static struct {
-  char server_endereco[MAX_SERVER_LEN];
-  char server_user[MAX_SEN_LEN];
-  char server_senha[MAX_SEN_LEN];
-  char server_database[MAX_SEN_LEN];
+  char *server_endereco;
+  char *server_user;
+  char *server_senha;
+  char *server_database;
 }server_confs;
 
 int rec_vars_from_file(){
   FILE *conf;
-  char variaveis[MAX_VAR_LEN*2+1];
-  char server_endereco[MAX_SERVER_LEN];
-  char server_user[MAX_SEN_LEN];
-  char server_senha[MAX_SEN_LEN];
-  char server_database[MAX_SEN_LEN];
+  char *variaveis;
+  char *server_endereco;
+  char *server_user;
+  char *server_senha;
+  char *server_database;
 
   char *conf_string;
   int ascii=0, cont=0;
+
+  server_confs.server_endereco = malloc(MAX_SERVER_LEN);
+  server_confs.server_user = malloc(MAX_SEN_LEN);
+  server_confs.server_senha = malloc(MAX_SEN_LEN);
+  server_confs.server_database = malloc(MAX_SERVER_LEN);
+
+  server_endereco = malloc(MAX_SERVER_LEN);
+  server_user = malloc(MAX_SEN_LEN);
+  server_senha = malloc(MAX_SEN_LEN);
+  server_database = malloc(MAX_SERVER_LEN);
 
   conf_string = malloc(MAX_CONF_STRING_LEN);
 
@@ -23,6 +33,7 @@ int rec_vars_from_file(){
     g_print("%s\n",strerror(errno));
     return 1;
   }
+
   strcpy(server_endereco,"");
   strcpy(server_user,"");
   strcpy(server_senha,"");

@@ -48,6 +48,8 @@ int relat_prod_gerar_fun()
 
 	fprintf(relatorio_file,"<div id=\"div-relat\" align=\"center\">");
 	fprintf(relatorio_file,"<h1>Relatório de Produtos</h1>");
+	fprintf(relatorio_file,"<div>Data: %s</div>",data_sys);
+	fprintf(relatorio_file,"<div>Filtros: </div>");
 	fprintf(relatorio_file,"<table>");
 
 	fprintf(relatorio_file,"<tr>");

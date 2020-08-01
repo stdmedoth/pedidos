@@ -13,8 +13,8 @@ void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_w
 
 }
 
-static int gerar_total_geral()
-{
+static int gerar_total_geral(){
+	
 	char *muda_label;
 	total_geral_orc = 0;
 	desconto_geral_orc = 0 ;
@@ -91,7 +91,7 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 			erro = enviar_query(query);
 			if(erro!=0)
 			{
-				popup(NULL,"Erro ao tentar excluir o item\n\rReinicie o sistema!\n\tCaso persista, chame suporte");
+				popup(NULL,"Erro ao tentar excluir o item");
 				return 1;
 			}
 		}
@@ -274,7 +274,6 @@ static int adicionar_linha_orc()
 
 	if(GTK_IS_WIDGET(botao_orc_mais))
 	{
- 		g_object_unref(botao_orc_mais);
 		gtk_widget_destroy(botao_orc_mais);
 
 	}

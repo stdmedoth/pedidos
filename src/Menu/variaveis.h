@@ -6,6 +6,7 @@
 #define VND_ICO_QNT 1
 #define CMP_ICO_QNT 4
 #define REL_ICO_QNT 4
+#define TCN_ICO_QNT 2
 
 //cadastros
 GtkWidget *prd_ico, *prd_lbl; //produtos
@@ -41,11 +42,16 @@ GtkWidget *rel_ter_ico, *rel_ter_lbl;
 GtkWidget *rel_est_ico, *rel_est_lbl;
 GtkWidget *rel_orc_prod_ico, *rel_orc_prod_lbl;
 
+//tecnicos
+GtkWidget *emp_ico, *emp_lbl;
+GtkWidget *rld_prod_ico, *rld_prod_lbl;
+
 GtkWidget *cad_box[CAD_ICO_QNT];
 GtkWidget *est_box[EST_ICO_QNT];
 GtkWidget *vnd_box[VND_ICO_QNT];
 GtkWidget *cmp_box[CMP_ICO_QNT];
 GtkWidget *rel_box[REL_ICO_QNT];
+GtkWidget *tcn_box[TCN_ICO_QNT];
 
 GtkWidget **principall;
 GtkWidget **cadastrosl;
@@ -54,3 +60,4 @@ GtkWidget **faturamentol;
 GtkWidget **estoquel;
 GtkWidget **financeirol;
 GtkWidget **relatoriosl;
+GtkWidget **tecnicosl;

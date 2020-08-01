@@ -108,17 +108,12 @@ int altera_ter()
 	if(campo[EMAIL_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(email_ter_field),campo[EMAIL_TER_COL]);
 
-	if(campo[TRSP_NOME_COL]!=NULL)
+	if(campo[CEMAIL_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[CEMAIL_TER_COL]);
 
-	if(campo[TRSP_NOME_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),campo[TRSP_NOME_COL]);
-
-	if(campo[TRSP_CNPJ_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry),campo[TRSP_CNPJ_COL]);
-
-	if(campo[TRSP_IE_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),campo[TRSP_IE_COL]);
+	if(campo[TRSP_COD_COL]!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TRSP_COD_COL]);
+	gtk_widget_activate(transp_codigo_entry);
 
 	if(campo[TRSP_LOGR_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campo[TRSP_LOGR_COL]);
@@ -162,7 +157,6 @@ int altera_ter()
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
-
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 

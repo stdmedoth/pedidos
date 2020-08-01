@@ -27,7 +27,11 @@ drop table if exists dados;
 drop table if exists criador_relat;
 drop table if exists relat_tab_campos;
 drop table if exists relat_tabelas_id;
+drop table if exists tipo_terceiros;
 
+create table tipo_terceiros(
+  code int primary key,
+  nome varchar(100) not null);
 
 create table if not exists confs(  code int primary key auto_increment,
 navegador_path1 varchar(1000) default '' not null,
@@ -38,6 +42,10 @@ imp_path2 varchar(1000) default '' not null,
 imp_path3 varchar(1000) default '' not null,
 print_logs int not null default 0,
 bd_logs int not null default 0);
+
+create table tecn_pers_elem(
+  code int not null,
+    path_img_init varchar(1000) not null);
 
 create table if not exists tipo_movimentos( code int primary key,
   id int not null default 0,
@@ -57,7 +65,16 @@ create table logs( descricao varchar (2000), data datetime);
 
 create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
 razao varchar(150) default 'Empresa Sem Nome',
-endereco varchar(200) default 'Endereço Vazio');
+cep varchar(15) default '' not null,
+endereco varchar(400) default '' not null,
+bairro  varchar(100) default '' not null,
+cidade varchar(50) default '' not null,
+uf varchar(20) default 'UF' not null,
+numrua int default 0 not null,
+tiporua int default 0 not null,
+telefone varchar(15) default '' not null,
+celular varchar(15) default '' not null,
+email varchar(100) default '' not null);
 
 create table if not exists perfil_desktop(code int primary key auto_increment,
 desktop_img int default 0,
@@ -100,9 +117,7 @@ contatoc varchar(15) default '' not null,
 email varchar(100) default '' not null,
 contatoe varchar(20) default '' not null,
 
-transp_nome varchar(300) default '' not null,
-transp_cnpj varchar(20) default '' not null,
-transp_ie varchar(20) default '' not null,
+transp_code int default 1 not null,
 transp_logradouro varchar(400) default '' not null,
 transp_num int default 0 not null,
 transp_bairro varchar(100) default '' not null,
@@ -207,6 +222,11 @@ tipo_mov int default 0 );
 
 create table if not exists estoques( code int primary key auto_increment,
 nome varchar(20) default 'Estoque Sem Nome');
+
+create table produtos_nome_all(
+code int not null primary key,
+nome varchar(500),
+referencia int not null);
 
 create table if not exists movimento_estoque( code int primary key auto_increment,
 estoque int default 1,

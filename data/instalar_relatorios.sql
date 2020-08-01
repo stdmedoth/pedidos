@@ -30,12 +30,18 @@ insert into dados(code,nome) values
 (4,"dinheiro"),
 (5,"data");
 
+insert into tipo_terceiros(code,nome) values
+(1,"Clientes"),
+(2,"Fornecedor"),
+(3,"Cliente e Fornecedor"),
+(4,"Transportadora");
+
 insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ('produtos','Tabela responsável por armazenar os dados dos produtos',
-' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code',8),
+ '  from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_all.referencia = p.grupo',8),
 
 ('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',
-' from terceiros as t',34),
+' from terceiros as t inner join terceiros as trp inner join tipo_terceiros as tp on t.transp_code = trp.code and t.tipo = tp.code' ,34),
 
 ('orçamentos','Tabela responsável por armazenar os orcamentos criados e seus status',
 ' from orcamentos as o inner join terceiros as t inner join tipo_pagamento as tp on o.cliente = t.code and o.tipopag = tp.code',5),
@@ -44,16 +50,17 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ' from pedidos as p',5),
 
 ('Movimentos estoque','Tabela responsável por mostrar movimentações de produtos no estoque',
-' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code',10),
+' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g inner join tipo_movimentos as t_m inner join produtos_nome_all as p_all on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code and m_e.tipo_mov = t_m.id  and p_all.code = m_e.subgrupo',10),
 
 ('Faturamento','Tabela responsável pela visualização de valor das vendas',
-' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7)
+' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7),
 
 ('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_o.produto = p.code and p_o.subgrupo = o_g.code',15);
+' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_o.produto = p.code and p_o.subgrupo = o_g.code and p_all.code = p_o.subgrupo and p_o.code = o.code',15);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),
+(1, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
 (1, 'Nome',  'Visualizar nome do produto', 'p.nome ',1),
 (1, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
 (1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),
@@ -70,20 +77,21 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (2, 'Documento', 'CNPJ ou RG do Terceiro', 't.doc',1),
 (2, 'IE/RG', 'Inscrição/RG do Terceiro', 't.ie',1),
 (2, 'CEP', 'CEP do Terceiro', 't.cep',1),
+(2, 'Tipo', 'Tipo de Terceiro (Cliente/Fornecedor/Transportadora)', 'tp.nome',1),
 (2, 'Logradouro', 'Logradouro do Terceiro', 't.endereco',1),
 (2, 'Cidade', 'Cidade do Terceiro', 't.cidade',1),
-(2, 'Número ', 'Unidade Federativa do Terceiro', 't.uf',1),
-(2, 'Tipo Log', 'Tipo de logradouro: Rua,Avenida,Rodovia', 't.uf',1),
+(2, 'Número ', 'Numero endereço do Terceiro', 't.numrua',1),
+(2, 'Tipo Logr', 'Tipo de logradouro: Rua,Avenida,Rodovia', 't.tiporua',1),
 (2, 'Telefone', 'Número de telefone do terceiro', 't.telefone',1),
 (2, 'Contato telefone', 'Contato para o telefone', 't.contatot',1),
 (2, 'Celular', 'Número de celular do terceiro', 't.celular',1),
 (2, 'Contato celular', 'Contato para o celular', 't.contatoc',1),
 (2, 'Email', 'Email do terceiro', 't.email',1),
 (2, 'Contato Email', 'Contato para o email', 't.contatoe',1),
-(2, 'Transp. Nome', 'Nome da transp. vinc. ao Terceiro', 't.transp_nome',1),
-(2, 'Transp. Documento', 'CNPJ da transp. vinc. ao Terceiro', 't.transp_cnpj',1),
-(2, 'Transp. IE', 'Inscrição Estadual da transp. vinc. ao Terceiro', 't.transp_ie',1),
-(2, 'Transp .Logradouro', 'Logradouro da transp. vinc. ao Terceiro', 't.transp_logradouro',1),
+(2, 'Transp. Nome', 'Nome da transp. vinc. ao Terceiro', 'trp.transp_nome',1),
+(2, 'Transp. Documento', 'CNPJ da transp. vinc. ao Terceiro', 'trp.transp_cnpj',1),
+(2, 'Transp. IE', 'Inscrição Estadual da transp. vinc. ao Terceiro', 'trp.ie',1),
+(2, 'Transp .Logradouro', 'Logradouro da transp. vinc. ao Terceiro', 't.endereco',1),
 (2, 'Numero Endereço Transp.', 'Número endereço da transp. vinc. ao Terceiro', 't.transp_num',2),
 (2, 'Cidade  Transp.', 'Cidade da transp. vinc. ao Terceiro', 't.transp_cidade',1),
 (2, 'UF Transp.', 'Estado da transp. vinc. ao Terceiro', 't.transp_estado',1),
@@ -111,13 +119,14 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (5, 'Estoque','Estoque utilizado no movimento', 'm_e.estoque',2),
 (5, 'Pedido', 'Número do pedido vinculado ao movimento', 'm_e.pedido',2),
 (5, 'Cód Produto', 'Código do Produto movimentado', 'm_e.produto',2),
+(5, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
 (5, 'Nome Produto','Nome Produto movimentado', 'p.nome',1),
 (5, 'Subgrupo', 'Subgrupo movimentado', 'g.nome',1),
 (5, 'Cód. Cliente','Código do cliente vinculado ao movimento', 'm_e.cliente',2),
 (5, 'Nome Cliente','Nome do cliente vinculado ao movimento', 't.razao',1),
 (5, 'Movimento Saídas','Quantidade de saídas no movimento', 'm_e.saidas',3),
 (5, 'Movimento Entradas','Quantidade de entradas no movimento', 'm_e.entradas',3),
-(5, 'Tipo','Tipo de movimento (venda,compra,devolução)', 'm_e.tipo_mov',2),
+(5, 'Tipo','Tipo de movimento (venda,compra,devolução)', 't_m.nome',2),
 (5, 'Data','Data do movimento', 'm_e.data_mov',5);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
@@ -126,20 +135,24 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (6, 'Valor Entrada','Valor de entradas faturamento', 'f.entrada',4),
 (6, 'Valor Saída','Valor de saidas faturamento', 'f.saida',4),
 (6, 'Data','Data do movimento no faturamento', 'f.data_mov',5),
-(6, 'Tipo','Tipo de movimento(venda,devolução)', 't_m.nome',1);
+(6, 'Tipo Op.','Tipo de movimento(venda,devolução)', 't_m.nome',1);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
-(7, 'Código Orc.','Código dos orcamentos gerados', 'o.code',2),
 (7, 'Cliente','Cliente vinculado ao orcamento', 't.razao',1),
 (7, 'Data de Criação', 'Data dos dos orcamentos gerados', 'o.dia',5),
 (7, 'tipopag','Tipo de pagamento (faturado, a vista)', 'tp.nome',1),
 (7, 'Total','Valor Totaldo orcamento', 'o.total',3),
 (7, 'Observacoes','Observações contidas no orçamento', 'o.obeservacoes',1),
 (7, 'Código Pród.' , 'Visualizar código do produto', 'p.code',2),
-(7, 'Nome',  'Visualizar nome do produto', 'p.nome ',1),
+(7, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
+(7, 'Nome Produto',  'Visualizar nome do produto', 'p.nome ',1),
 (7, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
 (7, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),
 (7, 'UND. Atacado', 'Unidades para venda Atacado', 'u.nome',1),
+(7, 'Qnt Item','Quantidade vendida do item', 'p_o.unidades',3),
+(7, 'Vlr Unit Item','Valor unitário de cada item', 'p_o.valor_unit',3),
+(7, 'Vlr Item','Valor Total de cada item', 'p_o.total',3),
+(7, 'Vlr Desc Item','Valor desconto cada item', 'p_o.desconto',3),
 (7, 'Fornecedor', 'Terceiro fornecedor do produto', 't.razao',1),
 (7, 'Grupo', 'Grupo vinculado ao produto', 'g.nome',1),
 (7, 'Nivel Grupo', 'Nivel do grupo vinculado (Não utilizado)', 'p.grupo_nivel',2),

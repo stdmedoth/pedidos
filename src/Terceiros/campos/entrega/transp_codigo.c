@@ -8,9 +8,11 @@ int transp_codigo_fun()
 	transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(transp_codigo_entry));
 	if(strlen(transp_codigo)<=0)
 	{
-		gtk_widget_grab_focus(GTK_WIDGET(transp_nome_entry));
-		return 1;
+		ter_com_entrega = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
+		return 0;
 	}
+	ter_com_entrega = 1;
 	if(stoi(transp_codigo)==-1)
 	{
 		if(strlen(transp_codigo)>8)

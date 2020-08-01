@@ -669,7 +669,7 @@ int  cad_terc()
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	gtk_widget_set_sensitive(frete_pago_entry,FALSE);
 	gtk_widget_set_sensitive(campo_nome_cond_ter,FALSE);
-	
+
 	gtk_widget_show_all(janela);
 	gtk_widget_grab_focus(doc_ter_field);
 

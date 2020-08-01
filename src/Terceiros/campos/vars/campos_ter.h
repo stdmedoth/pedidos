@@ -20,23 +20,21 @@
 #define EMAIL_TER_COL 19
 #define CEMAIL_TER_COL 20
 
-#define TRSP_NOME_COL 21
-#define TRSP_CNPJ_COL 22
-#define TRSP_IE_COL 23
-#define TRSP_LOGR_COL 24
-#define TRSP_BAIR_COL 25
-#define TRSP_NUM_COL 26
-#define TRSP_CID_COL 27
-#define TRSP_UF_COL 28
-#define TRSP_CEP_COL 29
-#define TRSP_TEL_COL 30
-#define TRSP_OBS_COL 31
+#define TRSP_COD_COL 21
+#define TRSP_LOGR_COL 22
+#define TRSP_NUM_COL 23
+#define TRSP_BAIR_COL 24
+#define TRSP_CID_COL 25
+#define TRSP_UF_COL 26
+#define TRSP_CEP_COL 27
+#define TRSP_TEL_COL 28
+#define TRSP_OBS_COL 29
 
-#define FLAG_MIN_FRT_PAG_COL 32
-#define VLR_MIN_FRT_PAG_COL 33
+#define FLAG_MIN_FRT_PAG_COL 30
+#define VLR_MIN_FRT_PAG_COL 31
 
-#define PRAZ_TER_COL 34
-#define OBS_TER_COL 35
+#define PRAZ_TER_COL 32
+#define OBS_TER_COL 33
 
 int tipo_doc,tipo_log;
 
@@ -150,6 +148,8 @@ static gchar *codigos_ter=NULL,
 
 static gchar *transp_codigo=NULL,
 *transp_nome=NULL,
+*transp_cnpj=NULL,
+*transp_ie=NULL,
 *transp_num=NULL,
 *transp_logradouro=NULL,
 *transp_bairro=NULL,
@@ -157,16 +157,8 @@ static gchar *transp_codigo=NULL,
 *transp_estado=NULL,
 *transp_cep=NULL,
 *transp_telefone=NULL,
-*transp_cnpj=NULL,
-*transp_ie=NULL,
 *transp_obs=NULL;
 
 static gchar *prazo_ter=NULL;
 static int concluindo_ter=0;
-static char *tip_logds[] = {"Rua",
-	"Avenida",
-	"Praça",
-	"Estrada",
-	"Alameda",
-	"Travessia",
-	"Rodovia"};
+static int ter_com_entrega = 0;

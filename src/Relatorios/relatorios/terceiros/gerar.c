@@ -5,6 +5,7 @@ int relat_ter_gerar_fun()
 	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Terceiros</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	char *gerando_file;
+	char *tipo_nome;
 	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
 
 	char query[MAX_QUERY_LEN];
@@ -36,6 +37,23 @@ int relat_ter_gerar_fun()
 
 	fprintf(relatorio_file,"<div id=\"div-relat\" align=\"center\">");
 	fprintf(relatorio_file,"<h1>Relatório de Terceiros</h1>");
+	fprintf(relatorio_file,"<div>");
+	fprintf(relatorio_file,"<div>Data: %s</div>",data_sys);
+	fprintf(relatorio_file,"<div>");
+	fprintf(relatorio_file,"<div>Filtros: </div>");
+	fprintf(relatorio_file,"<div>Cod Terceiros: de %i à %i</div>",relat_ter_cod_int1_int, relat_ter_cod_int2_int);
+	if(relat_ter_tipo_int){
+		g_print("valor numerico '%i'\n",relat_ter_tipo_int);
+		tipo_nome = tipo_ter_num_to_str(relat_ter_tipo_int);
+		if(tipo_nome)
+			fprintf(relatorio_file,"<div>Tipo - %s</div>",tipo_nome);
+	}
+	else
+		fprintf(relatorio_file,"<div>Tipo Todos</div>");
+	fprintf(relatorio_file,"</div>");
+	fprintf(relatorio_file,"</div>");
+	fprintf(relatorio_file,"<hr>");
+
 	fprintf(relatorio_file,"<table>");
 
 	if((res1 = consultar(query))==NULL){

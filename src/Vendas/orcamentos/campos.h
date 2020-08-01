@@ -29,6 +29,9 @@
 #include "campos/outros/data_parc.c"
 #include "campos/outros/campos_de_datas.c"
 
+#include "campos/entrega/concluir.c"
+#include "campos/entrega/alterar.c"
+
 #include "orc_p_ped.c"
 #include "cancelar.c"
 #include "alterar.c"

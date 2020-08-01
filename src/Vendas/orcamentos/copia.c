@@ -7,8 +7,23 @@
 
   copiando_orc=1;
 
-  if(codigo_orc())
+  if(codigo_orc()){
+    copiando_orc=0;
     return 1;
+  }
+
+
+  sprintf(query,"select code from orcamentos where code = %s",codigo_orc_gchar);
+  if(!(res = consultar(query))){
+    copiando_orc=0;
+    return 1;
+  }
+
+  if(!(row = mysql_fetch_row(res))){
+    popup(NULL,"Orçamento não existe para ser copiado");
+    copiando_orc=0;
+    return 1;
+  }
 
   task_atual_int = tasker("orcamentos");
 

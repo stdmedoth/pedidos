@@ -15,6 +15,7 @@ int carrega_posts(MYSQL_RES *res){
         sup_vet_posts_qnt[sup_posts_pos] = sup_posts_pos;
         postlist[sup_posts_pos] = gtk_box_new(1,0);
         titulo_list[sup_posts_pos] = gtk_entry_new();
+        titulo_list_frame[sup_posts_pos] = gtk_frame_new("Título");
         descr_list[sup_posts_pos] = gtk_text_view_new();
         sup_atualiza_button[sup_posts_pos] = gtk_button_new();
         sup_deleta_button[sup_posts_pos] = gtk_button_new();
@@ -66,7 +67,8 @@ int carrega_posts(MYSQL_RES *res){
 
         gtk_container_add(GTK_CONTAINER(descr_scrolls[sup_posts_pos]),descr_list[sup_posts_pos]);
 
-        gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),titulo_list[sup_posts_pos],0,0,5);
+        gtk_container_add(GTK_CONTAINER(titulo_list_frame[sup_posts_pos]),titulo_list[sup_posts_pos]);
+        gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),titulo_list_frame[sup_posts_pos],0,0,5);
         gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),descr_scrolls[sup_posts_pos],0,0,5);
 
         gtk_box_pack_start(GTK_BOX(sup_opcoes_box[sup_posts_pos]),sup_atualiza_button[sup_posts_pos],0,0,5);
@@ -112,6 +114,7 @@ int suporte_princ_add(){
 
   postlist[sup_posts_pos] = gtk_box_new(1,0);
   titulo_list[sup_posts_pos] = gtk_entry_new();
+  titulo_list_frame[sup_posts_pos] = gtk_frame_new("Título");
   descr_list[sup_posts_pos] = gtk_text_view_new();
   sup_atualiza_button[sup_posts_pos] = gtk_button_new();
   sup_deleta_button[sup_posts_pos] = gtk_button_new();
@@ -148,7 +151,8 @@ int suporte_princ_add(){
 
   gtk_container_add(GTK_CONTAINER(descr_scrolls),descr_list[sup_posts_pos]);
 
-  gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),titulo_list[sup_posts_pos],0,0,5);
+  gtk_container_add(GTK_CONTAINER(titulo_list_frame[sup_posts_pos]),titulo_list[sup_posts_pos]);
+  gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),titulo_list_frame[sup_posts_pos],0,0,5);
   gtk_box_pack_start(GTK_BOX(postlist[sup_posts_pos]),descr_scrolls,0,0,5);
 
   gtk_box_pack_start(GTK_BOX(sup_opcoes_box[sup_posts_pos]),sup_atualiza_button[sup_posts_pos],0,0,5);
@@ -200,6 +204,7 @@ int post_recarregar_posts(){
 
   postlist = malloc(MAX_POST_QNT*sizeof(GtkBox*));
   titulo_list = malloc(MAX_POST_QNT*sizeof(GtkEntry*));
+  titulo_list_frame = malloc(MAX_POST_QNT*sizeof(GtkFrame*));
   descr_list = malloc(MAX_POST_QNT*sizeof(GtkTextView*));
   sup_atualiza_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));
   sup_deleta_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));

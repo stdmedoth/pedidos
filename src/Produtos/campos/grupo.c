@@ -21,21 +21,15 @@ int grupo_prod()
 		return 1;
 	}
 	sprintf(query,"select nome from grupos where code = '%s'",grupos_prod);
-	if((vetor = consultar(query))!=NULL)
+	if(!(vetor = consultar(query)))
+		return 1;
+	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		campos = mysql_fetch_row(vetor);
-		if(campos==NULL)
-		{
-			popup(NULL,"Este código para grupo não existe\n\tUse a pesquisa");
-			g_print("Esta código para grupo não existe:%s\n",grupos_prod);
-			return 1;
-		}
-	}
-	else
-	{
-		g_print("Erro no MYSQL_RES* para grupos\n");
+		popup(NULL,"Este código para grupo não existe\n\tUse a pesquisa");
+		g_print("Esta código para grupo não existe:%s\n",grupos_prod);
 		return 1;
 	}
+
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);
 
 	g_print("grupo: %s\n",grupos_prod);

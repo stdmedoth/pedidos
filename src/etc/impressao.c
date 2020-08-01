@@ -74,7 +74,8 @@ int iniciar_impressao(char *gerado)
 			}
 			break;
 	}
-	g_usleep(G_USEC_PER_SEC*3);
+
+	g_usleep(G_USEC_PER_SEC*1);
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
 
 		GError *erro=NULL;
@@ -90,12 +91,14 @@ int iniciar_impressao(char *gerado)
 			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path2,gerado,NULL);
 		}
+
 		if(!processo)
 		{
 			popup(NULL,"Não foi possivel abrir documento");
 			autologger(erro->message);
 			return 1;
 		}
+
 	}
 
 	return 0;
@@ -122,7 +125,8 @@ int desenhar_pdf(char *gerando_file)
 		return 1;
 	}
 	else{
-		g_usleep(G_USEC_PER_SEC*3);
+		g_usleep(G_USEC_PER_SEC*1);
+
 		if(iniciar_impressao(gerado))
 			return 1;
 		else

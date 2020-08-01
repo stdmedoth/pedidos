@@ -1,9 +1,9 @@
 int relat_orc_prod_query_fun()
 {
-	MYSQL_RES *res;
-	MYSQL_ROW row;
+	MYSQL_RES *res , *listar_res;
+	MYSQL_ROW row, listar_row;
 	int campos_qnt=0;
-	char ini_query[] = "select";
+	char ini_query[] = "select o.code,";
 	char *end_query;
 	char query[MAX_QUERY_LEN*2];
 	char campo_query_cp[MAX_QUERY_ELM_LEN];
@@ -14,14 +14,6 @@ int relat_orc_prod_query_fun()
 
 	if(relat_orc_prod_codigo_fun()!=0)
 		return 1;
-
-	gint relat_orc_prod_int1_orc_prod_int, relat_orc_prod_int2_orc_prod_int,
-	relat_orc_prod_int1_ter_int, relat_orc_prod_int2_ter_int,
-	relat_orc_prod_int1_prod_int, relat_orc_prod_int2_prod_int,
-	relat_orc_prod_int1_grp_int, relat_orc_prod_int2_grp_int,
-	relat_orc_prod_int1_ped_int, relat_orc_prod_int2_ped_int,
-	relat_orc_prod_tipo_int,
-	relat_orc_prod_ordem_int,relat_orc_prod_cresc_int;
 
   relat_orc_prod_int1_orc_prod_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_orc_prod_int1_orc_prod_entry));
 	relat_orc_prod_int2_orc_prod_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_orc_prod_int2_orc_prod_entry));
@@ -38,11 +30,12 @@ int relat_orc_prod_query_fun()
 	if(relat_orc_prod_ordem_int == 0){
 		popup(NULL,"Selecione a ordenação");
 		gtk_widget_grab_focus(relat_orc_prod_ordem_combo);
-		relat_orc_prod_gerando = 0;
+		relat_orc_prod_gerando=0;
 		return 1;
 	}
+
 	if(campos_query[relat_orc_prod_ordem_int-1]){
-		sprintf(filtros_order_by,"order by %s",campos_query[relat_orc_prod_ordem_int-1]);
+		sprintf(filtros_order_by,"order by o.code asc, %s",campos_query[relat_orc_prod_ordem_int-1]);
 	}else{
 		popup(NULL,"Não foi possivel encontrar query para ordenação");
 	}

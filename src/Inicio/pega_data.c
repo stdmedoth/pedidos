@@ -1,9 +1,4 @@
 /* cria data para o sistema*/
-char dia_sys[14];
-char mes_sys[14];
-char ano_sys[14];
-char data_sys[42];
-
 int pegar_data()
 {
 	struct tm *tempo_struct;

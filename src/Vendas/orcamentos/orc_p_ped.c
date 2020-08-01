@@ -22,7 +22,7 @@ void gera_orc_ped()
 			popup(NULL,"Orcamento já é um pedido emitido");
 		if(atoi(row[1])==STATUS_PED_CAN)
 			popup(NULL,"Orcamento já é um pedido cancelado");
-			
+
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return ;
 	}

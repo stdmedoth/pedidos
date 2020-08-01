@@ -16,14 +16,14 @@ int wnd_logger(janelas_info *struct_wnd)
 		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
-			autologger("Não foi possivel conectar ao servidor");
-			autologger((char*)mysql_error(&conectar));
+			file_logger("Não foi possivel conectar ao servidor");
+			file_logger((char*)mysql_error(&conectar));
 			primeira_conexao=0;
 			return 1;
 		}
 		if (mysql_set_character_set(&conectar, "utf8"))
 		{
-			autologger("Não foi possivel setar novo caracter");
+			file_logger("Não foi possivel setar novo caracter");
 		}
     primeira_conexao=1;
 	}
@@ -48,8 +48,8 @@ int wnd_logger(janelas_info *struct_wnd)
 	{
 		popup(NULL,"Erro de formato\n");
 		if(logging == 0){
-			autologger(query);
-			autologger((char*)mysql_error(&conectar));
+			file_logger(query);
+			file_logger((char*)mysql_error(&conectar));
 		}
 		return err;
 	}
@@ -65,8 +65,7 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   if(struct_wnd->reg_id == REG_PRINC_WIN)
     iniciar_gerenciador_janela();
 
-  if(gerenciador_janela())
-    return 1;
+  gerenciador_janela();
 
   if(struct_wnd->reg_id <= REG_WIN_QNT){
     sprintf(msg,"Janela aberta: %s\n",janelas_nomes[struct_wnd->reg_id]);
@@ -86,8 +85,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   if(struct_wnd->reg_id == REG_PRINC_WIN)
     iniciar_gerenciador_janela();
 
-  if(gerenciador_janela())
-    return 1;
+  gerenciador_janela();
 
   if(struct_wnd->reg_id <= REG_WIN_QNT){
     sprintf(msg,"Janela fechada: %s\n",janelas_nomes[struct_wnd->reg_id]);

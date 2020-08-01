@@ -37,6 +37,7 @@ int gerar_orc()
 	query = malloc(MAX_QUERY_LEN);
 	if(codigo_orc()!=0)
 		return 1;
+
 	sprintf(gerando_file,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
 
 	sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
@@ -66,7 +67,8 @@ int gerar_orc()
 			popup(NULL,"Erro ao tentar gerar orçamento");
 			return 1;
 		}
-		alterando_orc=1;
+
+		gtk_widget_set_sensitive(concluir_orc_button,FALSE);
 		for(cont=1;cont<itens_qnt-1;cont++)
 		{
 			if(ativos[cont].id == 1)
@@ -127,7 +129,6 @@ int gerar_orc()
 			}
 			return 1;
 		}
-
 	}
 	else
 	{
@@ -225,6 +226,7 @@ int gerar_orc()
 
 	fprintf(orc,"<div id=\"separator\">");fprintf(orc,"</div>");
 	fprintf(orc,"<div id=\"campo-itens\">\n");
+	fprintf(orc,"<p><b>Produtos</b></p>\n");
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
 	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);

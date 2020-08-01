@@ -10,24 +10,21 @@
 #include <locale.h>
 #include <errno.h>
 #include <gtk/gtk.h>
+#include <libxml/xinclude.h>
 #include <time.h>
 
 #ifdef __linux__
 #include <mysql/mysql.h>
 #endif
+
 #ifdef WIN32
 #include <windows.h>
 #include <mysql.h>
 #endif
 
-static GtkApplication *aplicacao;
-
 static GtkWidget  *janela_principal;
 static GtkWidget *imagem_desktop;
-#include <ctype.h>
 #include "../etc/libs.h"
-//#include "../etc/tipo_listagem.c"
-
 
 static GtkWidget *superior, *superior_1, *superior_2;
 static GtkWidget *inferior, *inferior_1, *inferior_2;

@@ -93,7 +93,7 @@ int oper_alterar()
 		return 1;
 	}
 
-	if(sessao_oper.nivel<=atoi(row[3])){
+	if(sessao_oper.nivel<atoi(row[3])){
 		popup(NULL,"Sem permissao para alterar operador");
 		oper_cancelar();
 		return 1;
@@ -287,8 +287,12 @@ int cad_oper()
 	oper_senha_entry = gtk_entry_new();
 	gtk_entry_set_visibility(GTK_ENTRY(oper_senha_entry),FALSE);
 
-	if(sessao_oper.nivel>1)
-		oper_perm_entry = gtk_spin_button_new_with_range(1,sessao_oper.nivel-1,1);
+	if(sessao_oper.nivel>1){
+		if(sessao_oper.nivel<=TECNICO_LEVEL)
+			oper_perm_entry = gtk_spin_button_new_with_range(1,sessao_oper.nivel,1);
+		else
+			oper_perm_entry = gtk_spin_button_new_with_range(1,TECNICO_LEVEL,1);
+	}
 	else{
 		oper_perm_entry = gtk_spin_button_new_with_range(1,1,1);
 		gtk_widget_set_sensitive(oper_perm_entry,FALSE);

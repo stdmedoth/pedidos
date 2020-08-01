@@ -2,23 +2,47 @@ static int concluir_orc()
 {
 	int cont=0,erro=0;
 	int inseridos_na_alteracao=1;
-	char *query;
 	char code[MAX_CODE_LEN];
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
+
 	concluindo_orc=1;
 	if(observacoes_orc_get()!=0)
 		return 1;
+
+	if(codigo_cli_orc()!=0)
+		return 1;
+
+	if(operacao_orc_orc()!=0)
+		return 1;
+
+	if(codigo_orc())
+	  return 1;
+
+	if(codigo_cli_orc())
+	  return 1;
+
+	if(orc_transp_codigo_fun())
+	  return 1;
+
+	if(orc_transp_cepc())
+	  return 1;
+
+	if(orc_transp_logr_fun())
+	  return 1;
+
+	if(orc_transp_estado_fun())
+	  return 1;
+
+	if(orc_transp_cidadec())
+		return 1;
+
+	if(orc_transp_bairroc())
+	 	return 1;
 
 	for(cont=1;cont<MAX_PROD_ORC;cont++)
 	{
 		if( ativos[cont].id == 1 && produto_inserido[cont] == 1 )
 		{
-
-			if(codigo_cli_orc()!=0)
-				return 1;
-			if(operacao_orc_orc()!=0)
-				return 1;
-
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
 				return 1;
 			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
@@ -147,9 +171,13 @@ static int concluir_orc()
 		}
 
 	}
-	popup(NULL,"Orcamento concluido");
+	if(orc_com_entrega){
+		if(orc_transp_concluir_fun())
+			return 1;
+	}
 
 	cancela_orc();
+	popup(NULL,"Orcamento concluido");
 
 	sprintf(code,"%i",tasker("orcamentos"));
 

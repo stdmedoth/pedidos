@@ -17,17 +17,18 @@ int fornecedor_prod()
 		if(produtos.criticar.fornecedor!=0)
 		{
 			gtk_widget_grab_focus(GTK_WIDGET(unidade_prod_field));
-			return 0; 
+			return 0;
 		}
 		popup(NULL,"Por favor, insira um Fornecedor");
 		gtk_widget_grab_focus(fornecedor_prod_field);
-		return 1;	
+		return 1;
 	}
 	g_print("fornecedor: %s\n",fornecedores_prod);
 	sprintf(query,"select * from terceiros where code = '%s'",fornecedores_prod);
 	g_print("Query a ser enviada %s\n",query);
 	g_print("estado da query %i\n",err);
-	vetor = consultar(query); 
+	if(!(vetor = consultar(query)))
+		return 1;
 	campos = mysql_fetch_row(vetor);
 	if(campos==NULL)
 	{

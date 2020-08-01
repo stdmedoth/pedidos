@@ -95,6 +95,8 @@ int menu(void)
 		gtk_box_pack_start(GTK_BOX(estoque),estoquel[cont],0,0,20);
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
+	for(cont=0;cont<LINE_ICO_QNT;cont++)
+		gtk_box_pack_start(GTK_BOX(tecnicos),tecnicosl[cont],0,0,20);
 
 	gtk_widget_set_size_request(GTK_WIDGET(lista_abas),631,600);
 

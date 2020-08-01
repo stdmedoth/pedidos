@@ -15,9 +15,9 @@ int est_said_produto_fun()
 
 	sprintf(query,"select grupo , nome from produtos where code = %i",atoi(est_said_prod_gchar));
 
-	if((vetor = consultar(query))!=NULL)
+	if((estado = consultar(query))!=NULL)
 	{
-		campo = mysql_fetch_row(vetor);
+		campo = mysql_fetch_row(estado);
 		if(campo==NULL)
 		{
 			popup(NULL,"Este código para produto não existe\n\tUse a pesquisa");

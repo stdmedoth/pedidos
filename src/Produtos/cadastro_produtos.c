@@ -56,7 +56,6 @@ int  cad_prod()
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"Produtos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
-	gtk_application_add_window(aplicacao,GTK_WINDOW(janela));
 	if(personalizacao.janela_keep_above==1)
 		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);

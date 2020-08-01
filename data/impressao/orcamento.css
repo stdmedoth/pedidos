@@ -31,7 +31,7 @@ tfoot { display:table-footer-group }
 	margin-top: 100px;
 	margin-right: 30px;
 	margin-left: 100px;
-	border: dotted 1px gainsboro;
+	border-style: inset;
 }
 #orc-cliente
 {
@@ -53,7 +53,7 @@ tfoot { display:table-footer-group }
 #campo-itens
 {
 	padding: 20px;
-	border: dotted 1px grey;
+	border-style: ridge;
 	margin-top: 400px;
 	margin-left: 50px;
 	margin-right: 50px;
@@ -70,17 +70,22 @@ tfoot { display:table-footer-group }
 	background: Gainsboro;
 }
 
-table,tr,td
-{
-	padding: 10px;
-	border-collapse: collapse;
-	border: outset 1px grey;
+table {
+  width: 100%;
 }
 
-td:hover
-{
-	background: lightgrey;
+tr:nth-child(even) {background-color: #f2f2f2;}
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
 
 #info-row1
 {

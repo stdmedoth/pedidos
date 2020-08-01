@@ -50,7 +50,7 @@ int relat_mov_query_fun()
 	}
 
 	if(relat_mov_tipo_int == 0){
-		strcat(tipo_mov_query," and m_e.tipo_mov > 0");
+		strcat(tipo_mov_query," and m_e.tipo_mov >= 0");
 	}else{
 		sprintf(tipo_mov_query," and m_e.tipo_mov = %i",relat_mov_tipo_int);
 	}

@@ -15,6 +15,12 @@ static GtkWidget *relat_ter_code_entry,
 *relat_ter_ordem_combo, *relat_ter_crescente_combo, *relat_ter_ordem_box, *relat_ter_ordem_frame, *relat_ter_ordem_fixed,
 *relat_ter_query_entry;
 
+static gint relat_ter_cod_int1_int, relat_ter_cod_int2_int,
+relat_ter_tipo_int,
+relat_ter_pes_int,
+relat_ter_cep_int1_int, relat_ter_cep_int2_int,
+relat_ter_ordem_int,relat_ter_cresc_int;
+
 static GtkWidget *relat_psq_cod_ter_button, *relat_psq_cep_ter_button;
 
 static GtkWidget *psq_relat_ter_code;

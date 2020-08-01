@@ -28,6 +28,10 @@ static int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
+
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",-1);
 
@@ -51,9 +55,12 @@ static int cancela_orc()
 	concluindo_orc = 0;
 	excluindo_orc = 0;
 	orc_pag_cond_activated=0;
+	recebendo_prod_orc=0;
 
 	adicionar_linha_orc();
 
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
+	gtk_widget_set_sensitive(concluir_orc_button,TRUE);
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
 	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
 	gtk_widget_set_sensitive(pesquisa_orc,TRUE);

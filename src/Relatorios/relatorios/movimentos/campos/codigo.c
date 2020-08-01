@@ -47,7 +47,6 @@ int relat_mov_codigo_fun()
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_ordem_combo),row[0]);
 			strcpy(campos_query[cont],row[1]);
 			cont++;
-
 		}
 	}
 

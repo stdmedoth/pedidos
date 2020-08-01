@@ -1,5 +1,5 @@
-create user 'petitto'@'localhost' identified by '1234';
-grant all privileges on *.* to 'petitto'@'localhost';
+create user 'petitto'@'%' identified by '1234';
+grant all privileges on *.* to 'petitto'@'%';
 flush privileges;
 
 insert into criticas(nome, opcao_nome, campo_nome, critica)
@@ -33,9 +33,6 @@ values
 ('Gerencial',2),
 ('Estratégico',3),
 ('Técnico Software',4);
-
-insert into empresa(razao,endereco,cnpj)
-values ( 'Petitto Materiais para encadernação e cartonagem','R. Dna Amelia de Paula,100\nJardim Leonor,Campinas ','---');
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
 (3,1,1,1),

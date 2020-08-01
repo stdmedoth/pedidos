@@ -3,7 +3,7 @@ static GtkWidget *scroll_postlist ;
 
 static GtkWidget *sup_adiciona_button, *sup_psq_status_combo;
 
-static GtkWidget **postlist,**titulo_list,**descr_list, **sup_atualiza_button, **sup_status_combo, **sup_priorit_spin;
+static GtkWidget **postlist,**titulo_list,**titulo_list_frame,**descr_list, **sup_atualiza_button, **sup_status_combo, **sup_priorit_spin;
 
 static GtkWidget *suport_grid, **sup_posts_frame;
 

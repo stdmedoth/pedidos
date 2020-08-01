@@ -38,7 +38,7 @@ int code_terc()
 			return 1;
 		}
 	}
-	
+
 	if(strlen(codigos_ter)<1)
 	{
 		g_print("Código nao inserido%s\n",codigos_ter);
@@ -61,7 +61,7 @@ int code_terc()
 		}
 	}
 	gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-	
+
 
 	g_print("codigo: %s\n",codigos_ter);
 	return 0;

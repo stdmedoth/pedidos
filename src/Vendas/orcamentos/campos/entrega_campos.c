@@ -71,7 +71,7 @@ GtkWidget *orc_entrega_campos()
 	psq_ter_transpcep_button = gtk_button_new();
 	psq_ter_transpcep_img = gtk_image_new_from_file(IMG_PESQ);
 	gtk_button_set_image(GTK_BUTTON(psq_ter_transpcep_button),psq_ter_transpcep_img);
-	psq_ter_transpcep_box = gtk_box_new(0,0);
+	psq_ter_orc_transpcep_box = gtk_box_new(0,0);
 
 	dados_orc_transp_fixed = gtk_fixed_new();
 	orc_transp_endr_fixed = gtk_fixed_new();
@@ -117,7 +117,7 @@ GtkWidget *orc_entrega_campos()
 
 	orc_transp_num_label = gtk_label_new("Número");
 	orc_transp_num_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_num_entry),"Numero Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_num_entry),"Número Destino");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_num_entry),5);
 	orc_transp_num = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_num),orc_transp_num_label,0,0,5);
@@ -125,17 +125,17 @@ GtkWidget *orc_entrega_campos()
 
 	orc_transp_cep_label = gtk_label_new("CEP");
 	orc_transp_cep_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_cep_entry),"CEP Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_cep_entry),"CEP Destino");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_cep_entry),20);
 	orc_transp_cep = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_cep),orc_transp_cep_label,0,0,5);
-	gtk_box_pack_start(GTK_BOX(psq_ter_transpcep_box),orc_transp_cep_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_ter_transpcep_box),psq_ter_transpcep_button,0,0,0);
-	gtk_fixed_put(GTK_FIXED(orc_transp_cep_fixed),psq_ter_transpcep_box,5,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_orc_transpcep_box),orc_transp_cep_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_ter_orc_transpcep_box),psq_ter_transpcep_button,0,0,0);
+	gtk_fixed_put(GTK_FIXED(orc_transp_cep_fixed),psq_ter_orc_transpcep_box,5,0);
 
 	orc_transp_cidade_label = gtk_label_new("Cidade");
 	orc_transp_cidade_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_cidade_entry),"Cidade Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_cidade_entry),"Cidade Destino");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_cidade_entry),20);
 	orc_transp_cidade = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_cidade),orc_transp_cidade_label,0,0,5);
@@ -143,7 +143,7 @@ GtkWidget *orc_entrega_campos()
 
 	orc_transp_bairro_label = gtk_label_new("Bairro");
 	orc_transp_bairro_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_bairro_entry),"Bairro Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_bairro_entry),"Bairro Destino");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_bairro_entry),20);
 	orc_transp_bairro = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_bairro),orc_transp_bairro_label,0,0,5);
@@ -151,7 +151,7 @@ GtkWidget *orc_entrega_campos()
 
 	orc_transp_estado_label = gtk_label_new("UF: ");
 	orc_transp_estado_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_estado_entry),"UF Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_estado_entry),"UF Destino");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_estado_entry),5);
 	orc_transp_estado = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_estado),orc_transp_estado_label,0,0,5);

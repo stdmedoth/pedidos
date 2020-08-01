@@ -12,13 +12,13 @@ int nome_prod()
 	{
 		popup(NULL,"Por favor, insira um Nome");
 		gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
-		return 1;		
+		return 1;
 	}
 	else
 	{
 		gtk_widget_grab_focus(peso_prod_field);
 	}
 	g_print("nome: %s\n",nomes_prod);
-	
+
 	return 0;
 }

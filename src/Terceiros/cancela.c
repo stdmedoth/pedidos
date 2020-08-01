@@ -60,4 +60,6 @@ void cancelar_ter()
 	gtk_widget_set_sensitive(psq_ter_button,TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),TRUE);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+
+	gtk_widget_grab_focus(name_ter_field);
 }

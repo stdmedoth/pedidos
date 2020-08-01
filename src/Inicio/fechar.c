@@ -71,6 +71,24 @@ void botao_encerrar(){
 }
 
 void fechar_sessao(){
+	int err;
+	char query[MAX_QUERY_LEN];
+
+	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
+  janelas_gerenciadas.principal.reg_id,
+  "Reiniciando...",
+  0,
+  0,
+  sessao_oper.code);
+	err = mysql_query(&conectar,query);
+	if(err!=0)
+	{
+		popup(NULL,"Não foi possivel salvar status da sessão\n");
+		file_logger(query);
+		file_logger((char*)mysql_error(&conectar));
+		return ;
+	}
+
 	//variavel de encerramento ocorrida pelo proprio sistema (logoff)
 	janelas_gerenciadas.principal.sys_close_wnd = 1;
 

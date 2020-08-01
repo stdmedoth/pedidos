@@ -222,6 +222,17 @@ void relat_orc_prod_fun()
 
 	g_signal_connect(relat_orc_prod_gerar_button,"clicked",G_CALLBACK(relat_orc_prod_query_fun),NULL);
 
+	g_signal_connect(relat_orc_prod_int1_ter_entry,"activate",G_CALLBACK(psq_prod),NULL);
+
+	g_signal_connect(relat_orc_prod_int1_orc_prod_entry,"activate",G_CALLBACK(relat_orc_prod_int1_orc_prod_fun),NULL);
+	g_signal_connect(relat_orc_prod_psq_orc_prod_button,"clicked",G_CALLBACK(psq_orc),relat_orc_prod_int1_orc_prod_entry);
+
+	g_signal_connect(relat_orc_prod_int1_prod_entry,"activate",G_CALLBACK(relat_orc_prod_int1_prod_fun),NULL);
+	g_signal_connect(relat_orc_prod_psq_prod_button,"clicked",G_CALLBACK(psq_prod),relat_orc_prod_int1_prod_entry);
+
+	g_signal_connect(relat_orc_prod_int1_ter_entry,"activate",G_CALLBACK(relat_orc_prod_int1_ter_fun),NULL);
+	g_signal_connect(relat_orc_prod_psq_ter_button,"clicked",G_CALLBACK(psq_prod),relat_orc_prod_int1_ter_entry);
+
 	gtk_widget_set_sensitive(relat_orc_prod_nome_entry,FALSE);
 	gtk_widget_set_sensitive(relat_orc_prod_code_entry,FALSE);
 

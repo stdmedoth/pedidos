@@ -1,4 +1,5 @@
 #ifdef WIN32
+#define LOADING_GIF   "C:/petitto/files/gen_imgs/carregando.gif"
 #define SERVER_CONF   "C:/petitto/files/server.conf"
 #define TEMA_PATH	    "C:/gtk/share/themes/"
 #define ORC_PATH      "C:/petitto/files/impressao/"
@@ -19,7 +20,6 @@
 #define ICO           "C:/petitto/files/ico.ico"
 #define MSG_PRINC     "C:/petitto/files/msg"
 #define LOGO          "C:/petitto/files/logo.png"
-#define INIT_IMAGE    "C:/petitto/files/init.jpg"
 #define BACKUP        "C:/petitto/files/backup"
 #define DESKTOP       "C:/petitto/files/desktop.png"
 #define DESKTOP1      "C:/petitto/files/desktop/desktop1.png"
@@ -61,6 +61,8 @@
 #define PAG_IMG       "C:/petitto/files/icones_opc/datas.png"
 #define FATOR_IMG     "C:/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "C:/petitto/files/icones_opc/parametros.png"
+#define CAD_EMP_IMG   "C:/petitto/files/icones_opc/company.png"
+#define ATL_PROD_IMG  "C:/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/petitto/files/icones_opc/vinculos.png"
 #define REL_PROD_IMG       "C:/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_TER_IMG        "C:/petitto/files/icones_opc/relatorio_ter.png"
@@ -90,6 +92,7 @@
 #define TEMA_PATH	  "/usr/share/themes/"
 #define PDF_GEN       "/usr/bin/wkhtmltopdf"
 #define COPY_PROG     "/usr/bin/cp"
+#define LOADING_GIF   "/usr/share/petitto/files/gen_imgs/carregando.gif"
 #define IMP_PORT1     "/usr/share/petitto/files/impressao/linux_print_emulator1/"
 #define IMP_PORT2     "/usr/share/petitto/files/impressao/linux_print_emulator2/"
 #define ORC_PATH 	  "/usr/share/petitto/files/impressao/"
@@ -109,7 +112,6 @@
 #define THUMBDESKTOP5 "/usr/share/petitto/files/thumbs/thumbdesktop5.png"
 #define THUMBDESKTOP6 "/usr/share/petitto/files/thumbs/thumbdesktop6.png"
 #define ICO           "/usr/share/petitto/files/ico.ico"
-#define INIT_IMAGE    "/usr/share/petitto/files/init.jpg"
 #define LOGGER        "/usr/share/petitto/files/logger.log"
 #define BACKUP        "/usr/share/petitto/files/backup"
 #define BANNER        "/usr/share/petitto/files/princ_imgs/banner.png"
@@ -143,6 +145,8 @@
 #define LMB_IMG       "/usr/share/petitto/files/icones_opc/lembrete.png"
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/petitto/files/icones_opc/vinculos.png"
+#define CAD_EMP_IMG   "/usr/share/petitto/files/icones_opc/company.png"
+#define ATL_PROD_IMG  "/usr/share/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_REC       "/usr/share/petitto/files/opcoes_padrao/recarregar.png"
 #define IMG_ENVIA     "/usr/share/petitto/files/opcoes_padrao/enviar.png"
@@ -213,6 +217,8 @@
 #define MAX_BAIRRO_LEN 100
 #define MAX_CID_LEN 50
 #define MAX_EST_LEN 50
+#define MAX_TEL_LEN 20
+#define MAX_CEL_LEN 20
 #define MAX_LOGR_LEN 300
 #define MAX_URI_LEN 300
 #define MAX_PARAM_LEN 20
@@ -239,6 +245,8 @@
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50
 #define MAX_LOG_DESC 2000
+#define MAX_TIPOS_TER 20
+#define MAX_TIPO_TER 50
 
 #define MAX_SERVER_LEN 50
 #define MAX_CONF_STRING_LEN 2000
@@ -288,3 +296,14 @@ struct modulos
 	int relatorios;
 	int tecnicos;
 }ativar;
+
+static char *tip_logds[] = {"Rua",
+	"Avenida",
+	"Praça",
+	"Estrada",
+	"Alameda",
+	"Travessia",
+	"Rodovia"};
+
+static int tipo_ter_load = 0;
+static int encerramento_brusco=0;

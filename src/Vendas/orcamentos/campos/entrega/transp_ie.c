@@ -4,13 +4,14 @@ int orc_transp_ie_fun()
 
 	if(strlen(orc_transp_ie)<=0)
 	{
-		if(terceiros.criticar.entrega==0)
+		if(orc_com_entrega == 0)
 		{
-			orc_transp_num = malloc(MAX_CODE_LEN);
+			orc_transp_ie = malloc(MAX_INSC_LEN);
+			strcpy(orc_transp_ie,"");
 			gtk_widget_grab_focus(orc_transp_cep_entry);
 			return 0;
 		}
-
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		popup(NULL,"Por favor insira a Inscrição da Transportadora");
 		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_ie_entry));
 		return 1;
@@ -18,6 +19,7 @@ int orc_transp_ie_fun()
 
 	if(strlen(orc_transp_ie)>MAX_INSC_LEN)
 	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		popup(NULL,"Inscrição muito grande");
 		gtk_widget_grab_focus(orc_transp_ie_entry);
 		return 1;

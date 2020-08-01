@@ -2,20 +2,9 @@ static GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
 static GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
 static GtkWidget *janela_inicializacao;
 
-static void ativacao_app(){
+static void criar_janela_princ(){
 
-	if(janelas_gerenciadas.aplicacao.criada==0 || !aplicacao){
-		GCancellable *cancellable;
-		GError *error;
-		cancellable = g_cancellable_new ();
-
-		aplicacao = gtk_application_new(NULL, G_APPLICATION_CAN_OVERRIDE_APP_ID);
-		g_application_register(G_APPLICATION(aplicacao),NULL,NULL);
-		//g_application_run(G_APPLICATION(aplicacao),0,NULL);
-		janelas_gerenciadas.aplicacao.criada = 1;
-		autologger("aplicacao inicializando");
-	}
-	janela_principal = gtk_application_window_new(aplicacao);
+	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
 	//if(personalizacao.janela_keep_above==1)
@@ -63,7 +52,20 @@ int desktop()
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
 			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
-	ativacao_app();
+	if(!janelas_gerenciadas.aplicacao.criada){
+		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = 9990 order by tempo desc limit 1",sessao_oper.code);
+		if(!(res = consultar(query))){
+			popup(NULL,"Falha ao verificar dados da sessão anterior");
+			return 1;
+		}
+
+		if((row = mysql_fetch_row(res))){
+			if(atoi(row[2])!=0)
+				encerramento_brusco = 1;
+		}
+	}
+
+	criar_janela_princ();
 
 	sprintf(query,"select data_vencimento - now() from contratos");
 	if((res = consultar(query))==NULL){
@@ -78,11 +80,13 @@ int desktop()
 			return 1;
 		}
 	}
+
 	sprintf(query,"select * from contratos");
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Não foi possivel receber lista de permissões");
 		return 1;
 	}
+
 	if((row = mysql_fetch_row(res))!=NULL){
 		ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
 		ativar.compras=atoi(row[CONTRATO_CMP_COL]);
@@ -96,6 +100,8 @@ int desktop()
 	}
 	if(sessao_oper.nivel>=TECNICO_LEVEL)
 		ativar.tecnicos=1;
+	else
+		ativar.tecnicos=0;
 
 	fixed_menu = gtk_fixed_new();
 	param_button = gtk_button_new();
@@ -196,22 +202,23 @@ int desktop()
 	area_de_trabalho = gtk_box_new(0,0);
 	//fixed_sup_border = gtk_fixed_new();
 
-	razao = gtk_label_new(infos(0));
-	endereco = gtk_label_new(infos(1));
-	cnpj = gtk_label_new(infos(2));
+	cad_emp_recebe();
+
+	razao = gtk_label_new(cad_emp_strc.nome);
+	endereco = gtk_label_new(cad_emp_strc.logr);
+	cnpj = gtk_label_new(cad_emp_strc.cnpj);
+
+	gtk_widget_set_name(razao,"infos");
+	gtk_widget_set_name(cnpj,"infos");
+	gtk_widget_set_name(endereco,"infos");
 
 	fixed_razao = gtk_fixed_new();
 	fixed_endereco = gtk_fixed_new();
 	fixed_cnpj = gtk_fixed_new();
 
 	gtk_fixed_put(GTK_FIXED(fixed_razao),razao,50,300);
-	gtk_widget_set_name(razao,"infos");
-
 	gtk_fixed_put(GTK_FIXED(fixed_endereco),endereco,50,5);
-	gtk_widget_set_name(endereco,"infos");
-
 	gtk_fixed_put(GTK_FIXED(fixed_cnpj),cnpj,50,5);
-	gtk_widget_set_name(cnpj,"infos");
 
 	sprintf(query, "select code, nome, nivel from niveis_gerenciais;");
 
@@ -336,6 +343,12 @@ int desktop()
 	iniciar_gerenciador_janela();
 
 	gtk_widget_hide(lista_abas);
+	if(encerramento_brusco){
+		reportar_encerramento_brusco();
+		encerramento_brusco = 0;
+	}
+
+	janelas_gerenciadas.aplicacao.criada = 1;
 	return 0;
 }
 
@@ -346,7 +359,27 @@ int init()
 	char *query;
 	inicializando=1;
 	GtkWidget *imagem_inicializacao;
-	imagem_inicializacao = gtk_image_new_from_file(INIT_IMAGE);
+
+	query = malloc(MAX_QUERY_LEN);
+
+	sprintf(query,"select * from tecn_pers_elem");
+
+	if(!(res = consultar(query))){
+		person_tecn_prim = 1;
+		popup(NULL,"Falha ao receber dados técnicos personalizados");
+		return 1;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		person_tecn_prim = 0;
+		popup(NULL,"Sem dados técnicos personalizados");
+		strcpy(cad_emp_strc.init_image_path,"");
+	}
+	else{
+		person_tecn_prim = 0;
+		strcpy(cad_emp_strc.init_image_path,row[1]);
+	}
+
+	imagem_inicializacao = gtk_image_new_from_file(cad_emp_strc.init_image_path);
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
 
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -356,10 +389,8 @@ int init()
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
+	gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
 	gtk_widget_show_all(janela_inicializacao);
-
-
-	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL)
@@ -410,6 +441,7 @@ int init()
 		login();
 		gtk_widget_show_all(janela_login);
 	}
+
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
 	janelas_gerenciadas.fundo_inicializacao.aberta = 1;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
@@ -417,5 +449,6 @@ int init()
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
+
 	return 0;
 }

@@ -29,9 +29,11 @@
 }
 
 #infos{
-  color: white;
-  text-shadow: 5px 2px 5px #00238c;
-  font-size: 15px;
+  margin-left: 50px;
+  color: Gainsboro;
+  font-weight: bold;
+  text-shadow: 5px 2px 5px #dcdcdc;
+  font-size: 25px;
 }
 
 #frame{
@@ -68,7 +70,7 @@
 }
 
 #entry_unsensetivate{
-  color: #393e46;
+  color: black;
   font-weight: bold;
   text-shadow: 1px 1px 10px grey;
 }

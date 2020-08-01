@@ -6,6 +6,10 @@ int est_sald_subgrp_fun()
 	MYSQL_ROW campo;
 	int grupo_len;
 
+	gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(est_sld_min_entry),"");
+
 	est_sld_subgrp_cod_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(est_sld_grp_cod_entry));
 	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
 	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
@@ -70,8 +74,6 @@ int est_sald_subgrp_fun()
 	else
 	{
 		popup(NULL,"O produto nunca foi movimentado");
-		gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),"");
 		return 1;
 	}
 
