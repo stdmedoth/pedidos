@@ -14,6 +14,9 @@ void relat_mov_fun()
 	GtkWidget *relat_mov_tipo_fixed;
 	GtkWidget *relat_mov_ordem_fixed, *relat_mov_cresc_fixed;
 	GtkWidget *relat_mov_code_box;
+	char query[MAX_QUERY_LEN];
+	MYSQL_RES *res;
+	MYSQL_ROW row;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	if(personalizacao.janela_keep_above==1)
@@ -88,17 +91,26 @@ void relat_mov_fun()
 	relat_mov_int2_grp_entry = gtk_spin_button_new_with_range(1,99999,1);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(relat_mov_int2_grp_entry),99999);
 
-	relat_mov_int1_ped_entry = gtk_spin_button_new_with_range(1,99999,1);
-	relat_mov_int2_ped_entry = gtk_spin_button_new_with_range(1,99999,1);
+	relat_mov_int1_ped_entry = gtk_spin_button_new_with_range(0,99999,1);
+	relat_mov_int2_ped_entry = gtk_spin_button_new_with_range(0,99999,1);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(relat_mov_int2_ped_entry),99999);
 
 	relat_mov_tipo_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Todos");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Venda");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Devolução Venda");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Compra");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Devolução Compra");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Outros");
+	sprintf(query,"select nome from tipo_movimentos");
+	cont=0;
+
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possivel receber tipo operações");
+		return ;
+	}
+	while((row = mysql_fetch_row(res))){
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),row[0]);
+		cont++;
+	}
+	if(cont==0)
+		popup(NULL,"Não Há operações cadastradas");
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(relat_mov_tipo_combo),0);
 
 	relat_mov_ordem_combo = gtk_combo_box_text_new();

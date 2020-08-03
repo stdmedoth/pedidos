@@ -390,6 +390,7 @@ int init()
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
+	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janela_inicializacao);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
@@ -426,7 +427,7 @@ int init()
 
 	if(atoi(row[0])==0)
 	{
-		sessao_oper.code = 1;
+		sessao_oper.code = default_user_code;
 		sessao_oper.nivel = 3;
 		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()!=0)
@@ -446,7 +447,6 @@ int init()
 	janelas_gerenciadas.fundo_inicializacao.aberta = 1;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
 		return 1;
-	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
 

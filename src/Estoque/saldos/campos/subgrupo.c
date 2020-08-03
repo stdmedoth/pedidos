@@ -49,7 +49,7 @@ int est_sald_subgrp_fun()
 	gtk_entry_set_text(GTK_ENTRY(est_sld_grp_nome_entry),dest);
 	gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
 
-	sprintf(query,"select SUM(entradas) - SUM(saidas),(select MAX(date_format(data_mov,'%cd/%cm/%cY')) from movimento_estoque) from movimento_estoque where produto = %s and subgrupo = %s and estoque = %i",
+	sprintf(query,"select SUM(entradas) - SUM(saidas),(select date_format(data_mov,'%cd/%cm/%cY') from movimento_estoque order by data_mov desc limit 1) from movimento_estoque where produto = %s and subgrupo = %s and estoque = %i",
 	37,37,37,
 	est_sld_prod_cod_gchar,
 	est_sld_subgrp_cod_gchar,

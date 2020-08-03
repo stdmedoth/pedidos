@@ -65,7 +65,8 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   if(struct_wnd->reg_id == REG_PRINC_WIN)
     iniciar_gerenciador_janela();
 
-  gerenciador_janela();
+  if(gerenciador_janela())
+    return 1;
 
   if(struct_wnd->reg_id <= REG_WIN_QNT){
     sprintf(msg,"Janela aberta: %s\n",janelas_nomes[struct_wnd->reg_id]);
@@ -85,7 +86,8 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   if(struct_wnd->reg_id == REG_PRINC_WIN)
     iniciar_gerenciador_janela();
 
-  gerenciador_janela();
+  if(gerenciador_janela())
+    return 1;
 
   if(struct_wnd->reg_id <= REG_WIN_QNT){
     sprintf(msg,"Janela fechada: %s\n",janelas_nomes[struct_wnd->reg_id]);

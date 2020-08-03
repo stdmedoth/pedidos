@@ -1,6 +1,6 @@
 #ifdef WIN32
 #define LOADING_GIF   "C:/petitto/files/gen_imgs/carregando.gif"
-#define SERVER_CONF   "C:/petitto/files/server.conf"
+#define SERVER_CONF   "C:/petitto/files/server.xml"
 #define TEMA_PATH	    "C:/gtk/share/themes/"
 #define ORC_PATH      "C:/petitto/files/impressao/"
 #define IMG_REC       "C:/petitto/files/opcoes_padrao/recarregar.png"
@@ -64,6 +64,7 @@
 #define CAD_EMP_IMG   "C:/petitto/files/icones_opc/company.png"
 #define ATL_PROD_IMG  "C:/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/petitto/files/icones_opc/vinculos.png"
+#define CAD_CEP_IMG   "C:/petitto/files/icones_opc/search_cep.png"
 #define REL_PROD_IMG       "C:/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_TER_IMG        "C:/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG        "C:/petitto/files/icones_opc/relatorio_est.png"
@@ -88,7 +89,7 @@
 #endif
 
 #ifdef __linux__
-#define SERVER_CONF "/usr/share/petitto/files/server.conf"
+#define SERVER_CONF "/usr/share/petitto/files/server.xml"
 #define TEMA_PATH	  "/usr/share/themes/"
 #define PDF_GEN       "/usr/bin/wkhtmltopdf"
 #define COPY_PROG     "/usr/bin/cp"
@@ -160,6 +161,7 @@
 #define IMG_MAIS      "/usr/share/petitto/files/opcoes_padrao/mais.png"
 #define IMG_MENOS     "/usr/share/petitto/files/opcoes_padrao/menos.png"
 #define IMG_MONEY     "/usr/share/petitto/files/opcoes_padrao/cash-outline.png"
+#define CAD_CEP_IMG   "/usr/share/petitto/files/icones_opc/search_cep.png"
 #define ICON_PATH     "/usr/share/petitto/files/opcoes_padrao/icones/"
 #define TER_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/terceiros/"
 #define PROD_RELAT_FILE     "/usr/share/petitto/files/impressao/relatorios/produtos/"
@@ -247,15 +249,9 @@
 #define MAX_LOG_DESC 2000
 #define MAX_TIPOS_TER 20
 #define MAX_TIPO_TER 50
-
+#define MAX_UF_QNT 100
+#define MAX_UF_LEN 3
 #define MAX_SERVER_LEN 50
-#define MAX_CONF_STRING_LEN 2000
-#define MAX_VAR_LEN 100
-#define SERVER_VAR_NAME "server="
-#define USER_VAR_NAME "usuario="
-#define SENHA_VAR_NAME "senha="
-#define DATABASE_VAR_NAME "banco="
-
 
 #define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100

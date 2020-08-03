@@ -19,6 +19,7 @@ GtkWidget *vin_ico, *vin_lbl; //vinculos
 GtkWidget *grp_ico, *grp_lbl; //grupos
 GtkWidget *pag_ico, *pag_lbl; //grupos
 GtkWidget *crel_ico,*crel_lbl; //grupos
+GtkWidget *ceps_ico,*ceps_lbl; //ceps
 
 //estoque
 GtkWidget *est_ico, *est_lbl; //estoques

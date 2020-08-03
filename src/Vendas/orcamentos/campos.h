@@ -36,6 +36,7 @@
 #include "cancelar.c"
 #include "alterar.c"
 #include "excluir.c"
-#include "concluir.c"
 #include "copia.c"
 #include "gerar.c"
+#include "finaliza_orc.c"
+#include "concluir.c"

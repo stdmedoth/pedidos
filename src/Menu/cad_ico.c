@@ -6,7 +6,6 @@ int cad_ico(void)
 	//imagem dos icones
 	prd_ico = gtk_image_new_from_file(PROD_IMG);
 	ter_ico = gtk_image_new_from_file(TERC_IMG);
-
 	opr_ico = gtk_image_new_from_file(OPR_IMG);
 	trs_ico = gtk_image_new_from_file(TRS_IMG);
 	und_ico = gtk_image_new_from_file(UND_IMG);
@@ -14,6 +13,7 @@ int cad_ico(void)
 	grp_ico = gtk_image_new_from_file(GRP_IMG);
 	pag_ico = gtk_image_new_from_file(PAG_IMG);
 	crel_ico = gtk_image_new_from_file(REL_IMG);
+	ceps_ico = gtk_image_new_from_file(CAD_CEP_IMG);
 
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
@@ -25,6 +25,7 @@ int cad_ico(void)
 	grp_lbl = gtk_label_new("Grupo de Produtos");
 	pag_lbl = gtk_label_new("Cond. Pagamento");
 	crel_lbl = gtk_label_new("Novo Relatório");
+	ceps_lbl = gtk_label_new("Códigos Postais");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -75,6 +76,10 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
+	//icone novo relatorio
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_ico,0,0,0);
+
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
@@ -91,6 +96,8 @@ int cad_ico(void)
 	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_pag),NULL);
 
 	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_relat),NULL);
+
+	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(cad_cep),NULL);
 
 	return 0;
 }

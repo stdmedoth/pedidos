@@ -4,6 +4,7 @@ int relat_mov_gerar_fun()
 	MYSQL_ROW row1,row2;
 	gchar *gerando_file;
 	int tipos_colunas[MAX_RELAT_CAMPOS];
+	int list_qnt=0;
 	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Movimentos de Estoque</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	g_print("Iniciando relat_mov_gerar_fun()\n");
@@ -72,7 +73,7 @@ int relat_mov_gerar_fun()
 		cont = 0;
 
 		fprintf(relatorio_file,"<tr>");
-
+		list_qnt++;
 		while(cont<mov_query.campos_qnt)
 		{
 			if(tipos_colunas[cont] == 1)//texto
@@ -98,6 +99,11 @@ int relat_mov_gerar_fun()
 			cont++;
 		}
 		fprintf(relatorio_file,"</tr>");
+	}
+
+	if(!list_qnt){
+		popup(NULL,"Nenhum listagem gerada");
+		return 0;
 	}
 
 	fprintf(relatorio_file,"</table>");

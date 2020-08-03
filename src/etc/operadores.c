@@ -81,6 +81,10 @@ void login()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
 	gtk_window_set_title(GTK_WINDOW(janela_login),"Login");
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
+
+	gtk_window_set_transient_for(GTK_WINDOW(janela_login),
+		GTK_WINDOW(janelas_gerenciadas.fundo_inicializacao.janela_pointer));
+
 	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
 
 	gtk_window_set_position(GTK_WINDOW(janela_login),3);

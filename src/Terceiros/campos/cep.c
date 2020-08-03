@@ -5,7 +5,7 @@ int cep_terc()
 	int cont=0,cont2=0;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	query = malloc(QUERY_LEN);
+	query = malloc(MAX_QUERY_LEN);
 	cep_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(cep_ter_field));
 	if(strlen(cep_ter)>=MAX_CEP_LEN)
 	{
@@ -59,6 +59,7 @@ int cep_terc()
 	}
 	g_print("cep_len: %li\n",strlen(cep_ter));
 	gtk_entry_set_text(GTK_ENTRY(address_ter_field),campos[0]);
+
 	for(cont=0;cont<=6;cont++)
 	{
 		if(strcmp(campos[1],tip_logds[cont])==0)
@@ -68,10 +69,12 @@ int cep_terc()
 			cont2 = 1;
  		}
 	}
+
 	if(cont2==0)
 	{
 		gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),7);
 	}
+
 	if(campos[2])
 		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),campos[2]);
 	if(campos[3])

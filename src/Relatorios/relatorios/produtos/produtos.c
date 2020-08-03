@@ -154,5 +154,6 @@ void relat_prod_fun()
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa);
 	gtk_widget_set_size_request(janela,500,300);
+	
 	gtk_widget_show_all(janela);
 }

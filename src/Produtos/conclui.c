@@ -94,7 +94,6 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		autologger(query);
 		g_print("Query para tabela produtos\n");
 		g_print("Query envida com sucesso\n");
-		gtk_button_set_label(GTK_BUTTON(botao),"concluido");
 		popup(NULL,"Concluido");
 		gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 		cancelar_prod();

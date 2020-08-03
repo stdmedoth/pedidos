@@ -176,7 +176,10 @@ static int concluir_orc()
 			return 1;
 	}
 
+	finalizacao_orc();
+
 	cancela_orc();
+
 	popup(NULL,"Orcamento concluido");
 
 	sprintf(code,"%i",tasker("orcamentos"));
@@ -188,5 +191,6 @@ static int concluir_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 
+	gtk_widget_grab_focus(cliente_orc_entry);
 	return 0;
 }

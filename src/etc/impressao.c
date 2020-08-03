@@ -32,8 +32,8 @@ void carregar_navimps(void){
 int iniciar_impressao(char *gerado)
 {
 	char chamada[MAX_PATH_LEN*3];
-	GError *erro=NULL;
 	GSubprocess *processo=NULL;
+	GError *erro=NULL;
 
 	switch (imp_opc)
 	{
@@ -78,8 +78,8 @@ int iniciar_impressao(char *gerado)
 	g_usleep(G_USEC_PER_SEC*1);
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
 
-		GError *erro=NULL;
-		GSubprocess *processo=NULL;
+		processo=NULL;
+		erro=NULL;
 
 		if(navegadores.navegador_pdr == 1){
 			sprintf(chamada,"%s %s",navegadores.navegador_path1,gerado);
@@ -107,6 +107,7 @@ int iniciar_impressao(char *gerado)
 int desenhar_pdf(char *gerando_file)
 {
 	char *gerado;
+	GError *erro=NULL;
 
 	gerado = malloc(strlen(gerando_file)+10);
 
@@ -115,7 +116,6 @@ int desenhar_pdf(char *gerando_file)
 	if(strlen(gerado)>5)
 		gerado[strlen(gerado)-5] = '\0';
 
-	GError *erro=NULL;
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
 
 	if(!processo)

@@ -98,8 +98,7 @@ int relat_prod_query_fun()
 	sprintf(relat_prod_query_gchar,"%s%s%s %s",ini_query,prod_query.campos,end_query,filtros_query_gchar);
 	gtk_entry_set_text(GTK_ENTRY(relat_prod_query_entry),relat_prod_query_gchar);
 
-	if(relat_prod_gerar_fun()!=0)
-		return 1;
+	relat_prod_gerar_fun();
 
 	relat_prod_gerando = 0;
 

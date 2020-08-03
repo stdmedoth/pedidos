@@ -5,6 +5,7 @@
 #include "stoi.h"
 
 #include "../Canones/gerenciador_janelas.h"
+#include "../Canones/cad_ceps/cadastro_ceps.h"
 #include "parametros.h"
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
@@ -92,6 +93,7 @@
 #include "../pesquisadores/cond_pag.c"
 #include "../pesquisadores/operadores.c"
 #include "../Canones/Cadastro_Operadores.c"
+#include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
 #include "../Terceiros/cadastro_terceiros.c"

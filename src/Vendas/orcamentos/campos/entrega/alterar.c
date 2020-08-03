@@ -23,6 +23,7 @@ int orc_transp_alterar_fun(){
   strcpy(orc_transp_codigo,row[1]);
 
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[4]);
+  gtk_widget_activate(orc_transp_cep_entry);
 
   sprintf(query,"select * from terceiros where code = %s",orc_transp_codigo);
 	res = consultar(query);

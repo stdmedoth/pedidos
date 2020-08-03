@@ -28,9 +28,21 @@ static int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),"");
+
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_bairro_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(orc_transp_telefone_entry),"");
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(	orc_transp_obs_entry));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",-1);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",-1);

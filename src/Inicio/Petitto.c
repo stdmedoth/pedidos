@@ -22,6 +22,7 @@
 #include <mysql.h>
 #endif
 
+const int default_user_code = 3;
 static GtkWidget  *janela_principal;
 static GtkWidget *imagem_desktop;
 #include "../etc/libs.h"

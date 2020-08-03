@@ -43,6 +43,7 @@ int relat_mov_query_fun()
 		relat_mov_gerando = 0;
 		return 1;
 	}
+
 	if(campos_query[relat_mov_ordem_int-1]){
 		sprintf(filtros_order_by,"order by %s",campos_query[relat_mov_ordem_int-1]);
 	}else{
@@ -52,7 +53,7 @@ int relat_mov_query_fun()
 	if(relat_mov_tipo_int == 0){
 		strcat(tipo_mov_query," and m_e.tipo_mov >= 0");
 	}else{
-		sprintf(tipo_mov_query," and m_e.tipo_mov = %i",relat_mov_tipo_int);
+		sprintf(tipo_mov_query," and m_e.tipo_mov = %i",relat_mov_tipo_int-1);
 	}
 
 	if(relat_mov_cresc_int==0)
@@ -107,5 +108,6 @@ int relat_mov_query_fun()
 	gtk_entry_set_text(GTK_ENTRY(relat_mov_query_entry),relat_mov_query_gchar);
 	relat_mov_gerar_fun();
 	relat_mov_gerando=0;
+
 	return 0;
 }
