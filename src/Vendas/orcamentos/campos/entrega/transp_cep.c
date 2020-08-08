@@ -1,4 +1,3 @@
-int orc_transp_msg_cep=0;
 int orc_transp_cepc()
 {
 	char *query;
@@ -37,7 +36,6 @@ int orc_transp_cepc()
 		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_cep_entry));
 		return 1;
 	}
-	g_print("CEP: %s\n",orc_transp_cep);
 	autologger("CEP:");
 	autologger(orc_transp_cep);
 	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",orc_transp_cep);
@@ -51,11 +49,13 @@ int orc_transp_cepc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		if(orc_transp_msg_cep==0&&alterando_ter==0)
+		if(orc_transp_msg_cep==0 && alterando_ter==0 && ativos_qnt > 2 && transp_verified==0){
 			popup(NULL,"CEP não encontrado,\npor favor insira o endereço manualmente");
+			orc_transp_msg_cep = 1;
+		}
+
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
 		autologger(orc_transp_cep);
-		orc_transp_msg_cep = 1;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 		gtk_widget_grab_focus(orc_transp_logradouro_entry);
 		return 0;
@@ -71,6 +71,5 @@ int orc_transp_cepc()
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_bairro_entry),campos[3]);
 
 	gtk_widget_grab_focus(orc_transp_logradouro_entry);
-	g_print("cep: %s\n",orc_transp_cep);
 	return 0;
 }

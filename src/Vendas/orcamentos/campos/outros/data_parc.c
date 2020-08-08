@@ -6,6 +6,8 @@ int orc_pag_datas_fun(void){
   gchar *data_gchar;
   int ano,mes,dia;
   char *datas_list_char[MAX_PARC_QNT];
+  char valor[MAX_PRECO_LEN];
+  float parcela=0;
 
   data_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(orc_pag_datas_entry));
 
@@ -29,6 +31,8 @@ int orc_pag_datas_fun(void){
 
   gtk_tree_store_clear(orc_pag_datas_model);
 
+  orc_parcelas.parcelas_qnt = orc_pag_parc_qnt_int;
+
   for(int cont=0;cont<orc_pag_parc_qnt_int;cont++){
 
     if(!g_date_time_format(gdate,"%d/%m/%Y")){
@@ -37,7 +41,16 @@ int orc_pag_datas_fun(void){
     }
     gtk_tree_store_append(orc_pag_datas_model,&iter1,NULL);
 
-    gtk_tree_store_set(orc_pag_datas_model,&iter1,0,cont+1,1,g_date_time_format(gdate,"%d/%m/%Y"),2,"",-1);
+    if(cont==0){
+      parcela = (orc_valores.valor_prds_liquido/orc_pag_parc_qnt_int) + orc_valores.valor_frete_liquido;
+    }else{
+      parcela = (orc_valores.valor_prds_liquido/orc_pag_parc_qnt_int);
+    }
+
+    sprintf(valor,"%.2f",parcela);
+    gtk_tree_store_set(orc_pag_datas_model,&iter1,0,cont+1,1,g_date_time_format(gdate,"%d/%m/%Y"),2,valor,-1);
+    orc_parcelas.parcelas_vlr[cont] = parcela;
+
 
     if(orc_pag_tipo_int == 1)
       gdate = g_date_time_add_days(gdate,orc_pag_parc_int);

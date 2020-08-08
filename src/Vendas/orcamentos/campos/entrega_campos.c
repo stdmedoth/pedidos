@@ -13,9 +13,17 @@ GtkWidget *orc_entrega_campos()
 	*orc_transp_telefone,
 	*orc_transp_cnpj,
 	*orc_transp_ie,
-	*orc_transp_obs;
+	*orc_transp_obs,
+	*orc_transp_valor,
+	*orc_transp_desconto;
 
-	GtkWidget *dados_orc_transp_fixed, *orc_transp_endr_fixed, *orc_transp_cep_fixed, *orc_transp_obs_fixed;
+	GtkWidget *dados_orc_transp_fixed,
+	*orc_transp_endr_fixed,
+	*orc_transp_cep_fixed,
+	*orc_transp_obs_fixed,
+	*orc_transp_valor_fixed,
+	*orc_transp_desconto_fixed;
+
 	GtkWidget *orc_transp_obs_scroll;
 	GtkWidget *linha1, // nome
 	*linha2,   //CNPJ | Inscrição Estadual
@@ -23,7 +31,11 @@ GtkWidget *orc_entrega_campos()
 	*linha4;  //valor minimo para frete pago
 
 	GtkWidget *dados_orc_transp_box;
-	GtkWidget *dados_orc_transp_frame, *endr_entrega_frame,*obs_orc_transp_frame;
+	GtkWidget *dados_orc_transp_frame,
+	*endr_entrega_frame,
+	*obs_orc_transp_frame,
+	*valor_orc_transp_frame,
+	*desconto_orc_transp_frame;
 
 	GtkWidget *logr_num_box;
 	GtkWidget *bai_cid_uf_box;
@@ -77,6 +89,8 @@ GtkWidget *orc_entrega_campos()
 	orc_transp_endr_fixed = gtk_fixed_new();
 	orc_transp_cep_fixed = gtk_fixed_new();
 	orc_transp_obs_fixed = gtk_fixed_new();
+	orc_transp_valor_fixed = gtk_fixed_new();
+	orc_transp_desconto_fixed = gtk_fixed_new();
 
 	orc_transp_obs_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_widget_set_size_request(orc_transp_obs_scroll,550,90);
@@ -178,6 +192,22 @@ GtkWidget *orc_entrega_campos()
 	gtk_box_pack_start(GTK_BOX(orc_transp_obs),orc_transp_obs_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(obs_orc_transp_frame),orc_transp_obs);
 
+	valor_orc_transp_frame = gtk_frame_new("Valor Frete");
+	orc_transp_valor_frete_entry = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_transp_valor_frete_entry),GTK_ENTRY_ICON_PRIMARY,"money");
+	orc_transp_valor = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(orc_transp_valor),orc_transp_valor_frete_entry,0,0,5);
+	gtk_container_add(GTK_CONTAINER(valor_orc_transp_frame),orc_transp_valor);
+	gtk_fixed_put(GTK_FIXED(orc_transp_valor_fixed),valor_orc_transp_frame,20,20);
+
+	desconto_orc_transp_frame = gtk_frame_new("desconto Frete");
+	orc_transp_desconto_frete_entry = gtk_entry_new();
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_transp_desconto_frete_entry),GTK_ENTRY_ICON_PRIMARY,"money");
+	orc_transp_desconto = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(orc_transp_desconto),orc_transp_desconto_frete_entry,0,0,5);
+	gtk_container_add(GTK_CONTAINER(desconto_orc_transp_frame),orc_transp_desconto);
+	gtk_fixed_put(GTK_FIXED(orc_transp_desconto_fixed),desconto_orc_transp_frame,20,20);
+
 	gtk_widget_set_size_request(orc_transp_obs,550,150);
 	gtk_widget_set_size_request(orc_transp_obs_scroll,550,150);
 	gtk_widget_set_size_request(orc_transp_obs_entry,550,150);
@@ -212,7 +242,10 @@ GtkWidget *orc_entrega_campos()
 
 	gtk_box_pack_start(GTK_BOX(linhas1),dados_orc_transp_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linhas1),orc_transp_endr_fixed,0,0,0);
+
 	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_obs_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_valor_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_desconto_fixed,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(colunas),linhas1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(colunas),linhas2,0,0,0);
@@ -232,6 +265,7 @@ GtkWidget *orc_entrega_campos()
 	g_signal_connect(GTK_ENTRY(orc_transp_num_entry),"activate",G_CALLBACK(orc_transp_num_fun),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_cidade_entry),"activate",G_CALLBACK(orc_transp_cidadec),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_estado_entry),"activate",G_CALLBACK(orc_transp_estado_fun),NULL);
-
+	g_signal_connect(GTK_ENTRY(orc_transp_valor_frete_entry),"activate",G_CALLBACK(orc_transp_valor_frete),NULL);
+	g_signal_connect(GTK_ENTRY(orc_transp_desconto_frete_entry),"activate",G_CALLBACK(orc_transp_desconto_frete),NULL);
 	return caixa_grande;
 }

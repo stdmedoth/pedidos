@@ -48,11 +48,15 @@ int rec_fat_vist()
 	{
 		if(ativos[cont].id==1)
 		{
-			qnt_prod_orc(NULL,cont);
+			if(ha_prods()){
+				codigo_prod_orc(NULL,cont);
+				qnt_prod_orc(NULL,cont);
+			}
 		}
 	}
 
 	pag_cond = atoi(orc_pag_cond_gchar);
+	orc_parcelas.pagcond_code = pag_cond;
 	orc_pag_cond_activated=1;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
@@ -62,5 +66,6 @@ int rec_fat_vist()
 		}
 	}
 	orc_pag_datas_fun();
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 	return 0;
 }

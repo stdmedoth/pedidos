@@ -1,3 +1,11 @@
+int ha_prods(){
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
+		if(produto_inserido[cont] == 1)
+			return 1;
+	}
+	return 0;
+}
+
 int codigo_prod_orc(GtkWidget *widget,int posicao)
 {
 	char query[MAX_QUERY_LEN];
@@ -16,6 +24,13 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	if(strlen(codigo_prod_orc_gchar)<=0)
 	{
 		produto_inserido[posicao] = 0;
+
+		if(posicao>1){
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
+			gtk_widget_grab_focus(orc_transp_codigo_entry);
+			return 0;
+		}
+
 		popup(NULL,"O código do produto deve ser inserido");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 

@@ -370,7 +370,7 @@ int init()
 		return 1;
 	}
 	if(!(row = mysql_fetch_row(res))){
-		person_tecn_prim = 0;
+		person_tecn_prim = 1;
 		popup(NULL,"Sem dados técnicos personalizados");
 		strcpy(cad_emp_strc.init_image_path,"");
 	}

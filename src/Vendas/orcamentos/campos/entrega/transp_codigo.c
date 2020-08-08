@@ -4,10 +4,36 @@ int orc_transp_codigo_fun()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-
+	transp_verified=1;
 	orc_transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(orc_transp_codigo_entry));
 	if(strlen(orc_transp_codigo)<=0)
 	{
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
+		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
+
+		orc_com_entrega = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		return 0;
+	}
+
+	if( alterando_orc == 1 && alterando_transp == 0 ){
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
+		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
+
 		orc_com_entrega = 0;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
 		return 0;
@@ -15,6 +41,16 @@ int orc_transp_codigo_fun()
 
 	if(stoi(orc_transp_codigo)==-1)
 	{
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
+		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
+
 		if(strlen(orc_transp_codigo)>8)
 		{
 			g_print("Codigo terceiro muito grande %s\n",orc_transp_codigo);
@@ -25,18 +61,21 @@ int orc_transp_codigo_fun()
 		{
 			g_print("Codigo do terceiro incorreto %s\n",orc_transp_codigo);
 			popup(NULL,"Codigo terceiro deve ser numérico");
-			code[0] = '\0';
-			sprintf(code,"%i",tasker("terceiros"));
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),code);
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
-			gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
 			return 1;
 		}
+	}
+	if(!atoi(orc_transp_codigo)){
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
+		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
+		orc_com_entrega = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		return 0;
 	}
 	sprintf(query,"select * from terceiros where code = %s",orc_transp_codigo);
 	res = consultar(query);

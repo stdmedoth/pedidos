@@ -97,7 +97,7 @@ GtkWidget **total_prod_orc_frame,**total_prod_orc_box, **total_prod_orc_fixed;
 
 GtkWidget *data_orc_frame;
 GtkWidget *codigo_orc_frame,*operacao_orc_frame,*cliente_orc_frame,*observacoes_orc_frame,**linhas_prod_orc_frame;
-GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame;
+GtkWidget *total_geral_orc_frame,*desconto_geral_orc_frame,*frete_orc_frame;
 
 // FIXEDs
 GtkWidget *orc_infos_fixed,*orc_itens_fixed,*orc_geral_fixed;
@@ -108,7 +108,7 @@ GtkWidget **obs_prod_orc_scroll,**obs_prod_orc_fixed;
 // LABELS
 
 //static GtkWidget *data_orc_label;
-GtkWidget *total_geral_orc_label,*desconto_geral_orc_label;
+GtkWidget *total_geral_orc_label,*desconto_geral_orc_label, *frete_orc_label;
 
 GtkWidget *codigo_orc_label,*operacao_orc_label,*cliente_orc_label;
 GtkWidget **codigo_prod_orc_label,
@@ -179,9 +179,30 @@ static struct itens_struct
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
 
+static struct{
+	float valor_prds;
+	float valor_prds_desc;
+	float valor_prds_liquido;
+
+	float valor_frete;
+	float desconto_frete;
+	float valor_frete_liquido;
+
+	float desconto_total;
+	float valor_total;
+}orc_valores;
+
+static struct {
+	int parcelas_qnt;
+	int pagcond_code;
+	float parcelas_vlr[MAX_PARCELAS_QNT];
+}orc_parcelas;
+
 static int sinal_operacao_int=0;
 static int operacao_orc_int=0;
 
+int orc_transp_msg_cep=0;
+int transp_verified=0;
 GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;

@@ -24,9 +24,6 @@ int orc_transp_estado_fun()
 		gtk_widget_grab_focus(orc_transp_estado_entry);
 		return 1;
 	}
-
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
-	gtk_widget_grab_focus(orc_pag_datas_entry);
-	g_print("Cidade Transp: %s\n",orc_transp_estado);
+	gtk_widget_grab_focus(orc_transp_valor_frete_entry);
 	return 0;
 }

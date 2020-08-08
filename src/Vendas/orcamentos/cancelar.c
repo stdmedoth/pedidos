@@ -10,7 +10,6 @@ static int cancela_orc()
 		{
 			tirar_linha(cont);
 		}
-
 		preco_alterado[cont] = 0;
 		aviso_estoque[cont] = 0;
 		valor_orig[cont] = 0;
@@ -68,6 +67,13 @@ static int cancela_orc()
 	excluindo_orc = 0;
 	orc_pag_cond_activated=0;
 	recebendo_prod_orc=0;
+
+	orc_valores.valor_prds = 0;
+	orc_valores.valor_prds_desc = 0;
+	orc_valores.valor_frete = 0;
+	orc_valores.desconto_frete = 0;
+	orc_valores.desconto_total = 0;
+	orc_valores.valor_total = 0;
 
 	adicionar_linha_orc();
 

@@ -6,9 +6,10 @@
 #define TRANSP_NUM_COL 5
 #define TRANSP_ORC_COL 6
 #define TRANP_VLR_COL 7
-#define TRANP_OBS_COL 8
+#define TRANP_VLR_DESC_COL 8
+#define TRANP_OBS_COL 9
 
-static int orc_com_entrega=0;
+static int orc_com_entrega=0, alterando_transp=0;
 
 static gchar *orc_transp_codigo=NULL,
 *orc_transp_nome=NULL,
@@ -21,7 +22,9 @@ static gchar *orc_transp_codigo=NULL,
 *orc_transp_telefone=NULL,
 *orc_transp_cnpj=NULL,
 *orc_transp_ie=NULL,
-*orc_transp_obs=NULL;
+*orc_transp_obs=NULL,
+*orc_transp_valor=NULL,
+*orc_transp_desconto=NULL;
 
 static GtkWidget *orc_transp_codigo_entry,
 *orc_transp_nome_entry,
@@ -34,6 +37,8 @@ static GtkWidget *orc_transp_codigo_entry,
 *orc_transp_estado_entry,
 *orc_transp_cep_entry,
 *orc_transp_telefone_entry,
-*orc_transp_obs_entry;
+*orc_transp_obs_entry,
+*orc_transp_valor_frete_entry,
+*orc_transp_desconto_frete_entry;
 
 GtkWidget *psq_ter_orc_transp_button, *psq_ter_orc_transp_img, *psq_ter_orc_transp_box, *psq_ter_orc_transpcep_box;

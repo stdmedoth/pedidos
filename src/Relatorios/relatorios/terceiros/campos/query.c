@@ -45,18 +45,18 @@ int relat_ter_query_fun()
 	if(relat_ter_tipo_int == 0){
 
 			if(relat_ter_pes_int == 0)
-				sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
+				sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and t.tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
 				relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 			else
-			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
+			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and t.tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
 			relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_pes_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 
 	}else{
 		if(relat_ter_pes_int == 0)
-			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
+			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and t.tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
 			relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_tipo_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 		else
-		sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
+		sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo = %i and t.tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
 		relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_tipo_int, relat_ter_pes_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 	}
 

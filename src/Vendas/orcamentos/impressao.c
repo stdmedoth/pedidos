@@ -5,7 +5,7 @@ int imp_cli()
 	char query[MAX_QUERY_LEN];
 	MYSQL_ROW row;
 	MYSQL_RES *res;
-	sprintf(query,"select razao,endereco,numrua,telefone,celular,email from terceiros where code = %s",cliente_orc_gchar);
+	sprintf(query,"select razao,endereco,numrua,bairro,cidade,uf,telefone,celular,email from terceiros where code = %s",cliente_orc_gchar);
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -28,19 +28,27 @@ int imp_cli()
 		fprintf(orc,"<hr>\n");
 	}
 	if(strlen(row[1])){
-		fprintf(orc,"<img src=\"%s\" alt=\"\"> Endereco: <span id=\"string-black\">%s,%s</span> \n",IMG_IMP_LOCAL,row[1],row[2]);
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Endereco: <span id=\"string-black\">%s,%s, %s, %s, %s</span> \n",IMG_IMP_LOCAL,row[1],row[2],row[3],row[4],row[5]);
 		fprintf(orc,"<hr>\n");
 	}
+
+	fprintf(orc,"<div style='display: flex'>");
+
 	if(strlen(row[3])){
-		fprintf(orc,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[3]);
-		fprintf(orc,"<hr>\n");
+		fprintf(orc,"<div>");
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[6]);
+		fprintf(orc,"</div>");
 	}
 	if(strlen(row[4])){
-		fprintf(orc,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[4]);
-		fprintf(orc,"<hr>\n");
+		fprintf(orc,"<div class='cli-info-sec-col'>");
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[7]);
+		fprintf(orc,"</div>");
 	}
-	if(strlen(row[5])){
-		fprintf(orc,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[5]);
+	fprintf(orc,"</div>");
+	fprintf(orc,"<hr>\n");
+
+	if(strlen(row[8])){
+		fprintf(orc,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[8]);
 		fprintf(orc,"<hr>\n");
 	}
 	fprintf(orc,"</div>\n");

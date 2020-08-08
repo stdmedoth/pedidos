@@ -111,8 +111,11 @@ int altera_ter()
 	if(campo[CEMAIL_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),campo[CEMAIL_TER_COL]);
 
+
 	if(campo[TRSP_COD_COL]!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TRSP_COD_COL]);
+		if(atoi(campo[TRSP_COD_COL])!=0)
+			gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TRSP_COD_COL]);
+
 	gtk_widget_activate(transp_codigo_entry);
 
 	if(campo[TRSP_LOGR_COL]!=NULL)
@@ -136,8 +139,10 @@ int altera_ter()
 	if(campo[TRSP_TEL_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),campo[TRSP_TEL_COL]);
 
-	if(campo[PRAZ_TER_COL]!=NULL)
+	if(campo[PRAZ_TER_COL]!=NULL){
 		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
+		gtk_widget_activate(frete_pago_entry);
+	}
 
 	if(campo[FLAG_MIN_FRT_PAG_COL]!=NULL)
 	{
@@ -147,8 +152,10 @@ int altera_ter()
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(frete_pago_flag),TRUE);
 	}
 
-	if(campo[VLR_MIN_FRT_PAG_COL]!=NULL)
+	if(campo[VLR_MIN_FRT_PAG_COL]!=NULL){
 		gtk_entry_set_text(GTK_ENTRY(frete_pago_entry),campo[VLR_MIN_FRT_PAG_COL]);
+
+	}
 
 	if(campo[OBS_TER_COL]!=NULL)
 		strcpy(observacoes_ter,campo[OBS_TER_COL]);

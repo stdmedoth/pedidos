@@ -24,7 +24,9 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_celular_entry,
 *cad_emp_email_entry,
 *cad_emp_img_init_entry,
-*cad_emp_img_init_chooser;
+*cad_emp_img_init_chooser,
+*cad_emp_script_path_entry,
+*cad_emp_script_path_chooser;
 
 static struct{
   char nome[MAX_NAME_LEN];
@@ -40,6 +42,7 @@ static struct{
   char celular[MAX_TEL_LEN];
   char email[MAX_EMAIL_LEN];
   char init_image_path[MAX_PATH_LEN];
+  char script_bin_path[MAX_PATH_LEN];
 }cad_emp_strc;
 
 int cadastro_empresa();

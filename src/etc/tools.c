@@ -16,6 +16,7 @@ gpointer carregando_wnd(){
 	GtkWidget *fixed = gtk_fixed_new();
 
 	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_modal(GTK_WINDOW(janela),TRUE);
 	gtk_widget_set_size_request(janela,50,50);
 	gtk_widget_set_size_request(loading_gif,50,50);
@@ -556,8 +557,9 @@ void reportar_encerramento_brusco(){
 	gtk_widget_show_all(popup);
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
-	if(resultado == GTK_RESPONSE_ACCEPT)
+	if(resultado == GTK_RESPONSE_ACCEPT){
 		suporte_princ_wnd();
+	}
 
 	gtk_widget_destroy(popup);
 }

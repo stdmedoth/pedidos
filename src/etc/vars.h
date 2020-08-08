@@ -82,7 +82,9 @@
 #define EST_RELAT_FILE      "C:/petitto/files/impressao/relatorios/estoque/"
 #define MOV_RELAT_FILE      "C:/petitto/files/impressao/relatorios/movimentos/"
 #define ORC_PROD_RELAT_FILE "C:/petitto/files/impressao/relatorios/orc_prod/"
-
+#define SCRPT_TER_INFOS_ENV "C:/petitto/files/scripts/php/files/dados_emissor.xml"
+#define SCRPT_TER_INFOS_RET "C:/petitto/files/scripts/php/files/dados_retorno.xml"
+#define CAD_TER_PSQ_SCRIPT  "C:/petitto/files/scripts/php/index.php"
 #define IMG_IMP_LOGO      "C:/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "C:/petitto/files/backup_querys"
 
@@ -171,6 +173,9 @@
 #define ORC_PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/orc_prod/"
 #define IMG_IMP_LOGO      "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/usr/share/petitto/files/backup_querys"
+#define SCRPT_TER_INFOS_ENV "/usr/share/petitto/files/scripts/php/files/dados_emissor.xml"
+#define SCRPT_TER_INFOS_RET "/usr/share/petitto/files/scripts/php/files/dados_retorno.xml"
+#define CAD_TER_PSQ_SCRIPT  "/usr/share/petitto/files/scripts/php/index.php"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -243,6 +248,7 @@
 #define MAX_RELAT_NOME 30
 #define MAX_CAMPO_NOME 30
 #define MAX_RELAT_CAMPOS 15
+#define MAX_PARCELAS_QNT 20
 #define MAX_PARC_QNT 20
 #define MAX_NIVEL_GER_QNT 10
 #define MAX_NIVEL_GER_NOME 50

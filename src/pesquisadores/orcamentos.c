@@ -38,7 +38,7 @@ int entry_orc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	entrada = (gchar*)gtk_entry_get_text(widget);
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
-	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as inner o join terceiros as c on c.code = o.cliente where o.cliente like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente where c.razao like '%c%s%c' order by o.dia desc",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -135,7 +135,7 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente");
+	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente order by o.dia desc");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -168,7 +168,7 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
-	//gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_orc_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);

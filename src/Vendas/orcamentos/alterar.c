@@ -92,8 +92,18 @@ static int altera_orc()
 	}
 	if((row = mysql_fetch_row(res))==NULL)
 	{
+		alterando_transp = 0;
 		orc_com_entrega = 0;
 	}else{
+
+		if(row[TRANSP_TRSP_COL]!=NULL)
+			if(!atoi(row[TRANSP_TRSP_COL])){
+				alterando_transp = 0;
+				orc_com_entrega = 0;
+				return 1;
+			}
+			
+		alterando_transp = 1;
 		sprintf(query,"select razao,doc,ie from terceiros where code = %s",row[TRANSP_TRSP_COL]);
 		if((res2 = consultar(query))==NULL)
 		{
@@ -109,9 +119,14 @@ static int altera_orc()
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),row2[1]);
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row2[2]);
 		}
+
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRANSP_TRSP_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRANSP_CEP2_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRANSP_NUM_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRANP_VLR_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRANP_VLR_DESC_COL]);
+		gtk_widget_activate(orc_transp_valor_frete_entry);
+		gtk_widget_activate(orc_transp_desconto_frete_entry);
 	}
 
 
@@ -282,6 +297,7 @@ static int altera_orc()
 
 	orc_transp_alterar_fun();
 
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);
 	gtk_widget_set_sensitive(codigo_orc_entry,FALSE);
 	gtk_widget_set_sensitive(pesquisa_orc,FALSE);

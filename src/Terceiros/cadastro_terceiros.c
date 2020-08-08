@@ -214,6 +214,9 @@ int  cad_terc()
 	vertical_box6 = gtk_box_new(1,0);
 	separator = gtk_separator_new(1);
 
+	cnst_cad_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(cnst_cad_button),gtk_image_new_from_icon_name("emblem-web",GTK_ICON_SIZE_LARGE_TOOLBAR));
+
 	doc_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Tipo Pessoa:");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurídica");
@@ -343,7 +346,8 @@ int  cad_terc()
 	doc = gtk_box_new(0,0);
 	gtk_widget_set_name(doc,"caixa");
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
-	gtk_box_pack_end(GTK_BOX(doc),doc_ter_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(doc),doc_ter_field,0,0,0);
+	gtk_box_pack_end(GTK_BOX(doc),cnst_cad_button,0,0,0);
 	gtk_widget_set_size_request(doc_ter_field,220,30);
 
 	inscr = gtk_box_new(0,0);
@@ -615,6 +619,7 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(psq_ter_prod_button),"clicked",G_CALLBACK(psq_prod),prod_ter_field);
 	g_signal_connect(GTK_BUTTON(psq_ter_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
 	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter_grupos),NULL);
+	g_signal_connect(GTK_BUTTON(cnst_cad_button),"clicked",G_CALLBACK(janela_cad_ter_consulta),NULL);
 
 	//page 0
 	gtk_widget_set_name(vertical_box1,"vertical_box1");

@@ -25,7 +25,10 @@
 #include "campos/entrega/transp_logradouro.c"
 #include "campos/entrega/transp_bairro.c"
 #include "campos/entrega/transp_cep.c"
+#include "campos/entrega/valor_frete.c"
+#include "campos/entrega/valor_desconto_frete.c"
 #include "campos/entrega_campos.c"
+
 #include "campos/outros/data_parc.c"
 #include "campos/outros/campos_de_datas.c"
 

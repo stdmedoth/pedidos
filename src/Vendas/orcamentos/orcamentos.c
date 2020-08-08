@@ -14,10 +14,16 @@ void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_w
 }
 
 static int gerar_total_geral(){
-	
+
 	char *muda_label;
 	total_geral_orc = 0;
 	desconto_geral_orc = 0 ;
+	orc_valores.valor_prds = 0;
+	orc_valores.valor_prds_desc = 0;
+	orc_valores.valor_prds_liquido = 0;
+	orc_valores.valor_frete_liquido = 0;
+	orc_valores.valor_total = 0;
+	orc_valores.desconto_total = 0;
 
 	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*2);
 	for(cont=1;cont<=MAX_PROD_ORC;cont++)
@@ -40,12 +46,27 @@ static int gerar_total_geral(){
 			}
 		}
 	}
+	orc_valores.valor_prds = total_geral_orc;
+	orc_valores.valor_prds_desc = desconto_geral_orc;
+	orc_valores.valor_prds_liquido = total_geral_orc - desconto_geral_orc;
 
-	sprintf(muda_label,"R$ %.2f",total_geral_orc);
+	orc_valores.valor_frete_liquido =  orc_valores.valor_frete - orc_valores.desconto_frete;
+
+	orc_valores.valor_total = orc_valores.valor_prds + orc_valores.valor_frete - (orc_valores.valor_prds_desc + orc_valores.desconto_frete);
+	orc_valores.desconto_total = orc_valores.valor_prds_desc +  orc_valores.desconto_frete;
+
+	sprintf(muda_label,"R$ %.2f",orc_valores.valor_total);
 	gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
 
-	sprintf(muda_label,"R$ %.2f",desconto_geral_orc);
+	sprintf(muda_label,"R$ %.2f",orc_valores.desconto_total);
 	gtk_label_set_text(GTK_LABEL(desconto_geral_orc_label),muda_label);
+
+	sprintf(muda_label,"R$ %.2f",orc_valores.valor_frete);
+	gtk_label_set_text(GTK_LABEL(frete_orc_label),muda_label);
+
+	if(ativos_qnt>1){
+		orc_pag_datas_fun();
+	}
 	return 0;
 }
 
@@ -581,10 +602,13 @@ int vnd_orc()
 
 	total_geral_orc_label = gtk_label_new("0.0");
 	desconto_geral_orc_label = gtk_label_new("0.0");
+	frete_orc_label = gtk_label_new("0.0");
 	total_geral_orc_frame = gtk_frame_new("Total Geral");
 	desconto_geral_orc_frame =  gtk_frame_new("Desconto Geral");
+	frete_orc_frame = gtk_frame_new("Frete");
 	gtk_container_add(GTK_CONTAINER(total_geral_orc_frame),total_geral_orc_label);
 	gtk_container_add(GTK_CONTAINER(desconto_geral_orc_frame),desconto_geral_orc_label);
+	gtk_container_add(GTK_CONTAINER(frete_orc_frame),frete_orc_label);
 
 	caixa_orc_infos_c = gtk_box_new(0,0);
 	//caixa_orc_infos_b = gtk_box_new(1,0);
@@ -712,6 +736,7 @@ int vnd_orc()
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),excluir_orc_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),total_geral_orc_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),desconto_geral_orc_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_opcoes_orc),frete_orc_frame,0,0,10);
 
 	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,100,0);
 

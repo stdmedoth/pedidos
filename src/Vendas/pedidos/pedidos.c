@@ -19,7 +19,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	if(strlen(entrada)>=MAX_CODE_LEN)
 	{
-		popup(NULL,"Código muito extenso");
+		popup(NULL,"Código extenso");
 		return 1;
 	}
 
@@ -276,12 +276,6 @@ int vnd_ped()
 	GtkWidget *caixa_scroll, *caixa_produtos, *caixa_fixed;
 	GtkWidget *linha1,*linha2,*linha3,*linha4;
 
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
-
-
 	janela_pedidos = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_pedidos),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");
@@ -291,7 +285,7 @@ int vnd_ped()
 	gtk_widget_set_size_request(janela_pedidos,820,480);
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
-	
+
 	caixa_grande = gtk_box_new(1,0);
 	caixa_scroll = gtk_scrolled_window_new(NULL,NULL);
 	caixa_fixed = gtk_fixed_new();
@@ -433,6 +427,11 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),linha4,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_pedidos),caixa_grande);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
 
 	g_signal_connect(ped_psq_cod_button,"clicked",G_CALLBACK(psq_ped),ped_cod_entry);
 	g_signal_connect(ped_emitir_button,"clicked",G_CALLBACK(emitir_ped),NULL);

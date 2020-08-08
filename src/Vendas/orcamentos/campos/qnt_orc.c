@@ -169,7 +169,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			else{
 				if(orcamentos.criticar.prod_movimento){
 					popup(NULL,"Sem nenhum movimento");
-					if(orcamentos.criticar.prod_saldo||orcamentos.criticar.prod_saldo_limite)
 						return 1;
 				}
 			}

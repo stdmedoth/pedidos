@@ -8,9 +8,11 @@
 
 #include <stdio.h>
 #include <locale.h>
+#include <ctype.h>
 #include <errno.h>
 #include <gtk/gtk.h>
 #include <libxml/xinclude.h>
+#include <libxml/xpath.h>
 #include <time.h>
 
 #ifdef __linux__

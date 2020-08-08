@@ -78,8 +78,12 @@ int cad_cep(){
       gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),cad_ceps_uf_qnt,row[0]);
       strcpy(uf_list[cad_ceps_uf_qnt],row[0]);
       cad_ceps_uf_qnt++;
-      if(cad_ceps_uf_qnt>MAX_UF_QNT)
+      if(cad_ceps_uf_qnt>=MAX_UF_QNT)
         break;
+  }
+  if(!cad_ceps_uf_qnt){
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),0,"Vazio");
+    popup(NULL,"Não Há Estados cadastrados");
   }
   gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(cad_ceps_uf_combo),3);
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_ceps_uf_combo),0);
@@ -174,9 +178,9 @@ int cad_cep(){
     return 1;
   }
   if(!(row = mysql_fetch_row(res)))
-      strcpy(code_task,"1");
-    else
-      strcpy(code_task,row[0]);
+    strcpy(code_task,"1");
+  else
+    strcpy(code_task,row[0]);
 
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_code_entry),code_task);
 

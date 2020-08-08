@@ -5,6 +5,7 @@ int cad_emp_consulta(){
 
   sprintf(query,"select * from empresa");
   if(!(res = consultar(query))){
+    cad_emp_prim=1;
     popup(NULL,"Erro ao receber informações da empresa");
     return 1;
   }
@@ -39,16 +40,21 @@ int cad_emp_consulta(){
 
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){
+    person_tecn_prim=1;
     popup(NULL,"Erro ao receber informações da empresa");
     return 1;
   }
   if(!(row = mysql_fetch_row(res))){
-    cad_emp_prim=1;
+    person_tecn_prim=1;
     popup(NULL,"Empresa sem informações");
     return 1;
   }
-  strcpy(cad_emp_strc.init_image_path,row[0]);
+
+  strcpy(cad_emp_strc.init_image_path,row[1]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_img_init_entry),row[1]);
+
+  strcpy(cad_emp_strc.script_bin_path,row[2]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_script_path_entry),row[2]);
 
 
   return 0;
@@ -82,6 +88,21 @@ int cad_emp_recebe(){
   strcpy(cad_emp_strc.telefone,row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
+
+  sprintf(query,"select * from tecn_pers_elem");
+  if(!(res = consultar(query))){
+    person_tecn_prim=1;
+    popup(NULL,"Erro ao receber informações da empresa");
+    return 1;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    person_tecn_prim=1;
+    popup(NULL,"Empresa sem informações Técnicas");
+    return 1;
+  }
+
+  strcpy(cad_emp_strc.init_image_path,row[1]);
+  strcpy(cad_emp_strc.script_bin_path,row[2]);
 
   return 0;
 }

@@ -1,7 +1,12 @@
 #!/bin/bash
 #./comp.sh para dar permissões de leitura e escrita na pasta de arquivos
 #atualizacao rapida de arquivos para o sistema
-
+if [ ! -d "/usr/share/petitto" ]; then
+mkdir /usr/share/petitto
+fi
+if [ ! -d "/usr/share/petitto/files" ]; then
+mkdir /usr/share/petitto/files
+fi
 echo "Movendo files..."
 cp -r data/* /usr/share/petitto/files/
 echo "Movendo icone..."

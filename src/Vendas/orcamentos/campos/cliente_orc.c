@@ -47,7 +47,7 @@ int codigo_cli_orc()
 		return 1;
 	}
 
-	sprintf(query,"select razao,endereco,telefone,obs,prazo from terceiros where code = %s",cliente_orc_gchar);
+	sprintf(query,"select razao,endereco,telefone,obs,prazo,transp_code,transp_cep from terceiros where code = %s",cliente_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -81,8 +81,19 @@ int codigo_cli_orc()
 		gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
 		gtk_widget_activate(orc_pag_cond_entry);
 	}
+	if(strlen(campos[5])&&transp_verified==0){
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[5]);
+		gtk_widget_activate(orc_transp_codigo_entry);
+	}
+
+	if(strlen(campos[6])){
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[6]);
+		gtk_widget_activate(orc_transp_cep_entry);
+	}
+
 
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
 		gtk_widget_grab_focus(orc_pag_cond_entry);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 	return 0;
 }

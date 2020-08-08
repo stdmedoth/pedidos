@@ -25,6 +25,12 @@ int orc_transp_alterar_fun(){
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[4]);
   gtk_widget_activate(orc_transp_cep_entry);
 
+  if(!atoi(orc_transp_codigo)){
+    orc_com_entrega = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		return 0;
+  }
+
   sprintf(query,"select * from terceiros where code = %s",orc_transp_codigo);
 	res = consultar(query);
 	if(res==NULL)

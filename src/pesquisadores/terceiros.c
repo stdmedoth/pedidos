@@ -68,13 +68,13 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	switch(tipo_psq)
 	{
 		case 0:
-			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t inner join terceiros as tr  on tr.code = t.transp_code where t.razao like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.razao like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 1:
-			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t inner join terceiros as tr  on tr.code = t.transp_code where cidade like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where cidade like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 2:
-			sprintf(query,"select t.code, razao, t.doc, cidade, tr.razao from terceiros as t inner join terceiros as tr on tr.code = t.transp_code where doc like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr on tr.code = t.transp_code where doc like '%c%s%c' limit 20",37,entrada,37);
 			break;
 	}
 	res = consultar(query);
@@ -181,7 +181,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t inner join terceiros as tr  on tr.code = t.transp_code limit 20");
+	sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

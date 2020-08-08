@@ -4,7 +4,9 @@ int cad_emp_atualiza(){
   char query[MAX_QUERY_LEN];
 
   char *nome,*cnpj,*logr,*cep,
-  *bairro,*cidade,*uf,*telefone,*celular,*email,*path_img_init;
+  *bairro,*cidade,*uf,*telefone,
+  *celular,*email,*path_img_init
+  ,*path_script;
 
   int numrua,tiporua;
 
@@ -21,6 +23,7 @@ int cad_emp_atualiza(){
   celular = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_celular_entry));
   email = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_email_entry));
   path_img_init = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_img_init_entry));
+  path_script =  (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_script_path_entry));
 
   //informativos
   if(cad_emp_prim){
@@ -39,14 +42,19 @@ int cad_emp_atualiza(){
     popup(NULL,"Erro ao atualizar informações da empresa");
     return 1;
   }
+  char *query_path_img_init = malloc(strlen(path_img_init));
+  char *query_path_script = malloc(strlen(path_script));
+
+  mysql_real_escape_string(&conectar,query_path_img_init,path_img_init,strlen(path_img_init));
+  mysql_real_escape_string(&conectar,query_path_script,path_script,strlen(path_script));
 
   //personalizacao
   if(person_tecn_prim){
-    sprintf(query,"insert into tecn_pers_elem(code,path_img_init) values(1,'%s')",
-    path_img_init);
+    sprintf(query,"insert into tecn_pers_elem(code,path_img_init,script_bin_path) values(1,'%s','%s')",
+    query_path_img_init, query_path_script);
   }else{
-    sprintf(query,"update tecn_pers_elem set path_img_init = '%s'",
-    path_img_init);
+    sprintf(query,"update tecn_pers_elem set path_img_init = '%s', script_bin_path = '%s'",
+    query_path_img_init, query_path_script);
   }
 
   if(enviar_query(query)){

@@ -141,7 +141,7 @@ int cad_pag(){
   gtk_entry_set_icon_from_icon_name(GTK_ENTRY(pag_parc_spin),GTK_ENTRY_ICON_PRIMARY,"format-text-direction-ltr");
   gtk_entry_set_width_chars(GTK_ENTRY(pag_parc_spin),10);
 
-  pag_parc_qnt_spin = gtk_spin_button_new_with_range(1,20,1);
+  pag_parc_qnt_spin = gtk_spin_button_new_with_range(1,MAX_PARCELAS_QNT,1);
   gtk_entry_set_icon_from_icon_name(GTK_ENTRY(pag_parc_qnt_spin),GTK_ENTRY_ICON_PRIMARY,"view-list");
   gtk_entry_set_width_chars(GTK_ENTRY(pag_parc_qnt_spin),10);
 

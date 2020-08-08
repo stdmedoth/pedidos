@@ -33,7 +33,12 @@ int codigo_orc()
 		}
 
 	}
-
-	gtk_widget_grab_focus(operacao_orc_combo);
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
+		if(ativos[cont].id){
+			gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
+			return 0;
+		}
+	}
+	
 	return 0;
 }

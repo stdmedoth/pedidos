@@ -6,32 +6,6 @@ static struct {
 }server_confs;
 
 
-void traverse_dom_trees(xmlNode * a_node)
-{
-    xmlNode *cur_node = NULL;
-
-    if(NULL == a_node)
-    {
-        //printf("Invalid argument a_node %p\n", a_node);
-        return;
-    }
-
-    for (cur_node = a_node; cur_node; cur_node = cur_node->next)
-    {
-        if (cur_node->type == XML_ELEMENT_NODE)
-        {
-            /* Check for if current node should be exclude or not */
-            printf("Node type: Node, name: %s\n", cur_node->name);
-        }
-        else if(cur_node->type == XML_TEXT_NODE)
-        {
-            /* Process here text node, It is available in cpStr :TODO: */
-            printf("node type: Text, node content: %s,  content length %ld\n", (char *)cur_node->content, strlen((char *)cur_node->content));
-        }
-        traverse_dom_trees(cur_node->children);
-    }
-}
-
 int rec_vars_from_file(){
 
   server_confs.server_endereco = malloc(MAX_SERVER_LEN);
@@ -42,6 +16,7 @@ int rec_vars_from_file(){
   xmlDocPtr doc = xmlParseFile(SERVER_CONF);
 
   if(!doc){
+      popup(NULL,"Não foi possível ler arquivo de configuração");
       file_logger("Não foi possivel abrir xml de configuração server");
       return 1;
   }

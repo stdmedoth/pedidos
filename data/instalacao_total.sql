@@ -1,0 +1,12 @@
+source C:/petitto/files/instalar_base.sql;
+source C:/petitto/files/instalar_contrato.sql;
+source C:/petitto/files/instalar_grupos.sql;
+source C:/petitto/files/instalar_parametros.sql;
+source C:/petitto/files/instalar_unidades.sql;
+source C:/petitto/files/instalar_precos_grupos.sql;
+source C:/petitto/files/instalar_relatorios.sql;
+source C:/petitto/files/instalar_suporte.sql;
+source C:/petitto/files/instalar_terceiros.sql;
+source C:/petitto/files/instalar_produtos.sql;
+source C:/petitto/files/instalar_transporte.sql;
+source C:/petitto/files/instalar_dados_basicos.sql;

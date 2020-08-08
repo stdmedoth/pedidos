@@ -9,7 +9,7 @@
 #include "parametros.h"
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
-
+#include "../Terceiros/pesquisa_cad.h"
 #include "../Produtos/grupos/cad_grupo.h"
 #include "../Produtos/grupos/reload_nome.h"
 #include "../pesquisadores/grupos.h"
@@ -97,6 +97,7 @@
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
 #include "../Terceiros/cadastro_terceiros.c"
+#include "../Terceiros/pesquisa_cad.c"
 #include "../Produtos/cadastro_produtos.c"
 #include "../Produtos/grupos/reload_nome.c"
 #include "../Unidades/cadastro_unidades.c"
