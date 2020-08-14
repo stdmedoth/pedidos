@@ -119,7 +119,7 @@ GtkWidget *entrega_campos()
 
 	transp_logradouro_label = gtk_label_new("Logradouro");
 	transp_logradouro_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_logradouro_entry),"Logradouro Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_logradouro_entry),"Logradouro Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_logradouro_entry),50);
 	transp_logradouro = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_logradouro),transp_logradouro_label,0,0,5);
@@ -127,7 +127,7 @@ GtkWidget *entrega_campos()
 
 	transp_num_label = gtk_label_new("Número");
 	transp_num_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_num_entry),"Numero Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_num_entry),"Numero Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_num_entry),5);
 	transp_num = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_num),transp_num_label,0,0,5);
@@ -145,7 +145,7 @@ GtkWidget *entrega_campos()
 
 	transp_cidade_label = gtk_label_new("Cidade");
 	transp_cidade_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_cidade_entry),"Cidade Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_cidade_entry),"Cidade Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_cidade_entry),20);
 	transp_cidade = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_cidade),transp_cidade_label,0,0,5);
@@ -153,7 +153,7 @@ GtkWidget *entrega_campos()
 
 	transp_bairro_label = gtk_label_new("Bairro");
 	transp_bairro_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_bairro_entry),"Bairro Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_bairro_entry),"Bairro Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_bairro_entry),20);
 	transp_bairro = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_bairro),transp_bairro_label,0,0,5);
@@ -161,7 +161,7 @@ GtkWidget *entrega_campos()
 
 	transp_estado_label = gtk_label_new("UF: ");
 	transp_estado_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_estado_entry),"UF Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(transp_estado_entry),"UF Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(transp_estado_entry),5);
 	transp_estado = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(transp_estado),transp_estado_label,0,0,5);

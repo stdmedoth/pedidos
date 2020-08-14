@@ -25,15 +25,26 @@
 
 #define REG_PARAM_WIN 17
 
+#define REG_REL_FIX_PROD_WIN 18
+#define REG_REL_FIX_TER_WIN 19
+#define REG_REL_FIX_VND_WIN 20
+#define REG_REL_FIX_CMP_WIN 21
+#define REG_REL_FIX_SAID_WIN 22
+#define REG_REL_FIX_ENT_WIN 23
+
+#define REG_REL_FIX_ICONS_WIN 24
+
 #define REG_PRINC_WIN 9990
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
 
-#define REG_WIN_QNT 18
+#define REG_WIN_QNT 24
 
 const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
 "Cad. Grupos", "Cad. Condições", "Cad. Relatorios", "Orçamentos", "Pedidos", "Cad. Estoque", "Entradas",
-"Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte", "Parametros"};
+"Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte", "Parametros",
+"Relatorio Fixo de Produtos", "Relatorio Fixo de Terceiros", "Relatorio Fixo de Vendas", "Relatorio Fixo de Compras",
+"Relatorio Fixo de Saidas", "Relatorio Fixo de Entradas", "Relatorios Fixos Menu"};
 
 typedef struct{
   int reg_id;
@@ -42,12 +53,13 @@ typedef struct{
   int qnt_fechada;
   int criada;
   int sys_close_wnd;
+  int (*fun) ();
   GtkWidget *janela_pointer;
 }
 janelas_info;
 
 static struct{
-  janelas_info vetor_janelas[REG_WIN_QNT];
+  janelas_info vetor_janelas[REG_WIN_QNT+1];
   janelas_info principal;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;

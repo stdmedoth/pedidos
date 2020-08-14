@@ -102,7 +102,7 @@ static int altera_orc()
 				orc_com_entrega = 0;
 				return 1;
 			}
-			
+
 		alterando_transp = 1;
 		sprintf(query,"select razao,doc,ie from terceiros where code = %s",row[TRANSP_TRSP_COL]);
 		if((res2 = consultar(query))==NULL)
@@ -125,6 +125,7 @@ static int altera_orc()
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRANSP_NUM_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRANP_VLR_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRANP_VLR_DESC_COL]);
+
 		gtk_widget_activate(orc_transp_valor_frete_entry);
 		gtk_widget_activate(orc_transp_desconto_frete_entry);
 	}

@@ -15,21 +15,21 @@ int cad_emp_consulta(){
     return 1;
   }
 
-  strcpy(cad_emp_strc.cnpj,row[EMP_CNPJ_COL]);
+  strcpy(cad_emp_strc.CNPJ,row[EMP_CNPJ_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_cpnj_entry),row[EMP_CNPJ_COL]);
-  strcpy(cad_emp_strc.nome,row[EMP_NOME_COL]);
+  strcpy(cad_emp_strc.xNome,row[EMP_NOME_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_nome_entry),row[EMP_NOME_COL]);
-  strcpy(cad_emp_strc.cep,row[EMP_CEP_COL]);
+  strcpy(cad_emp_strc.CEP,row[EMP_CEP_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_cep_entry),row[EMP_CEP_COL]);
-  strcpy(cad_emp_strc.logr,row[EMP_LOGR_COL]);
+  strcpy(cad_emp_strc.xLgr,row[EMP_LOGR_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_logr_entry),row[EMP_LOGR_COL]);
-  strcpy(cad_emp_strc.bairro,row[EMP_BAIR_COL]);
+  strcpy(cad_emp_strc.xBairro,row[EMP_BAIR_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_bairro_entry),row[EMP_BAIR_COL]);
-  strcpy(cad_emp_strc.cidade,row[EMP_CID_COL]);
+  strcpy(cad_emp_strc.xMun,row[EMP_CID_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_cidade_entry),row[EMP_CID_COL]);
-  strcpy(cad_emp_strc.uf,row[EMP_UF_COL]);
+  strcpy(cad_emp_strc.UF,row[EMP_UF_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_uf_entry),row[EMP_UF_COL]);
-  cad_emp_strc.numrua = atoi(row[EMP_NRUA_COL]);
+  cad_emp_strc.nro = atoi(row[EMP_NRUA_COL]);
   cad_emp_strc.tipo_rua = atoi(row[EMP_TRUA_COL]);
   strcpy(cad_emp_strc.telefone,row[EMP_TEL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_telefone_entry),row[EMP_TEL_COL]);
@@ -76,14 +76,14 @@ int cad_emp_recebe(){
     return 1;
   }
 
-  strcpy(cad_emp_strc.cnpj,row[EMP_CNPJ_COL]);
-  strcpy(cad_emp_strc.nome,row[EMP_NOME_COL]);
-  strcpy(cad_emp_strc.cep,row[EMP_CEP_COL]);
-  strcpy(cad_emp_strc.logr,row[EMP_LOGR_COL]);
-  strcpy(cad_emp_strc.bairro,row[EMP_BAIR_COL]);
-  strcpy(cad_emp_strc.cidade,row[EMP_CID_COL]);
-  strcpy(cad_emp_strc.uf,row[EMP_UF_COL]);
-  cad_emp_strc.numrua = atoi(row[EMP_NRUA_COL]);
+  strcpy(cad_emp_strc.CNPJ,row[EMP_CNPJ_COL]);
+  strcpy(cad_emp_strc.xNome,row[EMP_NOME_COL]);
+  strcpy(cad_emp_strc.CEP,row[EMP_CEP_COL]);
+  strcpy(cad_emp_strc.xLgr,row[EMP_LOGR_COL]);
+  strcpy(cad_emp_strc.xBairro,row[EMP_BAIR_COL]);
+  strcpy(cad_emp_strc.xMun,row[EMP_CID_COL]);
+  strcpy(cad_emp_strc.UF,row[EMP_UF_COL]);
+  cad_emp_strc.nro = atoi(row[EMP_NRUA_COL]);
   cad_emp_strc.tipo_rua = atoi(row[EMP_TRUA_COL]);
   strcpy(cad_emp_strc.telefone,row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);

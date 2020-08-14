@@ -131,6 +131,8 @@ int cad_pag(){
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Escolher Modelo");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Intervalo/dias");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Intervalo/Meses");
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Datas Livres");
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Sem Financeiro");
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_tipo_combo),1);
 
   pag_init_spin = gtk_spin_button_new_with_range(1,31,1);

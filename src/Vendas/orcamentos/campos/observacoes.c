@@ -9,5 +9,7 @@ int observacoes_orc_get()
 
 	observacoes_orc_gchar = gtk_text_buffer_get_text(buffer,&inicio,&fim,TRUE);
 
+	if(strlen(observacoes_orc_gchar))
+		strcpy(orc_infos.observacoes,observacoes_orc_gchar);
 	return 0;
 }

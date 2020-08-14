@@ -17,13 +17,14 @@ static int gerar_total_geral(){
 
 	char *muda_label;
 	total_geral_orc = 0;
-	desconto_geral_orc = 0 ;
+	desconto_geral_orc = 0;
+
 	orc_valores.valor_prds = 0;
+	orc_valores.valor_total = 0;
+	orc_valores.desconto_total = 0;
 	orc_valores.valor_prds_desc = 0;
 	orc_valores.valor_prds_liquido = 0;
 	orc_valores.valor_frete_liquido = 0;
-	orc_valores.valor_total = 0;
-	orc_valores.desconto_total = 0;
 
 	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*2);
 	for(cont=1;cont<=MAX_PROD_ORC;cont++)
@@ -46,6 +47,7 @@ static int gerar_total_geral(){
 			}
 		}
 	}
+
 	orc_valores.valor_prds = total_geral_orc;
 	orc_valores.valor_prds_desc = desconto_geral_orc;
 	orc_valores.valor_prds_liquido = total_geral_orc - desconto_geral_orc;
@@ -65,8 +67,22 @@ static int gerar_total_geral(){
 	gtk_label_set_text(GTK_LABEL(frete_orc_label),muda_label);
 
 	if(ativos_qnt>1){
-		orc_pag_datas_fun();
+		if(orc_pag_tipo_int == 4){
+			gtk_widget_hide(orc_pag_datas_fixed);
+			 orc_pag_sem_finan();
+			 return 0;
+		}
+
+		if(orc_pag_tipo_int != 3){
+			gtk_widget_hide(orc_pag_datas_livres_fixed);
+			orc_pag_datas_fun();
+		}
+		else{
+			gtk_widget_hide(orc_pag_datas_fixed);
+			orc_pag_datas_livres();
+		}
 	}
+
 	return 0;
 }
 
@@ -442,7 +458,7 @@ static int adicionar_linha_orc()
 
 	itens_qnt++;
 
-	gtk_widget_show_all(janela_orcamento);
+	gtk_widget_show_all(orc_prods_grid);
 
 	return 0;
 }
@@ -802,6 +818,7 @@ int vnd_orc()
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
+	gtk_widget_hide(orc_pag_datas_livres_fixed);
 
 	return 0;
 }

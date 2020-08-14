@@ -32,20 +32,20 @@ int cmp_ico(void)
 	}
 
 	//icone solicitacoes
-        gtk_box_pack_end(GTK_BOX(cmp_box[0]),sol_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[0]),sol_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cmp_box[0]),sol_ico,0,0,0);
 
 	//icone cotacoes
-        gtk_box_pack_end(GTK_BOX(cmp_box[1]),cot_lbl,0,0,0);
-        gtk_box_pack_end(GTK_BOX(cmp_box[1]),cot_ico,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[1]),cot_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[1]),cot_ico,0,0,0);
 
-        //icone ordem de compra
-        gtk_box_pack_end(GTK_BOX(cmp_box[2]),ord_lbl,0,0,0);
-        gtk_box_pack_end(GTK_BOX(cmp_box[2]),ord_ico,0,0,0);
+  //icone ordem de compra
+  gtk_box_pack_end(GTK_BOX(cmp_box[2]),ord_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[2]),ord_ico,0,0,0);
 
 	//icone entradas
-        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_lbl,0,0,0);
-        gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_ico,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cmp_box[3]),ent_nfe_ico,0,0,0);
 
 
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(solicitacao),NULL);

@@ -24,7 +24,7 @@ int excluir_ped(){
   }
 
   if(atoi(row[0]) == STATUS_PED_EMIT){
-    popup(NULL,"Pedido já foi emitido");
+    popup(NULL,"Pedido está emitido");
     return 1;
   }
 

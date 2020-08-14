@@ -4,6 +4,7 @@ GtkWidget **eventos;
 #include "est_ico.c"
 #include "vnd_ico.c"
 #include "cmp_ico.c"
+#include "fin_ico.c"
 #include "rel_ico.c"
 #include "tcn_ico.c"
 
@@ -37,6 +38,7 @@ int add_icones(void)
 	vnd_ico();
 	estq_ico();
 	cmp_ico();
+	fin_ico();
 	rel_ico();
 	tcn_ico();
 	return 0;

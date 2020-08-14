@@ -6,4 +6,5 @@ VALUES (1,'Folhas','Folhas',1,5),
 (5,'Caixa','CX',10,4),
 (6,'Rolo','RL',10,4),
 (7,'Pacote','PCT',10,4),
-(8,'Bobina','CX',10,4);
+(8,'Bobina','CX',10,4),
+(9,'Litros','L',10,5);

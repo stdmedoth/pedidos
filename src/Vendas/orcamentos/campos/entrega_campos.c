@@ -123,7 +123,7 @@ GtkWidget *orc_entrega_campos()
 
 	orc_transp_logradouro_label = gtk_label_new("Logradouro");
 	orc_transp_logradouro_entry = gtk_entry_new();
-	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_logradouro_entry),"Logradouro Transportadora");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(orc_transp_logradouro_entry),"Logradouro Entrega");
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_transp_logradouro_entry),50);
 	orc_transp_logradouro = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(orc_transp_logradouro),orc_transp_logradouro_label,0,0,5);

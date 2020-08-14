@@ -1,11 +1,15 @@
-
 int emitir_ped()
 {
+	GDateTime  *gdate;
+	GTimeZone *timezone;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+	int ano,mes,dia;
 	char query[MAX_QUERY_LEN];
-	char formato_preco[MAX_PRECO_LEN];
-	int cont=0;
+	char formato_preco1[MAX_PRECO_LEN];
+	char valor[MAX_PRECO_LEN];
+	float parcela;
+	int cont=0, titulo_code=0;
 
 	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0)
 	{
@@ -14,9 +18,10 @@ int emitir_ped()
 		return 1;
 	}
 
+	ped_infos.ped_code = atoi(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+
 	//verificando status do pedido
-	sprintf(query,"select status from pedidos where code = %s",
-	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	sprintf(query,"select status from pedidos where code = %i",ped_infos.ped_code);
 
 	res = consultar(query);
 	if(res==NULL)
@@ -51,28 +56,156 @@ int emitir_ped()
 		return 1;
 	}
 
-	//calculando financeiro
-	sprintf(query,"select SUM(p.total),o.total,cliente,dia from Produto_Orcamento as p inner join orcamentos as o on p.code = o.code where o.code = %s",
-	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	sprintf(query,"select cliente,data_mov,tipo_mov,pag_cond from pedidos where code = %i",ped_infos.ped_code);
 
-	res = consultar(query);
-	if(res==NULL)
+	if(!(res = consultar(query)))
 	{
-		popup(NULL,"Erro ao buscar valor total nos dados");
+		popup(NULL,"Erro ao buscar infos do pedido");
 		return 1;
 	}
 
 	if((row = mysql_fetch_row(res))==NULL)
 	{
-		popup(NULL,"Sem valor para faturamento");
+		popup(NULL,"Sem Informações do pedido");
 		return 1;
 	}
 
-	if(atoi(row[0])!=atoi(row[1]))
+	if(row[0])
+		ped_infos.cliente_code = atoi(row[0]);
+	if(row[1])
+		strcpy(ped_infos.data_mov,row[1]);
+	if(row[2])
+		ped_infos.tipo_mov = atoi(row[2]);
+	if(row[3])
+		ped_parcelas.pagcond_code = atoi(row[3]);
+
+	//calculando financeiro
+	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",ped_infos.ped_code);
+	if(!(res = consultar(query)))
 	{
-		popup(NULL,"Valor total dos produtos diferindo valor total do orcamento");
+		popup(NULL,"Erro ao buscar valor total dos produtos");
 		return 1;
 	}
+	if(!(row = mysql_fetch_row(res)))
+	{
+		popup(NULL,"Sem valor para faturamento");
+		return 1;
+	}
+	if(row[0])
+		ped_valores.valor_prds = atof(row[0]);
+	if(row[1])
+		ped_valores.valor_prds_desc = atof(row[1]);
+	ped_valores.valor_prds_liquido = ped_valores.valor_prds - ped_valores.valor_prds_desc;
+
+	sprintf(query,"select SUM(vlr_frete),SUM(valor_desconto_frete) from servico_transporte where orcamento = %i",ped_infos.ped_code);
+	if(!(res = consultar(query)))
+	{
+		popup(NULL,"Erro ao buscar valor total dos produtos");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res)))
+	{
+		if(row[0])
+			ped_valores.valor_frete = atof(row[0]);
+		if(row[1])
+			ped_valores.desconto_frete = atof(row[1]);
+		ped_valores.valor_frete_liquido = ped_valores.valor_frete - ped_valores.desconto_frete;
+	}
+
+	sprintf(query,"select pc.tipo, pc.dia_fixo_flag, pc.init_dia, pc.intervalos, pc.qnt_parcelas from orcamentos as o inner join pag_cond as pc on o.pag_cond = pc.code where o.code = %i",ped_infos.ped_code);
+	if(!(res = consultar(query)))
+	{
+		popup(NULL,"Erro ao buscar configurações de parcelas");
+		return 1;
+	}
+
+	if(!(row = mysql_fetch_row(res)))
+	{
+		popup(NULL,"Não foi encontrado configuraçoes de financeiro");
+		return 1;
+	}
+	if(row[0])
+		ped_parcelas.tipo = atoi(row[0]);
+	if(row[1])
+		ped_parcelas.dia_inicial_flag = atoi(row[1]);
+	if(row[2])
+		ped_parcelas.dia_inicial = atoi(row[2]);
+	if(row[3])
+		ped_parcelas.intervalos = atoi(row[3]);
+	if(row[4])
+		ped_parcelas.parcelas_qnt = atoi(row[4]);
+
+	if(sscanf(ped_infos.data_mov, "%d-%d-%d", &ano, &mes, &dia) == EOF)
+  {
+    popup(NULL,"Não foi possivel ler data");
+    g_print("Erro no parser de data: %s\n",strerror(errno));
+    return 1;
+  }
+
+	if(ped_parcelas.dia_inicial_flag == 0)
+		ped_parcelas.dia_inicial = dia;
+
+	if(ped_parcelas.dia_inicial<atoi(dia_sys)){
+		mes++;
+	}
+
+  ped_parcelas.total_geral = 0;
+
+	timezone = g_time_zone_new(NULL);
+	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.dia_inicial,0,0,0);
+
+	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.dia_inicial,0,0,0);
+
+	if(criar_xml())
+		return 1;
+
+	titulo_code = tasker("titulos"),
+	sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,0,%i,1)",
+	titulo_code,
+	ped_infos.cliente_code,
+	ped_infos.ped_code,
+	ped_parcelas.parcelas_qnt);
+	if(enviar_query(query)){
+		popup(NULL,"Não foi possivel criar título no financeiro");
+	}
+
+	if(ped_parcelas.tipo != 3 ){
+			for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
+
+				if(cont==0){
+					parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt) + ped_valores.valor_frete_liquido;
+				}else{
+					parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt);
+				}
+
+				if(g_date_time_format(gdate,"%Y/%m/%d")){
+					ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y/%m/%d")));
+					strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y/%m/%d"));
+				}else{
+					popup(NULL,"Erro ao calcular datas! Verifique financeiro");
+				}
+
+				ped_parcelas.parcelas_vlr[cont] = parcela;
+				ped_parcelas.total_geral += ped_parcelas.parcelas_vlr[cont];
+
+				sprintf(valor,"%.2f",ped_parcelas.parcelas_vlr[cont]);
+				sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, '%s', '%s', '%s')",
+				titulo_code,
+				cont,
+				ped_infos.data_mov,
+				ped_parcelas.parcelas_data[cont],
+				valor);
+				if(enviar_query(query)){
+					popup(NULL,"Não foi possivel criar parcela no financeiro");
+				}
+				if(ped_parcelas.tipo == 1)
+					gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
+				else
+				if(ped_parcelas.tipo == 2)
+					gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
+			}
+	}
+
 
 	//tipo_mov
 	//0 = manual
@@ -81,8 +214,10 @@ int emitir_ped()
 	//3 = devolucao venda
 	//4 = devolucao compra
 
-	sprintf(query,"insert into faturamento(pedido,entrada,cliente,data_mov,tipo_mov) values(%s,%s,%s,'%s',2)",
-	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),row[0],row[2],row[3]);
+	sprintf(formato_preco1,"%.2f",ped_valores.valor_prds_liquido + ped_valores.valor_frete_liquido);
+
+	sprintf(query,"insert into faturamento(pedido,entrada,cliente,data_mov,tipo_mov) values(%i,%s,%i,'%s',2)",
+	ped_infos.ped_code,formato_preco1,ped_infos.cliente_code,ped_infos.data_mov);
 
 
 	if(enviar_query(query)!=0)
@@ -93,8 +228,7 @@ int emitir_ped()
 
 	//calculando estoques
 
-	sprintf(query,"select p.produto, p.subgrupo, p.unidades, o.cliente, o.data_mov, o.tipo_mov from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %s",
-	gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	sprintf(query,"select p.produto, p.subgrupo, p.unidades from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %i",ped_infos.ped_code);
 
 	res = consultar(query);
 
@@ -106,17 +240,17 @@ int emitir_ped()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		if(atoi(row[5]) == VENDA || atoi(row[5]) == DEV_COMPRA){
-			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', %s)",
+		if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA){
+			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
 			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
-			gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
-			row[0], row[1], row[2],row[3],row[4],row[5]);
+			ped_infos.ped_code,
+			row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
 		}else
-		if(atoi(row[5]) == DEV_VENDA || atoi(row[5]) == COMPRA){
-			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%s,%s,%s,%s,%s,'%s', %s)",
+		if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA){
+			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
 			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
-			gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)),
-			row[0], row[1], row[2],row[3],row[4],row[5]);
+			ped_infos.ped_code,
+			row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
 		}
 		if(enviar_query(query)!=0)
 		{
@@ -130,29 +264,13 @@ int emitir_ped()
 		popup(NULL,"Estoque sem nenhuma movimentação");
 	}
 
-	sprintf(query,"select cliente,dia,total from orcamentos where code = %s",gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
-	res = consultar(query);
-	if(res==NULL)
-	{
-		popup(NULL,"Erro ao buscar dados para fechar o pedido");
-		return 1;
-	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Pedido não encontrado");
-		return 1;
-	}
+	sprintf(query,"update pedidos set status = 1 where code = %i",ped_infos.ped_code);
 
-
-	sprintf(query,"update pedidos set cliente = %s, data_mov = '%s', total = %s, status = 1 where code = %s",
-	row[0],row[1],row[2],gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
 	if(enviar_query(query)!=0)
 	{
 		popup(NULL,"Erro ao inserir dados para fechar o pedido");
 		return 1;
 	}
-
-
 	popup(NULL,"Pedido emitido com sucesso!");
 	return 0;
 }

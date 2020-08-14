@@ -94,7 +94,7 @@ void encerrando()
 
 	//enviar aqui todas informacoes importantes para o banco
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  janelas_gerenciadas.principal.reg_id,
+  REG_WIN_ENCERRA,
   "Encerrando...",
   0,
   0,
@@ -562,4 +562,18 @@ void reportar_encerramento_brusco(){
 	}
 
 	gtk_widget_destroy(popup);
+}
+
+char *ped_status_from_int(int code){
+	switch (code) {
+		case 0:
+			return "Pendente";
+
+		case STATUS_PED_EMIT:
+			return "Emitido";
+
+		case STATUS_PED_CAN:
+			return "Cancelado";
+	}
+	return "";
 }

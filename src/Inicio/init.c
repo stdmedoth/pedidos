@@ -53,7 +53,7 @@ int desktop()
 			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
-		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = 9990 order by tempo desc limit 1",sessao_oper.code);
+		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_WIN_ENCERRA);
 		if(!(res = consultar(query))){
 			popup(NULL,"Falha ao verificar dados da sessão anterior");
 			return 1;
@@ -62,6 +62,8 @@ int desktop()
 		if((row = mysql_fetch_row(res))){
 			if(atoi(row[2])!=0)
 				encerramento_brusco = 1;
+		}else{
+				encerramento_brusco = 0;
 		}
 	}
 
@@ -204,9 +206,9 @@ int desktop()
 
 	cad_emp_recebe();
 
-	razao = gtk_label_new(cad_emp_strc.nome);
-	endereco = gtk_label_new(cad_emp_strc.logr);
-	cnpj = gtk_label_new(cad_emp_strc.cnpj);
+	razao = gtk_label_new(cad_emp_strc.xNome);
+	endereco = gtk_label_new(cad_emp_strc.xLgr);
+	cnpj = gtk_label_new(cad_emp_strc.CNPJ);
 
 	gtk_widget_set_name(razao,"infos");
 	gtk_widget_set_name(cnpj,"infos");

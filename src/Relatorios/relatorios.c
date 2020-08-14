@@ -87,7 +87,7 @@ void cad_relat()
 	caixa_opcoes_box = gtk_box_new(0,0);
 	caixa_opcoes_fixed = gtk_fixed_new();
 
-	cad_rel_confirmar_button = gtk_button_new_with_label("Cocluir");
+	cad_rel_confirmar_button = gtk_button_new_with_label("Concluir");
 	gtk_button_set_image(GTK_BUTTON(cad_rel_confirmar_button),gtk_image_new_from_file(IMG_OK));
 	cad_rel_alterar_button = gtk_button_new_with_label("Alterar");
 	 gtk_button_set_image(GTK_BUTTON(cad_rel_alterar_button),gtk_image_new_from_file(IMG_ALTER));

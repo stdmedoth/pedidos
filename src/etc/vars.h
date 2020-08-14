@@ -59,16 +59,22 @@
 #define LMB_IMG       "C:/petitto/files/icones_opc/lembrete.png"
 #define UND_IMG       "C:/petitto/files/icones_opc/unidade.png"
 #define PAG_IMG       "C:/petitto/files/icones_opc/datas.png"
+#define REC_TIT_IMG   "C:/petitto/files/icones_opc/descendente.png"
+#define PAG_TIT_IMG   "C:/petitto/files/icones_opc/ascendente.png"
 #define FATOR_IMG     "C:/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "C:/petitto/files/icones_opc/parametros.png"
 #define CAD_EMP_IMG   "C:/petitto/files/icones_opc/company.png"
 #define ATL_PROD_IMG  "C:/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/petitto/files/icones_opc/vinculos.png"
 #define CAD_CEP_IMG   "C:/petitto/files/icones_opc/search_cep.png"
-#define REL_PROD_IMG       "C:/petitto/files/icones_opc/relatorio_prod.png"
-#define REL_TER_IMG        "C:/petitto/files/icones_opc/relatorio_ter.png"
-#define REL_SLD_IMG        "C:/petitto/files/icones_opc/relatorio_est.png"
-#define REL_ORC_PROD_IMG   "C:/petitto/files/icones_opc/relatorio_orc_prod.png"
+#define REL_PROD_IMG     "C:/petitto/files/icones_opc/relatorio_prod.png"
+#define REL_FIX_PROD_IMG "C:/petitto/files/icones_opc/relatorio_fixos_produtos.png"
+#define REL_FIX_TER_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_terceiros.png"
+#define REL_FIX_VND_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_vendas.png"
+#define REL_TER_IMG      "C:/petitto/files/icones_opc/relatorio_ter.png"
+#define REL_SLD_IMG      "C:/petitto/files/icones_opc/relatorio_est.png"
+#define REL_ORC_PROD_IMG "C:/petitto/files/icones_opc/relatorio_orc_prod.png"
+#define REL_FIX_FILE_PATH "C:/petitto/files/impressao/relatorios/fixos/vendas/vendas.html"
 #define EXIT_IMG      "C:/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "C:/petitto/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG     "C:/petitto/files/impressao/cp.exe"
@@ -84,7 +90,8 @@
 #define ORC_PROD_RELAT_FILE "C:/petitto/files/impressao/relatorios/orc_prod/"
 #define SCRPT_TER_INFOS_ENV "C:/petitto/files/scripts/php/files/dados_emissor.xml"
 #define SCRPT_TER_INFOS_RET "C:/petitto/files/scripts/php/files/dados_retorno.xml"
-#define CAD_TER_PSQ_SCRIPT  "C:/petitto/files/scripts/php/index.php"
+#define CAD_TER_PSQ_SCRIPT  "C:/petitto/files/scripts/php/ter_cad_consul.php"
+#define SCRPT_NFE_INFOS     "C:/petitto/files/scripts/php/files/dados_nfe.xml"
 #define IMG_IMP_LOGO      "C:/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "C:/petitto/files/backup_querys"
 
@@ -142,6 +149,11 @@
 #define REL_TER_IMG        "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG        "/usr/share/petitto/files/icones_opc/relatorio_est.png"
 #define REL_ORC_PROD_IMG   "/usr/share/petitto/files/icones_opc/relatorio_orc_prod.png"
+#define REL_FIX_PROD_IMG "/usr/share/petitto/files/icones_opc/relatorio_fixos_produtos.png"
+#define REL_FIX_TER_IMG "/usr/share/petitto/files/icones_opc/relatorio_fixos_terceiros.png"
+#define REL_FIX_VND_IMG "/usr/share/petitto/files/icones_opc/relatorio_fixos_vendas.png"
+#define REC_TIT_IMG   "/usr/share/petitto/files/icones_opc/descendente.png"
+#define PAG_TIT_IMG   "/usr/share/petitto/files/icones_opc/ascendente.png"
 #define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"
 #define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"
 #define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"
@@ -171,11 +183,14 @@
 #define EST_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/estoque/"
 #define MOV_RELAT_FILE      "/usr/share/petitto/files/impressao/relatorios/movimentos/"
 #define ORC_PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/orc_prod/"
+#define REL_FIX_FILE_PATH   "/usr/share/petitto/files/impressao/relatorios/fixos/vendas/vendas.html"
 #define IMG_IMP_LOGO      "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/usr/share/petitto/files/backup_querys"
 #define SCRPT_TER_INFOS_ENV "/usr/share/petitto/files/scripts/php/files/dados_emissor.xml"
 #define SCRPT_TER_INFOS_RET "/usr/share/petitto/files/scripts/php/files/dados_retorno.xml"
-#define CAD_TER_PSQ_SCRIPT  "/usr/share/petitto/files/scripts/php/index.php"
+#define CAD_TER_PSQ_SCRIPT  "/usr/share/petitto/files/scripts/php/ter_cad_consul.php"
+#define SCRPT_NFE_INFOS     "/usr/share/petitto/files/scripts/php/files/dados_nfe.xml"
+
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -241,7 +256,7 @@
 #define EMAIL_ROW_POS 13
 #define MAX_OPER_LEN 30
 #define MAX_SEN_LEN 30
-#define MAX_DATE_LEN 8
+#define MAX_DATE_LEN 15
 #define MAX_FETCH_ROW 3000
 #define MAX_SUBGRUPO 30
 #define MAX_EST_NOME 20
@@ -259,6 +274,7 @@
 #define MAX_UF_LEN 3
 #define MAX_SERVER_LEN 50
 
+#define MAX_PROD_ORC 100
 #define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100
 #define MAX_SUP_DESC_LEN 1000

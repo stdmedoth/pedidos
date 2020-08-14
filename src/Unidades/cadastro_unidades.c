@@ -50,13 +50,13 @@ int  cad_und()
 	separator2 = gtk_separator_new(0);
 
 	medida_und_combo_box = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tipo");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Comprimento");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Massa");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tempo");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Unidade");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Volume");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Genérico");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tipo"); //0
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Comprimento"); //1
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Massa"); //2
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Tempo"); //3
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Unidade"); //4
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Volume"); //5
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(medida_und_combo_box),"Genérico"); //6
 	gtk_combo_box_set_active(GTK_COMBO_BOX(medida_und_combo_box),0);
 
 	code_und_frame = gtk_frame_new("Código");

@@ -228,6 +228,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 
 	pesquisa_global_alvo = GTK_ENTRY(cod_ter_entry);
 
+	gtk_widget_grab_focus(pesquisa_entry);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ter_code),treeview);
 	gtk_widget_show_all(psq_ter_wnd);
 	return 0;

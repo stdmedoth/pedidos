@@ -13,7 +13,6 @@
 #define TOTAL_ORC_PROD_COL 9
 #define OBS_ORC_PROD_COL 10
 
-#define MAX_PROD_ORC 100
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
 
@@ -23,6 +22,7 @@ GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
 
+static int concluir_orc();
 static int altera_orc();
 static int tirar_linha(int);
 static int vnd_orc();
@@ -192,10 +192,17 @@ static struct{
 	float valor_total;
 }orc_valores;
 
+static struct{
+	int cliente_code;
+	char observacoes[MAX_OBS_LEN];
+}orc_infos;
+
 static struct {
 	int parcelas_qnt;
 	int pagcond_code;
-	float parcelas_vlr[MAX_PARCELAS_QNT];
+	char *parcelas_data[MAX_PARCELAS_QNT+1];
+	float parcelas_vlr[MAX_PARCELAS_QNT+1];
+	float total_geral;
 }orc_parcelas;
 
 static int sinal_operacao_int=0;

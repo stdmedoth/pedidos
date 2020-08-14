@@ -48,7 +48,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'Papelão',0,4,2,1,2,2,''),(2,'Percalux',0,3,3,1,7,2,''),(3,'Cabeceado',0,3,7,1,24,2,''),(4,'Cola',0,9,9,1,8,3,''),(5,'Linha',0,6,6,1,35,2,''),(6,'Papel Offset',0,7,7,1,46,2,'\n\n'),(7,'Película',0,6,6,1,52,3,'	'),(8,'Resistência',0,4,4,1,61,2,''),(9,'Espiral',0,7,7,1,64,2,'');
+INSERT INTO `produtos` VALUES (1,'Papelão',0,4,2,1,2,2,''),(2,'Percalux',0,3,3,1,7,2,''),(3,'Cabeceado',0,3,7,1,24,2,''),(4,'Cola',0,9,9,1,30,2,''),(5,'Linha',0,6,6,1,35,2,''),(6,'Papel Offset',0,7,7,1,46,2,'\n\n'),(7,'Película',0,6,6,1,52,3,'	'),(8,'Resistência',0,4,4,1,61,2,''),(9,'Espiral',0,7,7,1,64,2,'');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -29,14 +29,21 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_script_path_chooser;
 
 static struct{
-  char nome[MAX_NAME_LEN];
-  char cnpj[CNPJ_S_LEN];
-  char logr[MAX_LOGR_LEN];
-  char cep[MAX_CEP_LEN];
-  char bairro[MAX_BAIRRO_LEN];
-  char cidade[MAX_CID_LEN];
-  char uf[MAX_CID_LEN];
-  int numrua;
+  char xNome[MAX_NAME_LEN];
+  char IE[15];
+  int CRT ; // 3
+  char CNPJ[CNPJ_S_LEN];
+
+  char xLgr[MAX_LOGR_LEN];
+  int nro;
+  char xBairro[MAX_BAIRRO_LEN];
+  int cMun; //Código de município precisa ser válido e igual o  cMunFG
+  char xMun[MAX_CID_LEN];
+  char UF[3];
+  char CEP[MAX_CEP_LEN];
+  int cPais;
+  char xPais[MAX_NAME_LEN];
+
   int tipo_rua;
   char telefone[MAX_TEL_LEN];
   char celular[MAX_TEL_LEN];

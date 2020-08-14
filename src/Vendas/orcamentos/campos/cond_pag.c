@@ -1,11 +1,13 @@
 int rec_fat_vist()
 {
-	int cont=0;
+	int cont=0,notepage=0;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	char data_atual[42];
 	strcpy(data_atual,data_sys);
+
+	notepage = gtk_notebook_get_current_page(GTK_NOTEBOOK(orc_notebook));
 
 	orc_pag_cond_gchar = (gchar *)gtk_entry_get_text (GTK_ENTRY(orc_pag_cond_entry));
 	if(strlen(orc_pag_cond_gchar)<=0){
@@ -65,7 +67,20 @@ int rec_fat_vist()
 			break;
 		}
 	}
-	orc_pag_datas_fun();
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
+	if(orc_pag_tipo_int == 4){
+		gtk_widget_hide(orc_pag_datas_fixed);
+		 orc_pag_sem_finan();
+		 return 0;
+	}
+
+	if(orc_pag_tipo_int != 3){
+		gtk_widget_hide(orc_pag_datas_livres_fixed);
+		orc_pag_datas_fun();
+	}
+	else{
+		gtk_widget_hide(orc_pag_datas_fixed);
+		orc_pag_datas_livres();
+	}
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),notepage);
 	return 0;
 }

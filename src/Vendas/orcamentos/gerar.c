@@ -17,8 +17,6 @@ int gerar_orc()
 	char code[MAX_CODE_LEN];
 	char *formata_float,*formata_float2,*formata_float3;
 	double chartofloat,totalfloat;
-	MYSQL_RES *vetor;
-	MYSQL_ROW campos;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *gerando_file;
@@ -41,8 +39,7 @@ int gerar_orc()
 	sprintf(gerando_file,"%simp%s.html",ORC_PATH,codigo_orc_gchar);
 
 	sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
-	vetor = consultar(query);
-	if(vetor==NULL)
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de codigo no orcamento\n");
@@ -52,87 +49,14 @@ int gerar_orc()
 		return 1;
 	}
 	gerar_total_geral();
-	campos = mysql_fetch_row(vetor);
-	if(campos == NULL)
+	if(!(row = mysql_fetch_row(res)))
 	{
-		if(codigo_cli_orc()!=0)
-					return 1;
-
-		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, dia, observacoes) values(%s,%i,1,%s,%i,STR_TO_DATE('%s','%%d/%%m/%%Y'),'%s');",
-		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond ,data_sys,observacoes_orc_gchar);
-
-		erro = enviar_query(query);
-		if(erro != 0 )
-		{
-			popup(NULL,"Erro ao tentar gerar orçamento");
+			concluir_orc();
 			return 1;
-		}
-
-		gtk_widget_set_sensitive(concluir_orc_button,FALSE);
-		for(cont=1;cont<itens_qnt-1;cont++)
-		{
-			if(ativos[cont].id == 1)
-			{
-				if(codigo_cli_orc()!=0)
-					return 1;
-				if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
-				{
-					gtk_widget_grab_focus(qnt_prod_orc_entry[cont]);
-					return 1;
-				}
-				if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
-				{
-					gtk_widget_grab_focus(desconto_prod_orc_entry[cont]);
-					return 1;
-				}
-				if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
-				{
-					gtk_widget_grab_focus(preco_prod_orc_entry[cont]);
-					return 1;
-				}
-				if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0)
-				{
-					gtk_widget_grab_focus(total_prod_orc_entry[cont]);
-					return 1;
-				}
-				if(strlen(ativos[cont].desconto_c)<=0)
-				{
-					strcpy(ativos[cont].desconto_c,"0.0");
-				}
-
-				sprintf(query,"insert into Produto_Orcamento(code, item, produto, subgrupo, unidades, valor_unit, valor_orig, tipodesc, desconto, total) values(%s, %i, %i, %i, %s, %s, %i, %i, %s, %s);",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].subgrupo, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc,  ativos[cont].desconto_c , ativos[cont].total_c);
-				erro = enviar_query(query);
-				if(erro != 0 )
-				{
-					popup(NULL,"Erro ao tentar gerar orçamento");
-					return 1;
-				}
-				sprintf(query,"update orcamentos set total = (select sum(total) from Produto_Orcamento where code = %s) where code = %s",codigo_orc_gchar,codigo_orc_gchar);
-				erro = enviar_query(query);
-				if(erro != 0 )
-				{
-					popup(NULL,"Erro ao tentar gerar orçamento");
-					return 1;
-				}
-			}
-		}
-
-		if(ativos_qnt<=1)
-		{
-			popup(NULL,"Não há produtos no orçamento");
-			sprintf(query,"delete from orcamentos where code = %s",codigo_orc_gchar);
-			erro = enviar_query(query);
-			if(erro != 0 )
-			{
-				popup(NULL,"Erro ao tentar excluir orçamento vazio");
-				return 1;
-			}
-			return 1;
-		}
 	}
 	else
 	{
-		gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),campos[CLI_ROW_POS]);
+		gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),row[CLI_ROW_POS]);
 		if(codigo_cli_orc()!=0)
 			return 1;
 	}
@@ -144,19 +68,15 @@ int gerar_orc()
 		return 1;
 	}
 
-	sprintf(query,"select distinct (%s%s),o.total from orcamentos as o join terceiros as t where o.code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
-
-	vetor = consultar(query);
-	if(vetor==NULL)
+	sprintf(query,"select distinct (%s%s) from orcamentos as o join terceiros as t where o.code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de codigo no orcamento\n");
 		fclose(orc);
 		return 1;
 	}
-
-	campos = mysql_fetch_row(vetor);
-	if(campos == NULL)
+	if(!(row = mysql_fetch_row(res)))
 	{
 		popup(NULL,"Erro ao tentar receber orçamento");
 		fclose(orc);
@@ -176,6 +96,7 @@ int gerar_orc()
 	fprintf(orc,"<div id=\"caixa-imp\">\n");
 	fprintf(orc,"<div id=\"div-titulo\">\n");
 	fprintf(orc,"<img id=\"logo-img\" src=\"%s\" alt=\"PETITTO\">\n",IMG_IMP_LOGO);
+	fprintf(orc,"</div>\n");
 	fprintf(orc,"<div id=\"orc-infos\" align=left>\n");
 
 	fprintf(orc,"<table>\n");
@@ -188,7 +109,7 @@ int gerar_orc()
 
 	fprintf(orc,"<tr>\n");
 	fprintf(orc,"<td>%s</td>\n",codigo_orc_gchar);
-	fprintf(orc,"<td>%s</td>\n",campos[0]);
+	fprintf(orc,"<td>%s</td>\n",row[0]);
 	fprintf(orc,"<tr>\n");
 
 	fprintf(orc,"</table>\n");
@@ -196,8 +117,7 @@ int gerar_orc()
 	fprintf(orc,"</div>\n");
 
 	sprintf(query,"select observacoes from Produto_Orcamento where code = %i and length(observacoes) != 0",atoi(codigo_orc_gchar));
-	vetor = consultar(query);
-	if(vetor==NULL)
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro ao consultar existencia de observacoes");
 		autologger("Erro na query de codigo no orcamento\n");
@@ -206,14 +126,15 @@ int gerar_orc()
 		return 1;
 	}
 	else
-	if((campos = mysql_fetch_row(vetor))==NULL)
+	if((row = mysql_fetch_row(res))==NULL)
 		prods_sem_obs = 1;
 
 	if(imp_cli(cliente_orc_gchar)!=0)
 		return 1;
+
 	sprintf(query,"select p.code, g.code,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p inner join grupos as g on p.code = o.produto join unidades as u on u.code = p.unidades and g.code = o.subgrupo where o.code = %s;",codigo_orc_gchar);
-	vetor = consultar(query);
-	if(vetor==NULL)
+	res = consultar(query);
+	if(res==NULL)
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de codigo no orcamento\n");
@@ -230,37 +151,28 @@ int gerar_orc()
 	fprintf(orc,"<table>\n");
 	fprintf(orc,"<tr>\n");
 	//fprintf(orc,"<td id=\"prod-row1\">Código</td>\n",IMG_IMP_QNT);
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Quantidade Unitária</td>\n",IMG_IMP_QNT);
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Descrição do Produto</td>\n",IMG_IMP_PROD);
+	fprintf(orc,"<th id=\"prod-row1\"><img src=\"%s\" alt=\"\">Qnt. Unit.</td>\n",IMG_IMP_QNT);
+	fprintf(orc,"<th id=\"prod-row1\"><img src=\"%s\" alt=\"\">Descrição do Produto</td>\n",IMG_IMP_PROD);
 	if(prods_sem_obs == 0)
-		fprintf(orc,"<td id=\"prod-row1\">Obs.</td>\n");
-	fprintf(orc,"<td id=\"prod-row1\"><img src=\"%s\" alt=\"\">Valor Unitário.</td>\n",IMG_MONEY);
-	fprintf(orc,"<td id=\"prod-row1\">Desconto</td>\n");
-	fprintf(orc,"<td id=\"prod-row1\">Valor Total</td>\n");
+		fprintf(orc,"<th id=\"prod-row1\">Obs.</td>\n");
+	fprintf(orc,"<th id=\"prod-row1\"><img src=\"%s\" alt=\"\">Valor Unitário.</td>\n",IMG_MONEY);
+	fprintf(orc,"<th id=\"prod-row1\">Desconto</td>\n");
+	fprintf(orc,"<th id=\"prod-row1\">Valor Total</td>\n");
 	fprintf(orc,"</tr>\n");
 
-	while((campos = mysql_fetch_row(vetor))!=NULL)
+	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		if(color==1)
-		{
-			fprintf(orc,"<tr id=\"coluna-colorida\">\n");
-			color=0;
-		}
+		fprintf(orc,"<tr class='tr-estilo'>\n");
+
+		if(row[3][strlen(row[3])-1] != 's'&&atoi(row[2])>1)
+			fprintf(orc,"<td>%s %ss</td>\n",row[2],row[3]);
 		else
-		{
-			fprintf(orc,"<tr>\n");
-			color=1;
-		}
+			fprintf(orc,"<td>%s %s</td>\n",row[2],row[3]);
 
-		if(campos[3][strlen(campos[3])-1] != 's'&&atoi(campos[2])>1)
-			fprintf(orc,"<td>%s %ss</td>\n",campos[2],campos[3]);
-		else
-			fprintf(orc,"<td>%s %s</td>\n",campos[2],campos[3]);
+		if(strlen(row[1])>20)
+			row[1][20] = '\0';
 
-		if(strlen(campos[1])>20)
-			campos[1][20] = '\0';
-
-		if((grupo_len = rec_familia_nome(familia_char, atoi(campos[1]) ))<0){
+		if((grupo_len = rec_familia_nome(familia_char, atoi(row[1]) ))<0){
 			popup(NULL,"Erro na criação do html para subgrupo");
 			return 1;
 		}
@@ -273,30 +185,30 @@ int gerar_orc()
 			strcpy(source,dest);
 		}
 
-		fprintf(orc,"<td>Cod. %s: %s</td>\n",campos[0],dest);
+		fprintf(orc,"<td>Cod. %s: %s</td>\n",row[0],dest);
 		if(prods_sem_obs == 0)
-			fprintf(orc,"<td>%s</td>\n",campos[8]);
-		sprintf(formata_float,"%s",campos[4]);
+			fprintf(orc,"<td>%s</td>\n",row[8]);
+		sprintf(formata_float,"%s",row[4]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));
 
-		if(atoi(campos[5])==0)//tipo desconto = R$
+		if(atoi(row[5])==0)//tipo desconto = R$
 		{
 
-			sprintf(formata_float,"%s",campos[6]);//pega desconto
+			sprintf(formata_float,"%s",row[6]);//pega desconto
 			critica_real(formata_float,NULL);
 
-			sprintf(formata_float2,"%s",campos[2]);//pega quantidade
-			sprintf(formata_float3,"%s",campos[4]);//pega preco
+			sprintf(formata_float2,"%s",row[2]);//pega quantidade
+			sprintf(formata_float3,"%s",row[4]);//pega preco
 			critica_real(formata_float2,NULL);
 			critica_real(formata_float3,NULL);
-			totalfloat = atof(campos[2])*atof(campos[4]);
+			totalfloat = atof(row[2])*atof(row[4]);
 
 			//conversao de R$ para %
 			//R$2.2 = 100%
 			//R$1.1 = x%
 
-			chartofloat = atof(campos[6]);
+			chartofloat = atof(row[6]);
 
 			chartofloat = chartofloat*100.00;
 
@@ -306,13 +218,13 @@ int gerar_orc()
 			fprintf(orc,"<td>%.2f %c</td>\n",chartofloat,37);//desconto em R$ p/ %
 		}
 		else
-		if(atoi(campos[5])==1)//tipo desconto = %
+		if(atoi(row[5])==1)//tipo desconto = %
 		{
 
-			fprintf(orc,"<td>%.2f %c</td>\n",atof(campos[6]),37);//desconto em %//atof(campos[6]),37);//desconto em %
+			fprintf(orc,"<td>%.2f %c</td>\n",atof(row[6]),37);//desconto em %//atof(row[6]),37);//desconto em %
 		}
 
-		sprintf(formata_float,"%s",campos[7]);
+		sprintf(formata_float,"%s",row[7]);
 		critica_real(formata_float,NULL);
 		fprintf(orc,"<td>R$ %.2f</td>\n",atof(formata_float));//total
 		fprintf(orc,"</tr>\n");
@@ -326,7 +238,7 @@ int gerar_orc()
 		fclose(orc);
 		return 0;
 	}
-	sprintf(query,"select o.total,t.code_nfe,o.observacoes from orcamentos as o inner join terceiros as t on o.cliente = t.code where o.code = %s",codigo_orc_gchar);
+	sprintf(query,"select sum(total) from Produto_Orcamento where code = %s",codigo_orc_gchar);
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -340,27 +252,122 @@ int gerar_orc()
 		autologger("Erro ao tentar receber total dos produtos no orcamento");
 		return 1;
 	}
-	sprintf(formata_float,"%s",row[0]);
+	if(row[0])
+		orc_valores.valor_prds_liquido = atof(row[0]);
 
-	fprintf(orc,"<td  colspan=\"6\" id=\"total-geral\">Total Geral: R$ %.2f</td>\n",atof(formata_float));
+	sprintf(formata_float,"%.2f",orc_valores.valor_prds_liquido);
+
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td>Subtotal: R$ %.2f</td>\n",atof(formata_float));
+	fprintf(orc,"<tr>");
 	fprintf(orc,"</table>\n");
 
-	fprintf(orc,"<div>\n");
+	sprintf(query,"select t.razao, st.cep_entrega, st.vlr_frete, st.valor_desconto_frete, st.observacoes_entrega from servico_transporte as st inner join terceiros as t on st.transportador = t.code where orcamento = %s", codigo_orc_gchar);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao verificar entrega");
+	}else{
+		if((row=mysql_fetch_row(res))){
+			fprintf(orc,"<p><b>Transporte</b></p>\n");
+			fprintf(orc,"<table>\n");
 
+			fprintf(orc,"<tr>\n");
+			fprintf(orc,"<th id=\"prod-row1\">Transportadora</td>\n");
+			fprintf(orc,"<th id=\"prod-row1\">CEP Entrega</th>\n");
+			fprintf(orc,"<th id=\"prod-row1\">Valor Frete</th>\n");
+			fprintf(orc,"<th id=\"prod-row1\">Valor Desconto</th>\n");
+			fprintf(orc,"</tr>\n");
+
+			fprintf(orc,"<tr>\n");
+			fprintf(orc,"<td>%s</td>\n",row[0]);
+			fprintf(orc,"<td>%s</td>\n",row[1]);
+			if(row[2])
+				fprintf(orc,"<td>R$ %.2f</td>\n",atof(row[2]));
+			if(row[3])
+				fprintf(orc,"<td>R$ %.2f</td>\n",atof(row[3]));
+			fprintf(orc,"</tr>\n");
+
+			sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",row[1]);
+
+			if((res = consultar(query))){
+				if((row = mysql_fetch_row(res)))
+				{
+					fprintf(orc,"<td>\n");
+					if(row[0])
+						fprintf(orc,"%s",row[0]);
+					if(row[1])
+						fprintf(orc,", %s",row[1]);
+					if(row[2])
+						fprintf(orc,", %s",row[2]);
+					if(row[3])
+						fprintf(orc,", %s\n",row[3]);
+					fprintf(orc,"</td>\n");
+				}
+			}
+
+
+
+			fprintf(orc,"<tr>\n");
+
+			fprintf(orc,"</tr>\n");
+
+			fprintf(orc,"</table>\n");
+		}
+	}
 	fprintf(orc,"</div>\n");
+
+	fprintf(orc,"<div id=\"campo-totais\">\n");
+	fprintf(orc,"<p><b>Totalizações</b></p>\n");
+	fprintf(orc,"<table>\n");
+
+	fprintf(orc,"<tr>\n");
+	fprintf(orc,"<th id=\"prod-row1\">Parcela</th>\n");
+	fprintf(orc,"<th id=\"prod-row1\">Vencimento</th>\n");
+	fprintf(orc,"<th id=\"prod-row1\">Valor</th>\n");
+	fprintf(orc,"</tr>\n");
+
+	for(int cont=0;cont<orc_parcelas.parcelas_qnt;cont++){
+		fprintf(orc,"<tr>\n");
+		fprintf(orc,"<td>%i</td>",cont+1);
+		fprintf(orc,"<td>%s</td>",orc_parcelas.parcelas_data[cont]);
+		fprintf(orc,"<td>R$ %.2f</td>\n",orc_parcelas.parcelas_vlr[cont]);
+		fprintf(orc,"</tr>\n");
+	}
+	fprintf(orc,"<tr>\n");
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td></td>");
+	fprintf(orc,"<td>Total: R$ %.2f</td>\n",orc_parcelas.total_geral);
+	fprintf(orc,"</tr>\n");
+
+	fprintf(orc,"</table>\n");
 	fprintf(orc,"</div>\n");
+
 	observacoes_orc_get();
 	fprintf(orc,"<div id=\"obs-div1\">\n");
 	fprintf(orc,"Observacões\n");
 	fprintf(orc,"<div id=\"obs-div2\">\n");
-	if(strlen(row[1])>0&&row[1]!=NULL)
-	{
-		fprintf(orc,"Cod. Cliente : %s<br>",row[1]);
+
+	sprintf(query,"select t.code_nfe, o.observacoes from orcamentos as o inner join terceiros as t on o.cliente = t.code where o.code = %i",orc_infos.cliente_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao verificar entrega");
+	}else{
+		if((row=mysql_fetch_row(res))){
+			if(row[0] && row[1])
+			{
+				if(strlen(row[0]))
+					fprintf(orc,"Cod. Cliente : %s<br>",row[0]);
+				if(strcmp(row[1],"(null)")!=0)
+				{
+					fprintf(orc,"%s",row[1]);
+				}
+			}
+
+		}
 	}
-	if(strcmp(row[2],"(null)")!=0)
-	{
-		fprintf(orc,"%s",row[2]);
-	}
+
+	fprintf(orc,"</div>\n");
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</div>\n");
 	fprintf(orc,"</body>\n");

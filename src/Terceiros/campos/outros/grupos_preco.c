@@ -81,10 +81,6 @@ int insere_preco_ter_grupos()
 		}
 		g_print("_get_ valores para o grupo %i na posicao %i\n", ter_grupos_preco_code[cont],cont);
 
-		g_print("Grupo código: %i\n",ter_grupos_preco_code[cont]);
-		g_print("Preço à Vista: %s\n",preco_vist);
-		g_print("Preço Faturado: %s\n",preco_fat);
-
 		sprintf(query,"select * from preco_cliente where grupo = %i and produto = %s and cliente = %s", ter_grupos_preco_code[cont],prods_ter,codigos_ter);
 
 		if((res=consultar(query))==NULL)

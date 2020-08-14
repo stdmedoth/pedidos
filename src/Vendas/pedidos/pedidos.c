@@ -155,6 +155,27 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		gtk_tree_store_set(modelo,&adicion, COLUMN0, "Origem Preço:", COLUMN1, origem_preco, -1);
 	}
 
+	sprintf(query,"select t.razao,vlr_frete,valor_desconto_frete,(vlr_frete - valor_desconto_frete),observacoes_entrega from servico_transporte as st inner join terceiros as t on st.transportador = t.code where orcamento = %s",entrada);
+	if(!(res = consultar(query)))
+		return 1;
+	if(!(row = mysql_fetch_row(res)))
+		return 0;
+
+	sprintf(formata_preco1,"R$ %.2f",atof(row[1])); //vlr_frete
+	sprintf(formata_preco2,"R$ %.2f",atof(row[2])); //valor_desconto_frete
+	sprintf(formata_preco3,"R$ %.2f",atof(row[3])); //valor_frete liquido
+
+	gtk_tree_store_append(modelo,&campos,NULL);
+
+	gtk_tree_store_set(modelo,&campos,
+	COLUMN0,"Frete: ",
+	COLUMN1,row[0],
+	COLUMN2,"",
+	COLUMN3,formata_preco1,
+	COLUMN4,formata_preco2,
+	COLUMN5,formata_preco3,
+	-1);
+
 	return 0;
 }
 

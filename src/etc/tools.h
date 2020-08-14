@@ -32,3 +32,5 @@ int configurar_parametros();
 char *tipo_ter_num_to_str(int num);
 
 GtkWidget *popup_fechar;
+
+char *ped_status_from_int(int code);

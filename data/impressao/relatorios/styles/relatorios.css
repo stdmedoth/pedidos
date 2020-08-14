@@ -27,18 +27,18 @@ table {
   width: 100%;
 }
 
-tr:nth-child(even) {background-color: #f2f2f2;}
+.tr-estilo:nth-child(even) {background-color: #f2f2f2;}
+
 table {
   border-collapse: collapse;
   width: 100%;
 }
 
 th, td {
+	font-size: 10px;
   text-align: left;
-  padding: 8px;
+  padding: 4px;
 }
-
-tr:nth-child(even) {background-color: #f2f2f2;}
 
 .header-cod-table{
 	background: FloralWhite;
@@ -53,4 +53,14 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 .tabela-conteudo{
 	margin-top: 20px;
 	border-style: inset;
+}
+
+.solid-container{
+	border-style: inset;
+
+}
+
+.relat-infos{
+	border: solid 1px black;
+	background: Gainsboro;
 }

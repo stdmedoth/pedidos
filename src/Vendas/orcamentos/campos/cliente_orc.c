@@ -64,6 +64,7 @@ int codigo_cli_orc()
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
+	orc_infos.cliente_code = atoi(cliente_orc_gchar);
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
@@ -77,20 +78,24 @@ int codigo_cli_orc()
 		alerta_obs = 1;
 	}
 
-	if(strlen(campos[4]) && orc_pag_cond_activated==0){
-		gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
-		gtk_widget_activate(orc_pag_cond_entry);
-	}
-	if(strlen(campos[5])&&transp_verified==0){
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[5]);
-		gtk_widget_activate(orc_transp_codigo_entry);
-	}
+	if( alterando_orc == 0 && concluindo_orc == 0 ){
 
-	if(strlen(campos[6])){
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[6]);
-		gtk_widget_activate(orc_transp_cep_entry);
-	}
+		if( strlen(campos[4]) && orc_pag_cond_activated==0 ){
+			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
+			gtk_widget_activate(orc_pag_cond_entry);
+		}
 
+		if( strlen(campos[5]) && transp_verified==0 ){
+			gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[5]);
+			gtk_widget_activate(orc_transp_codigo_entry);
+		}
+
+		if( strlen(campos[6]) &&  transp_verified==0 ){
+			gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[6]);
+			gtk_widget_activate(orc_transp_cep_entry);
+		}
+
+	}
 
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
 		gtk_widget_grab_focus(orc_pag_cond_entry);

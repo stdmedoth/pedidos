@@ -100,7 +100,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 
 int iniciar_gerenciador_janela(){
 
-  for(int cont=0;cont<REG_WIN_QNT;cont++){
+  for(int cont=0;cont<=REG_WIN_QNT;cont++){
     janelas_gerenciadas.vetor_janelas[cont].reg_id  = 0;
     janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 0;
     janelas_gerenciadas.vetor_janelas[cont].qnt_fechada = 0;
@@ -112,6 +112,10 @@ int iniciar_gerenciador_janela(){
       }
     janelas_gerenciadas.vetor_janelas[cont].janela_pointer = NULL;
   }
+  janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].fun = cad_prod;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_TER].fun = cad_terc;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
 
   janelas_gerenciadas.principal.aberta = 1;
   janelas_gerenciadas.principal.qnt_aberta = 1;
@@ -123,7 +127,7 @@ int iniciar_gerenciador_janela(){
 
 int gerenciador_janela(){
 
-  for(int cont=0;cont<REG_WIN_QNT;cont++){
+  for(int cont=0;cont<=REG_WIN_QNT;cont++){
       if(janelas_gerenciadas.vetor_janelas[cont].qnt_aberta>MAX_WND1_ABRT){
         if(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)
           if(GTK_WINDOW(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){

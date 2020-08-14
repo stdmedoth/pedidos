@@ -91,6 +91,11 @@ create table if not exists pag_cond(code int primary key auto_increment,
   intervalos int default 1,
   qnt_parcelas int default 1);
 
+create table datas_livres_tab( orcamento int not null,
+  posicao int not null,
+  data datetime not null,
+  valor float not null);
+
 create table if not exists criticas(nome varchar(120),
   opcao_nome varchar(30) default 0,
   campo_nome varchar(30) default 0,
@@ -262,19 +267,19 @@ create table if not exists wnd_logger(id_janela int,
   tempo datetime);
 
 create table titulos(
-  code int primary key auto_increment,
+  code int primary key,
   cliente int not null,
   pedido int not null,
   status int not null,
   qnt_parcelas int not null,
-  tipo_titulo int not null,
-  valor float not null);
+  tipo_titulo int not null);
 
 create table parcelas_tab(
   parcelas_id int not null,
   posicao int not null,
   data_criacao datetime,
   data_vencimento datetime,
+  valor float not null,
   foreign key(parcelas_id) references titulos(code));
 
 create table baixas_titulos(

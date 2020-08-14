@@ -1,5 +1,8 @@
 #include "campos/entrega_campos.h"
 #include "campos/outros/data_parc.h"
+#include "campos/outros/campos_de_datas.h"
+#include "campos/outros/datas_livres.h"
+#include "campos/outros/sem_financeiro.h"
 
 #include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"
@@ -31,6 +34,8 @@
 
 #include "campos/outros/data_parc.c"
 #include "campos/outros/campos_de_datas.c"
+#include "campos/outros/datas_livres.c"
+#include "campos/outros/sem_financeiro.c"
 
 #include "campos/entrega/concluir.c"
 #include "campos/entrega/alterar.c"

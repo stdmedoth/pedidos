@@ -92,6 +92,8 @@ int menu(void)
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(compras),comprasl[cont],0,0,20);
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
+		gtk_box_pack_start(GTK_BOX(financeiro),financeirol[cont],0,0,20);
+	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(estoque),estoquel[cont],0,0,20);
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
