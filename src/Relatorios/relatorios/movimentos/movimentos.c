@@ -19,8 +19,7 @@ void relat_mov_fun()
 	MYSQL_ROW row;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 
 	linha1 = gtk_box_new(0,0);

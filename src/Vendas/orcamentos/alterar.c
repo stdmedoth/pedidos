@@ -269,10 +269,6 @@ static int altera_orc()
 		}
 
 	}
-	adicionar_linha_orc();
-
-	recebendo_prod_orc=0;
-	ativos_qnt=1;
 
 	if(rec_altera_qnt==1)
 	{
@@ -294,9 +290,13 @@ static int altera_orc()
 		return 0;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
+	adicionar_linha_orc();
+
+	ativos_qnt=1;
 
 	orc_transp_alterar_fun();
+	recebendo_prod_orc=0;
+	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);

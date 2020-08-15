@@ -1,6 +1,7 @@
 int relat_fix_vnd(){
 
-  GtkWidget *relat_fix_vnd_ordem_box,
+  GtkWidget *relat_fix_vnd_status_box,
+  *relat_fix_vnd_ordem_box,
   *relat_fix_vnd_prod_box,
   *relat_fix_vnd_grp_box,
   *relat_fix_vnd_cli_box,
@@ -11,7 +12,8 @@ int relat_fix_vnd(){
   *relat_fix_vnd_data_box,
   *relat_fix_vnd_est_box;
 
-  GtkWidget *relat_fix_vnd_ordem_frame,
+  GtkWidget *relat_fix_vnd_status_frame,
+  *relat_fix_vnd_ordem_frame,
   *relat_fix_vnd_prod_frame,
   *relat_fix_vnd_grp_frame,
   *relat_fix_vnd_cli_frame,
@@ -22,7 +24,8 @@ int relat_fix_vnd(){
   *relat_fix_vnd_data_frame,
   *relat_fix_vnd_est_frame;
 
-  GtkWidget *relat_fix_vnd_ordem_fixed,
+  GtkWidget *relat_fix_vnd_status_fixed,
+  *relat_fix_vnd_ordem_fixed,
   *relat_fix_vnd_prod_fixed,
   *relat_fix_vnd_grp_fixed,
   *relat_fix_vnd_cli_fixed,
@@ -74,10 +77,16 @@ int relat_fix_vnd(){
   gtk_window_set_title(GTK_WINDOW(janela),"Relatório Fixo de Vendas");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 
-  if(personalizacao.janela_keep_above==1)
-    gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(print_janela),GTK_WINDOW(janela_principal));
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
+
+  relat_fix_vnd_status_combo = gtk_combo_box_text_new();
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Todos");
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Pendentes");
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Emitidos");
+  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Cancelados");
+  gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_status_combo),0);
 
   relat_fix_vnd_ordem_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_ordem_combo),"Código");
@@ -171,6 +180,7 @@ int relat_fix_vnd(){
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_totaliza_combo),"Quantidades");
   gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_totaliza_combo),0);
 
+  relat_fix_vnd_status_frame = gtk_frame_new("Status: ");
   relat_fix_vnd_ordem_frame = gtk_frame_new("Ordem: ");
   relat_fix_vnd_prod_frame = gtk_frame_new("Produtos: ");
   relat_fix_vnd_grp_frame = gtk_frame_new("Grupos: ");
@@ -182,6 +192,7 @@ int relat_fix_vnd(){
   relat_fix_vnd_data_frame  = gtk_frame_new("Data");
   relat_fix_vnd_est_frame = gtk_frame_new("Estoque: ");
 
+  relat_fix_vnd_status_box = gtk_box_new(0,0);
   relat_fix_vnd_ordem_box = gtk_box_new(0,0);
   relat_fix_vnd_prod_box = gtk_box_new(0,0);
   relat_fix_vnd_grp_box = gtk_box_new(0,0);
@@ -193,6 +204,7 @@ int relat_fix_vnd(){
   relat_fix_vnd_data_box  = gtk_box_new(0,0);
   relat_fix_vnd_est_box = gtk_box_new(0,0);
 
+  relat_fix_vnd_status_fixed = gtk_fixed_new();
   relat_fix_vnd_ordem_fixed = gtk_fixed_new();
   relat_fix_vnd_prod_fixed = gtk_fixed_new();
   relat_fix_vnd_grp_fixed = gtk_fixed_new();
@@ -222,6 +234,7 @@ int relat_fix_vnd(){
   gtk_box_pack_start(GTK_BOX(relat_fix_vnd_ordem_box),relat_fix_vnd_ordem_combo,0,0,0);
   gtk_box_pack_start(GTK_BOX(relat_fix_vnd_quebra_box),relat_fix_vnd_quebra_check,0,0,0);
   gtk_box_pack_start(GTK_BOX(relat_fix_vnd_quebra_box),relat_fix_vnd_quebra_combo,0,0,10);
+  gtk_box_pack_start(GTK_BOX(relat_fix_vnd_status_box),relat_fix_vnd_status_combo,0,0,10);
 
   gtk_box_pack_start(GTK_BOX(relat_fix_vnd_est_box),relat_fix_vnd_est_entry1,0,0,0);
   gtk_box_pack_start(GTK_BOX(relat_fix_vnd_est_box),gtk_label_new("à"),0,0,5);
@@ -246,6 +259,7 @@ int relat_fix_vnd(){
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_cli_frame),relat_fix_vnd_cli_box);
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_data_frame),relat_fix_vnd_data_box);
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_grp_frame),relat_fix_vnd_grp_box);
+  gtk_container_add(GTK_CONTAINER(relat_fix_vnd_status_frame),relat_fix_vnd_status_box);
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_ordem_frame),relat_fix_vnd_ordem_box);
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_quebra_frame),relat_fix_vnd_quebra_box);
   gtk_container_add(GTK_CONTAINER(relat_fix_vnd_sintetiza_frame),relat_fix_vnd_sintetiza_box);
@@ -257,6 +271,7 @@ int relat_fix_vnd(){
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_prod_fixed),relat_fix_vnd_prod_frame,20,20);
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_grp_fixed),relat_fix_vnd_grp_frame,20,20);
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_cli_fixed),relat_fix_vnd_cli_frame,20,20);
+  gtk_fixed_put(GTK_FIXED(relat_fix_vnd_status_fixed),relat_fix_vnd_status_frame,20,20);
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_ordem_fixed),relat_fix_vnd_ordem_frame,20,20);
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_quebra_fixed),relat_fix_vnd_quebra_frame,20,20);
   gtk_fixed_put(GTK_FIXED(relat_fix_vnd_totaliza_fixed),relat_fix_vnd_totaliza_frame,20,20);
@@ -271,6 +286,7 @@ int relat_fix_vnd(){
   gtk_box_pack_start(GTK_BOX(linha4),relat_fix_vnd_quebra_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha5),relat_fix_vnd_totaliza_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha5),relat_fix_vnd_sintetiza_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(linha5),relat_fix_vnd_status_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha6),relat_fix_vnd_data_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha6),relat_fix_vnd_est_fixed,0,0,0);
 

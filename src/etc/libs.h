@@ -28,6 +28,8 @@
 #include "../pesquisadores/cond_pag.h"
 #include "../pesquisadores/operadores.h"
 #include "../pesquisadores/fin_rec.h"
+#include "../pesquisadores/fin_pag.h"
+#include "../pesquisadores/cidades.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -51,8 +53,10 @@
 #include "../Vendas/pedidos/cancelar.h"
 #include "../Vendas/pedidos/excluir.h"
 #include "../Vendas/orcamentos/orcamentos.h"
+
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"
+
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
 #include "../Relatorios/relatorios/terceiros/terceiros.h"
@@ -101,6 +105,8 @@
 #include "../pesquisadores/cond_pag.c"
 #include "../pesquisadores/operadores.c"
 #include "../pesquisadores/fin_rec.c"
+#include "../pesquisadores/fin_pag.c"
+#include "../pesquisadores/cidades.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"

@@ -23,7 +23,7 @@ static struct{
 }ped_infos;
 
 static struct {
-	int tipo;
+	int tipo_parc;
 	int dia_inicial;
 	int dia_inicial_flag;
 	int intervalos;
@@ -32,4 +32,5 @@ static struct {
 	char *parcelas_data[MAX_PARCELAS_QNT];
 	float parcelas_vlr[MAX_PARCELAS_QNT];
 	float total_geral;
+	int tipo_tit;
 }ped_parcelas;

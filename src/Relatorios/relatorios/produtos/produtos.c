@@ -12,8 +12,7 @@ void relat_prod_fun()
 	GtkWidget *relat_prod_opcoes_fixed, *relat_prod_opcoes_box;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 
 	relat_prod_opcoes_box = gtk_box_new(1,0);
@@ -154,6 +153,6 @@ void relat_prod_fun()
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa);
 	gtk_widget_set_size_request(janela,500,300);
-	
+
 	gtk_widget_show_all(janela);
 }

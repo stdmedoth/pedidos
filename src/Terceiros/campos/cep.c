@@ -5,6 +5,7 @@ int cep_terc()
 	int cont=0,cont2=0;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
+	char ddd[10];
 	query = malloc(MAX_QUERY_LEN);
 	cep_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(cep_ter_field));
 	if(strlen(cep_ter)>=MAX_CEP_LEN)
@@ -37,7 +38,7 @@ int cep_terc()
 	g_print("CEP: %s\n",cep_ter);
 	autologger("CEP:");
 	autologger(cep_ter);
-	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF, l.descricao_bairro from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep_ter);
+	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF, l.descricao_bairro, c.ddd from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep_ter);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -47,12 +48,7 @@ int cep_terc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		if(msg_cep==0&&alterando_ter==0)
-			popup(NULL,"CEP não encontrado,\npor favor insira o endereço manualmente");
-		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");
-		autologger(cep_ter);
-		msg_cep = 1;
-		vet_erro[CEP_ERR]=0;
+		cep_nao_existente_fun();
 		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
 		gtk_widget_grab_focus(address_ter_field);
 		return 0;
@@ -81,6 +77,13 @@ int cep_terc()
 		gtk_entry_set_text(GTK_ENTRY(uf_ter_field),campos[3]);
 	if(campos[4])
 		gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),campos[4]);
+
+	if(campos[5])
+		sprintf(ddd,"(%s)",campos[5]);
+
+	gtk_entry_set_placeholder_text(GTK_ENTRY(telefone_ter_field),ddd);
+	gtk_entry_set_placeholder_text(GTK_ENTRY(celular_ter_field),ddd);
+
 	gtk_widget_grab_focus(address_ter_field);
 	g_print("cep: %s\n",cep_ter);
 	return 0;

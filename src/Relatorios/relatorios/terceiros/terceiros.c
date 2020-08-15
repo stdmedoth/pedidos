@@ -14,8 +14,7 @@ void relat_ter_fun()
 	GtkWidget *relat_ter_tipos_box, *relat_ter_tipos_fixed;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 
 	relat_psq_cod_ter_button = gtk_button_new();

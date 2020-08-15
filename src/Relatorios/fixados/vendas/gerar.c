@@ -3,6 +3,7 @@ int relat_fix_vnd_gerar_fun(){
   MYSQL_ROW row,row2;
   MYSQL_RES *res,*res2;
   char query[MAX_QUERY_LEN];
+  char *file_path = malloc(MAX_PATH_LEN*2);
   char html_header[] = "<!DOCTYPE html>\
   <html>\
     <head>\
@@ -11,8 +12,10 @@ int relat_fix_vnd_gerar_fun(){
       <link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">\
     </head>";
 
-  FILE *relat_file = fopen(REL_FIX_FILE_PATH,"w");
+  sprintf(file_path,"%s/vendas.html",REL_FIX_VND_PATH);
+
   int vnd_qnt=0;
+  FILE *relat_file = fopen(file_path,"w");
   if(!relat_file){
     popup(NULL,"Não foi possível escrever relatório");
     file_logger(strerror(errno));
@@ -35,6 +38,9 @@ int relat_fix_vnd_gerar_fun(){
     return 1;
 
   if(relat_fix_vnd_sintetiza_fun())
+    return 1;
+
+  if(relat_fix_vnd_status_fun())
     return 1;
 
   if(relat_fix_vnd_est_fun())
@@ -72,7 +78,10 @@ int relat_fix_vnd_gerar_fun(){
   for(int cont=relat_fix_vnd_vlrs.pedidos1;cont<=relat_fix_vnd_vlrs.pedidos2;cont++){
       float vlr_ped=0,vlr_frete=0;
 
-      sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status > 0",cont);
+      if(!relat_fix_vnd_status_int)
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status >= 0",cont);
+      else
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status = %i",cont, relat_fix_vnd_status_int-1);
 
       if(!(res=consultar(query))){
         popup(NULL,"Erro ao consultar pedido");
@@ -83,9 +92,20 @@ int relat_fix_vnd_gerar_fun(){
         fprintf(relat_file,"<tr class='relat-infos'>");
         fprintf(relat_file,"<td>Pedido: %s<td/>",row[0]);
         fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);
-        fprintf(relat_file,"<td>CNPJ/CPF: %s | IE/RG: %s<td/>",row[3],row[4]);
+        fprintf(relat_file,"<td>CNPJ/CPF: %s<br>IE/RG: %s<td/>",row[3],row[4]);
         fprintf(relat_file,"<td>Data:  %s<td/>",row[5]);
         fprintf(relat_file,"<td>Pagamento:  %s<td/>",row[6]);
+
+        sprintf(query, "select code from titulos where pedido = %i",cont);
+        if(!(res2=consultar(query))){
+          popup(NULL,"Erro ao consultar títulos");
+          return 1;
+        }
+        if((row2 = mysql_fetch_row(res2))){
+          fprintf(relat_file,"<td>Título: %s<td/>",row[0]);
+        }else
+          fprintf(relat_file,"<td>Sem Financeiro<td/>");
+
         fprintf(relat_file,"</tr>");
 
         fprintf(relat_file,"<tr class='relat-infos'>");
@@ -117,6 +137,7 @@ int relat_fix_vnd_gerar_fun(){
 
         fprintf(relat_file,"<td>Vlr Frete: R$ %.2f<td/>",vlr_frete);
         fprintf(relat_file,"<td>Vlr Total: R$ %.2f<td/>",vlr_ped);
+        fprintf(relat_file,"<td>Totais<td/>");
 
         totalizacao_frete += vlr_frete;
         totalizacao_produtos += vlr_ped;
@@ -124,7 +145,7 @@ int relat_fix_vnd_gerar_fun(){
 
         fprintf(relat_file,"</tr>");
 
-        sprintf(query, "select po.code, p_all.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos_nome_all as p_all inner join grupos as g on po.subgrupo = g.code and p_all.code = g.code where po.code = %s",row[0]);
+        sprintf(query, "select po.produto, p_all.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos_nome_all as p_all inner join grupos as g on po.subgrupo = g.code and p_all.code = g.code where po.code = %s",row[0]);
         if(!(res2=consultar(query))){
           popup(NULL,"Erro ao consultar pedido");
           return 1;
@@ -157,7 +178,7 @@ int relat_fix_vnd_gerar_fun(){
   fprintf(relat_file,"</html>");
   fclose(relat_file);
 
-  if(escolher_finalizacao(REL_FIX_FILE_PATH)){
+  if(escolher_finalizacao(file_path)){
     return 1;
   }
 

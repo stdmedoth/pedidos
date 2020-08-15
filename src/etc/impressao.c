@@ -193,9 +193,7 @@ int escolher_finalizacao(char *gerando_file)
 	gtk_widget_set_size_request(print_janela,400,400);
 	gtk_window_set_position(GTK_WINDOW(print_janela),3);
 
-	gtk_window_set_transient_for(GTK_WINDOW(print_janela),GTK_WINDOW(janela_principal));
-
-
+	gtk_window_set_keep_above(GTK_WINDOW(print_janela),TRUE);
 
 	botoes_caixa = gtk_box_new(1,0);
 	botoes_frame = gtk_frame_new("Escolha como finalizar:");

@@ -5,7 +5,14 @@ int relat_mov_gerar_fun()
 	gchar *gerando_file;
 	int tipos_colunas[MAX_RELAT_CAMPOS];
 	int list_qnt=0;
-	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Movimentos de Estoque</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
+	char html_header[] = "<!DOCTYPE html>\
+		<html>\
+			<head>\
+				<meta charset=\"utf-8\"/>\
+				<title>Relatório de Movimentos de Estoque</title>\
+				<link href=\"../styles/relatorios.css\" rel=\"stylesheet\">\
+			</head>";
+	
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	g_print("Iniciando relat_mov_gerar_fun()\n");
 	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);

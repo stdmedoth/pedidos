@@ -36,6 +36,7 @@ int relat_icon_view_wnd(){
   gtk_window_set_icon_name(GTK_WINDOW(janela),"text-x-generic");
   gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 
+/*
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
     &iter,0,"Relatório Produtos",1,
@@ -47,7 +48,7 @@ int relat_icon_view_wnd(){
     &iter,0,"Relatório Terceiros",1,
     gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_TER_IMG))),
     2,REG_REL_FIX_TER_WIN,-1);
-
+*/
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
     &iter,0,"Relatório Vendas",1,
@@ -65,7 +66,7 @@ int relat_icon_view_wnd(){
 
   g_signal_connect(icon_view,"item-activated",G_CALLBACK(relat_icon_view_select), modelo);
 
-  gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+  gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),2);
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
   gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
 

@@ -125,7 +125,7 @@ int emitir_ped()
 		return 1;
 	}
 	if(row[0])
-		ped_parcelas.tipo = atoi(row[0]);
+		ped_parcelas.tipo_parc = atoi(row[0]);
 	if(row[1])
 		ped_parcelas.dia_inicial_flag = atoi(row[1]);
 	if(row[2])
@@ -159,17 +159,23 @@ int emitir_ped()
 	if(criar_xml())
 		return 1;
 
+	if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA)
+		ped_parcelas.tipo_tit = 1;
+	if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA)
+		ped_parcelas.tipo_tit = 2;
+
 	titulo_code = tasker("titulos"),
-	sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,0,%i,1)",
+	sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,0,%i,%i)",
 	titulo_code,
 	ped_infos.cliente_code,
 	ped_infos.ped_code,
-	ped_parcelas.parcelas_qnt);
+	ped_parcelas.parcelas_qnt,
+	ped_parcelas.tipo_tit);
 	if(enviar_query(query)){
 		popup(NULL,"Não foi possivel criar título no financeiro");
 	}
 
-	if(ped_parcelas.tipo != 3 ){
+	if(ped_parcelas.tipo_parc != 3 ){
 			for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
 
 				if(cont==0){
@@ -198,10 +204,10 @@ int emitir_ped()
 				if(enviar_query(query)){
 					popup(NULL,"Não foi possivel criar parcela no financeiro");
 				}
-				if(ped_parcelas.tipo == 1)
+				if(ped_parcelas.tipo_parc == 1)
 					gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
 				else
-				if(ped_parcelas.tipo == 2)
+				if(ped_parcelas.tipo_parc == 2)
 					gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
 			}
 	}

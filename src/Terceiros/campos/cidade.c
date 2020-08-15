@@ -14,7 +14,7 @@ int cidade_terc()
 		popup(NULL,"Por favor insira a cidade do terceiro");
 		gtk_widget_grab_focus(GTK_WIDGET(cidade_ter_field));
 		vet_erro[CID_ERR] = 1;
-		return 1;		
+		return 1;
 	}
 	if(strlen(cidade_ter)>MAX_CID_LEN)
 	{
@@ -31,4 +31,3 @@ int cidade_terc()
 	g_print("cidade: %s\n",cidade_ter);
 	return 0;
 }
-

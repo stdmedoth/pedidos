@@ -3,6 +3,7 @@ int relat_fix_est_gerar_fun(){
   MYSQL_ROW row,row2;
   MYSQL_RES *res,*res2;
   char query[MAX_QUERY_LEN];
+  char *file_path = malloc(MAX_PATH_LEN*2);
   char html_header[] = "<!DOCTYPE html>\
   <html>\
     <head>\
@@ -11,8 +12,10 @@ int relat_fix_est_gerar_fun(){
       <link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">\
     </head>";
 
-  FILE *relat_file = fopen(REL_FIX_FILE_PATH,"w");
+  sprintf(file_path,"%s/movimentos.html",REL_FIX_VND_PATH);
+
   int est_qnt=0;
+  FILE *relat_file = fopen(file_path,"w");
   if(!relat_file){
     popup(NULL,"Não foi possível escrever relatório");
     file_logger(strerror(errno));
@@ -186,7 +189,7 @@ int relat_fix_est_gerar_fun(){
   fprintf(relat_file,"</html>");
   fclose(relat_file);
 
-  if(escolher_finalizacao(REL_FIX_FILE_PATH)){
+  if(escolher_finalizacao(file_path)){
     return 1;
   }
 

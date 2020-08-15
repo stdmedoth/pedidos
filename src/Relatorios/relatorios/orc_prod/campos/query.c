@@ -41,7 +41,7 @@ int relat_orc_prod_query_fun()
 	}
 
 	if(relat_orc_prod_tipo_int == 0){
-		strcat(tipo_orc_prod_query," and o.tipo_mov >= 0");
+		sprintf(tipo_orc_prod_query," and o.tipo_mov = 0");
 	}else{
 		sprintf(tipo_orc_prod_query," and o.tipo_mov = %i",relat_orc_prod_tipo_int);
 	}

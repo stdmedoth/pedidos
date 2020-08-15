@@ -185,6 +185,7 @@ int cad_cep(){
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_code_entry),code_task);
 
   g_signal_connect(psq_cep_button,"clicked",G_CALLBACK(psq_cep),cad_ceps_cep_entry);
+  g_signal_connect(psq_cid_button,"clicked",G_CALLBACK(psq_cidd),cad_ceps_cid_code_entry);
 
   g_signal_connect(cad_cep_confirma_button,"clicked",G_CALLBACK(cad_ceps_concluir_fun),NULL);
   g_signal_connect(cad_cep_altera_button,"clicked",G_CALLBACK(cad_ceps_alterar_fun),NULL);
