@@ -42,7 +42,7 @@ int relat_fix_vnd_gerar_fun(){
 
   //sprintf(query,"select code, ")
   char *ordenacoes[] = {"o.code", "t.razao", "p_all.nome", "g_prc.valor_fat", "g_prc.valor_vist"};
-  char *totalizacoes[] = {"g_prc.valor_fat", "g_prc.valor_vist", };
+  char *totalizacoes[] = {"po.unidades", "po.total"};
 
   relat_fix_vnd_vlrs.pedidos1 = atoi(relat_fix_vnd_ped_gchar1);
   relat_fix_vnd_vlrs.pedidos2 = atoi(relat_fix_vnd_ped_gchar2);
@@ -67,10 +67,13 @@ int relat_fix_vnd_gerar_fun(){
   fprintf(relat_file,"<p>%s</p>",data_sys);
   fprintf(relat_file,"</div>");
   fprintf(relat_file,"<table>");
+
   float totalizacao_produtos=0, totalizacao_frete=0, totalizacao_geral=0;
   for(int cont=relat_fix_vnd_vlrs.pedidos1;cont<=relat_fix_vnd_vlrs.pedidos2;cont++){
       float vlr_ped=0,vlr_frete=0;
-      sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i",cont);
+
+      sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status > 0",cont);
+
       if(!(res=consultar(query))){
         popup(NULL,"Erro ao consultar pedido");
         return 1;

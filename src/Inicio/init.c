@@ -23,7 +23,6 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.principal.aberta = 1;
 
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
-
 	return ;
 }
 

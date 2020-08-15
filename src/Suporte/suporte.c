@@ -1,7 +1,7 @@
 int suporte_princ_wnd(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  GtkWidget *filtro_status_frame,*filtro_prioridade_frame;
+  GtkWidget *filtro_status_frame, *filtro_prioridade_frame, *envio_email_button;
   GtkWidget *box = gtk_box_new(1,0);
   GtkWidget *frame = gtk_frame_new("Posts:");
   GtkWidget *caixa_opcoes = gtk_box_new(0,0);
@@ -33,11 +33,12 @@ int suporte_princ_wnd(){
   for(int cont=0;cont<=MAX_POST_QNT;cont++)
     sup_vet_posts_qnt[cont] = 0;
 
-  sup_adiciona_button = gtk_button_new_with_label("Adicionar novo post");
+  sup_adiciona_button = gtk_button_new_with_label("Adicionar");
   gtk_button_set_image(GTK_BUTTON(sup_adiciona_button),gtk_image_new_from_icon_name("tab-new",GTK_ICON_SIZE_DIALOG));
 
   filtro_status_frame = gtk_frame_new("Status");
   filtro_prioridade_frame = gtk_frame_new("Prioridade");
+  envio_email_button = gtk_button_new_with_label("Enviar Email");
 
   postlist = malloc(MAX_POST_QNT*sizeof(GtkBox*));
   titulo_list = malloc(MAX_POST_QNT*sizeof(GtkEntry*));
@@ -146,6 +147,7 @@ int suporte_princ_wnd(){
 
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),filtro_status_frame,0,0,10);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),filtro_prioridade_frame,0,0,10);
+  gtk_box_pack_start(GTK_BOX(caixa_opcoes),envio_email_button,0,0,10);
 
   gtk_box_pack_end(GTK_BOX(box),caixa_opcoes,0,0,10);
   gtk_container_add(GTK_CONTAINER(frame),box);

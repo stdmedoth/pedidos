@@ -24,19 +24,7 @@ relat_fix_vnd_sintetiza_int,
 relat_fix_vnd_totaliza_int;
 
 GtkWidget *relat_fix_vnd_gerar_button;
-
-struct relat_vlrs{
-  gint pedidos1,pedidos2;
-  gint produtos1,produtos2;
-  gint grupos1,grupos2;
-  gint estoques1,estoques2;
-  gint ordem_int;
-  gint quebra_flag;
-  gint quebra;
-  gint sintetiza;
-  gint totaliza;
-};
-
+  
 struct relat_vlrs relat_fix_vnd_vlrs;
 
 #include "campos/pedidos.c"

@@ -134,9 +134,10 @@ int pesquisar_cad_sefaz(char *cnpj, char *uf){
   {
     popup(NULL,"Não foi possivel enviar documento");
     autologger(erro->message);
+    file_logger(erro->message);
     return 1;
   }
-
+  
   return 0;
 }
 

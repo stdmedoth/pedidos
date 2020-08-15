@@ -75,7 +75,7 @@ int iniciar_impressao(char *gerado)
 			break;
 	}
 
-	g_usleep(G_USEC_PER_SEC*1);
+	g_usleep(G_USEC_PER_SEC*2);
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
 
 		processo=NULL;
@@ -192,12 +192,9 @@ int escolher_finalizacao(char *gerando_file)
 	print_janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(print_janela,400,400);
 	gtk_window_set_position(GTK_WINDOW(print_janela),3);
-	gtk_window_set_keep_above(GTK_WINDOW(print_janela),TRUE);
-	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 1){
-		if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer)
-			gtk_window_set_transient_for(GTK_WINDOW(print_janela),
-			GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer));
-	}
+
+	gtk_window_set_transient_for(GTK_WINDOW(print_janela),GTK_WINDOW(janela_principal));
+
 
 
 	botoes_caixa = gtk_box_new(1,0);

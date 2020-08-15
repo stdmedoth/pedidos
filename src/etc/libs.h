@@ -62,6 +62,7 @@
 #include "../Relatorios/fixados/iconview.h"
 #include "../Relatorios/fixados/produtos/principal.h"
 #include "../Relatorios/fixados/vendas/principal.h"
+#include "../Relatorios/fixados/estoques/principal.h"
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
@@ -153,6 +154,7 @@
 #include "../Relatorios/fixados/iconview.c"
 #include "../Relatorios/fixados/produtos/principal.c"
 #include "../Relatorios/fixados/vendas/principal.c"
+#include "../Relatorios/fixados/estoques/principal.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"

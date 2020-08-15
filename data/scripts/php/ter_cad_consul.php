@@ -40,6 +40,8 @@
 	$iest = '';
   $cpf = '';
 
+	
+
 	$response = $tools->sefazCadastro($uf, $cnpj, $iest, $cpf);
 
 	$file = fopen("/usr/share/petitto/files/scripts/php/files/dados_retorno.xml","w");
