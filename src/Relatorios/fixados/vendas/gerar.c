@@ -12,6 +12,15 @@ int relat_fix_vnd_gerar_fun(){
       <link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">\
     </head>";
 
+  GDir *dir;
+  if(!(dir = g_dir_open(REL_FIX_VND_PATH,0,NULL))){
+      popup(NULL,"Diretorio sendo criado");
+      if(g_mkdir_with_parents(REL_FIX_VND_PATH, 777)){
+        popup(NULL,"Não foi possível criar diretorio de relatorios");
+        return 1;
+      }
+  }
+
   sprintf(file_path,"%s/vendas.html",REL_FIX_VND_PATH);
 
   int vnd_qnt=0;

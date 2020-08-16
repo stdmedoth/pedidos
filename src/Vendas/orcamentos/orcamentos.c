@@ -222,6 +222,7 @@ static int adicionar_linha_orc()
 		}
 	}
 
+
 	gerar_total_geral();
 
 	codigo_orc_prod_box[itens_qnt] = gtk_box_new(0,0);
@@ -476,7 +477,7 @@ int vnd_orc()
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_transient_for(GTK_WINDOW(janela_orcamento),GTK_WINDOW(janela_principal));
-	gtk_widget_set_size_request(janela_orcamento,1350,600);
+	gtk_widget_set_size_request(janela_orcamento,1300,500);
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_orcamento),"document-revert");
@@ -643,7 +644,7 @@ int vnd_orc()
 	//gtk_fixed_put(GTK_FIXED(orc_infos_fixed),operacao_orc_frame,MARGEM_D,90);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
 
-	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,800,90);
+	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,700,90);
 	//gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_pag_cond_fixed,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_d),orc_infos_fixed,0,0,0);

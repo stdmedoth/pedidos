@@ -42,6 +42,9 @@ static int concluir_orc(){
 	if(orc_transp_bairroc())
 	 	return 1;
 
+	if(concluir_datas_livres())
+		return 1;
+
 	orc_infos.cliente_code = atoi(cliente_orc_gchar);
 	if(observacoes_orc_gchar)
 		strcpy(orc_infos.observacoes,observacoes_orc_gchar);

@@ -67,20 +67,22 @@ int rec_fat_vist()
 			break;
 		}
 	}
-	if(orc_pag_tipo_int == 4){
+	if(orc_pag_tipo_int == CONDPAG_S_FIN){
 		gtk_widget_hide(orc_pag_datas_fixed);
 		 orc_pag_sem_finan();
 		 return 0;
 	}
 
-	if(orc_pag_tipo_int != 3){
-		gtk_widget_hide(orc_pag_datas_livres_fixed);
-		orc_pag_datas_fun();
-	}
-	else{
+	if(orc_pag_tipo_int == CONDPAG_DT_LVR){
 		gtk_widget_hide(orc_pag_datas_fixed);
 		orc_pag_datas_livres();
 	}
+
+	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES){
+		gtk_widget_hide(orc_pag_datas_livres_fixed);
+		orc_pag_datas_fun();
+	}
+
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),notepage);
 	return 0;
 }

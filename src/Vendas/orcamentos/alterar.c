@@ -6,7 +6,7 @@ static int altera_orc()
 	MYSQL_RES *res, *res2;
 	MYSQL_ROW row, row2;
 	GtkTextBuffer *buffer;
-	char tmp_cod_orc[MAX_CODE_LEN];
+	char tmp_cod_orc[MAX_CODE_LEN],*parc_qnt_gchar;
 
 	g_print("Iniciando alterar\n");
 	alterando_orc=1;
@@ -69,6 +69,8 @@ static int altera_orc()
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),row[2]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[3]);
 
+	orc_parcelas.pagcond_code = atoi(row[2]);
+
 	gtk_widget_activate(cliente_orc_entry);
 	gtk_widget_activate(orc_pag_cond_entry);
 
@@ -129,7 +131,6 @@ static int altera_orc()
 		gtk_widget_activate(orc_transp_valor_frete_entry);
 		gtk_widget_activate(orc_transp_desconto_frete_entry);
 	}
-
 
 	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
 	if((res = consultar(query))==NULL){
@@ -268,6 +269,46 @@ static int altera_orc()
 			ativos_qnt++;
 		}
 
+	}
+
+	sprintf(query,"select tipo from pag_cond where code = %i",orc_parcelas.pagcond_code);
+	if(!(res2 = consultar(query)))
+	{
+		popup(NULL,"Erro ao buscar condição de pagamentos parcelas");
+		cancela_orc();
+		return 1;
+	}
+	if(!(row2 = mysql_fetch_row(res2))){
+		popup(NULL,"A condição de pagamento do orçamento não existe");
+	}
+	else{
+		orc_pag_tipo_int = atoi(row2[0]);
+		if(orc_pag_tipo_int == CONDPAG_DT_LVR){
+			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%d/%%m/%%Y'), valor from orc_datas_livres where orcamento = %s",tmp_cod_orc);
+			if(!(res2 = consultar(query)))
+			{
+				popup(NULL,"Erro ao buscar datas das parcelas");
+				return 1;
+			}
+			while((row2 = mysql_fetch_row(res2))){
+				cont = atoi(row2[0]);
+
+				datas_lives_str[cont].datas = malloc(MAX_DATE_LEN);
+				strcpy(datas_lives_str[cont].datas,row2[1]);
+
+				datas_lives_str[cont].vlrs = atof(row2[2]);
+			}
+			orc_parcelas.parcelas_qnt = mysql_num_rows(res2);
+			orc_pag_parc_qnt_int = orc_parcelas.parcelas_qnt;
+			parc_qnt_gchar = malloc(12);
+			sprintf(parc_qnt_gchar,"%i",orc_parcelas.parcelas_qnt);
+			gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_parcqnt),parc_qnt_gchar);
+			gtk_widget_activate(orc_pag_datas_livres_parcqnt);
+
+			if(!orc_parcelas.parcelas_qnt){
+				popup(NULL,"Não há datas de pagamento no orçamento");
+			}
+		}
 	}
 
 	if(rec_altera_qnt==1)

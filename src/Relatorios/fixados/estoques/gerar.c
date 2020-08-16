@@ -12,7 +12,16 @@ int relat_fix_est_gerar_fun(){
       <link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">\
     </head>";
 
-  sprintf(file_path,"%s/movimentos.html",REL_FIX_VND_PATH);
+  GDir *dir;
+  if(!(dir = g_dir_open(REL_FIX_MOV_PATH,0,NULL))){
+      popup(NULL,"Diretorio sendo criado");
+      if(g_mkdir_with_parents(REL_FIX_MOV_PATH, 777)){
+        popup(NULL,"Não foi possível criar diretorio de relatorios");
+        return 1;
+      }
+  }
+
+  sprintf(file_path,"%s/movimentos.html",REL_FIX_MOV_PATH);
 
   int est_qnt=0;
   FILE *relat_file = fopen(file_path,"w");

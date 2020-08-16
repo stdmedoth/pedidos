@@ -84,6 +84,7 @@ int cad_cep(){
   if(!cad_ceps_uf_qnt){
     gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),0,"Vazio");
     popup(NULL,"Não Há Estados cadastrados");
+    return 1;
   }
   gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(cad_ceps_uf_combo),3);
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_ceps_uf_combo),0);

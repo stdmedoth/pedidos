@@ -38,7 +38,7 @@ int entry_orc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	entrada = (gchar*)gtk_entry_get_text(widget);
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
-	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente where c.razao like '%c%s%c' order by o.dia desc",37,entrada,37);
+	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente where c.razao like '%c%s%c' order by o.dia desc limit 20",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -135,7 +135,7 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente order by o.dia desc");
+	sprintf(query,"select o.code, c.razao, o.dia, o.total, o.observacoes from orcamentos as o inner join terceiros as c on c.code = o.cliente order by o.dia desc limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

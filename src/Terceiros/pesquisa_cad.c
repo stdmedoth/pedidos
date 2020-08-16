@@ -1,9 +1,7 @@
 char  *format_cnpj_num(char *cnpj){
-
   int cont2=0;
   char *formated_cnpj = malloc(strlen(cnpj));
   strcpy(formated_cnpj,"");
-  g_print("cnpj: %s\n",cnpj);
 
   for(int cont=0;cont<strlen(cnpj);cont++){
     if(isdigit(cnpj[cont])){
@@ -11,10 +9,8 @@ char  *format_cnpj_num(char *cnpj){
       cont2++;
     }
   }
-
-  g_print("format: %s\n",formated_cnpj);
+  formated_cnpj[cont2] = '\0';
   return formated_cnpj;
-
 }
 void formatar_littobig(char *string){
   for(int cont=0;cont<strlen(string);cont++){
@@ -137,7 +133,7 @@ int pesquisar_cad_sefaz(char *cnpj, char *uf){
     file_logger(erro->message);
     return 1;
   }
-  
+
   return 0;
 }
 

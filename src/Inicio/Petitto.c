@@ -10,6 +10,8 @@
 #include <locale.h>
 #include <ctype.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <gtk/gtk.h>
 #include <libxml/xinclude.h>
 #include <libxml/xpath.h>

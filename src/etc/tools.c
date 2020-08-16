@@ -10,6 +10,57 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+char  *string_to_int(char *string){
+  int cont2=0;
+  char *formated_string = malloc(strlen(string));
+  strcpy(formated_string,"");
+
+  for(int cont=0;cont<strlen(string);cont++){
+    if(isdigit(string[cont])){
+      formated_string[cont2] = string[cont];
+      cont2++;
+    }
+  }
+  formated_string[cont2] = '\0';
+  return formated_string;
+}
+
+
+char *formatar_data(char *data){
+	int dia=0,mes=0,ano=0;
+	int formats_qnt=6;
+	//160820
+
+	char *format = string_to_int(data);
+
+	//provaveis formatos de data
+	char *formats[] = {"%2d%2d%2d",
+										"%01d%2d%2d",
+										"%2d%01d%2d",
+										"%2d%2d%02d",
+										"%01d%2d%2d",
+										"%2d%2d%4d"};
+	if(!data)
+		return NULL;
+
+	for(int cont=0;cont<formats_qnt;cont++){
+			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
+				GTimeZone *tz = g_time_zone_new(NULL);
+				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);
+				if(!gdatetime){
+					if(cont>=formats_qnt){
+						popup(NULL,"Data incorreta");
+						return NULL;
+					}
+				}
+				else
+					return g_date_time_format(gdatetime,"%d/%m/%y");
+			}
+	}
+	popup(NULL,"Formato não encontrado");
+	return NULL;
+}
+
 gpointer carregando_wnd(){
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	GtkWidget *loading_gif = gtk_image_new_from_file(LOADING_GIF);

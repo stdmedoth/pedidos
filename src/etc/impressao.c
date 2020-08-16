@@ -41,7 +41,7 @@ int iniciar_impressao(char *gerado)
 		case IMP_PATH1:
 			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path1);
 			g_print(chamada);
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path1,NULL);
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,COPY_PROG,gerado,impressoras.imp_path1,NULL);
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -53,7 +53,7 @@ int iniciar_impressao(char *gerado)
 		case IMP_PATH2:
 			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path2);
 			g_print(chamada);
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path2,NULL);
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,COPY_PROG,gerado,impressoras.imp_path2,NULL);
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -65,7 +65,7 @@ int iniciar_impressao(char *gerado)
 		case IMP_PATH3:
 			sprintf(chamada,"%s %s %s",COPY_PROG,gerado,impressoras.imp_path3);
 			g_print(chamada);
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,COPY_PROG,gerado,impressoras.imp_path3,NULL);
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,COPY_PROG,gerado,impressoras.imp_path3,NULL);
 			if(!processo)
 			{
 				popup(NULL,"Não foi possivel enviar documento");
@@ -84,12 +84,12 @@ int iniciar_impressao(char *gerado)
 		if(navegadores.navegador_pdr == 1){
 			sprintf(chamada,"%s %s",navegadores.navegador_path1,gerado);
 			g_print(chamada);
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path1,gerado,NULL);
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,navegadores.navegador_path1,gerado,NULL);
 		}
 		if(navegadores.navegador_pdr == 2){
 			sprintf(chamada,"%s %s",navegadores.navegador_path2,gerado);
 			g_print(chamada);
-			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,navegadores.navegador_path2,gerado,NULL);
+			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,navegadores.navegador_path2,gerado,NULL);
 		}
 
 		if(!processo)

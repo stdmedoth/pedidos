@@ -172,6 +172,7 @@ int cad_titulos_receber(){
 
     g_signal_connect(cad_rec_code_entry,"activate",G_CALLBACK(cad_rec_code_fun),NULL);
     g_signal_connect(cad_rec_parcela_spin,"activate",G_CALLBACK(cad_rec_parcela_fun),NULL);
+    g_signal_connect(cad_rec_parcela_spin,"value-changed",G_CALLBACK(cad_rec_parcela_fun),NULL);
     g_signal_connect(cad_rec_cli_entry,"activate",G_CALLBACK(cad_rec_cli_fun),NULL);
     g_signal_connect(cad_rec_ped_entry,"activate",G_CALLBACK(cad_rec_ped_fun),NULL);
     g_signal_connect(cad_rec_datacriacao_entry,"activate",G_CALLBACK(cad_rec_datacriacao_fun),NULL);

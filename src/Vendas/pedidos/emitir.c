@@ -175,7 +175,7 @@ int emitir_ped()
 		popup(NULL,"Não foi possivel criar título no financeiro");
 	}
 
-	if(ped_parcelas.tipo_parc != 3 ){
+	if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES ){
 			for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
 
 				if(cont==0){
@@ -184,9 +184,9 @@ int emitir_ped()
 					parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt);
 				}
 
-				if(g_date_time_format(gdate,"%Y/%m/%d")){
-					ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y/%m/%d")));
-					strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y/%m/%d"));
+				if(g_date_time_format(gdate,"%Y-%m-%d")){
+					ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y-%m-%d")));
+					strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
 				}else{
 					popup(NULL,"Erro ao calcular datas! Verifique financeiro");
 				}
@@ -204,14 +204,42 @@ int emitir_ped()
 				if(enviar_query(query)){
 					popup(NULL,"Não foi possivel criar parcela no financeiro");
 				}
-				if(ped_parcelas.tipo_parc == 1)
+				if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
 					gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
 				else
-				if(ped_parcelas.tipo_parc == 2)
+				if(ped_parcelas.tipo_parc == CONDPAG_MESES)
 					gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
 			}
 	}
+	if( ped_parcelas.tipo_parc == CONDPAG_DT_LVR){
+		sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%Y-%%m-%%d'), valor from orc_datas_livres where orcamento = %i",ped_infos.ped_code);
+		if(!(res = consultar(query)))
+		{
+			popup(NULL,"Erro ao buscar datas das parcelas");
+		}else{
+			if(!mysql_num_rows(res)){
+				popup(NULL,"Não há datas de pagamento no orçamento");
+			}
+			while((row = mysql_fetch_row(res))){
+				cont = atoi(row[0]) - 1;
+				ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
+				strcpy(ped_parcelas.parcelas_data[cont],row[1]);
 
+				ped_parcelas.parcelas_vlr[cont] = atof(row[2]);
+				sprintf( valor,"%.2f",ped_parcelas.parcelas_vlr[cont] );
+
+				sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, '%s', '%s', '%s')",
+				titulo_code,
+				cont,
+				ped_infos.data_mov,
+				ped_parcelas.parcelas_data[cont],
+				valor);
+				if(enviar_query(query)){
+					popup(NULL,"Não foi possivel criar parcela no financeiro");
+				}
+			}
+		}
+	}
 
 	//tipo_mov
 	//0 = manual

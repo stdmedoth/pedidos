@@ -23,7 +23,7 @@
 	$configJson = json_encode($config);
 	include "acoes/dados.php";
 	include "acoes/logger.php";
-	$conteudo_certificado = file_get_contents('/usr/share/petitto/files/scripts/php/files/iceminas.pfx');
+	$conteudo_certificado = file_get_contents('C:\\petitto\\files\\scripts\\php\\files\\iceminas.pfx');
 	$certificate = Certificate::readPfx($conteudo_certificado , '1234');
   $tools = new Tools($configJson, $certificate);
 	$tools->model('55');
@@ -40,11 +40,11 @@
 	$iest = '';
   $cpf = '';
 
-	
+
 
 	$response = $tools->sefazCadastro($uf, $cnpj, $iest, $cpf);
 
-	$file = fopen("/usr/share/petitto/files/scripts/php/files/dados_retorno.xml","w");
+	$file = fopen("C:\\petitto\\files\\scripts\\php\\files\\dados_retorno.xml","w");
 
 	if(!$file){
 		logger("Não foi possivel abrir xml de retorno");

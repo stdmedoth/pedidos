@@ -44,7 +44,7 @@ int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 and t.razao like '%c%s%c' limit 30",37,entrada,37);
+	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 and t.razao like '%c%s%c' limit 20",37,entrada,37);
 
 	res = consultar(query);
 	if(res == NULL)
@@ -179,7 +179,7 @@ int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 limit 30");
+	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

@@ -3,7 +3,8 @@ GtkWidget *orc_campos_datas(){
   GtkTreeIter iter1;
   GtkTreeViewColumn *coluna1, *coluna2, *coluna3;
   GtkCellRenderer *celula1, *celula2, *celula3;
-  GtkWidget *orc_pag_datas_livres_parcqnt_frame, *orc_pag_datas_livres_parcqnt_fixed;
+  GtkWidget *orc_pag_datas_livres_parcqnt_frame, *orc_pag_datas_livres_parcqnt_fixed,*rest_parcqnt_box;
+  GtkWidget *orc_pag_datas_livres_rest_frame, *orc_pag_datas_livres_rest_fixed;
   GtkWidget *orc_pag_datas_livres_scroll,
   *orc_pag_datas_livres_scroll_box;
 
@@ -19,12 +20,24 @@ GtkWidget *orc_campos_datas(){
   orc_pag_datas_livres_entry2 = malloc(sizeof(GtkEntry*)*MAX_PARCELAS_QNT);
 
   orc_pag_datas_livres_parcqnt = gtk_spin_button_new_with_range(1,MAX_PARCELAS_QNT,1);
-  gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_livres_parcqnt),10);
+  gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_livres_parcqnt),5);
   orc_pag_datas_livres_parcqnt_frame = gtk_frame_new("Num. Parcelas:");
   orc_pag_datas_livres_parcqnt_fixed = gtk_fixed_new();
 
+  rest_parcqnt_box = gtk_box_new(1,0);
+
+  orc_pag_datas_livres_rest = gtk_entry_new();
+  gtk_widget_set_sensitive(orc_pag_datas_livres_rest,FALSE);
+  gtk_widget_set_name(orc_pag_datas_livres_rest,"entry_unsensetivate");
+  gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_livres_rest),5);
+  orc_pag_datas_livres_rest_frame = gtk_frame_new("Valor Restante:");
+  orc_pag_datas_livres_rest_fixed = gtk_fixed_new();
+
   gtk_container_add(GTK_CONTAINER(orc_pag_datas_livres_parcqnt_frame),orc_pag_datas_livres_parcqnt);
-  gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_parcqnt_fixed),orc_pag_datas_livres_parcqnt_frame,20,20);
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_parcqnt_fixed),orc_pag_datas_livres_parcqnt_frame,10,20);
+
+  gtk_container_add(GTK_CONTAINER(orc_pag_datas_livres_rest_frame),orc_pag_datas_livres_rest);
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_rest_fixed),orc_pag_datas_livres_rest_frame,10,20);
 
   orc_pag_scrolled_box = gtk_box_new(1,0);
   orc_pag_scrolled = gtk_scrolled_window_new(NULL,NULL);
@@ -72,7 +85,10 @@ GtkWidget *orc_campos_datas(){
   gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_scroll_box),orc_pag_datas_livres_scroll,0,0,0);
 
   gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),orc_pag_datas_livres_scroll_box,0,0,0);
-  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),orc_pag_datas_livres_parcqnt_fixed,0,0,0);
+
+  gtk_box_pack_start(GTK_BOX(rest_parcqnt_box),orc_pag_datas_livres_parcqnt_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(rest_parcqnt_box),orc_pag_datas_livres_rest_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),rest_parcqnt_box,0,0,0);
 
   gtk_widget_set_size_request(orc_pag_datas_livres_scroll,230,200);
   //gtk_widget_set_size_request(orc_pag_datas_livres_scroll_box,290,200);

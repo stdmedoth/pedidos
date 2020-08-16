@@ -266,27 +266,6 @@ create table if not exists wnd_logger(id_janela int,
   operador int,
   tempo datetime);
 
-create table titulos(
-  code int primary key,
-  cliente int not null,
-  pedido int not null,
-  status int not null,
-  qnt_parcelas int not null,
-  tipo_titulo int not null);
-
-create table parcelas_tab(
-  parcelas_id int not null,
-  posicao int not null,
-  data_criacao datetime,
-  data_vencimento datetime,
-  valor float not null,
-  foreign key(parcelas_id) references titulos(code));
-
-create table baixas_titulos(
-  code int primary key auto_increment,
-  id_baixa int not null,
-  valor float);
-
 create table if not exists cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
   descricao varchar(100) DEFAULT '',
   uf varchar(2)  DEFAULT '',

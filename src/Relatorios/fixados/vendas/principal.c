@@ -77,7 +77,11 @@ int relat_fix_vnd(){
   gtk_window_set_title(GTK_WINDOW(janela),"Relatório Fixo de Vendas");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 
-  gtk_window_set_transient_for(GTK_WINDOW(print_janela),GTK_WINDOW(janela_principal));
+  if(fixed_relats_wnd)
+    gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(fixed_relats_wnd));
+  else
+    gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
+
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
 

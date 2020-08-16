@@ -1,4 +1,5 @@
 int relat_icon_view_wnd();
+GtkWidget *fixed_relats_wnd;
 
 struct relat_vlrs{
   gint pedidos1,pedidos2;

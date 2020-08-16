@@ -71,7 +71,7 @@
 #define REL_FIX_PROD_IMG "C:/petitto/files/icones_opc/relatorio_fixos_produtos.png"
 #define REL_FIX_TER_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_terceiros.png"
 #define REL_FIX_VND_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_vendas.png"
-#define REL_FIX_VND_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_movestoque.png"
+#define REL_FIX_EST_IMG  "C:/petitto/files/icones_opc/relatorio_fixos_movestoque.png"
 #define REL_TER_IMG      "C:/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG      "C:/petitto/files/icones_opc/relatorio_est.png"
 #define REL_ORC_PROD_IMG "C:/petitto/files/icones_opc/relatorio_orc_prod.png"
@@ -285,6 +285,15 @@
 #define MAX_SUP_STATUS_LEN 50
 #define MAX_SUP_TIPO_LEN 50
 
+#define MAX_DIF_VLR 0.4
+
+
+#define CONDPAG_DIAS 1
+#define CONDPAG_MESES 2
+#define CONDPAG_DT_LVR 3
+#define CONDPAG_S_FIN 4
+
+
 //id das operacoes
 #define VENDA 0
 #define DEV_VENDA 1
@@ -310,6 +319,7 @@ static int inicializando=0;
 //modulos ativos
 struct modulos
 {
+	int ativo;
 	int cadastro;
 	int compras;
 	int faturamento;

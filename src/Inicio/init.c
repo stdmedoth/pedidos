@@ -69,17 +69,19 @@ int desktop()
 	criar_janela_princ();
 
 	sprintf(query,"select data_vencimento - now() from contratos");
-	if((res = consultar(query))==NULL){
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar status do serviço");
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL){
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Serviço sem contrato definido, verifique!");
+		ativar.ativo = 0;
 	}else{
 		if(atof(row[0])<=0){
 			popup(NULL,"Serviço Expirado");
-			return 1;
-		}
+			ativar.ativo = 0;
+		}else
+			ativar.ativo = 1;
 	}
 
 	sprintf(query,"select * from contratos");
@@ -88,17 +90,36 @@ int desktop()
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))!=NULL){
-		ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
-		ativar.compras=atoi(row[CONTRATO_CMP_COL]);
-		ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
-		ativar.estoque=atoi(row[CONTRATO_EST_COL]);
-		ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
-		ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
+	if(ativar.ativo){
+		if((row = mysql_fetch_row(res))!=NULL){
+			ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
+			ativar.compras=atoi(row[CONTRATO_CMP_COL]);
+			ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
+			ativar.estoque=atoi(row[CONTRATO_EST_COL]);
+			ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
+			ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
+		}else{
+			popup(NULL,"Não há lista de permissões");
+			return 1;
+		}
 	}else{
-		popup(NULL,"Não há lista de permissões");
-		return 1;
+		if(sessao_oper.nivel>=TECNICO_LEVEL){
+			ativar.cadastro=1;
+			ativar.compras=1;
+			ativar.faturamento=1;
+			ativar.estoque=1;
+			ativar.financeiro=1;
+			ativar.relatorios=1;
+		}else{
+			ativar.cadastro=0;
+			ativar.compras=0;
+			ativar.faturamento=0;
+			ativar.estoque=0;
+			ativar.financeiro=0;
+			ativar.relatorios=1;
+		}
 	}
+
 	if(sessao_oper.nivel>=TECNICO_LEVEL)
 		ativar.tecnicos=1;
 	else

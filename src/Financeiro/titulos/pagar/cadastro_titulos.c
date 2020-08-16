@@ -171,6 +171,7 @@ int cad_titulos_pagar(){
 
     g_signal_connect(cad_pag_code_entry,"activate",G_CALLBACK(cad_pag_code_fun),NULL);
     g_signal_connect(cad_pag_parcela_spin,"activate",G_CALLBACK(cad_pag_parcela_fun),NULL);
+    g_signal_connect(cad_pag_parcela_spin,"value-changed",G_CALLBACK(cad_pag_parcela_fun),NULL);
     g_signal_connect(cad_pag_cli_entry,"activate",G_CALLBACK(cad_pag_cli_fun),NULL);
     g_signal_connect(cad_pag_ped_entry,"activate",G_CALLBACK(cad_pag_ped_fun),NULL);
     g_signal_connect(cad_pag_datacriacao_entry,"activate",G_CALLBACK(cad_pag_datacriacao_fun),NULL);

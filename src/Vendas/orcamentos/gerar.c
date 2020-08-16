@@ -335,6 +335,7 @@ int gerar_orc()
 		fprintf(orc,"<td>R$ %.2f</td>\n",orc_parcelas.parcelas_vlr[cont]);
 		fprintf(orc,"</tr>\n");
 	}
+
 	fprintf(orc,"<tr>\n");
 	fprintf(orc,"<td></td>");
 	fprintf(orc,"<td></td>");
