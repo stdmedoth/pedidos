@@ -1,3 +1,4 @@
+char *formatar_data(char *data);
 
 int file_logger(char *string);
 

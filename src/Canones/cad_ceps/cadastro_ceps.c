@@ -69,20 +69,22 @@ int cad_cep(){
 
   cad_ceps_uf_combo = gtk_combo_box_text_new();
   cont=0;
-  sprintf(query,"select distinct uf from cidade");
+  sprintf(query,"select sigla from estados");
   if(!(res=consultar(query))){
     popup(NULL,"Não foi possivel obter UFs");
   }
   else
   while((row=mysql_fetch_row(res))){
       gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),cad_ceps_uf_qnt,row[0]);
-      strcpy(uf_list[cad_ceps_uf_qnt],row[0]);
+      if(row[0])
+        strcpy(uf_list[cad_ceps_uf_qnt],row[0]);
+      else
+        continue;
       cad_ceps_uf_qnt++;
       if(cad_ceps_uf_qnt>=MAX_UF_QNT)
         break;
   }
   if(!cad_ceps_uf_qnt){
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),0,"Vazio");
     popup(NULL,"Não Há Estados cadastrados");
     return 1;
   }
@@ -178,7 +180,7 @@ int cad_cep(){
     popup(NULL,"Não foi possivel receber task do logradouro");
     return 1;
   }
-  if(!(row = mysql_fetch_row(res)))
+  if(!(row = mysql_fetch_row(res))|| !row[0])
     strcpy(code_task,"1");
   else
     strcpy(code_task,row[0]);

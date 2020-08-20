@@ -293,3 +293,7 @@ create table if not exists logradouro (  CEP varchar(11) NOT NULL,
   KEY cidade (id_cidade,
   UF) USING BTREE,
   CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (id_cidade));
+
+create table if not exists estados( code int primary key auto_increment,
+sigla varchar(5) not null default 'UF',
+nome varchar(100) not null default 'Estado');

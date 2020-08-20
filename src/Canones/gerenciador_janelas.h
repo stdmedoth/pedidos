@@ -33,17 +33,29 @@
 
 #define REG_REL_FIX_ICONS_WIN 23
 
+#define CAD_TIT_PAG_WND 24
+#define CAD_TIT_REC_WND 25
+#define CAD_BX_PAG_WND 26
+#define CAD_BX_REC_WND 27
+
+#define REG_REL_FIX_FINREC_WIN 28
+#define REG_REL_FIX_FINPAG_WIN 29
+
 #define REG_PRINC_WIN 9990
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
 
-#define REG_WIN_QNT 23
+#define REG_CORRECT_FINAL 99999
+
+#define REG_WIN_QNT 28
 
 const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
 "Cad. Grupos", "Cad. Condições", "Cad. Relatorios", "Orçamentos", "Pedidos", "Cad. Estoque", "Entradas",
 "Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte", "Parametros",
 "Relatorio Fixo de Produtos", "Relatorio Fixo de Terceiros", "Relatorio Fixo de Vendas", "Relatorio Fixo de Compras",
-"Relatorio Fixo de Movimentos de Estoque", "Relatorios Fixos Menu"};
+"Relatorio Fixo de Movimentos de Estoque", "Relatorios Fixos Menu", "Cadastro de Títulos Pagar", "Cadastro de Títulos Receber",
+"Cadastro de Baixas Pagar", "Cadastro de Títulos Receber", "Cadastro de Títulos Pagar", "Relatório Contas à Receber",
+"Relatório Fixo de Contas à Pagar"};
 
 typedef struct{
   int reg_id;

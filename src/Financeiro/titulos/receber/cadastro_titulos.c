@@ -6,9 +6,16 @@ int cad_titulos_receber(){
     gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
     gtk_window_set_title(GTK_WINDOW(janela),"Títulos à Receber");
     gtk_window_set_icon_name(GTK_WINDOW(janela),"document-edit");
-    if(personalizacao.janela_keep_above==1)
-      gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+    gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
     gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+
+    janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].reg_id = CAD_TIT_REC_WND;
+    janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].aberta = 1;
+    if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND]))
+      return 1;
+    janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].janela_pointer = janela;
+
+    g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND]);
 
     GtkWidget *cad_rec_code_frame, *cad_rec_code_box, *cad_rec_code_fixed;
     GtkWidget *cad_rec_cli_frame, *cad_rec_cli_box, *cad_rec_cli_fixed;

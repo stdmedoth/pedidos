@@ -295,15 +295,14 @@ static int altera_orc()
 
 				datas_lives_str[cont].datas = malloc(MAX_DATE_LEN);
 				strcpy(datas_lives_str[cont].datas,row2[1]);
-
 				datas_lives_str[cont].vlrs = atof(row2[2]);
 			}
 			orc_parcelas.parcelas_qnt = mysql_num_rows(res2);
 			orc_pag_parc_qnt_int = orc_parcelas.parcelas_qnt;
 			parc_qnt_gchar = malloc(12);
 			sprintf(parc_qnt_gchar,"%i",orc_parcelas.parcelas_qnt);
-			gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_parcqnt),parc_qnt_gchar);
-			gtk_widget_activate(orc_pag_datas_livres_parcqnt);
+			gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),parc_qnt_gchar);
+			gtk_widget_activate(orc_pag_datas_parcqnt);
 
 			if(!orc_parcelas.parcelas_qnt){
 				popup(NULL,"Não há datas de pagamento no orçamento");

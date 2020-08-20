@@ -63,10 +63,10 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if(subgrp_prod_orc(NULL,posicao)!=0)
 				return 1;
 
-			if(tipo_pag==1)
+			if(tipo_pag==PAG_FAT)
 				sprintf(query, "select valor_fat from preco_cliente where cliente = %s and produto = %s and grupo = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
-			else
-			if(tipo_pag==2)
+
+			if(tipo_pag==PAG_VIST)
 				sprintf(query, "select valor_vist from preco_cliente where cliente = %s and produto = %s and grupo = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
 			else
 			{

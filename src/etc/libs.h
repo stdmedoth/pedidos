@@ -3,6 +3,7 @@
 #include "css.c"
 #include "vars.h"
 #include "stoi.h"
+#include "criticas.h"
 
 #include "../Canones/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
@@ -56,6 +57,9 @@
 
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"
+#include "../Financeiro/baixas/receber/cadastro_baixas.h"
+#include "../Financeiro/baixas/pagar/cadastro_baixas.h"
+
 
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
@@ -67,6 +71,7 @@
 #include "../Relatorios/fixados/produtos/principal.h"
 #include "../Relatorios/fixados/vendas/principal.h"
 #include "../Relatorios/fixados/estoques/principal.h"
+#include "../Relatorios/fixados/financeiro/receber/principal.h"
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
@@ -149,6 +154,8 @@
 
 #include "../Financeiro/titulos/receber/cadastro_titulos.c"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.c"
+#include "../Financeiro/baixas/receber/cadastro_baixas.c"
+#include "../Financeiro/baixas/pagar/cadastro_baixas.c"
 
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"
@@ -157,10 +164,12 @@
 #include "../Relatorios/relatorios/terceiros/terceiros.c"
 #include "../Relatorios/relatorios/movimentos/movimentos.c"
 #include "../Relatorios/relatorios/orc_prod/orc_prods.c"
+
 #include "../Relatorios/fixados/iconview.c"
 #include "../Relatorios/fixados/produtos/principal.c"
 #include "../Relatorios/fixados/vendas/principal.c"
 #include "../Relatorios/fixados/estoques/principal.c"
+#include "../Relatorios/fixados/financeiro/receber/principal.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"

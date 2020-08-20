@@ -52,7 +52,7 @@ int orc_transp_cepc()
 	if(!(campos = mysql_fetch_row(vetor)))
 	{
 		if( orc_transp_msg_cep==0 && concluindo_orc == 0 && recebendo_prod_orc == 0){
-			cep_nao_existente_fun();
+			cep_nao_existente_fun(orc_transp_cep);
 		}
 
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");

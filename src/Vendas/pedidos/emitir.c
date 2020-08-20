@@ -221,7 +221,7 @@ int emitir_ped()
 				popup(NULL,"Não há datas de pagamento no orçamento");
 			}
 			while((row = mysql_fetch_row(res))){
-				cont = atoi(row[0]) - 1;
+				cont = atoi(row[0]);
 				ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
 				strcpy(ped_parcelas.parcelas_data[cont],row[1]);
 

@@ -57,6 +57,9 @@ int main(int argc,char *argv[])
 		return 1;
 
 	abrir_css(DESKTOP_STYLE);
+
+	janelas_gerenciadas.aplicacao.criada = 0;
+
 	if(init())
 		return 1;
 

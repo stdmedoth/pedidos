@@ -66,22 +66,7 @@ static int gerar_total_geral(){
 	sprintf(muda_label,"R$ %.2f",orc_valores.valor_frete);
 	gtk_label_set_text(GTK_LABEL(frete_orc_label),muda_label);
 
-	if(ativos_qnt>1){
-		if(orc_pag_tipo_int == 4){
-			gtk_widget_hide(orc_pag_datas_fixed);
-			 orc_pag_sem_finan();
-			 return 0;
-		}
-
-		if(orc_pag_tipo_int != 3){
-			gtk_widget_hide(orc_pag_datas_livres_fixed);
-			orc_pag_datas_fun();
-		}
-		else{
-			gtk_widget_hide(orc_pag_datas_fixed);
-			orc_pag_datas_livres();
-		}
-	}
+	rec_tipo_condpag();
 
 	return 0;
 }
@@ -809,8 +794,6 @@ int vnd_orc()
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
-	g_signal_connect(orc_pag_datas_entry,"activate",G_CALLBACK(orc_pag_datas_fun),NULL);
-
 	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
@@ -819,7 +802,6 @@ int vnd_orc()
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
-	gtk_widget_hide(orc_pag_datas_livres_fixed);
 
 	return 0;
 }

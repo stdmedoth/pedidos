@@ -5,7 +5,7 @@
 #define EST_ICO_QNT 3
 #define VND_ICO_QNT 1
 #define CMP_ICO_QNT 4
-#define FIN_ICO_QNT 2
+#define FIN_ICO_QNT 4
 #define REL_ICO_QNT 5
 #define TCN_ICO_QNT 2
 
@@ -41,6 +41,8 @@ GtkWidget *ent_nfe_ico, *ent_nfe_lbl;
 //Financeiro
 GtkWidget *rec_tit_ico, *rec_tit_lbl;
 GtkWidget *pag_tit_ico, *pag_tit_lbl;
+GtkWidget *bxs_rec_tit_ico, *bxs_rec_tit_lbl;
+GtkWidget *bxs_pag_tit_ico, *bxs_pag_tit_lbl;
 
 //relatorios
 GtkWidget *rel_prd_ico, *rel_prd_lbl;

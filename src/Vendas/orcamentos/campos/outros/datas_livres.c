@@ -13,11 +13,13 @@ int concluir_datas_livres(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  for(int cont=1;cont<=orc_parc_lvr_qnt_int;cont++){
+  for(int cont=0;cont<orc_parc_lvr_qnt_int;cont++){
     char *data = malloc(MAX_DATE_LEN);
 
-    orc_pag_dl_dts_vlrs_fun(datas_lives_str[cont].entry1, cont);
-    orc_pag_dl_vlrs_fun(datas_lives_str[cont].entry2, cont);
+    if(orc_pag_dl_dts_vlrs_fun(datas_lives_str[cont].entry1, cont))
+      return 1;
+    if(orc_pag_dl_vlrs_fun(datas_lives_str[cont].entry2, cont))
+      return 1;
 
     strcpy(data,datas_lives_str[cont].datas);
     formatado = formatar_data(data);
@@ -35,11 +37,12 @@ int concluir_datas_livres(){
       popup(NULL,"Parcela ultrapassa valor do orçamento");
       return 1;
     }
-    orc_parcelas.parcelas_data[cont-1] = malloc(MAX_DATE_LEN);
-    strcpy(orc_parcelas.parcelas_data[cont-1],datas_lives_str[cont].datas);
-    orc_parcelas.parcelas_vlr[cont-1] = datas_lives_str[cont].vlrs;
 
-    if(cont==1){
+    orc_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
+    strcpy(orc_parcelas.parcelas_data[cont],datas_lives_str[cont].datas);
+    orc_parcelas.parcelas_vlr[cont] = datas_lives_str[cont].vlrs;
+
+    if(cont==0){
       sprintf(query,"delete from orc_datas_livres where orcamento = %s",codigo_orc_gchar);
       if(enviar_query(query)){
         gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
@@ -59,6 +62,7 @@ int concluir_datas_livres(){
       popup(NULL,"Erro ao enviar parcelas livres para banco");
       return 1;
     }
+
   }
 
   if(orc_parcelas.total_geral+MAX_DIF_VLR<orc_valores.valor_total){
@@ -119,7 +123,7 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
   float valor_total=0;
   gchar *valor_gchar = malloc(MAX_PRECO_LEN);
 
-  for(int cont=1;cont<=orc_parc_lvr_qnt_int;cont++){
+  for(int cont=0;cont<orc_parc_lvr_qnt_int;cont++){
       gchar *value = (gchar*)gtk_entry_get_text(GTK_ENTRY(datas_lives_str[cont].entry2));
       if(!value){
         gtk_widget_grab_focus(datas_lives_str[cont].entry2);
@@ -161,37 +165,38 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
 
 int orc_pag_datas_livres(){
 
-  GtkWidget *orc_pag_datas_livres_label1,
-  *orc_pag_datas_livres_label2;
+  GtkWidget *orc_pag_datas_label1,
+  *orc_pag_datas_label2;
   float parcela=0;
   char valor[MAX_PRECO_LEN];
-  GtkWidget *orc_pag_datas_livres_label2_fixed,
-  *orc_pag_datas_livres_label1_fixed;
+  GtkWidget *orc_pag_datas_label2_fixed,
+  *orc_pag_datas_label1_fixed;
 
   char *parcqnt_gchar;
 
-  orc_pag_dl_entrys_box = malloc(sizeof(GtkBox*)*MAX_PARCELAS_QNT+1);
+  gtk_widget_set_sensitive(orc_pag_datas_parcqnt,TRUE);
+  gtk_widget_set_name(orc_pag_datas_parcqnt,"");
 
-  orc_pag_datas_livres_label1 = gtk_label_new("Datas");
-  orc_pag_datas_livres_label2 = gtk_label_new("Valor");
+  orc_pag_datas_label1 = gtk_label_new("Datas");
+  orc_pag_datas_label2 = gtk_label_new("Valor");
 
-  orc_pag_datas_livres_label1_fixed = gtk_fixed_new();
-  orc_pag_datas_livres_label2_fixed = gtk_fixed_new();
+  orc_pag_datas_label1_fixed = gtk_fixed_new();
+  orc_pag_datas_label2_fixed = gtk_fixed_new();
 
-  gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_label1_fixed),orc_pag_datas_livres_label1,20,20);
-  gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_label2_fixed),orc_pag_datas_livres_label2,20,20);
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label1_fixed),orc_pag_datas_label1,20,20);
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label2_fixed),orc_pag_datas_label2,20,20);
 
-  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_livres_grid),0);
-  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_livres_grid),0);
+  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
+  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
 
-  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_livres_grid),0);
-  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_livres_grid),1);
+  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),0);
+  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),1);
 
-  gtk_grid_attach(GTK_GRID(orc_pag_datas_livres_grid),orc_pag_datas_livres_label1_fixed,0,0,1,1);
-  gtk_grid_attach(GTK_GRID(orc_pag_datas_livres_grid),orc_pag_datas_livres_label2_fixed,1,0,1,1);
+  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label1_fixed,0,0,1,1);
+  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
   if(recebendo_prod_orc == 0){
-    parcqnt_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_pag_datas_livres_parcqnt));
+    parcqnt_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_pag_datas_parcqnt));
     if(parcqnt_gchar)
       orc_pag_parc_qnt_int = atoi(parcqnt_gchar);
     else
@@ -200,12 +205,44 @@ int orc_pag_datas_livres(){
 
   if(orc_pag_parc_qnt_int==0){
     orc_pag_parc_qnt_int = 1;
-    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_parcqnt),"1");
+    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),"1");
   }
 
   orc_parc_lvr_qnt_int = orc_pag_parc_qnt_int;
+  int notepage = gtk_notebook_get_current_page(GTK_NOTEBOOK(orc_notebook));
+  if(orc_parc_lvr_qnt_int>1){
+    if(tipo_pag==PAG_VIST){
+      tipo_pag=PAG_FAT;
+      for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+      {
+        if(ativos[cont].id==1)
+        {
+          if(ha_prods()){
+            codigo_prod_orc(NULL,cont);
+            qnt_prod_orc(NULL,cont);
+          }
+        }
+      }
+      gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),notepage);
+    }
+  }else{
+    if(tipo_pag==PAG_FAT){
+      tipo_pag=PAG_VIST;
+      for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+      {
+        if(ativos[cont].id==1)
+        {
+          if(ha_prods()){
+            codigo_prod_orc(NULL,cont);
+            qnt_prod_orc(NULL,cont);
+          }
+        }
+      }
+      gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),notepage);
+    }
+  }
 
-  for(int cont=1;cont<=orc_parc_lvr_qnt_int;cont++){
+  for(int cont=0;cont<orc_parc_lvr_qnt_int;cont++){
 
     if(cont==1){
       parcela = (orc_valores.valor_prds_liquido/orc_parc_lvr_qnt_int) + orc_valores.valor_frete_liquido;
@@ -214,35 +251,34 @@ int orc_pag_datas_livres(){
     }
     sprintf(valor,"%.3f",parcela);
 
-    orc_pag_datas_livres_entry1[cont] = gtk_entry_new();
+    orc_pag_datas_entry1[cont] = gtk_entry_new();
     if(datas_lives_str[cont].datas)
-      gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_entry1[cont]),datas_lives_str[cont].datas);
+      gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),datas_lives_str[cont].datas);
     /*else{
       datas_lives_str[cont].datas = malloc(MAX_DATE_LEN);
       strcpy(datas_lives_str[cont].datas,data_sys);
-      gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_entry1[cont]),datas_lives_str[cont].datas);
+      gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),datas_lives_str[cont].datas);
     }*/
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_livres_entry1[cont]),10);
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),10);
 
-    orc_pag_datas_livres_entry2[cont] = gtk_entry_new();
-    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_pag_datas_livres_entry2[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_livres_entry2[cont]),10);
-    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_entry2[cont]),valor);
+    orc_pag_datas_entry2[cont] = gtk_entry_new();
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_pag_datas_entry2[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),10);
+    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry2[cont]),valor);
 
-    orc_pag_dl_entrys_box[cont] = gtk_box_new(0,0);
     orc_pag_vetor[cont] = cont;
 
     datas_lives_str[cont].id = cont;
-    datas_lives_str[cont].entry1 = orc_pag_datas_livres_entry1[cont];
-    datas_lives_str[cont].entry2 = orc_pag_datas_livres_entry2[cont];
+    datas_lives_str[cont].entry1 = orc_pag_datas_entry1[cont];
+    datas_lives_str[cont].entry2 = orc_pag_datas_entry2[cont];
 
     #pragma GCC diagnostic ignored "-Wint-conversion"
-    g_signal_connect(orc_pag_datas_livres_entry1[cont],"activate",G_CALLBACK(orc_pag_dl_dts_vlrs_fun),orc_pag_vetor[cont]);
-    g_signal_connect(orc_pag_datas_livres_entry2[cont],"activate",G_CALLBACK(orc_pag_dl_vlrs_fun),orc_pag_vetor[cont]);
+    g_signal_connect(orc_pag_datas_entry1[cont],"activate",G_CALLBACK(orc_pag_dl_dts_vlrs_fun),orc_pag_vetor[cont]);
+    g_signal_connect(orc_pag_datas_entry2[cont],"activate",G_CALLBACK(orc_pag_dl_vlrs_fun),orc_pag_vetor[cont]);
     #pragma GCC diagnostic warning "-Wint-conversion"
 
-    gtk_grid_attach(GTK_GRID(orc_pag_datas_livres_grid),orc_pag_datas_livres_entry1[cont],0,cont,1,1);
-    gtk_grid_attach(GTK_GRID(orc_pag_datas_livres_grid),orc_pag_datas_livres_entry2[cont],1,cont,1,1);
+    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);
+    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry2[cont],1,cont+1,1,1);
   }
 
   gtk_widget_show_all(orc_pag_datas_livres_fixed);

@@ -14,6 +14,6 @@ int orc_transp_desconto_frete(){
     return 1;
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
-	gtk_widget_grab_focus(orc_pag_datas_entry);
+  
   return 0;
 }

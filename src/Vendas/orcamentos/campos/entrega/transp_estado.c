@@ -8,7 +8,7 @@ int orc_transp_estado_fun()
 			orc_transp_estado = malloc(MAX_NAME_LEN);
 			strcpy(orc_transp_estado,"");
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
-			gtk_widget_grab_focus(orc_pag_datas_entry);
+			gtk_widget_grab_focus(orc_transp_valor_frete_entry);
 			return 0;
 		}
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -24,6 +24,7 @@ int orc_transp_estado_fun()
 		gtk_widget_grab_focus(orc_transp_estado_entry);
 		return 1;
 	}
+
 	gtk_widget_grab_focus(orc_transp_valor_frete_entry);
 	return 0;
 }

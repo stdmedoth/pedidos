@@ -51,15 +51,21 @@ int relat_icon_view_wnd(){
 */
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
-    &iter,0,"Relatório Vendas",1,
+    &iter,0,janelas_nomes[REG_REL_FIX_VND_WIN],1,
     gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_VND_IMG))),
     2,REG_REL_FIX_VND_WIN,-1);
 
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
-    &iter,0,"Relatório Movimentos Estoque",1,
+    &iter,0,janelas_nomes[REG_REL_FIX_EST_WIN],1,
     gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_EST_IMG))),
     2,REG_REL_FIX_EST_WIN,-1);
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,0,janelas_nomes[REG_REL_FIX_FINREC_WIN],1,
+    gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_FINREC_IMG))),
+    2,REG_REL_FIX_FINREC_WIN,-1);
 
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
   //gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);

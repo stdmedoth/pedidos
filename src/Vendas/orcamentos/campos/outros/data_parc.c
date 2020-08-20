@@ -6,12 +6,15 @@ int orc_pag_datas_fun(void){
   gchar *data_gchar;
   int ano,mes,dia;
   char *datas_list_char[MAX_PARC_QNT];
-  char valor[MAX_PRECO_LEN];
+  char valor[MAX_PRECO_LEN],parc_qnt[12];
   float parcela=0;
+  GtkWidget *orc_pag_datas_label1,
+  *orc_pag_datas_label2;
+  GtkWidget *orc_pag_datas_label2_fixed,
+  *orc_pag_datas_label1_fixed;
 
-  gtk_widget_show_all(orc_pag_datas_fixed);
-
-  data_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(orc_pag_datas_entry));
+  data_gchar = malloc(MAX_DATE_LEN);
+  strcpy(data_gchar,data_sys);
 
   if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF)
   {
@@ -31,17 +34,38 @@ int orc_pag_datas_fun(void){
 
   gdate = g_date_time_new(timezone,ano,mes,orc_pag_init_int,0,0,0);
 
-  gtk_tree_store_clear(orc_pag_datas_model);
+  orc_pag_datas_label1 = gtk_label_new("Datas");
+  orc_pag_datas_label2 = gtk_label_new("Valor");
+
+  orc_pag_datas_label1_fixed = gtk_fixed_new();
+  orc_pag_datas_label2_fixed = gtk_fixed_new();
+
+  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
+  gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
+
+  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),0);
+  gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),1);
+
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label1_fixed),orc_pag_datas_label1,20,20);
+  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label2_fixed),orc_pag_datas_label2,20,20);
+
+  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label1_fixed,0,0,1,1);
+  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
   orc_parcelas.parcelas_qnt = orc_pag_parc_qnt_int;
   orc_parcelas.total_geral = 0;
-  for(int cont=0;cont<orc_pag_parc_qnt_int;cont++){
+
+  sprintf(parc_qnt,"%i",orc_parcelas.parcelas_qnt);
+  gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),parc_qnt);
+  gtk_widget_set_sensitive(orc_pag_datas_parcqnt,FALSE);
+  gtk_widget_set_name(orc_pag_datas_parcqnt,"entry_unsensetivate");
+
+  for(int cont=0;cont<orc_parcelas.parcelas_qnt;cont++){
 
     if(!g_date_time_format(gdate,"%d/%m/%Y")){
       popup(NULL,"Operação impossível para esta data");
       return 1;
     }
-    gtk_tree_store_append(orc_pag_datas_model,&iter1,NULL);
 
     if(cont==0){
       parcela = (orc_valores.valor_prds_liquido/orc_pag_parc_qnt_int) + orc_valores.valor_frete_liquido;
@@ -50,7 +74,6 @@ int orc_pag_datas_fun(void){
     }
 
     sprintf(valor,"R$ %.2f",parcela);
-    gtk_tree_store_set(orc_pag_datas_model,&iter1,0,cont+1,1,g_date_time_format(gdate,"%d/%m/%Y"),2,valor,-1);
 
     if(g_date_time_format(gdate,"%d/%m/%Y")){
       orc_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%d/%m/%Y")));
@@ -60,6 +83,22 @@ int orc_pag_datas_fun(void){
     orc_parcelas.parcelas_vlr[cont] = parcela;
     orc_parcelas.total_geral += orc_parcelas.parcelas_vlr[cont];
 
+    orc_pag_datas_entry1[cont] = gtk_entry_new();
+    gtk_widget_set_sensitive(orc_pag_datas_entry1[cont],FALSE);
+    gtk_widget_set_name(orc_pag_datas_entry1[cont],"entry_unsensetivate");
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),10);
+    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),orc_parcelas.parcelas_data[cont]);
+
+    orc_pag_datas_entry2[cont] = gtk_entry_new();
+    gtk_widget_set_sensitive(orc_pag_datas_entry2[cont],FALSE);
+    gtk_widget_set_name(orc_pag_datas_entry2[cont],"entry_unsensetivate");
+    gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_pag_datas_entry2[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),10);
+    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry2[cont]),valor);
+
+    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);
+    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry2[cont],1,cont+1,1,1);
+
     if(orc_pag_tipo_int == 1)
       gdate = g_date_time_add_days(gdate,orc_pag_parc_int);
     else
@@ -67,7 +106,6 @@ int orc_pag_datas_fun(void){
       gdate = g_date_time_add_months(gdate,pag_parc_int);
   }
 
-  gtk_tree_view_set_model(GTK_TREE_VIEW(orc_pag_datas_tree),(GtkTreeModel*) orc_pag_datas_model);
-
+  gtk_widget_show_all(orc_pag_datas_grid);
   return 0;
 }

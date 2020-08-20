@@ -48,7 +48,8 @@ int cep_terc()
 	}
 	if((campos = mysql_fetch_row(vetor))==NULL)
 	{
-		cep_nao_existente_fun();
+		cep_nao_existente_fun(cep_ter);
+
 		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
 		gtk_widget_grab_focus(address_ter_field);
 		return 0;

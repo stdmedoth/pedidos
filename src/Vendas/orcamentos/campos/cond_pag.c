@@ -27,14 +27,15 @@ int rec_fat_vist()
 
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),row[1]);
 
-	if(atoi(row[6])>1)
-		tipo_pag = 1;
-	else
-		tipo_pag = 2;
-
 	orc_pag_tipo_int = atoi(row[2]);
 
-	gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry),data_atual);
+	if(orc_pag_tipo_int != CONDPAG_DT_LVR){
+		if(atoi(row[6])>1)
+			tipo_pag = PAG_FAT;
+		else
+			tipo_pag = PAG_VIST;
+	}
+
 
 	orc_pag_dia_fixo_int = atoi(row[3]);
 	if(orc_pag_dia_fixo_int==1)
@@ -67,22 +68,19 @@ int rec_fat_vist()
 			break;
 		}
 	}
-	if(orc_pag_tipo_int == CONDPAG_S_FIN){
-		gtk_widget_hide(orc_pag_datas_fixed);
-		 orc_pag_sem_finan();
-		 return 0;
-	}
 
 	if(orc_pag_tipo_int == CONDPAG_DT_LVR){
-		gtk_widget_hide(orc_pag_datas_fixed);
 		orc_pag_datas_livres();
 	}
 
 	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES){
-		gtk_widget_hide(orc_pag_datas_livres_fixed);
 		orc_pag_datas_fun();
 	}
 
+	if(orc_pag_tipo_int == CONDPAG_S_FIN){
+		 orc_pag_sem_finan();
+		 return 0;
+	}
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),notepage);
 	return 0;
 }

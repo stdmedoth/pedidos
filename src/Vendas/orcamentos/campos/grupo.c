@@ -37,6 +37,10 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
+	if(!strlen(codigo_prod_orc_gchar)){
+		codigo_prod_orc(codigo_prod_orc_entry[posicao] , posicao);
+	}
+
 	sprintf(query,"select grupo from produtos where code = %s",codigo_prod_orc_gchar);
 	res = consultar(query);
 	if(res == NULL)
@@ -101,7 +105,7 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 			popup(NULL,"Elemento do grupo com ponteiro nulo");
 			break;
 		}
-		
+
 		if(cont==grupo_len){
 			strcpy(familia_char[cont],ativos[posicao].produto_nome);
 		}

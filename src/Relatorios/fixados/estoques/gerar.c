@@ -82,21 +82,14 @@ int relat_fix_est_gerar_fun(){
   float totalizacao_entrada=0,totalizacao_saida=0;
   for(int cont=relat_fix_est_vlrs.pedidos1;cont<=relat_fix_est_vlrs.pedidos2;cont++){
       float vlr_ped=0,vlr_frete=0;
-      sprintf(query, "select ped.code, t.code, t.razao, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), tp.nome from pedidos as ped inner join terceiros as t inner join pag_cond as pag inner join tipo_movimentos as tp on ped.cliente = t.code and ped.pag_cond = pag.code and tp.id = ped.tipo_mov where ped.code = %i",cont);
+      sprintf(query, "select ped.code, t.code, t.razao, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), tp.nome from pedidos as ped inner join terceiros as t inner join pag_cond as pag inner join tipo_movimentos as tp inner join movimento_estoque as mv on ped.cliente = t.code and ped.pag_cond = pag.code and tp.id = ped.tipo_mov and mv.pedido = ped.code where ped.code = %i",cont);
       if(!(res=consultar(query))){
         popup(NULL,"Erro ao consultar pedido");
         return 1;
       }
       fprintf(relat_file,"<div id='solid-container'>");
       if((row = mysql_fetch_row(res))){
-        fprintf(relat_file,"<tr class='relat-infos'>");
-        fprintf(relat_file,"<td>Pedido: %s<td/>",row[0]);
-        fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);
-        fprintf(relat_file,"<td>Data:  %s<td/>",row[3]);
-        fprintf(relat_file,"<td>Tipo:  %s<td/>",row[4]);
-        fprintf(relat_file,"</tr>");
-
-        sprintf(query, "select po.produto, p_all.nome, po.unidades from Produto_Orcamento as po inner join produtos_nome_all as p_all inner join grupos as g on po.subgrupo = g.code and p_all.code = g.code where po.code = %s  and po.produto >= %s and po.produto <= %s",
+        sprintf(query, "select mv.produto, p_all.nome, mv.entradas, mv.saidas, mv.code, mv.tipo_mov from movimento_estoque as mv inner join produtos_nome_all as p_all inner join grupos as g inner join pedidos as ped on mv.subgrupo = g.code and p_all.code = g.code and ped.code = mv.pedido where ped.code = %s and mv.produto >= %s and mv.produto <= %s",
         row[0],
         relat_fix_est_prod_gchar1,
         relat_fix_est_prod_gchar2);
@@ -105,19 +98,27 @@ int relat_fix_est_gerar_fun(){
           popup(NULL,"Erro ao consultar pedido");
           return 1;
         }
+        if(mysql_num_rows(res2)){
+          fprintf(relat_file,"<tr class='relat-infos'>");
+          fprintf(relat_file,"<td>Pedido: %s<td/>",row[0]);
+          fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);
+          fprintf(relat_file,"<td>Data:  %s<td/>",row[3]);
+          fprintf(relat_file,"<td>Tipo:  %s<td/>",row[4]);
+          fprintf(relat_file,"</tr>");
+        }
         while((row2 = mysql_fetch_row(res2))){
           fprintf(relat_file,"<tr>");
-          fprintf(relat_file,"<td>Código:  %s<td/>",row2[0]);
+          fprintf(relat_file,"<td>Cod. Prod.: %s | Movimento %s<td/>",row2[0],row2[4]);
           fprintf(relat_file,"<td>%s<td/>",row2[1]);
 
           //totaliza entradas e saidas
-          if( atoi(row[4]) == VENDA || atoi(row[4]) == DEV_COMPRA ){
-            fprintf(relat_file,"<td>%.2f -> Saida<td/>",atof(row2[2]));
+          if( atoi(row[5]) == VENDA || atoi(row[5]) == DEV_COMPRA ){
+            fprintf(relat_file,"<td>%.2f -> Saida<td/>",atof(row2[3]));
             totalizacao_saida += atof(row2[2]);
           }
 
-          if( atoi(row[4]) == DEV_VENDA || atoi(row[4]) == COMPRA ){
-            fprintf(relat_file,"<td>%.2f -> Enstrada<td/>",atof(row2[2]));
+          if( atoi(row[5]) == DEV_VENDA || atoi(row[5]) == COMPRA ){
+            fprintf(relat_file,"<td>%.2f -> Entrada<td/>",atof(row2[2]));
             totalizacao_entrada += atof(row2[2]);
           }
 
@@ -135,7 +136,7 @@ int relat_fix_est_gerar_fun(){
   fprintf(relat_file,"<div id='solid-container'>");
   while((row = mysql_fetch_row(res))){
     fprintf(relat_file,"<tr class='relat-infos'>");
-    fprintf(relat_file,"<td>Pedido: Sem Pedido<td/>");
+    fprintf(relat_file,"<td>Pedido: Sem Pedido  | Movimento %s<td/>",row[0]);
     fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);
     fprintf(relat_file,"<td>Data:  %s<td/>",row[3]);
     fprintf(relat_file,"<td>Tipo:  %s<td/>",row[4]);

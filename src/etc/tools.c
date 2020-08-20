@@ -34,12 +34,16 @@ char *formatar_data(char *data){
 	char *format = string_to_int(data);
 
 	//provaveis formatos de data
-	char *formats[] = {"%2d%2d%2d",
+
+	char *formats[] = {"%2d%2d%4d",
+                    "%01d%2d%4d",
+                    "%2d%01d%4d",
+                    "%01d%01d%4d",
+                    "%2d%2d%2d",
 										"%01d%2d%2d",
 										"%2d%01d%2d",
 										"%2d%2d%02d",
-										"%01d%2d%2d",
-										"%2d%2d%4d"};
+										"%01d%2d%2d"};
 	if(!data)
 		return NULL;
 
@@ -54,7 +58,7 @@ char *formatar_data(char *data){
 					}
 				}
 				else
-					return g_date_time_format(gdatetime,"%d/%m/%y");
+					return g_date_time_format(gdatetime,"%d/%m/%Y");
 			}
 	}
 	popup(NULL,"Formato não encontrado");
@@ -145,7 +149,7 @@ void encerrando()
 
 	//enviar aqui todas informacoes importantes para o banco
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  REG_WIN_ENCERRA,
+  REG_CORRECT_FINAL,
   "Encerrando...",
   0,
   0,
@@ -212,7 +216,7 @@ int autologger(char *string)
 	string2 = malloc(MAX_QUERY_LEN+strlen(string));
 
 	sprintf(string1,"%s",string);
-
+/*
 	for(int cont=0;cont<strlen(string1);cont++){
 		if(string1[cont] == '\n')
 			string1[cont] = ' ';
@@ -231,8 +235,9 @@ int autologger(char *string)
 
 	if(enviar_query(string2)!=0)
 		g_print("Log não pode ser enviado\n%s\n",string2);
-
-	file_logger(string2);
+*/
+  file_logger(string1);
+//	file_logger(string2);
 
 	logging = 0;
 	return 0;
@@ -615,7 +620,7 @@ void reportar_encerramento_brusco(){
 	gtk_widget_destroy(popup);
 }
 
-void cep_nao_existente_fun(){
+int cep_nao_existente_fun(gchar *cep){
 
 	int len;
 	GtkWidget *popup, *fields, *fixed, *box;
@@ -643,10 +648,14 @@ void cep_nao_existente_fun(){
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
 	if(resultado == GTK_RESPONSE_ACCEPT){
-		cad_cep();
+		if(cad_cep())
+      return 1;
+    gtk_entry_set_text(GTK_ENTRY(cad_ceps_cep_entry),cep);
+    gtk_widget_grab_focus(cad_ceps_descr_entry);
 	}
 
 	gtk_widget_destroy(popup);
+  return 0;
 }
 
 

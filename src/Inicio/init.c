@@ -52,7 +52,7 @@ int desktop()
 			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
-		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_WIN_ENCERRA);
+		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_CORRECT_FINAL);
 		if(!(res = consultar(query))){
 			popup(NULL,"Falha ao verificar dados da sessão anterior");
 			return 1;
@@ -64,6 +64,21 @@ int desktop()
 		}else{
 				encerramento_brusco = 0;
 		}
+
+		sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
+		REG_CORRECT_FINAL,
+		"Encerrando...",
+		1,
+		0,
+		sessao_oper.code);
+		err = mysql_query(&conectar,query);
+		if(err!=0)
+		{
+			popup(NULL,"Não foi possivel salvar status da sessão\n");
+			file_logger(query);
+			file_logger((char*)mysql_error(&conectar));
+		}
+
 	}
 
 	criar_janela_princ();
@@ -103,25 +118,23 @@ int desktop()
 			return 1;
 		}
 	}else{
-		if(sessao_oper.nivel>=TECNICO_LEVEL){
-			ativar.cadastro=1;
-			ativar.compras=1;
-			ativar.faturamento=1;
-			ativar.estoque=1;
-			ativar.financeiro=1;
-			ativar.relatorios=1;
-		}else{
 			ativar.cadastro=0;
 			ativar.compras=0;
 			ativar.faturamento=0;
 			ativar.estoque=0;
 			ativar.financeiro=0;
 			ativar.relatorios=1;
-		}
 	}
 
-	if(sessao_oper.nivel>=TECNICO_LEVEL)
+	if(sessao_oper.nivel>=TECNICO_LEVEL){
+		ativar.cadastro=1;
+		ativar.compras=1;
+		ativar.faturamento=1;
+		ativar.estoque=1;
+		ativar.financeiro=1;
+		ativar.relatorios=1;
 		ativar.tecnicos=1;
+	}
 	else
 		ativar.tecnicos=0;
 

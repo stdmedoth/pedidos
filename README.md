@@ -9,6 +9,7 @@
          <li>Vinculos entre fornecedores e produto</li>
          <li>Vinculos entre produtos e grupos assim como seus preços</li>
       </ul>
+   	<img width="70%" src="https://imgur.com/6qK9Gy4l.png">
    </div>
    <div>
       <h3>Orcamentos/Pedidos</h3>
@@ -45,6 +46,6 @@
          <li>Listagem de cadastros</li>
          <li>Filtragens e Visualização personalizada</li>
       </ul>
-   </div
-   <img width="70%" src="https://imgur.com/d55i7pzl.png">
+   </div>
+   <img width="70%" src="https://i.imgur.com/BmEGUGM.png">
 </div>

@@ -32,11 +32,12 @@ int cad_rec_concluir_fun(){
   if(cad_rec_alterando == 0){
 
     if(cad_rec_parcela_int==0){
-      sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,1)",
+      sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,%i)",
       atoi(cad_rec_code_gchar),
       atoi(cad_rec_cli_gchar),
       atoi(cad_rec_ped_gchar),
-      cad_rec_status_int);
+      cad_rec_status_int,
+      TP_TIT_REC);
       if(enviar_query(query)){
           popup(NULL,"Não foi possível criar Título");
           return 1;
@@ -62,10 +63,11 @@ int cad_rec_concluir_fun(){
     cad_rec_valor_gchar);
   }
   else{
-    sprintf(query,"update titulos set cliente = %i, pedido = %i, status = %i, qnt_parcelas = 0, tipo_titulo = 1 where code = %i",
+    sprintf(query,"update titulos set cliente = %i, pedido = %i, status = %i, qnt_parcelas = 0, tipo_titulo = %i where code = %i",
     atoi(cad_rec_cli_gchar),
     atoi(cad_rec_ped_gchar),
     cad_rec_status_int,
+    TP_TIT_REC,
     atoi(cad_rec_code_gchar));
 
     if(enviar_query(query)){

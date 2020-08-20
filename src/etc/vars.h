@@ -61,6 +61,8 @@
 #define PAG_IMG       "C:/petitto/files/icones_opc/datas.png"
 #define REC_TIT_IMG   "C:/petitto/files/icones_opc/descendente.png"
 #define PAG_TIT_IMG   "C:/petitto/files/icones_opc/ascendente.png"
+#define BX_PAG_TIT_IMG   "C:/petitto/files/icones_opc/baixas_pagar.png"
+#define BX_REC_TIT_IMG   "C:/petitto/files/icones_opc/baixas_receber.png"
 #define FATOR_IMG     "C:/petitto/files/icones_opc/fatores.png"
 #define PRMT_IMG      "C:/petitto/files/icones_opc/parametros.png"
 #define CAD_EMP_IMG   "C:/petitto/files/icones_opc/company.png"
@@ -155,8 +157,12 @@
 #define REL_FIX_TER_IMG  "/usr/share/petitto/files/icones_opc/relatorio_fixos_terceiros.png"
 #define REL_FIX_VND_IMG  "/usr/share/petitto/files/icones_opc/relatorio_fixos_vendas.png"
 #define REL_FIX_EST_IMG  "/usr/share/petitto/files/icones_opc/relatorio_fixos_movestoque.png"
+#define REL_FIX_FINREC_IMG "/usr/share/petitto/files/icones_opc/relatorio_fixos_finanrec.png"
+#define REL_FIX_FINPAG_IMG "/usr/share/petitto/files/icones_opc/relatorio_fixos_finanpag.png"
 #define REC_TIT_IMG      "/usr/share/petitto/files/icones_opc/descendente.png"
 #define PAG_TIT_IMG   "/usr/share/petitto/files/icones_opc/ascendente.png"
+#define BX_PAG_TIT_IMG   "/usr/share/petitto/files/icones_opc/baixas_pagar.png"
+#define BX_REC_TIT_IMG   "/usr/share/petitto/files/icones_opc/baixas_receber.png"
 #define COT_IMG       "/usr/share/petitto/files/icones_opc/cotacao.png"
 #define ORD_IMG       "/usr/share/petitto/files/icones_opc/ordem_cmp.png"
 #define ENT_IMG       "/usr/share/petitto/files/icones_opc/entradas.png"
@@ -287,12 +293,16 @@
 
 #define MAX_DIF_VLR 0.4
 
-
 #define CONDPAG_DIAS 1
 #define CONDPAG_MESES 2
 #define CONDPAG_DT_LVR 3
 #define CONDPAG_S_FIN 4
 
+#define PAG_FAT 1
+#define PAG_VIST 2
+
+#define TP_TIT_REC 1
+#define TP_TIT_PAG 2
 
 //id das operacoes
 #define VENDA 0

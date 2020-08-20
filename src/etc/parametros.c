@@ -1,5 +1,3 @@
-
-
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
@@ -478,12 +476,12 @@ int parametrizar()
 	tecn_param_imp_path2_box = gtk_box_new(0,0);
 	tecn_param_imp_path3_box = gtk_box_new(0,0);
 
-	tecn_param_nav_path1_fchoose = gtk_file_chooser_button_new("Escolher Impressora 1",GTK_FILE_CHOOSER_ACTION_OPEN);
-	tecn_param_nav_path2_fchoose = gtk_file_chooser_button_new("Escolher Impressora 2",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_nav_path1_fchoose = gtk_file_chooser_button_new("Escolher Navegador 1",GTK_FILE_CHOOSER_ACTION_OPEN);
+	tecn_param_nav_path2_fchoose = gtk_file_chooser_button_new("Escolher Navegador 2",GTK_FILE_CHOOSER_ACTION_OPEN);
 
-	tecn_param_imp_path1_fchoose = gtk_file_chooser_button_new("Escolher Nav. 1",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	tecn_param_imp_path2_fchoose = gtk_file_chooser_button_new("Escolher Nav. 2",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	tecn_param_imp_path3_fchoose = gtk_file_chooser_button_new("Escolher Nav. 3",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_imp_path1_fchoose = gtk_file_chooser_button_new("Escolher Impressora. 1",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_imp_path2_fchoose = gtk_file_chooser_button_new("Escolher Impressora. 2",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	tecn_param_imp_path3_fchoose = gtk_file_chooser_button_new("Escolher Impressora 3",GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
 	tecn_param_nav_path1_box = gtk_box_new(0,0);
 	tecn_param_nav_path2_box = gtk_box_new(0,0);

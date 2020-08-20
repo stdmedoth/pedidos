@@ -12,13 +12,17 @@ create table parcelas_tab(
   posicao int not null,
   data_criacao datetime,
   data_vencimento datetime,
-  valor float not null,
+  valor float default 0 not null,
   foreign key(parcelas_id) references titulos(code));
 
 create table baixas_titulos(
   code int primary key auto_increment,
+  parcelas_id int not null,
+  posicao int not null,
   id_baixa int not null,
-  valor float);
+  data_criacao datetime,
+  valor float default 0 not null,
+  foreign key(parcelas_id) references parcelas_tab(parcelas_id));
 
 create table orc_datas_livres(
   code int primary key auto_increment,
