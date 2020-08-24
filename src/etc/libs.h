@@ -32,6 +32,8 @@
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
 #include "../pesquisadores/bancos.h"
+#include "../pesquisadores/serv_transporte.h"
+
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -116,6 +118,7 @@
 #include "../pesquisadores/fin_pag.c"
 #include "../pesquisadores/cidades.c"
 #include "../pesquisadores/bancos.c"
+#include "../pesquisadores/serv_transporte.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"

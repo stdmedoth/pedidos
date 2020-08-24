@@ -172,7 +172,7 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
   gtk_entry_set_text(entry,formatado);
 
   if(pos<MAX_PARCELAS_QNT)
-    if(pos+1<=orc_pag_parc_qnt_int)
+    if(pos+1<orc_pag_parc_qnt_int)
       gtk_widget_grab_focus(datas_lives_str[pos+1].entry1);
 
   return 0;

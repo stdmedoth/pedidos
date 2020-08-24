@@ -39,3 +39,5 @@ char *ped_status_from_int(int code);
 char *status_tit_str(int status);
 
 int aviso_de_baixa_fin();
+
+int cep_nao_existente_fun(gchar *cep);

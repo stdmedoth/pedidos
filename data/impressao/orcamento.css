@@ -58,10 +58,6 @@ tfoot { display:table-footer-group }
 	margin-left: 10px;
 	margin-right: 10px;
   font-size: 15px;
-}
-
-#campo-itens:hover
-{
 	border-radius: 10px;
 }
 
@@ -117,6 +113,16 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	text-align: right;
 }
 
+#banco-infos{
+	padding: 20px;
+	border-style: ridge;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 15px;
+	border-radius: 10px;
+}
+
 #subtotal-prods
 {
 	margin-top: 10px;
@@ -136,6 +142,18 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 }
 
+.wrapper{
+
+}
+
+.wrapper banco{
+
+}
+
+#campo-titulos{
+	display: flex;
+}
+
 #campo-totais{
 	padding: 20px;
 	border-style: ridge;
@@ -143,11 +161,6 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	margin-left: 10px;
 	margin-right: 10px;
 	font-size: 15px;
-}
-
-
-#campo-totais:hover
-{
 	border-radius: 10px;
 }
 

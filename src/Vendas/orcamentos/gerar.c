@@ -61,6 +61,23 @@ int gerar_orc()
 			return 1;
 	}
 
+	if(codigo_cli_orc()!=0)
+		return 1;
+
+	if(codigo_orc())
+	  return 1;
+
+if(orc_pag_tipo_int == CONDPAG_DT_LVR)
+		if(concluir_datas_livres()){
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+			return 1;
+		}
+
+	if(orc_bnc_code_fun()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		return 1;
+	}
+
 	orc = fopen(gerando_file,"w");
 	if(orc==NULL)
 	{
@@ -68,7 +85,7 @@ int gerar_orc()
 		return 1;
 	}
 
-	sprintf(query,"select distinct (%s%s) from orcamentos as o join terceiros as t where o.code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
+	sprintf(query,"select (%s%s),banco from orcamentos where code = %s",DATE_QUERY,codigo_orc_gchar,codigo_orc_gchar);
 	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
@@ -82,6 +99,7 @@ int gerar_orc()
 		fclose(orc);
 		return 1;
 	}
+	orc_parcelas.banco = atoi(row[1]);
 
 	fprintf(orc,"<!DOCTYPE html>\n");
 	fprintf(orc,"<html>\n");
@@ -332,6 +350,7 @@ int gerar_orc()
 		}
 	}
 	fprintf(orc,"</div>\n");
+		fprintf(orc,"<div id=\"campo-titulos\">\n");
 
 	fprintf(orc,"<div id=\"campo-totais\">\n");
 	fprintf(orc,"<p><b>Totalizações</b></p>\n");
@@ -358,6 +377,24 @@ int gerar_orc()
 	fprintf(orc,"</tr>\n");
 
 	fprintf(orc,"</table>\n");
+	fprintf(orc,"</div>\n");
+
+	fprintf(orc,"<div id=\"banco-infos\">\n");
+	sprintf(query,"select * from bancos where code = %i",orc_parcelas.banco);
+	if((res = consultar(query))){
+		if((row = mysql_fetch_row(res))){
+			fprintf(orc,"<div class='wrapper banco'>");
+			fprintf(orc,"<div>Banco: %s</div>",row[1]);
+			fprintf(orc,"<div>Conta: %s</div>",row[2]);
+			fprintf(orc,"<div>Agência:  %s</div>",row[4]);
+			fprintf(orc,"<div>Beneficiário:  %s</div>", row[5]);
+			fprintf(orc,"<div>CNPJ/CPF:  %s</div>", row[6]);
+			fprintf(orc,"</div>");
+
+		}
+	}
+	fprintf(orc,"</div>\n");
+
 	fprintf(orc,"</div>\n");
 
 	observacoes_orc_get();

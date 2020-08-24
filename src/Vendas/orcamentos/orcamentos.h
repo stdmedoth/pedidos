@@ -201,6 +201,7 @@ static struct{
 static struct {
 	int parcelas_qnt;
 	int pagcond_code;
+	int banco;
 	char *parcelas_data[MAX_PARCELAS_QNT+1];
 	float parcelas_vlr[MAX_PARCELAS_QNT+1];
 	float valor_faltante;
