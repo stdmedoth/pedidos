@@ -64,7 +64,7 @@ GtkWidget *concluir_orc_button,*gerar_orc_button,*pedido_orc_button,*alterar_orc
 GtkWidget *concluir_orc_img_button,*gerar_orc_img_button,*pedido_orc_img_button,*alterar_orc_img_button,*cancelar_orc_img_button,*excluir_orc_img_button;
 GtkWidget *caixa_opcoes_orc;
 //  GCHAR
-
+static gchar *orc_bnc_code_gchar;
 static gchar *data_orc_gchar;
 
 static gchar *cliente_orc_gchar;
@@ -123,6 +123,7 @@ GtkWidget **codigo_prod_orc_label,
 GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
 
 GtkWidget **codigo_orc_prod_box;
+GtkWidget *orc_bnc_code_entry, *orc_bnc_nome_entry, *orc_bnc_psq_button;
 
 GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
@@ -202,6 +203,7 @@ static struct {
 	int pagcond_code;
 	char *parcelas_data[MAX_PARCELAS_QNT+1];
 	float parcelas_vlr[MAX_PARCELAS_QNT+1];
+	float valor_faltante;
 	float total_geral;
 }orc_parcelas;
 

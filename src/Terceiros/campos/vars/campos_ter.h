@@ -30,6 +30,10 @@
 #define TRSP_TEL_COL 28
 #define TRSP_OBS_COL 29
 
+#define TER_PAGE_ITENS 0
+#define TER_PAGE_TRSP 1
+#define TER_PAGE_OUTR 2
+
 #define FLAG_MIN_FRT_PAG_COL 30
 #define VLR_MIN_FRT_PAG_COL 31
 
@@ -53,11 +57,8 @@ static GtkWidget *ter_notebook,
 *ter_principal_box,
 *ter_contatos_box,
 *ter_entrega_box,
-*ter_outros_box,
-*ter_principal_label,
-*ter_contatos_label,
-*ter_entrega_label,
-*ter_outros_label;
+*ter_financeiro_box,
+*ter_outros_box;
 
 static GtkWidget *code_label,
 *code_ter_nfe_label,

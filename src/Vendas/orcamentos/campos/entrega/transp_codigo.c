@@ -26,7 +26,7 @@ int orc_transp_codigo_fun()
 		return 0;
 	}
 
-	/*if( alterando_orc == 1 && alterando_transp == 0 ){
+	if( alterando_orc == 1 && alterando_transp == 0 ){
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
@@ -40,7 +40,7 @@ int orc_transp_codigo_fun()
 		orc_com_entrega = 0;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
 		return 0;
-	}*/
+	}
 
 	if(!atoi(orc_transp_codigo)){
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
@@ -68,6 +68,11 @@ int orc_transp_codigo_fun()
 		{
 			popup(NULL,"Nenhum transportador para o código indicado");
 			return 1;
+		}
+
+		if(atoi(row[TIPI_TER_COL]) != TIPO_TER_TRSP){
+			if(gtk_notebook_get_current_page(GTK_NOTEBOOK(orc_notebook))==TER_PAGE_TRSP)
+				popup(NULL,"Aviso! O responsável pelo transporte não é transportador");
 		}
 
 		if(row[RAZ_TER_COL])

@@ -30,6 +30,7 @@ int altera_ter();
 #include "campos/outros/grupos_preco.c"
 #include "campos/outros/grupo.c"
 #include "campos/outros/produtos.c"
+#include "campos/outros/baixas.c"
 
 
 #define CAD_QUERY_TER "insert into terceiros\

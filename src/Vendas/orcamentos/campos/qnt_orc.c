@@ -68,6 +68,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 
 			if(tipo_pag==PAG_VIST)
 				sprintf(query, "select valor_vist from preco_cliente where cliente = %s and produto = %s and grupo = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
+
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");

@@ -75,11 +75,12 @@ void fechar_sessao(){
 	char query[MAX_QUERY_LEN];
 
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  janelas_gerenciadas.principal.reg_id,
-  "Reiniciando...",
+  REG_CORRECT_FINAL,
+  "Fazendo Logoff...",
   0,
   0,
   sessao_oper.code);
+	
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

@@ -98,6 +98,7 @@ int relat_fix_vnd_gerar_fun(){
       }
       fprintf(relat_file,"<div id='solid-container'>");
       if((row = mysql_fetch_row(res))){
+
         fprintf(relat_file,"<tr class='relat-infos'>");
         fprintf(relat_file,"<td>Pedido: %s<td/>",row[0]);
         fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);

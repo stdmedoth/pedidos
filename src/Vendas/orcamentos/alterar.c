@@ -48,7 +48,7 @@ static int altera_orc()
 		return 1;
 	}
 	//buscando informações basicas de orçamentos
-	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
+	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes, banco from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -78,6 +78,7 @@ static int altera_orc()
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[5],strlen(row[5]));
 	}
+	gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),row[6]);
 
 	if(codigo_cli_orc()!=0){
 		autologger("Erro no código do cliente durante alteracao");
@@ -148,6 +149,10 @@ static int altera_orc()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
+
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
+
 		//arquivando as informacoes da alteração
 		file_logger("\n\nAdicionando item %s à alteração \n");
 		file_logger(row[1]);
@@ -234,6 +239,9 @@ static int altera_orc()
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
+
 		if(ativos[cont].id==1)
 		{
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)){
@@ -284,7 +292,7 @@ static int altera_orc()
 	else{
 		orc_pag_tipo_int = atoi(row2[0]);
 		if(orc_pag_tipo_int == CONDPAG_DT_LVR){
-			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%d/%%m/%%Y'), valor from orc_datas_livres where orcamento = %s",tmp_cod_orc);
+			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%d/%%m/%%y'), valor from orc_datas_livres where orcamento = %s",tmp_cod_orc);
 			if(!(res2 = consultar(query)))
 			{
 				popup(NULL,"Erro ao buscar datas das parcelas");

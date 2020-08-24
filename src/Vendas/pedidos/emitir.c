@@ -56,7 +56,7 @@ int emitir_ped()
 		return 1;
 	}
 
-	sprintf(query,"select cliente,data_mov,tipo_mov,pag_cond from pedidos where code = %i",ped_infos.ped_code);
+	sprintf(query,"select cliente,banco,data_mov,tipo_mov,pag_cond from pedidos where code = %i",ped_infos.ped_code);
 
 	if(!(res = consultar(query)))
 	{
@@ -73,11 +73,13 @@ int emitir_ped()
 	if(row[0])
 		ped_infos.cliente_code = atoi(row[0]);
 	if(row[1])
-		strcpy(ped_infos.data_mov,row[1]);
+		ped_infos.banco = atoi(row[1]);
 	if(row[2])
-		ped_infos.tipo_mov = atoi(row[2]);
+		strcpy(ped_infos.data_mov,row[2]);
 	if(row[3])
-		ped_parcelas.pagcond_code = atoi(row[3]);
+		ped_infos.tipo_mov = atoi(row[3]);
+	if(row[4])
+		ped_parcelas.pagcond_code = atoi(row[4]);
 
 	//calculando financeiro
 	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",ped_infos.ped_code);
@@ -164,83 +166,87 @@ int emitir_ped()
 	if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA)
 		ped_parcelas.tipo_tit = 2;
 
-	titulo_code = tasker("titulos"),
-	sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,0,%i,%i)",
-	titulo_code,
-	ped_infos.cliente_code,
-	ped_infos.ped_code,
-	ped_parcelas.parcelas_qnt,
-	ped_parcelas.tipo_tit);
-	if(enviar_query(query)){
-		popup(NULL,"Não foi possivel criar título no financeiro");
-	}
+	if(ped_parcelas.tipo_parc != CONDPAG_S_FIN){
+		titulo_code = tasker("titulos"),
+		sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,%i,%i,%i)",
+		titulo_code,
+		ped_infos.cliente_code,
+		ped_infos.ped_code,
+		STAT_PENDENTE,
+		ped_parcelas.parcelas_qnt,
+		ped_parcelas.tipo_tit);
+		if(enviar_query(query)){
+			popup(NULL,"Não foi possivel criar título no financeiro");
+		}
 
-	if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES ){
-			for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
+		if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES ){
+				for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
 
-				if(cont==0){
-					parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt) + ped_valores.valor_frete_liquido;
-				}else{
-					parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt);
+					if(cont==0){
+						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt) + ped_valores.valor_frete_liquido;
+					}else{
+						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt);
+					}
+
+					if(g_date_time_format(gdate,"%Y-%m-%d")){
+						ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y-%m-%d")));
+						strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
+					}else{
+						popup(NULL,"Erro ao calcular datas! Verifique financeiro");
+					}
+
+					ped_parcelas.parcelas_vlr[cont] = parcela;
+					ped_parcelas.total_geral += ped_parcelas.parcelas_vlr[cont];
+
+					sprintf(valor,"%.2f",ped_parcelas.parcelas_vlr[cont]);
+					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %i, '%s', '%s', '%s')",
+					titulo_code,
+					cont,
+					ped_infos.banco,
+					ped_infos.data_mov,
+					ped_parcelas.parcelas_data[cont],
+					valor);
+					if(enviar_query(query)){
+						popup(NULL,"Não foi possivel criar parcela no financeiro");
+					}
+					if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
+						gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
+					else
+					if(ped_parcelas.tipo_parc == CONDPAG_MESES)
+						gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
 				}
-
-				if(g_date_time_format(gdate,"%Y-%m-%d")){
-					ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y-%m-%d")));
-					strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
-				}else{
-					popup(NULL,"Erro ao calcular datas! Verifique financeiro");
+		}
+		if( ped_parcelas.tipo_parc == CONDPAG_DT_LVR){
+			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%Y-%%m-%%d'), valor from orc_datas_livres where orcamento = %i",ped_infos.ped_code);
+			if(!(res = consultar(query)))
+			{
+				popup(NULL,"Erro ao buscar datas das parcelas");
+			}else{
+				if(!mysql_num_rows(res)){
+					popup(NULL,"Não há datas de pagamento no orçamento");
 				}
+				while((row = mysql_fetch_row(res))){
+					cont = atoi(row[0]);
+					ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
+					strcpy(ped_parcelas.parcelas_data[cont],row[1]);
 
-				ped_parcelas.parcelas_vlr[cont] = parcela;
-				ped_parcelas.total_geral += ped_parcelas.parcelas_vlr[cont];
+					ped_parcelas.parcelas_vlr[cont] = atof(row[2]);
+					sprintf( valor,"%.2f",ped_parcelas.parcelas_vlr[cont] );
 
-				sprintf(valor,"%.2f",ped_parcelas.parcelas_vlr[cont]);
-				sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, '%s', '%s', '%s')",
-				titulo_code,
-				cont,
-				ped_infos.data_mov,
-				ped_parcelas.parcelas_data[cont],
-				valor);
-				if(enviar_query(query)){
-					popup(NULL,"Não foi possivel criar parcela no financeiro");
-				}
-				if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
-					gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
-				else
-				if(ped_parcelas.tipo_parc == CONDPAG_MESES)
-					gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
-			}
-	}
-	if( ped_parcelas.tipo_parc == CONDPAG_DT_LVR){
-		sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%Y-%%m-%%d'), valor from orc_datas_livres where orcamento = %i",ped_infos.ped_code);
-		if(!(res = consultar(query)))
-		{
-			popup(NULL,"Erro ao buscar datas das parcelas");
-		}else{
-			if(!mysql_num_rows(res)){
-				popup(NULL,"Não há datas de pagamento no orçamento");
-			}
-			while((row = mysql_fetch_row(res))){
-				cont = atoi(row[0]);
-				ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
-				strcpy(ped_parcelas.parcelas_data[cont],row[1]);
-
-				ped_parcelas.parcelas_vlr[cont] = atof(row[2]);
-				sprintf( valor,"%.2f",ped_parcelas.parcelas_vlr[cont] );
-
-				sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, '%s', '%s', '%s')",
-				titulo_code,
-				cont,
-				ped_infos.data_mov,
-				ped_parcelas.parcelas_data[cont],
-				valor);
-				if(enviar_query(query)){
-					popup(NULL,"Não foi possivel criar parcela no financeiro");
+					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %i, '%s', '%s', '%s')",
+					titulo_code,
+					cont,
+					ped_infos.banco,
+					ped_infos.data_mov,
+					ped_parcelas.parcelas_data[cont],
+					valor);
+					if(enviar_query(query)){
+						popup(NULL,"Não foi possivel criar parcela no financeiro");
+					}
 				}
 			}
 		}
 	}
-
 	//tipo_mov
 	//0 = manual
 	//1 = venda

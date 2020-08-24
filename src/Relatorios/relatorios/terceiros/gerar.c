@@ -2,7 +2,13 @@ int relat_ter_gerar_fun()
 {
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
-	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Terceiros</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
+	char html_header[] = "<!DOCTYPE html>"
+		"<html>"
+			"<head>"
+				"<meta charset=\"utf-8\"/>"
+				"<title>Relatório de Terceiros</title>"
+				"<link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
+
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	char *gerando_file;
 	char *tipo_nome;
@@ -75,7 +81,7 @@ int relat_ter_gerar_fun()
 	while((row2 = mysql_fetch_row(res2))!=NULL){
 		list_qnt++;
 		cont = 0;
-		fprintf(relatorio_file,"<tr>");
+		fprintf(relatorio_file,"<tr class='tr-estilo'>");
 		while(cont<ter_query.campos_qnt)
 		{
 			if(row2[cont])

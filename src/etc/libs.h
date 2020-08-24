@@ -31,6 +31,7 @@
 #include "../pesquisadores/fin_rec.h"
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
+#include "../pesquisadores/bancos.h"
 #include "../Unidades/cadastro_unidades.h"
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
@@ -55,11 +56,13 @@
 #include "../Vendas/pedidos/excluir.h"
 #include "../Vendas/orcamentos/orcamentos.h"
 
+#include "../Transportes/cad_trsp.h"
+
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"
 #include "../Financeiro/baixas/receber/cadastro_baixas.h"
 #include "../Financeiro/baixas/pagar/cadastro_baixas.h"
-
+#include "../Financeiro/bancos/cad_bancos.h"
 
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
@@ -112,6 +115,7 @@
 #include "../pesquisadores/fin_rec.c"
 #include "../pesquisadores/fin_pag.c"
 #include "../pesquisadores/cidades.c"
+#include "../pesquisadores/bancos.c"
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"
@@ -141,6 +145,8 @@
 #include "../Vendas/pedidos/excluir.c"
 #include "../Vendas/pedidos/pedidos.c"
 
+#include "../Transportes/cad_trsp.c"
+
 #include "../Estoque/cadastro/codigo.c"
 #include "../Estoque/cadastro/nome.c"
 #include "../Estoque/saldos/saldos.c"
@@ -156,6 +162,7 @@
 #include "../Financeiro/titulos/pagar/cadastro_titulos.c"
 #include "../Financeiro/baixas/receber/cadastro_baixas.c"
 #include "../Financeiro/baixas/pagar/cadastro_baixas.c"
+#include "../Financeiro/bancos/cad_bancos.c"
 
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"

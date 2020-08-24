@@ -1,34 +1,3 @@
-drop table if exists niveis_gerenciais;
-drop table if exists tipo_pagamento;
-drop table if exists movimento_estoque;
-drop table if exists estoques;
-drop table if exists faturamento;
-drop table if exists Produto_Orcamento;
-drop table if exists orcamentos;
-drop table if exists pedidos;
-drop table if exists preco_cliente;
-drop table if exists preco_grupo;
-drop table if exists precos;
-drop table if exists tipo_movimentos;
-drop table if exists suporte_posts;
-drop table if exists suporte_status;
-drop table if exists operadores;
-drop table if exists empresa;
-drop table if exists perfil_desktop;
-drop table if exists pag_cond;
-drop table if exists criticas;
-drop table if exists produtos;
-drop table if exists grupos;
-drop table if exists unidades;
-drop table if exists terceiros;
-drop table if exists logs;
-drop table if exists confs;
-drop table if exists dados;
-drop table if exists criador_relat;
-drop table if exists relat_tab_campos;
-drop table if exists relat_tabelas_id;
-drop table if exists tipo_terceiros;
-
 create table tipo_terceiros(
     code int primary key,
     nome varchar(100) not null);
@@ -191,6 +160,7 @@ create table if not exists pedidos( code int primary key auto_increment,
   cliente int default 1,
   data_mov date default '2001-01-01',
   pag_cond int default 1,
+  banco int default 0,
   total float default 0.0,
   status int default 0,
   foreign key(cliente) references terceiros(code));
@@ -201,6 +171,7 @@ create table if not exists orcamentos( code int primary key auto_increment,
   cliente int default 0,
   dia date default '2001-01-01',
   pag_cond int default 1,
+  banco int default 0,
   total float default 0,
   observacoes varchar(500) default '',
   foreign key(cliente) references terceiros(code));

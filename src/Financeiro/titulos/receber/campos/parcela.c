@@ -28,6 +28,7 @@ int cad_rec_parcela_fun(){
       gtk_entry_set_text(GTK_ENTRY(cad_rec_cli_nome_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_rec_ped_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_rec_valor_entry),"");
+      gtk_entry_set_text(GTK_ENTRY(cad_rec_valor_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_rec_datacriacao_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_rec_datavencimento_entry),"");
       gtk_combo_box_set_active(GTK_COMBO_BOX(cad_rec_status_combo),0);

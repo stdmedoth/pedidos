@@ -20,8 +20,9 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
 	if(ger_janela_aberta(janela_principal, &janelas_gerenciadas.principal))
 		return ;
-	janelas_gerenciadas.principal.aberta = 1;
 
+	janelas_gerenciadas.principal.aberta = 1;
+	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
 	return ;
 }
@@ -78,7 +79,6 @@ int desktop()
 			file_logger(query);
 			file_logger((char*)mysql_error(&conectar));
 		}
-
 	}
 
 	criar_janela_princ();
@@ -425,6 +425,7 @@ int init()
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
+
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janela_inicializacao);
 
@@ -479,9 +480,11 @@ int init()
 	}
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
-	janelas_gerenciadas.fundo_inicializacao.aberta = 1;
+	janelas_gerenciadas.fundo_inicializacao.reg_id = 1;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
 		return 1;
+
+	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
 

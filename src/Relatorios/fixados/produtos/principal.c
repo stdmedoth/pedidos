@@ -51,7 +51,7 @@ int relat_fix_prod(){
 
   gtk_window_set_transient_for(GTK_WINDOW(janela),
   GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_REL_FIX_ICONS_WIN].janela_pointer));
-	
+
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
 
@@ -79,7 +79,7 @@ int relat_fix_prod(){
   gtk_entry_set_width_chars(GTK_ENTRY(relat_fix_prod_prod_entry),10);
   relat_fix_prod_grp_entry = gtk_entry_new();
   gtk_entry_set_width_chars(GTK_ENTRY(relat_fix_prod_grp_entry),10);
-  relat_fix_prod_quebra_check = gtk_check_button_new_with_label("Quebra de linha?");
+  relat_fix_prod_quebra_check = gtk_check_button_new_with_label("Quebra?");
 
   relat_fix_prod_quebra_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_prod_quebra_combo),"Grupo");

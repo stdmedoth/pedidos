@@ -123,7 +123,7 @@ int relat_fix_est(){
   gtk_entry_set_width_chars(GTK_ENTRY(relat_fix_est_ped_entry1),5);
   gtk_entry_set_width_chars(GTK_ENTRY(relat_fix_est_ped_entry2),5);
 
-  relat_fix_est_quebra_check = gtk_check_button_new_with_label("Quebra de linha?");
+  relat_fix_est_quebra_check = gtk_check_button_new_with_label("Quebra?");
 
   relat_fix_est_data_entry1 = gtk_entry_new();
   relat_fix_est_data_entry2 = gtk_entry_new();

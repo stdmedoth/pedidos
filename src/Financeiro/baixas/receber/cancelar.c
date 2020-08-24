@@ -10,12 +10,15 @@ int cad_bxs_rec_cancelar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_datacriacao_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_datavencimento_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_valor_entry),"");
+  gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_parcvalor_entry),"");
+  gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_bxrvalor_entry),"");
 
   cad_bxs_rec_alterando=0;
   cad_bxs_rec_concluindo=0;
 
   gtk_widget_set_sensitive(cad_bxs_rec_code_id_spin,TRUE);
   gtk_widget_set_sensitive(cad_bxs_rec_code_button,TRUE);
+  gtk_widget_set_sensitive(cad_bxs_rec_parcela_spin,TRUE);
   gtk_widget_set_sensitive(cad_bxs_rec_alterar_button,TRUE);
 
   gtk_widget_grab_focus(cad_bxs_rec_code_entry);

@@ -14,6 +14,7 @@ int cad_ico(void)
 	pag_ico = gtk_image_new_from_file(PAG_IMG);
 	crel_ico = gtk_image_new_from_file(REL_IMG);
 	ceps_ico = gtk_image_new_from_file(CAD_CEP_IMG);
+	bnc_ico = gtk_image_new_from_file(BANCOS_IMG);
 
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
@@ -26,6 +27,7 @@ int cad_ico(void)
 	pag_lbl = gtk_label_new("Cond. Pagamento");
 	crel_lbl = gtk_label_new("Novo Relatório");
 	ceps_lbl = gtk_label_new("Códigos Postais");
+	bnc_lbl = gtk_label_new("Bancos");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -49,7 +51,7 @@ int cad_ico(void)
 	}
 
 	//icone cadastro produto
-    gtk_box_pack_end(GTK_BOX(cad_box[0]),prd_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(cad_box[0]),prd_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[0]),prd_ico,0,0,0);
 
 	//icone cadastro terceiro
@@ -76,9 +78,13 @@ int cad_ico(void)
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
 
-	//icone novo relatorio
+	//icone novo cep
 	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_ico,0,0,0);
+
+	//icone novo banco
+	gtk_box_pack_end(GTK_BOX(cad_box[8]),bnc_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(cad_box[8]),bnc_ico,0,0,0);
 
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
@@ -98,6 +104,8 @@ int cad_ico(void)
 	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_relat),NULL);
 
 	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(cad_cep),NULL);
+
+	g_signal_connect(eventos[8],"button_press_event",G_CALLBACK(cad_bancos_fun),NULL);
 
 	return 0;
 }

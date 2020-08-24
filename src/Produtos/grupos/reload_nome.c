@@ -22,6 +22,9 @@ int reload_nome_grupos(){
 
   while((row = mysql_fetch_row(res))){
 
+    while (g_main_context_pending(NULL))
+      g_main_context_iteration(NULL,FALSE);
+      
     grupo_code = atoi(row[0]);
     if(rec_familia_vet(familia, atoi(row[0]) )!=0){
       popup(NULL,"Erro ao calcular niveis do grupo");
@@ -65,7 +68,6 @@ int reload_nome_grupos(){
       popup(NULL,"Produto falhou na importação");
     }
   }
-  popup(NULL,"Processo Finalizado");
   return 0;
 }
 
@@ -73,12 +75,11 @@ int reload_nome_grupos(){
 int opc_reload_nome_grp(){
 
   gpointer spinner = carregando_wnd();
-  while (g_main_context_pending(NULL))
-    g_main_context_iteration(NULL,FALSE);
 
   reload_nome_grupos();
 
   gtk_widget_destroy(spinner);
+  popup(NULL,"Processo Finalizado");
 
   return 0;
 }

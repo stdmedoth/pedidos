@@ -55,9 +55,10 @@ int cad_rec_concluir_fun(){
       return 1;
     }
 
-    sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s')",
+    sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %s, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s')",
     atoi(cad_rec_code_gchar),
     cad_rec_parcela_int,
+    cad_rec_bnc_gchar,
     cad_rec_datacriacao_gchar,
     cad_rec_datavencimento_gchar,
     cad_rec_valor_gchar);
@@ -75,9 +76,10 @@ int cad_rec_concluir_fun(){
         return 1;
     }
 
-    sprintf(query,"update parcelas_tab set data_criacao = STR_TO_DATE('%s','%%d/%%m/%%Y'), data_vencimento = STR_TO_DATE('%s','%%d/%%m/%%Y'), valor = '%s' where parcelas_id = %i and posicao = %i",
+    sprintf(query,"update parcelas_tab set data_criacao = STR_TO_DATE('%s','%%d/%%m/%%Y'), data_vencimento = STR_TO_DATE('%s','%%d/%%m/%%Y'), banco = %s, valor = '%s' where parcelas_id = %i and posicao = %i",
     cad_rec_datacriacao_gchar,
     cad_rec_datavencimento_gchar,
+    cad_rec_bnc_gchar,
     cad_rec_valor_gchar,
     atoi(cad_rec_code_gchar),
     cad_rec_parcela_int);

@@ -25,9 +25,11 @@ int cad_bxs_rec_alterar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_valor_entry),row[1]);
 
 
-  //gtk_widget_set_sensitive(cad_bxs_rec_code_id_spin,FALSE);
-  //gtk_widget_set_sensitive(cad_bxs_rec_code_button,FALSE);
-  //gtk_widget_set_sensitive(cad_bxs_rec_alterar_button,FALSE);
+  gtk_widget_set_sensitive(cad_bxs_rec_code_id_spin,FALSE);
+  gtk_widget_set_sensitive(cad_bxs_rec_code_button,FALSE);
+  gtk_widget_set_sensitive(cad_bxs_rec_parcela_spin,FALSE);
+  gtk_widget_set_sensitive(cad_bxs_rec_alterar_button,FALSE);
 
+  gtk_widget_grab_focus(cad_bxs_rec_valor_entry);
   return 0;
 }

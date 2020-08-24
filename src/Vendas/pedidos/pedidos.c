@@ -34,8 +34,8 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
   gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
   gchar *formata_preco3 = malloc(MAX_PRECO_LEN);
 
-	MYSQL_RES *res;
-	MYSQL_ROW row;
+	MYSQL_RES *res, *res2;
+	MYSQL_ROW row, row2;
 	int grupo_len=0;
 	char origem_preco[50],tipo_pag[50];
 	char query[MAX_QUERY_LEN];
@@ -47,7 +47,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
-	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond,tipo_mov from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
+	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -62,6 +62,19 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[0]);
 	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),atoi(row[3]));
+
+	sprintf(query,"select nome from bancos where code = %s",row[4]);
+	if(!(res2 = consultar(query))){
+		popup(NULL,"Não foi possível consultar Banco");
+		return 1;
+	}
+	if((row2 = mysql_fetch_row(res2)))
+		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[0]);
+	else
+		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),"Sem Banco");
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),atoi(row[5]));
+
 	gtk_widget_set_sensitive(ped_tipo_combo,FALSE);
 
 	sprintf(query,"select * from pag_cond where code = %s",row[2]);
@@ -291,6 +304,8 @@ int vnd_ped()
 	GtkWidget *ped_pag_fixed, *ped_pag_box, *ped_pag_frame;
 	GtkWidget *ped_est_fixed, *ped_est_box, *ped_est_frame;
 	GtkWidget *ped_tipo_fixed, *ped_tipo_box, *ped_tipo_frame;
+	GtkWidget *ped_status_fixed,*ped_status_box, *ped_status_frame;
+	GtkWidget *ped_banco_fixed, *ped_banco_box, *ped_banco_frame;
 
 	GtkWidget *treeview;
 	GtkWidget *caixa_grande;
@@ -391,7 +406,7 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_cod_box),ped_psq_cod_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(ped_cod_frame),ped_cod_box);
 	gtk_fixed_put(GTK_FIXED(ped_cod_fixed),ped_cod_frame,10,10);
-	gtk_entry_set_width_chars(GTK_ENTRY(ped_cod_entry),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(ped_cod_entry),8);
 
 	ped_data_entry = gtk_entry_new();
 	ped_data_fixed = gtk_fixed_new();
@@ -400,7 +415,7 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_data_box),ped_data_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ped_data_frame),ped_data_box);
 	gtk_fixed_put(GTK_FIXED(ped_data_fixed),ped_data_frame,10,10);
-	gtk_entry_set_width_chars(GTK_ENTRY(ped_data_entry),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(ped_data_entry),10);
 	gtk_widget_set_sensitive(ped_data_entry,FALSE);
 
 	ped_ter_entry = gtk_entry_new();
@@ -420,8 +435,28 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_pag_box),ped_pag_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ped_pag_frame),ped_pag_box);
 	gtk_fixed_put(GTK_FIXED(ped_pag_fixed),ped_pag_frame,10,10);
-	gtk_entry_set_width_chars(GTK_ENTRY(ped_pag_entry),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(ped_pag_entry),15);
 	gtk_widget_set_sensitive(ped_pag_entry,FALSE);
+
+	emiteped_status_combo = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Pendentes");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Emitidos");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Cancelados");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),0);
+	ped_status_fixed = gtk_fixed_new();
+	ped_status_box = gtk_box_new(0,0);
+	ped_status_frame = gtk_frame_new("Status");
+	gtk_box_pack_start(GTK_BOX(ped_status_box),emiteped_status_combo,0,0,0);
+	gtk_container_add(GTK_CONTAINER(ped_status_frame),ped_status_box);
+	gtk_fixed_put(GTK_FIXED(ped_status_fixed),ped_status_frame,10,10);
+
+	ped_banco_entry = gtk_entry_new();
+	ped_banco_fixed  = gtk_fixed_new();
+	ped_banco_box = gtk_box_new(0,0);
+	ped_banco_frame = gtk_frame_new("Banco");
+	gtk_box_pack_start(GTK_BOX(ped_banco_box),ped_banco_entry,0,0,0);
+	gtk_container_add(GTK_CONTAINER(ped_banco_frame),ped_banco_box);
+	gtk_fixed_put(GTK_FIXED(ped_banco_fixed),ped_banco_frame,10,10);
 
 	treeview = campos_produto_ped();
 
@@ -435,9 +470,15 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(linha1),ped_data_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_pag_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_tipo_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linha1),ped_status_fixed,0,0,0);
+	gtk_widget_set_sensitive(ped_status_fixed,FALSE);
+	gtk_widget_set_name(ped_status_fixed,"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(linha2),ped_ter_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha2),ped_est_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linha2),ped_banco_fixed,0,0,0);
+	gtk_widget_set_sensitive(ped_banco_fixed,FALSE);
+	gtk_widget_set_name(ped_banco_fixed,"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(linha3),caixa_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha4),ped_opcoes_fixed,0,0,0);

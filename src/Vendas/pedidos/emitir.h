@@ -1,6 +1,3 @@
-#define STATUS_PED_EMIT 1
-#define STATUS_PED_CAN 2
-
 static struct{
 	float valor_prds;
 	float valor_prds_desc;
@@ -16,6 +13,7 @@ static struct{
 
 static struct{
   int ped_code;
+	int banco;
 	int status;
   int cliente_code;
   char data_mov[MAX_DATE_LEN];

@@ -7,6 +7,8 @@ int cad_baixas_receber(){
   GtkWidget *cad_bxs_rec_parcela_box;
   GtkWidget *cad_bxs_rec_datacriacao_box;
   GtkWidget *cad_bxs_rec_datavencimento_box;
+  GtkWidget *cad_bxs_rec_parcvalor_box;
+  GtkWidget *cad_bxs_rec_bxrvalor_box;
   GtkWidget *cad_bxs_rec_valor_box;
 
   GtkWidget *cad_bxs_rec_code_fixed;
@@ -16,6 +18,8 @@ int cad_baixas_receber(){
   GtkWidget *cad_bxs_rec_parcela_fixed;
   GtkWidget *cad_bxs_rec_datacriacao_fixed;
   GtkWidget *cad_bxs_rec_datavencimento_fixed;
+  GtkWidget *cad_bxs_rec_parcvalor_fixed;
+  GtkWidget *cad_bxs_rec_bxrvalor_fixed;
   GtkWidget *cad_bxs_rec_valor_fixed;
 
   GtkWidget *cad_bxs_rec_code_frame;
@@ -25,6 +29,8 @@ int cad_baixas_receber(){
   GtkWidget *cad_bxs_rec_parcela_frame;
   GtkWidget *cad_bxs_rec_datacriacao_frame;
   GtkWidget *cad_bxs_rec_datavencimento_frame;
+  GtkWidget *cad_bxs_rec_parcvalor_frame;
+  GtkWidget *cad_bxs_rec_bxrvalor_frame;
   GtkWidget *cad_bxs_rec_valor_frame;
 
   GtkWidget *campo_opcoes, *caixa_grande, *linha1,
@@ -85,8 +91,15 @@ int cad_baixas_receber(){
   gtk_entry_set_placeholder_text(GTK_ENTRY(cad_bxs_rec_datacriacao_entry),data_sys);
   cad_bxs_rec_datavencimento_entry = gtk_entry_new();
   gtk_entry_set_width_chars(GTK_ENTRY(cad_bxs_rec_datavencimento_entry),15);
+  cad_bxs_rec_parcvalor_entry = gtk_entry_new();
+  gtk_entry_set_width_chars(GTK_ENTRY(cad_bxs_rec_parcvalor_entry),10);
+  gtk_entry_set_icon_from_icon_name(GTK_ENTRY(cad_bxs_rec_parcvalor_entry),GTK_ENTRY_ICON_PRIMARY,"money");
+  cad_bxs_rec_bxrvalor_entry = gtk_entry_new();
+  gtk_entry_set_width_chars(GTK_ENTRY(cad_bxs_rec_bxrvalor_entry),10);
+  gtk_entry_set_icon_from_icon_name(GTK_ENTRY(cad_bxs_rec_bxrvalor_entry),GTK_ENTRY_ICON_PRIMARY,"money");
   cad_bxs_rec_valor_entry = gtk_entry_new();
   gtk_entry_set_width_chars(GTK_ENTRY(cad_bxs_rec_valor_entry),10);
+  gtk_entry_set_icon_from_icon_name(GTK_ENTRY(cad_bxs_rec_valor_entry),GTK_ENTRY_ICON_PRIMARY,"money");
 
   gtk_widget_set_sensitive(cad_bxs_rec_cli_nome_entry,FALSE);
   gtk_widget_set_name(cad_bxs_rec_cli_nome_entry,"entry_unsensetivate");
@@ -94,12 +107,20 @@ int cad_baixas_receber(){
   gtk_widget_set_sensitive(cad_bxs_rec_datavencimento_entry,FALSE);
   gtk_widget_set_name(cad_bxs_rec_datavencimento_entry,"entry_unsensetivate");
 
+  gtk_widget_set_sensitive(cad_bxs_rec_parcvalor_entry,FALSE);
+  gtk_widget_set_name(cad_bxs_rec_parcvalor_entry,"entry_unsensetivate");
+
+  gtk_widget_set_sensitive(cad_bxs_rec_bxrvalor_entry,FALSE);
+  gtk_widget_set_name(cad_bxs_rec_bxrvalor_entry,"entry_unsensetivate");
+
   cad_bxs_rec_code_fixed = gtk_fixed_new();
   cad_bxs_rec_code_id_fixed = gtk_fixed_new();
   cad_bxs_rec_cli_nome_fixed = gtk_fixed_new();
   cad_bxs_rec_parcela_fixed = gtk_fixed_new();
   cad_bxs_rec_datacriacao_fixed = gtk_fixed_new();
   cad_bxs_rec_datavencimento_fixed = gtk_fixed_new();
+  cad_bxs_rec_parcvalor_fixed = gtk_fixed_new();
+  cad_bxs_rec_bxrvalor_fixed = gtk_fixed_new();
   cad_bxs_rec_valor_fixed = gtk_fixed_new();
 
   cad_bxs_rec_code_frame = gtk_frame_new("Título à Baixar");
@@ -108,6 +129,8 @@ int cad_baixas_receber(){
   cad_bxs_rec_parcela_frame = gtk_frame_new("Parcela");
   cad_bxs_rec_datacriacao_frame = gtk_frame_new("Baixado em:");
   cad_bxs_rec_datavencimento_frame = gtk_frame_new("Vencimento em:");
+  cad_bxs_rec_parcvalor_frame = gtk_frame_new("Valor da Parcela");
+  cad_bxs_rec_bxrvalor_frame = gtk_frame_new("Valor à Baixar");
   cad_bxs_rec_valor_frame = gtk_frame_new("Valor Baixado");
 
   cad_bxs_rec_code_box = gtk_box_new(0,0);
@@ -116,6 +139,8 @@ int cad_baixas_receber(){
   cad_bxs_rec_parcela_box = gtk_box_new(0,0);
   cad_bxs_rec_datacriacao_box = gtk_box_new(0,0);
   cad_bxs_rec_datavencimento_box = gtk_box_new(0,0);
+  cad_bxs_rec_parcvalor_box = gtk_box_new(0,0);
+  cad_bxs_rec_bxrvalor_box = gtk_box_new(0,0);
   cad_bxs_rec_valor_box = gtk_box_new(0,0);
 
   gtk_box_pack_start(GTK_BOX(cad_bxs_rec_code_box),cad_bxs_rec_code_entry,0,0,0);
@@ -126,6 +151,8 @@ int cad_baixas_receber(){
   gtk_box_pack_start(GTK_BOX(cad_bxs_rec_datacriacao_box),cad_bxs_rec_datacriacao_entry,0,0,0);
   gtk_box_pack_start(GTK_BOX(cad_bxs_rec_datacriacao_box),cad_bxs_rec_datacriacao_button,0,0,0);
   gtk_box_pack_start(GTK_BOX(cad_bxs_rec_datavencimento_box),cad_bxs_rec_datavencimento_entry,0,0,0);
+  gtk_box_pack_start(GTK_BOX(cad_bxs_rec_parcvalor_box),cad_bxs_rec_parcvalor_entry,0,0,0);
+  gtk_box_pack_start(GTK_BOX(cad_bxs_rec_bxrvalor_box),cad_bxs_rec_bxrvalor_entry,0,0,0);
   gtk_box_pack_start(GTK_BOX(cad_bxs_rec_valor_box),cad_bxs_rec_valor_entry,0,0,0);
 
   gtk_container_add(GTK_CONTAINER(cad_bxs_rec_code_frame),cad_bxs_rec_code_box);
@@ -134,6 +161,8 @@ int cad_baixas_receber(){
   gtk_container_add(GTK_CONTAINER(cad_bxs_rec_parcela_frame),cad_bxs_rec_parcela_box);
   gtk_container_add(GTK_CONTAINER(cad_bxs_rec_datacriacao_frame),cad_bxs_rec_datacriacao_box);
   gtk_container_add(GTK_CONTAINER(cad_bxs_rec_datavencimento_frame),cad_bxs_rec_datavencimento_box);
+  gtk_container_add(GTK_CONTAINER(cad_bxs_rec_parcvalor_frame),cad_bxs_rec_parcvalor_box);
+  gtk_container_add(GTK_CONTAINER(cad_bxs_rec_bxrvalor_frame),cad_bxs_rec_bxrvalor_box);
   gtk_container_add(GTK_CONTAINER(cad_bxs_rec_valor_frame),cad_bxs_rec_valor_box);
 
   gtk_fixed_put(GTK_FIXED(cad_bxs_rec_code_fixed),cad_bxs_rec_code_frame,20,20);
@@ -142,6 +171,8 @@ int cad_baixas_receber(){
   gtk_fixed_put(GTK_FIXED(cad_bxs_rec_parcela_fixed),cad_bxs_rec_parcela_frame,20,20);
   gtk_fixed_put(GTK_FIXED(cad_bxs_rec_datacriacao_fixed),cad_bxs_rec_datacriacao_frame,20,20);
   gtk_fixed_put(GTK_FIXED(cad_bxs_rec_datavencimento_fixed),cad_bxs_rec_datavencimento_frame,20,20);
+  gtk_fixed_put(GTK_FIXED(cad_bxs_rec_parcvalor_fixed),cad_bxs_rec_parcvalor_frame,20,20);
+  gtk_fixed_put(GTK_FIXED(cad_bxs_rec_bxrvalor_fixed),cad_bxs_rec_bxrvalor_frame,20,20);
   gtk_fixed_put(GTK_FIXED(cad_bxs_rec_valor_fixed),cad_bxs_rec_valor_frame,20,20);
 
   gtk_box_pack_start(GTK_BOX(campo_opcoes),cad_bxs_rec_concluir_button,0,0,5);
@@ -155,6 +186,8 @@ int cad_baixas_receber(){
   gtk_box_pack_start(GTK_BOX(linha3),cad_bxs_rec_cli_nome_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha4),cad_bxs_rec_datacriacao_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha4),cad_bxs_rec_datavencimento_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(linha5),cad_bxs_rec_parcvalor_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(linha5),cad_bxs_rec_bxrvalor_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha5),cad_bxs_rec_valor_fixed,0,0,0);
 
   gtk_box_pack_start(GTK_BOX(caixa_grande),linha1,0,0,0);

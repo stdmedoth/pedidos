@@ -36,6 +36,7 @@
 #include "campos/outros/campos_de_datas.c"
 #include "campos/outros/datas_livres.c"
 #include "campos/outros/sem_financeiro.c"
+#include "campos/outros/banco.c"
 
 #include "campos/entrega/concluir.c"
 #include "campos/entrega/alterar.c"

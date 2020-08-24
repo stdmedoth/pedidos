@@ -12,7 +12,7 @@ int relat_mov_gerar_fun()
 				<title>Relatório de Movimentos de Estoque</title>\
 				<link href=\"../styles/relatorios.css\" rel=\"stylesheet\">\
 			</head>";
-	
+
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	g_print("Iniciando relat_mov_gerar_fun()\n");
 	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
@@ -79,7 +79,7 @@ int relat_mov_gerar_fun()
 	while((row2 = mysql_fetch_row(res2))!=NULL){
 		cont = 0;
 
-		fprintf(relatorio_file,"<tr>");
+		fprintf(relatorio_file,"<tr class='tr-estilo'>");
 		list_qnt++;
 		while(cont<mov_query.campos_qnt)
 		{

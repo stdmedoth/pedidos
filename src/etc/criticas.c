@@ -4,10 +4,7 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 	char *mensagem;
 	char *formatar;
 
-	formatar = malloc(MAX_PRECO_LEN);
-	mensagem = malloc(strlen("Caracter  incorreto")+MAX_PRECO_LEN);
-
-	if(strlen(valor)<=0)
+	if(!valor)
 	{
 		valor = malloc(MAX_PRECO_LEN);
 		strcpy(valor,"0.0");
@@ -19,16 +16,27 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 		return 0;
 	}
 
-	for(int cont=0;cont<=strlen(valor);cont++)
+	formatar = malloc(strlen(valor)+1);
+
+	for(int cont=0;cont<strlen(valor);cont++)
 	{
-		if(valor[cont]==44)
+		if(valor[cont]==44){
 			valor[cont] = 46;
+		}else
+		if(!(valor[cont] == 46)){
+			if(!isdigit(valor[cont])){
+				popup(NULL,"Insira valor");
+				return 1;
+			}
+		}
 	}
-	strcpy(formatar,valor);
-	sprintf(valor,"%.2f",atof(formatar));
+
+	//strcpy(formatar,valor);
+
+	sprintf(formatar,"%.2f",atof(valor));
 
 	if(entrada && GTK_ENTRY(entrada)!=NULL)
-		gtk_entry_set_text(GTK_ENTRY(entrada),valor);
+		gtk_entry_set_text(GTK_ENTRY(entrada),formatar);
 
 	return 0;
 }

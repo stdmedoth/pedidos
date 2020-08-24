@@ -88,6 +88,7 @@ void rec_csnt_cad_vars(xmlNode * a_node)
 
 
 int pesquisar_cad_sefaz(char *cnpj, char *uf){
+
   FILE *ter_infos_file;
   GSubprocess *processo=NULL;
   GError *erro=NULL;
@@ -100,6 +101,15 @@ int pesquisar_cad_sefaz(char *cnpj, char *uf){
   xmlNodePtr cadTag = xmlNewNode(NULL, (xmlChar *)"cadastro");
   xmlNodePtr cnpjTag = xmlNewNode(NULL,(xmlChar *)"cnpj");
   xmlNodePtr ufTag = xmlNewNode(NULL,(xmlChar *)"uf");
+
+  if(!cad_emp_strc.script_bin_path){
+    popup(NULL,"Não foi possível encontrar Programa Script");
+    return 1;
+  }
+  if(!fopen(cad_emp_strc.script_bin_path,"r")){
+    popup(NULL,"Não foi possível abrir Programa Script");
+    return 1;
+  }
 
   formated_cnpj = format_cnpj_num(cnpj);
   if(!cnpj){
@@ -129,8 +139,8 @@ int pesquisar_cad_sefaz(char *cnpj, char *uf){
   if(!processo)
   {
     popup(NULL,"Não foi possivel enviar documento");
-    autologger(erro->message);
-    file_logger(erro->message);
+    //autologger(erro->message);
+    //file_logger(erro->message);
     return 1;
   }
 
@@ -183,7 +193,9 @@ void janela_cad_ter_consulta(){
       remove(SCRPT_TER_INFOS_RET);
       formatar_littobig(consulta_cnpj.uf);
 
-      pesquisar_cad_sefaz(consulta_cnpj.cnpj,consulta_cnpj.uf);
+      if(pesquisar_cad_sefaz(consulta_cnpj.cnpj,consulta_cnpj.uf))
+        return ;
+        
       g_usleep(G_USEC_PER_SEC*4);
       recCadDoc = xmlParseFile(SCRPT_TER_INFOS_RET);
       if(!recCadDoc){

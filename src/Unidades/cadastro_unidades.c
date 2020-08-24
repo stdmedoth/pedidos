@@ -70,9 +70,13 @@ int  cad_und()
 	mult_und_label = gtk_label_new("Multiplo");
 
 	code_und_field = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(code_und_field),8);
 	name_und_field = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(name_und_field),15);
 	sigla_und_field = gtk_entry_new();
-	mult_und_field = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(sigla_und_field),5);
+	mult_und_field = gtk_spin_button_new_with_range(1,10000,1);
+	gtk_entry_set_width_chars(GTK_ENTRY(mult_und_field),8);
 
 	und_concluir_button = gtk_button_new_with_label("Concluir");
 	und_alterar_button = gtk_button_new_with_label("Alterar");

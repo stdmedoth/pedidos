@@ -189,6 +189,10 @@ int ler_criticas()
 	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
+
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
+
 		if(cont<=ter_critic_campos_qnt)
 			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
 		else
@@ -275,6 +279,9 @@ int atualizar_criticas()
 	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
+
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]))==TRUE)
 		{
 			if(cont<=ter_critic_campos_qnt)

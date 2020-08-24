@@ -35,3 +35,7 @@ char *tipo_ter_num_to_str(int num);
 GtkWidget *popup_fechar;
 
 char *ped_status_from_int(int code);
+
+char *status_tit_str(int status);
+
+int aviso_de_baixa_fin();

@@ -27,7 +27,7 @@ void gera_orc_ped()
 		return ;
 	}
 
-	sprintf(query,"select code,tipo_mov,cliente,dia,pag_cond,total from orcamentos where code = %s",codigo_orc_gchar);
+	sprintf(query,"select code,tipo_mov,cliente,banco,dia,pag_cond,total from orcamentos where code = %s",codigo_orc_gchar);
 	res = consultar(query);
 	if(res==NULL)
 	{
@@ -41,7 +41,7 @@ void gera_orc_ped()
 		return ;
 	}
 
-	sprintf(query,"insert into pedidos(code,tipo_mov,cliente,data_mov,pag_cond,total,status) values(%s,%s,%s,'%s',%s,%s,0)",row[0],row[1],row[2],row[3],row[4],row[5]);
+	sprintf(query,"insert into pedidos(code,tipo_mov,cliente,banco,data_mov,pag_cond,total,status) values(%s,%s,%s,%s,'%s',%s,%s,0)",row[0],row[1],row[2],row[3],row[4],row[5],row[6]);
 	if(enviar_query(query)!=0)
 	{
 		popup(NULL,"Não foi possível inserir os dados no pedido");

@@ -4,14 +4,13 @@ int relat_fix_est_gerar_fun(){
   MYSQL_RES *res,*res2;
   char query[MAX_QUERY_LEN];
   char *file_path = malloc(MAX_PATH_LEN*2);
-  char html_header[] = "<!DOCTYPE html>\
-  <html>\
-    <head>\
-      <meta charset=\"utf-8\"/>\
-      <title>Relatório de Vendas</title>\
-      <link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">\
-    </head>";
-
+  char html_header[] = "<!DOCTYPE html>"
+                          "<html>"
+                            "<head>"
+                              "<meta charset=\"utf-8\"/>"
+                              "<title>Relatório de Movimentos</title>"
+                              "<link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">"
+                            "</head>";
   GDir *dir;
   if(!(dir = g_dir_open(REL_FIX_MOV_PATH,0,NULL))){
       popup(NULL,"Diretorio sendo criado");
@@ -75,7 +74,7 @@ int relat_fix_est_gerar_fun(){
   fprintf(relat_file,html_header);
   fprintf(relat_file,"<body>");
   fprintf(relat_file,"<div style='background: Gainsboro;'>");
-  fprintf(relat_file,"<h1>Relatório de Estoque</h1>");
+  fprintf(relat_file,"<h1>Relatório de Movimentos de Estoque</h1>");
   fprintf(relat_file,"<p>%s</p>",data_sys);
   fprintf(relat_file,"</div>");
   fprintf(relat_file,"<table>");

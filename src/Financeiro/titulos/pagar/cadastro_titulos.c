@@ -3,7 +3,7 @@ int cad_titulos_pagar(){
     GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(janela),3);
     gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
-    gtk_window_set_title(GTK_WINDOW(janela),"Títulos à Receber");
+    gtk_window_set_title(GTK_WINDOW(janela),"Títulos à Pagar");
     gtk_window_set_icon_name(GTK_WINDOW(janela),"document-edit");
     gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
     gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
@@ -13,8 +13,6 @@ int cad_titulos_pagar(){
     if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND]))
       return 1;
     janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].janela_pointer = janela;
-
-    g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND]);
 
     GtkWidget *cad_pag_code_frame, *cad_pag_code_box, *cad_pag_code_fixed;
     GtkWidget *cad_pag_cli_frame, *cad_pag_cli_box, *cad_pag_cli_fixed;
@@ -98,8 +96,10 @@ int cad_titulos_pagar(){
     cad_pag_ped_entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_ped_entry),5);
     cad_pag_status_combo = gtk_combo_box_text_new();
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_pag_status_combo),0,"Pendente");
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_pag_status_combo),1,"Baixado");
+
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_pag_status_combo),0,"Baixado");
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_pag_status_combo),1,"Parcialmente Baixado");
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_pag_status_combo),2,"Pendente");
     gtk_combo_box_set_active(GTK_COMBO_BOX(cad_pag_status_combo),0);
     cad_pag_parcela_spin = gtk_spin_button_new_with_range(0,MAX_PARCELAS_QNT,1);
     cad_pag_datacriacao_entry = gtk_entry_new();
@@ -189,6 +189,7 @@ int cad_titulos_pagar(){
     g_signal_connect(cad_pag_alterar_button,"clicked",G_CALLBACK(cad_pag_alterar_fun),NULL);
     g_signal_connect(cad_pag_cancelar_button,"clicked",G_CALLBACK(cad_pag_cancelar_fun),NULL);
 
+    g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND]);
     gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
     gtk_widget_show_all(janela);
     return 0;

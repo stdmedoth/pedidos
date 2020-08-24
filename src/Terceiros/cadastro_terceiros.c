@@ -66,6 +66,8 @@ int  cad_terc()
 	GtkWidget *psq_ter_box;
 	GtkWidget *vinculo_grp_prod_frame, *vinculo_grp_prod_box,*vinculo_grp_prod_scroll;
 
+	GtkWidget *botao_cad_baixas, *botao_relat_baixas, *botao_baixas_fixed, *botao_baixas_box;
+
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
 	*horizontal_box_three,
@@ -111,7 +113,7 @@ int  cad_terc()
 	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
-	gtk_widget_set_size_request(janela,800,600);
+	//gtk_widget_set_size_request(janela,800,600);
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].reg_id = REG_CAD_TER;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].aberta = 1;
@@ -151,6 +153,7 @@ int  cad_terc()
 	ter_principal_box = gtk_box_new(1,0);
 	ter_contatos_box = gtk_box_new(1,0);
 	ter_entrega_box = gtk_box_new(0,0);
+	ter_financeiro_box = gtk_box_new(1,0);
 	ter_outros_box = gtk_box_new(1,0);
 	opcoes = gtk_box_new(0,0);
 	caixa_grande = gtk_box_new(1,0);
@@ -159,11 +162,6 @@ int  cad_terc()
 	bair_cid_uf_boxv2 = gtk_box_new(1,0);
 	bair_cid_uf_boxv3 = gtk_box_new(1,0);
 	bair_cid_uf_boxh = gtk_box_new(0,0);
-
-	ter_principal_label = gtk_label_new("Dados");
-	ter_contatos_label = gtk_label_new("Contatos");
-	ter_entrega_label = gtk_label_new("Sobre Entrega");
-	ter_outros_label = gtk_label_new("Outros");
 
 	acao = gtk_box_new(0,0);
 	acao_atual = gtk_label_new("Ação atual: ");
@@ -256,6 +254,13 @@ int  cad_terc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"7",(tip_logds[6]));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"8",("Outros"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),0);
+
+	botao_cad_baixas = gtk_button_new_with_label("Baixas do Cliente");
+	gtk_button_set_image(GTK_BUTTON(botao_cad_baixas),gtk_image_new_from_icon_name("mail-signed-verified",GTK_ICON_SIZE_LARGE_TOOLBAR));
+	botao_relat_baixas = gtk_button_new_with_label("Relatorio de Títulos");
+	gtk_button_set_image(GTK_BUTTON(botao_cad_baixas),gtk_image_new_from_icon_name("mail-signed-verified",GTK_ICON_SIZE_LARGE_TOOLBAR));
+	botao_baixas_box = gtk_box_new(0,0);
+	botao_baixas_fixed = gtk_fixed_new();
 
 	type_label = gtk_frame_new("Tipo Terceiro: ");
 	celular_label = gtk_label_new("Celular");
@@ -592,6 +597,9 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(email_ter_field),"activate",G_CALLBACK(email_fun),NULL);
 	g_signal_connect(GTK_ENTRY(contatoe_ter_field),"activate",G_CALLBACK(contato_email),NULL);
 
+	g_signal_connect(GTK_BUTTON(botao_cad_baixas),"clicked",G_CALLBACK(chamar_ter_cadbaixas),NULL);
+	g_signal_connect(GTK_BUTTON(botao_relat_baixas),"clicked",G_CALLBACK(chamar_ter_relbaixas),NULL);
+
 	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
 	g_signal_connect(GTK_CHECK_BUTTON(frete_pago_flag),"toggled",G_CALLBACK(verifica_frete),NULL);
 	g_signal_connect(GTK_ENTRY(frete_pago_entry),"activate",G_CALLBACK(rec_vlr_frete),NULL);
@@ -630,7 +638,7 @@ int  cad_terc()
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
 
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
-	gtk_fixed_put(GTK_FIXED(fixed4),vinculo_grp_prod_frame,MARGEM_D,100); //produto e grupo vinculo
+	gtk_fixed_put(GTK_FIXED(fixed5),vinculo_grp_prod_frame,MARGEM_D,20); //produto e grupo vinculo
 
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);//campo dos dados em clientes
 	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
@@ -648,10 +656,21 @@ int  cad_terc()
 	box3 = entrega_campos();
 
 	//page 3
-
 	gtk_box_pack_start(GTK_BOX(vertical_box4),fixed4,0,0,10);
 
+	gtk_box_pack_start(GTK_BOX(vertical_box5),fixed5,0,0,10);
+
+	if(!ativar.financeiro){
+		gtk_box_pack_start(GTK_BOX(botao_baixas_box),botao_cad_baixas,0,0,5);
+		gtk_box_pack_start(GTK_BOX(botao_baixas_box),botao_relat_baixas,0,0,5);
+		gtk_fixed_put(GTK_FIXED(botao_baixas_fixed),botao_baixas_box,20,20);
+		gtk_box_pack_start(GTK_BOX(vertical_box4),botao_baixas_fixed,0,0,20);
+	}
+
 	gtk_box_pack_start(GTK_BOX(box4),vertical_box4,0,0,0);
+
+	box5 = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(box5),vertical_box5,0,0,0);
 
 	//pages on notebook
 	gtk_box_pack_start(GTK_BOX(ter_principal_box),box,0,0,0);
@@ -660,12 +679,15 @@ int  cad_terc()
 
 	gtk_box_pack_start(GTK_BOX(ter_entrega_box),box3,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(ter_outros_box),box4,0,0,0);
+	gtk_box_pack_start(GTK_BOX(ter_financeiro_box),box4,0,0,0);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_principal_box,ter_principal_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_contatos_box,ter_contatos_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_entrega_box,ter_entrega_label);
-	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_outros_box,ter_outros_label);
+	gtk_box_pack_start(GTK_BOX(ter_outros_box),box5,0,0,0);
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_principal_box,gtk_label_new("Principal"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_contatos_box,gtk_label_new("Contatos"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_entrega_box,gtk_label_new("Entrega"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_financeiro_box,gtk_label_new("Financeiro"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(ter_notebook),ter_outros_box,gtk_label_new("Outros"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),ter_notebook,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),opcoes,0,0,10);

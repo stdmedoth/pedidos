@@ -30,12 +30,15 @@ int rec_fat_vist()
 	orc_pag_tipo_int = atoi(row[2]);
 
 	if(orc_pag_tipo_int != CONDPAG_DT_LVR){
+
 		if(atoi(row[6])>1)
 			tipo_pag = PAG_FAT;
 		else
 			tipo_pag = PAG_VIST;
-	}
 
+	}else{
+		orc_pag_datas_livres();
+	}
 
 	orc_pag_dia_fixo_int = atoi(row[3]);
 	if(orc_pag_dia_fixo_int==1)

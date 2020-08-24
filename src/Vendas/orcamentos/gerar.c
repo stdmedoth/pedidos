@@ -133,8 +133,8 @@ int gerar_orc()
 		return 1;
 
 	sprintf(query,"select p.code, g.code,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p inner join grupos as g on p.code = o.produto join unidades as u on u.code = p.unidades and g.code = o.subgrupo where o.code = %s;",codigo_orc_gchar);
-	res = consultar(query);
-	if(res==NULL)
+
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de codigo no orcamento\n");
@@ -289,14 +289,18 @@ int gerar_orc()
 				fprintf(orc,"<td>R$ %.2f</td>\n",atof(row[3]));
 			fprintf(orc,"</tr>\n");
 
+			fprintf(orc,"<tr>\n");
 			sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",row[1]);
 
 			if((res = consultar(query))){
+
 				if((row = mysql_fetch_row(res)))
 				{
 					fprintf(orc,"<td>\n");
 					if(row[0])
-						fprintf(orc,"%s",row[0]);
+						fprintf(orc,"%s,",row[0]);
+					if(orc_transp_num)
+						fprintf(orc,"%s",orc_transp_num);
 					if(row[1])
 						fprintf(orc,", %s",row[1]);
 					if(row[2])
@@ -304,12 +308,23 @@ int gerar_orc()
 					if(row[3])
 						fprintf(orc,", %s\n",row[3]);
 					fprintf(orc,"</td>\n");
+				}else{
+					fprintf(orc,"<td>\n");
+					if(orc_transp_logradouro && orc_transp_num)
+						fprintf(orc,"%s, %s",orc_transp_logradouro,orc_transp_num);
+					if(orc_transp_bairro)
+						fprintf(orc,", %s",orc_transp_bairro);
+					if(orc_transp_cidade)
+						fprintf(orc,", %s",orc_transp_cidade);
+					if(orc_transp_estado)
+						fprintf(orc,", %s\n",orc_transp_estado);
+					fprintf(orc,"</td>\n");
 				}
+
+			}else{
+				popup(NULL,"Erro ao consultar endereços");
+				return 1;
 			}
-
-
-
-			fprintf(orc,"<tr>\n");
 
 			fprintf(orc,"</tr>\n");
 

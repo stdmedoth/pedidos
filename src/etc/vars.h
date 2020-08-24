@@ -68,6 +68,8 @@
 #define CAD_EMP_IMG   "C:/petitto/files/icones_opc/company.png"
 #define ATL_PROD_IMG  "C:/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/petitto/files/icones_opc/vinculos.png"
+#define BANCOS_IMG    "C:/petitto/files/icones_opc/bancos.png"
+#define TRSP_IMG      "C:/petitto/files/icones_opc/transportes.png"
 #define CAD_CEP_IMG   "C:/petitto/files/icones_opc/search_cep.png"
 #define REL_PROD_IMG     "C:/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_FIX_PROD_IMG "C:/petitto/files/icones_opc/relatorio_fixos_produtos.png"
@@ -79,6 +81,7 @@
 #define REL_ORC_PROD_IMG "C:/petitto/files/icones_opc/relatorio_orc_prod.png"
 #define REL_FIX_VND_PATH "C:/petitto/files/impressao/relatorios/fixos/vendas"
 #define REL_FIX_MOV_PATH "C:/petitto/files/impressao/relatorios/fixos/movimentos"
+#define REL_FIX_FIN_PATH "C:/petitto/files/impressao/relatorios/fixos/financeiros/"
 #define EXIT_IMG      "C:/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "C:/petitto/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG     "C:/petitto/files/impressao/cp.exe"
@@ -149,6 +152,7 @@
 #define ADD_SALDO     "/usr/share/petitto/files/icones_opc/add_saldo.png"
 #define REM_SALDO     "/usr/share/petitto/files/icones_opc/rem_saldo.png"
 #define PAG_IMG       "/usr/share/petitto/files/icones_opc/datas.png"
+#define BANCOS_IMG    "/usr/share/petitto/files/icones_opc/bancos.png"
 #define REL_PROD_IMG       "/usr/share/petitto/files/icones_opc/relatorio_prod.png"
 #define REL_TER_IMG        "/usr/share/petitto/files/icones_opc/relatorio_ter.png"
 #define REL_SLD_IMG        "/usr/share/petitto/files/icones_opc/relatorio_est.png"
@@ -170,6 +174,7 @@
 #define UND_IMG       "/usr/share/petitto/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/petitto/files/icones_opc/vinculos.png"
 #define CAD_EMP_IMG   "/usr/share/petitto/files/icones_opc/company.png"
+#define TRSP_IMG      "/usr/share/petitto/files/icones_opc/transportes.png"
 #define ATL_PROD_IMG  "/usr/share/petitto/files/icones_opc/atualiza_prod_nomes.png"
 #define IMG_OK        "/usr/share/petitto/files/opcoes_padrao/ok.png"
 #define IMG_REC       "/usr/share/petitto/files/opcoes_padrao/recarregar.png"
@@ -194,6 +199,7 @@
 #define ORC_PROD_RELAT_FILE "/usr/share/petitto/files/impressao/relatorios/orc_prod/"
 #define REL_FIX_VND_PATH  "/usr/share/petitto/files/impressao/relatorios/fixos/vendas"
 #define REL_FIX_MOV_PATH 	"/usr/share/petitto/files/impressao/relatorios/fixos/movimentos"
+#define REL_FIX_FIN_PATH 	"/usr/share/petitto/files/impressao/relatorios/fixos/financeiros/"
 #define IMG_IMP_LOGO      "/usr/share/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/usr/share/petitto/files/backup_querys"
 #define SCRPT_TER_INFOS_ENV "/usr/share/petitto/files/scripts/php/files/dados_emissor.xml"
@@ -298,11 +304,26 @@
 #define CONDPAG_DT_LVR 3
 #define CONDPAG_S_FIN 4
 
+#define STATUS_PED_PEND 0
+#define STATUS_PED_EMIT 1
+#define STATUS_PED_CAN 2
+
 #define PAG_FAT 1
 #define PAG_VIST 2
 
 #define TP_TIT_REC 1
 #define TP_TIT_PAG 2
+
+#define STAT_QUITADO 0
+#define STAT_PARC_BAIXA 1
+#define STAT_PENDENTE 2
+
+#define TIPO_TER_NULL 0
+#define TIPO_TER_CLI 1
+#define TIPO_TER_FRN 2
+#define TIPO_TER_CLIFRN 3
+#define TIPO_TER_TRSP 4
+
 
 //id das operacoes
 #define VENDA 0

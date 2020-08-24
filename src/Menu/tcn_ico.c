@@ -5,11 +5,9 @@ int tcn_ico(void)
 
 	//imagem dos icones
 	emp_ico = gtk_image_new_from_file(CAD_EMP_IMG);
-	rld_prod_ico = gtk_image_new_from_file(ATL_PROD_IMG);
 
 	//label dos icones
 	emp_lbl = gtk_label_new("Cadastro Empresa");
-	rld_prod_lbl = gtk_label_new("Recarregar Produtos");
 
 	//caixas onde ficarao os icones
 	//cria eventos para tcna botao
@@ -36,13 +34,9 @@ int tcn_ico(void)
   gtk_box_pack_end(GTK_BOX(tcn_box[0]),emp_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(tcn_box[0]),emp_ico,0,0,0);
 
-	gtk_box_pack_end(GTK_BOX(tcn_box[1]),rld_prod_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(tcn_box[1]),rld_prod_ico,0,0,0);
-
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cadastro_empresa),NULL);
 
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(opc_reload_nome_grp),NULL);
 
 	return 0;
 }

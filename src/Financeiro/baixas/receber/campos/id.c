@@ -7,8 +7,9 @@ int cad_bxs_rec_id_fun(){
   rec_baixas.id = atoi(cad_bxs_rec_code_id_gchar);
 
   if(!cad_bxs_rec_alterando && !cad_bxs_rec_concluindo){
-    sprintf(query,"select * from baixas_titulos where parcelas_id = %i and id_baixa = %i",
+    sprintf(query,"select * from baixas_titulos where parcelas_id = %i and posicao = %i and id_baixa = %i",
     rec_baixas.titulo_code,
+    rec_baixas.parcela,
     rec_baixas.id);
 
     if(!(res = consultar(query))){
@@ -24,6 +25,7 @@ int cad_bxs_rec_id_fun(){
     gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_datacriacao_entry),"");
     gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_valor_entry),"");
   }
+
 
   gtk_widget_grab_focus(cad_bxs_rec_datacriacao_entry);
   return 0;

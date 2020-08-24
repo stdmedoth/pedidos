@@ -41,23 +41,54 @@
 #define REG_REL_FIX_FINREC_WIN 28
 #define REG_REL_FIX_FINPAG_WIN 29
 
+#define CAD_BANCOS_WND 30
+
+#define CAD_TRSP_WND 31
+
 #define REG_PRINC_WIN 9990
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
 
 #define REG_CORRECT_FINAL 99999
 
-#define REG_WIN_QNT 28
+#define REG_WIN_QNT 31
 
-const char *janelas_nomes[] = {"Cad. Produtos", "Cad. Terceiros", "Cad. Operadores", "Cad. Unidades",
-"Cad. Grupos", "Cad. Condições", "Cad. Relatorios", "Orçamentos", "Pedidos", "Cad. Estoque", "Entradas",
-"Saídas", "Saldos", "Relat. Produtos", "Relat. Terceiros", "Relat. Movimentos", "Suporte", "Parametros",
-"Relatorio Fixo de Produtos", "Relatorio Fixo de Terceiros", "Relatorio Fixo de Vendas", "Relatorio Fixo de Compras",
-"Relatorio Fixo de Movimentos de Estoque", "Relatorios Fixos Menu", "Cadastro de Títulos Pagar", "Cadastro de Títulos Receber",
-"Cadastro de Baixas Pagar", "Cadastro de Títulos Receber", "Cadastro de Títulos Pagar", "Relatório Contas à Receber",
-"Relatório Fixo de Contas à Pagar"};
+static const char *janelas_nomes[] = {
+  "Cad. Produtos",
+  "Cad. Terceiros",
+  "Cad. Operadores",
+  "Cad. Unidades",
+  "Cad. Grupos",
+  "Cad. Condições",
+  "Cad. Relatorios",
+  "Orçamentos",
+  "Pedidos",
+  "Cad. Estoque",
+  "Entradas",
+  "Saídas",
+  "Saldos",
+  "Relat. Produtos",
+  "Relat. Terceiros",
+  "Relat. Movimentos",
+  "Suporte",
+  "Parametros",
+  "Relatorio Fixo de Produtos",
+  "Relatorio Fixo de Terceiros",
+  "Relatorio Fixo de Vendas",
+  "Relatorio Fixo de Compras",
+  "Relatorio Fixo de Movimentos de Estoque",
+  "Relatorios Fixos Menu",
+  "Cadastro de Títulos Pagar",
+  "Cadastro de Títulos Receber",
+  "Cadastro de Baixas Pagar",
+  "Cadastro de Títulos Receber",
+  "Cadastro de Títulos Pagar",
+  "Relatório Contas à Receber",
+  "Relatório Contas à Pagar",
+  "Cadastro de Bancos",
+  "Cadastro de Transportes"};
 
-typedef struct{
+typedef struct _janelas_info{
   int reg_id;
   short aberta;
   int qnt_aberta;
@@ -66,16 +97,15 @@ typedef struct{
   int sys_close_wnd;
   int (*fun) ();
   GtkWidget *janela_pointer;
-}
-janelas_info;
+}janelas_info;
 
-static struct{
+struct{
   janelas_info vetor_janelas[REG_WIN_QNT+1];
   janelas_info principal;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;
   janelas_info aplicacao;
-}janelas_gerenciadas;
+}static janelas_gerenciadas;
 
 int iniciar_gerenciador_janela();
 

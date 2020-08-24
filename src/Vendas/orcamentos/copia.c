@@ -27,7 +27,7 @@
 
   task_atual_int = tasker("orcamentos");
 
-  sprintf(query,"insert into orcamentos select %i,tipo_mov,vendedor, cliente, dia, pag_cond, total, observacoes from orcamentos where code = %s",task_atual_int,codigo_orc_gchar);
+  sprintf(query,"insert into orcamentos select %i,tipo_mov,vendedor, cliente, dia, pag_cond, banco, total, observacoes from orcamentos where code = %s",task_atual_int,codigo_orc_gchar);
   if(enviar_query(query)!=0){
     popup(NULL,"Não foi possivel criar orcamento para cópia");
     return 1;

@@ -5,7 +5,15 @@ int relat_prod_gerar_fun()
 	char *gerando_file;
 	int *tipos_colunas,list_qnt=0;
 	int num_rows;
-	char html_header[] = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"/><title>Relatório de Produtos</title><link href=\"../styles/relatorios.css\" rel=\"stylesheet\"></head>";
+	relat_prod_gerando=1;
+	char html_header[] = "<!DOCTYPE html>"
+		"<html>"
+			"<head>"
+				"<meta charset=\"utf-8\"/>"
+				"<title>Relatório de Produtos</title>"
+				"<link href=\"../styles/relatorios.css\" rel=\"stylesheet\">"
+			"</head>";
+
 	char banner[55+strlen(IMG_IMP_LOGO)];
 
 	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
@@ -29,6 +37,7 @@ int relat_prod_gerar_fun()
 
 			autologger("Varias tentativas de abrir o arquivo:");
 			autologger(gerando_file);
+			relat_prod_gerando=0;
 			return 1;
 		}
 	}
@@ -37,6 +46,7 @@ int relat_prod_gerar_fun()
 	if(!relatorio_file)
 	{
 		popup(NULL,"Não foi possivel abrir o arquivo de relatorio");
+		relat_prod_gerando=0;
 		return 1;
 	}
 
@@ -58,6 +68,7 @@ int relat_prod_gerar_fun()
 
 	if((res1 = consultar(query))==NULL){
 		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+		relat_prod_gerando=0;
 		return 1;
 	}
 
@@ -75,12 +86,13 @@ int relat_prod_gerar_fun()
 
 	if((res2 = consultar(relat_prod_query_gchar))==NULL){
 		popup(NULL,"Erro ao receber dados do relatorio");
+		relat_prod_gerando=0;
 		return 1;
 	}
 
 	while((row2 = mysql_fetch_row(res2))!=NULL){
 		cont = 0;
-		fprintf(relatorio_file,"<tr>");
+		fprintf(relatorio_file,"<tr class='tr-estilo'>");
 		list_qnt++;
 		while(cont<prod_query.campos_qnt)
 		{
@@ -111,6 +123,7 @@ int relat_prod_gerar_fun()
 	}
 	if(!list_qnt){
 		popup(NULL,"Nenhum listagem gerada");
+		relat_prod_gerando=0;
 		return 0;
 	}
 
@@ -119,6 +132,7 @@ int relat_prod_gerar_fun()
 	fprintf(relatorio_file,"</body>");
 	fprintf(relatorio_file,"</html>");
 
+	relat_prod_gerando=0;
 	fclose(relatorio_file);
 
 	escolher_finalizacao(gerando_file);

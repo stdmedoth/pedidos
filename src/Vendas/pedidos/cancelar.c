@@ -29,6 +29,18 @@ int cancelar_ped()
 		popup(NULL,"Insira o código do orcamento");
 		return 1;
 	}
+
+	sprintf(query,"select b.parcelas_id from baixas_titulos as b inner join titulos as tit on b.parcelas_id = tit.code where tit.pedido = %i",
+	ped_infos.ped_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar baixas");
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))){
+		if(aviso_de_baixa_fin())
+			return 1;
+	}
+
 	sprintf(query,"delete from faturamento where pedido = %i",ped_infos.ped_code);
 	if(enviar_query(query)!=0)
 	{
@@ -42,9 +54,16 @@ int cancelar_ped()
 		return 1;
 	}
 
+	sprintf(query,"delete b from baixas_titulos as b inner join titulos as t on b.parcelas_id = t.code where t.pedido = %i",
+	ped_infos.ped_code);
+	if(enviar_query(query)){
+		popup(NULL,"Não foi possivel deletar baixas de parcelas financeiro");
+		return 1;
+	}
 
-	sprintf(query,"delete p from parcelas_tab as p inner join titulos as t on p.parcelas_id = t.code where t.pedido = %s",
-	ped_code);
+	sprintf(query,"delete p from parcelas_tab as p inner join titulos as t on p.parcelas_id = t.code where t.pedido = %i",
+	ped_infos.ped_code);
+
 	if(enviar_query(query)){
 		popup(NULL,"Não foi possivel deletar parcelas no financeiro");
 		return 1;

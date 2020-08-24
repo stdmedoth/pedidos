@@ -1,6 +1,10 @@
 int cad_baixas_receber();
 
-GtkWidget *cad_bxs_rec_cli_psq_button, *cad_bxs_rec_tit_psq_button, *cad_bxs_rec_ped_psq_button, *cad_bxs_rec_datacri_psq_button, *cad_bxs_rec_datavenc_psq_button;
+GtkWidget *cad_bxs_rec_cli_psq_button,
+*cad_bxs_rec_tit_psq_button,
+*cad_bxs_rec_ped_psq_button,
+*cad_bxs_rec_datacri_psq_button,
+*cad_bxs_rec_datavenc_psq_button;
 
 GtkWidget *cad_bxs_rec_concluir_button, *cad_bxs_rec_cancelar_button, *cad_bxs_rec_excluir_button, *cad_bxs_rec_alterar_button;
 GtkWidget *cad_bxs_rec_code_button,
@@ -13,6 +17,8 @@ GtkWidget *cad_bxs_rec_cli_nome_entry;
 GtkWidget *cad_bxs_rec_parcela_spin;
 GtkWidget *cad_bxs_rec_datacriacao_entry;
 GtkWidget *cad_bxs_rec_datavencimento_entry;
+GtkWidget *cad_bxs_rec_parcvalor_entry;
+GtkWidget *cad_bxs_rec_bxrvalor_entry;
 GtkWidget *cad_bxs_rec_valor_entry;
 
 gchar *cad_bxs_rec_code_gchar;
@@ -31,6 +37,9 @@ static struct {
   int cliente_code;
   int parcela;
   char *data;
+  float valor_titulo;
+  float valor_baixas;
+  float abaixar;
   float valor;
 }rec_baixas;
 

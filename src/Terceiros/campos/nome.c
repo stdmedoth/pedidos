@@ -1,6 +1,6 @@
 int name_terc()
 {
-	
+
 	nomes_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(name_ter_field));
 	if(strlen(nomes_ter)>MAX_RAZ_LEN)
 	{
@@ -24,4 +24,3 @@ int name_terc()
 	g_print("nome: %s\n",nomes_ter);
 	return 0;
 }
-

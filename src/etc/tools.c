@@ -25,25 +25,41 @@ char  *string_to_int(char *string){
   return formated_string;
 }
 
+char *status_tit_str(int status){
+
+  switch (status) {
+    case STAT_QUITADO:
+      return "Baixado";
+    case STAT_PARC_BAIXA:
+      return "Baixado Parcialmente";
+    case STAT_PENDENTE:
+      return "Pendente";
+  }
+
+  return "Sem Status Definido";
+}
 
 char *formatar_data(char *data){
 	int dia=0,mes=0,ano=0;
-	int formats_qnt=6;
+	int formats_qnt=8;
 	//160820
 
 	char *format = string_to_int(data);
 
 	//provaveis formatos de data
 
-	char *formats[] = {"%2d%2d%4d",
-                    "%01d%2d%4d",
-                    "%2d%01d%4d",
-                    "%01d%01d%4d",
+	char *formats[] = {"%d/%d/%d",
+                    "%d-%d-%d",
+                    "%1d%1d%1d",
                     "%2d%2d%2d",
-										"%01d%2d%2d",
-										"%2d%01d%2d",
-										"%2d%2d%02d",
-										"%01d%2d%2d"};
+                    "%1d%1d%2d",
+                    "%1d%2d%2d",
+                    "%d%d%01d",
+                    "%d%01d%01d",
+                    "%01d%01d%01d",
+                    "%01d%01d%2d",
+                    "%01d%01d%01d"};
+
 	if(!data)
 		return NULL;
 
@@ -66,11 +82,12 @@ char *formatar_data(char *data){
 }
 
 gpointer carregando_wnd(){
-	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	GtkWidget *janela = gtk_window_new(GTK_WINDOW_POPUP);
 	GtkWidget *loading_gif = gtk_image_new_from_file(LOADING_GIF);
 	GtkWidget *fixed = gtk_fixed_new();
 
-	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+  gtk_window_set_deletable(GTK_WINDOW(janela),TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_modal(GTK_WINDOW(janela),TRUE);
 	gtk_widget_set_size_request(janela,50,50);
@@ -253,6 +270,7 @@ static void popup(GtkWidget *widget,gchar *string){
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+  gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
 
 	if(logging == 0)
 		autologger(string);
@@ -357,7 +375,7 @@ int enviar_query(char *query){
 		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
-
+      file_logger((char*)mysql_error(&conectar));
 			if(logging == 0){
 				autologger("Não foi possivel conectar ao servidor");
 				autologger((char*)mysql_error(&conectar));
@@ -376,16 +394,20 @@ int enviar_query(char *query){
 	#ifdef QUERY_DEBUG
 	g_print("%s\n",query);
 	#endif
+
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
+    //popup(NULL,(char*)mysql_error(&conectar));
+    file_logger((char*)mysql_error(&conectar));
 		popup(NULL,"Erro de formato\n");
 		if(logging == 0){
-			autologger(query);
+      autologger(query);
 			autologger((char*)mysql_error(&conectar));
 		}
 		return err;
 	}
+
 	if(backup_query){
 		fprintf(backup_query,"%s\n",query);
 		fclose(backup_query);
@@ -658,6 +680,40 @@ int cep_nao_existente_fun(gchar *cep){
   return 0;
 }
 
+int aviso_de_baixa_fin(){
+
+	int len;
+	GtkWidget *popup, *fields, *fixed, *box;
+	int resultado;
+
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_MODAL,"Apagar baixas e cancelar pedido",GTK_RESPONSE_ACCEPT,"Manter baixas e pedido emitido",GTK_RESPONSE_REJECT,NULL);
+
+	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
+	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+
+	gtk_window_set_position(GTK_WINDOW(popup),3);
+
+	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(box),gtk_label_new("Parcelas do pedido possui baixas, deseja continuar?\n"),0,0,10);
+	gtk_fixed_put(GTK_FIXED(fixed),box,20,20);
+
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(popup);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+	if(resultado == GTK_RESPONSE_ACCEPT){
+    gtk_widget_destroy(popup);
+    return 0;
+	}
+  gtk_widget_destroy(popup);
+  return 1;
+}
 
 char *ped_status_from_int(int code){
 	switch (code) {

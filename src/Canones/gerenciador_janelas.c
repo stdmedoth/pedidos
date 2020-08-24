@@ -39,10 +39,6 @@ int wnd_logger(janelas_info *struct_wnd)
   struct_wnd->qnt_aberta,
   sessao_oper.code);
 
-  #ifdef QUERY_DEBUG
-	g_print("%s\n",query);
-	#endif
-
   err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
@@ -62,8 +58,11 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   struct_wnd->aberta = 1;
   struct_wnd->qnt_aberta++;
 
-  if(struct_wnd->reg_id == REG_PRINC_WIN)
+  if(struct_wnd->reg_id == REG_PRINC_WIN){
     iniciar_gerenciador_janela();
+    file_logger("Resetando gerenciador de janelas\n");
+    iniciar_gerenciador_janela();
+  }
 
   if(gerenciador_janela())
     return 1;
@@ -83,8 +82,10 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   struct_wnd->aberta = 0;
   struct_wnd->qnt_aberta--;
 
-  if(struct_wnd->reg_id == REG_PRINC_WIN)
+  if(struct_wnd->reg_id == REG_PRINC_WIN){
+    file_logger("Resetando gerenciador de janelas\n");
     iniciar_gerenciador_janela();
+  }
 
   if(gerenciador_janela())
     return 1;
@@ -101,23 +102,35 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 int iniciar_gerenciador_janela(){
 
   for(int cont=0;cont<=REG_WIN_QNT;cont++){
-    janelas_gerenciadas.vetor_janelas[cont].reg_id  = 0;
+
+    if(janelas_gerenciadas.vetor_janelas[cont].aberta){
+        g_print("gerenciador finalizando %s ID: %i Contador %i\n",
+        janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id],
+        janelas_gerenciadas.vetor_janelas[cont].reg_id,
+        cont);
+
+        if(!GTK_IS_WIDGET(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){
+          g_print("Janela '%s' já estava fechada\n",
+          janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id]);
+        }
+        else
+          gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
+    }
+
     janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 0;
     janelas_gerenciadas.vetor_janelas[cont].qnt_fechada = 0;
     janelas_gerenciadas.vetor_janelas[cont].aberta = 0;
-
-    if(janelas_gerenciadas.vetor_janelas[cont].aberta){
-        g_print("gerenciador finalizando %s\n",janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id]);
-        gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
-      }
     janelas_gerenciadas.vetor_janelas[cont].janela_pointer = NULL;
   }
+
   janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].fun = cad_prod;
   janelas_gerenciadas.vetor_janelas[REG_CAD_TER].fun = cad_terc;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;
+  janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = rel_fix_fin_rec;
+  janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
 
   janelas_gerenciadas.principal.aberta = 1;
   janelas_gerenciadas.principal.qnt_aberta = 1;

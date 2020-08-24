@@ -5,10 +5,12 @@ int vnd_ico(void)
 	//imagem dos icones
 	orc_ico = gtk_image_new_from_file(ORC_IMG);
 	ped_ico = gtk_image_new_from_file(PED_IMG);
+	trsp_ico = gtk_image_new_from_file(TRSP_IMG);
 
 	//label dos icones
 	orc_lbl = gtk_label_new("Orçamentos");
 	ped_lbl = gtk_label_new("Pedidos");
+	trsp_lbl = gtk_label_new("Transportes");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -33,10 +35,15 @@ int vnd_ico(void)
 	gtk_box_pack_end(GTK_BOX(vnd_box[1]),ped_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(vnd_box[1]),ped_ico,0,0,0);
 
+	//icone Transportes
+	gtk_box_pack_end(GTK_BOX(vnd_box[2]),trsp_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(vnd_box[2]),trsp_ico,0,0,0);
 
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(vnd_orc),NULL);
 
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(vnd_ped),NULL);
 
+	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(trsp_cad_fun),NULL);
+	
 	return 0;
 }

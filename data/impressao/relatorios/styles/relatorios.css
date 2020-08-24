@@ -27,6 +27,10 @@ table {
   width: 100%;
 }
 
+.tr-focus{
+	background-color: #f2f2f2;
+}
+
 .tr-estilo:nth-child(even) {background-color: #f2f2f2;}
 
 table {

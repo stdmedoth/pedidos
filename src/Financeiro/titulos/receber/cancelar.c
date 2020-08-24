@@ -6,6 +6,7 @@ int cad_rec_cancelar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cad_rec_cli_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_rec_cli_nome_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_rec_ped_entry),"");
+  gtk_entry_set_text(GTK_ENTRY(cad_rec_bnc_nome_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_rec_valor_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_rec_datacriacao_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_rec_datavencimento_entry),"");

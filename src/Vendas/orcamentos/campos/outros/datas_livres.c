@@ -50,7 +50,7 @@ int concluir_datas_livres(){
         return 1;
       }
     }
-    sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,DATE_FORMAT('%s','%%d/%%m/%%y'),%.2f);",
+    sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,DATE_FORMAT('%s','%%d/%%m/%%y'),%.4f);",
     codigo_orc_gchar,
     orc_parcelas.pagcond_code,
     cont,
@@ -105,7 +105,21 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
   float valor;
   gchar *val = (gchar*)gtk_entry_get_text(entry);
 
-  critica_real(val,GTK_WIDGET(entry));
+  if(!val)
+    return 1;
+
+  for(int cont=0;cont<strlen(val);cont++)
+  {
+    if(val[cont]==44){
+      val[cont] = 46;
+    }else
+    if(!(val[cont] == 46)){
+      if(!isdigit(val[cont])){
+        popup(NULL,"Insira valor");
+        return 1;
+      }
+    }
+  }
 
   gchar *formatado = malloc(MAX_PRECO_LEN);
 
@@ -131,28 +145,30 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
       }
       datas_lives_str[cont].vlrs = atof(value);
       valor_total += datas_lives_str[cont].vlrs;
-      sprintf(valor_gchar,"%.2f",orc_valores.valor_total - valor_total);
+      sprintf(valor_gchar,"%.4f",orc_valores.valor_total - valor_total);
       gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_rest),valor_gchar);
-
   }
 
   if(valor_total>orc_valores.valor_total+MAX_DIF_VLR){
-    sprintf(valor_gchar,"%.2f",orc_valores.valor_total - valor_total);
+    sprintf(valor_gchar,"%.4f",orc_valores.valor_total - valor_total);
     gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_rest),valor_gchar);
     popup(NULL,"Parcela ultrapassa valor do orçamento");
     return 1;
   }
+
   if(valor_total+MAX_DIF_VLR<orc_valores.valor_total){
-    sprintf(valor_gchar,"%.2f",orc_valores.valor_total - valor_total);
+    sprintf(valor_gchar,"%.4f",orc_valores.valor_total - valor_total);
     gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_rest),valor_gchar);
     popup(NULL,"Parcelas têm valor menor que orçamento");
     return 1;
   }
 
-  sprintf(valor_gchar,"%.2f",orc_valores.valor_total - valor_total);
+  orc_parcelas.valor_faltante = orc_valores.valor_total - valor_total;
+
+  sprintf(valor_gchar,"%.4f",orc_valores.valor_total - valor_total);
   gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_livres_rest),valor_gchar);
 
-  sprintf(formatado,"%.3f",valor);
+  sprintf(formatado,"%.4f",valor);
   gtk_entry_set_text(entry,formatado);
 
   if(pos<MAX_PARCELAS_QNT)
@@ -196,11 +212,14 @@ int orc_pag_datas_livres(){
   gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
   if(recebendo_prod_orc == 0){
+
     parcqnt_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_pag_datas_parcqnt));
+
     if(parcqnt_gchar)
       orc_pag_parc_qnt_int = atoi(parcqnt_gchar);
     else
       orc_pag_parc_qnt_int=0;
+
   }
 
   if(orc_pag_parc_qnt_int==0){
@@ -210,6 +229,10 @@ int orc_pag_datas_livres(){
 
   orc_parc_lvr_qnt_int = orc_pag_parc_qnt_int;
   int notepage = gtk_notebook_get_current_page(GTK_NOTEBOOK(orc_notebook));
+
+  if(!tipo_pag)
+    tipo_pag=PAG_VIST;
+
   if(orc_parc_lvr_qnt_int>1){
     if(tipo_pag==PAG_VIST){
       tipo_pag=PAG_FAT;
@@ -244,12 +267,12 @@ int orc_pag_datas_livres(){
 
   for(int cont=0;cont<orc_parc_lvr_qnt_int;cont++){
 
-    if(cont==1){
+    if(cont==0){
       parcela = (orc_valores.valor_prds_liquido/orc_parc_lvr_qnt_int) + orc_valores.valor_frete_liquido;
     }else{
       parcela = (orc_valores.valor_prds_liquido/orc_parc_lvr_qnt_int);
     }
-    sprintf(valor,"%.3f",parcela);
+    sprintf(valor,"%.4f",parcela);
 
     orc_pag_datas_entry1[cont] = gtk_entry_new();
     if(datas_lives_str[cont].datas)

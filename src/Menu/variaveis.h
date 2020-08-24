@@ -1,13 +1,13 @@
 #define MAX_ICO_QNT 24
 #define LINE_ICO_QNT 2
 #define ICOL 5
-#define CAD_ICO_QNT 9
+#define CAD_ICO_QNT 10
 #define EST_ICO_QNT 3
-#define VND_ICO_QNT 1
+#define VND_ICO_QNT 3
 #define CMP_ICO_QNT 4
 #define FIN_ICO_QNT 4
-#define REL_ICO_QNT 5
-#define TCN_ICO_QNT 2
+#define REL_ICO_QNT 6
+#define TCN_ICO_QNT 1
 
 //cadastros
 GtkWidget *prd_ico, *prd_lbl; //produtos
@@ -21,6 +21,7 @@ GtkWidget *grp_ico, *grp_lbl; //grupos
 GtkWidget *pag_ico, *pag_lbl; //grupos
 GtkWidget *crel_ico,*crel_lbl; //grupos
 GtkWidget *ceps_ico,*ceps_lbl; //ceps
+GtkWidget *bnc_ico,*bnc_lbl; //bancos
 
 //estoque
 GtkWidget *est_ico, *est_lbl; //estoques
@@ -31,6 +32,7 @@ GtkWidget *sld_ico, *sld_lbl; //saldo
 //vendas
 GtkWidget *orc_ico, *orc_lbl;
 GtkWidget *ped_ico, *ped_lbl;
+GtkWidget *trsp_ico, *trsp_lbl;
 
 //compras
 GtkWidget *sol_ico, *sol_lbl;

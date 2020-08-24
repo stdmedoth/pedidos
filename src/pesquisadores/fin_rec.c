@@ -21,12 +21,12 @@ int entry_fin_rec_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=7,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4, COLUMN5=5, COLUMN6=6};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
-    g_object_ref(G_OBJECT(treestore));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
-    gtk_tree_store_clear(treestore);
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
+  g_object_ref(G_OBJECT(treestore));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
+  gtk_tree_store_clear(treestore);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
-	char status[30];
+	char status[100];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
@@ -37,23 +37,26 @@ int entry_fin_rec_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code limit 30 and t.razao like '%c%s%c' where tipo_titulo = 1 order by p.data_vencimento desc limit 30",37,entrada,37);
-	res = consultar(query);
-	if(res == NULL)
-	{
+	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = 1 order by p.data_vencimento desc limit 30",37,entrada,37);
+	if(!(res = consultar(query)))
 		return 1;
-	}
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
 
-		if(atoi(row[3])==0)
-			strcpy(status,"Pendente");
-		if(atoi(row[3])==1)
-			strcpy(status,"Baixado");
+	while((row = mysql_fetch_row(res))){
+		switch(atoi(row[3])){
+			case STAT_QUITADO:
+				strcpy(status,"Tít. Baixado");
+				break;
+			case STAT_PARC_BAIXA:
+				strcpy(status,"Tit. Parc. Baixado");
+				break;
+			case STAT_PENDENTE:
+					strcpy(status,"Tít. Pendente");
+					break;
+		}
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		gtk_tree_store_set(modelo,&campos,
-		COLUMN0,atoi(row[0]),
+		COLUMN0,row[0],
 		COLUMN1,row[1],
 		COLUMN2,row[2],
 		COLUMN3,status,
@@ -62,6 +65,7 @@ int entry_fin_rec_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 		COLUMN6,row[6],
 		-1);
 	}
+
 	return 0;
 }
 
@@ -74,7 +78,6 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
-	GtkWidget *pesquisa_entry;
 	GtkWidget *caixa_grande;
 
 	gchar *entrada = malloc(MAX_GRP_LEN);
@@ -83,10 +86,10 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	char status[30];
+	char status[100];
 
 	caixa_grande = gtk_box_new(1,0);
-	pesquisa_entry = gtk_entry_new();
+	fin_rec_psq_entry = gtk_entry_new();
 	coluna0 = gtk_tree_view_column_new();
 	celula0 = gtk_cell_renderer_text_new();
 	coluna1 = gtk_tree_view_column_new();
@@ -107,7 +110,7 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
-	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
+	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(fin_rec_psq_entry));
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
@@ -175,10 +178,17 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 
-		if(atoi(row[3])==0)
-			strcpy(status,"Pendente");
-		if(atoi(row[3])==1)
-			strcpy(status,"Baixado");
+		switch(atoi(row[3])){
+			case STAT_QUITADO:
+				strcpy(status,"Tít. Baixado");
+				break;
+			case STAT_PARC_BAIXA:
+				strcpy(status,"Tit. Parc. Baixado");
+				break;
+			case STAT_PENDENTE:
+					strcpy(status,"Tít. Pendente");
+					break;
+		}
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		gtk_tree_store_set(modelo,&campos,
@@ -203,7 +213,7 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),fin_rec_psq_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_fin_rec_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
@@ -212,7 +222,7 @@ int psq_fin_rec(GtkWidget *button, GtkEntry *entry)
 	pesquisa_global_alvo = GTK_ENTRY(entry);
 
 	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_fin_rec_wnd);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_fin_rec_pesquisa),treeview);
+	g_signal_connect(fin_rec_psq_entry,"activate",G_CALLBACK(entry_fin_rec_pesquisa),treeview);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_fin_rec_code),treeview);
 
 	gtk_widget_show_all(psq_fin_rec_wnd);

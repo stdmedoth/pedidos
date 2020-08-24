@@ -3,7 +3,7 @@ int cad_bxs_rec_dtc_fun(){
   cad_bxs_rec_datacriacao_gchar = (gchar* ) gtk_entry_get_text(GTK_ENTRY(cad_bxs_rec_datacriacao_entry));
 
   if(!strlen(cad_bxs_rec_datacriacao_gchar)){
-    cad_bxs_rec_datacriacao_gchar = malloc(strlen(data_sys));
+    cad_bxs_rec_datacriacao_gchar = malloc(strlen(data_sys)+1);
     strcpy(cad_bxs_rec_datacriacao_gchar,data_sys);
     gtk_entry_set_text(GTK_ENTRY(cad_bxs_rec_datacriacao_entry),cad_bxs_rec_datacriacao_gchar);
   }
