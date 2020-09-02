@@ -88,6 +88,8 @@
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
 
+#include "../Gestao/enviar_email.h"
+
 #include "receber_confs.c"
 #include "tools.c"
 #include "impressao.c"
@@ -184,6 +186,8 @@
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"
 #include "../Suporte/atualiza.c"
+
+#include "../Gestao/enviar_email.c"
 
 #include "../Emissor/cria_xml.c"
 

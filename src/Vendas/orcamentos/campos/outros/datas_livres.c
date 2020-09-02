@@ -50,7 +50,7 @@ int concluir_datas_livres(){
         return 1;
       }
     }
-    sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,DATE_FORMAT('%s','%%d/%%m/%%y'),%.4f);",
+    sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,STR_TO_DATE('%s','%%d/%%m/%%Y'),%.4f);",
     codigo_orc_gchar,
     orc_parcelas.pagcond_code,
     cont,
@@ -77,6 +77,12 @@ int concluir_datas_livres(){
 int orc_pag_dl_dts_vlrs_fun(GtkEntry *entry, int pos){
   gchar *formatado;
   gchar *data = (gchar*)gtk_entry_get_text(entry);
+
+  if(!strlen(data)){
+    data = malloc(strlen(data_sys)+1);
+    sprintf(data,"%s%s%s",dia_sys,mes_sys,ano_sys);
+    gtk_entry_set_text(GTK_ENTRY(entry),data);
+  }
 
   formatado = formatar_data(data);
 

@@ -49,20 +49,17 @@ int rel_fix_fin_rec_gerar(){
   fprintf(file_arq,"</div>");
   fprintf(file_arq,"<table>");
 
-  float parcela = 0, baixa = 0, faltante =0;
+  float parcela = 0, baixa = 0;
   float vlr_total_parcelas=0, vlr_total_baixas=0, vlr_total_faltante=0;
 
   for(int cont=atoi(rel_fix_fin_rec_tit_gchar1);cont<=atoi(rel_fix_fin_rec_tit_gchar2);cont++){
-    sprintf(query,"select tit.code, t.code, t.razao, t.doc, t.ie, tit.pedido, tit.status from titulos as tit "
-    "inner join terceiros as t on tit.cliente = t.code where "
-    "tit.tipo_titulo = %i and tit.code = %i and status %s %i and "
-    "tit.cliente >= %s and tit.cliente <= %s",
+    sprintf(query,"select tit.code, t.code, t.razao, t.doc, t.ie, tit.pedido, tit.status "
+    "from titulos as tit inner join terceiros as t on tit.cliente = t.code "
+    "where tit.tipo_titulo = %i and tit.code = %i and status %s %i",
     TP_TIT_REC,
     cont,
     status_char,
-    rel_fix_fin_rec_status_int,
-    rel_fix_fin_rec_cli_gchar1,
-    rel_fix_fin_rec_cli_gchar2);
+    rel_fix_fin_rec_status_int);
 
     if(!(res = consultar(query))){
       popup(NULL,"Erro ao buscar o título");
@@ -71,6 +68,9 @@ int rel_fix_fin_rec_gerar(){
 
     if((row = mysql_fetch_row(res))){
       float total_do_tit=0, total_da_baixa=0, total_a_baixar=0;
+
+      if(atoi(row[1]) < atoi(rel_fix_fin_rec_cli_gchar1) || atoi(row[1]) > atoi(rel_fix_fin_rec_cli_gchar2))
+        continue;
 
       if(atoi(row[5]) < atoi(rel_fix_fin_rec_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_rec_ped_gchar2))
         continue;
@@ -98,6 +98,7 @@ int rel_fix_fin_rec_gerar(){
 
         while((row2 = mysql_fetch_row(res2))){
           parcela = atof(row2[3]);
+
           vlr_total_parcelas += parcela;
 
           total_do_tit += parcela;
@@ -121,27 +122,24 @@ int rel_fix_fin_rec_gerar(){
             vlr_total_baixas += baixa;
             total_da_baixa += baixa;
 
-            faltante = parcela - baixa;
+            if(atoi(row[0]) < atoi(rel_fix_fin_rec_bx_gchar1) || atoi(row[0]) > atoi(rel_fix_fin_rec_bx_gchar2))
+              continue;
 
             fprintf(file_arq,"<tr>");
             fprintf(file_arq,"<td>Nº Baixa: %s<td/>",row3[0]);
             fprintf(file_arq,"<td><td/>");
             fprintf(file_arq,"<td>Baixado em:  %s<td/>",row3[1]);
             fprintf(file_arq,"<td>Valor Baixado: R$ %.2f<td/>",baixa);
-            fprintf(file_arq,"<td>Valor Restante: R$ %.2f<td/>",faltante);
+            fprintf(file_arq,"<td>Valor Restante: R$ %.2f<td/>",total_do_tit - total_da_baixa);
             fprintf(file_arq,"</tr>");
           }
 
-          if(!mysql_num_rows(res3))
-            faltante = parcela;
-
-          total_a_baixar += faltante;
-          vlr_total_faltante += faltante;
+          vlr_total_faltante += total_do_tit - total_da_baixa;
         }
       }
       fprintf(file_arq,"<tr><td><b>Total: R$ %.2f</b></td></tr>",total_do_tit);
       fprintf(file_arq,"<tr><td><b>Baixa: R$ %.2f</b></td></tr>",total_da_baixa);
-      fprintf(file_arq,"<tr><td><b>À Baixar: R$ %.2f</b></td></tr>",total_a_baixar);
+      fprintf(file_arq,"<tr><td><b>À Baixar: R$ %.2f</b></td></tr>",total_do_tit - total_da_baixa);
 
     }
   }
@@ -150,7 +148,7 @@ int rel_fix_fin_rec_gerar(){
   fprintf(file_arq,"<table class='tabela-conteudo'>");
   fprintf(file_arq,"<tr><td><b>Total em Títulos: R$ %.2f</b></td></tr>",vlr_total_parcelas);
   fprintf(file_arq,"<tr><td><b>Total Baixado: R$ %.2f</b></td></tr>",vlr_total_baixas);
-  fprintf(file_arq,"<tr><td><b>Total à Baixar: R$ %.2f</b></td></tr>",vlr_total_faltante);
+  fprintf(file_arq,"<tr><td><b>Total à Baixar: R$ %.2f</b></td></tr>",vlr_total_parcelas - vlr_total_baixas);
   fprintf(file_arq,"</table>");
 
   fprintf(file_arq,"</body>");

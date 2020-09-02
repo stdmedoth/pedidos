@@ -60,8 +60,11 @@ int desktop()
 		}
 
 		if((row = mysql_fetch_row(res))){
-			if(atoi(row[2])!=0)
+			if(atoi(row[2])!=0){
+
 				encerramento_brusco = 1;
+			}
+
 		}else{
 				encerramento_brusco = 0;
 		}

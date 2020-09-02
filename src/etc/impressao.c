@@ -31,7 +31,7 @@ void carregar_navimps(void){
 
 int iniciar_impressao(char *gerado)
 {
-	char chamada[MAX_PATH_LEN*3];
+	char chamada[strlen(COPY_PROG)+strlen(gerado)+MAX_PATH_LEN*2];
 	GSubprocess *processo=NULL;
 	GError *erro=NULL;
 
@@ -116,7 +116,13 @@ int desenhar_pdf(char *gerando_file)
 	if(strlen(gerado)>5)
 		gerado[strlen(gerado)-5] = '\0';
 
-	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,PDF_GEN,gerando_file,strcat(gerado,".pdf"),NULL);
+	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,
+		PDF_GEN,
+		"--enable-local-file-access",
+		"--print-media-type",
+		"--page-size",
+		"A4",
+		gerando_file,strcat(gerado,".pdf"),NULL);
 
 	if(!processo)
 	{

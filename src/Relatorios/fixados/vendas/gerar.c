@@ -34,6 +34,9 @@ int relat_fix_vnd_gerar_fun(){
   if(relat_fix_vnd_ped_fun())
     return 1;
 
+  if(relat_fix_vnd_cli_fun())
+    return 1;
+
   if(relat_fix_vnd_prod_fun())
     return 1;
 
@@ -99,6 +102,9 @@ int relat_fix_vnd_gerar_fun(){
       fprintf(relat_file,"<div id='solid-container'>");
       if((row = mysql_fetch_row(res))){
 
+        if(atoi(row[1]) < atoi(relat_fix_vnd_cli_gchar1) || atoi(row[1]) > atoi(relat_fix_vnd_cli_gchar2))
+          continue;
+
         fprintf(relat_file,"<tr class='relat-infos'>");
         fprintf(relat_file,"<td>Pedido: %s<td/>",row[0]);
         fprintf(relat_file,"<td>Cliente:  %s:%s<td/>",row[1],row[2]);
@@ -150,8 +156,6 @@ int relat_fix_vnd_gerar_fun(){
         fprintf(relat_file,"<td>Totais<td/>");
 
         totalizacao_frete += vlr_frete;
-        totalizacao_produtos += vlr_ped;
-        totalizacao_geral += vlr_frete + vlr_ped;
 
         fprintf(relat_file,"</tr>");
 
@@ -161,6 +165,10 @@ int relat_fix_vnd_gerar_fun(){
           return 1;
         }
         while((row2 = mysql_fetch_row(res2))){
+
+          if(atoi(row2[0]) < atoi(relat_fix_vnd_prod_gchar1) || atoi(row2[0]) > atoi(relat_fix_vnd_prod_gchar2))
+            continue;
+
           fprintf(relat_file,"<tr>");
           fprintf(relat_file,"<td>Código:  %s<td/>",row2[0]);
           fprintf(relat_file,"<td>%s<td/>",row2[1]);
@@ -168,8 +176,11 @@ int relat_fix_vnd_gerar_fun(){
           fprintf(relat_file,"<td>Vlr Unit.: R$ %.2f<td/>",atof(row2[3]));
           fprintf(relat_file,"<td>Vlr Desc: R$ %.2f<td/>",atof(row2[4]));
           fprintf(relat_file,"<td>Total: R$ %.2f<td/>",atof(row2[5]));
+          totalizacao_produtos += atof(row2[5]);
           fprintf(relat_file,"</tr>");
         }
+
+        totalizacao_geral += vlr_frete + vlr_ped;
       }
       fprintf(relat_file,"</div>");
   }

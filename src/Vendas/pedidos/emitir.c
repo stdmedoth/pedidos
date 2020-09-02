@@ -6,6 +6,8 @@ int emitir_ped()
 	MYSQL_ROW row;
 	int ano,mes,dia;
 	char query[MAX_QUERY_LEN];
+	char nome_cliente[MAX_NAME_LEN];
+	char email_cliente[MAX_EMAIL_LEN];
 	char formato_preco1[MAX_PRECO_LEN];
 	char valor[MAX_PRECO_LEN];
 	float parcela;
@@ -19,6 +21,7 @@ int emitir_ped()
 	}
 
 	ped_infos.ped_code = atoi(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	char orc_path[strlen(ORC_PATH)+MAX_CODE_LEN];
 
 	//verificando status do pedido
 	sprintf(query,"select status from pedidos where code = %i",ped_infos.ped_code);
@@ -80,6 +83,22 @@ int emitir_ped()
 		ped_infos.tipo_mov = atoi(row[3]);
 	if(row[4])
 		ped_parcelas.pagcond_code = atoi(row[4]);
+
+	sprintf(query,"select razao,email from terceiros where code = %i",ped_infos.cliente_code);
+	if(!(res = consultar(query)))
+	{
+		popup(NULL,"Erro ao buscar Informações do cliente");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem Informações do cliente");
+		return 1;
+	}
+
+	strcpy(nome_cliente,row[0]);
+	strcpy(email_cliente,row[1]);
 
 	//calculando financeiro
 	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",ped_infos.ped_code);
@@ -311,6 +330,11 @@ int emitir_ped()
 		popup(NULL,"Erro ao inserir dados para fechar o pedido");
 		return 1;
 	}
+
+	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
+
+	enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+
 	popup(NULL,"Pedido emitido com sucesso!");
 	return 0;
 }

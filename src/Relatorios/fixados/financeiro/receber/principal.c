@@ -318,6 +318,18 @@ int rel_fix_fin_rec(){
 
   g_signal_connect(gerar_button,"clicked",G_CALLBACK(rel_fix_fin_rec_gerar),NULL);
 
+  g_signal_connect(rel_fix_fin_rec_ped_button1,"clicked",G_CALLBACK(psq_ter),rel_fix_fin_rec_ped_entry1);
+  g_signal_connect(rel_fix_fin_rec_ped_button2,"clicked",G_CALLBACK(psq_ter),rel_fix_fin_rec_ped_entry2);
+
+  g_signal_connect(rel_fix_fin_rec_cli_button1,"clicked",G_CALLBACK(psq_ter),rel_fix_fin_rec_cli_entry1);
+  g_signal_connect(rel_fix_fin_rec_cli_button2,"clicked",G_CALLBACK(psq_ter),rel_fix_fin_rec_cli_entry2);
+
+  g_signal_connect(rel_fix_fin_rec_tit_button1,"clicked",G_CALLBACK(psq_fin_rec),rel_fix_fin_rec_tit_entry1);
+  g_signal_connect(rel_fix_fin_rec_tit_button2,"clicked",G_CALLBACK(psq_fin_rec),rel_fix_fin_rec_tit_entry2);
+
+  g_signal_connect(rel_fix_fin_rec_bx_button1,"clicked",G_CALLBACK(psq_fin_rec),rel_fix_fin_rec_bx_entry1);
+  g_signal_connect(rel_fix_fin_rec_bx_button2,"clicked",G_CALLBACK(psq_fin_rec),rel_fix_fin_rec_bx_entry2);
+
   g_signal_connect(rel_fix_fin_rec_status_combo,"changed",G_CALLBACK(rel_fix_fin_rec_status_fun),NULL);
   g_signal_connect(rel_fix_fin_rec_valor_combo,"changed",G_CALLBACK(rel_fix_fin_rec_combovalor_fun),NULL);
 

@@ -120,7 +120,7 @@ if(orc_pag_tipo_int == CONDPAG_DT_LVR)
 	fprintf(orc,"<table>\n");
 
 	fprintf(orc,"<tr>\n");
-	fprintf(orc,"<td id=\"info-row1\">Número do Orcamento</td>\n");
+	fprintf(orc,"<td id=\"info-row1\">Número do Pedido</td>\n");
 	//fprintf(orc,"<td id=\"info-row1\">Cliente:</td>\n");
 	fprintf(orc,"<td id=\"info-row1\">Data</td>\n");
 	fprintf(orc,"</tr>\n");

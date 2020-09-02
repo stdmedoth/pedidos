@@ -13,7 +13,8 @@ GtkWidget *relat_fix_vnd_ordem_combo,
 *relat_fix_vnd_data_entry1,*relat_fix_vnd_data_entry2,
 *relat_fix_vnd_est_entry1,*relat_fix_vnd_est_entry2;
 
-gchar *relat_fix_vnd_ped_gchar1,*relat_fix_vnd_ped_gchar2,
+gchar *relat_fix_vnd_cli_gchar1, *relat_fix_vnd_cli_gchar2,
+*relat_fix_vnd_ped_gchar1,*relat_fix_vnd_ped_gchar2,
 *relat_fix_vnd_prod_gchar1,*relat_fix_vnd_prod_gchar2,
 *relat_fix_vnd_grp_gchar1,*relat_fix_vnd_grp_gchar2,
 *relat_fix_vnd_est_gchar1,*relat_fix_vnd_est_gchar2;
@@ -31,6 +32,7 @@ struct relat_vlrs relat_fix_vnd_vlrs;
 
 #include "campos/pedidos.c"
 #include "campos/produtos.c"
+#include "campos/clientes.c"
 #include "campos/grupos.c"
 #include "campos/estoque.c"
 #include "campos/quebra.c"

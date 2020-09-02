@@ -111,12 +111,12 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
 
 	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
-	gtk_tree_view_column_set_title(coluna3,"Peso");
+	gtk_tree_view_column_set_title(coluna3,"Conta");
 	gtk_tree_view_column_set_spacing(coluna3,5);
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
 	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
-	gtk_tree_view_column_set_title(coluna4,"Grupo");
+	gtk_tree_view_column_set_title(coluna4,"Agência");
 	gtk_tree_view_column_set_spacing(coluna4,5);
 	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
 

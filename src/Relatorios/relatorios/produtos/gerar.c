@@ -74,8 +74,8 @@ int relat_prod_gerar_fun()
 
 	cont=0;
 	num_rows = mysql_num_rows(res1);
-	tipos_colunas = malloc(num_rows*sizeof(int)+sizeof(int));
 
+	tipos_colunas = malloc(num_rows*sizeof(int)+sizeof(int));
 	while((row1 = mysql_fetch_row(res1))!=NULL){
 		   	fprintf(relatorio_file,"<th>%s</th>",row1[0]);
 				tipos_colunas[cont] = atoi(row1[1]);

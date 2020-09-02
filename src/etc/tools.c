@@ -50,21 +50,24 @@ char *formatar_data(char *data){
 
 	char *formats[] = {"%d/%d/%d",
                     "%d-%d-%d",
-                    "%1d%1d%1d",
+                    "%2d%2d%4d",
                     "%2d%2d%2d",
-                    "%1d%1d%2d",
-                    "%1d%2d%2d",
-                    "%d%d%01d",
-                    "%d%01d%01d",
-                    "%01d%01d%01d",
                     "%01d%01d%2d",
-                    "%01d%01d%01d"};
+                    "%01d%01d%01d",
+                    "%01d%01d%01d",
+                    "%1d%1d%2d",
+                    "%1d%1d%1d",
+                    "%1d%2d%2d",
+                    "%d%01d%01d",
+                    "%d%d%01d"};
 
 	if(!data)
 		return NULL;
 
 	for(int cont=0;cont<formats_qnt;cont++){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
+        if(ano<2000)
+          ano += 2000;
 				GTimeZone *tz = g_time_zone_new(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);
 				if(!gdatetime){

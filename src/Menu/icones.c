@@ -31,7 +31,7 @@ int add_icones(void)
 		estoquel[cont]     = gtk_box_new(0,0);
 		financeirol[cont]  = gtk_box_new(0,0);
 		relatoriosl[cont]  = gtk_box_new(0,0);
-		tecnicosl[cont]  = gtk_box_new(0,0);
+		tecnicosl[cont]    = gtk_box_new(0,0);
 	}
 
 	cad_ico();

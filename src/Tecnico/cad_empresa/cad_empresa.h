@@ -48,6 +48,7 @@ static struct{
   char telefone[MAX_TEL_LEN];
   char celular[MAX_TEL_LEN];
   char email[MAX_EMAIL_LEN];
+  char email_senha[100];
   char init_image_path[MAX_PATH_LEN];
   char script_bin_path[MAX_PATH_LEN];
 }cad_emp_strc;

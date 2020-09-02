@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <gtk/gtk.h>
 #include <libxml/xinclude.h>
+#include <curl/curl.h>
 #include <libxml/xpath.h>
 #include <time.h>
 
