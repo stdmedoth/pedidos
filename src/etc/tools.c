@@ -1,6 +1,7 @@
 #define QUERY_LEN 1000
 #define RANDOM_STRING_SIZE 10
 static int logging = 0;
+static int erro_logger=0;
 
 GtkWidget *print_janela;
 
@@ -221,9 +222,14 @@ int file_logger(char *string){
 	if(logger)
 		fprintf(logger,"%s\n",string);
 	else{
+    if(erro_logger>=2)
+      exit(1);
+
+    erro_logger++;
 		popup(NULL,"Não foi possivel atualizar logs, verifique com suporte");
 		return 1;
 	}
+  erro_logger=0;
 	fclose(logger);
 	return 0;
 }
@@ -314,6 +320,7 @@ MYSQL_RES *consultar(char *query){
 
 		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
+      popup(NULL,"Não foi possível conectar ao servidor");
 			return NULL;
 		}
 
@@ -730,4 +737,71 @@ char *ped_status_from_int(int code){
 			return "Cancelado";
 	}
 	return "";
+}
+
+char *confirmar_envio_email(gchar *destino, gchar *conteudo){
+
+	int len;
+  GtkTextIter inicio,fim;
+  GtkTextBuffer *buffer;
+  gchar *infos_email, *corpo_email, *email_cli, *email_copia;
+  GtkWidget *cli_entry, *copia_entry, *emailsbox;
+	GtkWidget *popup, *fields, *fixed, *box;
+	int resultado;
+
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_MODAL,"Enviar o email",GTK_RESPONSE_ACCEPT,"Não enviar",GTK_RESPONSE_REJECT,NULL);
+
+	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
+	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+  gtk_widget_set_size_request(popup,100,100);
+	gtk_window_set_position(GTK_WINDOW(popup),3);
+
+  cli_entry = gtk_entry_new();
+  copia_entry = gtk_entry_new();
+	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(1,0);
+  emailsbox = gtk_box_new(0,0);
+
+  gtk_box_pack_start(GTK_BOX(emailsbox),cli_entry,0,0,10);
+  gtk_box_pack_start(GTK_BOX(emailsbox),copia_entry,0,0,10);
+
+  GtkWidget *textview = gtk_text_view_new();
+  buffer = GTK_TEXT_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
+  gtk_widget_set_size_request(textview,100,100);
+  gtk_text_buffer_set_text(buffer,conteudo,strlen(conteudo));
+  gtk_box_pack_start(GTK_BOX(box),emailsbox,0,0,10);
+  gtk_box_pack_start(GTK_BOX(box),textview,0,0,10);
+	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
+
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(popup);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+	if(resultado == GTK_RESPONSE_ACCEPT){
+
+    email_cli =(gchar*) gtk_entry_get_text(GTK_ENTRY(cli_entry));
+    if(!email_cli)
+      email_cli = "";
+    email_copia =(gchar*)  gtk_entry_get_text(GTK_ENTRY(copia_entry));
+    if(!email_copia)
+      email_copia = "";
+
+    gtk_text_buffer_get_bounds(buffer,&inicio,&fim);
+    corpo_email = gtk_text_buffer_get_text(buffer,&inicio,&fim,TRUE);
+    infos_email = malloc(strlen(email_cli)+strlen(email_copia)+strlen(corpo_email)+10);
+    sprintf(infos_email,"cliente:%s; copia:%s; corpo:%s;",email_cli, email_copia, corpo_email);
+    gtk_widget_destroy(popup);
+    return infos_email;
+	}else
+  if(resultado == GTK_RESPONSE_REJECT){
+    gtk_widget_destroy(popup);
+    return NULL;
+  }
+	gtk_widget_destroy(popup);
+  return NULL;
 }

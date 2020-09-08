@@ -19,7 +19,7 @@
 #include <time.h>
 
 #ifdef __linux__
-#include <mysql/mysql.h>
+#include <mariadb/mysql.h>
 #endif
 
 #ifdef WIN32

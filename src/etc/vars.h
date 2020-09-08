@@ -82,6 +82,8 @@
 #define REL_FIX_VND_PATH "C:/petitto/files/impressao/relatorios/fixos/vendas"
 #define REL_FIX_MOV_PATH "C:/petitto/files/impressao/relatorios/fixos/movimentos"
 #define REL_FIX_FIN_PATH "C:/petitto/files/impressao/relatorios/fixos/financeiros/"
+#define REL_FIX_FINREC_IMG "C:/petitto/files/icones_opc/relatorio_fixos_finanrec.png"
+#define REL_FIX_FINPAG_IMG "C:/petitto/files/icones_opc/relatorio_fixos_finanpag.png"
 #define EXIT_IMG      "C:/petitto/files/icones_opc/sair.png"
 #define PDF_GEN       "C:/petitto/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG     "C:/petitto/files/impressao/cp.exe"
@@ -101,7 +103,7 @@
 #define SCRPT_NFE_INFOS     "C:/petitto/files/scripts/php/files/dados_nfe.xml"
 #define IMG_IMP_LOGO      "C:/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "C:/petitto/files/backup_querys"
-
+#define MOZ_CERT          "C:/petitto/files/cacert.pem"
 #endif
 
 #ifdef __linux__
@@ -206,7 +208,7 @@
 #define SCRPT_TER_INFOS_RET "/usr/share/petitto/files/scripts/php/files/dados_retorno.xml"
 #define CAD_TER_PSQ_SCRIPT  "/usr/share/petitto/files/scripts/php/ter_cad_consul.php"
 #define SCRPT_NFE_INFOS     "/usr/share/petitto/files/scripts/php/files/dados_nfe.xml"
-
+#define MOZ_CERT          "/usr/share/petitto/files/cacert.pem"
 #endif
 
 #define CSS_ORC       "orcamento.css"
