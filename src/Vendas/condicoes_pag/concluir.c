@@ -31,7 +31,7 @@ int pag_concluir_fun(){
     popup(NULL,"Modelo de datas criado com sucesso");
   else
     popup(NULL,"Modelo de datas atualizado com sucesso");
-    
+
   pag_cancelar_fun();
 
   return 0;

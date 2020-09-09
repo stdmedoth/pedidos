@@ -76,7 +76,7 @@ int rec_fat_vist()
 		orc_pag_datas_livres();
 	}
 
-	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES){
+	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES || orc_pag_tipo_int == CONDPAG_DADATA){
 		orc_pag_datas_fun();
 	}
 

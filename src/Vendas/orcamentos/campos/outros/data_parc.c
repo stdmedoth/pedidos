@@ -66,6 +66,11 @@ int orc_pag_datas_fun(void){
       popup(NULL,"Operação impossível para esta data");
       return 1;
     }
+    if(orc_pag_tipo_int == CONDPAG_DIAS)
+      gdate = g_date_time_add_days(gdate,orc_pag_parc_int);
+    else
+    if(pag_tipo_int == CONDPAG_MESES)
+      gdate = g_date_time_add_months(gdate,pag_parc_int);
 
     if(cont==0){
       parcela = (orc_valores.valor_prds_liquido/orc_pag_parc_qnt_int) + orc_valores.valor_frete_liquido;
@@ -99,11 +104,9 @@ int orc_pag_datas_fun(void){
     gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);
     gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry2[cont],1,cont+1,1,1);
 
-    if(orc_pag_tipo_int == 1)
+    if(orc_pag_tipo_int == CONDPAG_DADATA)
       gdate = g_date_time_add_days(gdate,orc_pag_parc_int);
-    else
-    if(pag_tipo_int == 2)
-      gdate = g_date_time_add_months(gdate,pag_parc_int);
+
   }
 
   gtk_widget_show_all(orc_pag_datas_grid);

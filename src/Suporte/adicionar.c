@@ -12,6 +12,7 @@ int carrega_posts(MYSQL_RES *res){
       sup_posts_pos = atoi(row[0]);
       char post_name[30];
       if(sup_posts_pos<=MAX_POST_QNT&&sup_posts_pos>=0){
+
         sup_vet_posts_qnt[sup_posts_pos] = sup_posts_pos;
         postlist[sup_posts_pos] = gtk_box_new(1,0);
         titulo_list[sup_posts_pos] = gtk_entry_new();
@@ -36,16 +37,16 @@ int carrega_posts(MYSQL_RES *res){
         for(int cont=0;cont<sup_tipo_nomes_qnt;cont++)
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sup_tipo_combo[sup_posts_pos]),sup_tipo_nomes[cont]);
 
-        gtk_combo_box_set_active(GTK_COMBO_BOX(sup_tipo_combo[sup_posts_pos]),atoi(row[6])-1);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(sup_tipo_combo[sup_posts_pos]),atoi(row[SUP_TIP])-1);
 
         for(int cont=0;cont<sup_status_nomes_qnt;cont++)
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sup_status_combo[sup_posts_pos]),sup_status_nomes[cont]);
 
-        gtk_combo_box_set_active(GTK_COMBO_BOX(sup_status_combo[sup_posts_pos]),atoi(row[4])-1);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(sup_status_combo[sup_posts_pos]),atoi(row[SUP_STAT])-1);
 
-        gtk_spin_button_set_value(GTK_SPIN_BUTTON(sup_priorit_spin[sup_posts_pos]),atoi(row[5]));
+        gtk_spin_button_set_value(GTK_SPIN_BUTTON(sup_priorit_spin[sup_posts_pos]),atoi(row[SUP_PRIOR]));
 
-        sprintf(post_name,"Post: %i",atoi(row[0]));
+        sprintf(post_name,"Post: %i",atoi(row[SUP_CODE]));
         sup_posts_frame[sup_posts_pos] = gtk_frame_new(post_name);
 
         gtk_widget_set_size_request(descr_scrolls[sup_posts_pos],0,100);
@@ -59,8 +60,24 @@ int carrega_posts(MYSQL_RES *res){
 
         buffer[sup_posts_pos] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(descr_list[sup_posts_pos]));
 
-        strcpy(title_text,row[1]);
-        strcpy(descr_text,row[2]);
+        suporte_list[sup_posts_pos].id = malloc(strlen(row[SUP_CODE]));
+        suporte_list[sup_posts_pos].titulo = malloc(strlen(row[SUP_TIT]));
+        suporte_list[sup_posts_pos].descricao = malloc(strlen(row[SUP_DESCR]));
+        suporte_list[sup_posts_pos].data = malloc(strlen(row[SUP_DATA]));
+        suporte_list[sup_posts_pos].status = malloc(strlen(row[SUP_STAT]));
+        suporte_list[sup_posts_pos].prioridade = malloc(strlen(row[SUP_PRIOR]));
+        suporte_list[sup_posts_pos].tipo = malloc(strlen(row[SUP_TIP]));
+
+        strcpy(suporte_list[sup_posts_pos].id,row[SUP_CODE]);
+        strcpy(suporte_list[sup_posts_pos].titulo,row[SUP_TIT]);
+        strcpy(suporte_list[sup_posts_pos].descricao,row[SUP_DESCR]);
+        strcpy(suporte_list[sup_posts_pos].data,row[SUP_DATA]);
+        strcpy(suporte_list[sup_posts_pos].status, row[SUP_STAT]);
+        strcpy(suporte_list[sup_posts_pos].prioridade, row[SUP_PRIOR]);
+        strcpy(suporte_list[sup_posts_pos].tipo, row[SUP_TIP]);
+
+        strcpy(title_text,row[SUP_TIT]);
+        strcpy(descr_text,row[SUP_DESCR]);
 
         gtk_entry_set_text(GTK_ENTRY(titulo_list[sup_posts_pos]),title_text);
         gtk_text_buffer_set_text(buffer[sup_posts_pos],descr_text,strlen(descr_text));
@@ -192,8 +209,10 @@ int post_recarregar_posts(){
   char query[MAX_QUERY_LEN];
 
   for(int cont=0;cont<=MAX_POST_QNT;cont++){
-    if(sup_vet_posts_qnt[cont])
+    if(sup_vet_posts_qnt[cont]){
       gtk_grid_remove_row(GTK_GRID(suport_grid),cont);
+      free(sup_status_nomes[cont]);
+    }
     sup_vet_posts_qnt[cont] = 0;
   }
 
@@ -240,7 +259,7 @@ int post_recarregar_posts(){
   else
     sprintf(prioridade_end_query,"prioridade = %i",sup_prior);
 
-  sprintf(query,"select code, titulo, descricao, data, status, prioridade, tipo from suporte_posts where operador = %i and %s and %s",sessao_oper.code,status_end_query,prioridade_end_query);
+  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s",sessao_oper.code,status_end_query,prioridade_end_query);
 
   g_print("%s\n",query);
 

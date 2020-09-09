@@ -5,7 +5,7 @@ int cad_emp_atualiza(){
 
   char *nome,*cnpj,*logr,*cep,
   *bairro,*cidade,*uf,*telefone,
-  *celular,*email,*path_img_init
+  *celular,*email, *senhaemail, *path_img_init
   ,*path_script;
 
   int numrua,tiporua;
@@ -22,20 +22,21 @@ int cad_emp_atualiza(){
   telefone = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_telefone_entry));
   celular = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_celular_entry));
   email = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_email_entry));
+  senhaemail = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_emailsenha_entry));
   path_img_init = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_img_init_entry));
   path_script =  (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_script_path_entry));
 
   //informativos
   if(cad_emp_prim){
-    sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s')",
+    sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%s')",
     cnpj, nome,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
-    celular, email);
+    celular, email, senhaemail);
   }else{
-    sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s', email = '%s'",
+    sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s', email = '%s', senhaemail = '%s'",
     cnpj, nome  ,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
-    celular, email);
+    celular, email, senhaemail);
   }
 
   if(enviar_query(query)){

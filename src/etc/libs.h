@@ -80,6 +80,7 @@
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
+#include "../Suporte/email.h"
 #include "../Tecnico/cad_empresa/cad_empresa.h"
 #include "../Emissor/cria_xml.h"
 
@@ -186,6 +187,7 @@
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"
 #include "../Suporte/atualiza.c"
+#include "../Suporte/email.c"
 
 #include "../Gestao/enviar_email.c"
 

@@ -30,3 +30,22 @@ static char **sup_tipo_nomes;
 static int sup_tipo_nomes_qnt=0, sup_tipo = 0;
 
 int suporte_princ_wnd();
+
+#define SUP_CODE 0
+#define SUP_OPER 1
+#define SUP_TIT 2
+#define SUP_DESCR 3
+#define SUP_DATA 4
+#define SUP_STAT 5
+#define SUP_PRIOR 6
+#define SUP_TIP 7
+
+static struct _suporte_list{
+  char *id;
+  char *titulo;
+  char *descricao;
+  char *tipo;
+  char *data;
+  char *status;
+  char *prioridade;
+}*suporte_list;

@@ -5,11 +5,11 @@ int suporte_princ_wnd(){
   GtkWidget *box = gtk_box_new(1,0);
   GtkWidget *frame = gtk_frame_new("Posts:");
   GtkWidget *caixa_opcoes = gtk_box_new(0,0);
-  int cont=0;
   MYSQL_RES *res;
   MYSQL_ROW row;
   gchar sup_prior_gchar[30];
   char query[MAX_QUERY_LEN];
+  int cont=0;
 
   gtk_window_set_position(GTK_WINDOW(janela),3);
   gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
@@ -29,8 +29,9 @@ int suporte_princ_wnd(){
   sup_posts_pos=0;
   sup_posts_qnt=0;
   sup_vet_posts_qnt = malloc(MAX_POST_QNT*sizeof (int*));
+  suporte_list = malloc(sizeof(struct _suporte_list*)*MAX_POST_QNT);
 
-  for(int cont=0;cont<=MAX_POST_QNT;cont++)
+  for(int cont=0;cont<MAX_POST_QNT;cont++)
     sup_vet_posts_qnt[cont] = 0;
 
   sup_adiciona_button = gtk_button_new_with_label("Adicionar");
@@ -116,7 +117,7 @@ int suporte_princ_wnd(){
     sprintf(prioridade_end_query,"prioridade = %i",sup_prior);
 
 
-  sprintf(query,"select code, titulo, descricao, data, status, prioridade, tipo from suporte_posts where operador = %i and %s and %s",sessao_oper.code, status_end_query, prioridade_end_query);
+  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s",sessao_oper.code, status_end_query, prioridade_end_query);
 
   g_print("%s\n",query);
 
@@ -154,11 +155,9 @@ int suporte_princ_wnd(){
 
   g_signal_connect(sup_adiciona_button,"clicked",G_CALLBACK(suporte_princ_add),NULL);
   g_signal_connect(sup_adiciona_button,"clicked",G_CALLBACK(mover_scroll),scroll_postlist);
-
   g_signal_connect(sup_prior_combo,"changed",G_CALLBACK(post_recarregar_posts),scroll_postlist);
-
   g_signal_connect(sup_psq_status_combo,"changed",G_CALLBACK(post_recarregar_posts),scroll_postlist);
-
+  g_signal_connect(envio_email_button,"clicked",G_CALLBACK(suporte_envia_email),scroll_postlist);
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_SUP_WIN]);
 
   gtk_container_add(GTK_CONTAINER(janela),frame);

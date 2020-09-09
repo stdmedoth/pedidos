@@ -37,6 +37,8 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_celular_entry),row[EMP_CEL_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_email_entry),row[EMP_EMAIL_COL]);
+  strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_emailsenha_entry),row[EMP_EMAILSEN_COL]);
 
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){
@@ -88,6 +90,7 @@ int cad_emp_recebe(){
   strcpy(cad_emp_strc.telefone,row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
+  strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
 
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){

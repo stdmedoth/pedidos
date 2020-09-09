@@ -15,7 +15,6 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 
 	gtk_window_set_icon_name(GTK_WINDOW(mensagem),"system-log-out");
 	gtk_window_set_position(GTK_WINDOW(mensagem),3);
-
 	gtk_window_set_keep_above(GTK_WINDOW(mensagem),TRUE);
 
 	janelas_gerenciadas.encerramento.reg_id = REG_WIN_ENCERRA;
@@ -80,7 +79,7 @@ void fechar_sessao(){
   0,
   0,
   sessao_oper.code);
-	
+
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

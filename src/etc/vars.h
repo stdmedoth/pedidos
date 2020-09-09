@@ -104,6 +104,7 @@
 #define IMG_IMP_LOGO      "C:/petitto/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "C:/petitto/files/backup_querys"
 #define MOZ_CERT          "C:/petitto/files/cacert.pem"
+#define SUP_XML           "C:/petitto/files/suporte.xml"
 #endif
 
 #ifdef __linux__
@@ -209,6 +210,7 @@
 #define CAD_TER_PSQ_SCRIPT  "/usr/share/petitto/files/scripts/php/ter_cad_consul.php"
 #define SCRPT_NFE_INFOS     "/usr/share/petitto/files/scripts/php/files/dados_nfe.xml"
 #define MOZ_CERT          "/usr/share/petitto/files/cacert.pem"
+#define SUP_XML           "/usr/share/petitto/files/suporte.xml"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -305,6 +307,7 @@
 #define CONDPAG_MESES 2
 #define CONDPAG_DT_LVR 3
 #define CONDPAG_S_FIN 4
+#define CONDPAG_DADATA 5
 
 #define STATUS_PED_PEND 0
 #define STATUS_PED_EMIT 1

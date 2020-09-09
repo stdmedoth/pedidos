@@ -23,6 +23,9 @@ int pag_alterar_fun(){
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_init_spin),atoi(row[4]));
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_spin),atoi(row[5]));
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_qnt_spin),atoi(row[6]));
+  gtk_widget_set_sensitive(pag_cod_entry,FALSE);
+  gtk_widget_set_sensitive(pag_alterar_button,FALSE);
+  gtk_widget_set_sensitive(pag_psq_cod_button,FALSE);
 
   return 0;
 }

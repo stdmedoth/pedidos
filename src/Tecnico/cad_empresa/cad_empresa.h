@@ -10,6 +10,7 @@
 #define EMP_TEL_COL 9
 #define EMP_CEL_COL 10
 #define EMP_EMAIL_COL 11
+#define EMP_EMAILSEN_COL 12
 
 GtkWidget *cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
@@ -23,6 +24,7 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_telefone_entry,
 *cad_emp_celular_entry,
 *cad_emp_email_entry,
+*cad_emp_emailsenha_entry,
 *cad_emp_img_init_entry,
 *cad_emp_img_init_chooser,
 *cad_emp_script_path_entry,

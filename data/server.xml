@@ -1,6 +1,6 @@
 <server_conf>
 	<endereco>localhost</endereco>
 	<usuario>petitto</usuario>
-	<senha>12345678</senha>
+	<senha>1234</senha>
 	<banco>erp</banco>
 </server_conf>

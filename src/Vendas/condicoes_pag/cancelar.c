@@ -10,6 +10,9 @@ int pag_cancelar_fun(){
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_qnt_spin),1);
 
   gtk_widget_set_sensitive(pag_init_spin,FALSE);
+  gtk_widget_set_sensitive(pag_cod_entry,TRUE);
+  gtk_widget_set_sensitive(pag_alterar_button,TRUE);
+  gtk_widget_set_sensitive(pag_psq_cod_button,TRUE);
 
   pag_concluindo = 0;
   pag_alterando = 0;
