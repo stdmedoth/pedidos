@@ -1,13 +1,14 @@
 int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo_orcamento){
   CURL *curl;
   CURLcode res = CURLE_OK;
+  xmlNodePtr xml_email;
   char *corpo_email;
   char *email_cli = malloc(MAX_EMAIL_LEN);
   char *email_copia = malloc(MAX_EMAIL_LEN);
-  char *inline_text = malloc(1000);
-  sprintf(inline_text,"Olá! ' %s '\r\n"
-  "Segue pedido impresso referente aos produtos comprados na ' %s '.\r\n"
-  "Caso haja alguma dúvida, ligar em ' %s '.\r\n",nome_destino,cad_emp_strc.xNome,cad_emp_strc.telefone);
+  char *inline_text = malloc(2000);
+
+  sprintf(inline_text,"Olá! ' %s '\r\nSegue pedido impresso referente aos produtos comprados na ' %s '.\r\nCaso haja alguma dúvida, ligar em ' %s '.\r\n",
+  nome_destino,cad_emp_strc.xNome,cad_emp_strc.telefone);
 
   GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
   char mensagem[1000];
@@ -23,23 +24,40 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
     return 1;
   }
 
-  corpo_email = confirmar_envio_email(email_destino,inline_text);
-  if(corpo_email){
-    inline_text = malloc(strlen(corpo_email));
-    strcpy(inline_text,corpo_email);
-  }else{
+  xml_email = confirmar_envio_email(email_destino,inline_text);
+  if(!xml_email){
     return 0;
   }
 
-  sscanf(corpo_email,"cliente:%s; copia:%s; corpo:%s;",email_destino,email_copia,corpo_email);
+  xmlNodePtr email_cli_nd = getContentByTagName(xml_email,"cliente");
+  xmlNodePtr email_copia_nd = getContentByTagName(xml_email,"copia");
+  xmlNodePtr inline_text_nd =getContentByTagName(xml_email,"corpo_email");
+
+  if(email_cli_nd)
+    strcpy(email_cli,(char*) email_cli_nd->content);
+  if(email_cli_nd)
+    strcpy(email_copia,(char*) email_copia_nd->content);
+  if(inline_text_nd)
+    strcpy(inline_text,(char*) inline_text_nd->content);
+
+  if(!email_cli){
+    popup(NULL,"Não foi possivel reconhecer email do cliente");
+    return 1;
+  }
 
   headers_text = malloc(1200);
   headers_text[0] = malloc(300);
   sprintf(headers_text[0],"Date: %s",g_date_time_format(data,"%T"));
   headers_text[1] = malloc(300);
   sprintf(headers_text[1],"To: %s",email_cli);
+
   headers_text[2] = malloc(300);
-  sprintf(headers_text[2],"CC: %s",email_copia);
+
+  if(strcmp(email_copia,"vazio"))
+    sprintf(headers_text[2],"CC: %s",email_copia);
+  else
+    strcpy(headers_text[2]," ");
+
   headers_text[3] = malloc(300);
   sprintf(headers_text[3],"Subject: Envio %s",cad_emp_strc.xNome);
   headers_text[4] = NULL;
@@ -58,7 +76,15 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
     curl_mimepart *part;
     char **cpp;
 
-    strcpy(cad_emp_strc.email_senha,"987817853bash");
+    if(!strlen(cad_emp_strc.email)){
+      popup(NULL,"Não há email cadastrado para envio de emails");
+      return 1;
+    }
+
+    if(!strlen(cad_emp_strc.email_senha)){
+      popup(NULL,"Não há senha cadastrado para o envio de emails");
+      return 1;
+    }
 
     curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
     curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
@@ -72,8 +98,11 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
     recipients = curl_slist_append(recipients, email_cli);
     curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
-    recipients = curl_slist_append(recipients, email_copia);//copia
-    curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+    /*
+    if(strcmp(email_copia,"vazio")){
+      recipients = curl_slist_append(recipients, email_copia);//copia
+      curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+    }*/
 
     //curl_easy_setopt(curl, CURLOPT_MAIL_RCPT_ALLLOWFAILS, 1L);
 
@@ -106,10 +135,22 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
 
     if(res != CURLE_OK){
       file_logger("Erro no envio do email\n");
-      file_logger(nome_destino);
-      file_logger(email_destino);
-      file_logger(email_copia);
-      file_logger(arquivo_orcamento);
+      if(nome_destino)
+        file_logger(nome_destino);
+
+      if(email_destino)
+        file_logger(email_destino);
+
+      if(email_copia)
+        file_logger(email_copia);
+
+      if(email_copia)
+        file_logger(arquivo_orcamento);
+
+      if(inline_text)
+        file_logger(inline_text);
+
+
       file_logger(cad_emp_strc.email);
       file_logger(cad_emp_strc.email_senha);
 
@@ -159,7 +200,15 @@ int enviar_email_suporte( char *arquivo_suporte ){
       curl_mimepart *part;
       char **cpp;
 
-      strcpy(cad_emp_strc.email_senha,"987817853bash");
+      if(!strlen(cad_emp_strc.email)){
+        popup(NULL,"Não há email cadastrado para envio de emails");
+        return 1;
+      }
+
+      if(!strlen(cad_emp_strc.email_senha)){
+        popup(NULL,"Não há senha cadastrado para o envio de emails");
+        return 1;
+      }
 
       curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
       curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);

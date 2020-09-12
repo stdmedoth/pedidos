@@ -41,9 +41,10 @@ int temas()
 	GtkSettings *settings;
 	settings = gtk_settings_get_default();
 
-	g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
+	if(personalizacao.tema>=0)
+		if(nomes_temas[personalizacao.tema])
+			g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 	g_object_get(settings, "gtk-theme-name",&tema_atual,NULL);
 
-	g_print("Tema escolhido: %s\n",tema_atual);
 	return 0;
 }

@@ -2,6 +2,9 @@ static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
 	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
+	if(personalizacao.tema<0)
+		personalizacao.tema = -1;
+
 	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
 	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
 
@@ -147,7 +150,7 @@ int atualizar_personalizacao()
 	{
 		popup(NULL,"Erro ao configurar janela login");
 	}
-	sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema,personalizacao.janela_keep_above,sessao_oper.code);
+		sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema, personalizacao.janela_keep_above, sessao_oper.code);
 	if((erro = enviar_query(query))!=0)
 	{
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");

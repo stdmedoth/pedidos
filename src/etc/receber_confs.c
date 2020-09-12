@@ -6,69 +6,6 @@ static struct {
 }server_confs;
 
 
-xmlNodePtr search_content_tag(xmlNode * a_node, char *TagName){
-  xmlNode *cur_node = NULL;
-  if(a_node==NULL)
-  {
-      return NULL;
-  }
-
-  for (cur_node = a_node; cur_node; cur_node = cur_node->next)
-  {
-    if (cur_node->type == XML_ELEMENT_NODE)
-    {
-      if(cur_node->children->type == XML_TEXT_NODE){
-        if(cur_node->name && cur_node->children && cur_node->children->content){
-          g_print("%s\n",cur_node->name);
-          if(!strcmp((char *)cur_node->name,TagName)){
-            return cur_node->children;
-          }
-        }
-      }
-    }
-    a_node = search_content_tag(cur_node->children,TagName);
-    if(a_node)
-      return a_node;
-  }
-  return NULL;
-}
-
-xmlNodePtr search_elem_tag(xmlNode * a_node, char *TagName){
-  xmlNode *cur_node = NULL;
-  if(a_node==NULL)
-  {
-      return NULL;
-  }
-
-  for (cur_node = a_node; cur_node; cur_node = cur_node->next)
-  {
-    if (cur_node->type == XML_ELEMENT_NODE)
-    {
-      if(cur_node->children->type == XML_TEXT_NODE){
-        if(cur_node->name && cur_node->children && cur_node->children->content){
-          g_print("%s\n",cur_node->name);
-          if(!strcmp((char *)cur_node->name,TagName)){
-            return cur_node->children;
-          }
-        }
-      }
-    }
-    a_node = search_elem_tag(cur_node->children,TagName);
-    if(a_node)
-      return a_node;
-  }
-  return NULL;
-}
-
-
-xmlNodePtr getContentByTagName( xmlNodePtr nodes,char *TagName ){
-    return search_content_tag(nodes,TagName);
-}
-
-xmlNodePtr getElementByTagName( xmlNodePtr nodes,char *TagName ){
-    return search_elem_tag(nodes,TagName);
-}
-
 int rec_vars_from_file(){
 
   server_confs.server_endereco = malloc(MAX_SERVER_LEN);

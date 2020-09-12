@@ -739,27 +739,27 @@ char *ped_status_from_int(int code){
 	return "";
 }
 
-char *confirmar_envio_email(gchar *destino, gchar *conteudo){
+xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo){
 
 	int len;
   GtkTextIter inicio,fim;
   GtkTextBuffer *buffer;
   gchar *infos_email, *corpo_email, *email_cli, *email_copia;
   GtkWidget *cli_entry, *copia_entry, *emailsbox;
-	GtkWidget *popup, *fields, *fixed, *box;
+	GtkWidget *janela, *fields, *fixed, *box;
 	int resultado;
 
-	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_MODAL,"Enviar o email",GTK_RESPONSE_ACCEPT,"Não enviar",GTK_RESPONSE_REJECT,NULL);
+	janela = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_MODAL,"Enviar o email",GTK_RESPONSE_ACCEPT,"Não enviar",GTK_RESPONSE_REJECT,NULL);
 
-	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
-	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
-	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
-  gtk_widget_set_size_request(popup,100,100);
-	gtk_window_set_position(GTK_WINDOW(popup),3);
+	gtk_window_set_title(GTK_WINDOW(janela),"Mensagem");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"user-availables");
+	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+  gtk_widget_set_size_request(janela,100,100);
+	gtk_window_set_position(GTK_WINDOW(janela),3);
 
   cli_entry = gtk_entry_new();
   copia_entry = gtk_entry_new();
-	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fields = gtk_bin_get_child(GTK_BIN(janela));
 	fixed = gtk_fixed_new();
 	box = gtk_box_new(1,0);
   emailsbox = gtk_box_new(0,0);
@@ -777,31 +777,54 @@ char *confirmar_envio_email(gchar *destino, gchar *conteudo){
 
 	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
 
-	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
-	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
-	gtk_widget_show_all(popup);
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT);
 
-	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+  gtk_entry_set_text(GTK_ENTRY(cli_entry),destino);
+
+	gtk_widget_show_all(janela);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(janela));
 	if(resultado == GTK_RESPONSE_ACCEPT){
 
     email_cli =(gchar*) gtk_entry_get_text(GTK_ENTRY(cli_entry));
-    if(!email_cli)
-      email_cli = "";
-    email_copia =(gchar*)  gtk_entry_get_text(GTK_ENTRY(copia_entry));
-    if(!email_copia)
-      email_copia = "";
+    if(!strlen(email_cli)){
+      popup(NULL,"Insira o email do cliente");
+      return NULL;
+    }
+
+    email_copia = (gchar*)  gtk_entry_get_text(GTK_ENTRY(copia_entry));
+    if(!strlen(email_copia)){
+      email_copia = malloc(strlen("vazio"));
+      strcpy(email_copia,"vazio");
+    }
 
     gtk_text_buffer_get_bounds(buffer,&inicio,&fim);
     corpo_email = gtk_text_buffer_get_text(buffer,&inicio,&fim,TRUE);
     infos_email = malloc(strlen(email_cli)+strlen(email_copia)+strlen(corpo_email)+10);
+
     sprintf(infos_email,"cliente:%s; copia:%s; corpo:%s;",email_cli, email_copia, corpo_email);
-    gtk_widget_destroy(popup);
-    return infos_email;
+
+    xmlNodePtr root = xmlNewNode(NULL,(const xmlChar *)"Email");
+    xmlNodePtr email_cli_nd = xmlNewNode(NULL,(const xmlChar *)"cliente");
+    xmlNodePtr email_copia_nd = xmlNewNode(NULL,(const xmlChar *)"copia");
+    xmlNodePtr corpo_email_nd = xmlNewNode(NULL,(const xmlChar *)"corpo_email");
+
+    xmlNodeAddContent(email_cli_nd,(const xmlChar *)email_cli);
+    xmlNodeAddContent(email_copia_nd,(const xmlChar *)email_copia);
+    xmlNodeAddContent(corpo_email_nd,(const xmlChar *)corpo_email);
+
+    xmlAddChild(root,email_cli_nd);
+    xmlAddChild(root,email_copia_nd);
+    xmlAddChild(root,corpo_email_nd);
+
+    gtk_widget_destroy(janela);
+    return root;
 	}else
   if(resultado == GTK_RESPONSE_REJECT){
-    gtk_widget_destroy(popup);
+    gtk_widget_destroy(janela);
     return NULL;
   }
-	gtk_widget_destroy(popup);
+	gtk_widget_destroy(janela);
   return NULL;
 }

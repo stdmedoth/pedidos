@@ -1,5 +1,5 @@
-create user 'petitto'@'%' identified by '1234';
-grant all privileges on *.* to 'petitto'@'%';
+create user 'petitto'@'%%' identified by '1234';
+grant all privileges on *.* to 'petitto'@'%%';
 flush privileges;
 
 insert into criticas(nome, opcao_nome, campo_nome, critica)

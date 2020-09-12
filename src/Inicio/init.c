@@ -172,13 +172,16 @@ int desktop()
 		return 1;
 	}
 
+
 	personalizacao.tema = atoi(row[2]);
 	personalizacao.janela_init = atoi(row[3]);
 	personalizacao.janela_keep_above = atoi(row[4]);
 
 	GtkSettings *settings;
 	settings = gtk_settings_get_default();
-	if(nomes_temas[personalizacao.tema])
+
+	if(personalizacao.tema>=0)
+		if(nomes_temas[personalizacao.tema])
 		g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
 	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
@@ -455,12 +458,12 @@ int init()
 
 	gtk_icon_theme_get_search_path(icone,&path,&n_elements);
 	n_elements++;
-	path[n_elements-1] = malloc(strlen(ICON_PATH));
-	strcpy((char*)path[n_elements-1],ICON_PATH);
 
-	gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
-
-	//return 1;
+	if(path && n_elements){
+		path[n_elements-1] = malloc(strlen(ICON_PATH));
+		strcpy((char*)path[n_elements-1],ICON_PATH);
+		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
+	}
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
@@ -472,7 +475,7 @@ int init()
 		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()!=0)
 		{
-			popup(NULL,"Erro na inicializacao");
+			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
 		}

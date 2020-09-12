@@ -17,5 +17,5 @@ create table frete_vlrs(
   cep_inicio varchar(20) not null default '',
   cep_entrega varchar(20) not null default '',
   taxa_km float not null default '0.0',
-  região int not null default 1,
+  regiao int not null default 1,
   vlr_frete float not null default '0.0');

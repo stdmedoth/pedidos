@@ -42,4 +42,4 @@ int aviso_de_baixa_fin();
 
 int cep_nao_existente_fun(gchar *cep);
 
-char *confirmar_envio_email(gchar *destino, gchar *conteudo);
+xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo);

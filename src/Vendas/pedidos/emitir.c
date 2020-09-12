@@ -198,7 +198,7 @@ int emitir_ped()
 			popup(NULL,"Não foi possivel criar título no financeiro");
 		}
 
-		if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES ){
+		if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES || ped_parcelas.tipo_parc == CONDPAG_DADATA){
 				for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
 
 					if(cont==0){
@@ -209,14 +209,17 @@ int emitir_ped()
 
 					if(g_date_time_format(gdate,"%Y-%m-%d")){
 
-						if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
+						if(ped_parcelas.tipo_parc == CONDPAG_DADATA)
 							gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
-						else
-						if(ped_parcelas.tipo_parc == CONDPAG_MESES)
-							gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
 
 						ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y-%m-%d")));
 						strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
+
+						if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
+							gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
+						if(ped_parcelas.tipo_parc == CONDPAG_MESES)
+							gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
+
 					}else{
 						popup(NULL,"Erro ao calcular datas! Verifique financeiro");
 					}

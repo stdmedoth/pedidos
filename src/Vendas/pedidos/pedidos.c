@@ -315,10 +315,14 @@ int vnd_ped()
 	janela_pedidos = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_pedidos),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela_pedidos),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela_pedidos),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
 	gtk_widget_set_size_request(janela_pedidos,820,480);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
 
@@ -489,11 +493,6 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(caixa_grande),linha4,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_pedidos),caixa_grande);
-
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
 
 	g_signal_connect(ped_psq_cod_button,"clicked",G_CALLBACK(psq_ped),ped_cod_entry);
 	g_signal_connect(ped_emitir_button,"clicked",G_CALLBACK(emitir_ped),NULL);

@@ -135,14 +135,6 @@ int pesquisar_cad_sefaz(char *cnpj, char *uf){
     return 1;
   }
 
-  processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,cad_emp_strc.script_bin_path,CAD_TER_PSQ_SCRIPT,NULL);
-  if(!processo)
-  {
-    popup(NULL,"Não foi possivel enviar documento");
-    //autologger(erro->message);
-    //file_logger(erro->message);
-    return 1;
-  }
 
   return 0;
 }
@@ -195,7 +187,7 @@ void janela_cad_ter_consulta(){
 
       if(pesquisar_cad_sefaz(consulta_cnpj.cnpj,consulta_cnpj.uf))
         return ;
-        
+
       g_usleep(G_USEC_PER_SEC*4);
       recCadDoc = xmlParseFile(SCRPT_TER_INFOS_RET);
       if(!recCadDoc){

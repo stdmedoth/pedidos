@@ -1,3 +1,4 @@
+#include "xml_tools.h"
 #include "tools.h"
 #include "impressao.h"
 #include "css.c"
@@ -92,6 +93,7 @@
 #include "../Gestao/enviar_email.h"
 
 #include "receber_confs.c"
+#include "xml_tools.c"
 #include "tools.c"
 #include "impressao.c"
 #include "criticas.c"
