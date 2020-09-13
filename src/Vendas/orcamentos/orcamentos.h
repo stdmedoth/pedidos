@@ -1,17 +1,84 @@
-#define COD_ORC_COL 0
-#define NOM_ORC_COL 1
+#define ORC_COD_COL 0
+#define ORC_TIPMOV_COL 1
+#define ORC_VENDD_COL 2
+#define ORC_CLI__COL 3
+#define ORC_DATE_COL 4
+#define ORC_PAGCOND_COL 5
+#define ORC_BANC_COL 6
+#define ORC_TOTAL_COL 7
+#define ORC_OBS__COL 8
 
-#define COD_ORC_PROD_COL 0
-#define ITM_ORC_PROD_COL 1
-#define PROD_ORC_PROD_COL 2
-#define SUBGRP_ORC_PROD_COL 3
-#define UND_ORC_PROD_COL 4
-#define VLR_ORC_PROD_COL 5
-#define VLR_ORIG_ORC_PROD_COL 6
-#define TIP_DESC_ORC_PROD_COL 7
-#define DESC_ORC_PROD_COL 8
-#define TOTAL_ORC_PROD_COL 9
-#define OBS_ORC_PROD_COL 10
+#define ORC_PROD_COD_COL 0
+#define ORC_PROD_ITM_COL 1
+#define ORC_PROD_PROD_COL 2
+#define ORC_PROD_SUBGRP_COL 3
+#define ORC_PROD_UND_COL 4
+#define ORC_PROD_VLR_COL 5
+#define ORC_PROD_VLR_ORIG_COL 6
+#define ORC_PROD_TIP_DESC_COL 7
+#define ORC_PROD_DESC_COL 8
+#define ORC_PROD_TOTAL_COL 9
+#define ORC_PROD_OBS_COL 10
+
+static struct itens_struct
+{
+	int id;
+	int item;
+	int produto;
+	char produto_nome[MAX_NAME_LEN];
+	int subgrupo;
+	char subgrupo_nome[MAX_NAME_LEN];
+	float qnt_f;
+	float preco_f;
+	float desconto_f;
+	int tipodesc;
+	float total_f;
+	char grupos_nome[MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO];
+	char qnt_c[MAX_PRECO_LEN];
+	char preco_c[MAX_PRECO_LEN];
+	char desconto_c[MAX_PRECO_LEN];
+	char total_c[MAX_PRECO_LEN];
+	char origem_preco[15];
+}ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
+
+static struct _orc_valores{
+	float valor_prds;
+	float valor_prds_desc;
+	float valor_prds_liquido;
+
+	float valor_frete;
+	float desconto_frete;
+	float valor_frete_liquido;
+
+	float desconto_total;
+	float valor_total;
+}orc_valores;
+
+static struct _orc_infos{
+	int code;
+	int cliente_code;
+	int vendedor;
+	int tipo_mov;
+	char data[MAX_DATE_LEN];
+	float total;
+	char observacoes[MAX_OBS_LEN];
+}orc_infos;
+
+static struct _orc_parcelas{
+	int pagcond_code;
+	int parcelas_qnt;
+	int banco;
+	char *parcelas_data[MAX_PARCELAS_QNT+1];
+	float parcelas_vlr[MAX_PARCELAS_QNT+1];
+	float valor_faltante;
+	float total_geral;
+}orc_parcelas;
+
+struct _orc{
+	struct _orc_infos infos;
+	struct _orc_valores valores;
+	struct _orc_parcelas parcelas;
+};
 
 #define PROD_LINHAS_ORC 1
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
@@ -22,8 +89,6 @@ GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
 
-static int concluir_orc();
-static int altera_orc();
 static int tirar_linha(int);
 static int vnd_orc();
 
@@ -158,55 +223,6 @@ GtkWidget *botao_orc_mais,**botao_menos;
 static int produto_inserido[MAX_PROD_ORC+1];
 static int itens_qnt=1;
 int id_vetor[MAX_PROD_ORC+1];
-
-static struct itens_struct
-{
-	int id;
-	int item;
-	int produto;
-	char produto_nome[MAX_NAME_LEN];
-	int subgrupo;
-	char subgrupo_nome[MAX_NAME_LEN];
-	float qnt_f;
-	float preco_f;
-	float desconto_f;
-	int tipodesc;
-	float total_f;
-	char grupos_nome[MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO];
-	char qnt_c[MAX_PRECO_LEN];
-	char preco_c[MAX_PRECO_LEN];
-	char desconto_c[MAX_PRECO_LEN];
-	char total_c[MAX_PRECO_LEN];
-	char origem_preco[15];
-}ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
-
-static struct{
-	float valor_prds;
-	float valor_prds_desc;
-	float valor_prds_liquido;
-
-	float valor_frete;
-	float desconto_frete;
-	float valor_frete_liquido;
-
-	float desconto_total;
-	float valor_total;
-}orc_valores;
-
-static struct{
-	int cliente_code;
-	char observacoes[MAX_OBS_LEN];
-}orc_infos;
-
-static struct {
-	int parcelas_qnt;
-	int pagcond_code;
-	int banco;
-	char *parcelas_data[MAX_PARCELAS_QNT+1];
-	float parcelas_vlr[MAX_PARCELAS_QNT+1];
-	float valor_faltante;
-	float total_geral;
-}orc_parcelas;
 
 static int sinal_operacao_int=0;
 static int operacao_orc_int=0;

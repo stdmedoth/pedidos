@@ -1,8 +1,14 @@
+#include "campos/cond_pag.h"
 #include "campos/entrega_campos.h"
 #include "campos/outros/data_parc.h"
 #include "campos/outros/campos_de_datas.h"
 #include "campos/outros/datas_livres.h"
 #include "campos/outros/sem_financeiro.h"
+
+#include "alterar.h"
+#include "concluir.h"
+#include "excluir.h"
+#include "cancelar.h"
 
 #include "campos/codigo_orc.c"
 #include "campos/cliente_orc.c"

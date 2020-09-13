@@ -90,6 +90,8 @@
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
 
+#include "gerar_docs.h"
+#include "rec_orc_infos.h"
 #include "../Gestao/enviar_email.h"
 
 #include "receber_confs.c"
@@ -101,6 +103,8 @@
 #include "personalizacao.c"
 #include "parametros.c"
 #include "temas.c"
+#include "gerar_docs.c"
+#include "rec_orc_infos.c"
 #include "../Inicio/pega_data.c"
 
 #include "operadores.c"

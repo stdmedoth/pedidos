@@ -1,3 +1,11 @@
+#define PAGCND_COD_COL 0
+#define PAGCND_NOM_COL 1
+#define PAGCND_TIP_COL 2
+#define PAGCND_DIAFLAG_COL 3
+#define PAGCND_DIA_COL 4
+#define PAGCND_INT_COL 5
+#define PAGCOND_QNT_COL 6
+
 int cad_pag(void);
 
 static GtkWidget *pag_psq_cod_button;

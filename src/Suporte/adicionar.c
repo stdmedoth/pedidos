@@ -11,7 +11,7 @@ int carrega_posts(MYSQL_RES *res){
 
       sup_posts_pos = atoi(row[0]);
       char post_name[30];
-      if(sup_posts_pos<=MAX_POST_QNT&&sup_posts_pos>=0){
+      if(sup_posts_pos<MAX_POST_QNT&&sup_posts_pos>=0){
 
         sup_vet_posts_qnt[sup_posts_pos] = sup_posts_pos;
         postlist[sup_posts_pos] = gtk_box_new(1,0);

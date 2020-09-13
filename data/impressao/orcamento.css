@@ -48,7 +48,7 @@
 #campo-itens
 {
 	padding: 10px;
-	border-style: ridge;
+	border-style: outset;
 	margin-top: 320px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -135,7 +135,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 #campo-totais{
 	padding: 20px;
-	border-style: ridge;
+	border-style: outset;
 	margin-top: 10px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -145,7 +145,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 #banco-infos{
 	padding: 20px;
-	border-style: ridge;
+	border-style: outset;
 	margin-top: 5px;
 	margin-left: 5px;
 	margin-right: 5px;

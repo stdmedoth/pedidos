@@ -44,11 +44,11 @@ int gerar_orc()
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de codigo no orcamento\n");
 		autologger(query);
-		vet_erro[COD_ERR] = 0;
 		gtk_widget_grab_focus(codigo_orc_entry);
 		return 1;
 	}
 	gerar_total_geral();
+
 	if(!(row = mysql_fetch_row(res)))
 	{
 			concluir_orc();
@@ -67,7 +67,7 @@ int gerar_orc()
 	if(codigo_orc())
 	  return 1;
 
-if(orc_pag_tipo_int == CONDPAG_DT_LVR)
+	if(orc_pag_tipo_int == CONDPAG_DT_LVR)
 		if(concluir_datas_livres()){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
 			return 1;

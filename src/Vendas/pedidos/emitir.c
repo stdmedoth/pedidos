@@ -96,8 +96,10 @@ int emitir_ped()
 		popup(NULL,"Sem Informações do cliente");
 		return 1;
 	}
+	if(row[0])
+		strcpy(nome_cliente,row[0]);
 
-	strcpy(nome_cliente,row[0]);
+	if(row[1])
 	strcpy(email_cliente,row[1]);
 
 	//calculando financeiro
@@ -116,6 +118,7 @@ int emitir_ped()
 		ped_valores.valor_prds = atof(row[0]);
 	if(row[1])
 		ped_valores.valor_prds_desc = atof(row[1]);
+
 	ped_valores.valor_prds_liquido = ped_valores.valor_prds - ped_valores.valor_prds_desc;
 
 	sprintf(query,"select SUM(vlr_frete),SUM(valor_desconto_frete) from servico_transporte where orcamento = %i",ped_infos.ped_code);
@@ -130,6 +133,7 @@ int emitir_ped()
 			ped_valores.valor_frete = atof(row[0]);
 		if(row[1])
 			ped_valores.desconto_frete = atof(row[1]);
+
 		ped_valores.valor_frete_liquido = ped_valores.valor_frete - ped_valores.desconto_frete;
 	}
 
@@ -156,8 +160,7 @@ int emitir_ped()
 	if(row[4])
 		ped_parcelas.parcelas_qnt = atoi(row[4]);
 
-	if(sscanf(ped_infos.data_mov, "%d-%d-%d", &ano, &mes, &dia) == EOF)
-  {
+	if(sscanf(ped_infos.data_mov, "%d-%d-%d", &ano, &mes, &dia) == EOF){
     popup(NULL,"Não foi possivel ler data");
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return 1;
@@ -177,8 +180,9 @@ int emitir_ped()
 
 	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.dia_inicial,0,0,0);
 
-	if(criar_xml())
-		return 1;
+	//em desenvolvimento para emissao de nfe
+	//if(criar_xml())
+	//	return 1;
 
 	if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA)
 		ped_parcelas.tipo_tit = 1;
@@ -250,11 +254,32 @@ int emitir_ped()
 					popup(NULL,"Não há datas de pagamento no orçamento");
 				}
 				while((row = mysql_fetch_row(res))){
-					cont = atoi(row[0]);
-					ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
-					strcpy(ped_parcelas.parcelas_data[cont],row[1]);
+					if(row[0])
+						cont = atoi(row[0]);
+					else{
+						popup(NULL,"Erro ao receber posicao das parcelas");
+						file_logger("Erro gerando posicao/datas livres/emissao do pedido");
+						return 1;
+					}
 
-					ped_parcelas.parcelas_vlr[cont] = atof(row[2]);
+					ped_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
+
+					if(row[1]){
+						strcpy(ped_parcelas.parcelas_data[cont],row[1]);
+					}else{
+						popup(NULL,"Erro ao receber datas das parcelas");
+						file_logger("Erro gerando data/parcelas tipo datas livres/emissao do pedido");
+						return 1;
+					}
+
+					if(row[2]){
+						ped_parcelas.parcelas_vlr[cont] = atof(row[2]);
+					}else{
+						popup(NULL,"Erro ao receber valor das parcelas");
+						file_logger("Erro gerando valor/tipo datas livres/emissao do pedido");
+						return 1;
+					}
+
 					sprintf( valor,"%.2f",ped_parcelas.parcelas_vlr[cont] );
 
 					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %i, '%s', '%s', '%s')",
@@ -304,21 +329,28 @@ int emitir_ped()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA){
-			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
-			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
-			ped_infos.ped_code,
-			row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
-		}else
-		if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA){
-			sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
-			gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
-			ped_infos.ped_code,
-			row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
+		if(row[0] && row[1] && row[2]){
+			if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA){
+
+				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
+				gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
+				ped_infos.ped_code,
+				row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
+			}else
+			if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA){
+				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
+				gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
+				ped_infos.ped_code,
+				row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
+			}
 		}
+		else{
+			popup(NULL,"Erro ao receber dados para atualizar estoque");
+		}
+
 		if(enviar_query(query)!=0)
 		{
-			popup(NULL,"Erro ao dar entrada no estoque");
+			popup(NULL,"Erro ao atualizar no estoque");
 			return 1;
 		}
 		cont++;

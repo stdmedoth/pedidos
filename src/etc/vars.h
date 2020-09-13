@@ -220,6 +220,8 @@
 #define IMG_IMP_CEL   "imgs/celular.png"
 #define IMG_IMP_QNT   "imgs/quantidade.png"
 
+#define SEM_EMAIL "email_vazio"
+
 #define MAX_TEMA_LEN 50
 #define MAX_TEMA_QNT 50
 #define MAX_PATH_LEN 1000
@@ -326,7 +328,6 @@
 #define TIPO_TER_FRN 2
 #define TIPO_TER_CLIFRN 3
 #define TIPO_TER_TRSP 4
-
 
 //id das operacoes
 #define VENDA 0

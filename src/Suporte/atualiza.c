@@ -72,6 +72,7 @@ int suporte_princ_atualiza(GtkWidget *entry, int posicao){
   }
 
   gtk_widget_grab_focus(descr_list[posicao]);
-  carrega_posts(res);
+
+  post_recarregar_posts();
   return 0;
 }

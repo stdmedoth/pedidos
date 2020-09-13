@@ -279,6 +279,7 @@ static void popup(GtkWidget *widget,gchar *string){
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+  gtk_window_set_position(GTK_WINDOW(popup),3);
   gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
 
 	if(logging == 0)
@@ -791,28 +792,36 @@ xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo){
     if(!strlen(email_cli)){
       popup(NULL,"Insira o email do cliente");
       return NULL;
+    }else
+    if(strlen(email_cli)>MAX_EMAIL_LEN){
+      popup(NULL,"Email muito grande");
+      return NULL;
     }
 
     email_copia = (gchar*)  gtk_entry_get_text(GTK_ENTRY(copia_entry));
     if(!strlen(email_copia)){
-      email_copia = malloc(strlen("vazio"));
-      strcpy(email_copia,"vazio");
+      email_copia = malloc(strlen(SEM_EMAIL));
+      strcpy(email_copia,SEM_EMAIL);
+    }else
+    if(strlen(email_copia)>MAX_EMAIL_LEN){
+      popup(NULL,"Email muito grande");
+      return NULL;
     }
 
     gtk_text_buffer_get_bounds(buffer,&inicio,&fim);
     corpo_email = gtk_text_buffer_get_text(buffer,&inicio,&fim,TRUE);
-    infos_email = malloc(strlen(email_cli)+strlen(email_copia)+strlen(corpo_email)+10);
-
-    sprintf(infos_email,"cliente:%s; copia:%s; corpo:%s;",email_cli, email_copia, corpo_email);
 
     xmlNodePtr root = xmlNewNode(NULL,(const xmlChar *)"Email");
     xmlNodePtr email_cli_nd = xmlNewNode(NULL,(const xmlChar *)"cliente");
     xmlNodePtr email_copia_nd = xmlNewNode(NULL,(const xmlChar *)"copia");
     xmlNodePtr corpo_email_nd = xmlNewNode(NULL,(const xmlChar *)"corpo_email");
 
-    xmlNodeAddContent(email_cli_nd,(const xmlChar *)email_cli);
-    xmlNodeAddContent(email_copia_nd,(const xmlChar *)email_copia);
-    xmlNodeAddContent(corpo_email_nd,(const xmlChar *)corpo_email);
+    if(email_cli)
+      xmlNodeAddContent(email_cli_nd,(const xmlChar *)email_cli);
+    if(email_copia)
+      xmlNodeAddContent(email_copia_nd,(const xmlChar *)email_copia);
+    if(corpo_email)
+      xmlNodeAddContent(corpo_email_nd,(const xmlChar *)corpo_email);
 
     xmlAddChild(root,email_cli_nd);
     xmlAddChild(root,email_copia_nd);

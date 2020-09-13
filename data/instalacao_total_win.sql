@@ -11,3 +11,4 @@ source C:/petitto/files/instalar_produtos.sql;
 source C:/petitto/files/instalar_transporte.sql;
 source C:/petitto/files/instalar_financeiros.sql;
 source C:/petitto/files/instalar_dados_basicos.sql;
+source C:/petitto/files/instalar_cidades.sql;

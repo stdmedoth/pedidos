@@ -11,3 +11,4 @@ source /usr/share/petitto/files/instalar_terceiros.sql;
 source /usr/share/petitto/files/instalar_transporte.sql;
 source /usr/share/petitto/files/instalar_financeiros.sql;
 source /usr/share/petitto/files/instalar_dados_basicos.sql;
+source /usr/share/petitto/files/instalar_cidades.sql;

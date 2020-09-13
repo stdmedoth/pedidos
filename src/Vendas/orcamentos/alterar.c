@@ -153,85 +153,75 @@ static int altera_orc()
 		while (g_main_context_pending(NULL))
 			g_main_context_iteration(NULL,FALSE);
 
-		//arquivando as informacoes da alteração
-		file_logger("\n\nAdicionando item %s à alteração \n");
-		file_logger(row[1]);
-		file_logger("Dados:\n");
-		file_logger("code: %s\n");
-		file_logger(row[COD_ORC_PROD_COL]);
-		file_logger("item: %s\n");
-		file_logger(row[ITM_ORC_PROD_COL]);
-		file_logger("produto: %s\n");
-		file_logger(row[PROD_ORC_PROD_COL]);
-		file_logger("subgrupo: %s\n");
-		file_logger(row[SUBGRP_ORC_PROD_COL]);
-		file_logger("unidades: %s\n");
-		file_logger(row[UND_ORC_PROD_COL]);
-		file_logger("valor_unit: %s\n");
-		file_logger(row[VLR_ORC_PROD_COL]);
-		file_logger("valor_orig: %s\n");
-		file_logger(row[VLR_ORIG_ORC_PROD_COL]);
-		file_logger("tipodesc: %s\n");
-		file_logger(row[TIP_DESC_ORC_PROD_COL]);
-		file_logger("desconto: %s\n");
-		file_logger(row[DESC_ORC_PROD_COL]);
-		file_logger("total: %s\n\n");
-		file_logger(row[TOTAL_ORC_PROD_COL]);
-		file_logger("Observacao: %s\n\n");
-		file_logger(row[OBS_ORC_PROD_COL]);
+		if(!row[ORC_PROD_ITM_COL]){
+			popup(NULL,"Erro na identificação em um dos itens, verifique");
+			continue;
+		}
 
-		itens_qnt = atoi(row[ITM_ORC_PROD_COL]);
+		itens_qnt = atoi(row[ORC_PROD_ITM_COL]);
 
 		adicionar_linha_orc();
 
-		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]))
+		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]))
 		{
-			codigo_prod_orc_gchar = malloc(strlen(row[PROD_ORC_PROD_COL]));
-			strcpy(codigo_prod_orc_gchar,row[PROD_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),codigo_prod_orc_gchar);
-			ativos[atoi(row[ITM_ORC_PROD_COL])].produto = atoi(row[PROD_ORC_PROD_COL]);
 
-			subgrp_prod_orc_cod_gchar = malloc(strlen(row[SUBGRP_ORC_PROD_COL]));
-			strcpy(subgrp_prod_orc_cod_gchar,row[SUBGRP_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ITM_ORC_PROD_COL])]),subgrp_prod_orc_cod_gchar);
-			ativos[atoi(row[ITM_ORC_PROD_COL])].subgrupo = atoi(row[SUBGRP_ORC_PROD_COL]);
+			loging_alteracao(row);
 
-			valor_orig[atoi(row[ITM_ORC_PROD_COL])] = atoi(row[VLR_ORIG_ORC_PROD_COL]);
+			if(row[ORC_PROD_PROD_COL]){
+				codigo_prod_orc_gchar = malloc(strlen(row[ORC_PROD_PROD_COL]));
+				strcpy(codigo_prod_orc_gchar,row[ORC_PROD_PROD_COL]);
+				gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),codigo_prod_orc_gchar);
+				ativos[atoi(row[ORC_PROD_ITM_COL])].produto = atoi(row[ORC_PROD_PROD_COL]);
+			}
+			if(row[ORC_PROD_SUBGRP_COL]){
+				subgrp_prod_orc_cod_gchar = malloc(strlen(row[ORC_PROD_SUBGRP_COL]));
+				strcpy(subgrp_prod_orc_cod_gchar,row[ORC_PROD_SUBGRP_COL]);
+				gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ORC_PROD_ITM_COL])]),subgrp_prod_orc_cod_gchar);
+				ativos[atoi(row[ORC_PROD_ITM_COL])].subgrupo = atoi(row[ORC_PROD_SUBGRP_COL]);
+			}
+			if(row[ORC_PROD_VLR_ORIG_COL])
+				valor_orig[atoi(row[ORC_PROD_ITM_COL])] = atoi(row[ORC_PROD_VLR_ORIG_COL]);
 
-			qnt_prod_orc_gchar = malloc(strlen(row[UND_ORC_PROD_COL]));
-			strcpy(qnt_prod_orc_gchar,row[UND_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),qnt_prod_orc_gchar);
-
-			gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[atoi(row[ITM_ORC_PROD_COL])]),valor_orig[atoi(row[ITM_ORC_PROD_COL])]);
-
-			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[ITM_ORC_PROD_COL])]),atoi(row[TIP_DESC_ORC_PROD_COL]));
-
-			preco_prod_orc_gchar = malloc(strlen(row[VLR_ORC_PROD_COL]));
-			strcpy(preco_prod_orc_gchar,row[VLR_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),preco_prod_orc_gchar);
-
-			desconto_prod_orc_gchar = malloc(strlen(row[DESC_ORC_PROD_COL]));
-			strcpy(desconto_prod_orc_gchar,row[DESC_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),desconto_prod_orc_gchar);
-
-			desconto_prod_orc_gchar = malloc(strlen(row[TOTAL_ORC_PROD_COL]));
-			strcpy(desconto_prod_orc_gchar,row[TOTAL_ORC_PROD_COL]);
-			gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ITM_ORC_PROD_COL])]),desconto_prod_orc_gchar);
-
-			if(strlen(row[OBS_ORC_PROD_COL])>=MAX_OBS_LEN){
-				row[OBS_ORC_PROD_COL][MAX_OBS_LEN] = '\0';
+			if(row[ORC_PROD_UND_COL]){
+				qnt_prod_orc_gchar = malloc(strlen(row[ORC_PROD_UND_COL]));
+				strcpy(qnt_prod_orc_gchar,row[ORC_PROD_UND_COL]);
+				gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),qnt_prod_orc_gchar);
 			}
 
-			obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])] = malloc(MAX_OBS_LEN);
+			if(row[ORC_PROD_ITM_COL])
+				gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),valor_orig[atoi(row[ORC_PROD_ITM_COL])]);
 
-			strcpy(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],row[OBS_ORC_PROD_COL]);
+			if(row[ORC_PROD_TIP_DESC_COL])
+				gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),atoi(row[ORC_PROD_TIP_DESC_COL]));
 
-			obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(obs_prod_orc_view[atoi(row[ITM_ORC_PROD_COL])]));
+			if(row[ORC_PROD_VLR_COL]){
+				preco_prod_orc_gchar = malloc(strlen(row[ORC_PROD_VLR_COL]));
+				strcpy(preco_prod_orc_gchar,row[ORC_PROD_VLR_COL]);
+				gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),preco_prod_orc_gchar);
+			}
 
-			gtk_text_buffer_set_text(GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ITM_ORC_PROD_COL])]),
+			if(row[ORC_PROD_DESC_COL]){
+				desconto_prod_orc_gchar = malloc(strlen(row[ORC_PROD_DESC_COL]));
+				strcpy(desconto_prod_orc_gchar,row[ORC_PROD_DESC_COL]);
+				gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),desconto_prod_orc_gchar);
+			}
 
-			obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])],strlen(obs_prod_orc_gchar[atoi(row[ITM_ORC_PROD_COL])]));
+			if(row[ORC_PROD_TOTAL_COL]){
+				desconto_prod_orc_gchar = malloc(strlen(row[ORC_PROD_TOTAL_COL]));
+				strcpy(desconto_prod_orc_gchar,row[ORC_PROD_TOTAL_COL]);
+				gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),desconto_prod_orc_gchar);
+			}
 
+			if(row[ORC_PROD_OBS_COL]){
+				if(strlen(row[ORC_PROD_OBS_COL])>=MAX_OBS_LEN){
+					row[ORC_PROD_OBS_COL][MAX_OBS_LEN] = '\0';
+				}
+				obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])] = malloc(MAX_OBS_LEN);
+				strcpy(obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])],row[ORC_PROD_OBS_COL]);
+				obs_prod_orc_buffer[atoi(row[ORC_PROD_ITM_COL])] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(obs_prod_orc_view[atoi(row[ORC_PROD_ITM_COL])]));
+				gtk_text_buffer_set_text(GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ORC_PROD_ITM_COL])]),
+				obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])],strlen(obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])]));
+			}
 		}
 
 		rec_altera_qnt++;
@@ -351,4 +341,79 @@ static int altera_orc()
 	gtk_widget_set_sensitive(codigo_orc_entry,FALSE);
 	gtk_widget_set_sensitive(pesquisa_orc,FALSE);
 	return 0;
+}
+
+void loging_alteracao(MYSQL_ROW row){
+
+	//arquivando as informacoes da alteração
+	file_logger("\n\nAdicionando item à alteração: ");
+	file_logger("Dados:\n");
+
+	file_logger("codigo:\n");
+	if(row[ORC_PROD_COD_COL])
+		file_logger(row[ORC_PROD_COD_COL]);
+	else
+		file_logger("Erro no código do orcamento");
+
+	file_logger("item:\n");
+	if(row[ORC_PROD_ITM_COL])
+		file_logger(row[ORC_PROD_ITM_COL]);
+	else
+		file_logger("Erro no código do item");
+
+	file_logger("produto:\n");
+	if(row[ORC_PROD_PROD_COL])
+		file_logger(row[ORC_PROD_PROD_COL]);
+	else
+		file_logger("Erro no código do produto");
+
+	file_logger("subgrupo:\n");
+	if(row[ORC_PROD_SUBGRP_COL])
+		file_logger(row[ORC_PROD_SUBGRP_COL]);
+	else
+		file_logger("Erro no codigo do subgrupo");
+
+	file_logger("unidades:\n");
+	if(row[ORC_PROD_UND_COL])
+		file_logger(row[ORC_PROD_UND_COL]);
+	else
+		file_logger("Erro na unidade do produto");
+
+	file_logger("valor_unit:\n");
+	if(row[ORC_PROD_VLR_COL])
+		file_logger(row[ORC_PROD_VLR_COL]);
+	else
+		file_logger("Erro no valor do produto");
+
+	file_logger("valor_orig:\n");
+	if(row[ORC_PROD_VLR_ORIG_COL])
+		file_logger(row[ORC_PROD_VLR_ORIG_COL]);
+	else
+		file_logger("Erro no valor origem do produto");
+
+	file_logger("tipodesc:\n");
+	if(row[ORC_PROD_TIP_DESC_COL])
+		file_logger(row[ORC_PROD_TIP_DESC_COL]);
+	else
+		file_logger("Erro no tipo de desconto");
+
+	file_logger("desconto:\n");
+	if(row[ORC_PROD_DESC_COL])
+		file_logger(row[ORC_PROD_DESC_COL]);
+	else
+		file_logger("Erro no valor do desconto");
+
+	file_logger("total:\n\n");
+	if(row[ORC_PROD_TOTAL_COL])
+		file_logger(row[ORC_PROD_TOTAL_COL]);
+	else
+		file_logger("Erro no valor Total");
+
+	file_logger("Observacao:\n\n");
+	if(row[ORC_PROD_OBS_COL])
+		file_logger(row[ORC_PROD_OBS_COL]);
+	else
+		file_logger("Erro no campo observacao");
+
+	return ;
 }
