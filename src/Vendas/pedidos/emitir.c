@@ -82,7 +82,7 @@ int emitir_ped()
 	if(row[3])
 		ped_infos.tipo_mov = atoi(row[3]);
 	if(row[4])
-		ped_parcelas.pagcond_code = atoi(row[4]);
+		ped_parcelas.condpag.code = atoi(row[4]);
 
 	sprintf(query,"select razao,email from terceiros where code = %i",ped_infos.cliente_code);
 	if(!(res = consultar(query)))
@@ -137,7 +137,7 @@ int emitir_ped()
 		ped_valores.valor_frete_liquido = ped_valores.valor_frete - ped_valores.desconto_frete;
 	}
 
-	sprintf(query,"select pc.tipo, pc.dia_fixo_flag, pc.init_dia, pc.intervalos, pc.qnt_parcelas from orcamentos as o inner join pag_cond as pc on o.pag_cond = pc.code where o.code = %i",ped_infos.ped_code);
+	sprintf(query,"select pc.* from orcamentos as o inner join pag_cond as pc on o.pag_cond = pc.code where o.code = %i",ped_infos.ped_code);
 	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro ao buscar configurações de parcelas");
@@ -149,16 +149,16 @@ int emitir_ped()
 		popup(NULL,"Não foi encontrado configuraçoes de financeiro");
 		return 1;
 	}
-	if(row[0])
-		ped_parcelas.tipo_parc = atoi(row[0]);
-	if(row[1])
-		ped_parcelas.dia_inicial_flag = atoi(row[1]);
-	if(row[2])
-		ped_parcelas.dia_inicial = atoi(row[2]);
-	if(row[3])
-		ped_parcelas.intervalos = atoi(row[3]);
-	if(row[4])
-		ped_parcelas.parcelas_qnt = atoi(row[4]);
+	if(row[PAGCND_TIP_COL])
+		ped_parcelas.condpag.tipo_parc = atoi(row[PAGCND_TIP_COL]);
+	if(row[PAGCND_DIAFLAG_COL])
+		ped_parcelas.condpag.dia_inicial_flag = atoi(row[PAGCND_DIAFLAG_COL]);
+	if(row[PAGCND_DIA_COL])
+		ped_parcelas.condpag.dia_inicial = atoi(row[PAGCND_DIA_COL]);
+	if(row[PAGCND_INT_COL])
+		ped_parcelas.condpag.intervalos = atoi(row[PAGCND_INT_COL]);
+	if(row[PAGCOND_QNT_COL])
+		ped_parcelas.condpag.parcelas_qnt = atoi(row[PAGCOND_QNT_COL]);
 
 	if(sscanf(ped_infos.data_mov, "%d-%d-%d", &ano, &mes, &dia) == EOF){
     popup(NULL,"Não foi possivel ler data");
@@ -166,19 +166,19 @@ int emitir_ped()
     return 1;
   }
 
-	if(ped_parcelas.dia_inicial_flag == 0)
-		ped_parcelas.dia_inicial = dia;
+	if(ped_parcelas.condpag.dia_inicial_flag == 0)
+		ped_parcelas.condpag.dia_inicial = dia;
 
-	if(ped_parcelas.dia_inicial<atoi(dia_sys)){
+	if(ped_parcelas.condpag.dia_inicial<atoi(dia_sys)){
 		mes++;
 	}
 
   ped_parcelas.total_geral = 0;
 
 	timezone = g_time_zone_new(NULL);
-	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.dia_inicial,0,0,0);
+	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.condpag.dia_inicial,0,0,0);
 
-	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.dia_inicial,0,0,0);
+	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.condpag.dia_inicial,0,0,0);
 
 	//em desenvolvimento para emissao de nfe
 	//if(criar_xml())
@@ -189,40 +189,40 @@ int emitir_ped()
 	if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA)
 		ped_parcelas.tipo_tit = 2;
 
-	if(ped_parcelas.tipo_parc != CONDPAG_S_FIN){
+	if(ped_parcelas.condpag.tipo_parc != CONDPAG_S_FIN){
 		titulo_code = tasker("titulos"),
 		sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,%i,%i,%i)",
 		titulo_code,
 		ped_infos.cliente_code,
 		ped_infos.ped_code,
 		STAT_PENDENTE,
-		ped_parcelas.parcelas_qnt,
+		ped_parcelas.condpag.parcelas_qnt,
 		ped_parcelas.tipo_tit);
 		if(enviar_query(query)){
 			popup(NULL,"Não foi possivel criar título no financeiro");
 		}
 
-		if( ped_parcelas.tipo_parc == CONDPAG_DIAS || ped_parcelas.tipo_parc == CONDPAG_MESES || ped_parcelas.tipo_parc == CONDPAG_DADATA){
-				for(int cont=0;cont<ped_parcelas.parcelas_qnt;cont++){
+		if( ped_parcelas.condpag.tipo_parc == CONDPAG_DIAS || ped_parcelas.condpag.tipo_parc == CONDPAG_MESES || ped_parcelas.condpag.tipo_parc == CONDPAG_DADATA){
+				for(int cont=0;cont<ped_parcelas.condpag.parcelas_qnt;cont++){
 
 					if(cont==0){
-						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt) + ped_valores.valor_frete_liquido;
+						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.condpag.parcelas_qnt) + ped_valores.valor_frete_liquido;
 					}else{
-						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.parcelas_qnt);
+						parcela = (ped_valores.valor_prds_liquido/ped_parcelas.condpag.parcelas_qnt);
 					}
 
 					if(g_date_time_format(gdate,"%Y-%m-%d")){
 
-						if(ped_parcelas.tipo_parc == CONDPAG_DADATA)
-							gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
+						if(ped_parcelas.condpag.tipo_parc == CONDPAG_DADATA)
+							gdate = g_date_time_add_days(gdate,ped_parcelas.condpag.intervalos);
 
 						ped_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%Y-%m-%d")));
 						strcpy(ped_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
 
-						if(ped_parcelas.tipo_parc == CONDPAG_DIAS)
-							gdate = g_date_time_add_days(gdate,ped_parcelas.intervalos);
-						if(ped_parcelas.tipo_parc == CONDPAG_MESES)
-							gdate = g_date_time_add_months(gdate,ped_parcelas.intervalos);
+						if(ped_parcelas.condpag.tipo_parc == CONDPAG_DIAS)
+							gdate = g_date_time_add_days(gdate,ped_parcelas.condpag.intervalos);
+						if(ped_parcelas.condpag.tipo_parc == CONDPAG_MESES)
+							gdate = g_date_time_add_months(gdate,ped_parcelas.condpag.intervalos);
 
 					}else{
 						popup(NULL,"Erro ao calcular datas! Verifique financeiro");
@@ -244,7 +244,7 @@ int emitir_ped()
 					}
 				}
 		}
-		if( ped_parcelas.tipo_parc == CONDPAG_DT_LVR){
+		if( ped_parcelas.condpag.tipo_parc == CONDPAG_DT_LVR){
 			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%Y-%%m-%%d'), valor from orc_datas_livres where orcamento = %i",ped_infos.ped_code);
 			if(!(res = consultar(query)))
 			{

@@ -129,7 +129,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 }
 
 #campo-titulos{
-	display: -webkit-box; /* wkhtmltopdf uses this one */
+		display: -webkit-box; /* wkhtmltopdf uses this one */
     display: flex;
 }
 

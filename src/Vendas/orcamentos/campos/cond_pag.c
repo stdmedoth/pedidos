@@ -62,7 +62,7 @@ int rec_fat_vist()
 	}
 
 	pag_cond = atoi(orc_pag_cond_gchar);
-	orc_parcelas.pagcond_code = pag_cond;
+	orc_parcelas.condpag.code = pag_cond;
 	orc_pag_cond_activated=1;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++){

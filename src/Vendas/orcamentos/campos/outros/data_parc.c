@@ -23,7 +23,6 @@ int orc_pag_datas_fun(void){
     return 1;
   }
 
-  timezone = g_time_zone_new(NULL);
 
   if(orc_pag_dia_fixo_int == 0)
     orc_pag_init_int = dia;
@@ -32,6 +31,7 @@ int orc_pag_datas_fun(void){
     mes++;
   }
 
+  timezone = g_time_zone_new(NULL);
   gdate = g_date_time_new(timezone,ano,mes,orc_pag_init_int,0,0,0);
 
   orc_pag_datas_label1 = gtk_label_new("Datas");
@@ -52,15 +52,15 @@ int orc_pag_datas_fun(void){
   gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label1_fixed,0,0,1,1);
   gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
-  orc_parcelas.parcelas_qnt = orc_pag_parc_qnt_int;
+  orc_parcelas.condpag.parcelas_qnt = orc_pag_parc_qnt_int;
   orc_parcelas.total_geral = 0;
 
-  sprintf(parc_qnt,"%i",orc_parcelas.parcelas_qnt);
+  sprintf(parc_qnt,"%i",orc_parcelas.condpag.parcelas_qnt);
   gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),parc_qnt);
   gtk_widget_set_sensitive(orc_pag_datas_parcqnt,FALSE);
   gtk_widget_set_name(orc_pag_datas_parcqnt,"entry_unsensetivate");
 
-  for(int cont=0;cont<orc_parcelas.parcelas_qnt;cont++){
+  for(int cont=0;cont<orc_parcelas.condpag.parcelas_qnt;cont++){
 
     if(!g_date_time_format(gdate,"%d/%m/%Y")){
       popup(NULL,"Operação impossível para esta data");
@@ -81,18 +81,18 @@ int orc_pag_datas_fun(void){
     sprintf(valor,"R$ %.2f",parcela);
 
     if(g_date_time_format(gdate,"%d/%m/%Y")){
-      orc_parcelas.parcelas_data[cont] = malloc(strlen(g_date_time_format(gdate,"%d/%m/%Y")));
-      strcpy(orc_parcelas.parcelas_data[cont],g_date_time_format(gdate,"%d/%m/%Y"));
+      orc_parcelas.datas[cont] = malloc(strlen(g_date_time_format(gdate,"%d/%m/%Y")));
+      strcpy(orc_parcelas.datas[cont],g_date_time_format(gdate,"%d/%m/%Y"));
     }
 
-    orc_parcelas.parcelas_vlr[cont] = parcela;
-    orc_parcelas.total_geral += orc_parcelas.parcelas_vlr[cont];
+    orc_parcelas.vlrs[cont] = parcela;
+    orc_parcelas.total_geral += orc_parcelas.vlrs[cont];
 
     orc_pag_datas_entry1[cont] = gtk_entry_new();
     gtk_widget_set_sensitive(orc_pag_datas_entry1[cont],FALSE);
     gtk_widget_set_name(orc_pag_datas_entry1[cont],"entry_unsensetivate");
     gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),10);
-    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),orc_parcelas.parcelas_data[cont]);
+    gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),orc_parcelas.datas[cont]);
 
     orc_pag_datas_entry2[cont] = gtk_entry_new();
     gtk_widget_set_sensitive(orc_pag_datas_entry2[cont],FALSE);

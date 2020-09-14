@@ -28,7 +28,7 @@ int concluir_datas_livres(){
       gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
       return 1;
     }
-    orc_parcelas.parcelas_qnt = orc_parc_lvr_qnt_int;
+    orc_parcelas.condpag.parcelas_qnt = orc_parc_lvr_qnt_int;
 
     orc_parcelas.total_geral += datas_lives_str[cont].vlrs;
     if(orc_parcelas.total_geral>orc_valores.valor_total+MAX_DIF_VLR){
@@ -38,9 +38,9 @@ int concluir_datas_livres(){
       return 1;
     }
 
-    orc_parcelas.parcelas_data[cont] = malloc(MAX_DATE_LEN);
-    strcpy(orc_parcelas.parcelas_data[cont],datas_lives_str[cont].datas);
-    orc_parcelas.parcelas_vlr[cont] = datas_lives_str[cont].vlrs;
+    orc_parcelas.datas[cont] = malloc(MAX_DATE_LEN);
+    strcpy(orc_parcelas.datas[cont],datas_lives_str[cont].datas);
+    orc_parcelas.vlrs[cont] = datas_lives_str[cont].vlrs;
 
     if(cont==0){
       sprintf(query,"delete from orc_datas_livres where orcamento = %s",codigo_orc_gchar);
@@ -52,7 +52,7 @@ int concluir_datas_livres(){
     }
     sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,STR_TO_DATE('%s','%%d/%%m/%%Y'),%.4f);",
     codigo_orc_gchar,
-    orc_parcelas.pagcond_code,
+    orc_parcelas.condpag.code,
     cont,
     datas_lives_str[cont].datas,
     datas_lives_str[cont].vlrs );

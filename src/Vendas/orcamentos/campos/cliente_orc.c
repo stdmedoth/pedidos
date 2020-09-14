@@ -64,7 +64,7 @@ int codigo_cli_orc()
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
-	orc_infos.cliente_code = atoi(cliente_orc_gchar);
+	orc_infos.cliente = atoi(cliente_orc_gchar);
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);

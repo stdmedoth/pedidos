@@ -36,3 +36,12 @@ static GtkWidget *pag_confirmar_button,
 *pag_alterar_button,
 *pag_cancelar_button,
 *pag_excluir_button;
+
+struct _condpag{
+	int code;
+	int tipo_parc;
+	int dia_inicial_flag;
+	int dia_inicial;
+	int intervalos;
+	int parcelas_qnt;
+};

@@ -1,3 +1,19 @@
+#include "entrega/transp_codigo.c"
+#include "entrega/transp_nome.c"
+#include "entrega/transp_cnpj.c"
+#include "entrega/transp_estado.c"
+#include "entrega/transp_cidade.c"
+#include "entrega/transp_num.c"
+#include "entrega/transp_ie.c"
+#include "entrega/transp_logradouro.c"
+#include "entrega/transp_bairro.c"
+#include "entrega/transp_cep.c"
+#include "entrega/valor_frete.c"
+#include "entrega/valor_desconto_frete.c"
+
+#include "entrega/concluir.c"
+#include "entrega/alterar.c"
+
 GtkWidget *orc_entrega_campos()
 {
 	GtkWidget *caixa_grande, *colunas, *linhas1,*linhas2;

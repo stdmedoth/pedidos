@@ -300,7 +300,8 @@ int vnd_ped()
 	GtkWidget *ped_cod_fixed, *ped_cod_box, *ped_cod_frame;
 	GtkWidget *ped_ter_fixed, *ped_ter_box, *ped_ter_frame;
 	GtkWidget *ped_data_fixed, *ped_data_box, *ped_data_frame;
-	GtkWidget *ped_opcoes_fixed, *ped_opcoes_box, *ped_opcoes_frame, *ped_emitir_button, *ped_cancelar_button, *ped_excluir_button;
+	GtkWidget *ped_opcoes_fixed, *ped_opcoes_box, *ped_opcoes_frame;
+	GtkWidget *ped_emitir_button, *ped_cancelar_button, *ped_excluir_button, *ped_regerar_button;
 	GtkWidget *ped_pag_fixed, *ped_pag_box, *ped_pag_frame;
 	GtkWidget *ped_est_fixed, *ped_est_box, *ped_est_frame;
 	GtkWidget *ped_tipo_fixed, *ped_tipo_box, *ped_tipo_frame;
@@ -371,6 +372,8 @@ int vnd_ped()
 	gtk_button_set_image(GTK_BUTTON(ped_cancelar_button),gtk_image_new_from_icon_name("emblem-unreadable",GTK_ICON_SIZE_LARGE_TOOLBAR));
 	ped_excluir_button = gtk_button_new_with_label("Excluir");
 	gtk_button_set_image(GTK_BUTTON(ped_excluir_button),gtk_image_new_from_icon_name("user-trash",GTK_ICON_SIZE_LARGE_TOOLBAR));
+	ped_regerar_button = gtk_button_new_with_label("Reemprimir");
+	gtk_button_set_image(GTK_BUTTON(ped_regerar_button),gtk_image_new_from_icon_name("printer-printing",GTK_ICON_SIZE_LARGE_TOOLBAR));
 
 	ped_opcoes_fixed = gtk_fixed_new();
 	ped_opcoes_box = gtk_box_new(0,0);
@@ -379,6 +382,8 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_emitir_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_cancelar_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_excluir_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(ped_opcoes_box),ped_regerar_button,0,0,10);
+
 	gtk_container_add(GTK_CONTAINER(ped_opcoes_frame),ped_opcoes_box);
 	gtk_fixed_put(GTK_FIXED(ped_opcoes_fixed),ped_opcoes_frame,40,20);
 
@@ -497,6 +502,7 @@ int vnd_ped()
 	g_signal_connect(ped_psq_cod_button,"clicked",G_CALLBACK(psq_ped),ped_cod_entry);
 	g_signal_connect(ped_emitir_button,"clicked",G_CALLBACK(emitir_ped),NULL);
 	g_signal_connect(ped_cancelar_button,"clicked",G_CALLBACK(cancelar_ped),NULL);
+	g_signal_connect(ped_regerar_button,"clicked",G_CALLBACK(gerar_ped),NULL);
 	g_signal_connect(ped_excluir_button,"clicked",G_CALLBACK(excluir_ped),NULL);
 
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);

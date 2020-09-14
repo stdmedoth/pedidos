@@ -53,7 +53,7 @@ static int concluir_orc(){
 		return 1;
 	}
 
-	orc_infos.cliente_code = atoi(cliente_orc_gchar);
+	orc_infos.cliente = atoi(cliente_orc_gchar);
 	if(observacoes_orc_gchar)
 		strcpy(orc_infos.observacoes,observacoes_orc_gchar);
 
@@ -218,9 +218,9 @@ static int concluir_orc(){
 	sprintf(query,"update orcamentos set banco = %s, tipo_mov = %i, cliente = %i, dia = STR_TO_DATE('%s','%%d/%%m/%%Y'), pag_cond = %i, total = %s, observacoes = '%s' where code = %s",
 	orc_bnc_code_gchar,
 	operacao_orc_int,
-	orc_infos.cliente_code,
+	orc_infos.cliente,
 	data_sys,
-	orc_parcelas.pagcond_code,
+	orc_parcelas.condpag.code,
 	valor,
 	orc_infos.observacoes,
 	codigo_orc_gchar);

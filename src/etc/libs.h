@@ -11,9 +11,12 @@
 #include "parametros.h"
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
+
 #include "../Terceiros/pesquisa_cad.h"
+
 #include "../Produtos/grupos/cad_grupo.h"
 #include "../Produtos/grupos/reload_nome.h"
+
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/datas.h"
 #include "../pesquisadores/subgrupos.h"
@@ -36,10 +39,12 @@
 #include "../pesquisadores/serv_transporte.h"
 
 #include "../Unidades/cadastro_unidades.h"
+
 #include "../Estoque/saldos/saldos.h"
 #include "../Estoque/entradas/entradas.h"
 #include "../Estoque/saidas/saidas.h"
 #include "../Estoque/cadastro/estoque.h"
+
 #include "../Vendas/condicoes_pag/cad_pag.h"
 #include "../Vendas/condicoes_pag/campos/pag_cod.h"
 #include "../Vendas/condicoes_pag/campos/pag_nome.h"
@@ -53,11 +58,28 @@
 #include "../Vendas/condicoes_pag/concluir.h"
 #include "../Vendas/condicoes_pag/alterar.h"
 #include "../Vendas/condicoes_pag/excluir.h"
+
 #include "../Vendas/pedidos/pedidos.h"
 #include "../Vendas/pedidos/emitir.h"
 #include "../Vendas/pedidos/cancelar.h"
 #include "../Vendas/pedidos/excluir.h"
+#include "../Vendas/pedidos/gerar.h"
+
 #include "../Vendas/orcamentos/orcamentos.h"
+#include "../Vendas/orcamentos/campos/entrega_campos.h"
+
+#include "GerarDocs/Orcs/header.h"
+#include "GerarDocs/Orcs/infos_header.h"
+#include "GerarDocs/Orcs/observacao.h"
+#include "GerarDocs/Orcs/titulo.h"
+#include "GerarDocs/Orcs/banco.h"
+#include "GerarDocs/Orcs/transporte.h"
+#include "GerarDocs/Orcs/itens.h"
+#include "GerarDocs/Orcs/rec_datas.h"
+#include "GerarDocs/Orcs/cliente.h"
+
+#include "gerar_docs.h"
+#include "rec_orc_infos.h"
 
 #include "../Transportes/cad_trsp.h"
 
@@ -72,16 +94,20 @@
 #include "../Relatorios/relatorios/terceiros/terceiros.h"
 #include "../Relatorios/relatorios/movimentos/movimentos.h"
 #include "../Relatorios/relatorios/orc_prod/orc_prods.h"
+
 #include "../Relatorios/pesquisar/relat_ptabs.h"
+
 #include "../Relatorios/fixados/iconview.h"
 #include "../Relatorios/fixados/produtos/principal.h"
 #include "../Relatorios/fixados/vendas/principal.h"
 #include "../Relatorios/fixados/estoques/principal.h"
 #include "../Relatorios/fixados/financeiro/receber/principal.h"
+
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
 #include "../Suporte/email.h"
+
 #include "../Tecnico/cad_empresa/cad_empresa.h"
 #include "../Emissor/cria_xml.h"
 
@@ -90,24 +116,21 @@
 #include "../Estoque/cadastro/altera.h"
 #include "../Estoque/cadastro/exclui.h"
 
-#include "gerar_docs.h"
-#include "rec_orc_infos.h"
 #include "../Gestao/enviar_email.h"
 
 #include "receber_confs.c"
 #include "xml_tools.c"
 #include "tools.c"
-#include "impressao.c"
 #include "criticas.c"
 #include "pesquisador.c"
 #include "personalizacao.c"
 #include "parametros.c"
+#include "impressao.c"
 #include "temas.c"
-#include "gerar_docs.c"
-#include "rec_orc_infos.c"
 #include "../Inicio/pega_data.c"
 
 #include "operadores.c"
+
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"
@@ -128,16 +151,22 @@
 #include "../pesquisadores/cidades.c"
 #include "../pesquisadores/bancos.c"
 #include "../pesquisadores/serv_transporte.c"
+
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"
+
 #include "../Terceiros/cadastro_terceiros.c"
 #include "../Terceiros/pesquisa_cad.c"
+
 #include "../Produtos/cadastro_produtos.c"
 #include "../Produtos/grupos/reload_nome.c"
+
 #include "../Unidades/cadastro_unidades.c"
+
 #include "../Compras/cadastro_compras.c"
+
 #include "../Vendas/condicoes_pag/cad_pag.c"
 #include "../Vendas/condicoes_pag/campos/pag_cod.c"
 #include "../Vendas/condicoes_pag/campos/pag_nome.c"
@@ -151,11 +180,28 @@
 #include "../Vendas/condicoes_pag/concluir.c"
 #include "../Vendas/condicoes_pag/alterar.c"
 #include "../Vendas/condicoes_pag/excluir.c"
+
+#include "../Vendas/orcamentos/campos/entrega_campos.c"
 #include "../Vendas/orcamentos/orcamentos.c"
+
+#include "GerarDocs/Orcs/banco.c"
+#include "GerarDocs/Orcs/header.c"
+#include "GerarDocs/Orcs/infos_header.c"
+#include "GerarDocs/Orcs/observacao.c"
+#include "GerarDocs/Orcs/titulo.c"
+#include "GerarDocs/Orcs/transporte.c"
+#include "GerarDocs/Orcs/itens.c"
+#include "GerarDocs/Orcs/rec_datas.c"
+#include "GerarDocs/Orcs/cliente.c"
+
+#include "gerar_docs.c"
+#include "rec_orc_infos.c"
+
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
 #include "../Vendas/pedidos/excluir.c"
 #include "../Vendas/pedidos/pedidos.c"
+#include "../Vendas/pedidos/gerar.c"
 
 #include "../Transportes/cad_trsp.c"
 

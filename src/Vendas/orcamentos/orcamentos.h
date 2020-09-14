@@ -1,7 +1,7 @@
 #define ORC_COD_COL 0
 #define ORC_TIPMOV_COL 1
 #define ORC_VENDD_COL 2
-#define ORC_CLI__COL 3
+#define ORC_CLI_COL 3
 #define ORC_DATE_COL 4
 #define ORC_PAGCOND_COL 5
 #define ORC_BANC_COL 6
@@ -41,6 +41,20 @@ static struct itens_struct
 	char origem_preco[15];
 }ativos[MAX_PROD_ORC+1],excluidos[MAX_PROD_ORC+1];
 
+
+struct _orc_entrega{
+	int code;
+	int transportador;
+	int cliente;
+	char cep_inicio[MAX_CEP_LEN];
+	char cep_entrega[MAX_CEP_LEN];
+	int num;
+	int orcamento;
+	float vlr;
+	float vlr_desc;
+	char obs[MAX_OBS_LEN];
+};
+
 static struct _orc_valores{
 	float valor_prds;
 	float valor_prds_desc;
@@ -56,7 +70,7 @@ static struct _orc_valores{
 
 static struct _orc_infos{
 	int code;
-	int cliente_code;
+	int cliente;
 	int vendedor;
 	int tipo_mov;
 	char data[MAX_DATE_LEN];
@@ -65,11 +79,10 @@ static struct _orc_infos{
 }orc_infos;
 
 static struct _orc_parcelas{
-	int pagcond_code;
-	int parcelas_qnt;
+	struct _condpag condpag;
 	int banco;
-	char *parcelas_data[MAX_PARCELAS_QNT+1];
-	float parcelas_vlr[MAX_PARCELAS_QNT+1];
+	char *datas[MAX_PARCELAS_QNT+1];
+	float vlrs[MAX_PARCELAS_QNT+1];
 	float valor_faltante;
 	float total_geral;
 }orc_parcelas;
@@ -78,6 +91,7 @@ struct _orc{
 	struct _orc_infos infos;
 	struct _orc_valores valores;
 	struct _orc_parcelas parcelas;
+	struct _orc_entrega entrega;
 };
 
 #define PROD_LINHAS_ORC 1

@@ -1,4 +1,4 @@
-static struct{
+static struct _ped_valores{
 	float valor_prds;
 	float valor_prds_desc;
 	float valor_prds_liquido;
@@ -11,7 +11,7 @@ static struct{
 	float valor_total;
 }ped_valores;
 
-static struct{
+static struct _ped_infos{
   int ped_code;
 	int banco;
 	int status;
@@ -20,15 +20,16 @@ static struct{
   int tipo_mov;
 }ped_infos;
 
-static struct {
-	int tipo_parc;
-	int dia_inicial;
-	int dia_inicial_flag;
-	int intervalos;
-	int parcelas_qnt;
-	int pagcond_code;
+static struct _ped_parcelas{
+	struct  _condpag condpag;
 	char *parcelas_data[MAX_PARCELAS_QNT];
 	float parcelas_vlr[MAX_PARCELAS_QNT];
 	float total_geral;
 	int tipo_tit;
 }ped_parcelas;
+
+struct _pedido{
+	struct _ped_valores valores;
+	struct _ped_infos infos;
+	struct _ped_parcelas parcelas;
+};

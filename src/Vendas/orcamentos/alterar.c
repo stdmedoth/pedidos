@@ -69,7 +69,7 @@ static int altera_orc()
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),row[2]);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),row[3]);
 
-	orc_parcelas.pagcond_code = atoi(row[2]);
+	orc_parcelas.condpag.code = atoi(row[2]);
 
 	gtk_widget_activate(cliente_orc_entry);
 	gtk_widget_activate(orc_pag_cond_entry);
@@ -269,7 +269,7 @@ static int altera_orc()
 
 	}
 
-	sprintf(query,"select tipo from pag_cond where code = %i",orc_parcelas.pagcond_code);
+	sprintf(query,"select tipo from pag_cond where code = %i",orc_parcelas.condpag.code);
 	if(!(res2 = consultar(query)))
 	{
 		popup(NULL,"Erro ao buscar condição de pagamentos parcelas");
@@ -295,14 +295,14 @@ static int altera_orc()
 				strcpy(datas_lives_str[cont].datas,row2[1]);
 				datas_lives_str[cont].vlrs = atof(row2[2]);
 			}
-			orc_parcelas.parcelas_qnt = mysql_num_rows(res2);
-			orc_pag_parc_qnt_int = orc_parcelas.parcelas_qnt;
+			orc_parcelas.condpag.parcelas_qnt = mysql_num_rows(res2);
+			orc_pag_parc_qnt_int = orc_parcelas.condpag.parcelas_qnt;
 			parc_qnt_gchar = malloc(12);
-			sprintf(parc_qnt_gchar,"%i",orc_parcelas.parcelas_qnt);
+			sprintf(parc_qnt_gchar,"%i",orc_parcelas.condpag.parcelas_qnt);
 			gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),parc_qnt_gchar);
 			gtk_widget_activate(orc_pag_datas_parcqnt);
 
-			if(!orc_parcelas.parcelas_qnt){
+			if(!orc_parcelas.condpag.parcelas_qnt){
 				popup(NULL,"Não há datas de pagamento no orçamento");
 			}
 		}
