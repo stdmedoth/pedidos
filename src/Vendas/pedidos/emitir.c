@@ -1,4 +1,4 @@
-int emitir_ped()
+int ped_emitir()
 {
 	GDateTime  *gdate;
 	GTimeZone *timezone;
@@ -368,9 +368,17 @@ int emitir_ped()
 		return 1;
 	}
 
-	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
+	sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
 
-	enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+	if(!fopen(orc_path,"r")){
+		if(PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")){
+			if(!gerar_orcs_html( ped_infos.ped_code ))
+				if(!desenhar_pdf(orc_path))
+					enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+		}
+	}else{
+		enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+	}
 
 	popup(NULL,"Pedido emitido com sucesso!");
 	return 0;

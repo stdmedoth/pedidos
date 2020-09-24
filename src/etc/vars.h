@@ -293,6 +293,8 @@
 #define MAX_UF_QNT 100
 #define MAX_UF_LEN 3
 #define MAX_SERVER_LEN 50
+#define MAX_COMPLMNTO_LEN 20
+#define MAX_CNTTS_QNT 20
 
 #define MAX_PROD_ORC 100
 #define MAX_POST_QNT 100
@@ -308,10 +310,6 @@
 #define CONDPAG_DT_LVR 3
 #define CONDPAG_S_FIN 4
 #define CONDPAG_DADATA 5
-
-#define STATUS_PED_PEND 0
-#define STATUS_PED_EMIT 1
-#define STATUS_PED_CAN 2
 
 #define PAG_FAT 1
 #define PAG_VIST 2

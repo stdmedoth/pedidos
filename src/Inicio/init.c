@@ -411,6 +411,7 @@ int init()
 		popup(NULL,"Falha ao receber dados técnicos personalizados");
 		return 1;
 	}
+
 	if(!(row = mysql_fetch_row(res))){
 		person_tecn_prim = 1;
 		popup(NULL,"Sem dados técnicos personalizados");
@@ -453,11 +454,10 @@ int init()
 	gchar **path;
 	int n_elements;
 
-	g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
 	icone = gtk_icon_theme_get_default();
+	g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
 
 	gtk_icon_theme_get_search_path(icone,&path,&n_elements);
-	n_elements++;
 
 	if(path && n_elements){
 		path[n_elements-1] = malloc(strlen(ICON_PATH));

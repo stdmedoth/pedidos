@@ -15,8 +15,6 @@ int numrua()
 		return 1;
 	}
 
-	if(escolha_tipo_ter()!=0)
-		return 1;
-
+	gtk_widget_grab_focus(bairro_ter_field);
 	return 0;
 }

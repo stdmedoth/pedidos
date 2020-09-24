@@ -22,10 +22,10 @@ int ler_theme_dir()
 				break;
 		}
 	}
-	if(temas_qnt==0)
+	if(!temas_qnt)
 	{
 		nomes_temas[temas_qnt] = malloc(MAX_TEMA_LEN);
-		strcpy(nomes_temas[temas_qnt],"Adwaita-dark");
+		strcpy(nomes_temas[temas_qnt],"Default");
 	}
 	return 0;
 }

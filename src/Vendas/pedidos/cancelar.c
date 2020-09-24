@@ -1,4 +1,4 @@
-int cancelar_ped()
+int ped_cancelar()
 {
 	MYSQL_RES *res;
 	MYSQL_ROW row;

@@ -49,19 +49,18 @@ int code_terc()
 	}
 
 	sprintf(query,"select code from terceiros where code = '%s'",codigos_ter);
-	vetor = consultar(query);
+	if(!(vetor = consultar(query))){
+		popup(NULL,"Erro ao consultar terceiro");
+		return 1;
+	}
 	if(alterando_ter==0)
 	{
-		if(vetor!=NULL)
+		if((campos = mysql_fetch_row(vetor)))
 		{
-			if((campos = mysql_fetch_row(vetor))!=NULL)
-			{
-				altera_ter();
-			}
+			altera_ter();
 		}
 	}
 	gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-
 
 	g_print("codigo: %s\n",codigos_ter);
 	return 0;

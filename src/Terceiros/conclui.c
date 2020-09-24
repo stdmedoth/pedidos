@@ -77,71 +77,40 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(address_num_field);
 		return 1;
 	}
-	if(cel()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(celular_ter_field);
+	if(complmnt_terc()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(complmt_ter_field);
 		return 1;
 	}
-	if(tel()!=0)
-	{
+	if(contatos_update()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(telefone_ter_field);
 		return 1;
 	}
-
-	if(contc()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(contatoc_ter_field);
-		return 1;
-	}
-	if(contt()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(contatot_ter_field);
-		return 1;
-	}
-	if(email_fun()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(email_ter_field);
-		return 1;
-	}
-	if(contato_email()!=0)
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		gtk_widget_grab_focus(contatoe_ter_field);
-		return 1;
-	}
+	vinc_transp();
 	if(transp_codigo_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_codigo_entry);
 		return 1;
 
 	}
-
 	if(transp_cepc()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_cep_entry);
 		return 1;
 	}
-
 	if(transp_logr_fun()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_logradouro_entry);
 		return 1;
 	}
-
 	if(transp_num_fun()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_num_entry);
 		return 1;
 	}
-
 	if(transp_bairroc()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
@@ -154,7 +123,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(transp_cidade_entry);
 		return 1;
 	}
-
 	if(transp_estado_fun()!=0)
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);

@@ -278,9 +278,13 @@ static void popup(GtkWidget *widget,gchar *string){
 
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
-	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+	if(widget)
+    gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(popup));
+  else
+    gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+    
   gtk_window_set_position(GTK_WINDOW(popup),3);
-  gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
+  //gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
 
 	if(logging == 0)
 		autologger(string);
@@ -725,6 +729,46 @@ int aviso_de_baixa_fin(){
   gtk_widget_destroy(popup);
   return 1;
 }
+
+
+int PopupBinario(char *mensagem, char *positivo, char *negativo){
+
+	int len;
+	GtkWidget *popup, *fields, *fixed, *box;
+	int resultado;
+
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,GTK_DIALOG_MODAL,positivo,GTK_RESPONSE_ACCEPT,negativo,GTK_RESPONSE_REJECT,NULL);
+
+	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
+	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+
+	gtk_window_set_position(GTK_WINDOW(popup),3);
+
+	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(box),gtk_label_new(mensagem),0,0,10);
+	gtk_fixed_put(GTK_FIXED(fixed),box,20,20);
+
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(popup);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+	if(resultado == GTK_RESPONSE_ACCEPT){
+    gtk_widget_destroy(popup);
+    return 1;
+	}else{
+    gtk_widget_destroy(popup);
+    return 0;
+
+  }
+  return 0;
+}
+
 
 char *ped_status_from_int(int code){
 	switch (code) {

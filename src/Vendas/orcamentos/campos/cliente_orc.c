@@ -47,7 +47,7 @@ int codigo_cli_orc()
 		return 1;
 	}
 
-	sprintf(query,"select razao,endereco,telefone,obs,prazo,transp_code,transp_cep from terceiros where code = %s",cliente_orc_gchar);
+	sprintf(query,"select razao,endereco,obs,prazo,transp_code,transp_cep from terceiros where code = %s",cliente_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -68,7 +68,7 @@ int codigo_cli_orc()
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);
+	//gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);
 
 	strcpy(orc_ter_obs_char,campos[3]);
 
@@ -80,7 +80,7 @@ int codigo_cli_orc()
 
 	if( alterando_orc == 0 && concluindo_orc == 0 ){
 
-		if( strlen(campos[4]) && orc_pag_cond_activated==0 ){
+		if( strlen(campos[4]) && atoi(campos[4]) && orc_pag_cond_activated==0){
 			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
 			gtk_widget_activate(orc_pag_cond_entry);
 		}

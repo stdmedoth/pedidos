@@ -6,10 +6,15 @@ int transp_codigo_fun()
 	MYSQL_ROW row;
 	query = malloc(MAX_QUERY_LEN);
 	transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(transp_codigo_entry));
-	if(strlen(transp_codigo)<=0)
+
+	vinc_transp();
+
+	if( strlen(transp_codigo)<=0 )
 	{
-		ter_com_entrega = 0;
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),3);
+		if(ter_com_entrega == 1){
+			popup(NULL,"Insira o código da transportadora");
+			return 1;
+		}
 		return 0;
 	}
 	ter_com_entrega = 1;
@@ -30,6 +35,7 @@ int transp_codigo_fun()
 			gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),code);
 			gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),"");
 			gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry),"");
+			gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),"");
 			gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),"");
 			gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),"");
 			gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),"");

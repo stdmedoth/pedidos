@@ -100,7 +100,6 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 				return 1;
 			}
 
-
 			break;
 	}
 

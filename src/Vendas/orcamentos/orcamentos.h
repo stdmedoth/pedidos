@@ -103,7 +103,6 @@ GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
 
-static int tirar_linha(int);
 static int vnd_orc();
 
 static int recebendo_prod_orc=0;
@@ -161,7 +160,6 @@ static gchar *codigo_prod_orc_gchar,
 *desconto_prod_orc_gchar,
 *total_prod_orc_gchar;
 
-static int gerar_total_geral();
 static char *item_frame_char;
 static GtkWidget *janela_orcamento;
 
@@ -228,7 +226,6 @@ GtkWidget *prod_scroll_window,*prod_scroll_box;
 GtkWidget *img_botao_orc_mais,**img_botao_menos;
 
 static int cont;
-static int adicionar_linha_orc();
 GtkWidget *observacoes_orc,*buffer_orc;
 
 //Botoes

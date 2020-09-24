@@ -12,7 +12,6 @@ int cep_terc()
 	{
 		popup(NULL,"CEP muito grande\nPor favor verifique");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
-		vet_erro[CEP_ERR]=1;
 		return 1;
 	}
 	if(strlen(cep_ter)<=0)
@@ -82,9 +81,6 @@ int cep_terc()
 
 	if(campos[5])
 		sprintf(ddd,"(%s)",campos[5]);
-
-	gtk_entry_set_placeholder_text(GTK_ENTRY(telefone_ter_field),ddd);
-	gtk_entry_set_placeholder_text(GTK_ENTRY(celular_ter_field),ddd);
 
 	gtk_widget_grab_focus(address_ter_field);
 	g_print("cep: %s\n",cep_ter);

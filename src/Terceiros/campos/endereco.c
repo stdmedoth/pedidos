@@ -7,7 +7,7 @@ int address_terc()
 		{
 			endereco_ter = malloc(sizeof(char*)*MAX_ADR_LEN);
 			strcpy(endereco_ter,"");
-			gtk_widget_grab_focus(bairro_ter_field);
+			gtk_widget_grab_focus(address_num_field);
 			return 0;
 		}
 		popup(NULL,"Por favor insira o endereco do terceiro");
@@ -22,7 +22,7 @@ int address_terc()
 		return 1;
 	}
 
-	gtk_widget_grab_focus(bairro_ter_field);
+	gtk_widget_grab_focus(address_num_field);
 
 	g_print("endereco: %s\n",endereco_ter);
 	return 0;

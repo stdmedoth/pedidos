@@ -12,6 +12,7 @@
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
 
+#include "../Terceiros/cadastro_terceiros.h"
 #include "../Terceiros/pesquisa_cad.h"
 
 #include "../Produtos/grupos/cad_grupo.h"
@@ -61,11 +62,16 @@
 
 #include "../Vendas/pedidos/pedidos.h"
 #include "../Vendas/pedidos/emitir.h"
+#include "../Vendas/pedidos/envia_email.h"
 #include "../Vendas/pedidos/cancelar.h"
 #include "../Vendas/pedidos/excluir.h"
 #include "../Vendas/pedidos/gerar.h"
+#include "../Vendas/pedidos/status.h"
 
 #include "../Vendas/orcamentos/orcamentos.h"
+#include "../Vendas/orcamentos/gerar_totais.h"
+#include "../Vendas/orcamentos/janela/adicionar_linha.h"
+#include "../Vendas/orcamentos/janela/tirar_linha.h"
 #include "../Vendas/orcamentos/campos/entrega_campos.h"
 
 #include "GerarDocs/Orcs/header.h"
@@ -183,6 +189,9 @@
 
 #include "../Vendas/orcamentos/campos/entrega_campos.c"
 #include "../Vendas/orcamentos/orcamentos.c"
+#include "../Vendas/orcamentos/gerar_totais.c"
+#include "../Vendas/orcamentos/janela/adicionar_linha.c"
+#include "../Vendas/orcamentos/janela/tirar_linha.c"
 
 #include "GerarDocs/Orcs/banco.c"
 #include "GerarDocs/Orcs/header.c"
@@ -202,6 +211,8 @@
 #include "../Vendas/pedidos/excluir.c"
 #include "../Vendas/pedidos/pedidos.c"
 #include "../Vendas/pedidos/gerar.c"
+#include "../Vendas/pedidos/envia_email.c"
+#include "../Vendas/pedidos/status.c"
 
 #include "../Transportes/cad_trsp.c"
 

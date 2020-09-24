@@ -24,7 +24,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <mysql.h>
+#include <mysql/mysql.h>
 #endif
 
 const int default_user_code = 1;
@@ -45,10 +45,11 @@ static GtkWidget *imagem_barra,*layout_barra;
 
 int main(int argc,char *argv[])
 {
-	gtk_disable_setlocale();
 
+	gtk_disable_setlocale();
+	//setlocale(LC_ALL,"");
+	//setlocale(LC_COLLATE,"pt_BR");
 	setlocale(LC_CTYPE,"pt_BR");
-	setlocale(LC_COLLATE,"pt_BR");
 	setlocale(LC_MONETARY,"en_US");
 	setlocale(LC_NUMERIC,"en_US");
 

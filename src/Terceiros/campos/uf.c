@@ -5,27 +5,23 @@ int uf_terc()
 	{
 		if(terceiros.criticar.uf==0)
 		{
-			uf_ter = malloc(sizeof(char*)*MAX_CID_LEN);
+			uf_ter = malloc(sizeof(char*)*MAX_UF_LEN);
 			strcpy(uf_ter,"");
-			vet_erro[UF_ERR] = 0;
 			return 0;
 		}
 		popup(NULL,"Por favor insira a uf do terceiro");
 		gtk_widget_grab_focus(GTK_WIDGET(uf_ter_field));
-		vet_erro[UF_ERR] = 1;
-		return 1;		
-	}
-	if(strlen(uf_ter)>MAX_CID_LEN)
-	{
-		popup(NULL,"Nome da Cidade muito grande\nPor favor use abreviações");
-		gtk_widget_grab_focus(uf_ter_field);
-		vet_erro[UF_ERR]=1;
 		return 1;
 	}
-	vet_erro[UF_ERR]=0;
-	gtk_widget_grab_focus(address_num_field);
-	g_print("uf: %s\n",uf_ter);
+	if(strlen(uf_ter)>MAX_UF_LEN)
+	{
+		popup(NULL,"UF muito grande\nPor favor use sigla");
+		gtk_widget_grab_focus(uf_ter_field);
+		return 1;
+	}
+
+	if(escolha_tipo_ter()!=0)
+		return 1;
+
 	return 0;
 }
-
-

@@ -1,4 +1,4 @@
-int excluir_ped(){
+int ped_excluir(){
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];

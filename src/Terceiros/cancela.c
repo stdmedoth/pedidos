@@ -7,6 +7,7 @@ void cancelar_ter()
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 	concluindo_ter = 0;
 	alterando_ter=0;
+	contatos_qnt=0;
 	code[0] = '\0';
 	sprintf(code,"%i",tasker("terceiros"));
 
@@ -23,12 +24,11 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(celular_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(contatoc_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(telefone_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(contatot_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(email_ter_field),"");
-	gtk_entry_set_text(GTK_ENTRY(contatoe_ter_field),"");
+
+	GList *colunas = gtk_tree_view_get_columns(GTK_TREE_VIEW (contatos_treeview));
+	for(GList *coluna = colunas; coluna; coluna = g_list_next(coluna)){
+		gtk_tree_view_remove_column(GTK_TREE_VIEW (contatos_treeview),GTK_TREE_VIEW_COLUMN(coluna->data));
+	}
 
 	//entrega
 	gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),"");

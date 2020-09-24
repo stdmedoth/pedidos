@@ -34,8 +34,6 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 
 	cont=1;
 
-	fprintf(file,"<div id=\"separator\">");
-  fprintf(file,"</div>");
 	fprintf(file,"<div id=\"campo-itens\">\n");
 	fprintf(file,"<p><b>Produtos</b></p>\n");
 	fprintf(file,"<table>\n");

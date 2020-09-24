@@ -1,1 +1,1 @@
-int gerar_ped();
+int ped_gerar();

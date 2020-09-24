@@ -61,20 +61,34 @@ static int concluir_orc(){
 	{
 		if( ativos[cont].id == 1 && produto_inserido[cont] == 1 )
 		{
-			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
+			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
 				return 1;
-			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0)
+			}
+			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[cont]);
 				return 1;
-			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0)
+			}
+			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(qnt_prod_orc_entry[cont]);
 				return 1;
-			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0)
+			}
+			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(preco_prod_orc_entry[cont]);
 				return 1;
-			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0)
+			}
+			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(desconto_prod_orc_entry[cont]);
 				return 1;
-			if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0)
+			}
+			if(total_prod_orc(total_prod_orc_entry[cont],cont)!=0){
+				gtk_widget_grab_focus(total_prod_orc_entry[cont]);
 				return 1;
-			if(obs_prod_orc_fun(obs_prod_orc_view[cont],cont)!=0)
+			}
+			if(obs_prod_orc_fun(obs_prod_orc_view[cont],cont)!=0){
+				gtk_widget_grab_focus(obs_prod_orc_view[cont]);
 				return 1;
+			}
 		}
 	}
 

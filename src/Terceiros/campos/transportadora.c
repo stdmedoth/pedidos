@@ -195,7 +195,7 @@ GtkWidget *entrega_campos()
 
 	gtk_container_add(GTK_CONTAINER(transp_obs_scroll),obs_transp_frame);
 
-	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,100,0);
+	gtk_fixed_put(GTK_FIXED(transp_obs_fixed),transp_obs_scroll,50,0);
 
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_logradouro,0,0,5);
 	gtk_box_pack_start(GTK_BOX(logr_num_box),transp_num,0,0,5);
@@ -213,13 +213,13 @@ GtkWidget *entrega_campos()
 	gtk_box_pack_start(GTK_BOX(dados_transp_box),linha1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(dados_transp_box),linha2,0,0,0);
 	gtk_container_add(GTK_CONTAINER(dados_transp_frame),dados_transp_box);
-	gtk_fixed_put(GTK_FIXED(dados_transp_fixed),dados_transp_frame,100,0);
+	gtk_fixed_put(GTK_FIXED(dados_transp_fixed),dados_transp_frame,50,0);
 
 	gtk_box_pack_start(GTK_BOX(linha3),transp_cep_fixed,0,0,5);
 	gtk_box_pack_start(GTK_BOX(linha3),logr_num_box,0,0,5);
 	gtk_box_pack_start(GTK_BOX(linha3),bai_cid_uf_box,0,0,5);
 	gtk_container_add(GTK_CONTAINER(endr_entrega_frame),linha3);
-	gtk_fixed_put(GTK_FIXED(transp_endr_fixed),endr_entrega_frame,100,0);
+	gtk_fixed_put(GTK_FIXED(transp_endr_fixed),endr_entrega_frame,50,0);
 
 	gtk_box_pack_start(GTK_BOX(linhas),dados_transp_fixed,0,0,5);
 	gtk_box_pack_start(GTK_BOX(linhas),transp_endr_fixed,0,0,5);

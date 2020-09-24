@@ -85,7 +85,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
   sprintf(headers_text[1],"To: %s",email_cli);
 
   headers_text[2] = malloc(MAX_EMAIL_LEN + 10);
-  if(strcmp(email_copia,"vazio"))
+  if(strcmp(email_copia,SEM_EMAIL))
     sprintf(headers_text[2],"CC: %s",email_copia);
   else
     strcpy(headers_text[2]," ");

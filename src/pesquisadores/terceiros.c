@@ -71,10 +71,10 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.razao like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 1:
-			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where cidade like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.cidade like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 2:
-			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr on tr.code = t.transp_code where doc like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr on tr.code = t.transp_code where t.doc like '%c%s%c' limit 20",37,entrada,37);
 			break;
 	}
 	res = consultar(query);
