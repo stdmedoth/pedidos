@@ -44,6 +44,8 @@ create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
   tiporua int default 0 not null,
   telefone varchar(15) default '' not null,
   celular varchar(15) default '' not null,
+  smtp varchar(100) default '' not null,
+  porta int default 587 not null,
   email varchar(100) default '' not null,
   senhaemail varchar(100) default '' not null);
 

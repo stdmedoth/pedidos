@@ -84,7 +84,7 @@ int ped_emitir()
 	if(row[4])
 		ped_parcelas.condpag.code = atoi(row[4]);
 
-	sprintf(query,"select razao,email from terceiros where code = %i",ped_infos.cliente_code);
+	sprintf(query,"select nome, email from contatos where terceiro = %i",ped_infos.cliente_code);
 	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro ao buscar Informações do cliente");
@@ -368,15 +368,18 @@ int ped_emitir()
 		return 1;
 	}
 
-	sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
+	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
 
-	if(!fopen(orc_path,"r")){
+	if(!fopen(orc_path,"rb")){
 		if(PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")){
-			if(!gerar_orcs_html( ped_infos.ped_code ))
+			if(!gerar_orcs_html( ped_infos.ped_code )){
+				sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
 				if(!desenhar_pdf(orc_path))
 					enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+			}
 		}
 	}else{
+		sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
 		enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
 	}
 

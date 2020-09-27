@@ -111,3 +111,5 @@ static gchar *transp_codigo=NULL,
 *transp_obs=NULL;
 
 static gchar *prazo_ter=NULL;
+
+struct _titulo titulos_cadter;

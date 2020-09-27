@@ -90,6 +90,7 @@
 #include "../Transportes/cad_trsp.h"
 
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
+#include "../Financeiro/titulos/receber/campos/funcoes.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"
 #include "../Financeiro/baixas/receber/cadastro_baixas.h"
 #include "../Financeiro/baixas/pagar/cadastro_baixas.h"
@@ -228,6 +229,7 @@
 #include "../Estoque/cadastro/estoque.c"
 
 #include "../Financeiro/titulos/receber/cadastro_titulos.c"
+#include "../Financeiro/titulos/receber/campos/funcoes.c"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.c"
 #include "../Financeiro/baixas/receber/cadastro_baixas.c"
 #include "../Financeiro/baixas/pagar/cadastro_baixas.c"

@@ -9,8 +9,7 @@ GtkWidget *tecn_param_nav_path1_entry, *tecn_param_nav_path2_entry, *tecn_param_
 GtkWidget *tecn_param_imp_path1_entry, *tecn_param_imp_path2_entry, *tecn_param_imp_path3_entry;
 
 //quantidade de flags/aba
-const int ter_critic_campos_qnt=13,
-orc_critic_campos_qnt=17;
+const int orc_critic_campos_qnt=3;
 
 int temas();
 static int orc_prod_saldo_limite=0;
@@ -39,12 +38,6 @@ static struct
 		int cidade;
 		int uf;
 		int tipo;
-		int celular;
-		int contatoc;
-		int telefone;
-		int contatot;
-		int email;
-		int contatoe;
 		int observacoes;
 		int prazo;
 		int vlr_frete_pago;
@@ -96,23 +89,7 @@ int vet_erro[CAMPOS_QNT+1];
 #define PRAZ_ERR 25
 #define QNT_ERR 26
 
-char *critica_campos[] =
-{
-	"ter_doc",
-	"ter_tipo_doc",
-	"ter_endereco",
-	"ter_cep",
-	"ter_tipo",
-	"ter_celular",
-	"ter_contatoc",
-	"ter_telefone",
-	"ter_contatot",
-	"ter_email",
-	"ter_contatoe",
-	"ter_entrega",
-	"ter_prazo",
-	"ter_vlr_frete_pago",
-
+char *critica_campos[] = {
 	"orc_prod_movimento",
 	"orc_prod_saldo",
 	"orc_prod_saldo_limite",

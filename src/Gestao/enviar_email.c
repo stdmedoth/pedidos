@@ -121,7 +121,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
 
     curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
     curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
-    curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
+    curl_easy_setopt(curl, CURLOPT_URL, cad_emp_strc.url_smtp);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
     curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
     curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
@@ -243,7 +243,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
 
       curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
       curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
-      curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
+      curl_easy_setopt(curl, CURLOPT_URL,  cad_emp_strc.url_smtp);
       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
       curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
       curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);

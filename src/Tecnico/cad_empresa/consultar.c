@@ -35,6 +35,14 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_telefone_entry),row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_celular_entry),row[EMP_CEL_COL]);
+  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
+
+  cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
+  char smtp_port[6];
+  sprintf(smtp_port,"%i",cad_emp_strc.smtp_port);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_port_entry),smtp_port);
+
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_email_entry),row[EMP_EMAIL_COL]);
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
@@ -89,8 +97,13 @@ int cad_emp_recebe(){
   cad_emp_strc.tipo_rua = atoi(row[EMP_TRUA_COL]);
   strcpy(cad_emp_strc.telefone,row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
+  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
+  cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
+
+  //formatando link do servidor smtp
+  sprintf(cad_emp_strc.url_smtp,"smtp://%s:%i",cad_emp_strc.smtp, cad_emp_strc.smtp_port);
 
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){

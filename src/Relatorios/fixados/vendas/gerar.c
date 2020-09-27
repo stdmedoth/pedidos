@@ -4,6 +4,8 @@ int relat_fix_vnd_gerar_fun(){
   MYSQL_RES *res,*res2;
   char query[MAX_QUERY_LEN];
   char *file_path = malloc(MAX_PATH_LEN*2);
+  int prod_qnt=0;
+
   char html_header[] = "<!DOCTYPE html>\
   <html>\
     <head>\
@@ -84,22 +86,22 @@ int relat_fix_vnd_gerar_fun(){
   fprintf(relat_file,"<h1>Relatório de Vendas</h1>");
   fprintf(relat_file,"<p>%s</p>",data_sys);
   fprintf(relat_file,"</div>");
-  fprintf(relat_file,"<table>");
 
   float totalizacao_produtos=0, totalizacao_frete=0, totalizacao_geral=0;
   for(int cont=relat_fix_vnd_vlrs.pedidos1;cont<=relat_fix_vnd_vlrs.pedidos2;cont++){
       float vlr_ped=0,vlr_frete=0;
 
       if(!relat_fix_vnd_status_int)
-        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status >= 0",cont);
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag inner join contatos as tc on ped.cliente = t.code and tc.terceiro = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status >= 0",cont);
       else
-        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, t.telefone, t.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status = %i",cont, relat_fix_vnd_status_int-1);
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code and tc.terceiro = t.code where ped.code = %i and ped.status = %i",cont, relat_fix_vnd_status_int-1);
 
       if(!(res=consultar(query))){
         popup(NULL,"Erro ao consultar pedido");
         return 1;
       }
       fprintf(relat_file,"<div id='solid-container'>");
+      fprintf(relat_file,"<table class='item-table'>");
       if((row = mysql_fetch_row(res))){
 
         if(atoi(row[1]) < atoi(relat_fix_vnd_cli_gchar1) || atoi(row[1]) > atoi(relat_fix_vnd_cli_gchar2))
@@ -117,6 +119,7 @@ int relat_fix_vnd_gerar_fun(){
           popup(NULL,"Erro ao consultar títulos");
           return 1;
         }
+
         if((row2 = mysql_fetch_row(res2))){
           fprintf(relat_file,"<td>Título: %s<td/>",row[0]);
         }else
@@ -158,7 +161,8 @@ int relat_fix_vnd_gerar_fun(){
         totalizacao_frete += vlr_frete;
 
         fprintf(relat_file,"</tr>");
-
+        fprintf(relat_file,"</table>");
+        fprintf(relat_file,"<table>");
         sprintf(query, "select po.produto, p_all.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos_nome_all as p_all inner join grupos as g on po.subgrupo = g.code and p_all.code = g.code where po.code = %s",row[0]);
         if(!(res2=consultar(query))){
           popup(NULL,"Erro ao consultar pedido");
@@ -178,16 +182,24 @@ int relat_fix_vnd_gerar_fun(){
           fprintf(relat_file,"<td>Total: R$ %.2f<td/>",atof(row2[5]));
           totalizacao_produtos += atof(row2[5]);
           fprintf(relat_file,"</tr>");
+          prod_qnt++;
         }
-
+        if(!prod_qnt){
+          fprintf(relat_file,"<tr>");
+          fprintf(relat_file,"<td>Sem produtos no orçamento para os filtros<td/>");
+          fprintf(relat_file,"</tr>");
+        }
+        fprintf(relat_file,"</table>");
+        prod_qnt=0;
         totalizacao_geral += vlr_frete + vlr_ped;
+        fprintf(relat_file,"<hr>");
       }
-      fprintf(relat_file,"</div>");
   }
   if(!vnd_qnt){
     popup(NULL,"Não Há nada a gerar");
     return 1;
   }
+  fprintf(relat_file,"<table>");
   fprintf(relat_file,"<tr class='relat-infos'>");
   fprintf(relat_file,"<th>Total Produtos: R$ %.2f<th/>",totalizacao_produtos);
   fprintf(relat_file,"<th>Total Frete: R$ %.2f<th/>",totalizacao_frete);
@@ -195,6 +207,7 @@ int relat_fix_vnd_gerar_fun(){
   fprintf(relat_file,"</tr>");
 
   fprintf(relat_file,"</table>");
+  fprintf(relat_file,"</div>");
   fprintf(relat_file,"</body>");
   fprintf(relat_file,"</html>");
   fclose(relat_file);

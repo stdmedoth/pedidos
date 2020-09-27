@@ -41,7 +41,7 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
  '  from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_all.referencia = p.grupo',8),
 
 ('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',
-' from terceiros as t inner join terceiros as trp inner join tipo_terceiros as tp on t.transp_code = trp.code and t.tipo = tp.code' ,34),
+' from terceiros as t inner join terceiros as trp inner join tipo_terceiros as tp inner join contatos as tc on t.transp_code = trp.code and t.tipo = tp.code and tc.terceiro = t.code' ,34),
 
 ('orçamentos','Tabela responsável por armazenar os orcamentos criados e seus status',
 ' from orcamentos as o inner join terceiros as t inner join tipo_pagamento as tp on o.cliente = t.code and o.tipopag = tp.code',5),
@@ -56,7 +56,7 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7),
 
 ('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_o.produto = p.code and p_o.subgrupo = o_g.code and p_all.code = p_o.subgrupo and p_o.code = o.code',15);
+' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join tipo_terceiros as tp inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and t.tipo = tp.code and p_o.produto = p.code and p_o.subgrupo = o_g.code and p_all.code = p_o.subgrupo and p_o.code = o.code',15);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),
@@ -82,12 +82,10 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (2, 'Cidade', 'Cidade do Terceiro', 't.cidade',1),
 (2, 'Número ', 'Numero endereço do Terceiro', 't.numrua',1),
 (2, 'Tipo Logr', 'Tipo de logradouro: Rua,Avenida,Rodovia', 't.tiporua',1),
-(2, 'Telefone', 'Número de telefone do terceiro', 't.telefone',1),
-(2, 'Contato telefone', 'Contato para o telefone', 't.contatot',1),
-(2, 'Celular', 'Número de celular do terceiro', 't.celular',1),
-(2, 'Contato celular', 'Contato para o celular', 't.contatoc',1),
-(2, 'Email', 'Email do terceiro', 't.email',1),
-(2, 'Contato Email', 'Contato para o email', 't.contatoe',1),
+(2, 'Contato', 'Contato para o telefone', 'tc.nome',1),
+(2, 'Telefone', 'Número de telefone do terceiro', 'tc.telefone',1),
+(2, 'Celular', 'Número de celular do terceiro', 'tc.celular',1),
+(2, 'Email', 'Email do terceiro', 'tc.email',1),
 (2, 'Transp. Nome', 'Nome da transp. vinc. ao Terceiro', 'trp.transp_nome',1),
 (2, 'Transp. Documento', 'CNPJ da transp. vinc. ao Terceiro', 'trp.transp_cnpj',1),
 (2, 'Transp. IE', 'Inscrição Estadual da transp. vinc. ao Terceiro', 'trp.ie',1),

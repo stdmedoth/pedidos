@@ -10,10 +10,12 @@ int relat_orc_prod_query_fun()
 	char tipo_orc_prod_query[MAX_QUERY_ELM_LEN/2];
 	char filtros_query_gchar[MAX_QUERY_LEN],filtros_order_by[MAX_QUERY_LEN/2];
 
-	relat_orc_prod_gerando=1;
 
-	if(relat_orc_prod_codigo_fun()!=0)
+	relat_orc_prod_gerando=1;
+	if(relat_orc_prod_codigo_fun()){
+		relat_orc_prod_gerando = 0;
 		return 1;
+	}
 
   relat_orc_prod_int1_orc_prod_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_orc_prod_int1_orc_prod_entry));
 	relat_orc_prod_int2_orc_prod_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(relat_orc_prod_int2_orc_prod_entry));

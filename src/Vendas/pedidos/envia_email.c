@@ -15,7 +15,7 @@ int ped_enviar(){
 
 	ped_infos.ped_code = atoi(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
 
-	sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
+	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
 
 	if(ped_get_status() == STATUS_PED_CAN){
 		if(!PopupBinario("O pedido está cancelado, Ainda deseja enviar?", "Sim, enviar mesmo assim", "Desistir."))
@@ -35,16 +35,16 @@ int ped_enviar(){
 	if(row[0])
 		ped_infos.cliente_code = atoi(row[0]);
 
-	sprintf(query,"select razao,email from terceiros where code = %i",ped_infos.cliente_code);
+	sprintf(query,"select nome, email from contatos where terceiro = %i",ped_infos.cliente_code);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar Informações do cliente");
 		return 1;
 	}
-
 	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Sem Informações do cliente");
 		return 1;
 	}
+
 	if(row[0])
 		strcpy(nome_cliente,row[0]);
 
@@ -53,6 +53,7 @@ int ped_enviar(){
 
 
 	if(!fopen(orc_path,"r")){
+		sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
 		if( PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")
 		&& !gerar_orcs_html( ped_infos.ped_code )
 		&& !desenhar_pdf(orc_path))

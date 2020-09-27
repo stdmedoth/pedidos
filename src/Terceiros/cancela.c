@@ -22,6 +22,7 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(address_num_field),"");
 	gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(complmt_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 

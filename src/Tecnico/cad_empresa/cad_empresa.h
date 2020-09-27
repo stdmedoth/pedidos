@@ -9,8 +9,10 @@
 #define EMP_TRUA_COL 8
 #define EMP_TEL_COL 9
 #define EMP_CEL_COL 10
-#define EMP_EMAIL_COL 11
-#define EMP_EMAILSEN_COL 12
+#define EMP_SMTP_COL 11
+#define EMP_SMTP_PORT_COL 12
+#define EMP_EMAIL_COL 13
+#define EMP_EMAILSEN_COL 14
 
 GtkWidget *cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
@@ -23,6 +25,8 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_tiporua_combo,
 *cad_emp_telefone_entry,
 *cad_emp_celular_entry,
+*cad_emp_smtp_entry,
+*cad_emp_smtp_port_entry,
 *cad_emp_email_entry,
 *cad_emp_emailsenha_entry,
 *cad_emp_img_init_entry,
@@ -49,8 +53,13 @@ static struct{
   int tipo_rua;
   char telefone[MAX_TEL_LEN];
   char celular[MAX_TEL_LEN];
+
+  char smtp[MAX_EMAIL_LEN];
+  int smtp_port;
+  char url_smtp[MAX_EMAIL_LEN];
   char email[MAX_EMAIL_LEN];
   char email_senha[100];
+
   char init_image_path[MAX_PATH_LEN];
   char script_bin_path[MAX_PATH_LEN];
 }cad_emp_strc;

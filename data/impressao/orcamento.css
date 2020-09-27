@@ -1,63 +1,59 @@
-#div-titulo
-{
+#div-titulo{
 	border: solid black 1px;
 	background: #00238c;
 	height: 60px;
 }
-#div-titulo:hover
-{
-	background: #00638c;
 
+#div-titulo:hover{
+	background: #00638c;
 }
 
-#logo-img
-{
+#logo-img{
 	margin-top: 1%;
 	margin-left: 10%;
 }
-#titulo
-{
+
+#titulo{
 	color:red;
 }
-#orc-infos
-{
+
+#orc-infos{
 	text-align: left;
 	float: right;
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-right: 30px;
 	margin-left: 100px;
 	border-style: inset;
 }
-#orc-cliente
-{
-	/*border: dotted 1px blue;*/
-	padding: 5px;
-	width: 90%;
-	color: blue;
-	text-align: left;
-	float: left;
-	margin-top: 10px;
+
+#orc-cliente{
+	padding: 10px;
+	border-style: outset;
+	margin-top: 140px;
 	margin-left: 10px;
 	margin-right: 10px;
+	border-radius: 10px;
+	width: 95%;
+	color: blue;
+	text-align: left;
 }
-#pula-linha
-{
+
+#pula-linha{
 	height:10px;
 	border: solid 0px white;
 }
-#campo-itens
-{
+
+#campo-itens{
 	padding: 10px;
 	border-style: outset;
-	margin-top: 50px;
+	margin-top: 10px;
 	margin-left: 10px;
 	margin-right: 10px;
 	font-size: 15px;
 	border-radius: 10px;
 }
 
-#coluna-colorida
-{
+#coluna-colorida{
 	background: Gainsboro;
 }
 
@@ -78,18 +74,15 @@ th, td {
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 
-#info-row1
-{
+#info-row1{
 	background: Gainsboro;
 }
-#prod-row1
-{
-	background: Gainsboro;
 
+#prod-row1{
+	background: Gainsboro;
 }
 
-#caixa-imp
-{
+#caixa-imp{
 	padding-bottom: 25px;
 	padding-left: 5px;
 	padding-right: : 5px;
@@ -102,24 +95,20 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	border-radius: 1%;
 }
 
-#string-black
-{
+#string-black{
 	color: black;
 	text-align: right;
 }
 
 
-#subtotal-prods
-{
+#subtotal-prods{
 	margin-top: 10px;
 	margin-right: 20px;
 	text-align: right;
 }
 
-#total-geral
-{
+#total-geral{
 	margin-top: 5px;
-
 	text-align: right;
 }
 
@@ -131,6 +120,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 #campo-totais{
 	padding: 20px;
+	width: 100%;
 	border-style: outset;
 	margin-top: 10px;
 	margin-left: 10px;
@@ -141,18 +131,18 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 
 #banco-infos{
 	padding: 20px;
+	width: 100%;
+	height: 100px;
 	border-style: outset;
 	margin-top: 5px;
 	margin-left: 5px;
 	margin-right: 5px;
 	font-size: 15px;
-	height: 100px;
 	border-radius: 10px;
 }
 
 
-#obs-div2
-{
+#obs-div2{
 	margin-top: 5px;
 	margin-left: 5px;
 	margin-right: 5px;
@@ -163,8 +153,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	background: #ffffff;
 }
 
-#obs-div1
-{
+#obs-div1{
 	border: solid 1px grey;
 	margin-top: 50px;
 	margin-left: 10px;
@@ -172,6 +161,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 	height: 150px;
 	background: Lightgrey;
 }
+
 .cli-info-sec-col{
 	margin-left: 30px;
 }

@@ -65,8 +65,6 @@ int  cad_terc()
 	GtkWidget *psq_ter_box;
 	GtkWidget *vinculo_grp_prod_frame, *vinculo_grp_prod_box,*vinculo_grp_prod_scroll;
 
-	GtkWidget *botao_cad_baixas, *botao_relat_baixas, *botao_baixas_fixed, *botao_baixas_box;
-
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
 	*horizontal_box_three,
@@ -113,6 +111,8 @@ int  cad_terc()
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 	g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
 
+
+	/*registrando a janela para o reg_win*/
 	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].reg_id = REG_CAD_TER;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_TER].aberta = 1;
 	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_TER]))
@@ -248,13 +248,6 @@ int  cad_terc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"7",(tip_logds[6]));
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(rua_combo),"8",("Outros"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(rua_combo),0);
-
-	botao_cad_baixas = gtk_button_new_with_label("Baixas do Cliente");
-	gtk_button_set_image(GTK_BUTTON(botao_cad_baixas),gtk_image_new_from_icon_name("mail-signed-verified",GTK_ICON_SIZE_LARGE_TOOLBAR));
-	botao_relat_baixas = gtk_button_new_with_label("Relatorio de Títulos");
-	gtk_button_set_image(GTK_BUTTON(botao_cad_baixas),gtk_image_new_from_icon_name("mail-signed-verified",GTK_ICON_SIZE_LARGE_TOOLBAR));
-	botao_baixas_box = gtk_box_new(0,0);
-	botao_baixas_fixed = gtk_fixed_new();
 
 	type_label = gtk_frame_new("Tipo Terceiro: ");
 
@@ -513,8 +506,11 @@ int  cad_terc()
 		gtk_box_pack_start(GTK_BOX(horizontal_box_six),contatos_box,0,0,20);
 	}
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),prazo,0,0,10);          //outros
+	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),prazo,0,0,10);    //outros
 	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),frete_pago_box,0,0,10);
+
+	titulos_cadter.cliente = 1;
+	GtkWidget *lista_titulos = titulos_get_widget(&titulos_cadter);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),subgrp,0,0,10);
@@ -548,11 +544,10 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(cidade_ter_field),"activate",G_CALLBACK(cidade_terc),NULL);
 	g_signal_connect(GTK_ENTRY(uf_ter_field),"activate",G_CALLBACK(uf_terc),NULL);
 	g_signal_connect(GTK_ENTRY(address_num_field),"activate",G_CALLBACK(numrua),NULL);
+	g_signal_connect(GTK_ENTRY(complmt_ter_field),"activate",G_CALLBACK(complmnt_terc),NULL);
+
 	g_signal_connect(type_ter_field,"changed",G_CALLBACK(escolha_tipo_ter),NULL);
 	g_signal_connect(vinc_transporte_flag,"toggled",G_CALLBACK(vinc_transp),NULL);
-
-	g_signal_connect(GTK_BUTTON(botao_cad_baixas),"clicked",G_CALLBACK(chamar_ter_cadbaixas),NULL);
-	g_signal_connect(GTK_BUTTON(botao_relat_baixas),"clicked",G_CALLBACK(chamar_ter_relbaixas),NULL);
 
 	g_signal_connect(GTK_ENTRY(prazo_ter_field),"activate",G_CALLBACK(prazo_fun),NULL);
 	g_signal_connect(GTK_CHECK_BUTTON(frete_pago_flag),"toggled",G_CALLBACK(verifica_frete),NULL);
@@ -573,6 +568,7 @@ int  cad_terc()
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_TER]);
 
+	/*deixando o pesquisador de subgrupos setado para grupo 1 (todos) */
 	find_subgrupos_restrict->grupo = 1;
 	find_subgrupos_restrict->posicao = 0;
 	find_subgrupos_restrict->entry = subgrp_ter_field;
@@ -592,6 +588,8 @@ int  cad_terc()
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
 
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
+	if(lista_titulos)
+		gtk_fixed_put(GTK_FIXED(fixed4),lista_titulos,MARGEM_D,200);
 	gtk_fixed_put(GTK_FIXED(fixed5),vinculo_grp_prod_frame,MARGEM_D,20); //produto e grupo vinculo
 
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);//campo dos dados em clientes
@@ -600,26 +598,16 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
 
-	//page 1
-																	//contato   contato  contato
+
 	gtk_box_pack_start(GTK_BOX(vertical_box2),fixed2,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(box2),vertical_box2,0,0,0);
 
-	//page 2
 	box3 = entrega_campos();
 
-	//page 3
 	gtk_box_pack_start(GTK_BOX(vertical_box4),fixed4,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box5),fixed5,0,0,10);
-
-	if(!ativar.financeiro){
-		gtk_box_pack_start(GTK_BOX(botao_baixas_box),botao_cad_baixas,0,0,5);
-		gtk_box_pack_start(GTK_BOX(botao_baixas_box),botao_relat_baixas,0,0,5);
-		gtk_fixed_put(GTK_FIXED(botao_baixas_fixed),botao_baixas_box,20,20);
-		gtk_box_pack_start(GTK_BOX(vertical_box4),botao_baixas_fixed,0,0,20);
-	}
 
 	gtk_box_pack_start(GTK_BOX(box4),vertical_box4,0,0,0);
 

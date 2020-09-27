@@ -98,6 +98,9 @@ int altera_ter()
 
 	//contatos func
 
+	titulos_cadter.cliente = atoi(codigos_ter);
+	titulos_update_widget(&titulos_cadter);
+
 	contatos_ter = atoi(codigos_ter);
 	GList *colunas = gtk_tree_view_get_columns(GTK_TREE_VIEW (contatos_treeview));
 	for(GList *coluna = colunas; coluna; coluna = g_list_next(coluna)){

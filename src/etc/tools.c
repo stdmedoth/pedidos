@@ -278,12 +278,13 @@ static void popup(GtkWidget *widget,gchar *string){
 
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
-	if(widget)
+
+  if((widget && GTK_IS_WIDGET(widget)))
     gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(popup));
   else
     gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
-    
-  gtk_window_set_position(GTK_WINDOW(popup),3);
+
+  gtk_window_set_position(GTK_WINDOW(popup),GTK_WIN_POS_CENTER_ALWAYS);
   //gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
 
 	if(logging == 0)
@@ -477,10 +478,7 @@ int configurar_parametros()
 	MYSQL_ROW  row;
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
-		if(cont<=ter_critic_campos_qnt)
-			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
-		else
-			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+	  sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 
 		res = consultar(query);
 		if(res!=NULL)
@@ -493,57 +491,15 @@ int configurar_parametros()
 					switch(cont)
 					{
 						case 0:
-							terceiros.criticar.doc = 1;
-							break;
-						case 1:
-							terceiros.criticar.tipodoc = 1;
-							break;
-						case 2:
-							terceiros.criticar.endereco =1;
-							break;
-						case 3:
-							terceiros.criticar.cep = 1;
-							break;
-						case 4:
-							terceiros.criticar.tipo = 1;
-							break;
-						case 5:
-							terceiros.criticar.celular =1;
-							break;
-						case 6:
-							terceiros.criticar.contatoc =1 ;
-							break;
-						case 7:
-							terceiros.criticar.telefone =1 ;
-							break;
-						case 8:
-							terceiros.criticar.contatot =1;
-							break;
-						case 9:
-							terceiros.criticar.email = 1;
-							break;
-						case 10:
-							terceiros.criticar.contatoe = 1;
-							break;
-						case 11:
-							terceiros.criticar.entrega = 1;
-							break;
-						case 12:
-							terceiros.criticar.prazo = 1;
-							break;
-						case 13:
-							terceiros.criticar.vlr_frete_pago = 1;
-							break;
-						case 14:
 							orcamentos.criticar.prod_movimento = 1;
 							break;
-						case 15:
+						case 1:
 							orcamentos.criticar.prod_saldo = 1;
 							break;
-						case 16:
+						case 2:
 							orcamentos.criticar.prod_saldo_limite = 1;
 							break;
-						case 17:
+						case 3:
 								orcamentos.criticar.orc_ped_cancelado = 1;
 								break;
 					}

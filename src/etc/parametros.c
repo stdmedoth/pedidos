@@ -193,76 +193,26 @@ int ler_criticas()
 	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
 	{
 
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
+		sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 
-		if(cont<=ter_critic_campos_qnt)
-			sprintf(query,"select critica from criticas where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
-		else
-			sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
-
-		res = consultar(query);
-		if(res!=NULL)
+		if((res = consultar(query)))
 		{
-			row = mysql_fetch_row(res);
-			if(row!=NULL)
+			if((row = mysql_fetch_row(res)))
 			{
-				if(atoi(row[0])==1)
+				if(row[0] && atoi(row[0]))
 				{
 					switch(cont)
 					{
 						case 0:
-							terceiros.criticar.doc = 1;
-							break;
-						case 1:
-							terceiros.criticar.tipodoc = 1;
-							break;
-						case 2:
-							terceiros.criticar.endereco =1;
-							break;
-						case 3:
-							terceiros.criticar.cep = 1;
-							break;
-						case 4:
-							terceiros.criticar.tipo = 1;
-							break;
-						case 5:
-							terceiros.criticar.celular =1;
-							break;
-						case 6:
-							terceiros.criticar.contatoc =1 ;
-							break;
-						case 7:
-							terceiros.criticar.telefone =1 ;
-							break;
-						case 8:
-							terceiros.criticar.contatot =1;
-							break;
-						case 9:
-							terceiros.criticar.email = 1;
-							break;
-						case 10:
-							terceiros.criticar.contatoe = 1;
-							break;
-						case 11:
-							terceiros.criticar.entrega = 1;
-							break;
-						case 12:
-							terceiros.criticar.prazo = 1;
-							break;
-						case 13:
-							terceiros.criticar.vlr_frete_pago = 1;
-							break;
-						case 14:
 							orcamentos.criticar.prod_movimento = 1;
 							break;
-						case 15:
+						case 1:
 							orcamentos.criticar.prod_saldo = 1;
 							break;
-						case 16:
+						case 2:
 							orcamentos.criticar.prod_saldo_limite = 1;
 							break;
-						case 17:
+						case 3:
 								orcamentos.criticar.orc_ped_cancelado = 1;
 								break;
 					}
@@ -287,10 +237,7 @@ int atualizar_criticas()
 
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]))==TRUE)
 		{
-			if(cont<=ter_critic_campos_qnt)
-				sprintf(query,"update criticas set critica = 1 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
-			else
-				sprintf(query,"update criticas set critica = 1 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+			sprintf(query,"update criticas set critica = 1 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 			erro = enviar_query(query);
 			if(erro != 0)
 			{
@@ -300,10 +247,7 @@ int atualizar_criticas()
 		}
 		else
 		{
-			if(cont<=ter_critic_campos_qnt)
-				sprintf(query,"update criticas set critica = 0 where opcao_nome = 'terceiros' and campo_nome = '%s'",critica_campos[cont]);
-			else
-				sprintf(query,"update criticas set critica = 0 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+			sprintf(query,"update criticas set critica = 0 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 			erro = enviar_query(query);
 			if(erro != 0)
 			{
@@ -584,23 +528,19 @@ int parametrizar()
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro consultando nome dos campos de criticas");
-
 		return 1;
 	}
 	cont=0;
-
 	while((row=mysql_fetch_row(res))!=NULL)
 	{
 		campos_de_critica[cont] = gtk_check_button_new_with_label(row[0]);
-		if(cont<=ter_critic_campos_qnt)
-			gtk_box_pack_start(GTK_BOX(ter_criticas_box),campos_de_critica[cont],0,0,0);
-		else
 		if(cont<=orc_critic_campos_qnt)
 			gtk_box_pack_start(GTK_BOX(orc_criticas_box),campos_de_critica[cont],0,0,0);
 
 		cont++;
 	}
 
+	/*
 	sprintf(query,"select * from confs");
 	if((res = consultar(query))==NULL)
 	{
@@ -611,9 +551,8 @@ int parametrizar()
 
 	while((row=mysql_fetch_row(res))!=NULL)
 	{
-
 		cont++;
-	}
+	}*/
 
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
 
