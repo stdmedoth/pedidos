@@ -20,7 +20,7 @@ int pegar_data()
 		sprintf(dia_sys,"%i",tempo_struct->tm_mday);
 	}
 
-	if(tempo_struct->tm_mon < 10)
+	if(tempo_struct->tm_mon < 9)
 	{
 		sprintf(mes_sys,"0%i",tempo_struct->tm_mon+1);
 	}

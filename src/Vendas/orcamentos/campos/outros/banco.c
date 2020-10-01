@@ -11,7 +11,7 @@ int orc_bnc_code_fun(){
     return 1;
   }
 
-  if(atoi(orc_bnc_code_gchar)!=0){
+  if(atoi(orc_bnc_code_gchar)!=99){
     sprintf(query,"select nome from bancos where code = %s",orc_bnc_code_gchar);
     if(!(res = consultar(query))){
       popup(NULL,"Não foi possível consultar Banco");

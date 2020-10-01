@@ -49,18 +49,11 @@ char *formatar_data(char *data){
 
 	//provaveis formatos de data
 
-	char *formats[] = {"%d/%d/%d",
-                    "%d-%d-%d",
-                    "%2d%2d%4d",
+	char *formats[] = {"%2d%2d%4d",
                     "%2d%2d%2d",
-                    "%01d%01d%2d",
-                    "%01d%01d%01d",
-                    "%01d%01d%01d",
+                    "%1d%1d%4d",
                     "%1d%1d%2d",
-                    "%1d%1d%1d",
-                    "%1d%2d%2d",
-                    "%d%01d%01d",
-                    "%d%d%01d"};
+                    "%d/%d/%d",};
 
 	if(!data)
 		return NULL;

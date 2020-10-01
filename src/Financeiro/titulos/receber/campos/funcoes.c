@@ -104,7 +104,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_vlrbaixa,TIT_VLRBAIXA_COL);
 
   sprintf(query,"select tit.code, t.razao, tit.pedido, parc.posicao, bnc.nome,"
-  " tit.tipo_titulo, parc.valor, parc.data_criacao, parc.data_vencimento"
+  " tit.tipo_titulo, parc.valor, DATE_FORMAT(parc.data_criacao,'%%d/%%m/%%Y'), DATE_FORMAT(parc.data_vencimento,'%%d/%%m/%%Y')"
   " from titulos as tit inner join parcelas_tab as parc inner join bancos as bnc inner join terceiros as t"
   " on tit.code = parc.parcelas_id and bnc.code = parc.banco and t.code = tit.cliente");
 
@@ -114,13 +114,20 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
       MYSQL_RES *res;
       MYSQL_ROW row;
       //consultar se há baixas para a parcela, caso não haja
-      sprintf(baixas_query,"select data_criacao, valor from baixas_titulos where parcelas_id = %s and posicao = %s",
+      sprintf(baixas_query,"select DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'), valor from baixas_titulos where parcelas_id = %s and posicao = %s",
       titulos->row[TIT_CODE_COL],
       titulos->row[TIT_POS_COL]);
       int baixas_qnt=0;
 
+      char vlrprc[MAX_PRECO_LEN];
+      sprintf(vlrprc,"R$ %.2f",atof(titulos->row[TIT_VLR_COL]));
+
       if((res = consultar(baixas_query))){
         while((row = mysql_fetch_row(res))){
+
+          char vlrbx[MAX_PRECO_LEN];
+          sprintf(vlrbx,"R$ %.2f",atof(row[1]));
+
           gtk_tree_store_append(modelo,&iter,NULL);
           gtk_tree_store_set(modelo,&iter,
             TIT_CODE_COL,titulos->row[TIT_CODE_COL],
@@ -129,11 +136,11 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
             TIT_POS_COL,titulos->row[TIT_POS_COL],
             TIT_BANC_COL,titulos->row[TIT_BANC_COL],
             TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
-            TIT_VLR_COL,titulos->row[TIT_VLR_COL],
+            TIT_VLR_COL,vlrprc,
             TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
             TIT_BAIXA_COL,row[0],
-            TIT_VLRBAIXA_COL,row[1],
+            TIT_VLRBAIXA_COL,vlrbx,
             -1
           );
           baixas_qnt++;
@@ -148,7 +155,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
           TIT_PED_COL,titulos->row[TIT_PED_COL],
           TIT_POS_COL,titulos->row[TIT_POS_COL],
           TIT_BANC_COL,titulos->row[TIT_BANC_COL],
-          TIT_VLR_COL,titulos->row[TIT_VLR_COL],
+          TIT_VLR_COL,vlrprc,
           TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
           TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
@@ -168,7 +175,6 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   gtk_widget_show_all(box_titulos);
   return box_titulos;
 }
-
 
 int titulos_update_widget(struct _titulo *titulos){
 
@@ -200,9 +206,9 @@ int titulos_update_widget(struct _titulo *titulos){
   GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(titulos->treeview);
 
   sprintf(query,"select tit.code, t.razao, tit.pedido, parc.posicao, bnc.nome,"
-  " tit.tipo_titulo, parc.valor, parc.data_criacao, parc.data_vencimento"
+  " tit.tipo_titulo, parc.valor, DATE_FORMAT(parc.data_criacao,'%%d/%%m/%%Y'), DATE_FORMAT(parc.data_vencimento,'%%d/%%m/%%Y')"
   " from titulos as tit inner join parcelas_tab as parc inner join bancos as bnc inner join terceiros as t"
-  " on tit.code = parc.parcelas_id and bnc.code = parc.banco and t.code = tit.cliente where tit.cliente = %i",titulos->cliente);
+  " on tit.code = parc.parcelas_id and bnc.code = parc.banco and t.code = tit.cliente where tit.cliente = %i order by parc.data_vencimento",titulos->cliente);
 
   if((titulos->result  = consultar(query))){
     while((titulos->row = mysql_fetch_row(titulos->result))){
@@ -210,13 +216,19 @@ int titulos_update_widget(struct _titulo *titulos){
       MYSQL_RES *res;
       MYSQL_ROW row;
       //consultar se há baixas para a parcela, caso não haja
-      sprintf(baixas_query,"select data_criacao, valor from baixas_titulos where parcelas_id = %s and posicao = %s",
+      sprintf(baixas_query,"select DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'), valor from baixas_titulos where parcelas_id = %s and posicao = %s order by data_criacao",
       titulos->row[TIT_CODE_COL],
       titulos->row[TIT_POS_COL]);
       int baixas_qnt=0;
 
+      char vlrprc[MAX_PRECO_LEN];
+      sprintf(vlrprc,"R$ %.2f",atof(titulos->row[TIT_VLR_COL]));
+
       if((res = consultar(baixas_query))){
         while((row = mysql_fetch_row(res))){
+          char vlrbx[MAX_PRECO_LEN];
+          sprintf(vlrbx,"R$ %.2f",atof(row[1]));
+
           gtk_tree_store_append(modelo,&iter,NULL);
           gtk_tree_store_set(modelo,&iter,
             TIT_CODE_COL,titulos->row[TIT_CODE_COL],
@@ -225,11 +237,11 @@ int titulos_update_widget(struct _titulo *titulos){
             TIT_POS_COL,titulos->row[TIT_POS_COL],
             TIT_BANC_COL,titulos->row[TIT_BANC_COL],
             TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
-            TIT_VLR_COL,titulos->row[TIT_VLR_COL],
+            TIT_VLR_COL,vlrprc,
             TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
             TIT_BAIXA_COL,row[0],
-            TIT_VLRBAIXA_COL,row[1],
+            TIT_VLRBAIXA_COL,vlrbx,
             -1
           );
           baixas_qnt++;
@@ -244,7 +256,7 @@ int titulos_update_widget(struct _titulo *titulos){
           TIT_PED_COL,titulos->row[TIT_PED_COL],
           TIT_POS_COL,titulos->row[TIT_POS_COL],
           TIT_BANC_COL,titulos->row[TIT_BANC_COL],
-          TIT_VLR_COL,titulos->row[TIT_VLR_COL],
+          TIT_VLR_COL,vlrprc,
           TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
           TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],

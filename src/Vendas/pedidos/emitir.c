@@ -67,7 +67,7 @@ int ped_emitir()
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)
+	if(!(row = mysql_fetch_row(res)))
 	{
 		popup(NULL,"Sem Informações do pedido");
 		return 1;
@@ -91,16 +91,19 @@ int ped_emitir()
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)
+	if(!(row = mysql_fetch_row(res)))
 	{
-		popup(NULL,"Sem Informações do cliente");
-		return 1;
-	}
-	if(row[0])
+		popup(NULL,"Cliente sem contatos");
+		strcpy(nome_cliente,"");
+		strcpy(email_cliente,"");
+	}else{
+
+		if(row[0])
 		strcpy(nome_cliente,row[0]);
 
-	if(row[1])
-	strcpy(email_cliente,row[1]);
+		if(row[1])
+		strcpy(email_cliente,row[1]);
+	}
 
 	//calculando financeiro
 	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",ped_infos.ped_code);
