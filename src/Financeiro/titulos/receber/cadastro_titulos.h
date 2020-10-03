@@ -1,3 +1,10 @@
+#define PARC_ID_COL 0
+#define PARC_POS_COL 1
+#define PARC_BNC_COL 2
+#define PARC_DTCR_COL 3
+#define PARC_DTVN_COL 4
+#define PARC_VLR_COL 5
+
 int cad_titulos_receber();
 
 GtkWidget *cad_rec_cli_psq_button, *cad_rec_tit_psq_button, *cad_rec_ped_psq_button, *cad_rec_datacri_psq_button, *cad_rec_datavenc_psq_button, *cad_rec_bnc_psq_button;

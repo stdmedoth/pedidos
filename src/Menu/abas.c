@@ -1,6 +1,6 @@
-static GtkWidget *lista_abas, *frame_lista_abas;
-static GtkWidget *botao_iniciar;
-static int controle_menu=0;
+GtkWidget *lista_abas, *frame_lista_abas;
+GtkWidget *botao_iniciar;
+int controle_menu=0;
 
 int menu(void)
 {
@@ -127,25 +127,5 @@ int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
 			}
 			break;
 	}
-	return 0;
-}
-
-int clique_menu(void)
-{
-
-	if(controle_menu)
-	{
-		gtk_widget_hide(lista_abas);
-		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Menu");
-		controle_menu=0;
-	}
-	else
-	{
-		gtk_widget_show_all(lista_abas);
-		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Fecha");
-		controle_menu=1;
-		gtk_widget_grab_focus(principall[0]);
-	}
-
 	return 0;
 }

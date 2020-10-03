@@ -47,7 +47,8 @@ insert into tipo_pagamento(nome) values
 ('Faturado'),
 ('Á Vista');
 
-insert into bancos
+insert into bancos values
+  (99, 'Sem Banco', '', 0, '', '', '', 0);
 
 insert into tipo_movimentos(code,id,nome) values
 (1,0,'Venda'),

@@ -81,9 +81,11 @@ int cad_est()
 	g_signal_connect(est_nome_entry,"activate",G_CALLBACK(est_cad_nome),NULL);
 
 	g_signal_connect(est_concluir_button,"clicked",G_CALLBACK(est_cad_concluir),NULL);
+	g_signal_connect(est_concluir_button,"clicked",G_CALLBACK(est_cad_concluir),NULL);
 	g_signal_connect(est_alterar_button,"clicked",G_CALLBACK(est_cad_alterar),NULL);
 	g_signal_connect(est_cancelar_button,"clicked",G_CALLBACK(est_cad_cancelar),NULL);
 	g_signal_connect(est_excluir_button,"clicked",G_CALLBACK(est_cad_excluir),NULL);
+	g_signal_connect(est_psq_code_button,"clicked",G_CALLBACK(psq_est),est_cod_entry);
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_EST]);
 

@@ -42,7 +42,7 @@ char *status_tit_str(int status){
 
 char *formatar_data(char *data){
 	int dia=0,mes=0,ano=0;
-	int formats_qnt=8;
+	int formats_qnt=4;
 	//160820
 
 	char *format = string_to_int(data);
@@ -53,8 +53,7 @@ char *formatar_data(char *data){
                     "%2d%2d%2d",
                     "%1d%1d%4d",
                     "%1d%1d%2d",
-                    "%d/%d/%d",};
-
+                    "%d/%d/%d"};
 	if(!data)
 		return NULL;
 

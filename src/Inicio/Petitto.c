@@ -37,7 +37,7 @@ static GtkWidget *inferior, *inferior_1, *inferior_2;
 static GtkWidget *area_de_trabalho;
 static GtkWidget *barra;
 
-static GtkWidget *imagem_barra,*layout_barra;
+GtkWidget *imagem_barra,*layout_barra;
 #include "../Menu/icones.c"
 #include "../Menu/abas.c"
 #include "init.c"

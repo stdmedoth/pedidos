@@ -5,6 +5,7 @@
 #include "vars.h"
 #include "stoi.h"
 #include "criticas.h"
+#include "barra_icones.h"
 
 #include "../Canones/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
@@ -24,6 +25,7 @@
 #include "../pesquisadores/subgrupos_todos.h"
 #include "../pesquisadores/terceiros.h"
 #include "../pesquisadores/unidades.h"
+#include "../pesquisadores/estoques.h"
 #include "../pesquisadores/produtos.h"
 #include "../pesquisadores/orcamentos.h"
 #include "../pesquisadores/pedidos.h"
@@ -124,6 +126,7 @@
 #include "../Estoque/cadastro/exclui.h"
 
 #include "../Gestao/enviar_email.h"
+#include "../Gestao/Notificacao/notificacao.h"
 
 #include "receber_confs.c"
 #include "xml_tools.c"
@@ -134,6 +137,7 @@
 #include "parametros.c"
 #include "impressao.c"
 #include "temas.c"
+#include "barra_icones.c"
 #include "../Inicio/pega_data.c"
 
 #include "operadores.c"
@@ -145,6 +149,7 @@
 #include "../pesquisadores/terceiros.c"
 #include "../pesquisadores/unidades.c"
 #include "../pesquisadores/produtos.c"
+#include "../pesquisadores/estoques.c"
 #include "../pesquisadores/orcamentos.c"
 #include "../pesquisadores/pedidos.c"
 #include "../pesquisadores/ceps.c"
@@ -255,6 +260,7 @@
 #include "../Suporte/email.c"
 
 #include "../Gestao/enviar_email.c"
+#include "../Gestao/Notificacao/notificacao.c"
 
 #include "../Emissor/cria_xml.c"
 

@@ -42,7 +42,6 @@ int cad_rec_concluir_fun(){
           popup(NULL,"Não foi possível criar Título");
           return 1;
       }
-
     }
 
     sprintf(query,"select * from titulos where code = %i",atoi(cad_rec_code_gchar));
@@ -92,6 +91,28 @@ int cad_rec_concluir_fun(){
       popup(NULL,"Não foi possível criar parcela");
 
     return 1;
+  }
+  if(cad_rec_alterando == 0){
+    switch(cad_rec_status_int) {
+      case STAT_QUITADO:
+        sprintf(query,"insert into baixas_titulos(parcelas_id,posicao,id_baixa,data_criacao,valor) values(%i,%i,0,STR_TO_DATE('%s','%%d/%%m/%%Y'),%s)",
+        atoi(cad_rec_code_gchar),
+        cad_rec_parcela_int,
+        cad_rec_datavencimento_gchar,
+        cad_rec_valor_gchar);
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível criar baixa");
+          return 1;
+        }
+        break;
+      case STAT_PARC_BAIXA:
+        break;
+      case STAT_PENDENTE:
+        break;
+      default:
+        popup(NULL,"Erro verificar status das baixas");
+        break;
+    }
   }
 
   if(cad_rec_alterando == 0)

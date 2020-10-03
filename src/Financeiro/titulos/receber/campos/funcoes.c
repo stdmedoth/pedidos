@@ -60,6 +60,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
     TIT_VENCI_COL,
     TIT_BAIXA_COL,
     TIT_VLRBAIXA_COL,
+    TIT_VLRABAIXAR_COL,
     N_COLUMNS
   };
 
@@ -73,8 +74,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
     G_TYPE_STRING,G_TYPE_STRING,
     G_TYPE_STRING,G_TYPE_STRING,
     G_TYPE_STRING,G_TYPE_STRING,
-    G_TYPE_STRING
-  );
+    G_TYPE_STRING,G_TYPE_STRING );
 
   GtkTreeIter iter;
   char query[MAX_QUERY_LEN];
@@ -90,6 +90,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   GtkTreeViewColumn *col_vencimento = gtk_tree_view_column_new_with_attributes("Data Vencimento", gtk_cell_renderer_text_new(),"text", TIT_VENCI_COL, NULL);
   GtkTreeViewColumn *col_baixa = gtk_tree_view_column_new_with_attributes("Data Baixa", gtk_cell_renderer_text_new(),"text", TIT_BAIXA_COL, NULL);
   GtkTreeViewColumn *col_vlrbaixa = gtk_tree_view_column_new_with_attributes("Vlr Baixado", gtk_cell_renderer_text_new(),"text", TIT_VLRBAIXA_COL, NULL);
+  GtkTreeViewColumn *col_vlrabaixar = gtk_tree_view_column_new_with_attributes("À Baixar", gtk_cell_renderer_text_new(),"text", TIT_VLRABAIXAR_COL, NULL);
 
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_code,TIT_CODE_COL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_nome,TIT_NOME_COL);
@@ -102,7 +103,9 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_vencimento,TIT_VENCI_COL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_baixa,TIT_BAIXA_COL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_vlrbaixa,TIT_VLRBAIXA_COL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_vlrabaixar,TIT_VLRABAIXAR_COL);
 
+  gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview),TRUE);
   sprintf(query,"select tit.code, t.razao, tit.pedido, parc.posicao, bnc.nome,"
   " tit.tipo_titulo, parc.valor, DATE_FORMAT(parc.data_criacao,'%%d/%%m/%%Y'), DATE_FORMAT(parc.data_vencimento,'%%d/%%m/%%Y')"
   " from titulos as tit inner join parcelas_tab as parc inner join bancos as bnc inner join terceiros as t"
@@ -111,23 +114,26 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   if((titulos->result  = consultar(query))){
     while((titulos->row = mysql_fetch_row(titulos->result))){
       char baixas_query[MAX_QUERY_LEN];
+
       MYSQL_RES *res;
       MYSQL_ROW row;
-      //consultar se há baixas para a parcela, caso não haja
+
+      char vlrprc[MAX_PRECO_LEN];
+      sprintf(vlrprc,"R$ %.2f",atof(titulos->row[TIT_VLR_COL]));
+
+      //consultar se há baixas para a parcela, caso não haja preecher com 'não baixado'
       sprintf(baixas_query,"select DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'), valor from baixas_titulos where parcelas_id = %s and posicao = %s",
       titulos->row[TIT_CODE_COL],
       titulos->row[TIT_POS_COL]);
       int baixas_qnt=0;
 
-      char vlrprc[MAX_PRECO_LEN];
-      sprintf(vlrprc,"R$ %.2f",atof(titulos->row[TIT_VLR_COL]));
-
       if((res = consultar(baixas_query))){
         while((row = mysql_fetch_row(res))){
 
+          char vlrabxr[MAX_PRECO_LEN];
           char vlrbx[MAX_PRECO_LEN];
           sprintf(vlrbx,"R$ %.2f",atof(row[1]));
-
+          sprintf(vlrabxr,"R$ %.2f", atof(titulos->row[TIT_VLR_COL]) - atof(row[1]));
           gtk_tree_store_append(modelo,&iter,NULL);
           gtk_tree_store_set(modelo,&iter,
             TIT_CODE_COL,titulos->row[TIT_CODE_COL],
@@ -141,6 +147,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
             TIT_BAIXA_COL,row[0],
             TIT_VLRBAIXA_COL,vlrbx,
+            TIT_VLRABAIXAR_COL,vlrabxr,
             -1
           );
           baixas_qnt++;
@@ -161,6 +168,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
           TIT_BAIXA_COL,"Não baixado",
           TIT_VLRBAIXA_COL,"Não baixado",
+          TIT_VLRABAIXAR_COL,"Total",
           -1
         );
       }
@@ -190,6 +198,7 @@ int titulos_update_widget(struct _titulo *titulos){
     TIT_VENCI_COL,
     TIT_BAIXA_COL,
     TIT_VLRBAIXA_COL,
+    TIT_VLRABAIXAR_COL,
     N_COLUMNS
   };
 
@@ -226,8 +235,11 @@ int titulos_update_widget(struct _titulo *titulos){
 
       if((res = consultar(baixas_query))){
         while((row = mysql_fetch_row(res))){
+
           char vlrbx[MAX_PRECO_LEN];
+          char vlrabxr[MAX_PRECO_LEN];
           sprintf(vlrbx,"R$ %.2f",atof(row[1]));
+          sprintf(vlrabxr,"R$ %.2f", atof(titulos->row[TIT_VLR_COL]) - atof(row[1]));
 
           gtk_tree_store_append(modelo,&iter,NULL);
           gtk_tree_store_set(modelo,&iter,
@@ -242,6 +254,7 @@ int titulos_update_widget(struct _titulo *titulos){
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
             TIT_BAIXA_COL,row[0],
             TIT_VLRBAIXA_COL,vlrbx,
+            TIT_VLRABAIXAR_COL,vlrabxr,
             -1
           );
           baixas_qnt++;
@@ -262,6 +275,7 @@ int titulos_update_widget(struct _titulo *titulos){
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
           TIT_BAIXA_COL,"Não baixado",
           TIT_VLRBAIXA_COL,"Não baixado",
+          TIT_VLRABAIXAR_COL,"Total",
           -1
         );
       }
