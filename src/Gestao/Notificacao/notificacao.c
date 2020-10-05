@@ -63,20 +63,23 @@ void notificacoes_wnd(){
       char nome[20];
       char descr[100];
       char status[30];
+      char terceiro[15];
 
       switch (atoi(row[5])) {
         case 1:
           sprintf(nome,"Título à Receber");
+          sprintf(terceiro,"Cliente");
           break;
         case 2:
           sprintf(nome,"Título à Pagar");
+          sprintf(terceiro,"Fornecedor");
           break;
         default:
           sprintf(nome,"Título sem Tipo");
           break;
       }
 
-      sprintf(descr,"Parcela %s do Título %s - Cliente '%s' vencimento em %s", row[1], row[0], row[3], row[2]);
+      sprintf(descr,"Parcela %s do Título %s - %s '%s'com vencimento em %s", row[1], row[0], terceiro, row[3], row[2]);
       switch (atoi(row[4])) {
         case STAT_QUITADO:
           sprintf(status,"Título já Quitado");

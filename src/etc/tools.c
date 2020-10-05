@@ -11,6 +11,26 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+void doc_gerar_header(FILE *file, char *title){
+  if(!file)
+    return ;
+  fprintf(file,"<!DOCTYPE html>\n");
+  fprintf(file,"<html>\n");
+  fprintf(file,"<head>\n");
+  fprintf(file,"<meta charset=\"utf-8\"/>");
+  fprintf(file,"<link href=\"%s\" rel=\"stylesheet\">\n",CSS_ORC);
+  fprintf(file,"<title>%s</title>\n",title);
+
+  fprintf(file,"<div id=\"div-titulo\">\n");
+  fprintf(file,"<img id=\"logo-img\" src=\"%s\" \n",IMG_IMP_LOGO);
+  fprintf(file,"</div>\n");
+  fprintf(file,"</head>\n");
+  fprintf(file,"<div id=\"caixa-imp\">\n");
+  return ;
+}
+
+
+
 char  *string_to_int(char *string){
   int cont2=0;
   char *formated_string = malloc(strlen(string));

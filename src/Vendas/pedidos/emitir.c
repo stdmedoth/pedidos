@@ -181,8 +181,6 @@ int ped_emitir()
 	timezone = g_time_zone_new(NULL);
 	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.condpag.dia_inicial,0,0,0);
 
-	gdate = g_date_time_new(timezone,ano,mes,ped_parcelas.condpag.dia_inicial,0,0,0);
-
 	//em desenvolvimento para emissao de nfe
 	//if(criar_xml())
 	//	return 1;

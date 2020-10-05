@@ -9,43 +9,33 @@ REG_CAD_UND,
 REG_CAD_GRP,
 REG_CAD_COND,
 REG_CAD_RELAT,
-
 REG_CAD_ORC,
 REG_CAD_PED,
-
 REG_CAD_EST,
 REG_ENTS,
 REG_SAIDS,
 REG_SALD,
-
 REG_PROD_RELAT,
 REG_TER_RELAT,
 REG_MOV_RELAT,
-
 REG_SUP_WIN,
-
 REG_PARAM_WIN,
-
 REG_REL_FIX_PROD_WIN,
 REG_REL_FIX_TER_WIN,
 REG_REL_FIX_VND_WIN,
 REG_REL_FIX_CMP_WIN,
 REG_REL_FIX_EST_WIN,
-
 REG_REL_FIX_ICONS_WIN,
-
 CAD_TIT_PAG_WND,
 CAD_TIT_REC_WND,
 CAD_BX_PAG_WND,
 CAD_BX_REC_WND,
-
 REG_REL_FIX_FINREC_WIN,
 REG_REL_FIX_FINPAG_WIN,
-
 CAD_BANCOS_WND,
-
 CAD_TRSP_WND,
 REG_NOTIF,
+CAD_CONT_FIX_WND,
 REG_WIN_QNT};
 
 #define REG_PRINC_WIN 9990
@@ -82,13 +72,13 @@ static const char *janelas_nomes[] = {
   "Cadastro de Títulos Pagar",
   "Cadastro de Títulos Receber",
   "Cadastro de Baixas Pagar",
-  "Cadastro de Títulos Receber",
-  "Cadastro de Títulos Pagar",
+  "Cadastro de Baixas Receber",
   "Relatório Contas à Receber",
   "Relatório Contas à Pagar",
   "Cadastro de Bancos",
   "Cadastro de Transportes",
-  "Notificações"};
+  "Notificações",
+  "Contas Fixas"};
 
 typedef struct _janelas_info{
   int reg_id;
