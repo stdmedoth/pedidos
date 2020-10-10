@@ -39,29 +39,30 @@ int gerar_orc_cli(FILE *file, struct _orc *orc)
 	{
 		popup(NULL,"Não há contatos para o cliente");
 		autologger((char*)mysql_error(&conectar));
-		return 0;
-	}
-	fprintf(file,"<div style='display: flex'>");
-	if(strlen(row[0])){
-		fprintf(file,"<div>");
-		fprintf(file,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[0]);
-		fprintf(file,"</div>");
-		fprintf(file,"<hr>\n");
-	}
-	if(strlen(row[1])){
-		fprintf(file,"<div class='cli-info-sec-col'>");
-		fprintf(file,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[1]);
-		fprintf(file,"</div>");
-		fprintf(file,"<hr>\n");
+	}else{
+
+		fprintf(file,"<div style='display: flex'>");
+		if(strlen(row[0])){
+			fprintf(file,"<div>");
+			fprintf(file,"<img src=\"%s\" alt=\"\"> Telefone: <span id=\"string-black\">%s</span> \n",IMG_IMP_TEL,row[0]);
+			fprintf(file,"</div>");
+			fprintf(file,"<hr>\n");
+		}
+		if(strlen(row[1])){
+			fprintf(file,"<div class='cli-info-sec-col'>");
+			fprintf(file,"<img src=\"%s\" alt=\"\"> Celular: <span id=\"string-black\">%s</span>\n",IMG_IMP_CEL,row[1]);
+			fprintf(file,"</div>");
+			fprintf(file,"<hr>\n");
+		}
+		if(strlen(row[2])){
+			fprintf(file,"<div>");
+			fprintf(file,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[2]);
+			fprintf(file,"</div>");
+			fprintf(file,"<hr>\n");
+		}
+
 	}
 
-
-	if(strlen(row[2])){
-		fprintf(file,"<div>");
-		fprintf(file,"<img src=\"%s\" alt=\"\"> Email: <span id=\"string-black\">%s</span> \n",IMG_IMP_EMAIL,row[2]);
-		fprintf(file,"</div>");
-		fprintf(file,"<hr>\n");
-	}
 	fprintf(file,"</div>\n");
 	fprintf(file,"<hr>\n");
 	fprintf(file,"</div>\n");

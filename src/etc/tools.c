@@ -11,6 +11,59 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+int is_texto(char *texto){
+  for(int cont=0;cont<strlen(texto);cont++){
+    if(isalpha(texto[cont])){
+      return 1;
+    }
+    if(isalnum(texto[cont])){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+char *text_to_html(char *texto){
+
+  char *string = strdup(texto);
+  int posicoes[strlen(string)], qnt=0;
+
+  for(int cont=0;cont<strlen(string);cont++){
+    g_print("%i : %i - '%c'\n",cont, string[cont], string[cont]);
+    if( string[cont] == 10 ){
+      posicoes[cont] = 1;
+      qnt++;
+    }else{
+      posicoes[cont] = 0;
+    }
+  }
+
+  int real_length = strlen(string)+qnt*4;
+  int cont2=0;
+  char *string2 = malloc(real_length);
+
+  for(int cont=0;cont<strlen(string);cont++){
+
+    if( posicoes[cont] ){
+      string2[cont2] = '<';
+      cont2++;
+      string2[cont2] = 'b';
+      cont2++;
+      string2[cont2] = 'r';
+      cont2++;
+      string2[cont2] = '>';
+      cont2++;
+      continue;
+    }
+
+    string2[cont2] = string[cont];
+    cont2++;
+  }
+  string2[cont2] = '\0';
+
+  return string2;
+}
+
 void doc_gerar_header(FILE *file, char *title){
   if(!file)
     return ;
@@ -28,8 +81,6 @@ void doc_gerar_header(FILE *file, char *title){
   fprintf(file,"<div id=\"caixa-imp\">\n");
   return ;
 }
-
-
 
 char  *string_to_int(char *string){
   int cont2=0;

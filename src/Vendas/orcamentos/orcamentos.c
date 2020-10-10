@@ -1,7 +1,7 @@
 #include "campos.h"
 
-int vnd_orc()
-{
+int vnd_orc(){
+
 	char code[10];
 
 	//campos gerais
@@ -374,7 +374,7 @@ int vnd_orc()
 
 	cancela_orc();
 
-	gtk_widget_grab_focus(cliente_orc_entry);
+	gtk_widget_grab_focus(pesquisa_ter);
 	gtk_widget_show_all(janela_orcamento);
 
 	gtk_widget_hide(codigo_orc_entry);

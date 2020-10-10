@@ -25,7 +25,8 @@ int cad_pag_alterar_fun(){
 
   gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_entry),row[0]);
   gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_nome_entry),row[1]);
-  gtk_entry_set_text(GTK_ENTRY(cad_pag_ped_entry),row[2]);
+  if(atoi(row[2]))
+    gtk_entry_set_text(GTK_ENTRY(cad_pag_ped_entry),row[2]);
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_pag_status_combo),atoi(row[3]));
   gtk_entry_set_text(GTK_ENTRY(cad_pag_datacriacao_entry),row[4]);
   gtk_entry_set_text(GTK_ENTRY(cad_pag_datavencimento_entry),row[5]);

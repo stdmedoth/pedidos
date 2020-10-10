@@ -1,3 +1,7 @@
+int is_texto(char *texto);
+
+char *text_to_html(char *texto);
+
 char *formatar_data(char *data);
 
 int file_logger(char *string);

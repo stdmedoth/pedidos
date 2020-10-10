@@ -49,7 +49,7 @@ int ped_enviar(){
 		strcpy(nome_cliente,row[0]);
 
 	if(row[1])
-	strcpy(email_cliente,row[1]);
+		strcpy(email_cliente,row[1]);
 
 
 	if(!fopen(orc_path,"r")){

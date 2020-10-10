@@ -1,14 +1,15 @@
 void cancelar_ter()
 {
-	char *code;
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
-	code = malloc(10);
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 	concluindo_ter = 0;
 	alterando_ter=0;
 	contatos_qnt=0;
-	code[0] = '\0';
+	ter_com_entrega = 0;
+	ter_com_entrega = 0;
+
+	char *code = malloc(12);
 	sprintf(code,"%i",tasker("terceiros"));
 
 	//terceiros
@@ -25,6 +26,7 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(complmt_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vinc_transporte_flag),FALSE);
 
 	GList *colunas = gtk_tree_view_get_columns(GTK_TREE_VIEW (contatos_treeview));
 	for(GList *coluna = colunas; coluna; coluna = g_list_next(coluna)){

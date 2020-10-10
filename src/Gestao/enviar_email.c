@@ -214,7 +214,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
   headers_text[0] = malloc(300);
   sprintf(headers_text[0],"Date: %s",g_date_time_format(data,"%T"));
   headers_text[1] = malloc(300);
-  sprintf(headers_text[1],"Subject: Envio %s",cad_emp_strc.xNome);
+  sprintf(headers_text[1],"Subject: Suporte %s",cad_emp_strc.xNome);
   headers_text[2] = NULL;
 
     curl = curl_easy_init();
@@ -269,6 +269,9 @@ int enviar_email_suporte( char *arquivo_suporte ){
       curl_mime_type(part, "multipart/alternative");
       slist = curl_slist_append(NULL, "Content-Disposition: inline");
       curl_mime_headers(part, slist, 1);
+
+      part = curl_mime_addpart(alt);
+      curl_mime_data(part, "Segue arquivo xml com dados do suporte", CURL_ZERO_TERMINATED);
 
       part = curl_mime_addpart(mime);
       curl_mime_filedata(part, arquivo_suporte);

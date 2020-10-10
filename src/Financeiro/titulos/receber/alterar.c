@@ -25,7 +25,8 @@ int cad_rec_alterar_fun(){
 
   gtk_entry_set_text(GTK_ENTRY(cad_rec_cli_entry),row[0]);
   gtk_entry_set_text(GTK_ENTRY(cad_rec_cli_nome_entry),row[1]);
-  gtk_entry_set_text(GTK_ENTRY(cad_rec_ped_entry),row[2]);
+  if(atoi(row[2]))
+    gtk_entry_set_text(GTK_ENTRY(cad_rec_ped_entry),row[2]);
   gtk_entry_set_text(GTK_ENTRY(cad_rec_bnc_entry),row[3]);
   gtk_widget_activate(cad_rec_bnc_entry);
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_rec_status_combo),atoi(row[4]));

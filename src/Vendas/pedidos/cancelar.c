@@ -1,5 +1,5 @@
-int ped_cancelar()
-{
+int ped_cancelar(){
+	
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];

@@ -83,5 +83,6 @@ static int cancela_orc()
 	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
 	gtk_widget_set_sensitive(pesquisa_orc,TRUE);
 	gtk_widget_set_sensitive(copia_orc_button,TRUE);
+	gtk_widget_grab_focus(pesquisa_ter);
 	return 0;
 }

@@ -6,6 +6,7 @@
 #include "stoi.h"
 #include "criticas.h"
 #include "barra_icones.h"
+#include "analisa_campos.h"
 
 #include "../Canones/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
@@ -140,6 +141,7 @@
 #include "temas.c"
 #include "barra_icones.c"
 #include "../Inicio/pega_data.c"
+#include "analisa_campos.c"
 
 #include "operadores.c"
 

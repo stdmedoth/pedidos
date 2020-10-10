@@ -111,32 +111,39 @@ int altera_ter()
 	gtk_tree_view_set_model (GTK_TREE_VIEW (contatos_treeview),items_model);
 	add_columns (GTK_TREE_VIEW (contatos_treeview), items_model, numbers_model);
 
-	if(campo[TRSP_COD_COL])
-		if(atoi(campo[TRSP_COD_COL])!=0)
+	if(campo[TRSP_COD_COL]){
+		if(atoi(campo[TRSP_COD_COL])!=0){
+			ter_com_entrega = 1;
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vinc_transporte_flag),TRUE);
 			gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TRSP_COD_COL]);
+
+			if(campo[TRSP_LOGR_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campo[TRSP_LOGR_COL]);
+
+			if(campo[TRSP_NUM_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_num_entry),campo[TRSP_NUM_COL]);
+
+			if(campo[TRSP_CID_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campo[TRSP_CID_COL]);
+
+			if(campo[TRSP_BAIR_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_BAIR_COL]);
+
+			if(campo[TRSP_UF_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_UF_COL]);
+
+			if(campo[TRSP_CEP_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),campo[TRSP_CEP_COL]);
+
+			if(campo[TRSP_TEL_COL])
+				gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),campo[TRSP_TEL_COL]);
+		}
+
+	}
 
 	gtk_widget_activate(transp_codigo_entry);
 
-	if(campo[TRSP_LOGR_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campo[TRSP_LOGR_COL]);
 
-	if(campo[TRSP_NUM_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_num_entry),campo[TRSP_NUM_COL]);
-
-	if(campo[TRSP_CID_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campo[TRSP_CID_COL]);
-
-	if(campo[TRSP_BAIR_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_BAIR_COL]);
-
-	if(campo[TRSP_UF_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TRSP_UF_COL]);
-
-	if(campo[TRSP_CEP_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),campo[TRSP_CEP_COL]);
-
-	if(campo[TRSP_TEL_COL])
-		gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),campo[TRSP_TEL_COL]);
 
 	if(campo[PRAZ_TER_COL]){
 		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);

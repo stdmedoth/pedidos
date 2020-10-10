@@ -57,7 +57,8 @@ int gerar_orc_transporte(FILE *file, struct _orc *orc){
           if(row[3])
             fprintf(file,", %s\n",row[3]);
           fprintf(file,"</td>\n");
-        }else{
+        }else
+        if(	concluindo_orc==1 ){
           fprintf(file,"<td>\n");
           if(orc_transp_logradouro && orc_transp_num)
             fprintf(file,"%s, %s",orc_transp_logradouro,orc_transp_num);

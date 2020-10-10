@@ -68,11 +68,10 @@ int codigo_cli_orc()
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
-	//gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),campos[2]);
 
-	strcpy(orc_ter_obs_char,campos[3]);
+	strcpy(orc_ter_obs_char,campos[2]);
 
-	if(strlen(orc_ter_obs_char)>0&&alerta_obs==0)
+	if(strlen(orc_ter_obs_char)>0 && is_texto(orc_ter_obs_char) &&alerta_obs==0)
 	{
 		ter_alert_obs();
 		alerta_obs = 1;
@@ -80,21 +79,21 @@ int codigo_cli_orc()
 
 	if( alterando_orc == 0 && concluindo_orc == 0 ){
 
-		if( strlen(campos[4]) && atoi(campos[4]) && orc_pag_cond_activated==0){
-			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[4]);
+		if( strlen(campos[3]) && atoi(campos[3]) && orc_pag_cond_activated==0){
+			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[3]);
 			gtk_widget_activate(orc_pag_cond_entry);
 		}
 
-		if( strlen(campos[5]) && transp_verified==0 ){
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[5]);
-			gtk_widget_activate(orc_transp_codigo_entry);
-		}
+		if( transp_verified==0 ){
+			if( strlen(campos[4]) ){
+				gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[4]);
+				gtk_widget_activate(orc_transp_codigo_entry);
+			}
 
-		if( strlen(campos[6]) &&  transp_verified==0 ){
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[6]);
-			gtk_widget_activate(orc_transp_cep_entry);
+			if( strlen(campos[5]) ){
+				gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[5]);
+			}
 		}
-
 	}
 
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))
