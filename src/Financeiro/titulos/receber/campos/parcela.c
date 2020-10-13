@@ -5,6 +5,7 @@ int cad_rec_parcela_fun(){
   MYSQL_ROW row;
 
   if(cad_rec_code_fun()){
+    
     return 1;
   }
 

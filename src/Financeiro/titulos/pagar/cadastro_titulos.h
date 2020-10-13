@@ -41,3 +41,4 @@ int cad_pag_concluir_fun();
 #include "cancelar.c"
 #include "alterar.c"
 #include "concluir.c"
+#include "excluir.c"

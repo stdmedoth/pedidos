@@ -105,6 +105,8 @@
 #define BACKUP_QUERY_FILE "C:/petitto/files/backup_querys"
 #define MOZ_CERT          "C:/petitto/files/cacert.pem"
 #define SUP_XML           "C:/petitto/files/suporte.xml"
+#define ORC_PARAMS        "C:/petitto/files/orc_params.xml"
+
 #endif
 
 #ifdef __linux__
@@ -211,6 +213,7 @@
 #define SCRPT_NFE_INFOS     "/usr/share/petitto/files/scripts/files/dados_nfe.xml"
 #define MOZ_CERT          "/usr/share/petitto/files/cacert.pem"
 #define SUP_XML           "/usr/share/petitto/files/suporte.xml"
+#define ORC_PARAMS        "/usr/share/petitto/files/orc_params.xml"
 #endif
 
 #define CSS_ORC       "orcamento.css"

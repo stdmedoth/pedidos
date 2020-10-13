@@ -113,6 +113,7 @@
 #include "../Relatorios/fixados/vendas/principal.h"
 #include "../Relatorios/fixados/estoques/principal.h"
 #include "../Relatorios/fixados/financeiro/receber/principal.h"
+#include "../Relatorios/fixados/financeiro/pagar/principal.h"
 
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
@@ -257,6 +258,7 @@
 #include "../Relatorios/fixados/vendas/principal.c"
 #include "../Relatorios/fixados/estoques/principal.c"
 #include "../Relatorios/fixados/financeiro/receber/principal.c"
+#include "../Relatorios/fixados/financeiro/pagar/principal.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"

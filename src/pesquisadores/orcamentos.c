@@ -46,6 +46,8 @@ int entry_orc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	}
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
+		if(strlen(row[4])>10)
+			row[4][10] = '\0';
 		sprintf(formata_preco,"R$ %.2f",atof(row[3]));
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
@@ -145,6 +147,8 @@ int psq_orc(GtkWidget *button, GtkEntry *cod_orc_entry)
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
+		if(strlen(row[4])>10)
+			row[4][10] = '\0';
 		sprintf(formata_preco,"R$ %.2f",atof(row[3]));
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);

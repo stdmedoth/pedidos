@@ -38,9 +38,9 @@ int *barra_icones_rem(){
   return 0;
 }
 
-GtkWidget *barra_icones_wnd(){
+GtkWidget *penden_button, *param_button, *sair_button, *logoff_button, *suport_button;
 
-	GtkWidget *penden_button, *param_button, *sair_button, *logoff_button, *suport_button;
+GtkWidget *barra_icones_wnd(){
 
   penden_button = gtk_button_new();
 

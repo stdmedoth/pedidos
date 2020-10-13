@@ -3,6 +3,8 @@ static gchar **nomes_temas;
 static int temas_qnt=0;
 GtkWidget **campos_de_critica;
 
+GtkWidget *orc_prod_mov_wdt, *orc_prod_sld_wdt, *orc_prod_sld_lmt_wdt, *orc_ped_canc_wdt;
+
 //combo_box de produtos
 GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
 GtkWidget *tecn_param_nav_path1_entry, *tecn_param_nav_path2_entry, *tecn_param_nav_choose1_radio, *tecn_param_nav_choose2_radio;
@@ -88,13 +90,6 @@ int vet_erro[CAMPOS_QNT+1];
 #define CLI_ERR 24
 #define PRAZ_ERR 25
 #define QNT_ERR 26
-
-char *critica_campos[] = {
-	"orc_prod_movimento",
-	"orc_prod_saldo",
-	"orc_prod_saldo_limite",
-	"orc_ped_cancelado"
-};
 
 static struct {
 	int navegador_pdr;

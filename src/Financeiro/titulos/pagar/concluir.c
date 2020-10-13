@@ -30,19 +30,25 @@ int cad_pag_concluir_fun(){
   }
 
   if(cad_pag_alterando == 0){
-
     if(cad_pag_parcela_int==0){
-      sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,%i)",
-      atoi(cad_pag_code_gchar),
-      atoi(cad_pag_cli_gchar),
-      atoi(cad_pag_ped_gchar),
-      cad_pag_status_int,
-      TP_TIT_PAG);
-      if(enviar_query(query)){
-          popup(NULL,"Não foi possível criar Título");
-          return 1;
-      }
 
+      sprintf(query,"select * from titulos where code = %i",atoi(cad_pag_code_gchar));
+      if(!(res=consultar(query))){
+        popup(NULL,"Erro ao confirmar existencia do título");
+        return 1;
+      }
+      if(!(row=mysql_fetch_row(res))){
+        sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,%i)",
+        atoi(cad_pag_code_gchar),
+        atoi(cad_pag_cli_gchar),
+        atoi(cad_pag_ped_gchar),
+        cad_pag_status_int,
+        TP_TIT_PAG);
+        if(enviar_query(query)){
+            popup(NULL,"Não foi possível criar Título");
+            return 1;
+        }
+      }
     }
 
     sprintf(query,"select * from titulos where code = %i",atoi(cad_pag_code_gchar));

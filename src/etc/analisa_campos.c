@@ -24,7 +24,7 @@ int analisa_ender(char *endereco){
           numero[pos] = endereco[cont2];
           pos++;
           if(pos>=num_len){
-            return 0;
+            return atoi(numero);
           }
         }else{
           num = 0;

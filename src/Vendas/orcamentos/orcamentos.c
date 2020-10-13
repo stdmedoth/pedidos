@@ -29,6 +29,7 @@ int vnd_orc(){
 	itens_qnt = 1;
 	cont=1;
 	ativos_qnt=1;
+	transp_verified = 0;
 	rec_altera_qnt=1;
 	alterando_orc = 0;
 	concluindo_orc=0;

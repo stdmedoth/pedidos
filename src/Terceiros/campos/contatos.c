@@ -389,6 +389,8 @@ add_columns (GtkTreeView  *treeview,
                                                -1, "Id", renderer,
                                                "text", COLUMN_CTTO_ID,
                                                NULL);
+  GtkTreeViewColumn *coluna = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview),0);
+  gtk_tree_view_column_set_visible(coluna,FALSE);
 
   renderer = gtk_cell_renderer_text_new ();
   g_object_set (renderer,

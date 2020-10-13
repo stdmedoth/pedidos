@@ -37,11 +37,12 @@ int entry_fin_rec_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = 1 order by p.data_vencimento desc limit 30",37,entrada,37);
+	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = %i order by p.data_vencimento desc limit 30",37,entrada,37,TP_TIT_REC);
 	if(!(res = consultar(query)))
 		return 1;
 
 	while((row = mysql_fetch_row(res))){
+
 		switch(atoi(row[3])){
 			case STAT_QUITADO:
 				strcpy(status,"Tít. Baixado");

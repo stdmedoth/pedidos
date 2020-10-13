@@ -183,44 +183,84 @@ int atualizar_personalizacao()
 	return 0;
 }
 
-int ler_criticas()
-{
+
+int ler_criticas(){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;
 	int cont=0;
 	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
-	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
-	{
 
-		sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
+	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
+	if(orc_xml){
+		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
+		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
+		if(orc_prod_mov){
+			orcamentos.criticar.prod_movimento = atoi((const char *)orc_prod_mov->content);
+			if(orcamentos.criticar.prod_movimento)
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt),TRUE);
+			else
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt),FALSE);
+		}
 
-		if((res = consultar(query)))
-		{
-			if((row = mysql_fetch_row(res)))
-			{
-				if(row[0] && atoi(row[0]))
-				{
-					switch(cont)
-					{
-						case 0:
-							orcamentos.criticar.prod_movimento = 1;
-							break;
-						case 1:
-							orcamentos.criticar.prod_saldo = 1;
-							break;
-						case 2:
-							orcamentos.criticar.prod_saldo_limite = 1;
-							break;
-						case 3:
-								orcamentos.criticar.orc_ped_cancelado = 1;
-								break;
-					}
-					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]),TRUE);
-				}
+		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
+		if(orc_prod_saldo){
+			orcamentos.criticar.prod_saldo = atoi((const char *)orc_prod_saldo->content);
+			if(orcamentos.criticar.prod_saldo)
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),TRUE);
+			else
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),FALSE);
+
+		}
+
+		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
+		if(orc_prod_sld_lmt){
+			orcamentos.criticar.prod_saldo_limite = atoi((const char *)orc_prod_sld_lmt->content);
+			if(orcamentos.criticar.prod_saldo_limite)
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt),TRUE);
+			else
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt),FALSE);
+		}
+
+		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
+		if(orc_ped_canc){
+			orcamentos.criticar.orc_ped_cancelado = atoi((const char *)orc_ped_canc->content);
+			if(orcamentos.criticar.orc_ped_cancelado)
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt),TRUE);
+			else
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt),FALSE);
+		}
+	}else{
+		FILE *xmlf = fopen(ORC_PARAMS, "r");
+		if(!xmlf){
+			xmlf = fopen(ORC_PARAMS, "w");
+			if(!xmlf){
+				popup(NULL,"Não foi possível abrir arquivo de parametros");
+				return 1;
 			}
+			xmlDocPtr orc_xml = xmlNewDoc((const xmlChar *)"1.0");
+			xmlNodePtr root = xmlNewNode(NULL,(const xmlChar *)"orc_param");
+			xmlNodePtr orc_prod_mov = xmlNewNode(NULL,(const xmlChar *)"orc_prod_mov");
+			xmlNodePtr orc_prod_saldo = xmlNewNode(NULL,(const xmlChar *)"orc_prod_saldo");
+			xmlNodePtr orc_prod_sld_lmt = xmlNewNode(NULL,(const xmlChar *)"orc_prod_sld_lmt");
+			xmlNodePtr orc_ped_canc = xmlNewNode(NULL,(const xmlChar *)"orc_ped_canc");
+
+			xmlNodeAddContent(orc_prod_mov,(const xmlChar *)"1");
+			xmlNodeAddContent(orc_prod_saldo,(const xmlChar *)"1");
+			xmlNodeAddContent(orc_prod_sld_lmt,(const xmlChar *)"1");
+			xmlNodeAddContent(orc_ped_canc,(const xmlChar *)"1");
+
+			xmlAddChild(root,orc_prod_mov);
+			xmlAddChild(root,orc_prod_saldo);
+			xmlAddChild(root,orc_prod_sld_lmt);
+			xmlAddChild(root,orc_ped_canc);
+
+			xmlDocSetRootElement(orc_xml,root);
+
+			xmlDocDump(xmlf,orc_xml);
 		}
 	}
+
 	return 0;
 }
 
@@ -229,33 +269,48 @@ int atualizar_criticas()
 	char *query;
 	int cont=0;
 	int erro;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
-	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
-	{
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
 
-		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(campos_de_critica[cont]))==TRUE)
-		{
-			sprintf(query,"update criticas set critica = 1 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
-			erro = enviar_query(query);
-			if(erro != 0)
-			{
-				popup(NULL,"Erro ao tentar atualizar parametros");
-				return 1;
-			}
-		}
+	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
+	if(orc_xml){
+		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
+
+		orcamentos.criticar.prod_movimento = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt));
+		orcamentos.criticar.prod_saldo = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt));
+		orcamentos.criticar.prod_saldo_limite = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt));
+		orcamentos.criticar.orc_ped_cancelado = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt));
+
+		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
+		if(orcamentos.criticar.prod_movimento)
+			xmlNodeSetContent(orc_prod_mov,(xmlChar *)"1");
 		else
-		{
-			sprintf(query,"update criticas set critica = 0 where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
-			erro = enviar_query(query);
-			if(erro != 0)
-			{
-				popup(NULL,"Erro ao tentar atualizar parametros");
-				return 1;
-			}
-		}
+			xmlNodeSetContent(orc_prod_mov,(xmlChar *)"0");
+
+		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
+		if(orcamentos.criticar.prod_saldo)
+			xmlNodeSetContent(orc_prod_saldo,(xmlChar *)"1");
+		else
+			xmlNodeSetContent(orc_prod_saldo,(xmlChar *)"0");
+
+		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
+		if(orcamentos.criticar.prod_saldo_limite)
+			xmlNodeSetContent(orc_prod_sld_lmt,(xmlChar *)"1");
+		else
+			xmlNodeSetContent(orc_prod_sld_lmt,(xmlChar *)"0");
+
+		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
+		if(orcamentos.criticar.orc_ped_cancelado)
+			xmlNodeSetContent(orc_ped_canc,(xmlChar *)"1");
+		else
+			xmlNodeSetContent(orc_ped_canc,(xmlChar *)"0");
 	}
+
+	FILE *xmlf = fopen(ORC_PARAMS, "w");
+	if(!xmlf){
+		popup(NULL,"Não foi possível abrir arquivo de parametros");
+		return 1;
+	}
+	xmlDocDump(xmlf,orc_xml);
+
 	if(configurar_parametros()==0)
 		return 0;
 	else
@@ -272,6 +327,7 @@ int atualizar_paramentros()
 	popup(NULL,"Parametros Atualizados");
 	return 0;
 }
+
 int parametrizar()
 {
 	GtkWidget *janela_parametros;
@@ -523,7 +579,7 @@ int parametrizar()
 	gtk_box_pack_start(GTK_BOX(orc_parametros_box),est_orc_padrao_frame,0,0,0);
 	gtk_container_add(GTK_CONTAINER(orc_parametros_frame),orc_parametros_box);
 	gtk_fixed_put(GTK_FIXED(orc_parametros_fixed),orc_parametros_frame,20,0);
-
+	/*
 	sprintf(query,"select nome from criticas");
 	if((res = consultar(query))==NULL)
 	{
@@ -538,21 +594,19 @@ int parametrizar()
 			gtk_box_pack_start(GTK_BOX(orc_criticas_box),campos_de_critica[cont],0,0,0);
 
 		cont++;
-	}
-
-	/*
-	sprintf(query,"select * from confs");
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro consultando configurações técnicas");
-		return 1;
-	}
-	cont=0;
-
-	while((row=mysql_fetch_row(res))!=NULL)
-	{
-		cont++;
 	}*/
+
+	orc_prod_mov_wdt = gtk_check_button_new_with_label("Bloqueia Produtos sem movimentos de estoque");
+	orc_prod_sld_wdt = gtk_check_button_new_with_label("Produto deve ter saldo para criar orcamento");
+	orc_prod_sld_lmt_wdt = gtk_check_button_new_with_label("Avisar saldo próximo ao limite ");
+	orc_ped_canc_wdt = gtk_check_button_new_with_label("Pedidos cancelados são reaproveitados");
+
+	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_mov_wdt,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_wdt,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_lmt_wdt,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_ped_canc_wdt,0,0,0);
+
+
 
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
 

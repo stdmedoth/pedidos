@@ -38,6 +38,8 @@ char *tipo_ter_num_to_str(int num);
 
 GtkWidget *popup_fechar;
 
+int PopupBinario(char *mensagem, char *positivo, char *negativo);
+
 char *ped_status_from_int(int code);
 
 char *status_tit_str(int status);

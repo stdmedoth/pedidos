@@ -37,19 +37,19 @@ int entry_fin_pag_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code limit 30 and t.razao like '%c%s%c' where tipo_titulo = 2 order by p.data_vencimento desc limit 30",37,entrada,37);
-	res = consultar(query);
-	if(res == NULL)
-	{
+	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = %i order by p.data_vencimento asc limit 30",37,entrada,37,TP_TIT_PAG);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar títulos");
 		return 1;
 	}
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
+	while((row = mysql_fetch_row(res))!=NULL){
 
-		if(atoi(row[3])==0)
-			strcpy(status,"Pendente");
-		if(atoi(row[3])==1)
-			strcpy(status,"Baixado");
+		if(atoi(row[3]) == STAT_QUITADO)
+			strcpy(status,"Tit. Baixado");
+		if(atoi(row[3]) == STAT_PARC_BAIXA)
+			strcpy(status,"Tit. Parc. Baixado");
+		if(atoi(row[3]) == STAT_PENDENTE)
+			strcpy(status,"Tit. Pendente");
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		gtk_tree_store_set(modelo,&campos,
@@ -165,7 +165,7 @@ int psq_fin_pag(GtkWidget *button, GtkEntry *entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tipo_titulo = 2 order by p.data_vencimento desc limit 30");
+	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tipo_titulo = 2 order by p.data_vencimento asc limit 30");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -174,11 +174,12 @@ int psq_fin_pag(GtkWidget *button, GtkEntry *entry)
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-
-		if(atoi(row[3])==0)
-			strcpy(status,"Pendente");
-		if(atoi(row[3])==1)
+		if(atoi(row[3]) == STAT_QUITADO)
 			strcpy(status,"Baixado");
+		if(atoi(row[3]) == STAT_PARC_BAIXA)
+			strcpy(status,"Pendente");
+		if(atoi(row[3]) == STAT_PENDENTE)
+			strcpy(status,"Pendente");
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		gtk_tree_store_set(modelo,&campos,

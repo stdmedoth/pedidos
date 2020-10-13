@@ -33,6 +33,8 @@ int rec_orc_datas( struct _orc *orc ){
       return 1;
     }
 
+    orc->parcelas.condpag.parcelas_qnt = mysql_num_rows(res);
+
     while((row = mysql_fetch_row(res))){
       int pos = atoi(row[0]);
       orc->parcelas.datas[pos] = malloc(MAX_DATE_LEN);

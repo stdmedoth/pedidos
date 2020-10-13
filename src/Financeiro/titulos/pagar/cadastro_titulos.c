@@ -187,6 +187,7 @@ int cad_titulos_pagar(){
 
     g_signal_connect(cad_pag_concluir_button,"clicked",G_CALLBACK(cad_pag_concluir_fun),NULL);
     g_signal_connect(cad_pag_alterar_button,"clicked",G_CALLBACK(cad_pag_alterar_fun),NULL);
+    g_signal_connect(cad_pag_excluir_button,"clicked",G_CALLBACK(cad_pag_excluir_fun),NULL);
     g_signal_connect(cad_pag_cancelar_button,"clicked",G_CALLBACK(cad_pag_cancelar_fun),NULL);
 
     g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND]);

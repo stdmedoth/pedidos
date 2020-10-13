@@ -347,8 +347,7 @@ static void popup(GtkWidget *widget,gchar *string){
   else
     gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
 
-  gtk_window_set_position(GTK_WINDOW(popup),GTK_WIN_POS_CENTER_ALWAYS);
-  //gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
+  gtk_window_set_position(GTK_WINDOW(popup),3);
 
 	if(logging == 0)
 		autologger(string);
@@ -539,35 +538,28 @@ int configurar_parametros()
 	query = malloc(MAX_QUERY_LEN);
 	MYSQL_RES *res;
 	MYSQL_ROW  row;
-	for(cont=0;cont<=orc_critic_campos_qnt;cont++)
-	{
-	  sprintf(query,"select critica from criticas where opcao_nome = 'orcamentos' and campo_nome = '%s'",critica_campos[cont]);
 
-		res = consultar(query);
-		if(res!=NULL)
-		{
-			row = mysql_fetch_row(res);
-			if(row!=NULL)
-			{
-				if(atoi(row[0])==1)
-				{
-					switch(cont)
-					{
-						case 0:
-							orcamentos.criticar.prod_movimento = 1;
-							break;
-						case 1:
-							orcamentos.criticar.prod_saldo = 1;
-							break;
-						case 2:
-							orcamentos.criticar.prod_saldo_limite = 1;
-							break;
-						case 3:
-								orcamentos.criticar.orc_ped_cancelado = 1;
-								break;
-					}
-				}
-			}
+  xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
+	if(orc_xml){
+		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
+		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
+		if(orc_prod_mov){
+			orcamentos.criticar.prod_movimento = atoi((const char *)orc_prod_mov->content);
+		}
+
+		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
+		if(orc_prod_saldo){
+			orcamentos.criticar.prod_saldo = atoi((const char *)orc_prod_saldo->content);
+		}
+
+		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
+		if(orc_prod_sld_lmt){
+			orcamentos.criticar.prod_saldo_limite = atoi((const char *)orc_prod_sld_lmt->content);
+		}
+
+		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
+		if(orc_ped_canc){
+			orcamentos.criticar.orc_ped_cancelado = atoi((const char *)orc_ped_canc->content);
 		}
 	}
 

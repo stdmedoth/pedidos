@@ -51,3 +51,4 @@ int cad_rec_concluir_fun();
 #include "cancelar.c"
 #include "alterar.c"
 #include "concluir.c"
+#include "excluir.c"

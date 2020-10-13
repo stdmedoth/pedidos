@@ -130,6 +130,7 @@ int iniciar_gerenciador_janela(){
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;
   janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = rel_fix_fin_rec;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINPAG_WIN].fun = rel_fix_fin_pag;
   janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
 
   janelas_gerenciadas.principal.aberta = 1;

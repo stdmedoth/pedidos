@@ -3,7 +3,7 @@ void relat_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer 
   char *posicao;
   GdkPixbuf *pixbuf;
   int identificacao=0;
-  g_print("recebendo valor do treeicon");
+  g_print("recebendo valor do treeicon\n");
 
   if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path))
     gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,0,&posicao,1,&pixbuf,2,&identificacao,-1);
@@ -36,19 +36,6 @@ int relat_icon_view_wnd(){
   gtk_window_set_icon_name(GTK_WINDOW(fixed_relats_wnd),"text-x-generic");
   gtk_window_set_transient_for(GTK_WINDOW(fixed_relats_wnd),GTK_WINDOW(janela_principal));
 
-/*
-  gtk_tree_store_append(modelo,&iter,NULL);
-  gtk_tree_store_set(modelo,
-    &iter,0,"Relatório Produtos",1,
-    gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_PROD_IMG))),
-    2,REG_REL_FIX_PROD_WIN,-1);
-
-  gtk_tree_store_append(modelo,&iter,NULL);
-  gtk_tree_store_set(modelo,
-    &iter,0,"Relatório Terceiros",1,
-    gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_TER_IMG))),
-    2,REG_REL_FIX_TER_WIN,-1);
-*/
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
     &iter,0,"Vendas",1,
@@ -66,6 +53,12 @@ int relat_icon_view_wnd(){
     &iter,0,"Contas à Receber",1,
     gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_FINREC_IMG))),
     2,REG_REL_FIX_FINREC_WIN,-1);
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,0,"Contas à Pagar",1,
+    gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_FIX_FINPAG_IMG))),
+    2,REG_REL_FIX_FINPAG_WIN,-1);
 
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
   //gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);

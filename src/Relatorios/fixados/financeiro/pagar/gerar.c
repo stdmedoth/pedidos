@@ -1,4 +1,4 @@
-int rel_fix_fin_rec_gerar(){
+int rel_fix_fin_pag_gerar(){
 
   MYSQL_RES *res,*res2,*res3;
   MYSQL_ROW row,row2,row3;
@@ -11,7 +11,7 @@ int rel_fix_fin_rec_gerar(){
   "<html>"
     "<head>"
       "<meta charset=\"utf-8\"/>"
-      "<title>Relatório de Títulos à Receber</title>"
+      "<title>Relatório de Títulos à Pagar</title>"
       "<link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">"
     "</head>";
 
@@ -23,19 +23,19 @@ int rel_fix_fin_rec_gerar(){
     }
   }
 
-  sprintf(file_path,"%s/receber.html",REL_FIX_FIN_PATH);
+  sprintf(file_path,"%s/pagar.html",REL_FIX_FIN_PATH);
   FILE *file_arq = fopen(file_path,"w");
   if(!file_arq){
     popup(NULL,"Não foi possivel escrever no arquivo");
     return 1;
   }
 
-  if(rel_fix_fin_rec_validar())
+  if(rel_fix_fin_pag_validar())
     return 1;
 
-  if(rel_fix_fin_rec_status_int){
+  if(rel_fix_fin_pag_status_int){
     strcpy(status_char,"=");
-    rel_fix_fin_rec_status_int--;
+    rel_fix_fin_pag_status_int--;
   }
   else{
     strcpy(status_char,">=");
@@ -44,7 +44,7 @@ int rel_fix_fin_rec_gerar(){
   fprintf(file_arq,"%s",html_header);
   fprintf(file_arq,"<body>");
   fprintf(file_arq,"<div style='background: Gainsboro;'>");
-  fprintf(file_arq,"<h1>Relatório de Títulos à receber</h1>");
+  fprintf(file_arq,"<h1>Relatório de Títulos à pagar</h1>");
   fprintf(file_arq,"<p>%s</p>",data_sys);
   fprintf(file_arq,"</div>");
   fprintf(file_arq,"<table>");
@@ -52,14 +52,14 @@ int rel_fix_fin_rec_gerar(){
   float parcela = 0, baixa = 0;
   float vlr_total_parcelas=0, vlr_total_baixas=0, vlr_total_faltante=0;
 
-  for(int cont=atoi(rel_fix_fin_rec_tit_gchar1);cont<=atoi(rel_fix_fin_rec_tit_gchar2);cont++){
+  for(int cont=atoi(rel_fix_fin_pag_tit_gchar1);cont<=atoi(rel_fix_fin_pag_tit_gchar2);cont++){
     sprintf(query,"select tit.code, t.code, t.razao, t.doc, t.ie, tit.pedido, tit.status "
     "from titulos as tit inner join terceiros as t on tit.cliente = t.code "
     "where tit.tipo_titulo = %i and tit.code = %i and status %s %i",
-    TP_TIT_REC,
+    TP_TIT_PAG,
     cont,
     status_char,
-    rel_fix_fin_rec_status_int);
+    rel_fix_fin_pag_status_int);
 
     if(!(res = consultar(query))){
       popup(NULL,"Erro ao buscar o título");
@@ -69,10 +69,10 @@ int rel_fix_fin_rec_gerar(){
     if((row = mysql_fetch_row(res))){
       float total_do_tit=0, total_da_baixa=0, total_a_baixar=0;
 
-      if(atoi(row[1]) < atoi(rel_fix_fin_rec_cli_gchar1) || atoi(row[1]) > atoi(rel_fix_fin_rec_cli_gchar2))
+      if(atoi(row[1]) < atoi(rel_fix_fin_pag_cli_gchar1) || atoi(row[1]) > atoi(rel_fix_fin_pag_cli_gchar2))
         continue;
 
-      if(atoi(row[5]) < atoi(rel_fix_fin_rec_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_rec_ped_gchar2))
+      if(atoi(row[5]) < atoi(rel_fix_fin_pag_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_pag_ped_gchar2))
         continue;
 
       sprintf(query,"select posicao,DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'),DATE_FORMAT(data_vencimento,'%%d/%%m/%%Y'),valor from parcelas_tab where parcelas_id = %s", row[0]);
@@ -122,7 +122,7 @@ int rel_fix_fin_rec_gerar(){
             vlr_total_baixas += baixa;
             total_da_baixa += baixa;
 
-            if(atoi(row[0]) < atoi(rel_fix_fin_rec_bx_gchar1) || atoi(row[0]) > atoi(rel_fix_fin_rec_bx_gchar2))
+            if(atoi(row[0]) < atoi(rel_fix_fin_pag_bx_gchar1) || atoi(row[0]) > atoi(rel_fix_fin_pag_bx_gchar2))
               continue;
 
             fprintf(file_arq,"<tr>");
@@ -136,10 +136,11 @@ int rel_fix_fin_rec_gerar(){
 
           vlr_total_faltante += total_do_tit - total_da_baixa;
         }
+        fprintf(file_arq,"<tr><td><b>Total: R$ %.2f</b></td></tr>",total_do_tit);
+        fprintf(file_arq,"<tr><td><b>Baixa: R$ %.2f</b></td></tr>",total_da_baixa);
+        fprintf(file_arq,"<tr><td><b>À Baixar: R$ %.2f</b></td></tr>",total_do_tit - total_da_baixa);
       }
-      fprintf(file_arq,"<tr><td><b>Total: R$ %.2f</b></td></tr>",total_do_tit);
-      fprintf(file_arq,"<tr><td><b>Baixa: R$ %.2f</b></td></tr>",total_da_baixa);
-      fprintf(file_arq,"<tr><td><b>À Baixar: R$ %.2f</b></td></tr>",total_do_tit - total_da_baixa);
+
     }
   }
   fprintf(file_arq,"</table>");
@@ -166,49 +167,49 @@ int rel_fix_fin_rec_gerar(){
 
 
 
-int rel_fix_fin_rec_validar(){
-  if(rel_fix_fin_rec_ped1_fun())
+int rel_fix_fin_pag_validar(){
+  if(rel_fix_fin_pag_ped1_fun())
     return 1;
-  if(rel_fix_fin_rec_ped2_fun())
-    return 1;
-
-  if(rel_fix_fin_rec_tit1_fun())
-    return 1;
-  if(rel_fix_fin_rec_tit2_fun())
+  if(rel_fix_fin_pag_ped2_fun())
     return 1;
 
-  if(rel_fix_fin_rec_status_fun())
+  if(rel_fix_fin_pag_tit1_fun())
+    return 1;
+  if(rel_fix_fin_pag_tit2_fun())
     return 1;
 
-  if(rel_fix_fin_rec_bx1_fun())
-    return 1;
-  if(rel_fix_fin_rec_bx2_fun())
+  if(rel_fix_fin_pag_status_fun())
     return 1;
 
-  if(rel_fix_fin_rec_cli1_fun())
+  if(rel_fix_fin_pag_bx1_fun())
     return 1;
-  if(rel_fix_fin_rec_cli2_fun())
-    return 1;
-
-  if(rel_fix_fin_rec_datacriacao1_fun())
-    return 1;
-  if(rel_fix_fin_rec_datacriacao2_fun())
+  if(rel_fix_fin_pag_bx2_fun())
     return 1;
 
-  if(rel_fix_fin_rec_databaixa1_fun())
+  if(rel_fix_fin_pag_cli1_fun())
     return 1;
-  if(rel_fix_fin_rec_databaixa2_fun())
-    return 1;
-
-  if(rel_fix_fin_rec_datavencimento1_fun())
-    return 1;
-  if(rel_fix_fin_rec_datavencimento2_fun())
+  if(rel_fix_fin_pag_cli2_fun())
     return 1;
 
-  if(rel_fix_fin_rec_combovalor_fun())
+  if(rel_fix_fin_pag_datacriacao1_fun())
+    return 1;
+  if(rel_fix_fin_pag_datacriacao2_fun())
     return 1;
 
-  if(rel_fix_fin_rec_entryvalor_fun())
+  if(rel_fix_fin_pag_databaixa1_fun())
+    return 1;
+  if(rel_fix_fin_pag_databaixa2_fun())
+    return 1;
+
+  if(rel_fix_fin_pag_datavencimento1_fun())
+    return 1;
+  if(rel_fix_fin_pag_datavencimento2_fun())
+    return 1;
+
+  if(rel_fix_fin_pag_combovalor_fun())
+    return 1;
+
+  if(rel_fix_fin_pag_entryvalor_fun())
     return 1;
 
   return 0;

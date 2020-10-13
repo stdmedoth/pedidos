@@ -211,6 +211,7 @@ int cad_titulos_receber(){
 
     g_signal_connect(cad_rec_concluir_button,"clicked",G_CALLBACK(cad_rec_concluir_fun),NULL);
     g_signal_connect(cad_rec_alterar_button,"clicked",G_CALLBACK(cad_rec_alterar_fun),NULL);
+    g_signal_connect(cad_rec_excluir_button,"clicked",G_CALLBACK(cad_rec_excluir_fun),NULL);
     g_signal_connect(cad_rec_cancelar_button,"clicked",G_CALLBACK(cad_rec_cancelar_fun),NULL);
 
     g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND]);

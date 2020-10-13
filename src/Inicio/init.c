@@ -32,10 +32,6 @@ int desktop()
 	GtkWidget  *juncao;
 	GtkWidget  *layout;
 	GtkWidget *fixed_menu;
-	//GtkWidget *param_button;
-	//GtkWidget *sair_button;
-	//GtkWidget *logoff_button;
-	//GtkWidget *suport_button;
 
 	GtkWidget *hostname_fixed, *hostname_label;
 	GtkWidget *nome_usuario_label,*nome_usuario_fixed;
@@ -140,17 +136,6 @@ int desktop()
 		ativar.tecnicos=0;
 
 	fixed_menu = gtk_fixed_new();
-	//param_button = gtk_button_new();
-	//gtk_button_set_image(GTK_BUTTON(param_button),gtk_image_new_from_icon_name("emblem-system",GTK_ICON_SIZE_DIALOG));
-
-	//sair_button = gtk_button_new();
-	//gtk_button_set_image(GTK_BUTTON(sair_button),gtk_image_new_from_icon_name("application-exit",GTK_ICON_SIZE_DIALOG));
-
-	//logoff_button = gtk_button_new();
-	//gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
-
-	//suport_button = gtk_button_new();
-	//gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("task-due",GTK_ICON_SIZE_DIALOG));
 
 	pegar_data();
 
@@ -169,7 +154,6 @@ int desktop()
 		gtk_main_quit();
 		return 1;
 	}
-
 
 	personalizacao.tema = atoi(row[2]);
 	personalizacao.janela_init = atoi(row[3]);
@@ -216,14 +200,6 @@ int desktop()
 		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
 	}
 
-	//imagem_barra = gtk_box_new(1,0);
-	//gtk_widget_set_name(imagem_barra,"barra");
-	//layout_barra  = gtk_layout_new(NULL,NULL);
-	//botao_iniciar = gtk_button_new_with_label("Menu");
-	//gtk_button_set_image(GTK_BUTTON(botao_iniciar),gtk_image_new_from_icon_name("help-contents",GTK_ICON_SIZE_SMALL_TOOLBAR));
-	//gtk_widget_set_name(GTK_WIDGET(botao_iniciar),"botao");
-
-	//criacao
 	caixa_infos = gtk_box_new(1,0);
 
 	superior = gtk_box_new(0,0);
@@ -236,11 +212,9 @@ int desktop()
 
 	barra = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_widget_set_name(barra,"barra");
-	//gtk_widget_set_name(botao_iniciar,"botao_iniciar");
 
 	juncao = gtk_box_new(1,0);
 	area_de_trabalho = gtk_box_new(0,0);
-	//fixed_sup_border = gtk_fixed_new();
 
 	cad_emp_recebe();
 
@@ -326,21 +300,9 @@ int desktop()
 
 	gtk_box_pack_start(GTK_BOX(area_de_trabalho),juncao,0,0,0);
 
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,470);
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,530);
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,590);
-	//gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,650);
-
-	//gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
-	//gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
-	//gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
-	//gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
-	//gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
-
 	gtk_widget_set_size_request(barra,80,750);
-	//gtk_widget_set_size_request(layout_barra,80,750);
+
+	notificacoes_receber();
 
 	GtkWidget *barra_icones = barra_icones_wnd();
 	gtk_widget_set_size_request(barra_icones,80,750);
