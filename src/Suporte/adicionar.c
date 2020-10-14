@@ -208,7 +208,7 @@ int post_recarregar_posts(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  for(int cont=0;cont<=MAX_POST_QNT;cont++){
+  for(int cont=0;cont<MAX_POST_QNT;cont++){
     if(sup_vet_posts_qnt[cont]){
       gtk_grid_remove_row(GTK_GRID(suport_grid),cont);
       free(sup_status_nomes[cont]);

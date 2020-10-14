@@ -1,5 +1,16 @@
 gchar *oper_nome_login,*oper_senha_login;
 
+void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry){
+	if(senha_entry){
+		GtkInputPurpose tipo = gtk_entry_get_input_purpose(GTK_ENTRY(senha_entry));
+		if((gtk_entry_get_visibility(GTK_ENTRY(senha_entry)))){
+			gtk_entry_set_visibility(GTK_ENTRY(senha_entry),FALSE);
+		}else{
+			gtk_entry_set_visibility(GTK_ENTRY(senha_entry),TRUE);
+		}
+	}
+}
+
 void passa_nome()
 {
 	oper_nome_login = malloc(MAX_OPER_LEN);
@@ -72,6 +83,7 @@ void login()
 	GtkWidget *oper_psq_button, *oper_nome_box;
 	GtkWidget *nome_label,*senha_label;
 	GtkWidget *caixa_login,*caixa_nome,*caixa_senha,*caixa_opcoes;
+	GtkWidget *caixa_senha_visubutton, *senha_visubutton;
 
 	GtkWidget *nome_fixed, *senha_fixed;
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -100,6 +112,10 @@ void login()
 	senha_label = gtk_label_new("Senha");
 	enviar_login = gtk_button_new_with_label("Logar");
 	fechar_login = gtk_button_new_with_label("Cancelar");
+	senha_visubutton = gtk_button_new();
+	caixa_senha_visubutton = gtk_box_new(0,0);
+
+	gtk_button_set_image(GTK_BUTTON(senha_visubutton),gtk_image_new_from_icon_name("security-low",GTK_ICON_SIZE_BUTTON));
 
 	nome_entry = gtk_entry_new();
 	senha_entry = gtk_entry_new();
@@ -108,7 +124,7 @@ void login()
 	gtk_entry_set_placeholder_text(GTK_ENTRY(senha_entry),"Senha:");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_entry),GTK_ENTRY_ICON_PRIMARY,"user-info");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(senha_entry),GTK_ENTRY_ICON_PRIMARY,"dialog-password");
-	gtk_entry_set_input_purpose(GTK_ENTRY(senha_entry),GTK_INPUT_PURPOSE_PIN);
+	gtk_entry_set_input_purpose(GTK_ENTRY(senha_entry),GTK_INPUT_PURPOSE_PASSWORD);
 	gtk_entry_set_visibility(GTK_ENTRY(senha_entry),FALSE);
 	caixa_nome = gtk_box_new(1,0);
 	caixa_senha = gtk_box_new(1,0);
@@ -120,8 +136,11 @@ void login()
 	gtk_box_pack_start(GTK_BOX(oper_nome_box),oper_psq_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_nome),oper_nome_box,0,0,0);
 
+	gtk_box_pack_start(GTK_BOX(caixa_senha_visubutton),senha_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_senha_visubutton),senha_visubutton,0,0,5);
+
 	gtk_box_pack_start(GTK_BOX(caixa_senha),senha_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_senha),senha_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_senha),caixa_senha_visubutton,0,0,0);
 
 	gtk_fixed_put(GTK_FIXED(nome_fixed),caixa_nome,15,10);
 	gtk_fixed_put(GTK_FIXED(senha_fixed),caixa_senha,15,10);
@@ -143,6 +162,7 @@ void login()
 	g_signal_connect(nome_entry,"activate",G_CALLBACK(passa_nome),NULL);
 	g_signal_connect(senha_entry,"activate",G_CALLBACK(passa_senha),NULL);
 
+	g_signal_connect(senha_visubutton,"clicked",G_CALLBACK(oper_ver_senha),senha_entry);
 	g_signal_connect(oper_psq_button,"clicked",G_CALLBACK(psq_oper),nome_entry);
 
 	g_handle_janela_login = g_signal_connect(janela_login,"destroy",G_CALLBACK(encerrando),NULL);

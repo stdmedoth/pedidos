@@ -26,20 +26,28 @@ int entry_fin_rec_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
   gtk_tree_store_clear(treestore);
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
-	char status[100];
+	char status[50];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 	char query[MAX_QUERY_LEN];
-	gchar *entrada = malloc(MAX_GRP_LEN);
-	entrada = (gchar*)gtk_entry_get_text(widget);
+
+	gchar *entrada = (gchar*)gtk_entry_get_text(widget);
+	if(!strlen(entrada)){
+		entrada = malloc(5);
+		strcpy(entrada,"");
+	}
+
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
 	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = %i order by p.data_vencimento desc limit 30",37,entrada,37,TP_TIT_REC);
-	if(!(res = consultar(query)))
+
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar títulos");
 		return 1;
+	}
 
 	while((row = mysql_fetch_row(res))){
 

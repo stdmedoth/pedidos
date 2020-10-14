@@ -6,8 +6,9 @@ int cad_pag_valor_fun(){
     popup(NULL,"Insira o valor da parcela");
     return 1;
   }
-  sprintf(valor,"%.2f",atof(cad_pag_valor_gchar));
-  gtk_entry_set_text(GTK_ENTRY(cad_pag_valor_entry),valor);
+
+  if(critica_real(cad_pag_valor_gchar, cad_pag_valor_entry))
+    return 1;
 
 
   gtk_widget_grab_focus(cad_pag_concluir_button);

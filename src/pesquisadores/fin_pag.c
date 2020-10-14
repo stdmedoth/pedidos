@@ -21,33 +21,42 @@ int entry_fin_pag_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=7,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4, COLUMN5=5, COLUMN6=6};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
-    g_object_ref(G_OBJECT(treestore));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
-    gtk_tree_store_clear(treestore);
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
+  g_object_ref(G_OBJECT(treestore));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
+  gtk_tree_store_clear(treestore);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
-	char status[30];
+	char status[50];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 	char query[MAX_QUERY_LEN];
-	gchar *entrada = malloc(MAX_GRP_LEN);
-	entrada = (gchar*)gtk_entry_get_text(widget);
+
+	gchar *entrada = (gchar*)gtk_entry_get_text(widget);
+	if(!strlen(entrada)){
+		entrada = malloc(5);
+		strcpy(entrada,"");
+	}
+
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
 	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code and t.razao like '%c%s%c' where tipo_titulo = %i order by p.data_vencimento asc limit 30",37,entrada,37,TP_TIT_PAG);
+
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível consultar títulos");
 		return 1;
 	}
-	while((row = mysql_fetch_row(res))!=NULL){
+
+	while((row = mysql_fetch_row(res))){
 
 		if(atoi(row[3]) == STAT_QUITADO)
 			strcpy(status,"Tit. Baixado");
+
 		if(atoi(row[3]) == STAT_PARC_BAIXA)
 			strcpy(status,"Tit. Parc. Baixado");
+
 		if(atoi(row[3]) == STAT_PENDENTE)
 			strcpy(status,"Tit. Pendente");
 

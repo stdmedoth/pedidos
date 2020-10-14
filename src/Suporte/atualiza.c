@@ -71,7 +71,8 @@ int suporte_princ_atualiza(GtkWidget *entry, int posicao){
     return 1;
   }
 
-  gtk_widget_grab_focus(descr_list[posicao]);
+  if(descr_list[posicao])
+    gtk_widget_grab_focus(descr_list[posicao]);
 
   post_recarregar_posts();
   return 0;
