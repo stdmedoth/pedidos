@@ -99,6 +99,8 @@
 #include "../Financeiro/baixas/pagar/cadastro_baixas.h"
 #include "../Financeiro/bancos/cad_bancos.h"
 #include "../Financeiro/titulos/pagar/contas_fixas/contas_fixas.h"
+#include "../Financeiro/titulos/etc/importacao/importador.h"
+#include "../Financeiro/titulos/etc/importacao/iniciar.h"
 
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"
@@ -244,6 +246,9 @@
 #include "../Financeiro/baixas/pagar/cadastro_baixas.c"
 #include "../Financeiro/bancos/cad_bancos.c"
 #include "../Financeiro/titulos/pagar/contas_fixas/contas_fixas.c"
+#include "../Financeiro/titulos/etc/importacao/importador.c"
+#include "../Financeiro/titulos/etc/importacao/iniciar.c"
+
 
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"

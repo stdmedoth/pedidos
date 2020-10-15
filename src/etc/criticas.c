@@ -40,3 +40,30 @@ int critica_real(gchar *valor, GtkWidget *entrada)
 
 	return 0;
 }
+
+
+
+int simp_critica_real(gchar *valor)
+{
+	int cont,ok=0,pos,qnt=0;
+	char *mensagem;
+	char *formatar;
+
+	if(!valor){
+		g_print("valor nulo com ponteiro\n");
+		return 1;
+	}
+
+	for(int cont=0;cont<strlen(valor);cont++){
+		if(valor[cont] == 45){
+			valor[cont] = 45;
+		}else
+		if(valor[cont] == 44){
+			valor[cont] = 46;
+		}else
+		if( (valor[cont] != 46) && !isdigit(valor[cont]) && !isspace(valor[cont]) ){
+			valor[cont] = ' ';
+		}
+	}
+	return 0;
+}

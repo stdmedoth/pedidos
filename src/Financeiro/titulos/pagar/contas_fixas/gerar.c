@@ -59,7 +59,7 @@ int cad_conta_fixa_gerar(gchar *filepath){
       gdate_int = g_date_time_add_days(gdate_int,conta_fix_int_int);
     else{
       popup(NULL,"Não foi possível identificar tipo de intervalo");
-      return 1;
+      return 0;
     }
     if(g_date_time_compare(gdate_int, gdate_fim) >= 0){
       break;
@@ -67,10 +67,14 @@ int cad_conta_fixa_gerar(gchar *filepath){
 
     parcs_qnt++;
   }
+
   fprintf(arquivo,"</table>");
   fprintf(arquivo,"</div>");
   fprintf(arquivo,"</html>");
   fclose(arquivo);
-  desenhar_pdf(filepath);
+
+  imp_opc = HTML_IMP;
+  iniciar_impressao(filepath);
+
   return parcs_qnt;
 }

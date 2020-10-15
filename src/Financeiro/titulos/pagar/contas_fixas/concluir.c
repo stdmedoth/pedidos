@@ -30,6 +30,7 @@ int cad_conta_fixa_concluir(){
     popup(NULL,"Nenhum título foi criado");
     return 1;
   }
+
   if( !PopupBinario("Aguarde e confira os títulos antes de confirmar", "Data e Valores corretos", "Erros encontrados, Não prosseguir")){
     popup(NULL,"Nenhum título criado");
     return 1;
@@ -85,6 +86,18 @@ int cad_conta_fixa_concluir(){
 
   while(1){
 
+    sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s')",
+    atoi(conta_fix_id_gchar),
+    parcs_qnt,
+    conta_fix_dtini_gchar,
+    g_date_time_format(gdate_int,"%d/%m/%Y"),
+    conta_fix_valor_gchar);
+
+    if(enviar_query(query)){
+      popup(NULL,"Erro ao inserir parcela");
+      return 1;
+    }
+
     if(conta_fix_tipo_int == CONTA_FIXA_DIAS)
       gdate_int = g_date_time_add_days(gdate_int,conta_fix_int_int);
     else
@@ -97,18 +110,6 @@ int cad_conta_fixa_concluir(){
 
     if(g_date_time_compare(gdate_int, gdate_fim) >= 0){
       break;
-    }
-
-    sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor) values(%i, %i, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s')",
-    atoi(conta_fix_id_gchar),
-    parcs_qnt,
-    conta_fix_dtini_gchar,
-    g_date_time_format(gdate_int,"%d/%m/%Y"),
-    conta_fix_valor_gchar);
-
-    if(enviar_query(query)){
-      popup(NULL,"Erro ao inserir parcela");
-      return 1;
     }
 
     parcs_qnt++;

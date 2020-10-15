@@ -114,17 +114,19 @@ char *status_tit_str(int status){
 char *formatar_data(char *data){
 	int dia=0,mes=0,ano=0;
 	int formats_qnt=4;
-	//160820
 
+
+  if(!strlen(data)){
+    data = malloc(strlen(data_sys));
+    strcpy(data,data_sys);
+  }
 	char *format = string_to_int(data);
-
 	//provaveis formatos de data
 
 	char *formats[] = {"%2d%2d%4d",
                     "%2d%2d%2d",
                     "%1d%1d%4d",
-                    "%1d%1d%2d",
-                    "%d/%d/%d"};
+                    "%1d%1d%2d"};
 	if(!data)
 		return NULL;
 
@@ -891,4 +893,32 @@ xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo){
   }
 	gtk_widget_destroy(janela);
   return NULL;
+}
+
+
+char **get_csv_line(char *line){
+  int v_=0,v=0,pos=0;
+
+  for(int cont=0;cont<strlen(line);cont++){
+    if(line[cont] == ';'){
+      v_++;
+    }
+  }
+
+  char **vetor = malloc(strlen(line)*v_);
+  vetor[0] = malloc(strlen(line));
+  strcpy(vetor[0],"");
+  for(int cont=0;cont<strlen(line);cont++){
+    if(line[cont] == ';'){
+      vetor[v][pos] = '\0';
+      v++;
+      pos = 0;
+      vetor[v] = malloc(strlen(line));
+      strcpy(vetor[v],"");
+      continue;
+    }
+    vetor[v][pos] = line[cont];
+    pos++;
+  }
+  return vetor;
 }
