@@ -1,5 +1,10 @@
-int abrir_css(char *path)
-{
+int load_styles(){
+	abrir_css(DESKTOP_STYLE);
+	abrir_css(KANBAN_STYLE);
+	return 0;
+}
+
+int abrir_css(char *path){
 	GdkDisplay *display;
 	GtkCssProvider *fornecedor;
 	GFile *arquivo;
@@ -8,6 +13,10 @@ int abrir_css(char *path)
 
 	fornecedor = gtk_css_provider_new();
 	arquivo    = g_file_new_for_path(path);
+	if(!arquivo){
+		popup(NULL,"Não foi possível abrir estilos\n");
+		return 1;
+	}
 	screen = gdk_screen_get_default();
 
 	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(fornecedor),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

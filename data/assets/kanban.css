@@ -1,0 +1,22 @@
+#botao-style {
+  background-color:rgba(192,192,192,0.3);
+	border-radius: 20px;
+}
+
+#titulo-box{
+  border: 1px dotted grey;
+  border-radius: 5px;
+  font-size: 22px;
+  font-family: cursive;
+}
+
+#data-entrega-box{
+  border: 1px inset grey;
+  border-radius: 5px;
+}
+
+#cartao-box{
+  padding: 10px;
+	border: 1px inset grey;
+  border-radius: 5px;
+}

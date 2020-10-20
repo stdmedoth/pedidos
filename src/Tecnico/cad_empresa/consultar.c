@@ -38,6 +38,11 @@ int cad_emp_consulta(){
   strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
 
+  if(row[EMP_SOBRE_COL]){
+    strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cad_emp_sobre_text_view));
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[EMP_SOBRE_COL], strlen(row[EMP_SOBRE_COL]));
+  }
   cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   char smtp_port[6];
   sprintf(smtp_port,"%i",cad_emp_strc.smtp_port);
@@ -101,6 +106,11 @@ int cad_emp_recebe(){
   cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
+  if(row[EMP_SOBRE_COL]){
+    strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
+  }else{
+    sprintf(cad_emp_strc.sobre,"Sistema para empresa '%s' responsável pelo CNPJ '%s', localizada no municipio de '%s'",cad_emp_strc.xNome, cad_emp_strc.CNPJ, cad_emp_strc.xMun);
+  }
 
   //formatando link do servidor smtp
   sprintf(cad_emp_strc.url_smtp,"smtp://%s:%i",cad_emp_strc.smtp, cad_emp_strc.smtp_port);

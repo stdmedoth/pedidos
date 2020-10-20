@@ -2,5 +2,5 @@
 	<endereco>localhost</endereco>
 	<usuario>petitto</usuario>
 	<senha>1234</senha>
-	<banco>erp</banco>
+	<banco>contas</banco>
 </server_conf>

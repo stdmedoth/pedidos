@@ -72,5 +72,13 @@
 #entry_unsensetivate{
   color: black;
   font-weight: bold;
-  text-shadow: 1px 1px 10px grey;
+  text-shadow: 1px 1px 5px grey;
+}
+
+#texto_sobre{
+  margin-top: 50px;
+  color: black;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px #dcdcdc;
+  font-size: 10px;
 }

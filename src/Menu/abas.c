@@ -17,17 +17,11 @@ int menu(void)
 	GtkWidget *lembrete_box, *lembrete_fixed , *lembrete_ico, *lembrete_label;
 
 	//aba principal
-	GtkWidget *texto_principal;
+	GtkWidget *texto_sobre;
 	gchar *texto;
 	texto = malloc(2000);
 
-	texto = "\n\n\n\n\n\n"
-			"\tA PETITTO é uma empresa de venda de materiais e máquinas para encadernação fundada em 1995.\n"
-			"\tSomos uma empresa que tem como princípio a perseverança, fé, seriedade e verdadeiro compromisso\n"
-			"\tde parceria com nossos clientes e fornecedores.\n\n"
-			"\tA mais de 20 anos no mercado, a PETITTO buscar priorizar três principais objetivos:\n"
-			"\tBom atendimento ao cliente, qualidade em nossos produtos e rapidez em nossas entregas.";
-
+	strcpy(texto,cad_emp_strc.sobre);
 
 	principal    = gtk_box_new(1,0);
 	cadastros    = gtk_box_new(1,0);
@@ -50,7 +44,8 @@ int menu(void)
 	relatorios_label  = gtk_label_new("RELATÓRIOS");
 	tecnicos_label  = gtk_label_new("FERRAMENTAS TÉCNICAS");
 
-	texto_principal = gtk_label_new(texto);
+	texto_sobre = gtk_label_new(texto);
+	gtk_widget_set_name(texto_sobre,"texto_sobre");
 
 //	lembrete_fixed = gtk_fixed_new();
 //	lembrete_box   = gtk_box_new(1,0);
@@ -81,7 +76,7 @@ int menu(void)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 
-	gtk_box_pack_start(GTK_BOX(principal),texto_principal,0,0,0);
+	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,0);
 	//gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
 
 	add_icones();

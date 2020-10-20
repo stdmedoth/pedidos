@@ -47,7 +47,8 @@ create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
   smtp varchar(100) default '' not null,
   porta int default 587 not null,
   email varchar(100) default '' not null,
-  senhaemail varchar(100) default '' not null);
+  senhaemail varchar(100) default '' not null,
+  sobre varchar(500));
 
 create table if not exists perfil_desktop(code int primary key auto_increment,
   desktop_img int default 0,

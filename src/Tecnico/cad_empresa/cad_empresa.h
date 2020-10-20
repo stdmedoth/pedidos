@@ -13,6 +13,7 @@
 #define EMP_SMTP_PORT_COL 12
 #define EMP_EMAIL_COL 13
 #define EMP_EMAILSEN_COL 14
+#define EMP_SOBRE_COL 15
 
 GtkWidget *cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
@@ -29,6 +30,7 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_smtp_port_entry,
 *cad_emp_email_entry,
 *cad_emp_emailsenha_entry,
+*cad_emp_sobre_text_view,
 *cad_emp_img_init_entry,
 *cad_emp_img_init_chooser,
 *cad_emp_script_path_entry,
@@ -59,6 +61,8 @@ static struct{
   char url_smtp[MAX_EMAIL_LEN];
   char email[MAX_EMAIL_LEN];
   char email_senha[100];
+
+  char sobre[MAX_OBS_LEN];
 
   char init_image_path[MAX_PATH_LEN];
   char script_bin_path[MAX_PATH_LEN];

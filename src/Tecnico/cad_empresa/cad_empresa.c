@@ -29,6 +29,7 @@ int cadastro_empresa(){
   *cad_emp_img_init_frame,
   *cad_emp_img_init_box,
   *cad_emp_script_path_frame,
+  *cad_emp_sobre_frame,
   *cad_emp_script_path_box,
   *cad_emp_box;
 
@@ -46,6 +47,7 @@ int cadastro_empresa(){
   *cad_emp_smtp_fixed,
   *cad_emp_smtp_port_fixed,
   *cad_emp_email_fixed,
+  *cad_emp_sobre_fixed,
   *cad_emp_emailsenha_fixed,
   *cad_emp_img_init_fixed,
   *cad_emp_script_path_fixed;
@@ -232,16 +234,27 @@ int cadastro_empresa(){
   cad_emp_img_init_fixed = gtk_fixed_new();
   cad_emp_img_init_box = gtk_box_new(0,0);
 
+  cad_emp_sobre_text_view = gtk_text_view_new();
+  cad_emp_sobre_frame = gtk_frame_new("Sobre");
+  cad_emp_sobre_fixed = gtk_fixed_new();
+  gtk_widget_set_size_request(cad_emp_sobre_text_view,400,100);
+
   gtk_box_pack_start(GTK_BOX(cad_emp_img_init_box),cad_emp_img_init_entry,0,0,5);
   gtk_box_pack_start(GTK_BOX(cad_emp_img_init_box),cad_emp_img_init_chooser,0,0,5);
   gtk_container_add(GTK_CONTAINER(cad_emp_img_init_frame),cad_emp_img_init_box);
+  gtk_container_add(GTK_CONTAINER(cad_emp_sobre_frame),cad_emp_sobre_text_view);
+
   gtk_fixed_put(GTK_FIXED(cad_emp_img_init_fixed),cad_emp_img_init_frame,20,20);
+  gtk_fixed_put(GTK_FIXED(cad_emp_sobre_fixed),cad_emp_sobre_frame,20,20);
 
   gtk_box_pack_start(GTK_BOX(person_linha1),cad_emp_img_init_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(person_linha2),cad_emp_script_path_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(person_linha3),cad_emp_sobre_fixed,0,0,0);
 
-  gtk_box_pack_start(GTK_BOX(person_colunas),person_linha1,0,0,0);
-  gtk_box_pack_start(GTK_BOX(person_colunas),person_linha2,0,0,0);
+
+  gtk_box_pack_start(GTK_BOX(person_colunas),person_linha1,0,0,5);
+  gtk_box_pack_start(GTK_BOX(person_colunas),person_linha2,0,0,5);
+  gtk_box_pack_start(GTK_BOX(person_colunas),person_linha3,0,0,5);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(cad_emp_notebook),infos_colunas,gtk_label_new("informações"));
   gtk_notebook_append_page(GTK_NOTEBOOK(cad_emp_notebook),person_colunas,gtk_label_new("Personalização"));

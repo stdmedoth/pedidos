@@ -37,6 +37,7 @@ CAD_TRSP_WND,
 REG_NOTIF,
 CAD_CONT_FIX_WND,
 IMPORT_TITS_WND,
+KANBAN_PRINC_WND,
 REG_WIN_QNT};
 
 #define REG_PRINC_WIN 9990
@@ -80,7 +81,8 @@ static const char *janelas_nomes[] = {
   "Cadastro de Transportes",
   "Notificações",
   "Contas Fixas",
-  "Importador de títulos"};
+  "Importador de títulos",
+  "Kanban"};
 
 typedef struct _janelas_info{
   int reg_id;

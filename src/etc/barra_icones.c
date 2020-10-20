@@ -38,7 +38,7 @@ int *barra_icones_rem(){
   return 0;
 }
 
-GtkWidget *penden_button, *param_button, *sair_button, *logoff_button, *suport_button;
+GtkWidget *penden_button, *param_button, *sair_button, *logoff_button, *suport_button, *kanban_button;
 
 GtkWidget *barra_icones_wnd(){
 
@@ -61,6 +61,8 @@ GtkWidget *barra_icones_wnd(){
 	suport_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("system-help",GTK_ICON_SIZE_DIALOG));
 
+	kanban_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(kanban_button),gtk_image_new_from_icon_name("emblem-documents",GTK_ICON_SIZE_DIALOG));
 
   imagem_barra = gtk_box_new(1,0);
 	gtk_widget_set_name(imagem_barra,"barra");
@@ -77,17 +79,21 @@ GtkWidget *barra_icones_wnd(){
   gtk_layout_put(GTK_LAYOUT(layout_barra),penden_button,0,60);
   gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,120);
   gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,180);
+	gtk_layout_put(GTK_LAYOUT(layout_barra),kanban_button,0,240);
 
   /*sessao*/
   gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,590);
   gtk_layout_put(GTK_LAYOUT(layout_barra),sair_button,0,650);
 
-  gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
-  gtk_widget_set_size_request(GTK_WIDGET(penden_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
+
+	gtk_widget_set_size_request(GTK_WIDGET(penden_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
   gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
-  gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(kanban_button),75,60);
+
+	gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
   gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
-  gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
 
 
   g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
@@ -98,10 +104,11 @@ GtkWidget *barra_icones_wnd(){
 
   g_signal_connect(GTK_BUTTON(param_button),"clicked",G_CALLBACK(parametrizar),NULL);
 
-  g_signal_connect(GTK_BUTTON(suport_button),"clicked",G_CALLBACK(suporte_princ_wnd),NULL);
+	g_signal_connect(GTK_BUTTON(kanban_button),"clicked",G_CALLBACK(kanban_princ_wnd),NULL);
+
+	g_signal_connect(GTK_BUTTON(suport_button),"clicked",G_CALLBACK(suporte_princ_wnd),NULL);
 
   g_signal_connect(GTK_BUTTON(logoff_button),"clicked",G_CALLBACK(fechar_sessao),NULL);
-
 
   gtk_widget_set_size_request(layout_barra,80,750);
 

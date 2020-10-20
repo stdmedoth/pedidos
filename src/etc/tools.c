@@ -307,6 +307,8 @@ int autologger(char *string)
 	string2 = malloc(MAX_QUERY_LEN+strlen(string));
 
 	sprintf(string1,"%s",string);
+  //ainda um pouco pesado, vou melhorar...
+
 /*
 	for(int cont=0;cont<strlen(string1);cont++){
 		if(string1[cont] == '\n')

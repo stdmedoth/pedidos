@@ -1,13 +1,16 @@
 int cad_emp_atualiza(){
   MYSQL_RES*res;
   MYSQL_ROW row;
+  GtkTextIter inicio,fim;
   char query[MAX_QUERY_LEN];
+
+  GtkTextBuffer *sobre_buffer;
 
   char *nome,*cnpj,*logr,*cep,
   *bairro,*cidade,*uf,*telefone,
   *celular, *smtp_server,*smtp_port,
-  *email, *senhaemail, *path_img_init
-  ,*path_script;
+  *email, *senhaemail, *sobre, *path_img_init,
+  *path_script;
 
   int numrua,tiporua;
 
@@ -24,6 +27,9 @@ int cad_emp_atualiza(){
   celular = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_celular_entry));
   smtp_server = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_smtp_entry));
   smtp_port = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_smtp_port_entry));
+  sobre_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cad_emp_sobre_text_view));
+  gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(sobre_buffer),&inicio,&fim);
+  sobre = gtk_text_buffer_get_text(sobre_buffer,&inicio,&fim,TRUE);
   if(!smtp_port)
     smtp_port = strdup("587");
 
@@ -34,17 +40,17 @@ int cad_emp_atualiza(){
 
   //informativos
   if(cad_emp_prim){
-    sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s')",
+    sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
     cnpj, nome,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
-    celular,smtp_server, atoi(smtp_port), email, senhaemail);
+    celular,smtp_server, atoi(smtp_port), email, senhaemail,sobre);
 
   }else{
 
-    sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', smtp_port = '%i', email = '%s', senhaemail = '%s'",
+    sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
     cnpj, nome  ,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
-    celular, smtp_server, atoi(smtp_port), email, senhaemail);
+    celular, smtp_server, atoi(smtp_port), email, senhaemail, sobre);
   }
 
   if(enviar_query(query)){
@@ -70,6 +76,8 @@ int cad_emp_atualiza(){
     popup(NULL,"Erro ao atualizar Personalizações técnicas");
     return 1;
   }
+  if(cad_emp_recebe())
+    return 1;
   popup(NULL,"Informações atualizadas com suceeso");
 
   return 0;

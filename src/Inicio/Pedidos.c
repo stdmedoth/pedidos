@@ -58,7 +58,7 @@ int main(int argc,char *argv[])
 	if(rec_vars_from_file())
 		return 1;
 
-	abrir_css(DESKTOP_STYLE);
+	load_styles();
 
 	janelas_gerenciadas.aplicacao.criada = 0;
 

@@ -1,9 +1,9 @@
 #include "xml_tools.h"
 #include "tools.h"
 #include "impressao.h"
-#include "css.c"
 #include "vars.h"
 #include "stoi.h"
+#include "css.h"
 #include "criticas.h"
 #include "barra_icones.h"
 #include "analisa_campos.h"
@@ -133,11 +133,14 @@
 #include "../Gestao/enviar_email.h"
 #include "../Gestao/Notificacao/notificacao.h"
 
+#include "../Kanban/kanban.h"
+
 #include "receber_confs.c"
 #include "xml_tools.c"
 #include "tools.c"
 #include "criticas.c"
 #include "pesquisador.c"
+#include "css.c"
 #include "personalizacao.c"
 #include "parametros.c"
 #include "impressao.c"
@@ -272,6 +275,7 @@
 
 #include "../Gestao/enviar_email.c"
 #include "../Gestao/Notificacao/notificacao.c"
+#include "../Kanban/kanban.c"
 
 #include "../Emissor/cria_xml.c"
 
