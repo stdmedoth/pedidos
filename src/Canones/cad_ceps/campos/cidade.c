@@ -9,18 +9,16 @@ int cad_ceps_cid_code_fun(){
   cad_cid_descr_gchar = malloc(MAX_CID_LEN);
   cad_cid_ibge_gchar = malloc(MAX_CODE_LEN);
   sprintf(query,"select * from cidade where id_cidade = '%s'",cad_ceps_cid_code_gchar);
-
-	if(!(vetor = consultar(query)))
-	{
+	if(!(vetor = consultar(query))){
 		popup(NULL,"Erro na query para cidade\n\tConsulte suporte");
-		gtk_widget_grab_focus(GTK_WIDGET(cad_ceps_cep_entry));
+	   gtk_widget_grab_focus(cad_ceps_cid_code_entry);
 		return 1;
 	}
 
-  if(!(campos = mysql_fetch_row(vetor)))
-	{
+  if(!(campos = mysql_fetch_row(vetor))){
     cad_cid_descr_gchar = "";
-    gtk_widget_grab_focus(GTK_WIDGET(cad_ceps_descr_entry));
+    popup(NULL,"Cidade não existente");
+    gtk_widget_grab_focus(cad_ceps_cid_code_entry);
 		return 0;
 	}
 
@@ -28,6 +26,6 @@ int cad_ceps_cid_code_fun(){
   strcpy(cad_cid_ibge_gchar,campos[3]);
 
 	gtk_entry_set_text(GTK_ENTRY(cad_ceps_cid_descr_entry),campos[1]);
-
+  gtk_widget_grab_focus(cad_cep_confirma_button);
   return 0;
 }

@@ -28,7 +28,7 @@ int rel_ico(void)
 		gtk_widget_set_name(rel_box[cont],"icone");
 		eventos[cont] = gtk_event_box_new();
 		gtk_container_add(GTK_CONTAINER(eventos[cont]),rel_box[cont]);
-		if(cont2==ICOL-1)
+		if(cont2==ICOL)
 		{
 			linha++;
 			cont2=0;

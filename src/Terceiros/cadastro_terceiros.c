@@ -509,7 +509,6 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),prazo,0,0,10);    //outros
 	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),frete_pago_box,0,0,10);
 
-	titulos_cadter.cliente = 1;
 	GtkWidget *lista_titulos = titulos_get_widget(&titulos_cadter);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod,0,0,10);

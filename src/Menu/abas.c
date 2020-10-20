@@ -46,6 +46,7 @@ int menu(void)
 
 	texto_sobre = gtk_label_new(texto);
 	gtk_widget_set_name(texto_sobre,"texto_sobre");
+	gtk_label_set_selectable(GTK_LABEL(texto_sobre),TRUE);
 
 //	lembrete_fixed = gtk_fixed_new();
 //	lembrete_box   = gtk_box_new(1,0);
