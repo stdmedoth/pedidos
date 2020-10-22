@@ -11,6 +11,7 @@ int notificacoes_receber(){
       notificacao_pendencias = 0;
     }
   }
+
   return 0;
 }
 
@@ -105,7 +106,6 @@ void notificacoes_wnd(){
           sprintf(status,"Erro");
           break;
       }
-
       gtk_tree_store_append(modelo,&campos,NULL);
       g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
       gtk_tree_store_set(modelo,&campos,
@@ -113,7 +113,6 @@ void notificacoes_wnd(){
       DESCR_COL,descr,
       STAT_COL,status
       ,-1);
-
   	}
   }
   gtk_tree_view_set_model(GTK_TREE_VIEW(notf_tree_view),GTK_TREE_MODEL(modelo));

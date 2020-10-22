@@ -137,6 +137,7 @@
 #define THUMBDESKTOP5 "/usr/share/pedidos/files/thumbs/thumbdesktop5.png"
 #define THUMBDESKTOP6 "/usr/share/pedidos/files/thumbs/thumbdesktop6.png"
 #define ICO           "/usr/share/pedidos/files/ico.ico"
+#define LOGO          "/usr/share/pedidos/files/logo.png"
 #define LOGGER        "/usr/share/pedidos/files/logger.log"
 #define BACKUP        "/usr/share/pedidos/files/backup"
 #define BANNER        "/usr/share/pedidos/files/princ_imgs/banner.png"
@@ -238,7 +239,6 @@
 #define MAX_OBS_LEN 500
 #define MAX_PROD 400
 #define MAX_QUERY_ELM_LEN 300
-#define MAX_QUERY_LEN (MAX_QUERY_ELM_LEN*50)
 #define CONECT_QNT 1
 #define CODE_LEN 15
 #define CNPJ_N_LEN 14
@@ -274,7 +274,6 @@
 #define MAX_URI_LEN 300
 #define MAX_PARAM_LEN 20
 #define MAX_TIPO_LEN 20
-#define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 #define ENTRADA 300
 #define MARGEM_D 10
 #define WALLPAPERS_QNT 6
@@ -304,6 +303,9 @@
 #define MAX_SERVER_LEN 50
 #define MAX_COMPLMNTO_LEN 20
 #define MAX_CNTTS_QNT 20
+
+#define MAX_QUERY_LEN (MAX_QUERY_ELM_LEN*50)
+#define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 
 #define MAX_PROD_ORC 100
 #define MAX_POST_QNT 100
@@ -351,6 +353,8 @@
 #define CONTRATO_REL_COL 6
 
 #define TECNICO_LEVEL 4
+
+#define ABRIR_MENU_TECLA GDK_KEY_Alt_L
 
 GtkWidget *acao_atual,*acao_atual2;
 GtkEntry *pesquisa_global_alvo;

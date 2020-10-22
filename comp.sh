@@ -21,4 +21,9 @@ echo "mudando permissões..."
 chmod 777 /usr/share/pedidos/files -R
 fi
 echo "compilando..."
-gcc src/Inicio/Pedidos.c -o /usr/bin/pedidos `pkg-config --libs --cflags gtk+-3.0 mariadb libxml-2.0 libcurl` -Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic -O0 #-Wshadow #-Wmissing-prototypes #-Wstrict-prototypes #-Wconversion #-Wextra -Wfatal-errors
+gcc src/Inicio/Pedidos.c -o /usr/bin/pedidos `pkg-config --libs --cflags gtk+-3.0 mariadb libxml-2.0 libcurl` -Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic -O0  -Wfatal-errors 
+#-Wshadow 
+#-Wextra 
+#-Wmissing-prototypes 
+#-Wstrict-prototypes 
+#-Wconversion

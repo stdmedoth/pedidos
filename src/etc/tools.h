@@ -8,7 +8,11 @@ int file_logger(char *string);
 
 void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window);
 
-void mover_scroll(GtkWidget *widget, GtkWidget *scroll_window);
+void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window);
+
+void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window);
+
+void button_mover_scroll(GtkButton *button, GtkWidget *scroll_window);
 
 char *get_elem_from_path(char *path);
 

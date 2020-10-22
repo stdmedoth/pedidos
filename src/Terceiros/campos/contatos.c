@@ -464,7 +464,7 @@ do_editable_cells ()
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                                          GTK_SHADOW_ETCHED_IN);
     gtk_widget_set_size_request(sw,300,200);
-    g_signal_connect(sw,"size-allocate",G_CALLBACK(mover_orc_scroll),sw);
+    g_signal_connect(sw,"size-allocate",G_CALLBACK(auto_hmover_scroll),sw);
 
     gtk_widget_set_size_request(vbox,300,200);
     gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);

@@ -1,15 +1,3 @@
-void mover_orc_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-
-	if(movendo_scroll>1)
-		return ;
-
-	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
-	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-	movendo_scroll++;
-
-	return ;
-}
-
 static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
@@ -295,7 +283,7 @@ static int adicionar_linha_orc()
 	#pragma GCC diagnostic warning "-Wint-conversion"
 
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
-	g_signal_connect(prod_scroll_window,"size-allocate",G_CALLBACK(mover_orc_scroll),prod_scroll_window);
+	g_signal_connect(prod_scroll_window,"size-allocate",G_CALLBACK(auto_hmover_scroll),prod_scroll_window);
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 

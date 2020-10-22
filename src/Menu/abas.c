@@ -17,9 +17,10 @@ int menu(void)
 	GtkWidget *lembrete_box, *lembrete_fixed , *lembrete_ico, *lembrete_label;
 
 	//aba principal
-	GtkWidget *texto_sobre;
+	GtkWidget *texto_sobre, *logo_img;
 	gchar *texto;
 	texto = malloc(2000);
+	logo_img = gtk_image_new_from_file(LOGO);
 
 	strcpy(texto,cad_emp_strc.sobre);
 
@@ -48,14 +49,15 @@ int menu(void)
 	gtk_widget_set_name(texto_sobre,"texto_sobre");
 	gtk_label_set_selectable(GTK_LABEL(texto_sobre),TRUE);
 
-//	lembrete_fixed = gtk_fixed_new();
-//	lembrete_box   = gtk_box_new(1,0);
-//	lembrete_ico   = gtk_image_new_from_file(LMB_IMG);
-//	lembrete_label = gtk_label_new("Lembretes");
+/*
+	lembrete_fixed = gtk_fixed_new();
+	lembrete_box   = gtk_box_new(1,0);
+	lembrete_ico   = gtk_image_new_from_file(LMB_IMG);
+	lembrete_label = gtk_label_new("Lembretes");
+	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_ico,0,0,0);
+	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
+*/
 
-//	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_ico,0,0,0);
-//	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
-//	gtk_fixed_put(GTK_FIXED(lembrete_fixed),lembrete_box,200,100);
 
 	//inserindo abas
 	gtk_widget_set_name(lista_abas,"menu");
@@ -78,7 +80,7 @@ int menu(void)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 
 	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,0);
-	//gtk_box_pack_start(GTK_BOX(principal),lembrete_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,0);
 
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
@@ -108,7 +110,7 @@ int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
 {
 	switch(evento->keyval)
 	{
-		case (GDK_KEY_Alt_L):
+		case (ABRIR_MENU_TECLA):
 			if(controle_menu)
 			{
 				gtk_widget_hide(lista_abas);

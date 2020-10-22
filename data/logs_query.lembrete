@@ -1,2 +1,0 @@
-select a.estado, a.qnt_aberta, a.nome_janela,b.nome,c.descricao from wnd_logger as a inner join operadores as b inner join logs
-as c on b.code = a.operador and a.tempo = c.data;
