@@ -10,7 +10,14 @@ static GtkWidget *est_sld_prod_nome_entry,*est_sld_grp_nome_entry;
 static gint est_sld_prod_est_int;
 static gchar *est_sld_prod_cod_gchar,  *est_sld_subgrp_cod_gchar,  *est_sld_min_gchar;
 
+int est_sald_est();
+int est_sald_subgrp_fun();
+int calcula_saldo();
+int est_sld_prod_fun();
+int est_sld_min_fun();
+
+#include "campos/calcula.c"
 #include "campos/produto.c"
 #include "campos/subgrupo.c"
-#include "campos/estoque.c"
 #include "campos/saldo_min.c"
+#include "campos/estoque.c"

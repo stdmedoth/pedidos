@@ -54,8 +54,13 @@ int gerar_orcs_full( int code_orc ){
   if(gerar_orc_cli(orc_file, &orc))
     return 1;
 
-  if(gerar_orc_itens(orc_file, &orc))
-    return 1;
+  if(produtos.parametros.prod_varios_grupos){
+    if(gerar_orc_itens_por_grupos(orc_file, &orc))
+      return 1;
+  }else{
+    if(gerar_orc_itens(orc_file, &orc))
+      return 1;
+  }
 
 
   if(gerar_orc_transporte(orc_file, &orc))

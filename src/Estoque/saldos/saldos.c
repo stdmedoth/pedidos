@@ -179,5 +179,7 @@ int cad_est_sld()
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 	gtk_widget_show_all(janela);
+	if(!produtos.parametros.prod_varios_grupos)
+		gtk_widget_hide(est_sld_grp_frame);
 	return 0;
 }

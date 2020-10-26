@@ -287,9 +287,14 @@ static int adicionar_linha_orc()
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 
+	gtk_widget_show_all(linhas_prod_orc_frame[itens_qnt]);
+
+	if(!produtos.parametros.prod_varios_grupos)
+		gtk_widget_hide(subgrp_prod_orc_frame[itens_qnt]);
+
+
 	itens_qnt++;
 
-	gtk_widget_show_all(orc_prods_grid);
 
 	return 0;
 }

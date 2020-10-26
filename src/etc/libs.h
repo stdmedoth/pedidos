@@ -8,11 +8,17 @@
 #include "barra_icones.h"
 #include "analisa_campos.h"
 
+
 #include "../Canones/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
-#include "parametros.h"
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
+
+#include "../Parametros/orc_params.h"
+#include "../Parametros/prod_params.h"
+#include "../Parametros/ter_params.h"
+#include "../Parametros/personalizacao.h"
+#include "../Parametros/parametros.h"
 
 #include "../Terceiros/cadastro_terceiros.h"
 #include "../Terceiros/pesquisa_cad.h"
@@ -84,10 +90,11 @@
 #include "GerarDocs/Orcs/banco.h"
 #include "GerarDocs/Orcs/transporte.h"
 #include "GerarDocs/Orcs/itens.h"
+#include "GerarDocs/Orcs/itens_por_grupo.h"
 #include "GerarDocs/Orcs/rec_datas.h"
 #include "GerarDocs/Orcs/cliente.h"
+#include "GerarDocs/Orcs/gerar_orcs.h"
 
-#include "gerar_docs.h"
 #include "rec_orc_infos.h"
 
 #include "../Transportes/cad_trsp.h"
@@ -141,8 +148,6 @@
 #include "criticas.c"
 #include "pesquisador.c"
 #include "css.c"
-#include "personalizacao.c"
-#include "parametros.c"
 #include "impressao.c"
 #include "temas.c"
 #include "barra_icones.c"
@@ -150,6 +155,12 @@
 #include "analisa_campos.c"
 
 #include "operadores.c"
+
+#include "../Parametros/orc_params.c"
+#include "../Parametros/prod_params.c"
+#include "../Parametros/ter_params.c"
+#include "../Parametros/personalizacao.c"
+#include "../Parametros/parametros.c"
 
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
@@ -215,10 +226,11 @@
 #include "GerarDocs/Orcs/titulo.c"
 #include "GerarDocs/Orcs/transporte.c"
 #include "GerarDocs/Orcs/itens.c"
+#include "GerarDocs/Orcs/itens_por_grupo.c"
 #include "GerarDocs/Orcs/rec_datas.c"
 #include "GerarDocs/Orcs/cliente.c"
+#include "GerarDocs/Orcs/gerar_orcs.c"
 
-#include "gerar_docs.c"
 #include "rec_orc_infos.c"
 
 #include "../Vendas/pedidos/emitir.c"

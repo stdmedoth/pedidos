@@ -2,10 +2,43 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 {
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+
+	if(produto_inserido[posicao] == 0){
+		popup(NULL,"Insira o produto!");
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
+		return 1;
+	}
+
+	if(!strlen(codigo_prod_orc_gchar)){
+		codigo_prod_orc(codigo_prod_orc_entry[posicao] , posicao);
+	}
+
+	if(!produtos.parametros.prod_varios_grupos){
+		sprintf(query,"select grupo from produtos where code = %s",codigo_prod_orc_gchar);
+		res = consultar(query);
+		if(!res){
+			popup(NULL,"Erro ao consulta subgrupo");
+			return 1;
+		}
+		if(!(row = mysql_fetch_row(res))){
+			popup(NULL,"O produto não possui grupos");
+			return 1;
+		}
+		if(row[0]){
+			subgrp_prod_orc_cod_gchar = malloc(strlen(row[0]));
+			strcpy(subgrp_prod_orc_cod_gchar,row[0]);
+			ativos[posicao].subgrupo = atoi(subgrp_prod_orc_cod_gchar);
+			gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]),subgrp_prod_orc_cod_gchar);
+		}else{
+			popup(NULL,"O grupo do produto não pode ser encontrado");
+			return 1;
+		}
+		return 0;
+	}
 
 	int grupo_len=0;
 	int familia[MAX_SUBGRUPO],mesma_familia=0;
-	char query[MAX_QUERY_LEN];
 	char *source_grp_name,*dest_grp_name;
 	char grupo_pai[MAX_CODE_LEN+1];
 	char **familia_char;
@@ -16,11 +49,6 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 
 	subgrp_prod_orc_cod_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[posicao]));
 
-	if(produto_inserido[posicao] == 0){
-		popup(NULL,"Insira o produto!");
-		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
-		return 1;
-	}
 	for(int cont=0;cont<MAX_SUBGRUPO;cont++)
 		familia[cont] = 0;
 
@@ -35,10 +63,6 @@ int subgrp_prod_orc(GtkWidget *widget,int posicao)
 		popup(NULL,"Falta código do subgrupo");
 		gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
 		return 1;
-	}
-
-	if(!strlen(codigo_prod_orc_gchar)){
-		codigo_prod_orc(codigo_prod_orc_entry[posicao] , posicao);
 	}
 
 	sprintf(query,"select grupo from produtos where code = %s",codigo_prod_orc_gchar);

@@ -108,7 +108,7 @@
 #define MOZ_CERT          "C:/pedidos/files/cacert.pem"
 #define SUP_XML           "C:/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "C:/pedidos/files/orc_params.xml"
-
+#define PROD_PARAMS        "C:/pedidos/files/prod_params.xml"
 #endif
 
 #ifdef __linux__
@@ -219,6 +219,7 @@
 #define MOZ_CERT          "/usr/share/pedidos/files/cacert.pem"
 #define SUP_XML           "/usr/share/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "/usr/share/pedidos/files/orc_params.xml"
+#define PROD_PARAMS        "/usr/share/pedidos/files/prod_params.xml"
 #endif
 
 #define CSS_ORC       "orcamento.css"

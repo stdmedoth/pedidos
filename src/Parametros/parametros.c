@@ -1,94 +1,13 @@
-static int ler_personalizacao()
+int configurar_parametros()
 {
-	//*usar gtk_toggle_button_get_active aqui
-	personalizacao.tema = gtk_combo_box_get_active(GTK_COMBO_BOX(tema_combo_box));
-	if(personalizacao.tema<0)
-		personalizacao.tema = -1;
-
-	personalizacao.janela_init = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_init));
-	personalizacao.janela_keep_above = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(janela_keep_above));
-
-	orc_params.est_orc_padrao = gtk_spin_button_get_value(GTK_SPIN_BUTTON(est_orc_padrao));
-
-	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
-	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
-
-	strcpy(navegadores.navegador_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path1_entry)));
-	strcpy(navegadores.navegador_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_nav_path2_entry)));
-
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose1_radio))){
-			if(!strlen(navegadores.navegador_path1)){
-				popup(NULL,"Navegador padrão não configurado");
-				return 1;
-			}
-			navegadores.navegador_pdr = 1;
-	}
-
-
-	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose2_radio))){
-		if(!strlen(navegadores.navegador_path2)){
-			popup(NULL,"Navegador padrão não configurado");
-			return 1;
-		}
-
-		navegadores.navegador_pdr = 2;
-	}
-
-	strcpy(impressoras.imp_path1,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path1_entry)));
-	strcpy(impressoras.imp_path2,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path2_entry)));
-	strcpy(impressoras.imp_path3,gtk_entry_get_text(GTK_ENTRY(tecn_param_imp_path3_entry)));
-	if(!strlen(impressoras.imp_path1)&&!strlen(impressoras.imp_path2)&&!strlen(impressoras.imp_path3)){
-		popup(NULL,"Nenhuma impressora mapeada");
-		return 1;
-	}
-
-
-	return 0;
-}
-
-static int receber_personalizacao()
-{
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-
+	int cont;
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
+	MYSQL_RES *res;
+	MYSQL_ROW  row;
 
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
-		return 1;
-	}
-
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Sem dados para personalizar o sistema");
-		return 1;
-	}
-
-	personalizacao.tema = atoi(row[2]);
-	personalizacao.janela_init = atoi(row[3]);
-	personalizacao.janela_keep_above = atoi(row[4]);
-
-	gtk_combo_box_set_active(GTK_COMBO_BOX(tema_combo_box),atoi(row[2]));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_init), atoi(row[3]));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(janela_keep_above),atoi(row[4]));
-
-	sprintf(query,"select * from orc_param");
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro ao receber parametros de orçamentos");
-		return 1;
-	}
-
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Sem dados para parametrizar orçamentos");
-		return 1;
-	}
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(est_orc_padrao),atoi(row[0]));
-	orc_params.est_orc_padrao = atoi(row[0]);
+	receber_orc_params();
+	receber_prod_params();
 
 	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
 
@@ -105,222 +24,36 @@ static int receber_personalizacao()
 	}
 
 	strcpy(navegadores.navegador_path1,row[1]);
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_nav_path1_entry),row[1]);
-
 	strcpy(navegadores.navegador_path2,row[2]);
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_nav_path2_entry),row[2]);
-
 	navegadores.navegador_pdr = atoi(row[3]);
-	if(atoi(row[3])==1)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose1_radio),atoi(row[3]));
-	if(atoi(row[3])==2)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tecn_param_nav_choose2_radio),atoi(row[3]));
 
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path1_entry),row[4]);
 	strcpy(impressoras.imp_path1,row[4]);
-
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path2_entry),row[5]);
 	strcpy(impressoras.imp_path2,row[5]);
+	strcpy(impressoras.imp_path3,row[6]);
 
-	gtk_entry_set_text(GTK_ENTRY(tecn_param_imp_path3_entry),row[6]);
-	strcpy(impressoras.imp_path2,row[6]);
+	carregar_navimps();
 
+	sprintf(query,"select * from orc_param");
+	if((res = consultar(query))==NULL)
+	{
+		popup(NULL,"Erro ao receber parametros de orçamentos");
+		return 1;
+	}
+
+	if((row = mysql_fetch_row(res))==NULL)
+	{
+		popup(NULL,"Sem dados para parametrizar orçamentos");
+		return 1;
+	}
+	orc_params.est_orc_padrao = atoi(row[0]);
 	return 0;
-}
-
-int atualizar_personalizacao()
-{
-	int erro;
-	char *query;
-	char *navegador_path1,*navegador_path2,*imp_path1,*imp_path2,*imp_path3;
-
-	query = malloc(MAX_QUERY_LEN);
-
-	navegador_path1 = malloc(MAX_PATH_LEN);
-	navegador_path2 = malloc(MAX_PATH_LEN);
-	imp_path1 = malloc(MAX_PATH_LEN);
-	imp_path2 = malloc(MAX_PATH_LEN);
-	imp_path3 = malloc(MAX_PATH_LEN);
-
-	if(ler_personalizacao())
-		return 1;
-
-	sprintf(query,"update perfil_desktop set janela_init = %i",personalizacao.janela_init);
-	if((erro = enviar_query(query))!=0)
-	{
-		popup(NULL,"Erro ao configurar janela login");
-	}
-		sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema, personalizacao.janela_keep_above, sessao_oper.code);
-	if((erro = enviar_query(query))!=0)
-	{
-		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
-		return 1;
-	}
-
-	mysql_real_escape_string(&conectar,navegador_path1,navegadores.navegador_path1,strlen(navegadores.navegador_path1));
-	mysql_real_escape_string(&conectar,navegador_path2,navegadores.navegador_path2,strlen(navegadores.navegador_path2));
-
-	mysql_real_escape_string(&conectar,imp_path1,impressoras.imp_path1,strlen(impressoras.imp_path1));
-	mysql_real_escape_string(&conectar,imp_path2,impressoras.imp_path2,strlen(impressoras.imp_path2));
-	mysql_real_escape_string(&conectar,imp_path3,impressoras.imp_path3,strlen(impressoras.imp_path3));
-
-	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegador_path1,navegador_path2,navegadores.navegador_pdr,imp_path1,imp_path2,imp_path3,sessao_oper.code);
-
-	if((erro = enviar_query(query))!=0)
-	{
-		popup(NULL,"Erro ao enviar dados para configuração do sistema");
-		return 1;
-	}
-	sprintf(query,"update orc_param set est_orc_padrao = '%i'",
-	orc_params.est_orc_padrao);
-	if((erro = enviar_query(query))!=0)
-	{
-		popup(NULL,"Erro ao enviar dados para configuração do sistema");
-		return 1;
-	}
-
-	receber_personalizacao();
-	return 0;
-}
-
-
-int ler_criticas(){
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	int cont=0;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
-
-	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
-	if(orc_xml){
-		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
-		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
-		if(orc_prod_mov){
-			orcamentos.criticar.prod_movimento = atoi((const char *)orc_prod_mov->content);
-			if(orcamentos.criticar.prod_movimento)
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt),TRUE);
-			else
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt),FALSE);
-		}
-
-		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
-		if(orc_prod_saldo){
-			orcamentos.criticar.prod_saldo = atoi((const char *)orc_prod_saldo->content);
-			if(orcamentos.criticar.prod_saldo)
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),TRUE);
-			else
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),FALSE);
-
-		}
-
-		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
-		if(orc_prod_sld_lmt){
-			orcamentos.criticar.prod_saldo_limite = atoi((const char *)orc_prod_sld_lmt->content);
-			if(orcamentos.criticar.prod_saldo_limite)
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt),TRUE);
-			else
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt),FALSE);
-		}
-
-		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
-		if(orc_ped_canc){
-			orcamentos.criticar.orc_ped_cancelado = atoi((const char *)orc_ped_canc->content);
-			if(orcamentos.criticar.orc_ped_cancelado)
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt),TRUE);
-			else
-				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt),FALSE);
-		}
-	}else{
-		FILE *xmlf = fopen(ORC_PARAMS, "r");
-		if(!xmlf){
-			xmlf = fopen(ORC_PARAMS, "w");
-			if(!xmlf){
-				popup(NULL,"Não foi possível abrir arquivo de parametros");
-				return 1;
-			}
-			xmlDocPtr orc_xml = xmlNewDoc((const xmlChar *)"1.0");
-			xmlNodePtr root = xmlNewNode(NULL,(const xmlChar *)"orc_param");
-			xmlNodePtr orc_prod_mov = xmlNewNode(NULL,(const xmlChar *)"orc_prod_mov");
-			xmlNodePtr orc_prod_saldo = xmlNewNode(NULL,(const xmlChar *)"orc_prod_saldo");
-			xmlNodePtr orc_prod_sld_lmt = xmlNewNode(NULL,(const xmlChar *)"orc_prod_sld_lmt");
-			xmlNodePtr orc_ped_canc = xmlNewNode(NULL,(const xmlChar *)"orc_ped_canc");
-
-			xmlNodeAddContent(orc_prod_mov,(const xmlChar *)"1");
-			xmlNodeAddContent(orc_prod_saldo,(const xmlChar *)"1");
-			xmlNodeAddContent(orc_prod_sld_lmt,(const xmlChar *)"1");
-			xmlNodeAddContent(orc_ped_canc,(const xmlChar *)"1");
-
-			xmlAddChild(root,orc_prod_mov);
-			xmlAddChild(root,orc_prod_saldo);
-			xmlAddChild(root,orc_prod_sld_lmt);
-			xmlAddChild(root,orc_ped_canc);
-
-			xmlDocSetRootElement(orc_xml,root);
-
-			xmlDocDump(xmlf,orc_xml);
-		}
-	}
-
-	return 0;
-}
-
-int atualizar_criticas()
-{
-	char *query;
-	int cont=0;
-	int erro;
-
-	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
-	if(orc_xml){
-		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
-
-		orcamentos.criticar.prod_movimento = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_mov_wdt));
-		orcamentos.criticar.prod_saldo = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt));
-		orcamentos.criticar.prod_saldo_limite = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt));
-		orcamentos.criticar.orc_ped_cancelado = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt));
-
-		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
-		if(orcamentos.criticar.prod_movimento)
-			xmlNodeSetContent(orc_prod_mov,(xmlChar *)"1");
-		else
-			xmlNodeSetContent(orc_prod_mov,(xmlChar *)"0");
-
-		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
-		if(orcamentos.criticar.prod_saldo)
-			xmlNodeSetContent(orc_prod_saldo,(xmlChar *)"1");
-		else
-			xmlNodeSetContent(orc_prod_saldo,(xmlChar *)"0");
-
-		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
-		if(orcamentos.criticar.prod_saldo_limite)
-			xmlNodeSetContent(orc_prod_sld_lmt,(xmlChar *)"1");
-		else
-			xmlNodeSetContent(orc_prod_sld_lmt,(xmlChar *)"0");
-
-		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
-		if(orcamentos.criticar.orc_ped_cancelado)
-			xmlNodeSetContent(orc_ped_canc,(xmlChar *)"1");
-		else
-			xmlNodeSetContent(orc_ped_canc,(xmlChar *)"0");
-	}
-
-	FILE *xmlf = fopen(ORC_PARAMS, "w");
-	if(!xmlf){
-		popup(NULL,"Não foi possível abrir arquivo de parametros");
-		return 1;
-	}
-	xmlDocDump(xmlf,orc_xml);
-
-	if(configurar_parametros()==0)
-		return 0;
-	else
-		return 1;
-	return 0 ;
 }
 
 int atualizar_paramentros()
 {
-	if(atualizar_criticas()!=0)
+	if(atualizar_orc_criticas()!=0)
+		return 1;
+	if(atualizar_prod_criticas()!=0)
 		return 1;
 	if(atualizar_personalizacao()!=0)
 		return 1;
@@ -337,6 +70,7 @@ int parametrizar()
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box,*orc_criticas_box;
 	GtkWidget *personaliza_box,*personaliza_frame;
 	GtkWidget *tema_combo_box_fixed;
+	GtkWidget *prod_parametros_frame, *prod_parametros_box, *prod_parametros_fixed;
 	GtkWidget *orc_parametros_frame, *orc_parametros_box, *orc_parametros_fixed;
 	GtkWidget *est_orc_padrao_frame;
 	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
@@ -570,6 +304,15 @@ int parametrizar()
 	orc_criticas_frame = gtk_frame_new("Produto em Orçamentos");
 	orc_criticas_box = gtk_box_new(1,0);
 
+	prod_criticas_frame = gtk_frame_new("Produtos");
+	prod_criticas_box = gtk_box_new(1,0);
+
+	prod_parametros_fixed = gtk_fixed_new();
+	prod_parametros_frame = gtk_frame_new("Parâmetros Produtos");
+	prod_parametros_box = gtk_box_new(1,0);
+	gtk_container_add(GTK_CONTAINER(prod_parametros_frame),prod_parametros_box);
+	gtk_fixed_put(GTK_FIXED(prod_parametros_fixed),prod_parametros_frame,20,0);
+
 	orc_parametros_fixed = gtk_fixed_new();
 	est_orc_padrao = gtk_spin_button_new_with_range(1,5,1);
 	est_orc_padrao_frame = gtk_frame_new("Estoque padrão");
@@ -601,21 +344,25 @@ int parametrizar()
 	orc_prod_sld_lmt_wdt = gtk_check_button_new_with_label("Avisar saldo próximo ao limite ");
 	orc_ped_canc_wdt = gtk_check_button_new_with_label("Pedidos cancelados são reaproveitados");
 
+	prod_varios_grupos_wdt = gtk_check_button_new_with_label("Produtos diferem pelo grupo?");
+
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_mov_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_lmt_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_ped_canc_wdt,0,0,0);
 
-
+	gtk_box_pack_start(GTK_BOX(prod_criticas_box),prod_varios_grupos_wdt,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
-
 	gtk_box_pack_start(GTK_BOX(terc_box),ter_criticas_frame,0,0,10);
 
 	gtk_container_add(GTK_CONTAINER(orc_criticas_frame),orc_criticas_box);
-
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_criticas_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(orc_box),orc_parametros_fixed,0,0,10);
+
+	gtk_container_add(GTK_CONTAINER(prod_criticas_frame),prod_criticas_box);
+	gtk_box_pack_start(GTK_BOX(prod_box),prod_criticas_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(prod_box),prod_parametros_fixed,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(tecnico_box),tecn_param_scroll,0,0,10);
 
@@ -638,7 +385,8 @@ int parametrizar()
 	gtk_widget_show_all(janela_parametros);
 
 	receber_personalizacao();
-	ler_criticas();
+	ler_orc_params();
+	ler_prod_params();
 
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);

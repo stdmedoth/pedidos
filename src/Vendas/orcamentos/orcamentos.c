@@ -380,6 +380,7 @@ int vnd_orc(){
 
 	gtk_widget_hide(codigo_orc_entry);
 	gtk_widget_hide(cliente_orc_entry);
-
+	if(!produtos.parametros.prod_varios_grupos)
+		gtk_widget_hide(subgrp_prod_orc_frame[itens_qnt-1]);
 	return 0;
 }
