@@ -173,12 +173,7 @@ static int altera_orc()
 				gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),codigo_prod_orc_gchar);
 				ativos[atoi(row[ORC_PROD_ITM_COL])].produto = atoi(row[ORC_PROD_PROD_COL]);
 			}
-			if(row[ORC_PROD_SUBGRP_COL]){
-				subgrp_prod_orc_cod_gchar = malloc(strlen(row[ORC_PROD_SUBGRP_COL]));
-				strcpy(subgrp_prod_orc_cod_gchar,row[ORC_PROD_SUBGRP_COL]);
-				gtk_entry_set_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[atoi(row[ORC_PROD_ITM_COL])]),subgrp_prod_orc_cod_gchar);
-				ativos[atoi(row[ORC_PROD_ITM_COL])].subgrupo = atoi(row[ORC_PROD_SUBGRP_COL]);
-			}
+
 			if(row[ORC_PROD_VLR_ORIG_COL])
 				valor_orig[atoi(row[ORC_PROD_ITM_COL])] = atoi(row[ORC_PROD_VLR_ORIG_COL]);
 
@@ -239,10 +234,6 @@ static int altera_orc()
 				return 1;
 			}
 
-			if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[cont],cont)){
-				cancela_orc();
-				return 1;
-			}
 			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)){
 				cancela_orc();
 				return 1;
@@ -366,12 +357,6 @@ void loging_alteracao(MYSQL_ROW row){
 		file_logger(row[ORC_PROD_PROD_COL]);
 	else
 		file_logger("Erro no código do produto");
-
-	file_logger("subgrupo:\n");
-	if(row[ORC_PROD_SUBGRP_COL])
-		file_logger(row[ORC_PROD_SUBGRP_COL]);
-	else
-		file_logger("Erro no codigo do subgrupo");
 
 	file_logger("unidades:\n");
 	if(row[ORC_PROD_UND_COL])

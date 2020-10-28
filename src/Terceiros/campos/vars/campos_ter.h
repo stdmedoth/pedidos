@@ -51,7 +51,6 @@ static GtkWidget *code_ter_field,
 *cep_ter_field,
 *type_ter_field,
 *prod_ter_field,
-*subgrp_ter_field,
 *observacoes_ter_field,
 *prazo_ter_field;
 

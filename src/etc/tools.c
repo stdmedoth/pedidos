@@ -11,6 +11,12 @@ static MYSQL conectar;
 MYSQL_RES *vetor;
 static int primeira_conexao=0;
 
+
+void passar_campo(GtkWidget *widget,gpointer widget2)
+{
+	gtk_widget_grab_focus(widget2);
+}
+
 int is_texto(char *texto){
   for(int cont=0;cont<strlen(texto);cont++){
     if(isalpha(texto[cont])){

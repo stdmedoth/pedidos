@@ -9,10 +9,9 @@ int calcula_saldo(){
 
   gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
 
-  sprintf(query,"select SUM(entradas) - SUM(saidas),(select date_format(data_mov,'%cd/%cm/%cY') from movimento_estoque order by data_mov desc limit 1) from movimento_estoque where produto = %s and subgrupo = %s and estoque = %i",
+  sprintf(query,"select SUM(entradas) - SUM(saidas),(select date_format(data_mov,'%cd/%cm/%cY') from movimento_estoque order by data_mov desc limit 1) from movimento_estoque where produto = %s and estoque = %i",
   37,37,37,
   est_sld_prod_cod_gchar,
-  est_sld_subgrp_cod_gchar,
   est_sld_prod_est_int);
 
   if(!(estado = consultar(query))){
@@ -38,7 +37,7 @@ int calcula_saldo(){
     return 1;
   }
 
-  sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and grupo = %i",atoi(est_sld_prod_cod_gchar),atoi(est_sld_subgrp_cod_gchar));
+  sprintf(query,"select saldo_min from saldo_min where produto = %i",atoi(est_sld_prod_cod_gchar));
   if(!(estado = consultar(query))){
     return 1;
   }

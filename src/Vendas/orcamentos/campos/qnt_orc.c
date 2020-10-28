@@ -24,14 +24,11 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if(codigo_prod_orc(NULL,posicao)!=0)
 				return 1;
 
-			if(subgrp_prod_orc(NULL,posicao)!=0)
-				return 1;
-
 			if(tipo_pag==1)
-				sprintf(query, "select valor_fat from preco_grupo where produto = %s and grupo = %s", codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
+				sprintf(query, "select valor_fat from preco_grupo where produto = %s ", codigo_prod_orc_gchar);
 			else
 			if(tipo_pag==2)
-				sprintf(query, "select valor_vist from preco_grupo where produto = %s and grupo = %s ", codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
+				sprintf(query, "select valor_vist from preco_grupo where produto = %s ", codigo_prod_orc_gchar);
 			else
 			{
 				popup(NULL,"Selecione o tipo de pagamento");
@@ -60,14 +57,12 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 			if(codigo_prod_orc(NULL,posicao)!=0)
 				return 1;
 
-			if(subgrp_prod_orc(NULL,posicao)!=0)
-				return 1;
 
 			if(tipo_pag==PAG_FAT)
-				sprintf(query, "select valor_fat from preco_cliente where cliente = %s and produto = %s and grupo = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
+				sprintf(query, "select valor_fat from preco_cliente where cliente = %s and produto = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar);
 
 			if(tipo_pag==PAG_VIST)
-				sprintf(query, "select valor_vist from preco_cliente where cliente = %s and produto = %s and grupo = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar, subgrp_prod_orc_cod_gchar);
+				sprintf(query, "select valor_vist from preco_cliente where cliente = %s and produto = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar);
 
 			else
 			{
@@ -123,11 +118,10 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 	if(recebendo_prod_orc == 0)
 	{
 		operacao_orc_orc();
-		sprintf(query,"select SUM(entradas) - SUM(saidas) %c %i from movimento_estoque where produto = %i and subgrupo = %i and estoque = %i",
+		sprintf(query,"select SUM(entradas) - SUM(saidas) %c %i from movimento_estoque where produto = %i and estoque = %i",
 		sinal_operacao_int,
 		atoi(qnt_prod_orc_gchar),
 		atoi(codigo_prod_orc_gchar),
-		atoi(subgrp_prod_orc_cod_gchar),
 		orc_params.est_orc_padrao);
 
 		g_print("query atual %s\n",query);
@@ -147,9 +141,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 						}
 				}
 
-				sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and grupo = %i and estoque = %i",
+				sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and estoque = %i",
 				atoi(codigo_prod_orc_gchar),
-				atoi(subgrp_prod_orc_cod_gchar),
 				orc_params.est_orc_padrao);
 
 				if((vetor = consultar(query))==NULL)

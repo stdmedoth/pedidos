@@ -36,13 +36,12 @@ int produto_ter()
 		return 1;
 	}
 
-	find_subgrupos_restrict->grupo = 1;
-	find_subgrupos_restrict->posicao = 0;
-	find_subgrupos_restrict->entry = subgrp_ter_field;
-
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_prod_ter),campos[1]);
-	gtk_widget_grab_focus(subgrp_ter_field);
-	g_print("produto: %s\n",prods_ter);
+
+	gtk_entry_set_text(GTK_ENTRY(entry_preco_ter_prcfat),"");
+	gtk_entry_set_text(GTK_ENTRY(entry_preco_ter_prcvist),"");
+
+	gtk_widget_grab_focus(entry_preco_ter_prcfat);
 
 	return 0;
 

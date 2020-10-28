@@ -10,7 +10,5 @@ int est_sald_est(){
 		popup(NULL,"Escolha o estoque");
 		return 1;
 	}
-
-	gtk_widget_grab_focus(est_sld_grp_cod_entry);
 	return 0;
 }

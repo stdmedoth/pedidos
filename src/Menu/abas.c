@@ -58,7 +58,6 @@ int menu(void)
 	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
 */
 
-
 	//inserindo abas
 	gtk_widget_set_name(lista_abas,"menu");
 	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),principal,principal_label);

@@ -30,8 +30,7 @@ int altera_ter();
 #include "campos/outros/prazo.c"
 #include "campos/outros/calcular_prazo.c"
 #include "campos/outros/verifica_frete.c"
-#include "campos/outros/grupos_preco.c"
-#include "campos/outros/grupo.c"
+#include "campos/outros/vinculo_precos.c"
 #include "campos/outros/produtos.c"
 
 

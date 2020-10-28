@@ -1,3 +1,6 @@
+
+void passar_campo(GtkWidget *widget,gpointer widget2);
+
 int is_texto(char *texto);
 
 char *text_to_html(char *texto);

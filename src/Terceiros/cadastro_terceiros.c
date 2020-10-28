@@ -63,7 +63,8 @@ int  cad_terc()
 	GError *gerro;
 	GtkWidget *janela;
 	GtkWidget *psq_ter_box;
-	GtkWidget *vinculo_grp_prod_frame, *vinculo_grp_prod_box,*vinculo_grp_prod_scroll;
+	GtkWidget *vinculo_prod_frame, *vinculo_prod_box,*vinculo_prod_scroll;
+	GtkWidget *precos_entrys;
 
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
@@ -98,8 +99,8 @@ int  cad_terc()
 	*ter_img_frame,
 	*ter_img_buttons_box;
 
-	GtkWidget *prod, *subgrp, *psq_prod_box, *psq_subgrp,
-	*prod_ter_label, *subgrp_ter_label;
+	GtkWidget *prod, *psq_prod_box,
+	*prod_ter_label;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"terceiros");
@@ -438,24 +439,17 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(ter_img_box),ter_img_buttons_box,0,0,10);
 
 	prod = gtk_box_new(1,0);
-	subgrp = gtk_box_new(1,0);
 
 	psq_prod_box = gtk_box_new(0,0);
-	psq_subgrp = gtk_box_new(0,0);
 
 	prod_ter_label = gtk_label_new("Produto");
-	subgrp_ter_label = gtk_label_new("SubGrupo");
 
 	prod_ter_field = gtk_entry_new();
-	subgrp_ter_field = gtk_entry_new();
 
 	campo_nome_prod_ter = gtk_entry_new();
-	campo_nome_subgrp_ter = gtk_entry_new();
 
 	psq_ter_prod_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_ter_prod_button),gtk_image_new_from_file(IMG_PESQ));
-	psq_ter_subgrp_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(psq_ter_subgrp_button),gtk_image_new_from_file(IMG_PESQ));
 
 	gtk_box_pack_start(GTK_BOX(psq_prod_box),prod_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_prod_box),psq_ter_prod_button,0,0,0);
@@ -464,25 +458,18 @@ int  cad_terc()
 	gtk_widget_set_sensitive(campo_nome_prod_ter,FALSE);
 	gtk_box_pack_start(GTK_BOX(prod),psq_prod_box,0,0,5);
 
-	gtk_box_pack_start(GTK_BOX(psq_subgrp),subgrp_ter_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_subgrp),psq_ter_subgrp_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(subgrp),subgrp_ter_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(subgrp),campo_nome_subgrp_ter,0,0,0);
-	gtk_widget_set_sensitive(campo_nome_subgrp_ter,FALSE);
-	gtk_box_pack_start(GTK_BOX(subgrp),psq_subgrp,0,0,5);
-
 	atualiza_ter_prc_button = gtk_button_new_with_label("Atualizar preços");
 	gtk_button_set_image(GTK_BUTTON(atualiza_ter_prc_button),gtk_image_new_from_file(IMG_REC));
 
-	grid1_ter_grupo = gtk_grid_new();
-	vinculo_grp_prod_box = gtk_box_new(1,0);
-	vinculo_grp_prod_frame = gtk_frame_new("Vinculo Produto-Cliente");
+	grid1_ter_preco = gtk_grid_new();
+	vinculo_prod_box = gtk_box_new(1,0);
+	vinculo_prod_frame = gtk_frame_new("Vinculo Produto-Cliente");
 
-	vinculo_grp_prod_scroll = gtk_scrolled_window_new(NULL,NULL);
-	gtk_container_add(GTK_CONTAINER(vinculo_grp_prod_scroll),grid1_ter_grupo);
+	vinculo_prod_scroll = gtk_scrolled_window_new(NULL,NULL);
+	gtk_container_add(GTK_CONTAINER(vinculo_prod_scroll),grid1_ter_preco);
 
-	gtk_widget_set_size_request(vinculo_grp_prod_scroll,600,200);
-	gtk_widget_set_size_request(grid1_ter_grupo,600,200);
+	gtk_widget_set_size_request(vinculo_prod_scroll,600,200);
+	gtk_widget_set_size_request(grid1_ter_preco,600,200);
 
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
@@ -512,14 +499,16 @@ int  cad_terc()
 	GtkWidget *lista_titulos = titulos_get_widget(&titulos_cadter);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),subgrp,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),atualiza_ter_prc_button,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_nine),vinculo_grp_prod_scroll,0,0,10);
+	precos_entrys = criar_precos_ter_wnd();
+	if(precos_entrys)
+		gtk_grid_attach(GTK_GRID(grid1_ter_preco),precos_entrys,0,0,1,1);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_nine),vinculo_prod_scroll,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(vinculo_grp_prod_box),horizontal_box_eight,0,0,10);
-	gtk_box_pack_start(GTK_BOX(vinculo_grp_prod_box),horizontal_box_nine,0,0,10);
-	gtk_container_add(GTK_CONTAINER(vinculo_grp_prod_frame),vinculo_grp_prod_box);
+	gtk_box_pack_start(GTK_BOX(vinculo_prod_box),horizontal_box_eight,0,0,10);
+	gtk_box_pack_start(GTK_BOX(vinculo_prod_box),horizontal_box_nine,0,0,10);
+	gtk_container_add(GTK_CONTAINER(vinculo_prod_frame),vinculo_prod_box);
 
 	gtk_box_pack_start(GTK_BOX(opcoes),concluir_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),alterar_ter_buttom,0,0,10);
@@ -557,7 +546,6 @@ int  cad_terc()
 	g_signal_connect(psq_ter_cond_button,"clicked",G_CALLBACK(psq_pag_cond),prazo_ter_field);
 
 	g_signal_connect(GTK_ENTRY(prod_ter_field),"activate",G_CALLBACK(produto_ter),NULL);
-	g_signal_connect(GTK_ENTRY(subgrp_ter_field),"activate",G_CALLBACK(grupo_ter),NULL);
 
 	g_signal_connect(GTK_BUTTON(concluir_ter_buttom),"clicked",G_CALLBACK(conclui_ter),NULL);
 	g_signal_connect(GTK_BUTTON(alterar_ter_buttom),"clicked",G_CALLBACK(altera_ter),NULL);
@@ -567,14 +555,8 @@ int  cad_terc()
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_TER]);
 
-	/*deixando o pesquisador de subgrupos setado para grupo 1 (todos) */
-	find_subgrupos_restrict->grupo = 1;
-	find_subgrupos_restrict->posicao = 0;
-	find_subgrupos_restrict->entry = subgrp_ter_field;
-
 	g_signal_connect(GTK_BUTTON(psq_ter_prod_button),"clicked",G_CALLBACK(psq_prod),prod_ter_field);
-	g_signal_connect(GTK_BUTTON(psq_ter_subgrp_button),"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
-	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter_grupos),NULL);
+	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter),NULL);
 	g_signal_connect(GTK_BUTTON(cnst_cad_button),"clicked",G_CALLBACK(janela_cad_ter_consulta),NULL);
 
 	//page 0
@@ -589,7 +571,7 @@ int  cad_terc()
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
 	if(lista_titulos)
 		gtk_fixed_put(GTK_FIXED(fixed4),lista_titulos,MARGEM_D,200);
-	gtk_fixed_put(GTK_FIXED(fixed5),vinculo_grp_prod_frame,MARGEM_D,20); //produto e grupo vinculo
+	gtk_fixed_put(GTK_FIXED(fixed5),vinculo_prod_frame,MARGEM_D,20); //produto e grupo vinculo
 
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);//campo dos dados em clientes
 	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
@@ -607,6 +589,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(vertical_box4),fixed4,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box5),fixed5,0,0,10);
+
 
 	gtk_box_pack_start(GTK_BOX(box4),vertical_box4,0,0,0);
 

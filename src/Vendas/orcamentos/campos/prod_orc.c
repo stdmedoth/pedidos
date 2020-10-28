@@ -65,28 +65,6 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	if(campos[0])
 		strcpy(ativos[posicao].produto_nome,campos[0]);
 
-	if(produtos.parametros.prod_varios_grupos){
-		if(find_subgrupos_restrict){
-			if(campos[2])
-				find_subgrupos_restrict->grupo = atoi(campos[2]);
-			else{
-				popup(NULL,"Produto sem Grupo");
-				return 1;
-			}
-
-			find_subgrupos_restrict->posicao = posicao;
-			if( subgrp_prod_orc_cod_entry[posicao] )
-				find_subgrupos_restrict->entry = subgrp_prod_orc_cod_entry[posicao];
-			else{
-				popup(NULL,"Não foi possivel ligar subgrupo no produto");
-				return 1;
-			}
-		}else{
-			popup(NULL,"Erro na estrutura do produto-grupo");
-			return 1;
-		}
-	}
-
 	gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
 	if(strlen(campos[1])>15)
 	{
@@ -96,9 +74,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 
 	produto_inserido[posicao] = 1;
 	gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
-	if(produtos.parametros.prod_varios_grupos)
-		gtk_widget_grab_focus(subgrp_prod_orc_cod_entry[posicao]);
-	else
-		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
+
+	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;
 }

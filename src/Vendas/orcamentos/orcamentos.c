@@ -7,7 +7,7 @@ int vnd_orc(){
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
 	GtkWidget *orc_bnc_box, *orc_bnc_fixed, *orc_bnc_frame;
-	GtkWidget * subgrp_prod_orc_img, *financeiro_box, *orc_box_datas;
+	GtkWidget *financeiro_box, *orc_box_datas;
 	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 0)
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -46,7 +46,6 @@ int vnd_orc(){
 	codigo_orc_gchar = malloc(MAX_CODE_LEN);
 	cliente_orc_gchar = malloc(MAX_CODE_LEN);
 	orc_ter_obs_char = malloc(MAX_OBS_LEN);
-	subgrp_prod_orc_cod_gchar = malloc(MAX_CODE_LEN);
 	preco_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	total_prod_orc_gchar = malloc(MAX_PRECO_LEN);
 	qnt_prod_orc_gchar = malloc(MAX_CODE_LEN);
@@ -209,11 +208,6 @@ int vnd_orc(){
 
 	codigo_orc_prod_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 
-	subgrp_prod_orc_box =  malloc(sizeof(GtkBox)*MAX_PROD_ORC);
-	subgrp_prod_orc_frame =  malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	subgrp_prod_orc_button = malloc(sizeof(GtkButton)*MAX_PROD_ORC);
-	subgrp_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-
 	codigo_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
 	desconto_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
 	desconto_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
@@ -251,7 +245,6 @@ int vnd_orc(){
 
 	//entrys
 	codigo_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	subgrp_prod_orc_cod_entry =  malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	descricao_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	qnt_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	preco_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
@@ -380,7 +373,6 @@ int vnd_orc(){
 
 	gtk_widget_hide(codigo_orc_entry);
 	gtk_widget_hide(cliente_orc_entry);
-	if(!produtos.parametros.prod_varios_grupos)
-		gtk_widget_hide(subgrp_prod_orc_frame[itens_qnt-1]);
+
 	return 0;
 }

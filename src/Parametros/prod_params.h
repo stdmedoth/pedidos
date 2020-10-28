@@ -10,7 +10,7 @@ static struct{
 	}criticar;
 
 	struct{
-		int prod_varios_grupos;
+		int nul;
 	}parametros;
 }produtos;
 

@@ -38,7 +38,7 @@ insert into tipo_terceiros(code,nome) values
 
 insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ('produtos','Tabela responsável por armazenar os dados dos produtos',
- '  from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and p_all.referencia = p.grupo',8),
+ '  from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code',8),
 
 ('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',
 ' from terceiros as t inner join terceiros as trp inner join tipo_terceiros as tp inner join contatos as tc on t.transp_code = trp.code and t.tipo = tp.code and tc.terceiro = t.code' ,34),
@@ -50,17 +50,16 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ' from pedidos as p',5),
 
 ('Movimentos estoque','Tabela responsável por mostrar movimentações de produtos no estoque',
-' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g inner join tipo_movimentos as t_m inner join produtos_nome_all as p_all on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code and m_e.tipo_mov = t_m.id  and p_all.code = m_e.subgrupo',10),
+' from movimento_estoque as m_e inner join estoques as e inner join terceiros as t inner join produtos as p inner join grupos as g inner join tipo_movimentos as t_m on m_e.estoque = e.code and m_e.cliente = t.code and m_e.produto = p.code and m_e.subgrupo = g.code and m_e.tipo_mov = t_m.id',10),
 
 ('Faturamento','Tabela responsável pela visualização de valor das vendas',
 ' from faturamento as f inner join pedidos as p inner join terceiros as t inner join tipo_movimentos as t_m on p.code = f.pedido and f.cliente = t.code and f.tipo_mov = t_m.code',7),
 
 ('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join tipo_terceiros as tp inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g inner join produtos_nome_all as p_all on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and t.tipo = tp.code and p_o.produto = p.code and p_o.subgrupo = o_g.code and p_all.code = p_o.subgrupo and p_o.code = o.code',15);
+' from produtos as p inner join unidades as u inner join grupos as g inner join terceiros as t inner join tipo_terceiros as tp inner join Produto_Orcamento as p_o inner join orcamentos as o inner join grupos as o_g on p.fornecedor = t.code and p.grupo = g.code and p.unidades = u.code and t.tipo = tp.code and p_o.produto = p.code and p_o.subgrupo = o_g.code and p_o.code = o.code',15);
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (1, 'Código' , 'Visualizar código do produto', 'p.code',2),
-(1, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
 (1, 'Nome',  'Visualizar nome do produto', 'p.nome ',1),
 (1, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
 (1, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),
@@ -117,7 +116,6 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (5, 'Estoque','Estoque utilizado no movimento', 'm_e.estoque',2),
 (5, 'Pedido', 'Número do pedido vinculado ao movimento', 'm_e.pedido',2),
 (5, 'Cód Produto', 'Código do Produto movimentado', 'm_e.produto',2),
-(5, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
 (5, 'Nome Produto','Nome Produto movimentado', 'p.nome',1),
 (5, 'Subgrupo', 'Subgrupo movimentado', 'g.nome',1),
 (5, 'Cód. Cliente','Código do cliente vinculado ao movimento', 'm_e.cliente',2),
@@ -142,7 +140,6 @@ insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
 (7, 'Total','Valor Totaldo orcamento', 'o.total',3),
 (7, 'Observacoes','Observações contidas no orçamento', 'o.obeservacoes',1),
 (7, 'Código Pród.' , 'Visualizar código do produto', 'p.code',2),
-(7, 'Nome Produto completo','Nome Produto com todas formações', 'p_all.nome',1),
 (7, 'Nome Produto',  'Visualizar nome do produto', 'p.nome ',1),
 (7, 'Peso',  'Visualizar peso do produto', 'p.peso',3),
 (7, 'UND. Varejo', 'Unidades para venda varejo', 'u.nome',1),

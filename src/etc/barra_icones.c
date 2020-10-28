@@ -45,9 +45,9 @@ GtkWidget *barra_icones_wnd(){
   penden_button = gtk_button_new();
 
   if(!notificacao_pendencias)
-    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_icon_name("emblem-generic",GTK_ICON_SIZE_DIALOG));
+    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_file(EMBLEM_GENERIC));
   else
-    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_icon_name("emblem-important",GTK_ICON_SIZE_DIALOG));
+    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_file(EMBLEM_IMPORTANT));
 
 	param_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(param_button),gtk_image_new_from_icon_name("emblem-system",GTK_ICON_SIZE_DIALOG));
