@@ -2,7 +2,6 @@ void inicializar_saidas()
 {
 	est_said_client_gchar = malloc(MAX_CODE_LEN);
 	est_said_prod_gchar = malloc(MAX_CODE_LEN);
-	est_said_subgrp_gchar = malloc(MAX_CODE_LEN);
 	est_said_qnt_gchar = malloc(MAX_CODE_LEN);
 	est_said_data_gchar	 = malloc(MAX_CODE_LEN);
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
@@ -14,7 +13,6 @@ int est_saidas()
 	char code[MAX_CODE_LEN];
 	GtkWidget *est_said_cod_frame, *est_said_cod_fixed;
 	GtkWidget *est_said_prod_frame, *est_said_prod_fixed;
-	GtkWidget *est_said_subgrp_frame, *est_said_subgrp_fixed;
 	GtkWidget *est_said_qnt_frame, *est_said_qnt_fixed;
 	GtkWidget *est_said_tipo_fixed;
 	GtkWidget *est_said_data_frame, *est_said_data_fixed;
@@ -24,7 +22,6 @@ int est_saidas()
 
 	GtkWidget *est_said_cod_box;
 	GtkWidget *est_said_prod_box;
-	GtkWidget *est_said_subgrp_box;
 	GtkWidget *est_said_qnt_box;
 	GtkWidget *est_said_tipo_box;
 	GtkWidget *est_said_data_box;
@@ -142,20 +139,6 @@ int est_saidas()
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_est_combo),1);
 
 
-	est_said_subgrp_frame = gtk_frame_new("Subgrupo");
-	est_said_subgrp_fixed = gtk_fixed_new();
-	est_said_campo_subgrp_prod = gtk_entry_new();
-	est_said_subgrp_entry = gtk_entry_new();
-	est_said_subgrp_box = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(est_said_subgrp_box),est_said_campo_subgrp_prod,0,0,0);
-	gtk_widget_set_sensitive(est_said_campo_subgrp_prod,FALSE);
-	gtk_widget_set_name(est_said_campo_subgrp_prod,"entry_unsensetivate");
-	gtk_box_pack_start(GTK_BOX(subgrupo_box),est_said_subgrp_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(subgrupo_box),psq_subgrp_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_said_subgrp_box),subgrupo_box,0,0,0);
-	gtk_container_add(GTK_CONTAINER(est_said_subgrp_frame),est_said_subgrp_box);
-	gtk_fixed_put(GTK_FIXED(est_said_subgrp_fixed),est_said_subgrp_frame,60,20);
-
 	est_said_qnt_frame = gtk_frame_new("Quantidade");
 	est_said_qnt_entry = gtk_spin_button_new_with_range(0,100000000,0.005);
 	est_said_qnt_fixed = gtk_fixed_new();
@@ -212,7 +195,6 @@ int est_saidas()
 	gtk_grid_attach(GTK_GRID(grid),est_said_est_fixed,1,1,1,1);
 
 	gtk_grid_attach(GTK_GRID(grid),est_said_prod_fixed,0,2,1,1);
-	gtk_grid_attach(GTK_GRID(grid),est_said_subgrp_fixed,1,2,1,1);
 
 	gtk_grid_attach(GTK_GRID(grid),est_said_qnt_fixed,0,3,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_ped_fixed,1,3,1,1);
@@ -231,9 +213,6 @@ int est_saidas()
 	g_signal_connect(est_said_tipo_combo,"changed",G_CALLBACK(est_said_tipo_fun),NULL);
 
 	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
-
-	g_signal_connect(est_said_subgrp_entry,"activate",G_CALLBACK(est_said_subgrp_fun),NULL);
-	g_signal_connect(psq_subgrp_button,"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
 
 	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
 

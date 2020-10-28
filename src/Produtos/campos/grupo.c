@@ -20,7 +20,7 @@ int grupo_prod()
 		popup(NULL,"Código do grupo é muito grande");
 		return 1;
 	}
-	sprintf(query,"select nome from grupos where code = '%s'",grupos_prod);
+	sprintf(query,"select nome,nivel from grupos where code = '%s'",grupos_prod);
 	if(!(vetor = consultar(query)))
 		return 1;
 	if((campos = mysql_fetch_row(vetor))==NULL)
@@ -31,18 +31,8 @@ int grupo_prod()
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);
-
-	g_print("grupo: %s\n",grupos_prod);
-
-	if(concluindo_prod==0)
-	{
-		notebook_preco_grupo();
-		if(precos_produtos[1].ativo==1)
-			if(GTK_IS_WIDGET(entry_preco_grupo_prcvist[1]))
-				gtk_widget_grab_focus(entry_preco_grupo_prcvist[1]);
-	}
-
-
+	grupo_nivel = atoi(campos[1]);
+	
 	return 0;
 
 }

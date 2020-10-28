@@ -15,10 +15,9 @@ int est_ent_produto_fun()
 		return 1;
 	}
 
-	sprintf(query,"select grupo , nome from produtos where code = %i",atoi(est_ent_prod_gchar));
-
-	if((estado = consultar(query))==NULL){
-		popup(NULL,"Erro ao buscar grupo padrao do produto");
+	sprintf(query,"select nome from produtos where code = %i",atoi(est_ent_prod_gchar));
+	if(!(estado = consultar(query))){
+		popup(NULL,"Erro ao buscar nome do produto");
 		return 1;
 	}
 
@@ -27,15 +26,10 @@ int est_ent_produto_fun()
 		return 1;
 	}
 
-
-	find_subgrupos_restrict->grupo = atoi(campo[0]);
-	find_subgrupos_restrict->posicao = 0;
-	find_subgrupos_restrict->entry = est_ent_subgrp_entry;
-
-	gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_prod),campo[1]);
+	gtk_entry_set_text(GTK_ENTRY(est_ent_campo_nome_prod),campo[0]);
 
 
-	gtk_widget_grab_focus(est_ent_subgrp_entry);
+	gtk_widget_grab_focus(est_ent_qnt_entry);
 
 	return 0;
 }

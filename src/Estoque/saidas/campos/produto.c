@@ -13,30 +13,21 @@ int est_said_produto_fun()
 		return 1;
 	}
 
-	sprintf(query,"select grupo , nome from produtos where code = %i",atoi(est_said_prod_gchar));
+	sprintf(query,"select nome from produtos where code = %i",atoi(est_said_prod_gchar));
 
-	if((estado = consultar(query))!=NULL)
-	{
-		campo = mysql_fetch_row(estado);
-		if(campo==NULL)
-		{
-			popup(NULL,"Este código para produto não existe\n\tUse a pesquisa");
-			return 1;
-		}
-	}
-	else
-	{
-		g_print("Erro no MYSQL_RES* para produtos\n");
+	if(!(estado = consultar(query))){
+		popup(NULL,"Erro ao consultar produto");
 		return 1;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(est_said_campo_nome_prod),campo[1]);
+	if(!(campo = mysql_fetch_row(estado))){
+		popup(NULL,"Este código para produto não existe\n\tUse a pesquisa");
+		return 1;
+	}
 
-	find_subgrupos_restrict->grupo = atoi(campo[0]);
-	find_subgrupos_restrict->posicao = 0;
-	find_subgrupos_restrict->entry = est_said_subgrp_entry;
+	gtk_entry_set_text(GTK_ENTRY(est_said_campo_nome_prod),campo[0]);
 
-	gtk_widget_grab_focus(est_said_subgrp_entry);
+	gtk_widget_grab_focus(est_said_qnt_entry);
 
 	return 0;
 }

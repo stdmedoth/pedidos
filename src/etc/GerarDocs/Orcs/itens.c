@@ -58,7 +58,7 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 			row[1][20] = '\0';
 
 
-		fprintf(file,"<td>Cod. %s: %s</td>\n",row[0],row[1]);
+		fprintf(file,"<td>%s (Cod. %s)</td>\n",row[1], row[0]);
 		if(prods_sem_obs == 0)
 			fprintf(file,"<td>%s</td>\n",row[8]);
 		sprintf(formata_float,"%s",row[4]);

@@ -36,7 +36,6 @@ static GtkWidget *codigo_prod_field, *nome_prod_field,
 *fornecedor_prod_field, *grupo_prod_field,
 *preco_faturado_prod_field, *observacao_prod_field,*qnt_atacado_field;
 
-static GtkWidget *tipos_scroll_window, *tipos_scroll_caixa;
 
 static GtkWidget *campo_nome_unidade,
 *campo_nome_fornecedor,

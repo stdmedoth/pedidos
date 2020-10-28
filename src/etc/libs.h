@@ -24,7 +24,6 @@
 #include "../Terceiros/pesquisa_cad.h"
 
 #include "../Produtos/grupos/cad_grupo.h"
-#include "../Produtos/grupos/reload_nome.h"
 
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/datas.h"
@@ -192,7 +191,6 @@
 #include "../Terceiros/pesquisa_cad.c"
 
 #include "../Produtos/cadastro_produtos.c"
-#include "../Produtos/grupos/reload_nome.c"
 
 #include "../Unidades/cadastro_unidades.c"
 

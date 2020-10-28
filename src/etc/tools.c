@@ -367,10 +367,9 @@ static void popup(GtkWidget *widget,gchar *string){
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 
-  if((widget && GTK_IS_WIDGET(widget)))
-    gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(popup));
-  else
-    gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+	//gtk_window_set_transient_for(GTK_WINDOW(popup),GTK_WINDOW(janela_principal));
+	gtk_window_set_position(GTK_WINDOW(popup),GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
 
   gtk_window_set_position(GTK_WINDOW(popup),3);
 

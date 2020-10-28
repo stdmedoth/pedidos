@@ -57,7 +57,6 @@ GtkWidget *rel_fix_ico, *rel_fix_lbl;
 
 //tecnicos
 GtkWidget *emp_ico, *emp_lbl;
-GtkWidget *rld_prod_ico, *rld_prod_lbl;
 
 static GtkWidget *cad_box[CAD_ICO_QNT];
 static GtkWidget *est_box[EST_ICO_QNT];

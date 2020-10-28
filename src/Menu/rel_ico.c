@@ -9,7 +9,6 @@ int rel_ico(void)
 	rel_est_ico = gtk_image_new_from_file(REL_SLD_IMG);
 	rel_orc_prod_ico = gtk_image_new_from_file(REL_ORC_PROD_IMG);
 	rel_fix_ico = gtk_image_new_from_file(REL_ORC_PROD_IMG);
-	rld_prod_ico = gtk_image_new_from_file(ATL_PROD_IMG);
 
 	//label dos icones
 	rel_prd_lbl = gtk_label_new("Relatório Produtos");
@@ -17,7 +16,6 @@ int rel_ico(void)
 	rel_est_lbl = gtk_label_new("Relatório Movimentos");
 	rel_orc_prod_lbl = gtk_label_new("Relatório Orçamentos/Produtos");
 	rel_fix_lbl = gtk_label_new("Relatório Fixos");
-	rld_prod_lbl = gtk_label_new("Atualizar Relatórios");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -58,9 +56,6 @@ int rel_ico(void)
 	gtk_box_pack_end(GTK_BOX(rel_box[4]),rel_fix_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(rel_box[4]),rel_fix_ico,0,0,0);
 
-	gtk_box_pack_end(GTK_BOX(rel_box[5]),rld_prod_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[5]),rld_prod_ico,0,0,0);
-
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(relat_prod_fun),NULL);
 	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(NULL),NULL);
 
@@ -76,7 +71,6 @@ int rel_ico(void)
 	g_signal_connect(eventos[4],"button_press_event",G_CALLBACK(relat_icon_view_wnd),NULL);
 	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
 
-	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(opc_reload_nome_grp),NULL);
 
 	return 0;
 }

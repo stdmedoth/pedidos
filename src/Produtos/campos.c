@@ -1,4 +1,4 @@
-#define PROD_COD_COL 0 
+#define PROD_COD_COL 0
 #define PROD_NOM_COL 1
 #define PROD_PES_COL 2
 #define PROD_UND_COL 3
@@ -11,7 +11,6 @@ int code_prod();
 int altera_prod();
 #include "campos/vars/campos_prod.h"
 #include "campos/vars/listagem_prod.h"
-#include "campos/grupos_precos.c"
 #include "grupos/cad_grupo.c"
 #include "grupos/familia_grupo.c"
 #include "campos/codigo.c"

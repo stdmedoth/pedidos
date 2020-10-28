@@ -44,7 +44,6 @@ int  cad_prod()
 	GtkWidget *janela;
 	GtkWidget *fixed, *fixed2, *fixed3,*box, *box2, *vertical_box1, *vertical_box2, *separator;
 	GtkWidget *code, *name, *preco, *peso, *unidade, *qnt_atacado, *fornecedor, *grupo, *preco_faturado, *observacoes;
-	GtkWidget *grupo_precos_box,*grupo_precos_fixed, *grupo_precos_scroll;
 	GtkWidget *caixa_grande, *psq_prod_codigo_box;
 	GtkWidget *observacoes_scroll;
 	GtkWidget *acao;
@@ -176,22 +175,6 @@ int  cad_prod()
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_prod_field),GTK_ENTRY_ICON_PRIMARY,"tools-check-spelling");
 	gtk_widget_set_size_request(nome_prod_field,500,30);
 
-	grupo_precos_scroll = gtk_scrolled_window_new(NULL,NULL);
-	grid1_grupo = gtk_grid_new();
-	grupo_precos_tree = grid1_grupo;
-	grupo_precos_box = gtk_box_new(0,0);
-
-	gtk_widget_set_size_request(grupo_precos_scroll,530,200);
-	gtk_widget_set_size_request(grupo_precos_box,530,200);
-
-	gtk_box_pack_start(GTK_BOX(grupo_precos_box),grupo_precos_tree,0,0,0);
-
-	gtk_container_add(GTK_CONTAINER(grupo_precos_scroll),grupo_precos_box);
-
-	grupo_precos_fixed = gtk_fixed_new();
-	gtk_fixed_put(GTK_FIXED(grupo_precos_fixed),grupo_precos_scroll,0,0);
-
-
 	peso = gtk_box_new(1,0);
 	gtk_widget_set_name(peso,"caixa");
 	gtk_box_pack_start(GTK_BOX(peso),peso_prod_label,0,0,0);
@@ -243,11 +226,6 @@ int  cad_prod()
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 	gtk_widget_set_size_request(grupo_prod_field,100,30);
 
-	atualiza_grupo_preco_button = gtk_button_new_with_label("Atualizar preços/grupo");
-	atualiza_grupo_preco_fixed = gtk_fixed_new();
-	gtk_button_set_image(GTK_BUTTON(atualiza_grupo_preco_button),gtk_image_new_from_file(IMG_REC));
-	gtk_fixed_put(GTK_FIXED(atualiza_grupo_preco_fixed),atualiza_grupo_preco_button,0,20);
-
 	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
 	observacoes = gtk_box_new(1,0);
 	gtk_widget_set_name(observacoes,"caixa_frame");
@@ -270,9 +248,6 @@ int  cad_prod()
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),atualiza_grupo_preco_fixed,0,0,10);
-
-	gtk_box_pack_start(GTK_BOX(horizontal_box_seven),grupo_precos_fixed,0,0,10);
 
 	prod_concluir_button = gtk_button_new_with_label("Concluir");
 	prod_alterar_button = gtk_button_new_with_label("Alterar");
@@ -304,7 +279,6 @@ int  cad_prod()
 	g_signal_connect(GTK_BUTTON(prod_excluir_button),"clicked",G_CALLBACK(exclui_prod),NULL);
 
 	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_subgrp_todos),grupo_prod_field);
-	g_signal_connect(GTK_BUTTON(atualiza_grupo_preco_button),"clicked",G_CALLBACK(insere_preco_grupos),NULL);
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);

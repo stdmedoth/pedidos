@@ -92,9 +92,9 @@ int relat_fix_vnd_gerar_fun(){
       float vlr_ped=0,vlr_frete=0;
 
       if(!relat_fix_vnd_status_int)
-        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag inner join contatos as tc on ped.cliente = t.code and tc.terceiro = t.code and ped.pag_cond = pag.code where ped.code = %i and ped.status >= 0",cont);
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.pag_cond = pag.code left join contatos as tc on ped.cliente = t.code and tc.terceiro = t.code where ped.code = %i and ped.status >= 0",cont);
       else
-        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.cliente = t.code and ped.pag_cond = pag.code and tc.terceiro = t.code where ped.code = %i and ped.status = %i",cont, relat_fix_vnd_status_int-1);
+        sprintf(query, "select ped.code, t.code, t.razao, t.doc, t.ie, DATE_FORMAT(ped.data_mov,'%%d/%%m/%%Y'), pag.nome, ped.status, t.cidade, t.uf, tc.telefone, tc.email from pedidos as ped inner join terceiros as t inner join pag_cond as pag on ped.pag_cond = pag.code left join contatos as tc on ped.cliente = t.code and tc.terceiro = t.code where ped.code = %i and ped.status = %i",cont, relat_fix_vnd_status_int-1);
 
       if(!(res=consultar(query))){
         popup(NULL,"Erro ao consultar pedido");
@@ -163,7 +163,7 @@ int relat_fix_vnd_gerar_fun(){
         fprintf(relat_file,"</tr>");
         fprintf(relat_file,"</table>");
         fprintf(relat_file,"<table>");
-        sprintf(query, "select po.produto, p_all.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos_nome_all as p_all inner join grupos as g on po.subgrupo = g.code and p_all.code = g.code where po.code = %s",row[0]);
+        sprintf(query, "select po.produto, p.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos as p on p.code = po.produto where po.code = %s",row[0]);
         if(!(res2=consultar(query))){
           popup(NULL,"Erro ao consultar pedido");
           return 1;

@@ -1,12 +1,11 @@
 int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=6,
+	enum {N_COLUMNS=5,
 		COLUMN0=0,
 		COLUMN1=1,
 		COLUMN2=2,
 		COLUMN3=3,
-		COLUMN4=4,
-		COLUMN5=5};
+		COLUMN4=4};
 	gchar *entrada = malloc(MAX_CODE_LEN);
 
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
@@ -36,16 +35,9 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	MYSQL_RES *res, *res2;
 	MYSQL_ROW row, row2;
-	int grupo_len=0;
 	char origem_preco[50],tipo_pag[50];
 	char query[MAX_QUERY_LEN];
-	char **familia_char;
-	char *source,*dest;
 	GtkTreeIter campos,adicion;
-
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
-	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
 
 	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
@@ -95,7 +87,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	gtk_entry_set_text(GTK_ENTRY(ped_pag_entry),tipo_pag);
 
-	sprintf(query,"select p.nome, o.subgrupo, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
+	sprintf(query,"select p.nome, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
 	res = consultar(query);
 
 	if(res == NULL)
@@ -109,19 +101,6 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		{
 			row[0][15] = '.';
 			row[0][15] = '\0';
-		}
-
-		if((grupo_len = rec_familia_nome(familia_char, atoi(row[1])))<0)
-			return 1;
-
-
-		memset(dest,0x0,strlen(dest));
-		memset(source,0x0,strlen(source));
-
-		for(int cont=grupo_len;cont>0;cont--)
-		{
-			sprintf(dest,"%s %s",source,familia_char[cont]);
-			strcpy(source,dest);
 		}
 
 		sprintf(formata_preco1,"R$ %.2f",atof(row[3])); //vlr unitario
@@ -142,11 +121,10 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
-		COLUMN1,dest,
-		COLUMN2,row[2],
-		COLUMN3,formata_preco1,
-		COLUMN4,formata_preco2,
-		COLUMN5,formata_preco3,
+		COLUMN1,row[1],
+		COLUMN2,formata_preco1,
+		COLUMN3,formata_preco2,
+		COLUMN4,formata_preco3,
 		-1);
 
 		switch(atoi(row[7]))
@@ -183,10 +161,9 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	gtk_tree_store_set(modelo,&campos,
 	COLUMN0,"Frete: ",
 	COLUMN1,row[0],
-	COLUMN2,"",
-	COLUMN3,formata_preco1,
-	COLUMN4,formata_preco2,
-	COLUMN5,formata_preco3,
+	COLUMN2,formata_preco1,
+	COLUMN3,formata_preco2,
+	COLUMN4,formata_preco3,
 	-1);
 
 	return 0;
@@ -196,26 +173,24 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 GtkWidget *campos_produto_ped()
 {
-	enum {N_COLUMNS=6,
+	enum {N_COLUMNS=5,
 		COLUMN0=0,
 		COLUMN1=1,
 		COLUMN2=2,
 		COLUMN3=3,
-		COLUMN4=4,
-		COLUMN5=5};
+		COLUMN4=4};
 
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter iter;
-	GtkTreeViewColumn *coluna1,*coluna2,*coluna3,*coluna4,*coluna5,*coluna6;
-	GtkCellRenderer *celula1, *celula2, *celula3, *celula4, *celula5, *celula6;
+	GtkTreeViewColumn *coluna1,*coluna2,*coluna3,*coluna4,*coluna5;
+	GtkCellRenderer *celula1, *celula2, *celula3, *celula4, *celula5;
 
 	coluna1 = gtk_tree_view_column_new();
 	coluna2 = gtk_tree_view_column_new();
 	coluna3 = gtk_tree_view_column_new();
 	coluna4 = gtk_tree_view_column_new();
 	coluna5 = gtk_tree_view_column_new();
-	coluna6 = gtk_tree_view_column_new();
 
 	celula1 = gtk_cell_renderer_accel_new();
 	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula1),1,1);
@@ -232,40 +207,31 @@ GtkWidget *campos_produto_ped()
 	celula5 = gtk_cell_renderer_accel_new();
 	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula5),1,1);
 
-	celula6 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula6),1,1);
-
-
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna1),celula1,TRUE);
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna2),celula2,TRUE);
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna3),celula3,TRUE);
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna4),celula4,TRUE);
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna5),celula5,TRUE);
-	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna6),celula6,TRUE);
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna1),celula1,"text",0);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna1),"Produto");
 	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna1),0.5);
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna2),celula2,"text",1);
-	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna2),"Grupo");
+	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna2),"Quantidade");
 	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna2),0.5);
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna3),celula3,"text",2);
-	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna3),"Quantidade");
+	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna3),"Vlr. Unitário");
 	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna3),0.5);
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna4),celula4,"text",3);
-	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna4),"Vlr. Unitário");
+	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna4),"Desc.");
 	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna4),0.5);
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna5),celula5,"text",4);
-	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna5),"Desc.");
+	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna5),"Total");
 	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna5),0.5);
-
-	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna6),celula6,"text",5);
-	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna6),"Total");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna6),0.5);
 
 	treeview = gtk_tree_view_new();
 
@@ -274,11 +240,10 @@ GtkWidget *campos_produto_ped()
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna6);
 
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
 	gtk_tree_store_append(modelo,&iter,NULL);
-	gtk_tree_store_set(modelo,&iter,COLUMN0,"",COLUMN1,"",COLUMN2,"",COLUMN3,"",COLUMN4,"",COLUMN5,"",-1);
+	gtk_tree_store_set(modelo,&iter,COLUMN0,"",COLUMN1,"",COLUMN2,"",COLUMN3,"",COLUMN4,"",-1);
 
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
