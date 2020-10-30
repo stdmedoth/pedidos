@@ -16,3 +16,9 @@ static GtkWidget *ped_tipo_combo;
 static GtkWidget *emiteped_status_combo;
 static GtkWidget *ped_banco_entry;
 static GtkWidget *ped_psq_cod_button;
+
+int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview);
+
+GtkWidget *campos_produto_ped();
+
+int vnd_ped();

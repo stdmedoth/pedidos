@@ -5,7 +5,7 @@ int orc_transp_cepc()
 	char *query;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	query = malloc(QUERY_LEN);
+	query = malloc(MAX_QUERY_LEN);
 	orc_transp_cep = (gchar *) gtk_entry_get_text(GTK_ENTRY(orc_transp_cep_entry));
 
 	if(strlen(orc_transp_cep)<=0)

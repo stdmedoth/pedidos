@@ -1,3 +1,17 @@
+#include "campos/codigo.c"
+#include "campos/parcela.c"
+#include "campos/cliente.c"
+#include "campos/pedido.c"
+#include "campos/status.c"
+#include "campos/datacriacao.c"
+#include "campos/datavencimento.c"
+#include "campos/valor.c"
+
+#include "cancelar.c"
+#include "alterar.c"
+#include "concluir.c"
+#include "excluir.c"
+
 int cad_titulos_pagar(){
 
     GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);

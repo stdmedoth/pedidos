@@ -51,7 +51,6 @@ static GtkWidget *code_ter_field,
 *cep_ter_field,
 *type_ter_field,
 *prod_ter_field,
-*subgrp_ter_field,
 *observacoes_ter_field,
 *prazo_ter_field;
 
@@ -70,11 +69,11 @@ static GtkWidget *transp_codigo_entry,
 
 GtkWidget *cnst_cad_button;
 
-static GtkWidget *campo_nome_cond_ter,*campo_nome_prod_ter, *campo_nome_subgrp_ter;
+static GtkWidget *campo_nome_cond_ter,*campo_nome_prod_ter;
 static GtkWidget *psq_ter_transp_button, *psq_ter_cep_button, *psq_ter_transpcep_button;
 static GtkWidget *psq_ter_transp_img, *psq_ter_cep_img, *psq_ter_transpcep_img;
 static GtkWidget *psq_ter_transp_box, *psq_ter_cep_box, *psq_ter_transpcep_box;
-static GtkWidget *psq_ter_cond_button,*psq_ter_prod_button, *psq_ter_subgrp_button;
+static GtkWidget *psq_ter_cond_button,*psq_ter_prod_button;
 static GtkWidget *ter_trsp_label,*ter_trsp_entry;
 static GtkWidget *win_tipo_ter;
 

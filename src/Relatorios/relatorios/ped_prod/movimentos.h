@@ -9,8 +9,8 @@ intervalo pedidos
 
 struct
 {
-	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_ELM_LEN+MAX_QUERY_ELM_LEN];
-	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_ELM_LEN];
+	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_LEN+MAX_QUERY_LEN];
+	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_LEN];
 	int campos_qnt;
 }mov_query;
 

@@ -1,3 +1,5 @@
+#include "vnd_ico.h"
+
 int vnd_ico(void)
 {
 	int cont,linha=0;
@@ -44,6 +46,6 @@ int vnd_ico(void)
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(vnd_ped),NULL);
 
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(trsp_cad_fun),NULL);
-	
+
 	return 0;
 }

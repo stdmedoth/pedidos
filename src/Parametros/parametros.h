@@ -3,62 +3,22 @@ static gchar **nomes_temas;
 static int temas_qnt=0;
 GtkWidget **campos_de_critica;
 
-GtkWidget *orc_prod_mov_wdt, *orc_prod_sld_wdt, *orc_prod_sld_lmt_wdt, *orc_ped_canc_wdt;
-
-//combo_box de produtos
-GtkWidget *prod_fornecedor,*prod_grupo,*prod_preco,*prod_total,*prod_peso,*prod_unidade,*prod_fator;
 GtkWidget *tecn_param_nav_path1_entry, *tecn_param_nav_path2_entry, *tecn_param_nav_choose1_radio, *tecn_param_nav_choose2_radio;
 GtkWidget *tecn_param_imp_path1_entry, *tecn_param_imp_path2_entry, *tecn_param_imp_path3_entry;
 
 //quantidade de flags/aba
 const int orc_critic_campos_qnt=3;
 
+int parametrizar();
+
 int temas();
 static int orc_prod_saldo_limite=0;
+
 static GtkWidget *janela_init,
 *janela_keep_above,
 *tema_combo_box,
 *est_orc_padrao;
 
-struct
-{
-	int janela_init;
-	int janela_keep_above;
-	int tema;
-}personalizacao;
-
-static struct
-{
-	struct parametros
-	{
-		int doc;
-		int inscricao;
-		int tipodoc;
-		int bairro;
-		int endereco;
-		int cep;
-		int cidade;
-		int uf;
-		int tipo;
-		int observacoes;
-		int prazo;
-		int vlr_frete_pago;
-		int fornecedor;
-		int grupo;
-		int produto;
-		int preco;
-		int entrega;
-		int total;
-		int peso;
-		int unidade;
-		int fator;
-		int vincula_prod_obs;
-		int prod_movimento;
-		int prod_saldo;
-		int prod_saldo_limite;
-		int orc_ped_cancelado;
-	}criticar;
-}terceiros,produtos,orcamentos;
 
 #define CAMPOS_QNT 25
 int vet_erro[CAMPOS_QNT+1];
@@ -106,13 +66,3 @@ static struct {
 static struct {
 		int est_orc_padrao;
 }orc_params;
-
-char *desktop_images_vet[] =
-{
-	THUMBDESKTOP1,
-	THUMBDESKTOP2,
-	THUMBDESKTOP3,
-	THUMBDESKTOP4,
-	THUMBDESKTOP5,
-	THUMBDESKTOP6
-};

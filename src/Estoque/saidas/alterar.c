@@ -42,8 +42,6 @@ void est_said_alterar_fun()
 	gtk_widget_activate(est_said_client_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_said_prod_entry),campo[PROD_MOV_EST]);
 	gtk_widget_activate(est_said_prod_entry);
-	gtk_entry_set_text(GTK_ENTRY(est_said_subgrp_entry),campo[SUBGRP_MOV_EST]);
-	gtk_widget_activate(est_said_subgrp_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_said_qnt_entry),campo[SAID_MOV_EST]);
 
 	gtk_widget_activate(est_said_qnt_entry);

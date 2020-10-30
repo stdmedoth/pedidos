@@ -5,10 +5,11 @@ int relat_ter_query_fun()
 	int campos_qnt=0;
 	char ini_query[] = "select";
 	char end_query[MAX_QUERY_LEN];
-	char query[MAX_QUERY_LEN*3];
-	char campo_query_cp[MAX_QUERY_ELM_LEN];
-	char filtros_query_gchar[MAX_QUERY_LEN*2],filtros_order_by[MAX_QUERY_LEN];
-
+	char query[MAX_QUERY_LEN];
+	char campo_query_cp[MAX_ROW_LEN*2];
+	char tipo_ter_query[MAX_ROW_LEN];
+	char filtros_query_gchar[MAX_ROW_LEN*4];
+	char filtros_order_by[MAX_ROW_LEN*2];
 	relat_ter_gerando = 1;
 
 	if(relat_ter_codigo_fun()!=0)
@@ -45,10 +46,10 @@ int relat_ter_query_fun()
 	if(relat_ter_tipo_int == 0){
 
 			if(relat_ter_pes_int == 0)
-				sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and t.tipo_doc > 0 and t.cep >= %i and t.cep <= %i %s",
+				sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo >= 0 and t.tipo_doc >= 0 and t.cep >= %i and t.cep <= %i %s",
 				relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 			else
-			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo > 0 and t.tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
+			sprintf(filtros_query_gchar,"where t.code >= %i and t.code <= %i and t.tipo >= 0 and t.tipo_doc = %i and t.cep >= %i and t.cep <= %i %s",
 			relat_ter_cod_int1_int, relat_ter_cod_int2_int, relat_ter_pes_int, relat_ter_cep_int1_int, relat_ter_cep_int2_int, filtros_order_by);
 
 	}else{

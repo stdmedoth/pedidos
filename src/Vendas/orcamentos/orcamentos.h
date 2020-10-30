@@ -8,17 +8,19 @@
 #define ORC_TOTAL_COL 7
 #define ORC_OBS__COL 8
 
-#define ORC_PROD_COD_COL 0
-#define ORC_PROD_ITM_COL 1
-#define ORC_PROD_PROD_COL 2
-#define ORC_PROD_SUBGRP_COL 3
-#define ORC_PROD_UND_COL 4
-#define ORC_PROD_VLR_COL 5
-#define ORC_PROD_VLR_ORIG_COL 6
-#define ORC_PROD_TIP_DESC_COL 7
-#define ORC_PROD_DESC_COL 8
-#define ORC_PROD_TOTAL_COL 9
-#define ORC_PROD_OBS_COL 10
+enum{
+ORC_PROD_COD_COL,
+ORC_PROD_ITM_COL,
+ORC_PROD_PROD_COL,
+ORC_PROD_UND_COL,
+ORC_PROD_VLR_COL,
+ORC_PROD_VLR_ORIG_COL,
+ORC_PROD_TIP_DESC_COL,
+ORC_PROD_DESC_COL,
+ORC_PROD_TOTAL_COL,
+ORC_PROD_OBS_COL
+};
+
 
 static struct itens_struct
 {
@@ -26,14 +28,11 @@ static struct itens_struct
 	int item;
 	int produto;
 	char produto_nome[MAX_NAME_LEN];
-	int subgrupo;
-	char subgrupo_nome[MAX_NAME_LEN];
 	float qnt_f;
 	float preco_f;
 	float desconto_f;
 	int tipodesc;
 	float total_f;
-	char grupos_nome[MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO];
 	char qnt_c[MAX_PRECO_LEN];
 	char preco_c[MAX_PRECO_LEN];
 	char desconto_c[MAX_PRECO_LEN];
@@ -152,8 +151,7 @@ static gchar *codigo_orc_gchar,
 *observacoes_orc_gchar;
 
 static gchar *codigo_prod_orc_gchar,
-//*descricao_prod_orc_gchar,
-*subgrp_prod_orc_cod_gchar,
+//*descricao_prod_orc_gchar
 *qnt_prod_orc_gchar,
 *preco_prod_orc_gchar,
 *orig_preco_prod_orc_gchar,
@@ -168,7 +166,6 @@ GtkWidget **codigo_prod_orc_frame;
 GtkWidget **desconto_prod_orc_frame,**desconto_prod_orc_box;
 GtkWidget **preco_prod_orc_frame,**preco_prod_orc_box;
 GtkWidget **qnt_prod_orc_frame,**qnt_prod_orc_box;
-GtkWidget **subgrp_prod_orc_frame,**subgrp_prod_orc_box;
 GtkWidget **total_prod_orc_frame,**total_prod_orc_box, **total_prod_orc_fixed;
 
 
@@ -204,8 +201,6 @@ GtkWidget *orc_bnc_code_entry, *orc_bnc_nome_entry, *orc_bnc_psq_button;
 
 GtkWidget **codigo_prod_orc_entry,
 **descricao_prod_orc_entry,
-**subgrp_prod_orc_entry, **subgrp_prod_orc_cod_entry,
-**subgrp_prod_orc_button,
 **qnt_prod_orc_entry,
 **preco_prod_orc_entry,
 **desconto_prod_orc_entry,

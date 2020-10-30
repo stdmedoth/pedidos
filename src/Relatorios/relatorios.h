@@ -1,3 +1,5 @@
+void cad_relat();
+
 static int codigo_rel_campo=0, codigo_rel_tabel=0;
 
 static GtkWidget *cad_rel_code_entry,
@@ -9,7 +11,7 @@ static GtkWidget *cad_relat_treeview;
 static gchar *cad_rel_code_gchar,
 *cad_rel_nome_gchar;
 
-static char campos_query[MAX_RELAT_CAMPOS+1][500];
+static char campos_query[MAX_RELAT_CAMPOS+1][MAX_ROW_LEN];
 
 static struct
 {
@@ -44,15 +46,3 @@ static int concluindo_cad_rel=0, alterando_cad_rel=0;
 #include "concluir.h"
 #include "alterar.h"
 #include "excluir.h"
-
-#include "campos/codigo.c"
-#include "campos/nome.c"
-#include "campos/tabela.c"
-#include "campos/remover.c"
-
-#include "cancelar.c"
-#include "concluir.c"
-#include "alterar.c"
-#include "excluir.c"
-
-#include "pesquisar/relat_campos.c"

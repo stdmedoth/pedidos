@@ -1,3 +1,11 @@
+
+#include "campos/codigo.c"
+#include "campos/query.c"
+#include "campos/orc_prod.c"
+#include "campos/prod.c"
+#include "campos/terceiro.c"
+#include "gerar.c"
+
 void relat_orc_prod_fun()
 {
 	GtkWidget *janela;

@@ -5,7 +5,7 @@ int est_ent_codigo_fun()
 	MYSQL_ROW campo;
 
 	est_ent_cod_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(est_ent_cod_entry));
-	
+
 	if(strlen(est_ent_cod_gchar)<=0)
 	{
 		popup(NULL,"Insira o código");
@@ -34,7 +34,7 @@ int est_ent_codigo_fun()
 		if(atoi(campo[0])<=0)
 		{
 			popup(NULL,"A entrada está zerada");
-			
+
 		}
 		return 0;
 	}

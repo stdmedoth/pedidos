@@ -1,3 +1,5 @@
+#include "fin_ico.h"
+
 int fin_ico(void)
 {
 

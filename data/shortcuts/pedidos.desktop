@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=pedidos
+Comment=Sistema de gerenciamento de pedidos
+Exec=/bin/pedidos
+Icon=/usr/share/pedidos/files/assets/logo_pequena.png
+Terminal=false
+Categories=Management;Tools;

@@ -1,5 +1,3 @@
-gchar *oper_nome_login,*oper_senha_login;
-
 void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry){
 	if(senha_entry){
 		GtkInputPurpose tipo = gtk_entry_get_input_purpose(GTK_ENTRY(senha_entry));

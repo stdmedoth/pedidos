@@ -18,8 +18,10 @@ static int concluindo_und=0;
 
 static GtkWidget *und_concluir_button, *und_alterar_button, *und_excluir_button;
 
-#include "campos/codigo.c"
-#include "campos/nome.c"
-#include "campos/sigla.c"
-#include "campos/multiplo.c"
-#include "campos/medida.c"
+int  cad_und();
+
+int multiplo_und();
+
+int deleta_und();
+
+int concluido_und();

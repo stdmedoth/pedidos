@@ -165,7 +165,7 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_bnc_wnd),caixa_grande);
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_bnc_pesquisa),treeview);
-	pesquisa_global_alvo = GTK_ENTRY(cod_bnc_entry);
+	pesquisa_global_alvo = cod_bnc_entry;
 
 	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_bnc_wnd);
 

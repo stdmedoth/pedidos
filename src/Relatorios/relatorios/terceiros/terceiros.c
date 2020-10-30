@@ -1,3 +1,10 @@
+#include "campos/codigo.c"
+#include "campos/query.c"
+#include "campos/terceiro.c"
+#include "campos/cep.c"
+#include "campos/query_man.c"
+#include "gerar.c"
+
 void relat_ter_fun()
 {
 	GtkWidget *janela;

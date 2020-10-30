@@ -1,3 +1,20 @@
+#define PROD_COD_COL 0
+#define PROD_NOM_COL 1
+#define PROD_PES_COL 2
+#define PROD_UND_COL 3
+#define PROD_UND_ATAC_COL 4
+#define PROD_FORN_COL 5
+#define PROD_GRP_COL 6
+#define PROD_OBS_COL 7
+
+int code_prod();
+int altera_prod();
+
+static GtkWidget *prod_concluir_button, *prod_alterar_button, *prod_cancelar_button, *prod_excluir_button;
+static GtkWidget *psq_prod_codigo_button;
+static int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
+int inicializar_prod();
+int  cad_prod();
 static gchar *codigos_prod=NULL;
 static gchar *nomes_prod=NULL;
 static gchar *precos_prod=NULL;
@@ -36,7 +53,6 @@ static GtkWidget *codigo_prod_field, *nome_prod_field,
 *fornecedor_prod_field, *grupo_prod_field,
 *preco_faturado_prod_field, *observacao_prod_field,*qnt_atacado_field;
 
-static GtkWidget *tipos_scroll_window, *tipos_scroll_caixa;
 
 static GtkWidget *campo_nome_unidade,
 *campo_nome_fornecedor,

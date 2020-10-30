@@ -139,22 +139,12 @@ create table if not exists produtos( code int primary key auto_increment,
 
 create table if not exists precos( code int primary key auto_increment,
   produto int default 1,
-  terceiro int default 1,
   valor_fat float default 0.0,
   valor_vist float default 0.0,
-  foreign key(produto) references produtos(code),
-  foreign key(terceiro) references terceiros(code));
-
-create table if not exists preco_grupo( code int primary key auto_increment,
-  produto int default 1,
-  grupo int default 1,
-  valor_fat float default 0.0,
-  valor_vist float default 0.0,
-  foreign key(grupo) references grupos(code));
+  foreign key(produto) references produtos(code));
 
 create table if not exists preco_cliente( code int primary key auto_increment,
   produto int default 1,
-  grupo int default 1,
   cliente int default 1,
   valor_fat float default 0.0,
   valor_vist float default 0.0,
@@ -185,7 +175,6 @@ create table if not exists orcamentos( code int primary key auto_increment,
 create table if not exists Produto_Orcamento( code int,
   item int default 1,
   produto int default 0,
-  subgrupo int default 0,
   unidades float default 0.0,
   valor_unit float default 0.0,
   valor_orig int default 0,
@@ -206,32 +195,23 @@ create table if not exists faturamento ( code int primary key auto_increment,
 create table if not exists estoques( code int primary key auto_increment,
   nome varchar(20) default 'Estoque Sem Nome');
 
-create table produtos_nome_all(
-  code int not null primary key,
-  nome varchar(500),
-  referencia int not null);
-
 create table if not exists movimento_estoque( code int primary key auto_increment,
   estoque int default 1,
   pedido int default 0,
   cliente int default 0,
   produto int default 0,
-  subgrupo int default 0,
   entradas float default 0,
   saidas float default 0,
   data_mov date default '2001-01-01',
   tipo_mov int default 0,
   foreign key(estoque) references estoques(code),
-  foreign key(produto) references produtos(code),
-  foreign key(subgrupo) references grupos(code));
+  foreign key(produto) references produtos(code));
 
-create table saldo_min_grupo( code int primary key auto_increment,
+create table saldo_min( code int primary key auto_increment,
   produto int  not null default 1,
-  grupo int  not null default 1,
   saldo_min float  not null default 0.0,
   estoque int  not null default 1,
   foreign key(produto) references produtos(code),
-  foreign key(grupo) references grupos(code),
   foreign key(estoque) references estoques(code));
 
 create table if not exists tipo_pagamento( code int, nome varchar(50));

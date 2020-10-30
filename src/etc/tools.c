@@ -1,15 +1,7 @@
-#define QUERY_LEN 1000
-#define RANDOM_STRING_SIZE 10
-static int logging = 0;
-static int erro_logger=0;
-
-GtkWidget *print_janela;
-
-GtkWidget *msg_abrir_orc_window;
-
-static MYSQL conectar;
-MYSQL_RES *vetor;
-static int primeira_conexao=0;
+void passar_campo(GtkWidget *widget,gpointer widget2)
+{
+	gtk_widget_grab_focus(widget2);
+}
 
 int is_texto(char *texto){
   for(int cont=0;cont<strlen(texto);cont++){
@@ -361,10 +353,9 @@ static void popup(GtkWidget *widget,gchar *string){
 	gtk_window_set_title(GTK_WINDOW(popup),"Mensagem");
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 
-  if((widget && GTK_IS_WIDGET(widget)))
-    gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(popup));
-  else
-    gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+	//gtk_window_set_transient_for(GTK_WINDOW(popup),GTK_WINDOW(janela_principal));
+	gtk_window_set_position(GTK_WINDOW(popup),GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
 
   gtk_window_set_position(GTK_WINDOW(popup),3);
 
@@ -522,7 +513,7 @@ int tasker(char *table)
 	MYSQL_ROW campos;
 
 	int err=0,task_num=0;
-	char query[QUERY_LEN];
+	char query[MAX_QUERY_LEN];
 
 	sprintf(query,"select MAX(code) from %s;",table);
 	result_vetor = consultar(query);
@@ -549,78 +540,6 @@ int tasker(char *table)
 	return (task_num+1);
 }
 
-
-int configurar_parametros()
-{
-	int cont;
-	char *query;
-	query = malloc(MAX_QUERY_LEN);
-	MYSQL_RES *res;
-	MYSQL_ROW  row;
-
-  xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
-	if(orc_xml){
-		xmlNodePtr root = xmlDocGetRootElement(orc_xml);
-		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
-		if(orc_prod_mov){
-			orcamentos.criticar.prod_movimento = atoi((const char *)orc_prod_mov->content);
-		}
-
-		xmlNodePtr orc_prod_saldo = getContentByTagName(root,"orc_prod_saldo");
-		if(orc_prod_saldo){
-			orcamentos.criticar.prod_saldo = atoi((const char *)orc_prod_saldo->content);
-		}
-
-		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");
-		if(orc_prod_sld_lmt){
-			orcamentos.criticar.prod_saldo_limite = atoi((const char *)orc_prod_sld_lmt->content);
-		}
-
-		xmlNodePtr orc_ped_canc = getContentByTagName(root,"orc_ped_canc");
-		if(orc_ped_canc){
-			orcamentos.criticar.orc_ped_cancelado = atoi((const char *)orc_ped_canc->content);
-		}
-	}
-
-	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
-
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro ao receber dados de configuração");
-		return 1;
-	}
-
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Sem dados para configurar o sistema");
-		return 1;
-	}
-
-	strcpy(navegadores.navegador_path1,row[1]);
-	strcpy(navegadores.navegador_path2,row[2]);
-	navegadores.navegador_pdr = atoi(row[3]);
-
-	strcpy(impressoras.imp_path1,row[4]);
-	strcpy(impressoras.imp_path2,row[5]);
-	strcpy(impressoras.imp_path3,row[6]);
-
-	carregar_navimps();
-
-	sprintf(query,"select * from orc_param");
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro ao receber parametros de orçamentos");
-		return 1;
-	}
-
-	if((row = mysql_fetch_row(res))==NULL)
-	{
-		popup(NULL,"Sem dados para parametrizar orçamentos");
-		return 1;
-	}
-	orc_params.est_orc_padrao = atoi(row[0]);
-	return 0;
-}
 static char **tipo_ter_list;
 
 char *tipo_ter_num_to_str(int num){

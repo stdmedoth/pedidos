@@ -9,8 +9,8 @@ intervalo pedidos
 
 struct
 {
-	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_ELM_LEN+MAX_QUERY_ELM_LEN];
-	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_ELM_LEN];
+	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_LEN+MAX_QUERY_LEN];
+	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_LEN];
 	int campos_qnt;
 }orc_prod_query;
 
@@ -52,10 +52,4 @@ static int relat_orc_prod_gerando=0;
 int relat_orc_prod_codigo_fun();
 int relat_orc_prod_query_fun();
 int relat_orc_prod_gerar_fun();
-
-#include "campos/codigo.c"
-#include "campos/query.c"
-#include "campos/orc_prod.c"
-#include "campos/prod.c"
-#include "campos/terceiro.c"
-#include "gerar.c"
+void relat_orc_prod_fun();

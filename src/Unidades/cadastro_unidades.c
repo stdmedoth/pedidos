@@ -1,3 +1,8 @@
+#include "campos/codigo.c"
+#include "campos/nome.c"
+#include "campos/sigla.c"
+#include "campos/multiplo.c"
+#include "campos/medida.c"
 #include "altera.c"
 #include "exclui.c"
 #include "conclui.c"
@@ -137,7 +142,7 @@ int  cad_und()
 
 	g_signal_connect(GTK_WIDGET(psq_cad_und_button),"clicked",G_CALLBACK(pesquisa_und),code_und_field);
 
-g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_UND]);
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_UND]);
 
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,30,5);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),separator2,0,0,10);

@@ -2,13 +2,10 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
   MYSQL_RES *res;
   MYSQL_ROW row;
   char *query = malloc(MAX_QUERY_LEN);
-  char **familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
-	char *source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	char *dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
   char *formata_float = malloc(MAX_PRECO_LEN); //desconto
 	char *formata_float2 = malloc(MAX_PRECO_LEN); //quantidade
 	char *formata_float3 = malloc(MAX_PRECO_LEN); //preco
-  int erro,grupo_len,prods_sem_obs=0;
+  int erro,prods_sem_obs=0;
   double chartofloat,totalfloat;
   int conta_linhas = 0;
 
@@ -23,7 +20,7 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 	if((row = mysql_fetch_row(res))==NULL)
 		prods_sem_obs = 1;
 
-	sprintf(query,"select p.code, g.code,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p inner join grupos as g on p.code = o.produto join unidades as u on u.code = p.unidades and g.code = o.subgrupo where o.code = %i;",orc->infos.code);
+	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidades where o.code = %i;",orc->infos.code);
 
 	if(!(res = consultar(query)))
 	{
@@ -60,20 +57,8 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 		if(strlen(row[1])>20)
 			row[1][20] = '\0';
 
-		if((grupo_len = rec_familia_nome(familia_char, atoi(row[1]) ))<0){
-			popup(NULL,"Erro na criação do html para subgrupo");
-			return 1;
-		}
-		strcpy(dest,"");
-		strcpy(source,"");
-		for(int cont=grupo_len;cont>0;cont--)
-		{
-			sprintf(dest,"%s %s",source,familia_char[cont]);
 
-			strcpy(source,dest);
-		}
-
-		fprintf(file,"<td>Cod. %s: %s</td>\n",row[0],dest);
+		fprintf(file,"<td>%s (Cod. %s)</td>\n",row[1], row[0]);
 		if(prods_sem_obs == 0)
 			fprintf(file,"<td>%s</td>\n",row[8]);
 		sprintf(formata_float,"%s",row[4]);

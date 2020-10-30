@@ -13,7 +13,6 @@
 #include "campos/cliente_orc.c"
 #include "campos/operacao_orc.c"
 #include "campos/prod_orc.c"
-#include "campos/grupo.c"
 #include "campos/qnt_orc.c"
 #include "campos/preco_orc.c"
 #include "campos/total_orc.c"

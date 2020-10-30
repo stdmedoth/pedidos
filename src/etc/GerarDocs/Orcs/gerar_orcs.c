@@ -57,7 +57,6 @@ int gerar_orcs_full( int code_orc ){
   if(gerar_orc_itens(orc_file, &orc))
     return 1;
 
-
   if(gerar_orc_transporte(orc_file, &orc))
     return 1;
 

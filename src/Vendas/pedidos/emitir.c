@@ -318,7 +318,7 @@ int ped_emitir()
 
 	//calculando estoques
 
-	sprintf(query,"select p.produto, p.subgrupo, p.unidades from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %i",ped_infos.ped_code);
+	sprintf(query,"select p.produto, p.unidades from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %i",ped_infos.ped_code);
 
 	res = consultar(query);
 
@@ -330,19 +330,19 @@ int ped_emitir()
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		if(row[0] && row[1] && row[2]){
+		if(row[0] && row[1]){
 			if(ped_infos.tipo_mov == VENDA || ped_infos.tipo_mov == DEV_COMPRA){
 
-				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, saidas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
+				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, saidas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s, %i, '%s', %i)",
 				gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
 				ped_infos.ped_code,
-				row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
+				row[0], row[1], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
 			}else
 			if(ped_infos.tipo_mov == DEV_VENDA || ped_infos.tipo_mov == COMPRA){
-				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, subgrupo, entradas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s,%s, %i, '%s', %i)",
+				sprintf(query,"insert into movimento_estoque(estoque,pedido, produto, entradas, cliente, data_mov, tipo_mov) values(%i,%i,%s,%s, %i, '%s', %i)",
 				gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo)),
 				ped_infos.ped_code,
-				row[0], row[1], row[2], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
+				row[0], row[1], ped_infos.cliente_code, ped_infos.data_mov, ped_infos.tipo_mov);
 			}
 		}
 		else{

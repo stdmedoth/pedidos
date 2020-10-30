@@ -1,7 +1,6 @@
 static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
-	GtkWidget *subgrp_prod_orc_img;
 	char *query;
 	movendo_scroll=0;
 
@@ -36,10 +35,6 @@ static int adicionar_linha_orc()
 				if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
 					return 1;
 
-			if(GTK_IS_WIDGET(subgrp_prod_orc_cod_entry[itens_qnt-1]))
-				if(subgrp_prod_orc(subgrp_prod_orc_cod_entry[itens_qnt-1],itens_qnt-1)!=0)
-					return 1;
-
 			if(GTK_IS_WIDGET(qnt_prod_orc_entry[itens_qnt-1]))
 				if(qnt_prod_orc(qnt_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
 					return 1;
@@ -70,13 +65,6 @@ static int adicionar_linha_orc()
 	pesquisa_prod[itens_qnt] = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(pesquisa_prod[itens_qnt]), gtk_image_new_from_file(IMG_PESQ));
 
-	subgrp_prod_orc_box[itens_qnt] = gtk_box_new(0,0);
-	subgrp_prod_orc_frame[itens_qnt] = gtk_frame_new("Subgrupo");
-	subgrp_prod_orc_entry[itens_qnt] = gtk_entry_new();
-	subgrp_prod_orc_cod_entry[itens_qnt] =  gtk_entry_new();
-	subgrp_prod_orc_button[itens_qnt] = gtk_button_new();
-	subgrp_prod_orc_img = gtk_image_new_from_file(IMG_PESQ);
-
 	codigo_prod_orc_frame[itens_qnt] = gtk_frame_new("Código Produto");
 	desconto_prod_orc_frame[itens_qnt] = gtk_frame_new("Desconto");
 	desconto_prod_orc_box[itens_qnt] = gtk_box_new(0,0);
@@ -89,11 +77,6 @@ static int adicionar_linha_orc()
 
 	descricao_prod_orc_label[itens_qnt] = gtk_label_new("Descr.");
 	descricao_prod_orc_entry[itens_qnt] = gtk_entry_new();
-
-	subgrp_prod_orc_cod_entry[itens_qnt] =  gtk_entry_new();
-	subgrp_prod_orc_entry[itens_qnt] = gtk_entry_new();
-	subgrp_prod_orc_img = gtk_image_new_from_file(IMG_PESQ);
-	gtk_button_set_image(GTK_BUTTON(subgrp_prod_orc_button[itens_qnt]),subgrp_prod_orc_img);
 
 	qnt_prod_orc_label[itens_qnt] = gtk_label_new("Qnt:");
 	qnt_prod_orc_entry[itens_qnt] = gtk_entry_new();
@@ -170,18 +153,6 @@ static int adicionar_linha_orc()
 	gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[itens_qnt]),codigo_orc_prod_box[itens_qnt]);
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),codigo_prod_orc_frame[itens_qnt],0,0,15);
-
-	gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[itens_qnt]),subgrp_prod_orc_cod_entry[itens_qnt],0,0,2);
-	gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[itens_qnt]),subgrp_prod_orc_button[itens_qnt],0,0,2);
-	gtk_box_pack_start(GTK_BOX(subgrp_prod_orc_box[itens_qnt]),subgrp_prod_orc_entry[itens_qnt],0,0,2);
-	gtk_container_add(GTK_CONTAINER(subgrp_prod_orc_frame[itens_qnt]),subgrp_prod_orc_box[itens_qnt]);
-
-	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),subgrp_prod_orc_frame[itens_qnt],0,0,2);
-	gtk_entry_set_placeholder_text(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),"Código Subrupo");
-	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_cod_entry[itens_qnt]),3);
-	gtk_entry_set_width_chars(GTK_ENTRY(subgrp_prod_orc_entry[itens_qnt]),30);
-	gtk_widget_set_sensitive(subgrp_prod_orc_entry[itens_qnt],FALSE);
-	gtk_widget_set_name(subgrp_prod_orc_entry[itens_qnt],"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_entry[itens_qnt],0,0,2);
@@ -264,13 +235,6 @@ static int adicionar_linha_orc()
 
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
 
-	find_subgrupos_restrict->grupo = 1;
-	find_subgrupos_restrict->posicao = itens_qnt;
-	find_subgrupos_restrict->entry = subgrp_prod_orc_cod_entry[itens_qnt];
-
-	g_signal_connect(subgrp_prod_orc_button[itens_qnt],"clicked",G_CALLBACK(pesquisa_subgrp),NULL);
-	g_signal_connect(subgrp_prod_orc_cod_entry[itens_qnt],"activate",G_CALLBACK(subgrp_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
@@ -287,9 +251,10 @@ static int adicionar_linha_orc()
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 
+	gtk_widget_show_all(linhas_prod_orc_frame[itens_qnt]);
+
 	itens_qnt++;
 
-	gtk_widget_show_all(orc_prods_grid);
 
 	return 0;
 }
