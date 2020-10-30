@@ -1,3 +1,16 @@
+#include "campos/codigo.c"
+#include "campos/produto.c"
+#include "campos/tipo.c"
+#include "campos/data.c"
+#include "campos/quantidade.c"
+#include "campos/cliente.c"
+#include "campos/estoque.c"
+#include "campos/pedido.c"
+
+#include "cancelar.c"
+#include "confirmar.c"
+#include "alterar.c"
+
 int est_entradas()
 {
 	GtkWidget *janela, *grid;

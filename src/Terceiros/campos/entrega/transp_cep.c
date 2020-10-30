@@ -4,7 +4,7 @@ int transp_cepc()
 	char *query;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	query = malloc(QUERY_LEN);
+	query = malloc(MAX_QUERY_LEN);
 	transp_cep = (gchar *) gtk_entry_get_text(GTK_ENTRY(transp_cep_entry));
 	if(strlen(transp_cep)>=MAX_CEP_LEN)
 	{
@@ -61,7 +61,7 @@ int transp_cepc()
 		gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campos[2]);
 	if(campos[3])
 		gtk_entry_set_text(GTK_ENTRY(transp_bairro_entry),campos[3]);
-		
+
 	gtk_widget_grab_focus(transp_logradouro_entry);
 	g_print("cep: %s\n",transp_cep);
 	return 0;

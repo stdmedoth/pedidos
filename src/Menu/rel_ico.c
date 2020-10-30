@@ -1,3 +1,5 @@
+#include "rel_ico.h"
+
 int rel_ico(void)
 {
 

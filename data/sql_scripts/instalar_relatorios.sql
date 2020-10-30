@@ -41,7 +41,7 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
  '  from produtos as p inner join unidades as u inner join terceiros as t on p.fornecedor = t.code and p.unidades = u.code',8),
 
 ('terceiros','Tabela responsável por armazenar os dados dos clientes e fornecedores',
-' from terceiros as t inner join terceiros as trp inner join tipo_terceiros as tp inner join contatos as tc on t.transp_code = trp.code and t.tipo = tp.code and tc.terceiro = t.code' ,25),
+' from terceiros as t inner join terceiros as trp left join tipo_terceiros as tp on t.transp_code = trp.code and t.tipo = tp.code left join contatos as tc on tc.terceiro = t.code' ,25),
 
 ('orçamentos','Tabela responsável por armazenar os orcamentos criados e seus status',
 ' from orcamentos as o inner join terceiros as t inner join tipo_pagamento as tp on o.cliente = t.code and o.tipopag = tp.code',6),

@@ -13,8 +13,4 @@ int est_sald_est();
 int calcula_saldo();
 int est_sld_prod_fun();
 int est_sld_min_fun();
-
-#include "campos/calcula.c"
-#include "campos/produto.c"
-#include "campos/saldo_min.c"
-#include "campos/estoque.c"
+int cad_est_sld();

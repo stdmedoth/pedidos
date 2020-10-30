@@ -1,4 +1,4 @@
-int cad_titulos_pageber();
+int cad_titulos_pagar();
 
 GtkWidget *cad_pag_cli_psq_button, *cad_pag_tit_psq_button, *cad_pag_ped_psq_button, *cad_pag_datacri_psq_button, *cad_pag_datavenc_psq_button;
 
@@ -28,17 +28,3 @@ static int cad_pag_alterando=0, cad_pag_concluindo=0;
 int cad_pag_cancelar_fun();
 int cad_pag_alterar_fun();
 int cad_pag_concluir_fun();
-
-#include "campos/codigo.c"
-#include "campos/parcela.c"
-#include "campos/cliente.c"
-#include "campos/pedido.c"
-#include "campos/status.c"
-#include "campos/datacriacao.c"
-#include "campos/datavencimento.c"
-#include "campos/valor.c"
-
-#include "cancelar.c"
-#include "alterar.c"
-#include "concluir.c"
-#include "excluir.c"

@@ -9,12 +9,14 @@ int atualizar_personalizacao();
 
 int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao);
 
-struct
+struct _personalizacao
 {
 	int janela_init;
 	int janela_keep_above;
 	int tema;
+
 }personalizacao;
+
 
 
 char *desktop_images_vet[] =

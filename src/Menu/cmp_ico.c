@@ -1,3 +1,5 @@
+#include "cmp_ico.h"
+
 int cmp_ico(void)
 {
 

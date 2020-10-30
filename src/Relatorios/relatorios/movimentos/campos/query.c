@@ -5,10 +5,11 @@ int relat_mov_query_fun()
 	int campos_qnt=0;
 	char ini_query[] = "select";
 	char *end_query;
-	char query[MAX_QUERY_LEN*2];
-	char campo_query_cp[MAX_QUERY_ELM_LEN];
-	char tipo_mov_query[MAX_QUERY_ELM_LEN/2];
-	char filtros_query_gchar[MAX_QUERY_LEN],filtros_order_by[MAX_QUERY_LEN/2];
+	char query[MAX_QUERY_LEN];
+	char campo_query_cp[MAX_ROW_LEN*2];
+	char tipo_mov_query[MAX_ROW_LEN];
+	char filtros_query_gchar[MAX_ROW_LEN*4];
+	char filtros_order_by[MAX_ROW_LEN*2];
 
 	relat_mov_gerando=1;
 

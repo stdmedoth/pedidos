@@ -1,3 +1,8 @@
+#include "campos/calcula.c"
+#include "campos/produto.c"
+#include "campos/saldo_min.c"
+#include "campos/estoque.c"
+
 int cad_est_sld()
 {
 	GtkWidget *janela, *caixa_grande;

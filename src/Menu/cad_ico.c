@@ -1,3 +1,5 @@
+#include "cad_ico.h"
+
 int cad_ico(void)
 {
 

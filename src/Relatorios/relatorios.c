@@ -1,3 +1,15 @@
+#include "campos/codigo.c"
+#include "campos/nome.c"
+#include "campos/tabela.c"
+#include "campos/remover.c"
+
+#include "cancelar.c"
+#include "concluir.c"
+#include "alterar.c"
+#include "excluir.c"
+
+#include "pesquisar/relat_campos.c"
+
 void cad_relat()
 {
 	GtkWidget *janela, *caixa_grande,

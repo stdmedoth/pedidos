@@ -1,7 +1,3 @@
-GtkWidget *lista_abas, *frame_lista_abas;
-GtkWidget *botao_iniciar;
-int controle_menu=0;
-
 int menu(void)
 {
 
@@ -24,7 +20,7 @@ int menu(void)
 
 	strcpy(texto,cad_emp_strc.sobre);
 
-	principal    = gtk_box_new(1,0);
+	principal    = gtk_box_new(0,0);
 	cadastros    = gtk_box_new(1,0);
 	compras      = gtk_box_new(1,0);
 	faturamento  = gtk_box_new(1,0);
@@ -78,8 +74,8 @@ int menu(void)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 
-	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,0);
-	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,0);
+	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,150);
+	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,150);
 
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)

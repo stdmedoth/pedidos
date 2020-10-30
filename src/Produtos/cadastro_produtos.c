@@ -1,14 +1,10 @@
-static GtkWidget *prod_concluir_button, *prod_alterar_button, *prod_cancelar_button, *prod_excluir_button;
-static GtkWidget *psq_prod_codigo_button;
-static int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
 #include "campos.c"
 #include "cancela.c"
 #include "conclui.c"
 #include "altera.c"
 #include "exclui.c"
 
-int inicializar_prod()
-{
+int inicializar_prod(){
 	int i,cont;
 
 	codigos_prod = malloc(MAX_CODE_LEN);
@@ -25,8 +21,7 @@ int inicializar_prod()
 	return 0;
 }
 
-int  cad_prod()
-{
+int  cad_prod(){
 	char task[20];
 	sprintf(task,"%i",tasker("produtos"));
 	g_print("task %s\n",task);

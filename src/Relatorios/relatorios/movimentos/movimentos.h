@@ -9,8 +9,8 @@ intervalo pedidos
 
 struct
 {
-	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_ELM_LEN+MAX_QUERY_ELM_LEN];
-	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_ELM_LEN];
+	char campos[MAX_RELAT_CAMPOS*MAX_ROW_LEN];
+	char campo_query[MAX_RELAT_CAMPOS][MAX_ROW_LEN];
 	int campos_qnt;
 }mov_query;
 
@@ -44,7 +44,4 @@ static int relat_mov_gerando=0;
 int relat_mov_codigo_fun();
 int relat_mov_query_fun();
 int relat_mov_gerar_fun();
-
-#include "campos/codigo.c"
-#include "campos/query.c"
-#include "gerar.c"
+void relat_mov_fun();

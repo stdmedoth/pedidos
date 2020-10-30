@@ -1,3 +1,16 @@
+#define RANDOM_STRING_SIZE 10
+static int logging = 0;
+static int erro_logger=0;
+
+GtkWidget *print_janela;
+
+GtkWidget *msg_abrir_orc_window;
+
+static MYSQL conectar;
+MYSQL_RES *vetor;
+static int primeira_conexao=0;
+
+void reportar_encerramento_brusco();
 
 void passar_campo(GtkWidget *widget,gpointer widget2);
 

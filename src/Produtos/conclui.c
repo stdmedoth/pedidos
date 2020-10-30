@@ -49,8 +49,8 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
-	g_print("alocando memoria para query %i\n",(int)(QUERY_LEN+INSERT_QUERY));
-	query = malloc((int)(QUERY_LEN+INSERT_QUERY));
+	g_print("alocando memoria para query %i\n",(int)(MAX_QUERY_LEN+INSERT_QUERY));
+	query = malloc((int)(MAX_QUERY_LEN+INSERT_QUERY));
 	if(query==NULL)
 	{
 			popup(NULL,"Erro de memoria");

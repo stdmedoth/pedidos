@@ -6,8 +6,8 @@ int relat_mov_query_fun()
 	char ini_query[] = "select";
 	char *end_query;
 	char query[MAX_QUERY_LEN*2];
-	char campo_query_cp[MAX_QUERY_ELM_LEN];
-	char tipo_mov_query[MAX_QUERY_ELM_LEN/2];
+	char campo_query_cp[MAX_QUERY_LEN];
+	char tipo_mov_query[MAX_QUERY_LEN/2];
 	char filtros_query_gchar[MAX_QUERY_LEN],filtros_order_by[MAX_QUERY_LEN/2];
 
 	relat_mov_gerando=1;

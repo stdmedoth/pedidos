@@ -43,19 +43,7 @@ static int alterando_mov_ent_est=0, concluindo_mov_ent_est=0;
 #define DATA_MOV_EST 8
 #define TIPO_MOV_EST 9
 
+int est_entradas();
 void est_ent_confirmar_fun();
 void est_ent_cancelar_fun();
 void est_ent_alterar_fun();
-
-#include "campos/codigo.c"
-#include "campos/produto.c"
-#include "campos/tipo.c"
-#include "campos/data.c"
-#include "campos/quantidade.c"
-#include "campos/cliente.c"
-#include "campos/estoque.c"
-#include "campos/pedido.c"
-
-#include "cancelar.c"
-#include "confirmar.c"
-#include "alterar.c"

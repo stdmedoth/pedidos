@@ -8,9 +8,14 @@ static struct{
 	int nivel;
 }sessao_oper;
 
+gchar *oper_nome_login,*oper_senha_login;
 static GtkWidget *nome_entry,*senha_entry;
 static GtkWidget *janela_login;
 static GtkWidget *enviar_login,*fechar_login;
-static int desktop();
-static int encerrar();
 static int g_handle_janela_login;
+
+void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry);
+void passa_nome();
+void passa_senha();
+void verifica_senha();
+void login();

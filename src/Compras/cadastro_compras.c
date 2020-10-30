@@ -1,7 +1,3 @@
-#include "cotacao.c"
-#include "entradas.c"
-#include "ordem.c"
-#include "solicitacao.c"
 int compras()
 {
 	GtkWidget *janela;
@@ -10,6 +6,6 @@ int compras()
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_widget_set_size_request(GTK_WIDGET(janela),940,470);
 	gtk_widget_show_all(janela);
-	
+
 	return 0;
 }

@@ -1,12 +1,3 @@
-extern GtkWidget *botao_iniciar;
-extern GtkWidget *imagem_barra;
-extern GtkWidget *layout_barra;
-extern GtkWidget *lista_abas, *frame_lista_abas;
-extern int controle_menu;
-extern void botao_encerrar();
-extern void fechar_sessao();
-static int notificacao_pendencias=0;
-
 int clique_menu(void)
 {
 

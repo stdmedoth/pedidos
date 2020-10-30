@@ -1,3 +1,7 @@
+#include "campos/codigo.c"
+#include "campos/query.c"
+#include "gerar.c"
+
 void relat_prod_fun()
 {
 	GtkWidget *janela;
