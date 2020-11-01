@@ -1,4 +1,3 @@
-MYSQL_ROW campos;
 GtkWidget *filas;
 
 int altera_ter();

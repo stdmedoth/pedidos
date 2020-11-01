@@ -383,6 +383,8 @@ static void popup(GtkWidget *widget,gchar *string){
 }
 
 MYSQL_RES *consultar(char *query){
+	MYSQL_RES *vetor;
+
 	int err=1;
 	FILE *backup_query;
 	backup_query = fopen(BACKUP_QUERY_FILE,"+a");
@@ -539,8 +541,6 @@ int tasker(char *table)
 	}
 	return (task_num+1);
 }
-
-static char **tipo_ter_list;
 
 char *tipo_ter_num_to_str(int num){
 	MYSQL_RES *res;

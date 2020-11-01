@@ -1,4 +1,5 @@
-#include "campos.h"
+#include "campos.c"
+#include "campos/rec_orc_infos.c"
 
 int vnd_orc(){
 

@@ -7,8 +7,9 @@ GtkWidget *print_janela;
 GtkWidget *msg_abrir_orc_window;
 
 static MYSQL conectar;
-MYSQL_RES *vetor;
 static int primeira_conexao=0;
+
+static char **tipo_ter_list;
 
 void reportar_encerramento_brusco();
 

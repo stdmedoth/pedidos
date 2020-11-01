@@ -22,7 +22,7 @@ ORC_PROD_OBS_COL
 };
 
 
-static struct itens_struct
+static struct _orc_itens
 {
 	int id;
 	int item;
@@ -91,6 +91,7 @@ struct _orc{
 	struct _orc_valores valores;
 	struct _orc_parcelas parcelas;
 	struct _orc_entrega entrega;
+	struct _orc_itens itens;
 };
 
 #define PROD_LINHAS_ORC 1
@@ -238,3 +239,6 @@ int transp_verified=0;
 GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;
+
+#include "campos.h"
+#include "campos/rec_orc_infos.h"

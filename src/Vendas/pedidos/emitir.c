@@ -13,6 +13,13 @@ int ped_emitir()
 	float parcela;
 	int cont=0, titulo_code=0;
 
+	struct _pedido pedido;
+	struct _pedido *pedidoPtr;
+	pedido.valores = &ped_valores;
+	pedido.infos = &ped_infos;
+	pedido.parcelas = &ped_parcelas;
+	pedidoPtr = &pedido;
+
 	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0)
 	{
 		gtk_widget_grab_focus(ped_cod_entry);
@@ -368,6 +375,25 @@ int ped_emitir()
 		popup(NULL,"Erro ao inserir dados para fechar o pedido");
 		return 1;
 	}
+
+	//*==========================sendo desenvolvido============================*/
+	
+	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
+	g_print("xml de cupom recebido\n");
+	FILE *xml = fopen("xml_teste.xml","w");
+	if(xml){
+		if(cfe->xml){
+			xmlDocDump(xml,	cfe->xml);
+		}else{
+
+		}
+		fclose (xml);
+	}else{
+		popup(NULL,"Erro ao abrir arquivo para CFe, Cancele!");
+		return 1;
+	}
+
+	//*==========================sendo desenvolvido============================*/
 
 	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
 

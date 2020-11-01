@@ -87,6 +87,9 @@
 #include "../Vendas/orcamentos/janela/adicionar_linha.c"
 #include "../Vendas/orcamentos/janela/tirar_linha.c"
 
+#include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
+#include "../Vendas/Emissor/CFe/cfe.c"
+
 #include "GerarDocs/Orcs/banco.c"
 #include "GerarDocs/Orcs/header.c"
 #include "GerarDocs/Orcs/infos_header.c"
@@ -97,8 +100,6 @@
 #include "GerarDocs/Orcs/rec_datas.c"
 #include "GerarDocs/Orcs/cliente.c"
 #include "GerarDocs/Orcs/gerar_orcs.c"
-
-#include "rec_orc_infos.c"
 
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
@@ -155,8 +156,6 @@
 #include "../Gestao/enviar_email.c"
 #include "../Gestao/Notificacao/notificacao.c"
 #include "../Kanban/kanban.c"
-
-#include "../Emissor/cria_xml.c"
 
 #include "../Tecnico/cad_empresa/cad_empresa.c"
 

@@ -1,6 +1,8 @@
 static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
 	char *query;
 	movendo_scroll=0;
 

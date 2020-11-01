@@ -26,6 +26,8 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
 	int erro;
 	char *query;
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
 	query = malloc(MAX_QUERY_LEN);
 
 	sprintf(query,"select * from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);

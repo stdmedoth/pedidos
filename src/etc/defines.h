@@ -242,7 +242,7 @@
 #define MAX_PATH_LEN 1000
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define MAX_PROD 400
+#define MAX_PROD 990
 #define CONECT_QNT 1
 #define CODE_LEN 15
 #define CNPJ_N_LEN 14
@@ -312,7 +312,7 @@
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 
-#define MAX_PROD_ORC 100
+#define MAX_PROD_ORC 990
 #define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100
 #define MAX_SUP_DESC_LEN 1000

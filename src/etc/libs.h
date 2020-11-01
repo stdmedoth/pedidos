@@ -1,31 +1,8 @@
-#ifndef PEDIDOS_HEADER
-#define PEDIDOS_HEADER
+#ifndef PEDIDOS_INCLUDES_HEADER
+#define PEDIDOS_INCLUDES_HEADER
 
-#include <stdio.h>
-#include <locale.h>
-#include <ctype.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <gtk/gtk.h>
-#include <libxml/xinclude.h>
-#include <curl/curl.h>
-#include <libxml/xpath.h>
-#include <time.h>
-
-#ifdef __linux__
-#include <mariadb/mysql.h>
-#endif
-
-#ifdef WIN32
-#include <windows.h>
-#include <mysql/mysql.h>
-#endif
-
-
-#include "defines.h"
+#include "basic_headers.h"
 #include "Pedidos.h"
-
 #include "init.h"
 #include "../Menu/icones.h"
 #include "../Menu/abas.h"
@@ -125,6 +102,9 @@
 #include "../Vendas/orcamentos/janela/tirar_linha.h"
 #include "../Vendas/orcamentos/campos/entrega_campos.h"
 
+#include "../Vendas/Emissor/CFe/rec_infos_cupom.h"
+#include "../Vendas/Emissor/CFe/cfe.h"
+
 #include "GerarDocs/Orcs/header.h"
 #include "GerarDocs/Orcs/infos_header.h"
 #include "GerarDocs/Orcs/observacao.h"
@@ -135,8 +115,6 @@
 #include "GerarDocs/Orcs/rec_datas.h"
 #include "GerarDocs/Orcs/cliente.h"
 #include "GerarDocs/Orcs/gerar_orcs.h"
-
-#include "rec_orc_infos.h"
 
 #include "../Transportes/cad_trsp.h"
 
@@ -171,7 +149,6 @@
 #include "../Suporte/email.h"
 
 #include "../Tecnico/cad_empresa/cad_empresa.h"
-#include "../Emissor/cria_xml.h"
 
 #include "../Estoque/cadastro/conclui.h"
 #include "../Estoque/cadastro/cancela.h"

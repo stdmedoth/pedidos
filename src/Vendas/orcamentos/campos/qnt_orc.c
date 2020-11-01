@@ -141,7 +141,7 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 						}
 				}
 
-				sprintf(query,"select saldo_min from saldo_min_grupo where produto = %i and estoque = %i",
+				sprintf(query,"select saldo_min from saldo_min where produto = %i and estoque = %i",
 				atoi(codigo_prod_orc_gchar),
 				orc_params.est_orc_padrao);
 

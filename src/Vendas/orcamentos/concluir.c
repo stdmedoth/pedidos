@@ -4,8 +4,13 @@ static int concluir_orc(){
 	char valor[MAX_PRECO_LEN];
 	char code[MAX_CODE_LEN];
 	char query[MAX_QUERY_LEN];
+
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
+
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+
 	float parcela=0;
 
 	concluindo_orc=1;
