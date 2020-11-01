@@ -110,7 +110,8 @@
 #define EMBLEM_IMPORTANT  "C:/pedidos/files/icones_opc/emblem_important.png"
 #define SUP_XML           "C:/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "C:/pedidos/files/orc_params.xml"
-#define PROD_PARAMS        "C:/pedidos/files/prod_params.xml"
+#define PROD_PARAMS       "C:/pedidos/files/prod_params.xml"
+#define INTEGR_PARAMS     "C:/pedidos/files/integr_params.xml"
 #endif
 
 #ifdef __linux__
@@ -224,6 +225,7 @@
 #define SUP_XML           "/usr/share/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "/usr/share/pedidos/files/orc_params.xml"
 #define PROD_PARAMS        "/usr/share/pedidos/files/prod_params.xml"
+#define INTEGR_PARAMS     "/usr/share/pedidos/files/integr_params.xml"
 #endif
 
 #define CSS_ORC       "orcamento.css"

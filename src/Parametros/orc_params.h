@@ -11,4 +11,4 @@ static struct{
 
 int ler_orc_params();
 
-int atualizar_orc_criticas();
+int atualizar_orc_params();

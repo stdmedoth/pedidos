@@ -27,10 +27,6 @@
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
 
-#include "../Parametros/orc_params.h"
-#include "../Parametros/prod_params.h"
-#include "../Parametros/ter_params.h"
-#include "../Parametros/personalizacao.h"
 #include "../Parametros/parametros.h"
 
 #include "../Terceiros/cadastro_terceiros.h"
@@ -147,6 +143,9 @@
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
 #include "../Suporte/email.h"
+
+#include "../Integracoes/woocommerce/produtos.h"
+#include "../Integracoes/woocommerce/clientes.h"
 
 #include "../Tecnico/cad_empresa/cad_empresa.h"
 

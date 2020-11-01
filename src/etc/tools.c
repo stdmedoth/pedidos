@@ -393,7 +393,7 @@ MYSQL_RES *consultar(char *query){
 	{
 		if(!mysql_init(&conectar))
 		{
-			popup(NULL,"Não foi possivel conectar ao servidor");
+			popup(NULL,"Não foi possivel iniciar conector");
 			autologger((char*)mysql_error(&conectar));
 			return NULL;
 		}

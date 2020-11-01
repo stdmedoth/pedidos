@@ -1,3 +1,9 @@
+#include "orc_params.c"
+#include "prod_params.c"
+#include "ter_params.c"
+#include "integr_params.c"
+#include "personalizacao.c"
+
 int configurar_parametros()
 {
 	int cont;
@@ -8,6 +14,7 @@ int configurar_parametros()
 
 	receber_orc_params();
 	receber_prod_params();
+	receber_intgr_params();
 
 	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
 
@@ -51,9 +58,11 @@ int configurar_parametros()
 
 int atualizar_paramentros()
 {
-	if(atualizar_orc_criticas()!=0)
+	if(atualizar_orc_params()!=0)
 		return 1;
-	if(atualizar_prod_criticas()!=0)
+	if(atualizar_prod_params()!=0)
+		return 1;
+	if(atualizar_intgr_params()!=0)
 		return 1;
 	if(atualizar_personalizacao()!=0)
 		return 1;
@@ -66,18 +75,24 @@ int parametrizar()
 	GtkWidget *janela_parametros;
 	GtkWidget *notebook;
 	GtkWidget *caixona,*caixa_superior;
+	GtkWidget *geral_box, *terc_box, *prod_box, *orc_box, *integr_box, *gerencial_box, *tecnico_box, *outros_box;
 	GtkWidget *geral_criticas_frame,*ter_criticas_frame,*prod_criticas_frame,*orc_criticas_frame;
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box,*orc_criticas_box;
+
 	GtkWidget *personaliza_box,*personaliza_frame;
+	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Grin","Tripo"};
 	GtkWidget *tema_combo_box_fixed;
-	GtkWidget *prod_parametros_frame, *prod_parametros_box, *prod_parametros_fixed;
-	GtkWidget *orc_parametros_frame, *orc_parametros_box, *orc_parametros_fixed;
-	GtkWidget *est_orc_padrao_frame;
-	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Wallpaper 5","Wallpaper 6"};
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
+
+	GtkWidget *prod_parametros_frame, *prod_parametros_box, *prod_parametros_fixed;
+
+	GtkWidget *orc_parametros_frame, *orc_parametros_box, *orc_parametros_fixed;
+
+	GtkWidget *est_orc_padrao_frame;
+
 	GtkWidget *tecn_caminhos_box, *tecn_caminhos_frame, *tecn_caminhos_fixed;
-	GtkWidget *geral_box,*terc_box,*prod_box,*orc_box, *gerencial_box, *tecnico_box, *outros_box;
+
 	GtkWidget *tecn_param_nav_path1_frame, *tecn_param_nav_path2_frame, *tecn_param_nav_choose_frame;
 	GtkWidget *tecn_param_imp_path1_frame, *tecn_param_imp_path2_frame, *tecn_param_imp_path3_frame;
 	GtkWidget *tecn_param_nav_path1_box, *tecn_param_nav_path2_box, *tecn_param_nav_choose_box;
@@ -187,6 +202,7 @@ int parametrizar()
 	terc_box = gtk_box_new(1,0);
 	prod_box = gtk_box_new(1,0);
 	orc_box = gtk_box_new(1,0);
+	integr_box = gtk_box_new(1,0);
 	gerencial_box = gtk_box_new(1,0);
 	tecnico_box = gtk_box_new(1,0);
 	outros_box = gtk_box_new(1,0);
@@ -322,36 +338,69 @@ int parametrizar()
 	gtk_box_pack_start(GTK_BOX(orc_parametros_box),est_orc_padrao_frame,0,0,0);
 	gtk_container_add(GTK_CONTAINER(orc_parametros_frame),orc_parametros_box);
 	gtk_fixed_put(GTK_FIXED(orc_parametros_fixed),orc_parametros_frame,20,0);
-	/*
-	sprintf(query,"select nome from criticas");
-	if((res = consultar(query))==NULL)
-	{
-		popup(NULL,"Erro consultando nome dos campos de criticas");
-		return 1;
-	}
-	cont=0;
-	while((row=mysql_fetch_row(res))!=NULL)
-	{
-		campos_de_critica[cont] = gtk_check_button_new_with_label(row[0]);
-		if(cont<=orc_critic_campos_qnt)
-			gtk_box_pack_start(GTK_BOX(orc_criticas_box),campos_de_critica[cont],0,0,0);
-
-		cont++;
-	}*/
 
 	orc_prod_mov_wdt = gtk_check_button_new_with_label("Bloqueia Produtos sem movimentos de estoque");
 	orc_prod_sld_wdt = gtk_check_button_new_with_label("Produto deve ter saldo para criar orcamento");
 	orc_prod_sld_lmt_wdt = gtk_check_button_new_with_label("Avisar saldo próximo ao limite ");
 	orc_ped_canc_wdt = gtk_check_button_new_with_label("Pedidos cancelados são reaproveitados");
 
-	prod_varios_grupos_wdt = gtk_check_button_new_with_label("Produtos diferem pelo grupo?");
-
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_mov_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_prod_sld_lmt_wdt,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_criticas_box),orc_ped_canc_wdt,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(prod_criticas_box),prod_varios_grupos_wdt,0,0,0);
+	//gtk_box_pack_start(GTK_BOX(prod_criticas_box),,0,0,0);
+
+	GtkWidget *integr_opc_frame = gtk_frame_new("Integração");
+	integr_opc_wdt = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(integr_opc_wdt),0,"Nenhum");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(integr_opc_wdt),1,"Woocommerce");
+	gtk_container_add(GTK_CONTAINER(integr_opc_frame),integr_opc_wdt);
+
+	integr_usuario_wdt = gtk_entry_new();
+	GtkWidget *integr_user_frame = gtk_frame_new("Usuário");
+	gtk_container_add(GTK_CONTAINER(integr_user_frame),integr_usuario_wdt);
+
+	integr_senha_wdt = gtk_entry_new();
+	GtkWidget *integr_senha_frame = gtk_frame_new("Senha");
+	gtk_container_add(GTK_CONTAINER(integr_senha_frame),integr_senha_wdt);
+
+	integr_bd_wdt = gtk_entry_new();
+	GtkWidget *integr_bd_frame = gtk_frame_new("Banco de Dados");
+	gtk_container_add(GTK_CONTAINER(integr_bd_frame),integr_bd_wdt);
+
+	integr_server_wdt = gtk_entry_new();
+	GtkWidget *integr_server_frame = gtk_frame_new("Servidor");
+	gtk_container_add(GTK_CONTAINER(integr_server_frame),integr_server_wdt);
+
+	integr_tabprefix_wdt = gtk_entry_new();
+	GtkWidget *integr_tabprefix_frame = gtk_frame_new("Prefixo Tabela");
+	gtk_container_add(GTK_CONTAINER(integr_tabprefix_frame),integr_tabprefix_wdt);
+
+	GtkWidget *integr_testeconn_button = gtk_button_new_with_label("Conectar");
+
+	GtkWidget *integr_params_box = gtk_box_new(1,0);
+	GtkWidget *integr_params_box1 = gtk_box_new(0,0);
+	GtkWidget *integr_params_box2 = gtk_box_new(0,0);
+	GtkWidget *integr_params_box3 = gtk_box_new(0,0);
+	GtkWidget *integr_params_frame = gtk_frame_new("Parametros");
+	gtk_box_pack_start(GTK_BOX(integr_params_box1),integr_opc_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box1),integr_server_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box2),integr_user_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box2),integr_senha_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box2),integr_bd_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box2),integr_tabprefix_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box3),integr_testeconn_button,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(integr_params_box),integr_params_box1,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box),integr_params_box2,0,0,5);
+	gtk_box_pack_start(GTK_BOX(integr_params_box),integr_params_box3,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(integr_params_frame),integr_params_box);
+	GtkWidget *integr_params_fixed = gtk_fixed_new();
+	gtk_fixed_put(GTK_FIXED(integr_params_fixed),integr_params_frame,5,5);
+
+	gtk_box_pack_start(GTK_BOX(integr_box),integr_params_fixed,0,0,10);
 
 	gtk_container_add(GTK_CONTAINER(ter_criticas_frame),ter_criticas_box);
 	gtk_box_pack_start(GTK_BOX(terc_box),ter_criticas_frame,0,0,10);
@@ -372,6 +421,7 @@ int parametrizar()
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),terc_box,gtk_label_new("Terceiros"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),prod_box,gtk_label_new("Produtos"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),orc_box,gtk_label_new("Orçamentos"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),integr_box,gtk_label_new("Integrações"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),gerencial_box,gtk_label_new("Gerencial"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),tecnico_box,gtk_label_new("Técnico"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),outros_box,gtk_label_new("Outros"));
@@ -387,10 +437,13 @@ int parametrizar()
 	receber_personalizacao();
 	ler_orc_params();
 	ler_prod_params();
+	ler_intgr_params();
 
 	g_signal_connect(tema_combo_box,"changed",G_CALLBACK(temas),NULL);
 	g_signal_connect(atualizar_button,"clicked",G_CALLBACK(atualizar_paramentros),NULL);
 	g_signal_connect(janela_parametros,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PARAM_WIN]);
+	g_signal_connect(integr_testeconn_button,"clicked",G_CALLBACK(intgr_params_testar),NULL);
+
 	gtk_widget_show_all(janela_parametros);
 
 	gtk_widget_destroy(loading);

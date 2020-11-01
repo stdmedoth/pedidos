@@ -1,7 +1,6 @@
 void criar_prod_params(FILE *xmlf){
 	xmlDocPtr prod_xml = xmlNewDoc((const xmlChar *)"1.0");
-	xmlNodePtr root = xmlNewNode(NULL,(const xmlChar *)"prod_params");
-	
+	xmlNodePtr root = xmlNewNode(NULL, (const xmlChar *)"prod_params");
 
 	xmlDocSetRootElement(prod_xml,root);
 
@@ -11,7 +10,7 @@ void criar_prod_params(FILE *xmlf){
 	return ;
 }
 
-int atualizar_prod_criticas(){
+int atualizar_prod_params(){
 	char *query;
 	int cont=0;
 	int erro;
@@ -19,8 +18,6 @@ int atualizar_prod_criticas(){
 	xmlDocPtr prod_xml = xmlReadFile(PROD_PARAMS, "UTF-8", XML_PARSE_RECOVER );
 	if(prod_xml){
 		xmlNodePtr root = xmlDocGetRootElement(prod_xml);
-
-
 	}
 
 	FILE *xmlf = fopen(PROD_PARAMS, "w");
@@ -39,11 +36,6 @@ int atualizar_prod_criticas(){
 
 
 int receber_prod_params(){
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	int cont=0;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 
 	xmlDocPtr prod_xml = xmlReadFile(PROD_PARAMS, "UTF-8", XML_PARSE_RECOVER );
 	if(prod_xml){
@@ -66,11 +58,6 @@ int receber_prod_params(){
 
 
 int ler_prod_params(){
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	int cont=0;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 
 	xmlDocPtr prod_xml = xmlReadFile(PROD_PARAMS, "UTF-8", XML_PARSE_RECOVER );
 	if(prod_xml){

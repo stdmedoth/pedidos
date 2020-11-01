@@ -23,7 +23,7 @@ void criar_orc_params(FILE *xmlf){
 	return ;
 }
 
-int atualizar_orc_criticas(){
+int atualizar_orc_params(){
 	char *query;
 	int cont=0;
 	int erro;
@@ -77,11 +77,6 @@ int atualizar_orc_criticas(){
 }
 
 int receber_orc_params(){
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	int cont=0;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 
 	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
 	if(orc_xml){
@@ -123,11 +118,6 @@ int receber_orc_params(){
 
 
 int ler_orc_params(){
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char *query;
-	int cont=0;
-	query = malloc(sizeof(char*)*MAX_QUERY_LEN);
 
 	xmlDocPtr orc_xml = xmlReadFile(ORC_PARAMS, "UTF-8", XML_PARSE_RECOVER );
 	if(orc_xml){
@@ -149,7 +139,6 @@ int ler_orc_params(){
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),TRUE);
 			else
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_prod_sld_wdt),FALSE);
-
 		}
 
 		xmlNodePtr orc_prod_sld_lmt = getContentByTagName(root,"orc_prod_sld_lmt");

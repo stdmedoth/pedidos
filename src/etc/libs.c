@@ -20,10 +20,6 @@
 
 #include "operadores.c"
 
-#include "../Parametros/orc_params.c"
-#include "../Parametros/prod_params.c"
-#include "../Parametros/ter_params.c"
-#include "../Parametros/personalizacao.c"
 #include "../Parametros/parametros.c"
 
 #include "../pesquisadores/grupos.c"
@@ -152,6 +148,9 @@
 #include "../Suporte/adicionar.c"
 #include "../Suporte/atualiza.c"
 #include "../Suporte/email.c"
+
+#include "../Integracoes/woocommerce/produtos.c"
+#include "../Integracoes/woocommerce/clientes.c"
 
 #include "../Gestao/enviar_email.c"
 #include "../Gestao/Notificacao/notificacao.c"
