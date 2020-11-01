@@ -1,3 +1,10 @@
+static int qnt_prod_orc_calc=0, preco_prod_orc_calc=0;
+static int tipodesc;
+int desconto_prod_orc(GtkWidget *widget,int posicao);
+int preco_prod_orc(GtkWidget *widget,int posicao);
+int qnt_prod_orc(GtkWidget *widget,int posicao);
+int calcula_prod_orc(GtkWidget *widget, int posicao);
+
 #include "campos/cond_pag.h"
 #include "campos/outros/data_parc.h"
 #include "campos/outros/campos_de_datas.h"

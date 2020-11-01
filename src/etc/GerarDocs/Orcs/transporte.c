@@ -8,6 +8,7 @@ int gerar_orc_transporte(FILE *file, struct _orc *orc){
     popup(NULL,"Erro ao verificar entrega");
   }else{
     if((row=mysql_fetch_row(res))){
+      fprintf(file,"<div id=\"campo-transporte\">\n");
       fprintf(file,"<p><b>Transporte</b></p>\n");
       fprintf(file,"<table>\n");
 
@@ -79,6 +80,7 @@ int gerar_orc_transporte(FILE *file, struct _orc *orc){
       fprintf(file,"</tr>\n");
 
       fprintf(file,"</table>\n");
+      fprintf(file,"</div>\n");
     }
   }
   return 0;

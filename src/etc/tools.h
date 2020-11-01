@@ -55,6 +55,8 @@ char *infos(int pos);
 
 int configurar_parametros();
 
+gpointer carregando_wnd();
+
 char *tipo_ter_num_to_str(int num);
 
 GtkWidget *popup_fechar;

@@ -1,5 +1,5 @@
 void intgr_params_testar(){
-	
+
 	if(!mysql_init(&intgr_con))
 	{
 		popup(NULL,"Não foi possivel iniciar conector");

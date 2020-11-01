@@ -242,7 +242,7 @@ int orc_pag_datas_livres(){
   if(orc_parc_lvr_qnt_int>1){
     if(tipo_pag==PAG_VIST){
       tipo_pag=PAG_FAT;
-      for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+      for(int cont=1;cont<MAX_PROD_ORC;cont++)
       {
         if(ativos[cont].id==1)
         {
@@ -257,7 +257,7 @@ int orc_pag_datas_livres(){
   }else{
     if(tipo_pag==PAG_FAT){
       tipo_pag=PAG_VIST;
-      for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+      for(int cont=1;cont<MAX_PROD_ORC;cont++)
       {
         if(ativos[cont].id==1)
         {

@@ -71,6 +71,7 @@ void notificacoes_wnd(){
 
   sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+2");
 	if((res = consultar(query))){
+    int notif_qnt=0;
   	while((row = mysql_fetch_row(res))!=NULL){
       char nome[20];
       char descr[100];
@@ -113,7 +114,16 @@ void notificacoes_wnd(){
       DESCR_COL,descr,
       STAT_COL,status
       ,-1);
+      notif_qnt++;
   	}
+    if(!notif_qnt){
+      gtk_tree_store_append(modelo,&campos,NULL);
+      gtk_tree_store_set(modelo,&campos,
+      NOME_COL,"Aviso",
+      DESCR_COL,"Nenhuma notificação!",
+      STAT_COL,"Sem status"
+      ,-1);
+    }
   }
   gtk_tree_view_set_model(GTK_TREE_VIEW(notf_tree_view),GTK_TREE_MODEL(modelo));
 

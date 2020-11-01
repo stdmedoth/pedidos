@@ -3,6 +3,7 @@
 #include "campos/operacao_orc.c"
 #include "campos/prod_orc.c"
 #include "campos/qnt_orc.c"
+#include "campos/calcula.c"
 #include "campos/preco_orc.c"
 #include "campos/total_orc.c"
 #include "campos/orig_preco_orc.c"

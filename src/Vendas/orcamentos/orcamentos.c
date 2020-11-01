@@ -143,8 +143,8 @@ int vnd_orc(){
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,10);
-	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(cliente_orc_box),pesquisa_ter,0,0,1);
+	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_entry,0,0,10);
+	gtk_box_pack_start(GTK_BOX(cliente_orc_box),pesquisa_ter,0,0,10);
 
 	gtk_entry_set_width_chars(GTK_ENTRY(cliente_orc_entry),8);
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_name_entry,0,0,1);
@@ -187,18 +187,15 @@ int vnd_orc(){
 	caixa_orc_infos = gtk_box_new(0,0);
 	caixa_grande = gtk_box_new(1,0);
 
-	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),codigo_orc_frame,0,0,30);
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),codigo_orc_frame,0,0,10);
 	gtk_widget_set_name(codigo_orc_frame,"frame");
-	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),operacao_orc_frame,0,0,30);
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),operacao_orc_frame,0,0,10);
 	gtk_widget_set_name(operacao_orc_frame,"frame");
-	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,30);
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,10);
 
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
-	//gtk_fixed_put(GTK_FIXED(orc_infos_fixed),operacao_orc_frame,MARGEM_D,90);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
-
-	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,700,90);
-	//gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_pag_cond_fixed,0,0,0);
+	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,650-MARGEM_D,90);
 
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_d),orc_infos_fixed,0,0,0);
 	gtk_box_pack_end(GTK_BOX(caixa_orc_infos_e),observacoes_orc_frame,0,0,10);

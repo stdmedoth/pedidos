@@ -151,7 +151,7 @@ static int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(codigo_orc_prod_box[itens_qnt]),descricao_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_widget_set_sensitive(descricao_prod_orc_entry[itens_qnt],FALSE);
 	gtk_widget_set_name(descricao_prod_orc_entry[itens_qnt],"entry_unsensetivate");
-
+	gtk_entry_set_width_chars(GTK_ENTRY(descricao_prod_orc_entry[itens_qnt]),35);
 	gtk_container_add(GTK_CONTAINER(codigo_prod_orc_frame[itens_qnt]),codigo_orc_prod_box[itens_qnt]);
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),codigo_prod_orc_frame[itens_qnt],0,0,15);
@@ -160,13 +160,13 @@ static int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(qnt_prod_orc_box[itens_qnt]),qnt_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_container_add(GTK_CONTAINER(qnt_prod_orc_frame[itens_qnt]),qnt_prod_orc_box[itens_qnt]);
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),qnt_prod_orc_frame[itens_qnt],0,0,2);
-	gtk_entry_set_width_chars(GTK_ENTRY(qnt_prod_orc_entry[itens_qnt]),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(qnt_prod_orc_entry[itens_qnt]),12);
 
 	gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[itens_qnt]),orig_preco_prod_orc_combo[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[itens_qnt]),preco_prod_orc_label[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(preco_prod_orc_box[itens_qnt]),preco_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_container_add(GTK_CONTAINER(preco_prod_orc_frame[itens_qnt]),preco_prod_orc_box[itens_qnt]);
-	gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),12);
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),preco_prod_orc_frame[itens_qnt],0,0,2);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_orc_entry[itens_qnt]),GTK_ENTRY_ICON_PRIMARY,"money");
@@ -174,14 +174,14 @@ static int adicionar_linha_orc()
 	gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[itens_qnt]),desconto_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_box_pack_start(GTK_BOX(desconto_prod_orc_box[itens_qnt]),tipodesconto_prod_orc_combo[itens_qnt],0,0,2);
 	gtk_container_add(GTK_CONTAINER(desconto_prod_orc_frame[itens_qnt]),desconto_prod_orc_box[itens_qnt]);
-	gtk_entry_set_width_chars(GTK_ENTRY(desconto_prod_orc_entry[itens_qnt]),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(desconto_prod_orc_entry[itens_qnt]),12);
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),desconto_prod_orc_frame[itens_qnt],0,0,2);
 
 	gtk_box_pack_start(GTK_BOX(total_prod_orc_box[itens_qnt]),total_prod_orc_entry[itens_qnt],0,0,2);
 	gtk_container_add(GTK_CONTAINER(total_prod_orc_frame[itens_qnt]),total_prod_orc_box[itens_qnt]);
 	gtk_fixed_put(GTK_FIXED(total_prod_orc_fixed[itens_qnt]),total_prod_orc_frame[itens_qnt],0,0);
-	gtk_entry_set_width_chars(GTK_ENTRY(total_prod_orc_entry[itens_qnt]),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(total_prod_orc_entry[itens_qnt]),12);
 
 	gtk_box_pack_start(GTK_BOX(linhas_prod_orc_box[itens_qnt]),total_prod_orc_fixed[itens_qnt],0,0,2);
 

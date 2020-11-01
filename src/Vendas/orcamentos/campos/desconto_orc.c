@@ -1,5 +1,3 @@
-int tipodesc;
-
 int desconto_prod_orc(GtkWidget *widget,int posicao)
 {
 	ativos[posicao].desconto_f = 0;

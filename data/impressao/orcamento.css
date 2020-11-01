@@ -43,6 +43,16 @@
 	border: solid 0px white;
 }
 
+#campo-transporte{
+	padding: 10px;
+	border-style: outset;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 15px;
+	border-radius: 10px;
+}
+
 #campo-itens{
 	padding: 10px;
 	border-style: outset;

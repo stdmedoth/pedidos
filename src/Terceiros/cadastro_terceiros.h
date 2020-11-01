@@ -52,3 +52,5 @@ static int ter_com_entrega = 0;
 #define TER_PAGE_ITENS 0
 #define TER_PAGE_TRSP 1
 #define TER_PAGE_OUTR 2
+
+#include "campos.h"

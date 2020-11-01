@@ -122,7 +122,6 @@ static int pag_cond=0, tipo_pag=0;
 static int rec_altera_qnt=1;
 static GtkWidget *orc_notebook;
 
-static int preco_prod_orc(GtkWidget *widget,int posicao);
 static int preco_alterado[MAX_PROD+1], valor_orig[MAX_PROD+1];
 static int pressionado=0;
 static int ativos_qnt=1;
