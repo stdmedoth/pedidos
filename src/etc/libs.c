@@ -9,6 +9,8 @@
 
 #include "xml_tools.c"
 #include "tools.c"
+#include "popups.c"
+#include "maquinas.c"
 #include "criticas.c"
 #include "pesquisador.c"
 #include "css.c"
@@ -85,6 +87,9 @@
 
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
 #include "../Vendas/Emissor/CFe/cfe.c"
+
+#include "../Vendas/pdv/pdv_princ_wnd.c"
+#include "../Vendas/pdv/caixa.c"
 
 #include "GerarDocs/Orcs/banco.c"
 #include "GerarDocs/Orcs/header.c"

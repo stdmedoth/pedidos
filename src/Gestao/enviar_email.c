@@ -6,6 +6,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
   char *email_cli = malloc(MAX_EMAIL_LEN);
   char *email_copia = malloc(MAX_EMAIL_LEN);
   char *inline_text = malloc(MAX_OBS_LEN);
+  enviando_email=1;
 
   if(!nome_destino){
     popup(NULL,"Nome do destino nulo");
@@ -195,7 +196,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
 
     curl_mime_free(mime);
   }
-
+  enviando_email=0;
   return (int)res;
 }
 
@@ -209,7 +210,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
   char mensagem[1000];
   char sup_email[] = "jovictor210@gmail.com";
   GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
-
+  enviando_email=1;
   headers_text = malloc(1200);
   headers_text[0] = malloc(300);
   sprintf(headers_text[0],"Date: %s",g_date_time_format(data,"%T"));
@@ -295,6 +296,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
       }
 
     }
+    enviando_email=0;
     popup(NULL,"O email foi enviado com sucesso");
     return 0;
 }

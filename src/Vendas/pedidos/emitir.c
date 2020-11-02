@@ -12,7 +12,7 @@ int ped_emitir()
 	char valor[MAX_PRECO_LEN];
 	float parcela;
 	int cont=0, titulo_code=0;
-
+	emitindo_ped = 1;
 	struct _pedido pedido;
 	struct _pedido *pedidoPtr;
 	pedido.valores = &ped_valores;
@@ -377,7 +377,7 @@ int ped_emitir()
 	}
 
 	//*==========================sendo desenvolvido============================*/
-	
+
 	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
 	g_print("xml de cupom recebido\n");
 	FILE *xml = fopen("xml_teste.xml","w");
@@ -410,6 +410,7 @@ int ped_emitir()
 		enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
 	}
 
+	emitindo_ped = 0;
 	popup(NULL,"Pedido emitido com sucesso!");
 	return 0;
 }

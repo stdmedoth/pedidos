@@ -11,8 +11,6 @@ static int primeira_conexao=0;
 
 static char **tipo_ter_list;
 
-void reportar_encerramento_brusco();
-
 void passar_campo(GtkWidget *widget,gpointer widget2);
 
 int is_texto(char *texto);
@@ -43,8 +41,6 @@ char *randomizar_string();
 
 int autologger(char *string);
 
-static void popup(GtkWidget *widget,gchar *string);
-
 MYSQL_RES *consultar(char *query);
 
 int enviar_query(char *query);
@@ -55,13 +51,10 @@ char *infos(int pos);
 
 int configurar_parametros();
 
-gpointer carregando_wnd();
 
 char *tipo_ter_num_to_str(int num);
 
 GtkWidget *popup_fechar;
-
-int PopupBinario(char *mensagem, char *positivo, char *negativo);
 
 char *ped_status_from_int(int code);
 
@@ -70,5 +63,3 @@ char *status_tit_str(int status);
 int aviso_de_baixa_fin();
 
 int cep_nao_existente_fun(gchar *cep);
-
-xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo);

@@ -265,7 +265,18 @@ int desktop()
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
 	hostname_fixed = gtk_fixed_new();
-	hostname_label = gtk_label_new(server_confs.server_endereco);
+	struct _maquina *maquina = maquinas_get_atual();
+	char *endereco_maquina;
+	if(maquina)
+		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina->hostname) + 2);
+	else{
+		endereco_maquina = malloc(20);
+		strcpy(endereco_maquina,"Não identificado");
+	}
+
+
+	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
+	hostname_label = gtk_label_new(endereco_maquina);
 
 	gtk_widget_set_name(hostname_fixed,"hostname-label");
 	gtk_widget_set_name(hostname_label,"hostname-label");

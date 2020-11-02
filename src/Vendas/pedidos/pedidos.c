@@ -278,6 +278,7 @@ int vnd_ped()
 	GtkWidget *caixa_scroll, *caixa_produtos, *caixa_fixed;
 	GtkWidget *linha1,*linha2,*linha3,*linha4;
 
+	emitindo_ped = 0;
 	janela_pedidos = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela_pedidos),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_pedidos),"format-justify-fill");

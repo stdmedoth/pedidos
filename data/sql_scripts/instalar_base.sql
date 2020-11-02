@@ -254,3 +254,42 @@ create table if not exists logradouro (  CEP varchar(11) NOT NULL,
 create table if not exists estados( code int primary key auto_increment,
 sigla varchar(5) not null default 'UF',
 nome varchar(100) not null default 'Estado');
+
+create table if not exists maquinas(
+  code int primary key auto_increment,
+  nome varchar(50) not null,
+  ip varchar(15),
+  hostname varchar(20),
+  ativa tinyint not null
+);
+
+create table if not exists caixas(
+  code int primary key auto_increment,
+  nome varchar(60) not null,
+  status int not null,
+);
+
+create table if not exists movimentos_caixa(
+  code int primary key auto_increment,
+  caixa int not null,
+  data datetime not null,
+  operacao int not null,
+  dinheiro float not null default 0,
+  cheque float not null default 0,
+  cartao float not null default 0,
+  total float not null default 0,
+  descricao varchar(50) not null,
+  foreign key(caixa) references caixas(code)
+);
+
+create table if not exists eventos_caixa(
+  code int primary key auto_increment,
+  caixa int not null,
+  operador int not null,
+  maquina int not null,
+  data datetime not null,
+  tipo int not null,
+  foreign key(caixa) references caixas(code),
+  foreign key(operador) references operadores(code),
+  foreign key(maquina) references maquinas(code)
+);

@@ -11,6 +11,8 @@
 #include "receber_confs.h"
 #include "xml_tools.h"
 #include "tools.h"
+#include "popups.h"
+#include "maquinas.h"
 #include "temas.h"
 #include "impressao.h"
 #include "vars.h"
@@ -100,6 +102,9 @@
 
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.h"
 #include "../Vendas/Emissor/CFe/cfe.h"
+
+#include "../Vendas/pdv/pdv_princ_wnd.h"
+#include "../Vendas/pdv/caixa.h"
 
 #include "GerarDocs/Orcs/header.h"
 #include "GerarDocs/Orcs/infos_header.h"

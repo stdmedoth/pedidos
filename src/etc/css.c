@@ -1,6 +1,7 @@
 int load_styles(){
 	abrir_css(DESKTOP_STYLE);
 	abrir_css(KANBAN_STYLE);
+	abrir_css(PDV_STYLE);
 	return 0;
 }
 
