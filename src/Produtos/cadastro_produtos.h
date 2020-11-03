@@ -1,11 +1,14 @@
-#define PROD_COD_COL 0
-#define PROD_NOM_COL 1
-#define PROD_PES_COL 2
-#define PROD_UND_COL 3
-#define PROD_UND_ATAC_COL 4
-#define PROD_FORN_COL 5
-#define PROD_GRP_COL 6
-#define PROD_OBS_COL 7
+enum{
+  PROD_COD_COL,
+  PROD_NOM_COL,
+  PROD_PES_COL,
+  PROD_PRC_COL,
+  PROD_UND_COL,
+  PROD_UND_ATAC_COL,
+  PROD_FORN_COL,
+  PROD_GRP_COL,
+  PROD_OBS_COL
+};
 
 int code_prod();
 int altera_prod();
@@ -43,10 +46,6 @@ static GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_at
 static GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img,*psq_qnt_atacado_img;
 static GtkWidget *psq_forn,*psq_subgrp,*psq_und,*psq_qnt_atacado;
 
-static GtkWidget *code_prod_label,  *nome_prod_label,
-*preco_prod_label, *peso_prod_label , *unidade_prod_label,
-*fornecedor_prod_label, *grupo_prod_label,
-*preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
 
 static GtkWidget *codigo_prod_field, *nome_prod_field,
 *preco_prod_field,  *peso_prod_field, *unidade_prod_field,
@@ -60,7 +59,7 @@ static GtkWidget *campo_nome_unidade,
 *campo_nome_qnt_atacado;
 
 //produtos
-#define PROD_CAD_QUERY "insert into produtos(nome, peso, unidades, unidades_atacado ,fornecedor, grupo, grupo_nivel, observacoes) values( '%s', %s, %s, %s, %s, %s, %i,'%s');"
-#define ARGS_PROD_CAD_QUERY nomes_prod, pesos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', peso = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, grupo_nivel = %i, observacoes = '%s' where code = %s"
-#define ARGS_PROD_UPD_QUERY nomes_prod, pesos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, observacoes_prod,codigos_prod
+#define PROD_CAD_QUERY "insert into produtos(nome, peso, preco, unidades, unidades_atacado ,fornecedor, grupo, grupo_nivel, observacoes) values( '%s', %s, %s, %s, %s, %s, %s, %i,'%s');"
+#define ARGS_PROD_CAD_QUERY nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, observacoes_prod
+#define PROD_UPD_QUERY "update produtos set nome = '%s', peso = %s, preco = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, grupo_nivel = %i, observacoes = '%s' where code = %s"
+#define ARGS_PROD_UPD_QUERY nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, observacoes_prod,codigos_prod

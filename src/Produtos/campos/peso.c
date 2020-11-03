@@ -2,7 +2,6 @@ int peso_prod()
 {
 	int critica=0;
 	pesos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(peso_prod_field));
-	g_print("pesos_prod antes: %s\n",pesos_prod);
 	if(strlen(pesos_prod)>MAX_PRECO_LEN)
 	{
 		popup(NULL,"Preço muito grande");
@@ -40,6 +39,5 @@ int peso_prod()
 
 		gtk_widget_grab_focus(fornecedor_prod_field);
 	}
-	g_print("pesos_prod depois: %s\n",pesos_prod);
 	return 0;
 }

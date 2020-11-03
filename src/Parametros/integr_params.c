@@ -12,6 +12,7 @@ void intgr_params_testar(){
 		popup(NULL,"Não foi possível conectar");
 		return ;
 	}
+	struct _WC_Product **produtos = get_wc_produtos();
 	popup(NULL,"Conexão efetuada");
 
 }

@@ -26,6 +26,12 @@ int  cad_prod(){
 	sprintf(task,"%i",tasker("produtos"));
 	g_print("task %s\n",task);
 	//linhas
+
+	GtkWidget *code_prod_label,  *nome_prod_label,
+	*preco_prod_label, *peso_prod_label , *unidade_prod_label,
+	*fornecedor_prod_label, *grupo_prod_label,
+	*preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
+
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
 	*horizontal_box_three,
@@ -178,6 +184,13 @@ int  cad_prod(){
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(peso_prod_field),GTK_ENTRY_ICON_PRIMARY,"insert-object");
 	gtk_widget_set_size_request(peso_prod_field,100,30);
 
+	preco = gtk_box_new(1,0);
+	gtk_widget_set_name(preco,"caixa");
+	gtk_box_pack_start(GTK_BOX(preco),preco_prod_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(preco),preco_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"money");
+	gtk_widget_set_size_request(preco_prod_field,100,30);
+
 	unidade = gtk_box_new(1,0);
 	gtk_widget_set_name(unidade,"caixa");
 	gtk_box_pack_start(GTK_BOX(unidade),unidade_prod_label,0,0,0);
@@ -241,8 +254,8 @@ int  cad_prod(){
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
-
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),preco,0,0,10);
 
 	prod_concluir_button = gtk_button_new_with_label("Concluir");
 	prod_alterar_button = gtk_button_new_with_label("Alterar");
@@ -315,7 +328,7 @@ int  cad_prod(){
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_unidade),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_qnt_atacado),FALSE);
 
-	gtk_widget_grab_focus(psq_prod_codigo_button);
+	gtk_widget_grab_focus(nome_prod_field);
 	gtk_widget_show_all(janela);
 
 	return 0;

@@ -20,6 +20,10 @@ struct _caixa{
 
 struct _caixa *caixa_get_aberto();
 
+void signal_caixa_encerramento(GtkWidget *button, struct _caixa *caixa);
+
+int janela_caixa_encerrar(struct _caixa *caixa);
+
 int caixas_qnt();
 
 int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa);

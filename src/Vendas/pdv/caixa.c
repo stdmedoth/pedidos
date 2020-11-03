@@ -89,6 +89,7 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
 
   gchar *maquina_int, *operador_int, *caixa_int;
 	resultado = gtk_dialog_run(GTK_DIALOG(janela));
+	gtk_widget_destroy(janela);
 	switch (resultado) {
 		case GTK_RESPONSE_ACCEPT:
       caixa_int = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(caixa_combo));
@@ -96,7 +97,6 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
       operador_int = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(operador_combo));
 			sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%s, %s, %s, now(), %i)",caixa_int,operador_int,maquina_int,CX_ABERTURA);
       if(enviar_query(query)){
-        gtk_widget_destroy(janela);
         return 1;
       }
       sprintf(query,"update caixas set status = %i where code = %s",CAIXA_ABERTO,caixa_int);
@@ -104,12 +104,9 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
         gtk_widget_destroy(janela);
         return 1;
       }
-
-			gtk_widget_destroy(janela);
 			return 0;
 
 	}
-	gtk_widget_destroy(janela);
 
 	return 1;
 }
@@ -185,11 +182,36 @@ int caixas_qnt(){
   return caixas_qnt;
 }
 
+void signal_caixa_encerramento(GtkWidget *button, struct _caixa *caixa){
+
+	janela_caixa_encerrar(caixa);
+	return ;
+}
+
 int janela_caixa_encerrar(struct _caixa *caixa){
   if(!caixa){
     popup(NULL,"Erro ao processar caixa atual");
     return 1;
   }
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	struct _maquina *maquina = maquinas_get_atual();
+
+	sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%i, %i, %i, now(), %i)",caixa->id, caixa->operador, maquina->id,CX_FECHAMENTO);
+	if(enviar_query(query)){
+		popup(NULL,"Não foi possível encerrar caixa");
+		return 1;
+	}
+
+	sprintf(query,"update caixas set status = %i where code = %i",CAIXA_FECHADO,caixa->id);
+	if(enviar_query(query)){
+		popup(NULL,"Não foi possível encerrar caixa");
+		return 1;
+	}
+
+	if(janelas_gerenciadas.vetor_janelas[REG_PDV_WND].janela_pointer)
+		gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[REG_PDV_WND].janela_pointer);
 
   return 0;
 }
@@ -201,7 +223,7 @@ struct _caixa *caixa_get_aberto(struct _maquina *maquina){
     return NULL;
   }
 
-  struct _caixa caixa;
+  static struct _caixa caixa;
   struct _caixa *CaixaPtr = &caixa;
   MYSQL_RES *res;
   MYSQL_ROW row;

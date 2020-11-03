@@ -270,8 +270,7 @@ int desktop()
 	if(maquina)
 		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina->hostname) + 2);
 	else{
-		endereco_maquina = malloc(20);
-		strcpy(endereco_maquina,"Não identificado");
+		return 1;
 	}
 
 

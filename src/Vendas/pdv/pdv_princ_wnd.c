@@ -9,6 +9,7 @@ int pdv_princ_wnd(){
   if(!maquina_atual){
     return 1;
   }
+
   struct _caixa *caixa = caixa_get_aberto(maquina_atual);
   if(!caixa){
     return 1;
@@ -17,6 +18,8 @@ int pdv_princ_wnd(){
   if(caixa->status == CAIXA_FECHADO){
     if(janela_abrir_caixa(maquina_atual, caixa))
       return 1;
+
+    struct _caixa *caixa = caixa_get_aberto(maquina_atual);
   }
 
 
@@ -69,6 +72,7 @@ int pdv_princ_wnd(){
   gtk_widget_show_all(janela);
 
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PDV_WND]);
+  g_signal_connect(encerrar_caixa,"clicked",G_CALLBACK(signal_caixa_encerramento),caixa);
   g_signal_connect(fechar_button,"clicked",G_CALLBACK(close_window_callback),janela);
   return 0;
 }

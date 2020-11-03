@@ -32,7 +32,8 @@ int grupo_prod()
 
 	gtk_entry_set_text(GTK_ENTRY(campo_nome_grupo),campos[0]);
 	grupo_nivel = atoi(campos[1]);
-	
+	gtk_widget_grab_focus(preco_prod_field);
+
 	return 0;
 
 }
