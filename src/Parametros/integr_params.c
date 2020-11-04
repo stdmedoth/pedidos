@@ -1,20 +1,19 @@
-void intgr_params_testar(){
+int intgr_params_testar(){
 
 	if(!mysql_init(&intgr_con))
 	{
 		popup(NULL,"Não foi possivel iniciar conector");
 		autologger((char*)mysql_error(&conectar));
-		return ;
+		return 1;
 	}
 
 	if(!mysql_real_connect(&intgr_con,integracoes.config.server, integracoes.config.user,integracoes.config.pass,integracoes.config.banco,0,NULL,0))
 	{
 		popup(NULL,"Não foi possível conectar");
-		return ;
+		return 1;
 	}
-	struct _WC_Product **produtos = get_wc_produtos();
 	popup(NULL,"Conexão efetuada");
-
+	return 0;
 }
 
 void criar_intgr_params(FILE *xmlf){

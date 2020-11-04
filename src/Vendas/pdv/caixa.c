@@ -89,14 +89,14 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
 
   gchar *maquina_int, *operador_int, *caixa_int;
 	resultado = gtk_dialog_run(GTK_DIALOG(janela));
-	gtk_widget_destroy(janela);
 	switch (resultado) {
 		case GTK_RESPONSE_ACCEPT:
       caixa_int = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(caixa_combo));
       maquina_int = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(maquina_combo));
       operador_int = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(operador_combo));
 			sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%s, %s, %s, now(), %i)",caixa_int,operador_int,maquina_int,CX_ABERTURA);
-      if(enviar_query(query)){
+			gtk_widget_destroy(janela);
+			if(enviar_query(query)){
         return 1;
       }
       sprintf(query,"update caixas set status = %i where code = %s",CAIXA_ABERTO,caixa_int);
@@ -198,7 +198,7 @@ int janela_caixa_encerrar(struct _caixa *caixa){
 	char query[MAX_QUERY_LEN];
 	struct _maquina *maquina = maquinas_get_atual();
 
-	sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%i, %i, %i, now(), %i)",caixa->id, caixa->operador, maquina->id,CX_FECHAMENTO);
+	sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%i, %i, %i, now(), %i)",caixa->id, sessao_oper.code, maquina->id,CX_FECHAMENTO);
 	if(enviar_query(query)){
 		popup(NULL,"Não foi possível encerrar caixa");
 		return 1;

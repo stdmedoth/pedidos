@@ -5,9 +5,9 @@ enum{
 
 struct _maquina{
   int id;
-  char nome[50];
-  char hostname[50];
-  char ip[15];
+  char *nome;
+  char *hostname;
+  char *ip;
   int ativa;
 };
 

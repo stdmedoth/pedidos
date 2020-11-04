@@ -16,6 +16,7 @@ int altera_prod();
 static GtkWidget *prod_concluir_button, *prod_alterar_button, *prod_cancelar_button, *prod_excluir_button;
 static GtkWidget *psq_prod_codigo_button;
 static int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
+int intgr_prods();
 int inicializar_prod();
 int  cad_prod();
 static gchar *codigos_prod=NULL;

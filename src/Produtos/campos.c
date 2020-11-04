@@ -9,3 +9,4 @@
 #include "campos/prc_fatur.c"
 #include "campos/fornecedor.c"
 #include "campos/observacao.c"
+#include "campos/intgr_prods.c"

@@ -1,4 +1,3 @@
-
 MYSQL_RES *consultar(char *query){
 	MYSQL_RES *vetor;
 

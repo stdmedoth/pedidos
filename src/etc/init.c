@@ -119,7 +119,7 @@ int desktop()
 			ativar.relatorios=1;
 	}
 
-	if(sessao_oper.nivel>=TECNICO_LEVEL){
+	if(sessao_oper.nivel>=NIVEL_TECNICO){
 		ativar.cadastro=1;
 		ativar.compras=1;
 		ativar.faturamento=1;
@@ -188,7 +188,7 @@ int desktop()
 		return 1;
 	}
 
-	if(sessao_oper.nivel>=4)
+	if(sessao_oper.nivel>=NIVEL_TECNICO)
 	{
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
@@ -272,7 +272,6 @@ int desktop()
 	else{
 		return 1;
 	}
-
 
 	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
 	hostname_label = gtk_label_new(endereco_maquina);
