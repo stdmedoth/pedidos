@@ -37,7 +37,7 @@ int vnd_orc(){
 	copiando_orc=0;
 
 	orc_notebook = gtk_notebook_new();
-
+	orc_estoque.produtos = malloc(sizeof(struct _orc_estoque_prods));
 	item_frame_char = malloc(strlen("Item ")+10);
 
 	orc_infos_fixed = gtk_fixed_new();
@@ -216,6 +216,9 @@ int vnd_orc(){
 	qnt_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
 	qnt_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 
+	saldo_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
+	saldo_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+
 	total_prod_orc_frame = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
 	total_prod_orc_box = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
 	total_prod_orc_fixed = malloc(sizeof(GtkFixed)*MAX_PROD_ORC);
@@ -246,6 +249,7 @@ int vnd_orc(){
 	descricao_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	qnt_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	preco_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	saldo_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	desconto_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
 	tipodesconto_prod_orc_combo = malloc(sizeof(GtkComboBoxText)*MAX_PROD_ORC);
 	total_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);

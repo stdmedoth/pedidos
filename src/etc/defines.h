@@ -341,6 +341,13 @@
 #define PAG_FAT 1
 #define PAG_VIST 2
 
+enum{
+  VLR_ORIG_NUL,
+  VLR_ORIG_TAB,
+  VLR_ORIG_CLI,
+  VLR_ORIG_OPER
+};
+
 #define TP_TIT_REC 1
 #define TP_TIT_PAG 2
 

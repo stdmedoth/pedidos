@@ -110,9 +110,9 @@ int rel_fix_fin_rec(){
   gtk_entry_set_width_chars(GTK_ENTRY(rel_fix_fin_rec_tit_entry2),5);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(rel_fix_fin_rec_tit_entry2),tasker("titulos"));
 
-  rel_fix_fin_rec_bx_entry1 = gtk_spin_button_new_with_range(1,99999,1);
+  rel_fix_fin_rec_bx_entry1 = gtk_spin_button_new_with_range(0,99999,1);
   gtk_entry_set_width_chars(GTK_ENTRY(rel_fix_fin_rec_bx_entry1),5);
-  rel_fix_fin_rec_bx_entry2 = gtk_spin_button_new_with_range(1,99999,1);
+  rel_fix_fin_rec_bx_entry2 = gtk_spin_button_new_with_range(0,99999,1);
   gtk_entry_set_width_chars(GTK_ENTRY(rel_fix_fin_rec_bx_entry2),5);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(rel_fix_fin_rec_bx_entry2),tasker("baixas_titulos"));
 

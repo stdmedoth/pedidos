@@ -30,7 +30,10 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
 
-	calcula_prod_orc(NULL, posicao);
+	if(calcula_prod_orc(NULL, posicao)){
+		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+		return 1;
+	}
 	gtk_widget_grab_focus(total_prod_orc_entry[posicao]);
 	preco_prod_orc_calc = 0;
 	return 0;

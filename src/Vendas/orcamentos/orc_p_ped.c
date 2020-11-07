@@ -1,3 +1,23 @@
+int orc_has_ped(){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+
+	if(codigo_orc()){
+		return 0;
+	}
+
+	sprintf(query,"select code,status from pedidos where code = %s",codigo_orc_gchar);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao buscar existencia do pedido");
+		return 0;
+	}
+	if((row = mysql_fetch_row(res)))
+		return 1;
+
+	return 0;
+}
+
 void gera_orc_ped()
 {
 	MYSQL_RES *res;
@@ -5,8 +25,7 @@ void gera_orc_ped()
 	char query[MAX_QUERY_LEN];
 	char msg[MAX_QUERY_LEN];
 
-	if(codigo_orc()!=0)
-	{
+	if(codigo_orc()!=0){
 		return ;
 	}
 	sprintf(query,"select code,status from pedidos where code = %s",codigo_orc_gchar);

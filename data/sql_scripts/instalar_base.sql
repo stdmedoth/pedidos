@@ -151,70 +151,6 @@ create table if not exists preco_cliente( code int primary key auto_increment,
   valor_vist float default 0.0,
   foreign key(cliente) references terceiros(code));
 
-create table if not exists pedidos( code int primary key auto_increment,
-  tipo_mov int default 1,
-  vendedor int default 1,
-  cliente int default 1,
-  data_mov date default '2001-01-01',
-  pag_cond int default 1,
-  banco int default 0,
-  total float default 0.0,
-  status int default 0,
-  foreign key(cliente) references terceiros(code));
-
-create table if not exists orcamentos( code int primary key auto_increment,
-  tipo_mov int default 1,
-  vendedor int default 0,
-  cliente int default 0,
-  dia date default '2001-01-01',
-  pag_cond int default 1,
-  banco int default 0,
-  total float default 0,
-  observacoes varchar(500) default '',
-  foreign key(cliente) references terceiros(code));
-
-create table if not exists Produto_Orcamento( code int,
-  item int default 1,
-  produto int default 0,
-  unidades float default 0.0,
-  valor_unit float default 0.0,
-  valor_orig int default 0,
-  tipodesc int default 0,
-  desconto float default 0.0,
-  total float default 0.0,
-  observacoes varchar(500) default '',
-  foreign key(code) references orcamentos(code));
-
-create table if not exists faturamento ( code int primary key auto_increment,
-  pedido int default 0,
-  cliente int default 0,
-  entrada float default 0.0,
-  saida float default 0.0,
-  data_mov date default '2001-01-01',
-  tipo_mov int default 0 );
-
-create table if not exists estoques( code int primary key auto_increment,
-  nome varchar(20) default 'Estoque Sem Nome');
-
-create table if not exists movimento_estoque( code int primary key auto_increment,
-  estoque int default 1,
-  pedido int default 0,
-  cliente int default 0,
-  produto int default 0,
-  entradas float default 0,
-  saidas float default 0,
-  data_mov date default '2001-01-01',
-  tipo_mov int default 0,
-  foreign key(estoque) references estoques(code),
-  foreign key(produto) references produtos(code));
-
-create table saldo_min( code int primary key auto_increment,
-  produto int  not null default 1,
-  saldo_min float  not null default 0.0,
-  estoque int  not null default 1,
-  foreign key(produto) references produtos(code),
-  foreign key(estoque) references estoques(code));
-
 create table if not exists tipo_pagamento( code int, nome varchar(50));
 
 create table if not exists wnd_logger(id_janela int,
@@ -262,35 +198,4 @@ create table if not exists maquinas(
   ip varchar(15),
   hostname varchar(20),
   ativa tinyint not null
-);
-
-create table if not exists caixas(
-  code int primary key auto_increment,
-  nome varchar(60) not null,
-  status int not null,
-);
-
-create table if not exists movimentos_caixa(
-  code int primary key auto_increment,
-  caixa int not null,
-  data datetime not null,
-  operacao int not null,
-  dinheiro float not null default 0,
-  cheque float not null default 0,
-  cartao float not null default 0,
-  total float not null default 0,
-  descricao varchar(50) not null,
-  foreign key(caixa) references caixas(code)
-);
-
-create table if not exists eventos_caixa(
-  code int primary key auto_increment,
-  caixa int not null,
-  operador int not null,
-  maquina int not null,
-  data datetime not null,
-  tipo int not null,
-  foreign key(caixa) references caixas(code),
-  foreign key(operador) references operadores(code),
-  foreign key(maquina) references maquinas(code)
 );

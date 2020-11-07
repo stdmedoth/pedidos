@@ -8,26 +8,39 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   ativos[posicao].qnt_f = 0;
 
-  switch(valor_orig[posicao])
-  {
+  if(codigo_prod_orc(NULL,posicao))
+    return 1;
 
-    case 0:
-      if(produto_inserido[posicao] == 1 && preco_prod_orc_calc)
-      {
+  int prod_code = atoi(codigo_prod_orc_gchar);
+  if(orc_prod_calc_saldo(posicao, prod_code))
+    return 1;
+
+  if(!tipo_pag){
+    if(preco_prod_orc_calc){
+      popup(NULL,"Selecione o tipo de pagamento");
+      gtk_widget_grab_focus(orc_pag_cond_entry);
+      return 1;
+    }
+  }
+
+  switch(valor_orig[posicao]){
+
+    case VLR_ORIG_NUL:
+      if(produto_inserido[posicao] == 1 && preco_prod_orc_calc){
         popup(NULL,"Selecione a origem do preço");
       }
       gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
       return 1;
 
-    case 1:
+    case VLR_ORIG_TAB:
       if(codigo_prod_orc(NULL,posicao)!=0)
         return 1;
 
-      if(tipo_pag==1)
-        sprintf(query, "select valor_fat from preco where produto = %s ", codigo_prod_orc_gchar);
+      if(tipo_pag == PAG_FAT)
+        sprintf(query, "select valor_fat from precos where produto = %s ", codigo_prod_orc_gchar);
       else
-      if(tipo_pag==2)
-        sprintf(query, "select valor_vist from preco where produto = %s ", codigo_prod_orc_gchar);
+      if(tipo_pag == PAG_VIST)
+        sprintf(query, "select valor_vist from precos where produto = %s ", codigo_prod_orc_gchar);
       else
       {
         popup(NULL,"Selecione o tipo de pagamento");
@@ -49,7 +62,7 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
       break;
 
-    case 2:
+    case VLR_ORIG_CLI:
       if(codigo_cli_orc()!=0)
         return 1;
 
@@ -71,8 +84,8 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       }
 
       vetor = consultar(query);
-      if(vetor == NULL)
-      {
+      if(vetor == NULL){
+        popup(NULL,"Não foi possível  consultar preços por clientes");
         return 1;
       }
 
@@ -86,15 +99,7 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
       break;
 
-    case 3:
-      if(tipo_pag==0)
-      {
-        if(preco_prod_orc_calc){
-          popup(NULL,"Selecione o tipo de pagamento");
-          gtk_widget_grab_focus(orc_pag_cond_entry);
-          return 1;
-        }
-      }
+    case VLR_ORIG_OPER:
 
       break;
   }
@@ -106,58 +111,36 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
     preco_prod_orc(NULL,posicao);
   }
 
-  if(recebendo_prod_orc == 0)
-  {
-    operacao_orc_orc();
-    sprintf(query,"select SUM(entradas) - SUM(saidas) %c %i from movimento_estoque where produto = %i and estoque = %i",
-    sinal_operacao_int,
-    atoi(qnt_prod_orc_gchar),
-    atoi(codigo_prod_orc_gchar),
-    orc_params.est_orc_padrao);
+  if(orc_prod_calc_saldo(posicao, prod_code))
+    return 1;
 
-    g_print("query atual %s\n",query);
-    if((vetor = consultar(query))==NULL){
-      popup(NULL,"Erro ao consultar saldo do estoque");
-      return 1;
-    }
+  if(!recebendo_prod_orc){
 
-    if((campos = mysql_fetch_row(vetor))!=NULL){
-      if(campos[0]){
+    if(orc_estoque.produtos[prod_code]->mov_qnt){
 
-        if(atoi(campos[0])<0){
-
-            if(orcamentos.criticar.prod_saldo){
-              popup(NULL,"Produto com saldo insuficiente");
-              return 1;
-            }
-        }
-
-        sprintf(query,"select saldo_min from saldo_min where produto = %i and estoque = %i",
-        atoi(codigo_prod_orc_gchar),
-        orc_params.est_orc_padrao);
-
-        if((vetor = consultar(query))==NULL)
+      if(orc_estoque.produtos[prod_code]->saldo_liquido <= 0){
+        if(orcamentos.criticar.prod_saldo){
+          popup(NULL,"Produto com saldo insuficiente");
           return 1;
-
-        if((row = mysql_fetch_row(vetor))!=NULL){
-          saldo_limite = atof(row[0]);
-
-          if(atoi(campos[0])<=saldo_limite && aviso_estoque[posicao] == 0){
-              if(orcamentos.criticar.prod_saldo_limite){
-                popup(NULL,"Aviso de saldo mínimo");
-                aviso_estoque[posicao] = 1;
-              }
-          }
         }
       }
-      else{
-        if(orcamentos.criticar.prod_movimento){
-          popup(NULL,"Sem nenhum movimento");
-            return 1;
+
+      if(orc_estoque.produtos[prod_code]->saldo_liquido <= orc_estoque.produtos[prod_code]->saldo_min && aviso_estoque[posicao] == 0){
+        if(orcamentos.criticar.prod_saldo_limite){
+          popup(NULL,"Aviso de saldo mínimo");
+          aviso_estoque[posicao] = 1;
         }
+      }
+
+    }
+    else{
+      if(orcamentos.criticar.prod_movimento){
+        popup(NULL,"Sem nenhum movimento");
+          return 1;
       }
     }
   }
+
 
   if(!qnt_prod_orc_calc && !preco_prod_orc_calc){
     preco_prod_orc(preco_prod_orc_entry[posicao],posicao);

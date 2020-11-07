@@ -97,6 +97,7 @@ int rel_fix_fin_rec_gerar(){
         fprintf(file_arq,"</tr>");
 
         while((row2 = mysql_fetch_row(res2))){
+
           parcela = atof(row2[3]);
 
           vlr_total_parcelas += parcela;
@@ -122,7 +123,7 @@ int rel_fix_fin_rec_gerar(){
             vlr_total_baixas += baixa;
             total_da_baixa += baixa;
 
-            if(atoi(row[0]) < atoi(rel_fix_fin_rec_bx_gchar1) || atoi(row[0]) > atoi(rel_fix_fin_rec_bx_gchar2))
+            if(atoi(row3[0]) < atoi(rel_fix_fin_rec_bx_gchar1) || atoi(row3[0]) > atoi(rel_fix_fin_rec_bx_gchar2))
               continue;
 
             fprintf(file_arq,"<tr>");
