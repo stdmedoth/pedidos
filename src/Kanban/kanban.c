@@ -1,6 +1,4 @@
-int kanban_carts_qnt=0;
-int kanban_carts_pos[MAX_CARTS_QNT];
-
+#include "kanban.h"
 GtkWidget *kanban_get_checkboxs(int cartao_code){
   GtkWidget *check_boxs, *boxs;
   check_boxs = gtk_box_new(1,0);

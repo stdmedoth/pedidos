@@ -11,7 +11,6 @@ xmlNodePtr search_content_tag(xmlNode * a_node, char *TagName){
     {
       if(cur_node->children->type == XML_TEXT_NODE){
         if(cur_node->name && cur_node->children && cur_node->children->content){
-          g_print("%s\n",cur_node->name);
           if(!strcmp((char *)cur_node->name,TagName)){
             return cur_node->children;
           }
@@ -38,7 +37,6 @@ xmlNodePtr search_elem_tag(xmlNode * a_node, char *TagName){
     {
       if(cur_node->children->type == XML_TEXT_NODE){
         if(cur_node->name && cur_node->children && cur_node->children->content){
-          g_print("%s\n",cur_node->name);
           if(!strcmp((char *)cur_node->name,TagName)){
             return cur_node->children;
           }

@@ -1,10 +1,9 @@
-GtkWidget *acao_atual,*acao_atual2;
+GtkWidget *acao_atual,*acao_atual2; //mostrar status de uma janela
 GtkEntry *pesquisa_global_alvo;
 GtkIconTheme *icone;
 static int inicializando=0;
 
-
-//modulos ativos
+//modulos para ativar
 struct modulos
 {
 	int ativo;

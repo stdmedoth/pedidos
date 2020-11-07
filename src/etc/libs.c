@@ -9,6 +9,8 @@
 
 #include "xml_tools.c"
 #include "tools.c"
+#include "popups.c"
+#include "maquinas.c"
 #include "criticas.c"
 #include "pesquisador.c"
 #include "css.c"
@@ -20,10 +22,6 @@
 
 #include "operadores.c"
 
-#include "../Parametros/orc_params.c"
-#include "../Parametros/prod_params.c"
-#include "../Parametros/ter_params.c"
-#include "../Parametros/personalizacao.c"
 #include "../Parametros/parametros.c"
 
 #include "../pesquisadores/grupos.c"
@@ -87,6 +85,12 @@
 #include "../Vendas/orcamentos/janela/adicionar_linha.c"
 #include "../Vendas/orcamentos/janela/tirar_linha.c"
 
+#include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
+#include "../Vendas/Emissor/CFe/cfe.c"
+
+#include "../Vendas/pdv/pdv_princ_wnd.c"
+#include "../Vendas/pdv/caixa.c"
+
 #include "GerarDocs/Orcs/banco.c"
 #include "GerarDocs/Orcs/header.c"
 #include "GerarDocs/Orcs/infos_header.c"
@@ -97,8 +101,6 @@
 #include "GerarDocs/Orcs/rec_datas.c"
 #include "GerarDocs/Orcs/cliente.c"
 #include "GerarDocs/Orcs/gerar_orcs.c"
-
-#include "rec_orc_infos.c"
 
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
@@ -152,11 +154,12 @@
 #include "../Suporte/atualiza.c"
 #include "../Suporte/email.c"
 
+#include "../Integracoes/woocommerce/produtos.c"
+#include "../Integracoes/woocommerce/clientes.c"
+
 #include "../Gestao/enviar_email.c"
 #include "../Gestao/Notificacao/notificacao.c"
 #include "../Kanban/kanban.c"
-
-#include "../Emissor/cria_xml.c"
 
 #include "../Tecnico/cad_empresa/cad_empresa.c"
 

@@ -4,7 +4,6 @@ int add_icones(void);
 #define LINE_ICO_QNT 2
 #define ICOL 5
 #define EST_ICO_QNT 3
-#define VND_ICO_QNT 3
 #define CMP_ICO_QNT 4
 #define FIN_ICO_QNT 6
 #define REL_ICO_QNT 6

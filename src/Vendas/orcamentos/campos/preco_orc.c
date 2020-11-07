@@ -1,5 +1,6 @@
 int preco_prod_orc(GtkWidget *widget,int posicao)
 {
+	preco_prod_orc_calc = 1;
 	preco_prod_orc_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao]));
 	ativos[posicao].preco_f = 0;
 
@@ -29,6 +30,11 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
 
-	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
+	if(calcula_prod_orc(NULL, posicao)){
+		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+		return 1;
+	}
+	gtk_widget_grab_focus(total_prod_orc_entry[posicao]);
+	preco_prod_orc_calc = 0;
 	return 0;
 }

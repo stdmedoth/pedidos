@@ -37,6 +37,7 @@ int rec_fat_vist()
 			tipo_pag = PAG_VIST;
 
 	}else{
+		tipo_pag = PAG_VIST;
 		orc_pag_datas_livres();
 	}
 

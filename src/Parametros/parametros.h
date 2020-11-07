@@ -66,3 +66,9 @@ static struct {
 static struct {
 		int est_orc_padrao;
 }orc_params;
+
+#include "integr_params.h"
+#include "orc_params.h"
+#include "personalizacao.h"
+#include "prod_params.h"
+#include "ter_params.h"

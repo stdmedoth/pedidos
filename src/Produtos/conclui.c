@@ -8,43 +8,38 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	GtkTextIter inicio,fim;
 
 	concluindo_prod=1;
-	if(code_prod()!=0)
-	{
+	if(code_prod()){
 		gtk_widget_grab_focus(codigo_prod_field);
 		return 1;
 	}
-	if(nome_prod()!=0)
-	{
+	if(nome_prod()){
 		gtk_widget_grab_focus(nome_prod_field);
 		return 1;
 	}
-	if(peso_prod()!=0)
-	{
+	if(peso_prod()){
 		gtk_widget_grab_focus(peso_prod_field);
 		return 1;
 	}
-	if(grupo_prod()!=0)
-	{
+	if(grupo_prod()){
 		gtk_widget_grab_focus(grupo_prod_field);
 		return 1;
 	}
-	if(fornecedor_prod()!=0)
-	{
+	if(precos_prod_fun()){
+		gtk_widget_grab_focus(preco_prod_field);
+	}
+	if(fornecedor_prod()){
 		gtk_widget_grab_focus(fornecedor_prod_field);
 		return 1;
 	}
-	if(und_unt_prod()!=0)
-	{
+	if(und_unt_prod()){
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
-	if(und_atac_prod()!=0)
-	{
+	if(und_atac_prod()!=0){
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
-	if(obs_prod()!=0)
-	{
+	if(obs_prod()!=0){
 
 		return 1;
 	}

@@ -8,6 +8,9 @@ int total_prod_orc(GtkWidget *widget,int posicao)
 		popup(NULL,"O valor total deve ser inserido.\nRepasse os campos");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 	}
-
+	if(ativos[posicao+1].id)
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
+	else
+		gtk_widget_grab_focus(botao_orc_mais);
 	return 0;
 }

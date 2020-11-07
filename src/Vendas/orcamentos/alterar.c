@@ -140,7 +140,7 @@ static int altera_orc()
 		return 1;
 	}
 
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
+	for(int cont=1;cont<MAX_PROD_ORC;cont++){
 		if(ativos[cont].id==1)
 		{
 			tirar_linha(cont);
@@ -222,7 +222,7 @@ static int altera_orc()
 		rec_altera_qnt++;
 	}
 
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+	for(int cont=1;cont<MAX_PROD_ORC;cont++)
 	{
 		while (g_main_context_pending(NULL))
 			g_main_context_iteration(NULL,FALSE);

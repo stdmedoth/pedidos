@@ -75,7 +75,7 @@ int menu(void)
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 
 	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,150);
-	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,150);
+	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,50);
 
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)

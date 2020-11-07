@@ -278,10 +278,10 @@ int cad_oper()
 	gtk_entry_set_visibility(GTK_ENTRY(oper_senha_entry),FALSE);
 
 	if(sessao_oper.nivel>1){
-		if(sessao_oper.nivel<=TECNICO_LEVEL)
+		if(sessao_oper.nivel<=NIVEL_TECNICO)
 			oper_perm_entry = gtk_spin_button_new_with_range(1,sessao_oper.nivel,1);
 		else
-			oper_perm_entry = gtk_spin_button_new_with_range(1,TECNICO_LEVEL,1);
+			oper_perm_entry = gtk_spin_button_new_with_range(1,NIVEL_TECNICO,1);
 	}
 	else{
 		oper_perm_entry = gtk_spin_button_new_with_range(1,1,1);

@@ -2,6 +2,8 @@ int code_terc()
 {
 	char code[10];
 	char task[8];
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
 	char query[MAX_QUERY_LEN];
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 

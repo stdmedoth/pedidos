@@ -119,7 +119,7 @@ int desktop()
 			ativar.relatorios=1;
 	}
 
-	if(sessao_oper.nivel>=TECNICO_LEVEL){
+	if(sessao_oper.nivel>=NIVEL_TECNICO){
 		ativar.cadastro=1;
 		ativar.compras=1;
 		ativar.faturamento=1;
@@ -188,7 +188,7 @@ int desktop()
 		return 1;
 	}
 
-	if(sessao_oper.nivel>=4)
+	if(sessao_oper.nivel>=NIVEL_TECNICO)
 	{
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
@@ -265,7 +265,16 @@ int desktop()
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
 	hostname_fixed = gtk_fixed_new();
-	hostname_label = gtk_label_new(server_confs.server_endereco);
+	struct _maquina *maquina = maquinas_get_atual();
+	char *endereco_maquina;
+	if(maquina)
+		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina->hostname) + 2);
+	else{
+		return 1;
+	}
+
+	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
+	hostname_label = gtk_label_new(endereco_maquina);
 
 	gtk_widget_set_name(hostname_fixed,"hostname-label");
 	gtk_widget_set_name(hostname_label,"hostname-label");

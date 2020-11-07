@@ -24,9 +24,9 @@ Pedidos.o:
 	$(CC) src/Inicio/$(TARGET_FILE) -c  $(ALLFLAGS)
 
 clear:
-	rm *.o
+	rm *.o $(RESULT_FILE)
 
 install:
 	mkdir -p $(DIR_FILES)
-	cp -r $(COPY_FILES) $(DIR_FILES)
+	cp -r $(COPY_FILES)/* $(DIR_FILES)
 	cp -r $(RESULT_FILE) $(DIR_BIN)

@@ -26,6 +26,20 @@ int  cad_prod(){
 	sprintf(task,"%i",tasker("produtos"));
 	g_print("task %s\n",task);
 	//linhas
+
+	GtkWidget *code_prod_label,  *nome_prod_label,
+	*preco_prod_label, *peso_prod_label , *unidade_prod_label,
+	*fornecedor_prod_label, *grupo_prod_label,
+	*preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
+	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
+	if(integracoes.config.intgr_id){
+		intgr1_prod_button = gtk_button_new_with_label("Puxar");
+		intgr2_prod_button = gtk_button_new_with_label("Enviar");
+		intgr_prod_box = gtk_box_new(0,0);
+		gtk_box_pack_start(GTK_BOX(intgr_prod_box),intgr1_prod_button,0,0,0);
+		gtk_box_pack_start(GTK_BOX(intgr_prod_box),intgr2_prod_button,0,0,0);
+	}
+
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
 	*horizontal_box_three,
@@ -156,8 +170,12 @@ int  cad_prod(){
 	gtk_widget_set_name(code,"caixa");
 	gtk_box_pack_start(GTK_BOX(code),code_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_prod_codigo_box),codigo_prod_field,0,0,0);
-	gtk_box_pack_end(GTK_BOX(psq_prod_codigo_box),psq_prod_codigo_button,0,0,0);
-	gtk_box_pack_end(GTK_BOX(code),psq_prod_codigo_box,0,0,0);
+	gtk_box_pack_start(GTK_BOX(psq_prod_codigo_box),psq_prod_codigo_button,0,0,0);
+	if(integracoes.config.intgr_id)
+		gtk_box_pack_start(GTK_BOX(psq_prod_codigo_box),intgr_prod_box,0,0,10);
+	gtk_box_pack_start(GTK_BOX(code),psq_prod_codigo_box,0,0,0);
+
+
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(codigo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
 	gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
 	gtk_entry_set_width_chars(GTK_ENTRY(codigo_prod_field),10);
@@ -177,6 +195,13 @@ int  cad_prod(){
 	gtk_entry_set_placeholder_text(GTK_ENTRY(peso_prod_field),"00,00 KG");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(peso_prod_field),GTK_ENTRY_ICON_PRIMARY,"insert-object");
 	gtk_widget_set_size_request(peso_prod_field,100,30);
+
+	preco = gtk_box_new(1,0);
+	gtk_widget_set_name(preco,"caixa");
+	gtk_box_pack_start(GTK_BOX(preco),preco_prod_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(preco),preco_prod_field,0,0,0);
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"money");
+	gtk_widget_set_size_request(preco_prod_field,100,30);
 
 	unidade = gtk_box_new(1,0);
 	gtk_widget_set_name(unidade,"caixa");
@@ -241,8 +266,8 @@ int  cad_prod(){
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
-
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),preco,0,0,10);
 
 	prod_concluir_button = gtk_button_new_with_label("Concluir");
 	prod_alterar_button = gtk_button_new_with_label("Alterar");
@@ -277,6 +302,8 @@ int  cad_prod(){
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);
+	if(integracoes.config.intgr_id)
+		g_signal_connect(GTK_BUTTON(intgr1_prod_button),"clicked",G_CALLBACK(intgr_prods),NULL);
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PROD]);
 
@@ -315,7 +342,7 @@ int  cad_prod(){
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_unidade),FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(campo_nome_qnt_atacado),FALSE);
 
-	gtk_widget_grab_focus(psq_prod_codigo_button);
+	gtk_widget_grab_focus(nome_prod_field);
 	gtk_widget_show_all(janela);
 
 	return 0;

@@ -36,7 +36,10 @@
 #define THUMBDESKTOP6 "C:/pedidos/files/thumbs/thumbdesktop6.png"
 #define OPER_DESKTOP  "C:/pedidos/files/desktop/oper.png"
 #define DESKTOP_STYLE "C:/pedidos/files/desktop/style.css"
-#define KANBAN_STYLE "C:/pedidos/files/assets/kanban.css"
+#define KANBAN_STYLE  "C:/pedidos/files/assets/kanban.css"
+#define PDV_STYLE     "C:/pedidos/files/assets/pdv.css"
+#define LOGO_HEADER   "C:/pedidos/files/assets/logo_header.png"
+#define PDV_LOGO      "C:/pedidos/files/assets/pdv_logo.png"
 #define BANNER        "C:/pedidos/files/princ_imgs/banner.png"
 #define BARRA_IMG     "C:/pedidos/files/princ_imgs/barra.png"
 #define BOTAO_MENU    "C:/pedidos/files/princ_imgs/botao_menu.png"
@@ -51,6 +54,7 @@
 #define ESTO_IMG      "C:/pedidos/files/icones_opc/estoques.png"
 #define SALD_IMG      "C:/pedidos/files/icones_opc/saldo.png"
 #define OPR_IMG       "C:/pedidos/files/icones_opc/operadores.png"
+#define CX_IMG        "C:/pedidos/files/icones_opc/caixa.png"
 #define TRS_IMG       "C:/pedidos/files/icones_opc/transacoes.png"
 #define SOL_IMG       "C:/pedidos/files/icones_opc/solicitacoes.png"
 #define PRC_IMG       "C:/pedidos/files/icones_opc/preco.png"
@@ -87,17 +91,18 @@
 #define REL_FIX_FINREC_IMG "C:/pedidos/files/icones_opc/relatorio_fixos_finanrec.png"
 #define REL_FIX_FINPAG_IMG "C:/pedidos/files/icones_opc/relatorio_fixos_finanpag.png"
 #define IMPRT_TIT_IMG      "C:/pedidos/files/icones_opc/import_tits.png"
-#define EXIT_IMG      "C:/pedidos/files/icones_opc/sair.png"
-#define PDF_GEN       "C:/pedidos/files/impressao/wkhtmltopdf.exe"
-#define COPY_PROG     "C:/pedidos/files/impressao/cp.exe"
-#define IMP_PORT1     "LPT1"
-#define IMP_PORT2     "LPT2"
-#define IMG_ENVIA     "C:/pedidos/files/opcoes_padrao/enviar.png"
-#define ICON_PATH     "C:/pedidos/files/opcoes_padrao/icones/"
-#define TER_RELAT_FILE      "C:/pedidos/files/impressao/relatorios/terceiros/"
-#define PROD_RELAT_FILE     "C:/pedidos/files/impressao/relatorios/produtos/"
-#define VND_RELAT_FILE      "C:/pedidos/files/impressao/relatorios/vendas/"
-#define EST_RELAT_FILE      "C:/pedidos/files/impressao/relatorios/estoque/"
+#define EXIT_IMG           "C:/pedidos/files/icones_opc/sair.png"
+#define PDF_GEN            "C:/pedidos/files/impressao/wkhtmltopdf.exe"
+#define COPY_PROG          "C:/pedidos/files/impressao/cp.exe"
+
+#define IMP_PORT1          "LPT1"
+#define IMP_PORT2          "LPT2"
+#define IMG_ENVIA          "C:/pedidos/files/opcoes_padrao/enviar.png"
+#define ICON_PATH          "C:/pedidos/files/opcoes_padrao/icones/"
+#define TER_RELAT_FILE     "C:/pedidos/files/impressao/relatorios/terceiros/"
+#define PROD_RELAT_FILE    "C:/pedidos/files/impressao/relatorios/produtos/"
+#define VND_RELAT_FILE     "C:/pedidos/files/impressao/relatorios/vendas/"
+#define EST_RELAT_FILE     "C:/pedidos/files/impressao/relatorios/estoque/"
 #define MOV_RELAT_FILE      "C:/pedidos/files/impressao/relatorios/movimentos/"
 #define ORC_PROD_RELAT_FILE "C:/pedidos/files/impressao/relatorios/orc_prod/"
 #define SCRPT_TER_INFOS_ENV "C:/pedidos/files/scripts/files/dados_emissor.xml"
@@ -110,7 +115,8 @@
 #define EMBLEM_IMPORTANT  "C:/pedidos/files/icones_opc/emblem_important.png"
 #define SUP_XML           "C:/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "C:/pedidos/files/orc_params.xml"
-#define PROD_PARAMS        "C:/pedidos/files/prod_params.xml"
+#define PROD_PARAMS       "C:/pedidos/files/prod_params.xml"
+#define INTEGR_PARAMS     "C:/pedidos/files/integr_params.xml"
 #endif
 
 #ifdef __linux__
@@ -123,7 +129,8 @@
 #define IMP_PORT2     "/usr/share/pedidos/files/impressao/linux_print_emulator2/"
 #define ORC_PATH 	  "/usr/share/pedidos/files/impressao/"
 #define DESKTOP_STYLE "/usr/share/pedidos/files/desktop/style.css"
-#define KANBAN_STYLE "/usr/share/pedidos/files/assets/kanban.css"
+#define KANBAN_STYLE  "/usr/share/pedidos/files/assets/kanban.css"
+#define PDV_STYLE     "/usr/share/pedidos/files/assets/pdv.css"
 #define DESKTOP       "/usr/share/pedidos/files/desktop.png"
 #define DESKTOP1      "/usr/share/pedidos/files/desktop/desktop1.png"
 #define DESKTOP2      "/usr/share/pedidos/files/desktop/desktop2.png"
@@ -142,6 +149,8 @@
 #define LOGO          "/usr/share/pedidos/files/logo.png"
 #define LOGGER        "/usr/share/pedidos/files/logger.log"
 #define BACKUP        "/usr/share/pedidos/files/backup"
+#define LOGO_HEADER   "/usr/share/pedidos/files/assets/logo_header.png"
+#define PDV_LOGO      "/usr/share/pedidos/files/assets/pdv_logo.png"
 #define BANNER        "/usr/share/pedidos/files/princ_imgs/banner.png"
 #define MSG_PRINC     "/usr/share/pedidos/files/msg"
 #define BARRA_IMG     "/usr/share/pedidos/files/princ_imgs/barra.png"
@@ -184,6 +193,7 @@
 #define ORD_IMG       "/usr/share/pedidos/files/icones_opc/ordem_cmp.png"
 #define ENT_IMG       "/usr/share/pedidos/files/icones_opc/entradas.png"
 #define LMB_IMG       "/usr/share/pedidos/files/icones_opc/lembrete.png"
+#define CX_IMG        "/usr/share/pedidos/files/icones_opc/caixa.png"
 #define UND_IMG       "/usr/share/pedidos/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/pedidos/files/icones_opc/vinculos.png"
 #define CAD_EMP_IMG   "/usr/share/pedidos/files/icones_opc/company.png"
@@ -224,6 +234,7 @@
 #define SUP_XML           "/usr/share/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "/usr/share/pedidos/files/orc_params.xml"
 #define PROD_PARAMS        "/usr/share/pedidos/files/prod_params.xml"
+#define INTEGR_PARAMS     "/usr/share/pedidos/files/integr_params.xml"
 #endif
 
 #define CSS_ORC       "orcamento.css"
@@ -242,7 +253,7 @@
 #define MAX_PATH_LEN 1000
 #define MAX_EMAIL_LEN 100
 #define MAX_OBS_LEN 500
-#define MAX_PROD 400
+#define MAX_PROD 990
 #define CONECT_QNT 1
 #define CODE_LEN 15
 #define CNPJ_N_LEN 14
@@ -312,7 +323,7 @@
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 
-#define MAX_PROD_ORC 100
+#define MAX_PROD_ORC 990
 #define MAX_POST_QNT 100
 #define MAX_SUP_TITLE_LEN 100
 #define MAX_SUP_DESC_LEN 1000
@@ -329,6 +340,13 @@
 
 #define PAG_FAT 1
 #define PAG_VIST 2
+
+enum{
+  VLR_ORIG_NUL,
+  VLR_ORIG_TAB,
+  VLR_ORIG_CLI,
+  VLR_ORIG_OPER
+};
 
 #define TP_TIT_REC 1
 #define TP_TIT_PAG 2
@@ -356,7 +374,5 @@
 #define CONTRATO_EST_COL 4
 #define CONTRATO_FIN_COL 5
 #define CONTRATO_REL_COL 6
-
-#define TECNICO_LEVEL 4
 
 #define ABRIR_MENU_TECLA GDK_KEY_Alt_L

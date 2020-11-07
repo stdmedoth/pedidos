@@ -1,5 +1,5 @@
-create user 'petitto'@'%%' identified by '1234';
-grant all privileges on *.* to 'petitto'@'%%';
+create user 'pedidosadm'@'%%' identified by '1234';
+grant all privileges on *.* to 'pedidosadm'@'%%';
 flush privileges;
 
 insert into criticas(nome, opcao_nome, campo_nome, critica)
@@ -24,7 +24,7 @@ values('Documento','terceiros','ter_doc',1),
 ('Pedidos cancelados são reaproveitados','orcamentos','orc_ped_cancelado',0);
 
 insert into operadores (nome,senha,nivel)
-values ('Petitto',MD5(''),3),
+values ('Adm',MD5(''),3),
 ('Calistu',MD5('password'),5);
 
 insert into niveis_gerenciais (nome,nivel)
@@ -48,7 +48,7 @@ insert into tipo_pagamento(nome) values
 ('Á Vista');
 
 insert into bancos values
-  (99, 'Sem Banco', '', 0, '', '', '', 0);
+  (1, 'Sem Banco', '', 0, '', '', '', 0);
 
 insert into tipo_movimentos(code,id,nome) values
 (1,0,'Venda'),

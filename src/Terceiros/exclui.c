@@ -1,7 +1,8 @@
 int verifica_chaves()
 {
 	char *query;
-
+	MYSQL_RES *vetor;
+	MYSQL_ROW campos;
 	query = malloc(MAX_QUERY_LEN);
 	gchar *cod_delel;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));

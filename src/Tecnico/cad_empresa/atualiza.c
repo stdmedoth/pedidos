@@ -38,17 +38,18 @@ int cad_emp_atualiza(){
   path_img_init = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_img_init_entry));
   path_script =  (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_script_path_entry));
 
+  char *char_cnpj = string_to_int(cnpj);
   //informativos
   if(cad_emp_prim){
     sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
-    cnpj, nome,cep, logr, bairro,
+    char_cnpj, nome,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular,smtp_server, atoi(smtp_port), email, senhaemail,sobre);
 
   }else{
 
     sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
-    cnpj, nome  ,cep, logr, bairro,
+    char_cnpj, nome  ,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular, smtp_server, atoi(smtp_port), email, senhaemail, sobre);
   }

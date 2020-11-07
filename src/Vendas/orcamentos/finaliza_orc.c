@@ -3,7 +3,6 @@ int finalizacao_orc(){
   	int len;
   	GtkWidget *finalizacao, *fields, *fixed, *box;
     GtkWidget *gerar_ask,*ped_ask;
-    char *tmp_code_orc;
     int resultado;
 
   	finalizacao = gtk_dialog_new_with_buttons("Finaliza Orçamento",GTK_WINDOW(janela_orcamento),GTK_DIALOG_MODAL,"OK!",GTK_RESPONSE_ACCEPT,NULL);
@@ -14,9 +13,17 @@ int finalizacao_orc(){
 
   	gtk_window_set_position(GTK_WINDOW(finalizacao),3);
 
-    tmp_code_orc = malloc(MAX_CODE_LEN);
     gerar_ask = gtk_check_button_new_with_label("Gerar Impressão?");
     ped_ask = gtk_check_button_new_with_label("Gerar Pedido?");
+
+    if(codigo_orc())
+      return 1;
+
+    int orc_code = atoi(codigo_orc_gchar);
+
+    if(orc_has_ped(orc_code))
+      gtk_widget_set_sensitive(ped_ask,FALSE);
+
 
   	fields = gtk_bin_get_child(GTK_BIN(finalizacao));
   	fixed = gtk_fixed_new();

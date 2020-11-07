@@ -122,7 +122,7 @@ int rel_fix_fin_pag_gerar(){
             vlr_total_baixas += baixa;
             total_da_baixa += baixa;
 
-            if(atoi(row[0]) < atoi(rel_fix_fin_pag_bx_gchar1) || atoi(row[0]) > atoi(rel_fix_fin_pag_bx_gchar2))
+            if(atoi(row3[0]) < atoi(rel_fix_fin_pag_bx_gchar1) || atoi(row3[0]) > atoi(rel_fix_fin_pag_bx_gchar2))
               continue;
 
             fprintf(file_arq,"<tr>");
