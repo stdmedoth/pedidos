@@ -29,10 +29,10 @@ int cad_est_sld()
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela),"Saldo Estoque");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 	gtk_widget_set_size_request(GTK_WIDGET(janela),450,300);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 

@@ -24,6 +24,7 @@ int vnd_orc(){
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer = janela_orcamento;
 
+	orc_transp_frete_pago_loaded = 0;
 	alerta_obs = 0;
 	pag_cond = 0;
 	tipo_pag = 0;
@@ -37,7 +38,11 @@ int vnd_orc(){
 	copiando_orc=0;
 
 	orc_notebook = gtk_notebook_new();
-	orc_estoque.produtos = malloc(sizeof(struct _orc_estoque_prods));
+	if(orc_estoque.produtos)
+		orc_estoque.produtos = realloc(orc_estoque.produtos,sizeof(struct _orc_estoque_prods)*MAX_PROD_ORC);
+	else
+		orc_estoque.produtos = malloc(sizeof(struct _orc_estoque_prods)*MAX_PROD_ORC);
+
 	item_frame_char = malloc(strlen("Item ")+10);
 
 	orc_infos_fixed = gtk_fixed_new();

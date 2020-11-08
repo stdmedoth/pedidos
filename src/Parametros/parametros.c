@@ -120,7 +120,7 @@ int parametrizar()
 	gtk_widget_set_size_request(janela_parametros,600,400);
 	gtk_window_set_default_size(GTK_WINDOW(janela_parametros),600,400);
 	gtk_window_set_title(GTK_WINDOW(janela_parametros),"Parametros");
-	gtk_window_set_keep_above(GTK_WINDOW(janela_parametros),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela_parametros),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela_parametros),GTK_WIN_POS_CENTER_ALWAYS);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_parametros),"preferences-system");
 

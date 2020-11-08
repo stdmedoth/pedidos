@@ -41,6 +41,21 @@ static int gerar_total_geral(){
 	orc_valores.valor_total = orc_valores.valor_prds + orc_valores.valor_frete - (orc_valores.valor_prds_desc + orc_valores.desconto_frete);
 	orc_valores.desconto_total = orc_valores.valor_prds_desc +  orc_valores.desconto_frete;
 
+	if(!orc_transp_frete_pago_loaded){
+		if( orc_valores.valor_prds_liquido >= orc_transp_frete_pago_vlr ){
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button),TRUE);
+			gtk_widget_set_sensitive(orc_transp_valor_frete_entry,FALSE);
+	    gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,FALSE);
+	    gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),"0.0");
+	    gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),"0.0");
+		}else{
+			gtk_widget_set_sensitive(orc_transp_valor_frete_entry,TRUE);
+	    gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,TRUE);
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button),FALSE);
+		}
+	}
+
+
 	sprintf(muda_label,"R$ %.2f",orc_valores.valor_total);
 	gtk_label_set_text(GTK_LABEL(total_geral_orc_label),muda_label);
 

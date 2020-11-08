@@ -63,7 +63,7 @@
 #include "../Compras/cotacao.h"
 #include "../Compras/entradas.h"
 #include "../Compras/ordem.h"
-#include "../Compras/solicitacao.h"
+#include "../Compras/solicitacoes/solicitacao.h"
 
 #include "../Unidades/cadastro_unidades.h"
 

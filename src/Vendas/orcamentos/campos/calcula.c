@@ -11,9 +11,10 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
   if(codigo_prod_orc(NULL,posicao))
     return 1;
 
-  int prod_code = atoi(codigo_prod_orc_gchar);
-  if(orc_prod_calc_saldo(posicao, prod_code))
+  if(orc_prod_calc_saldo(posicao))
     return 1;
+
+  int prod_code = atoi(codigo_prod_orc_gchar);
 
   if(!tipo_pag){
     if(preco_prod_orc_calc){
@@ -106,19 +107,24 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   if(!qnt_prod_orc_calc){
     qnt_prod_orc(NULL,posicao);
-  }
-  if(!preco_prod_orc_calc){
-    preco_prod_orc(NULL,posicao);
+  }else{
+    qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
   }
 
-  if(orc_prod_calc_saldo(posicao, prod_code))
+  if(!preco_prod_orc_calc){
+    preco_prod_orc(NULL,posicao);
+  }else{
+    preco_prod_orc_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao]));
+  }
+
+
+  if(orc_prod_calc_saldo(posicao))
     return 1;
 
   if(!recebendo_prod_orc){
 
     if(orc_estoque.produtos[prod_code]->mov_qnt){
-
-      if(orc_estoque.produtos[prod_code]->saldo_liquido <= 0){
+      if(orc_estoque.produtos[prod_code]->saldo_liquido < 0){
         if(orcamentos.criticar.prod_saldo){
           popup(NULL,"Produto com saldo insuficiente");
           return 1;
@@ -141,13 +147,22 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
     }
   }
 
-
-  if(!qnt_prod_orc_calc && !preco_prod_orc_calc){
+  if(!preco_prod_orc_calc){
     preco_prod_orc(preco_prod_orc_entry[posicao],posicao);
     critica_real(preco_prod_orc_gchar,preco_prod_orc_entry[posicao]);
+  }else{
+    preco_prod_orc_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(preco_prod_orc_entry[posicao]));
+    if(!strlen(preco_prod_orc_gchar))
+      preco_prod_orc_gchar = "0";
+  }
 
+  if(!qnt_prod_orc_calc){
     qnt_prod_orc(qnt_prod_orc_entry[posicao],posicao);
     critica_real(qnt_prod_orc_gchar,qnt_prod_orc_entry[posicao]);
+  }else{
+    qnt_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]));
+    if(!strlen(qnt_prod_orc_gchar))
+      qnt_prod_orc_gchar = "0";
   }
 
   tipodesc = gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[posicao]));
@@ -163,15 +178,13 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   desconto_prod_orc(desconto_prod_orc_entry[posicao],posicao);
 
-  if(tipodesc==0)
-  {
+  if(tipodesc==0){
     ativos[posicao].desconto_f = atof(desconto_prod_orc_gchar);
     strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
     critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);
   }
 
-  if(tipodesc==1)
-  {
+  if(tipodesc==1){
     ativos[posicao].desconto_f = ((ativos[posicao].qnt_f)*(ativos[posicao].preco_f))*(atof(desconto_prod_orc_gchar)/100);
     strcpy(ativos[posicao].desconto_c,desconto_prod_orc_gchar);
     critica_real(&(ativos[posicao].desconto_c[0]),desconto_prod_orc_entry[posicao]);

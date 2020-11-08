@@ -46,12 +46,11 @@ static int adicionar_linha_orc()
 				if(preco_prod_orc(preco_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
 					return 1;
 
-			if(GTK_IS_WIDGET(preco_prod_orc_entry[itens_qnt-1]))
+			if(GTK_IS_WIDGET(obs_prod_orc_view[itens_qnt-1]))
 				if(obs_prod_orc_fun(obs_prod_orc_view[itens_qnt-1],itens_qnt-1)!=0)
 					return 1;
 		}
 	}
-
 
 	gerar_total_geral();
 
@@ -87,6 +86,7 @@ static int adicionar_linha_orc()
 	saldo_prod_orc_frame[itens_qnt] = gtk_frame_new("Saldo:");
 	saldo_prod_orc_box[itens_qnt] = gtk_box_new(0,0);
 	saldo_prod_orc_entry[itens_qnt] = gtk_entry_new();
+	gtk_editable_set_editable(GTK_EDITABLE(saldo_prod_orc_entry[itens_qnt]),FALSE);
 
 	preco_prod_orc_label[itens_qnt] = gtk_label_new("Vlr:");
 	preco_prod_orc_entry[itens_qnt] =  gtk_entry_new();

@@ -52,9 +52,7 @@ int est_entradas()
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_title(GTK_WINDOW(janela),"Entradas");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"list-add");
-
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 
 	grid = gtk_grid_new();
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));

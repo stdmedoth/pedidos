@@ -3,15 +3,19 @@ int cad_emp_consulta(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  sprintf(query,"select * from empresa");
-  if(!(res = consultar(query))){
-    cad_emp_prim=1;
-    popup(NULL,"Erro ao receber informações da empresa");
-    return 1;
-  }
-  if(!(row = mysql_fetch_row(res))){
-    cad_emp_prim=1;
-    popup(NULL,"Empresa sem informações");
+  if(cad_emp_prim){
+    sprintf(query,"select * from empresa");
+    if(!(res = consultar(query))){
+      cad_emp_prim=1;
+      popup(NULL,"Erro ao receber informações da empresa");
+      return 1;
+    }
+    if(!(row = mysql_fetch_row(res))){
+      cad_emp_prim=1;
+      popup(NULL,"Empresa sem informações");
+      return 1;
+    }
+  }else{
     return 1;
   }
 

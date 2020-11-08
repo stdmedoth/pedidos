@@ -9,15 +9,11 @@ void popup(GtkWidget *widget,gchar *string){
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 
 	//gtk_window_set_transient_for(GTK_WINDOW(popup),GTK_WINDOW(janela_principal));
-	gtk_window_set_position(GTK_WINDOW(popup),GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
-
-  gtk_window_set_position(GTK_WINDOW(popup),3);
+	gtk_window_set_position(GTK_WINDOW(popup),3);
 
 	if(logging == 0)
 		autologger(string);
-
-	gtk_window_set_position(GTK_WINDOW(popup),3);
 
 	fields = gtk_bin_get_child(GTK_BIN(popup));
 	fixed = gtk_fixed_new();

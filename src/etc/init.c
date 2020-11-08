@@ -441,6 +441,9 @@ int init()
 	{
 		login();
 		gtk_widget_show_all(janela_login);
+		if(person_tecn_prim){
+			cadastro_empresa();
+		}
 	}
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;

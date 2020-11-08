@@ -15,7 +15,7 @@ int relat_mov_gerar_fun()
 
 	char banner[55+strlen(IMG_IMP_LOGO)];
 	g_print("Iniciando relat_mov_gerar_fun()\n");
-	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
+	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO\">",IMG_IMP_LOGO);
 
 	char query[MAX_QUERY_LEN];
 
@@ -25,12 +25,10 @@ int relat_mov_gerar_fun()
 	gerando_file = malloc(500);
 
 	do{
-
 		sprintf(gerando_file,"%srelat%i.html",MOV_RELAT_FILE,cont);
 		cont++;
 		if(cont>100)
 			return 1;
-
 	}
 	while(!(relatorio_file = fopen(gerando_file,"w")));
 
@@ -60,10 +58,10 @@ int relat_mov_gerar_fun()
 	fprintf(relatorio_file,"<tr>");
 	cont = 0;
 	while((row1 = mysql_fetch_row(res1))!=NULL){
-		   	fprintf(relatorio_file,"<th>%s</th>",row1[0]);
-				tipos_colunas[cont] = atoi(row1[1]);
-				g_print("valor tipo coluna row: %i\n",tipos_colunas[cont]);
-				cont++;
+   	fprintf(relatorio_file,"<th>%s</th>",row1[0]);
+		tipos_colunas[cont] = atoi(row1[1]);
+		g_print("valor tipo coluna row: %i\n",tipos_colunas[cont]);
+		cont++;
 	}
 	fprintf(relatorio_file,"</tr>");
 	if(cont==0){
@@ -71,12 +69,12 @@ int relat_mov_gerar_fun()
 		return 1;
 	}
 
-	if((res2 = consultar(relat_mov_query_gchar))==NULL){
+	if(!(res2 = consultar(relat_mov_query_gchar))){
 		popup(NULL,"Erro ao receber dados do relatorio");
 		return 1;
 	}
 
-	while((row2 = mysql_fetch_row(res2))!=NULL){
+	while((row2 = mysql_fetch_row(res2))){
 		cont = 0;
 
 		fprintf(relatorio_file,"<tr class='tr-estilo'>");

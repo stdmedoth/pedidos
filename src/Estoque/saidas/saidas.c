@@ -22,8 +22,8 @@ void inicializar_saidas()
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 }
 
-int est_saidas()
-{
+int est_saidas(){
+	mov_said_est_limit =0;
 	GtkWidget *janela, *grid;
 	char code[MAX_CODE_LEN];
 	GtkWidget *est_said_cod_frame, *est_said_cod_fixed;
@@ -61,8 +61,7 @@ int est_saidas()
 	gtk_window_set_title(GTK_WINDOW(janela),"Saidas");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"list-remove");
 
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 
 	inicializar_saidas();
 
@@ -228,10 +227,6 @@ int est_saidas()
 	g_signal_connect(est_said_tipo_combo,"changed",G_CALLBACK(est_said_tipo_fun),NULL);
 
 	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
-
-	g_signal_connect(est_said_qnt_entry,"activate",G_CALLBACK(est_said_qnt_fun),NULL);
-
-	g_signal_connect(est_said_tipo_combo,"changed",G_CALLBACK(est_said_tipo_fun),NULL);
 
 	g_signal_connect(est_said_ped_entry,"activate",G_CALLBACK(est_said_ped_fun),NULL);
 

@@ -1,5 +1,13 @@
 int orc_transp_valor_frete(){
   char floating[MAX_PRECO_LEN];
+  if(orc_transp_frete_pago_int){
+    orc_transp_valor = malloc(MAX_PRECO_LEN);
+    strcpy(orc_transp_valor,"0");
+    orc_valores.valor_frete = atof(orc_transp_valor);
+    if(gerar_total_geral())
+    return 1;
+  }
+
   orc_transp_valor = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_transp_valor_frete_entry));
 
   if(!strlen(orc_transp_valor)){

@@ -88,7 +88,7 @@ int relat_fix_est_gerar_fun(){
       }
       fprintf(relat_file,"<div id='solid-container'>");
       if((row = mysql_fetch_row(res))){
-        sprintf(query, "select mv.produto, p_all.nome, mv.entradas, mv.saidas, mv.code, mv.tipo_mov from movimento_estoque as mv inner join produtos_nome_all as p_all inner join grupos as g inner join pedidos as ped on mv.subgrupo = g.code and p_all.code = g.code and ped.code = mv.pedido where ped.code = %s and mv.produto >= %s and mv.produto <= %s",
+        sprintf(query, "select mv.produto, p.nome, mv.entradas, mv.saidas, mv.code, mv.tipo_mov from movimento_estoque as mv inner join produtos as p on mv.produto = p.code left join pedidos as ped on ped.code = mv.pedido where ped.code = %s and mv.produto >= %s and mv.produto <= %s",
         row[0],
         relat_fix_est_prod_gchar1,
         relat_fix_est_prod_gchar2);
@@ -142,13 +142,13 @@ int relat_fix_est_gerar_fun(){
     fprintf(relat_file,"</tr>");
 
     if( atoi(row[5]) == VENDA || atoi(row[5]) == DEV_COMPRA )
-      sprintf(query, "select mov.produto, p_all.nome, mov.saidas from movimento_estoque as mov inner join produtos_nome_all as p_all inner join grupos as g on mov.subgrupo = g.code and p_all.code = g.code where mov.code = %s and mov.produto >= %s and mov.produto <= %s",
+      sprintf(query, "select mov.produto, p.nome, mov.saidas from movimento_estoque as mov inner join produtos as p on mov.produto = p.code where mov.code = %s and mov.produto >= %s and mov.produto <= %s",
       row[0],
       relat_fix_est_prod_gchar1,
       relat_fix_est_prod_gchar2);
 
     if( atoi(row[5]) == DEV_VENDA || atoi(row[5]) == COMPRA )
-      sprintf(query, "select mov.produto, p_all.nome, mov.entradas from movimento_estoque as mov inner join produtos_nome_all as p_all inner join grupos as g on mov.subgrupo = g.code and p_all.code = g.code where mov.code = %s and mov.produto >= %s and mov.produto <= %s",
+      sprintf(query, "select mov.produto, p.nome, mov.entradas from movimento_estoque as mov inner join produtos as p on mov.produto = p.code where mov.code = %s and mov.produto >= %s and mov.produto <= %s",
       row[0],
       relat_fix_est_prod_gchar1,
       relat_fix_est_prod_gchar2);

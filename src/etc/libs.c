@@ -62,7 +62,7 @@
 #include "../Compras/cotacao.c"
 #include "../Compras/entradas.c"
 #include "../Compras/ordem.c"
-#include "../Compras/solicitacao.c"
+#include "../Compras/solicitacoes/solicitacao.c"
 
 
 #include "../Vendas/condicoes_pag/cad_pag.c"

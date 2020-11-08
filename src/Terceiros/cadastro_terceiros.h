@@ -6,23 +6,24 @@ int  cad_terc();
 static int concluindo_ter=0;
 static int ter_com_entrega = 0;
 
-#define COD_TER_COL 0
-#define COD_TER_NFE_COL 1
-#define RAZ_TER_COL 2
-#define DOC_TER_COL 3
-#define IE_TER_COL 4
-#define TDOC_TER_COL 5
-#define TIPC_TER_COL 6
-#define TIPI_TER_COL 7
-#define CEP_TER_COL 8
-#define END_TER_COL 9
-#define BAIR_TER_COL 10
-#define CID_TER_COL 11
-#define UF_TER_COL 12
-#define REND_TER_COL 13
-#define CPLMNT_TER_COL 14
-#define TRUA_TER_COL 15
-
+enum{
+  COD_TER_COL,
+  COD_TER_NFE_COL,
+  RAZ_TER_COL,
+  DOC_TER_COL,
+  IE_TER_COL,
+  TDOC_TER_COL,
+  TIPC_TER_COL,
+  TIPI_TER_COL,
+  CEP_TER_COL,
+  END_TER_COL,
+  CPLMNT_TER_COL,
+  BAIR_TER_COL,
+  CID_TER_COL,
+  UF_TER_COL,
+  REND_TER_COL,
+  TRUA_TER_COL
+};
 /*
 #define TEL_TER_COL 16
 #define CTEL_TER_COL 17

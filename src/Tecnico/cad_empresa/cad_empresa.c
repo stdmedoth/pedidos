@@ -63,8 +63,7 @@ int cadastro_empresa(){
   gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
   gtk_window_set_title(GTK_WINDOW(janela),"Empresa");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
-  if(personalizacao.janela_keep_above==1)
-    gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 
   opcoes_box = gtk_box_new(0,0);

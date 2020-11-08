@@ -9,7 +9,7 @@ create table if not exists pedidos( code int primary key auto_increment,
   total float default 0.0,
   status int default 0,
   foreign key(cliente) references terceiros(code));
-  
+
 create table if not exists orcamentos( code int primary key auto_increment,
   tipo_mov int default 1,
   vendedor int default 0,
@@ -41,11 +41,10 @@ create table if not exists faturamento ( code int primary key auto_increment,
   data_mov date default '2001-01-01',
   tipo_mov int default 0 );
 
-
   create table if not exists caixas(
     code int primary key auto_increment,
     nome varchar(60) not null,
-    status int not null,
+    status int not null
   );
 
   create table if not exists movimentos_caixa(

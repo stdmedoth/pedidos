@@ -118,6 +118,7 @@ int desenhar_pdf(char *gerando_file)
 
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,
 		PDF_GEN,
+		"--quiet",
 		"--enable-local-file-access",
 		"--print-media-type",
 		"--page-size",

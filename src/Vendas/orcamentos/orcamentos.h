@@ -30,9 +30,9 @@ struct _orc_estoque_prods{
 	int mov_qnt;
 };
 
-static struct _orc_estoque{
+struct _orc_estoque{
 	struct _orc_estoque_prods **produtos;
-}orc_estoque;
+}static orc_estoque;
 
 
 static struct _orc_itens

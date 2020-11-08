@@ -9,6 +9,7 @@
 #include "entrega/transp_bairro.c"
 #include "entrega/transp_cep.c"
 #include "entrega/valor_frete.c"
+#include "entrega/frete_pago.c"
 #include "entrega/valor_desconto_frete.c"
 
 #include "entrega/concluir.c"
@@ -38,6 +39,7 @@ GtkWidget *orc_entrega_campos()
 	*orc_transp_cep_fixed,
 	*orc_transp_obs_fixed,
 	*orc_transp_valor_fixed,
+	*orc_transp_frete_pago_fixed,
 	*orc_transp_desconto_fixed;
 
 	GtkWidget *orc_transp_obs_scroll;
@@ -106,6 +108,7 @@ GtkWidget *orc_entrega_campos()
 	orc_transp_cep_fixed = gtk_fixed_new();
 	orc_transp_obs_fixed = gtk_fixed_new();
 	orc_transp_valor_fixed = gtk_fixed_new();
+	orc_transp_frete_pago_fixed = gtk_fixed_new();
 	orc_transp_desconto_fixed = gtk_fixed_new();
 
 	orc_transp_obs_scroll = gtk_scrolled_window_new(NULL,NULL);
@@ -208,6 +211,9 @@ GtkWidget *orc_entrega_campos()
 	gtk_box_pack_start(GTK_BOX(orc_transp_obs),orc_transp_obs_entry,0,0,5);
 	gtk_container_add(GTK_CONTAINER(obs_orc_transp_frame),orc_transp_obs);
 
+	orc_transp_frete_pago_button = gtk_check_button_new_with_label("Frete pago?");
+	gtk_fixed_put(GTK_FIXED(orc_transp_frete_pago_fixed),orc_transp_frete_pago_button,20,20);
+
 	valor_orc_transp_frame = gtk_frame_new("Valor Frete");
 	orc_transp_valor_frete_entry = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_transp_valor_frete_entry),GTK_ENTRY_ICON_PRIMARY,"money");
@@ -260,6 +266,7 @@ GtkWidget *orc_entrega_campos()
 	gtk_box_pack_start(GTK_BOX(linhas1),orc_transp_endr_fixed,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_obs_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_frete_pago_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_valor_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linhas2),orc_transp_desconto_fixed,0,0,0);
 
@@ -281,6 +288,7 @@ GtkWidget *orc_entrega_campos()
 	g_signal_connect(GTK_ENTRY(orc_transp_num_entry),"activate",G_CALLBACK(orc_transp_num_fun),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_cidade_entry),"activate",G_CALLBACK(orc_transp_cidadec),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_estado_entry),"activate",G_CALLBACK(orc_transp_estado_fun),NULL);
+	g_signal_connect(orc_transp_frete_pago_button,"toggled",G_CALLBACK(orc_transp_frete_pago_fun),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_valor_frete_entry),"activate",G_CALLBACK(orc_transp_valor_frete),NULL);
 	g_signal_connect(GTK_ENTRY(orc_transp_desconto_frete_entry),"activate",G_CALLBACK(orc_transp_desconto_frete),NULL);
 	return caixa_grande;

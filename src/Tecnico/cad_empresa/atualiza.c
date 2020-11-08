@@ -79,6 +79,7 @@ int cad_emp_atualiza(){
   }
   if(cad_emp_recebe())
     return 1;
+  cad_emp_prim=0;
   popup(NULL,"Informações atualizadas com suceeso");
 
   return 0;

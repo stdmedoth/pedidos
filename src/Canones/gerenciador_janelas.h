@@ -39,7 +39,8 @@ CAD_CONT_FIX_WND,
 IMPORT_TITS_WND,
 KANBAN_PRINC_WND,
 REG_PDV_WND,
-REG_WIN_QNT
+REG_SOLIT_WND,
+REG_WIN_QNT,
 };
 
 #define REG_PRINC_WIN 9990
@@ -84,7 +85,9 @@ static const char *janelas_nomes[] = {
   "Notificações",
   "Contas Fixas",
   "Importador de títulos",
-  "Kanban"
+  "Kanban",
+  "PDV",
+  "Solicitação de Materiais"
 };
 
 typedef struct _janelas_info{
