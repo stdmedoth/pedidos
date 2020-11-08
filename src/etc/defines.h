@@ -94,6 +94,7 @@
 #define EXIT_IMG           "C:/pedidos/files/icones_opc/sair.png"
 #define PDF_GEN            "C:/pedidos/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG          "C:/pedidos/files/impressao/cp.exe"
+#define CUPONS_XMLS_DIR    "C:/pedidos/files/xmls/cupom/"
 
 #define IMP_PORT1          "LPT1"
 #define IMP_PORT2          "LPT2"
@@ -225,6 +226,7 @@
 #define REL_FIX_FIN_PATH 	"/usr/share/pedidos/files/impressao/relatorios/fixos/financeiros/"
 #define IMG_IMP_LOGO      "/usr/share/pedidos/files/impressao/imgs/logo_livro_texto.png"
 #define BACKUP_QUERY_FILE "/usr/share/pedidos/files/backup_querys"
+#define CUPONS_XMLS_DIR   "/usr/share/pedidos/files/xmls/cupom/"
 #define EMBLEM_GENERIC    "/usr/share/pedidos/files/icones_opc/emblem_generic.png"
 #define EMBLEM_IMPORTANT  "/usr/share/pedidos/files/icones_opc/emblem_important.png"
 #define SCRPT_TER_INFOS_ENV "/usr/share/pedidos/files/scripts/files/dados_emissor.xml"

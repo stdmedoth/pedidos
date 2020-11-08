@@ -380,7 +380,9 @@ int ped_emitir()
 
 	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
 	g_print("xml de cupom recebido\n");
-	FILE *xml = fopen("xml_teste.xml","w");
+	char *cupom_path = malloc(strlen(CUPONS_XMLS_DIR) + 20);
+	sprintf(cupom_path,"%s%i.xml",CUPONS_XMLS_DIR,ped_infos.ped_code);
+	FILE *xml = fopen(cupom_path,"w");
 	if(xml){
 		if(cfe->xml){
 			xmlDocDump(xml,	cfe->xml);

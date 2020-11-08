@@ -8,7 +8,7 @@ CCFLAGS=-Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic -O0
 ALLFLAGS=$(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(CCFLAGS)
 
 TARGET_FILE=Pedidos.c
-RESULT_FILE=Pedidos
+RESULT_FILE=pedidos
 
 OBJS=Pedidos.o
 

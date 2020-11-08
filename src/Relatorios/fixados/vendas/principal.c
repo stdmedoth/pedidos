@@ -88,7 +88,7 @@ int relat_fix_vnd(){
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Pendentes");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Emitidos");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_status_combo),"Cancelados");
-  gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_status_combo),0);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_status_combo),2);
 
   relat_fix_vnd_ordem_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_ordem_combo),"Código");
@@ -96,7 +96,7 @@ int relat_fix_vnd(){
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_ordem_combo),"Nome Produto");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_ordem_combo),"Preço Faturado");
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_vnd_ordem_combo),"Preço à Vista");
-  gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_ordem_combo),0);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(relat_fix_vnd_ordem_combo),1);
 
   relat_fix_vnd_prod_button = gtk_button_new();
   gtk_button_set_image(GTK_BUTTON(relat_fix_vnd_prod_button),gtk_image_new_from_file(IMG_PESQ));

@@ -1,8 +1,14 @@
 #include "campos/codigo.c"
+#include "campos/produto.c"
+#include "campos/quantidade.c"
+#include "campos/descricao.c"
 #include "campos/data.c"
-#include "campos/data_evento.c"
 #include "campos/prioridade.c"
 #include "campos/status.c"
+#include "concluir.c"
+#include "alterar.c"
+#include "excluir.c"
+#include "cancelar.c"
 
 int solicitacao(){
 
@@ -22,11 +28,13 @@ int solicitacao(){
 	janelas_gerenciadas.vetor_janelas[REG_SOLIT_WND].janela_pointer = janela;
 
 	GtkWidget *req_prod_linha1, *req_prod_linha2, *req_prod_linha3, *req_prod_linha4, *req_prod_opcoes, *req_prod_box;
-	GtkWidget *req_prod_concluir_button, *req_prod_alterar_button, *req_prod_cancelar_button, *req_prod_excluir_button;
+
+	GtkWidget *req_prod_psq_req, *req_prod_psq_prod;
 
 	GtkWidget *req_prod_code_box,
 	*req_prod_descr_box,
 	*req_prod_prod_box,
+	*req_prod_qnt_box,
 	*req_prod_prori_box,
 	*req_prod_data_box,
 	*req_prod_dtevent_box,
@@ -36,10 +44,16 @@ int solicitacao(){
 	GtkWidget *req_prod_code_frame,
 	*req_prod_descr_frame, *req_prod_descr_scroll,
 	*req_prod_prod_frame,
+	*req_prod_qnt_frame,
 	*req_prod_prori_frame,
 	*req_prod_data_frame,
 	*req_prod_dtevent_frame,
 	*req_prod_status_frame;
+
+	req_prod_psq_req = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(req_prod_psq_req),gtk_image_new_from_file(IMG_PESQ));
+	req_prod_psq_prod = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(req_prod_psq_prod),gtk_image_new_from_file(IMG_PESQ));
 
 	req_prod_linha1 = gtk_box_new(0,0);
 	req_prod_linha2 = gtk_box_new(0,0);
@@ -49,14 +63,34 @@ int solicitacao(){
 	req_prod_box = gtk_box_new(1,0);
 
 	req_prod_code_entry = gtk_entry_new();
+	req_prod_code_box = gtk_box_new(0,0);
 	req_prod_code_frame = gtk_frame_new("Código");
-	gtk_container_add(GTK_CONTAINER(req_prod_code_frame), req_prod_code_entry);
+	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_code_entry),8);
+	gtk_box_pack_start(GTK_BOX(req_prod_code_box),req_prod_code_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(req_prod_code_box),req_prod_psq_req,0,0,5);
+	gtk_container_add(GTK_CONTAINER(req_prod_code_frame), req_prod_code_box);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha1),req_prod_code_frame,0,0,5);
 
 	req_prod_prod_entry = gtk_entry_new();
+	req_prod_prod_box = gtk_box_new(0,0);
 	req_prod_prod_frame = gtk_frame_new("Produto");
-	gtk_container_add(GTK_CONTAINER(req_prod_prod_frame), req_prod_prod_entry);
+	req_prod_prodnome_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_prod_entry),8);
+	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_prod_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_psq_prod,0,0,5);
+	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_prodnome_entry,0,0,5);
+	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_prodnome_entry),20);
+	gtk_editable_set_editable(GTK_EDITABLE(req_prod_prodnome_entry),FALSE);
+	gtk_container_add(GTK_CONTAINER(req_prod_prod_frame), req_prod_prod_box);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha2),req_prod_prod_frame,0,0,5);
+
+	req_prod_qnt_spin = gtk_spin_button_new_with_range(1,1000,1);
+	req_prod_qnt_box = gtk_box_new(0,0);
+	req_prod_qnt_frame = gtk_frame_new("Quantidade");
+	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_qnt_spin),8);
+	gtk_box_pack_start(GTK_BOX(req_prod_qnt_box),req_prod_qnt_spin,0,0,5);
+	gtk_container_add(GTK_CONTAINER(req_prod_qnt_frame), req_prod_qnt_box);
+	gtk_box_pack_start(GTK_BOX(req_prod_linha2),req_prod_qnt_frame,0,0,5);
 
 	req_prod_descr_text = gtk_text_view_new();
 	req_prod_descr_frame = gtk_frame_new("Descrição");
@@ -84,6 +118,7 @@ int solicitacao(){
 
 	req_prod_dtevent_entry = gtk_entry_new();
 	req_prod_dtevent_frame = gtk_frame_new("Ultimo evento");
+	gtk_editable_set_editable(GTK_EDITABLE(req_prod_dtevent_entry),FALSE);
 	gtk_container_add(GTK_CONTAINER(req_prod_dtevent_frame), req_prod_dtevent_entry);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha4),req_prod_dtevent_frame,0,0,5);
 
@@ -115,7 +150,19 @@ int solicitacao(){
 
 	gtk_container_add(GTK_CONTAINER(janela), req_prod_box);
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_SOLIT_WND]);
+	g_signal_connect(req_prod_psq_req,"clicked",G_CALLBACK(psq_prod),req_prod_code_entry);
+	g_signal_connect(req_prod_psq_prod,"clicked",G_CALLBACK(psq_prod),req_prod_prod_entry);
 
+	g_signal_connect(req_prod_code_entry,"activate",G_CALLBACK(req_prod_code_fun),NULL);
+	g_signal_connect(req_prod_prod_entry,"activate",G_CALLBACK(req_prod_prod_fun),NULL);
+	g_signal_connect(req_prod_qnt_spin,"activate",G_CALLBACK(req_prod_qnt_fun),NULL);
+	g_signal_connect(req_prod_data_entry,"activate",G_CALLBACK(req_prod_data_fun),NULL);
+
+	g_signal_connect(req_prod_concluir_button,"clicked",G_CALLBACK(req_prod_concluir_fun),NULL);
+	g_signal_connect(req_prod_alterar_button,"clicked",G_CALLBACK(req_prod_alterar_fun),NULL);
+	g_signal_connect(req_prod_excluir_button,"clicked",G_CALLBACK(req_prod_excluir_fun),NULL);
+	g_signal_connect(req_prod_cancelar_button,"clicked",G_CALLBACK(req_prod_cancelar_fun),NULL);
+	req_prod_cancelar_fun();
 	gtk_widget_show_all(janela);
 	return 0;
 }
