@@ -17,6 +17,7 @@ static int gerar_total_geral(){
 		if(ativos[cont].id == 1)
 		{
 			ativos[cont].total_f = ((ativos[cont].qnt_f)*(ativos[cont].preco_f))-(ativos[cont].desconto_f);
+
 			total_geral_orc = total_geral_orc + ativos[cont].total_f;
 			desconto_geral_orc = desconto_geral_orc + ativos[cont].desconto_f;
 			if(total_geral_orc<0)

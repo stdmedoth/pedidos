@@ -17,7 +17,7 @@ int req_prod_code_fun(){
     return 1;
   }
   if((row = mysql_fetch_row(res))){
-    if(!req_prod_alterando)
+    if(!req_prod_alterando && !req_prod_concluindo)
       req_prod_alterar_fun();
     return 0;
   }

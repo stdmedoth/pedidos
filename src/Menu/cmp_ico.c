@@ -51,7 +51,7 @@ int cmp_ico(void)
 
 
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(solicitacao),NULL);
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cotacao),NULL);
+	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cotacao_fun),NULL);
 	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(ordem_cmp),NULL);
 	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(entrada),NULL);
 	return 0;

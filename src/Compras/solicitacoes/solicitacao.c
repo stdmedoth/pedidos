@@ -76,10 +76,10 @@ int solicitacao(){
 	req_prod_prod_frame = gtk_frame_new("Produto");
 	req_prod_prodnome_entry = gtk_entry_new();
 	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_prod_entry),8);
-	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_prod_entry,0,0,5);
-	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_psq_prod,0,0,5);
+	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_prod_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_psq_prod,0,0,0);
 	gtk_box_pack_start(GTK_BOX(req_prod_prod_box),req_prod_prodnome_entry,0,0,5);
-	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_prodnome_entry),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_prodnome_entry),25);
 	gtk_editable_set_editable(GTK_EDITABLE(req_prod_prodnome_entry),FALSE);
 	gtk_container_add(GTK_CONTAINER(req_prod_prod_frame), req_prod_prod_box);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha2),req_prod_prod_frame,0,0,5);
@@ -97,8 +97,8 @@ int solicitacao(){
 	req_prod_descr_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_container_add(GTK_CONTAINER(req_prod_descr_scroll), req_prod_descr_text);
 	gtk_container_add(GTK_CONTAINER(req_prod_descr_frame), req_prod_descr_scroll);
-	gtk_widget_set_size_request(req_prod_descr_scroll,200,50);
-	gtk_widget_set_size_request(req_prod_descr_text,200,50);
+	gtk_widget_set_size_request(req_prod_descr_scroll,300,50);
+	gtk_widget_set_size_request(req_prod_descr_text,300,50);
 
 	gtk_box_pack_start(GTK_BOX(req_prod_linha3),req_prod_descr_frame,0,0,0);
 
@@ -150,7 +150,7 @@ int solicitacao(){
 
 	gtk_container_add(GTK_CONTAINER(janela), req_prod_box);
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_SOLIT_WND]);
-	g_signal_connect(req_prod_psq_req,"clicked",G_CALLBACK(psq_prod),req_prod_code_entry);
+	g_signal_connect(req_prod_psq_req,"clicked",G_CALLBACK(psq_req),req_prod_code_entry);
 	g_signal_connect(req_prod_psq_prod,"clicked",G_CALLBACK(psq_prod),req_prod_prod_entry);
 
 	g_signal_connect(req_prod_code_entry,"activate",G_CALLBACK(req_prod_code_fun),NULL);

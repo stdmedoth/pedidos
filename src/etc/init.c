@@ -18,6 +18,10 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.principal.aberta = 1;
 	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
+
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
+	
 	return ;
 }
 
@@ -330,10 +334,6 @@ int desktop()
 
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
-
-	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
-
-	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 
 	gtk_widget_show_all(janela_principal);
 

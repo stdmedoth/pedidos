@@ -23,6 +23,9 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       return 1;
     }
   }
+  
+  if(orig_preco_prod_orc(NULL,posicao))
+    return 1;
 
   switch(valor_orig[posicao]){
 

@@ -188,6 +188,7 @@ void signal_caixa_encerramento(GtkWidget *button, struct _caixa *caixa){
 	return ;
 }
 
+
 int janela_caixa_encerrar(struct _caixa *caixa){
   if(!caixa){
     popup(NULL,"Erro ao processar caixa atual");
@@ -215,6 +216,7 @@ int janela_caixa_encerrar(struct _caixa *caixa){
 
   return 0;
 }
+
 
 struct _caixa *caixa_get_aberto(struct _maquina *maquina){
 

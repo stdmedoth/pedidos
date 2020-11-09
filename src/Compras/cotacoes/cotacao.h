@@ -1,0 +1,1 @@
+int cotacao_fun();

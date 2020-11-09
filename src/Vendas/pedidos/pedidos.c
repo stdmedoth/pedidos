@@ -103,19 +103,19 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 			row[0][15] = '\0';
 		}
 
-		sprintf(formata_preco1,"R$ %.2f",atof(row[3])); //vlr unitario
+		sprintf(formata_preco1,"R$ %.2f",atof(row[2])); //vlr unitario
 
 		switch(atoi(row[4]))
 		{
 			case 0:
-				sprintf(formata_preco2,"R$ %.2f",atof(row[5]));//desconto em reais
+				sprintf(formata_preco2,"R$ %.2f",atof(row[3]));//desconto em reais
 
 				break;
 			case 1:
-				sprintf(formata_preco2,"%.2f%%",atof(row[5])); //desconto em porcentagem
+				sprintf(formata_preco2,"%.2f%%",atof(row[3])); //desconto em porcentagem
 				break;
 		}
-		sprintf(formata_preco3,"R$ %.2f",atof(row[6])); //total
+		sprintf(formata_preco3,"R$ %.2f",atof(row[5])); //total
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 
@@ -127,7 +127,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		COLUMN4,formata_preco3,
 		-1);
 
-		switch(atoi(row[7]))
+		switch(atoi(row[6]))
 		{
 			case 1:
 				strcpy(origem_preco,"Tabela");

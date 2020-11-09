@@ -115,6 +115,7 @@ GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
 
+int orig_preco_prod_orc(GtkWidget *widget,int posicao);
 static int vnd_orc();
 
 static int recebendo_prod_orc=0;

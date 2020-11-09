@@ -40,6 +40,7 @@ IMPORT_TITS_WND,
 KANBAN_PRINC_WND,
 REG_PDV_WND,
 REG_SOLIT_WND,
+REG_COTAC_WND,
 REG_WIN_QNT,
 };
 
@@ -87,7 +88,8 @@ static const char *janelas_nomes[] = {
   "Importador de títulos",
   "Kanban",
   "PDV",
-  "Solicitação de Materiais"
+  "Solicitação de Materiais",
+  "Cotação de Materiais"
 };
 
 typedef struct _janelas_info{
@@ -101,13 +103,13 @@ typedef struct _janelas_info{
   GtkWidget *janela_pointer;
 }janelas_info;
 
-struct{
+static struct{
   janelas_info vetor_janelas[REG_WIN_QNT+1];
   janelas_info principal;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;
   janelas_info aplicacao;
-}static janelas_gerenciadas;
+}janelas_gerenciadas;
 
 int iniciar_gerenciador_janela();
 

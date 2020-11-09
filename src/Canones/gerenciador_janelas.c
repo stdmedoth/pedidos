@@ -31,7 +31,21 @@ int wnd_logger(janelas_info *struct_wnd)
 
   if(struct_wnd->reg_id <= REG_WIN_QNT)
     strcpy(janela_nome,janelas_nomes[struct_wnd->reg_id]);
+  else{
+    switch (struct_wnd->reg_id) {
+      case REG_PRINC_WIN:
+        strcpy(janela_nome,"Janela Principal");
+        break;
 
+      case REG_INIT_FUN_WIN:
+        strcpy(janela_nome,"Janela de Inicialização");
+        break;
+
+      case REG_WIN_ENCERRA:
+        strcpy(janela_nome,"Janela de encerramento");
+        break;
+    }
+  }
   sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
   struct_wnd->reg_id,
   janela_nome,

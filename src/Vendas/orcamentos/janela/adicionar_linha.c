@@ -52,7 +52,8 @@ static int adicionar_linha_orc()
 		}
 	}
 
-	gerar_total_geral();
+	if(gerar_total_geral())
+		return 1;
 
 	codigo_orc_prod_box[itens_qnt] = gtk_box_new(0,0);
 	sprintf(item_frame_char,"Item %i",itens_qnt);

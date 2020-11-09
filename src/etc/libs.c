@@ -43,6 +43,7 @@
 #include "../pesquisadores/fin_rec.c"
 #include "../pesquisadores/fin_pag.c"
 #include "../pesquisadores/cidades.c"
+#include "../pesquisadores/requisicoes.c"
 #include "../pesquisadores/bancos.c"
 #include "../pesquisadores/serv_transporte.c"
 
@@ -59,9 +60,9 @@
 #include "../Unidades/cadastro_unidades.c"
 
 #include "../Compras/cadastro_compras.c"
-#include "../Compras/cotacao.c"
 #include "../Compras/entradas.c"
 #include "../Compras/ordem.c"
+#include "../Compras/cotacoes/cotacao.c"
 #include "../Compras/solicitacoes/solicitacao.c"
 
 

@@ -53,6 +53,7 @@
 #include "../pesquisadores/relatorios.h"
 #include "../pesquisadores/cond_pag.h"
 #include "../pesquisadores/operadores.h"
+#include "../pesquisadores/requisicoes.h"
 #include "../pesquisadores/fin_rec.h"
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
@@ -60,9 +61,9 @@
 #include "../pesquisadores/serv_transporte.h"
 
 #include "../Compras/cadastro_compras.h"
-#include "../Compras/cotacao.h"
 #include "../Compras/entradas.h"
 #include "../Compras/ordem.h"
+#include "../Compras/cotacoes/cotacao.h"
 #include "../Compras/solicitacoes/solicitacao.h"
 
 #include "../Unidades/cadastro_unidades.h"
