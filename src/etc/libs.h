@@ -61,8 +61,8 @@
 #include "../pesquisadores/serv_transporte.h"
 
 #include "../Compras/cadastro_compras.h"
-#include "../Compras/entradas.h"
-#include "../Compras/ordem.h"
+#include "../Compras/entradas/entradas.h"
+#include "../Compras/ordens/ordem.h"
 #include "../Compras/cotacoes/cotacao.h"
 #include "../Compras/solicitacoes/solicitacao.h"
 

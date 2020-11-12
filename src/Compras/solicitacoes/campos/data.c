@@ -9,6 +9,7 @@ int req_prod_data_fun(){
   if(!(req_prod_data_gchar = formatar_data(req_prod_data_gchar2))){
     return 1;
   }
+  gtk_entry_set_text(GTK_ENTRY(req_prod_data_entry),req_prod_data_gchar);
 
   gtk_widget_grab_focus(req_prod_concluir_button);
   return 0;

@@ -1,5 +1,4 @@
-int compras()
-{
+int compras(){
 	GtkWidget *janela;
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela),"Cadastro de compras");

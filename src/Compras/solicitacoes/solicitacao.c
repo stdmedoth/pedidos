@@ -113,11 +113,13 @@ int solicitacao(){
 
 	req_prod_data_entry = gtk_entry_new();
 	req_prod_data_frame = gtk_frame_new("Data Solicitação");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(req_prod_data_entry),"00/00/00");
 	gtk_container_add(GTK_CONTAINER(req_prod_data_frame), req_prod_data_entry);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha4),req_prod_data_frame,0,0,5);
 
 	req_prod_dtevent_entry = gtk_entry_new();
 	req_prod_dtevent_frame = gtk_frame_new("Ultimo evento");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(req_prod_dtevent_entry),"00/00/00");
 	gtk_editable_set_editable(GTK_EDITABLE(req_prod_dtevent_entry),FALSE);
 	gtk_container_add(GTK_CONTAINER(req_prod_dtevent_frame), req_prod_dtevent_entry);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha4),req_prod_dtevent_frame,0,0,5);

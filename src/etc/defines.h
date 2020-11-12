@@ -55,6 +55,7 @@
 #define SALD_IMG      "C:/pedidos/files/icones_opc/saldo.png"
 #define OPR_IMG       "C:/pedidos/files/icones_opc/operadores.png"
 #define CX_IMG        "C:/pedidos/files/icones_opc/caixa.png"
+#define CX_BAR_IMG    "C:/pedidos/files/icones_opc/caixa2.png"
 #define TRS_IMG       "C:/pedidos/files/icones_opc/transacoes.png"
 #define SOL_IMG       "C:/pedidos/files/icones_opc/solicitacoes.png"
 #define PRC_IMG       "C:/pedidos/files/icones_opc/preco.png"
@@ -109,7 +110,7 @@
 #define SCRPT_TER_INFOS_ENV "C:/pedidos/files/scripts/files/dados_emissor.xml"
 #define SCRPT_TER_INFOS_RET "C:/pedidos/files/scripts/files/dados_retorno.xml"
 #define SCRPT_NFE_INFOS     "C:/pedidos/files/scripts/files/dados_nfe.xml"
-#define IMG_IMP_LOGO      "C:/pedidos/files/impressao/imgs/logo_livro_texto.png"
+#define IMG_IMP_LOGO      "C:/pedidos/files/impressao/imgs/logo.png"
 #define BACKUP_QUERY_FILE "C:/pedidos/files/backup_querys"
 #define MOZ_CERT          "C:/pedidos/files/cacert.pem"
 #define EMBLEM_GENERIC    "C:/pedidos/files/icones_opc/emblem_generic.png"
@@ -195,6 +196,7 @@
 #define ENT_IMG       "/usr/share/pedidos/files/icones_opc/entradas.png"
 #define LMB_IMG       "/usr/share/pedidos/files/icones_opc/lembrete.png"
 #define CX_IMG        "/usr/share/pedidos/files/icones_opc/caixa.png"
+#define CX_BAR_IMG    "/usr/share/pedidos/files/icones_opc/caixa2.png"
 #define UND_IMG       "/usr/share/pedidos/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/pedidos/files/icones_opc/vinculos.png"
 #define CAD_EMP_IMG   "/usr/share/pedidos/files/icones_opc/company.png"
@@ -224,7 +226,7 @@
 #define REL_FIX_VND_PATH  "/usr/share/pedidos/files/impressao/relatorios/fixos/vendas"
 #define REL_FIX_MOV_PATH 	"/usr/share/pedidos/files/impressao/relatorios/fixos/movimentos"
 #define REL_FIX_FIN_PATH 	"/usr/share/pedidos/files/impressao/relatorios/fixos/financeiros/"
-#define IMG_IMP_LOGO      "/usr/share/pedidos/files/impressao/imgs/logo_livro_texto.png"
+#define IMG_IMP_LOGO      "/usr/share/pedidos/files/impressao/imgs/logo.png"
 #define BACKUP_QUERY_FILE "/usr/share/pedidos/files/backup_querys"
 #define CUPONS_XMLS_DIR   "/usr/share/pedidos/files/xmls/cupom/"
 #define EMBLEM_GENERIC    "/usr/share/pedidos/files/icones_opc/emblem_generic.png"
@@ -378,3 +380,7 @@ enum{
 #define CONTRATO_REL_COL 6
 
 #define ABRIR_MENU_TECLA GDK_KEY_Alt_L
+
+#define MAX_PARTC_QNT 10
+
+#define MAX_VETOR_POSCODE 100

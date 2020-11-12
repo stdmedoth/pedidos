@@ -41,6 +41,8 @@ KANBAN_PRINC_WND,
 REG_PDV_WND,
 REG_SOLIT_WND,
 REG_COTAC_WND,
+REG_ORDCMP_WND,
+REG_ENTCMP_WND,
 REG_WIN_QNT,
 };
 
@@ -89,7 +91,9 @@ static const char *janelas_nomes[] = {
   "Kanban",
   "PDV",
   "Solicitação de Materiais",
-  "Cotação de Materiais"
+  "Cotação de Materiais",
+  "Ordem de Compra",
+  "Entrada de Documentos"
 };
 
 typedef struct _janelas_info{

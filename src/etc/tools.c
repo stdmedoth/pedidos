@@ -171,18 +171,14 @@ void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeVi
 }
 
 void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-
 	return ;
 }
 
 void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-
 	return ;
 }
 

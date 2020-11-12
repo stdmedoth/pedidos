@@ -60,8 +60,8 @@
 #include "../Unidades/cadastro_unidades.c"
 
 #include "../Compras/cadastro_compras.c"
-#include "../Compras/entradas.c"
-#include "../Compras/ordem.c"
+#include "../Compras/entradas/entradas.c"
+#include "../Compras/ordens/ordem.c"
 #include "../Compras/cotacoes/cotacao.c"
 #include "../Compras/solicitacoes/solicitacao.c"
 

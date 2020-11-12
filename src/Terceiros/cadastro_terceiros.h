@@ -1,6 +1,20 @@
 int inicializar_ter();
 int  cad_terc();
 
+struct _terc_infos{
+  int code;
+  char *razao;
+  char *ie;
+  char *doc;
+  int tipo_terc;
+  char *cep;
+};
+
+struct _Terceiros{
+  struct _terc_infos *terceiro;
+  int qnt;
+};
+
 //variaveis referentes ao campos em campos/vars/campos_ter.h
 
 static int concluindo_ter=0;

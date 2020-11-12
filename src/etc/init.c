@@ -21,7 +21,7 @@ static void criar_janela_princ(){
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
 
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
-	
+
 	return ;
 }
 

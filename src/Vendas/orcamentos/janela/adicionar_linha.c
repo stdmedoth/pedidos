@@ -1,11 +1,9 @@
 static int adicionar_linha_orc()
 {
-
 	GtkAdjustment *ajustar;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	char *query;
-	movendo_scroll=0;
 
 	if(alterando_orc==0)
 	{
@@ -132,10 +130,8 @@ static int adicionar_linha_orc()
 	else
 		gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),0);
 
-	if(GTK_IS_WIDGET(botao_orc_mais))
-	{
+	if(GTK_IS_WIDGET(botao_orc_mais)){
 		gtk_widget_destroy(botao_orc_mais);
-
 	}
 
 	img_botao_orc_mais = gtk_image_new_from_file(IMG_MAIS);
@@ -261,12 +257,13 @@ static int adicionar_linha_orc()
 	#pragma GCC diagnostic warning "-Wint-conversion"
 
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
-	g_signal_connect(prod_scroll_window,"size-allocate",G_CALLBACK(auto_hmover_scroll),prod_scroll_window);
+
+	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(button_mover_scroll),prod_scroll_window);
+	g_signal_connect(orc_prods_grid,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 
 	gtk_widget_show_all(linhas_prod_orc_frame[itens_qnt]);
-
 	itens_qnt++;
 
 

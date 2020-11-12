@@ -127,7 +127,6 @@ static int excluindo_orc=0;
 static int aviso_estoque[MAX_PROD_ORC];
 static int orc_pag_cond_activated=0;
 
-static int movendo_scroll=0;
 static int adicionando_linha_ignore=0;
 
 static int pag_cond=0, tipo_pag=0;
