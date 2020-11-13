@@ -121,14 +121,16 @@ static int adicionar_linha_orc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),"1","%");
 
 	//verifica o tipo de calculo de desconto anterior
-	if(ativos_qnt>1)
+	if(ativos_qnt>1){
 		if(ativos[itens_qnt-1].id == 1)
 			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),
 			gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt-1])));
 		else
 			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),0);
-	else
+	}
+	else{
 		gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),0);
+	}
 
 	if(GTK_IS_WIDGET(botao_orc_mais)){
 		gtk_widget_destroy(botao_orc_mais);

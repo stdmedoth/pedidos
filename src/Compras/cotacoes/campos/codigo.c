@@ -7,11 +7,14 @@ int cotac_code_fun(){
     popup(NULL,"Insira o código");
     return 1;
   }
+
   sprintf(query,"SELECT * FROM cotacoes WHERE code = %s",cotac_code_gchar);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar cotação");
     return 1;
   }
+
+  cotacao_new->code = atoi(cotac_code_gchar);
   if(!(row = mysql_fetch_row(res))){
     gtk_widget_grab_focus(cotac_data_entry);
     return 0;

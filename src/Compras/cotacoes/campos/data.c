@@ -9,8 +9,10 @@ int cotac_data_fun(){
   if(!cotac_data_gchar){
     return 1;
   }
-  gtk_entry_set_text(GTK_ENTRY(cotac_data_entry),cotac_data_gchar);
-  gtk_widget_grab_focus(cotac_validade_entry);
 
+  cotacao_new->data = strdup(cotac_data_gchar);
+  gtk_entry_set_text(GTK_ENTRY(cotac_data_entry),cotac_data_gchar);
+
+  gtk_widget_grab_focus(cotac_validade_entry);
   return 0;
 }

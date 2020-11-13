@@ -1,5 +1,6 @@
 #include "campos/codigo.c"
 #include "campos/participantes.c"
+#include "campos/descricao.c"
 #include "campos/tipo.c"
 #include "campos/status.c"
 #include "campos/data.c"
@@ -16,7 +17,6 @@
 #include "alterar.c"
 #include "excluir.c"
 #include "cancelar.c"
-
 
 int cotacao_fun(){
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -64,6 +64,18 @@ int cotacao_fun(){
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_rem_partc_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(cotac_partc_frame),cotac_partc_box);
 
+	GtkWidget *cotac_descricao_frame = gtk_frame_new("Descrição");
+	cotac_descricao_view = gtk_text_view_new();
+	GtkWidget *cotac_descricao_box = gtk_box_new(0,0);
+	GtkWidget *cotac_descricao_scroll = gtk_scrolled_window_new(NULL,NULL);
+	gtk_widget_set_size_request(cotac_descricao_view,200,30);
+	gtk_widget_set_size_request(cotac_descricao_scroll,200,30);
+	gtk_widget_set_size_request(cotac_descricao_box,200,30);
+	gtk_widget_set_size_request(cotac_descricao_frame,200,30);
+	gtk_container_add(GTK_CONTAINER(cotac_descricao_scroll),cotac_descricao_view);
+	gtk_box_pack_start(GTK_BOX(cotac_descricao_box),cotac_descricao_scroll,0,0,0);
+	gtk_container_add(GTK_CONTAINER(cotac_descricao_frame),cotac_descricao_box);
+
 	GtkWidget *cotac_status_frame = gtk_frame_new("Status");
 	GtkWidget *cotac_status_box = gtk_box_new(0,0);
 	cotac_status_combo = gtk_combo_box_text_new();
@@ -84,6 +96,7 @@ int cotacao_fun(){
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_code_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_status_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_publica_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_descricao_frame,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_partc_entry,0,0,5);
 
 	GtkWidget *cotac_data_box = gtk_box_new(0,0);
@@ -109,11 +122,6 @@ int cotacao_fun(){
 	GtkWidget *cotac_cancelar_button = gtk_button_new_with_label("Cancelar");
 	GtkWidget *cotac_excluir_button = gtk_button_new_with_label("Excluir");
 
-	cotac_itens_container = malloc(sizeof(GtkWidget*) *10);
-	for(int cont=0;cont<10;cont++){
-
- 	}
-
 	gtk_box_pack_start(GTK_BOX(cotac_linha4),cotac_confirmar_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha4),cotac_alterar_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha4),cotac_cancelar_button,0,0,5);
@@ -126,11 +134,34 @@ int cotacao_fun(){
 
 	cotac_alterando=0;
 	cotac_concluindo=0;
-	for(int cont=0;cont<MAX_VETOR_POSCODE;cont++)
+
+	cotac_container_exists = malloc(sizeof(int) *MAX_PARTC_QNT);
+	cotac_produto_inserido = malloc(sizeof(int) *MAX_PARTC_QNT );
+	cotac_pPos = malloc(sizeof(int) *MAX_PARTC_QNT);
+  cotac_ativo = malloc(sizeof(int) *MAX_PARTC_QNT);
+	cotac_add_button = malloc( sizeof( GtkWidget* )  *MAX_PARTC_QNT);
+	cotac_itens_container = malloc(sizeof(GtkWidget*) *MAX_PARTC_QNT);
+
+	cotac_prod_cod_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+  cotac_psq_prod_button = malloc (sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+  cotac_prod_nome_entry = malloc (sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+  cotac_prod_qnt_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+  cotac_prod_prc_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+	cotac_rem_button = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+  cotac_prod_frames = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+
+	cotacao_new = malloc(sizeof(struct _cotacao*));
+	cotacao_new->cotacao_itens = malloc(sizeof(struct _contacao_itens *) *MAX_PARTC_QNT );
+
+	for(int cont=0;cont<MAX_PARTC_QNT;cont++){
 		cotac_container_exists[cont] = 0;
+	}
 
 	gtk_container_add (GTK_CONTAINER(janela),cotac_linhas);
 	gtk_widget_show_all(janela);
+	gtk_widget_hide(cotac_partc_entry);
+
+	cotacao_cancelar_fun();
 
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
 	g_signal_connect(cotac_partc_entry,"activate", G_CALLBACK(cotac_partc_fun),NULL);
@@ -145,7 +176,6 @@ int cotacao_fun(){
 	g_signal_connect(cotac_cancelar_button,"clicked",G_CALLBACK(cotacao_cancelar_fun),NULL);
 	g_signal_connect(cotac_excluir_button,"clicked",G_CALLBACK(cotacao_excluir_fun),NULL);
 
-	gtk_widget_hide(cotac_partc_entry);
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_COTAC_WND]);
 	return 0;
 }

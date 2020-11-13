@@ -3,6 +3,7 @@
 #include "vnd_ico.c"
 #include "cmp_ico.c"
 #include "fin_ico.c"
+#include "mkt_ico.c"
 #include "rel_ico.c"
 #include "tcn_ico.c"
 
@@ -17,6 +18,7 @@ int add_icones(void)
 	faturamentol = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	estoquel     = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	financeirol  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
+	marketingl   = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	relatoriosl  = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 	tecnicosl    = malloc(sizeof(GtkBox*)*LINE_ICO_QNT);
 
@@ -28,6 +30,7 @@ int add_icones(void)
 		faturamentol[cont] = gtk_box_new(0,0);
 		estoquel[cont]     = gtk_box_new(0,0);
 		financeirol[cont]  = gtk_box_new(0,0);
+		marketingl[cont]  = gtk_box_new(0,0);
 		relatoriosl[cont]  = gtk_box_new(0,0);
 		tecnicosl[cont]    = gtk_box_new(0,0);
 	}

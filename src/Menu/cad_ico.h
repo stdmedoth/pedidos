@@ -12,6 +12,4 @@ GtkWidget *crel_ico,*crel_lbl; //grupos
 GtkWidget *ceps_ico,*ceps_lbl; //ceps
 GtkWidget *bnc_ico,*bnc_lbl; //bancos
 
-static GtkWidget *cad_box[EST_ICO_QNT];
-
-#define CAD_ICO_QNT 10
+static GtkWidget *cad_box[CAD_ICO_QNT];

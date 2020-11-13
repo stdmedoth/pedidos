@@ -10,26 +10,25 @@ create table prod_requisicoes(
   foreign key(produto) references produtos(code)
 );
 
+create table cotacoes(
+  code int primary key not null,
+  descricao varchar(500) not null,
+  status int not null,
+  publica int not null,
+  data datetime not null,
+  validade datetime not null
+);
+
 create table cotacoes_participantes(
   code int primary key not null,
+  cotacoes_id int not null,
   participante int not null,
+  foreign key(cotacoes_id) references cotacoes(code),
   foreign key(participante) references terceiros(code)
 );
 
-create table cotacoes(
-  code int primary key not null,
-  descricao varchar(500) not null
-  status int not null,
-  publica int not null,
-  participantes int not null,
-  data datetime not null,
-  validade datetime not null,
-  foreign key(participantes) references cotacoes_participantes(code)
-);
-
-
 create table itens_cotacoes(
-  code int primary key not null,
+  code int primary key auto_increment not null,
   cotacoes_id int not null,
   participante_id int not null,
   produto int not null,

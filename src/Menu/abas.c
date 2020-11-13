@@ -7,6 +7,7 @@ int menu(void)
 	GtkWidget *faturamento,*faturamento_label;
 	GtkWidget *estoque,    *estoque_label;
 	GtkWidget *financeiro, *financeiro_label;
+	GtkWidget *marketing, *marketings_label;
 	GtkWidget *relatorios, *relatorios_label;
 	GtkWidget *tecnicos, *tecnicos_label;
 
@@ -26,6 +27,7 @@ int menu(void)
 	faturamento  = gtk_box_new(1,0);
 	estoque      = gtk_box_new(1,0);
 	financeiro   = gtk_box_new(1,0);
+	marketing     = gtk_box_new(1,0);
 	relatorios   = gtk_box_new(1,0);
 	tecnicos     = gtk_box_new(1,0);
 
@@ -38,6 +40,7 @@ int menu(void)
 	compras_label     = gtk_label_new("COMPRAS");
 	estoque_label     = gtk_label_new("ESTOQUE");
 	financeiro_label  = gtk_label_new("FINANCEIRO");
+	marketings_label  = gtk_label_new("MARKETING");
 	relatorios_label  = gtk_label_new("RELATÓRIOS");
 	tecnicos_label  = gtk_label_new("FERRAMENTAS TÉCNICAS");
 
@@ -67,6 +70,8 @@ int menu(void)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),estoque,estoque_label);
 	if(ativar.financeiro)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
+	if(ativar.marketing)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),marketing,marketings_label);
 	if(ativar.relatorios)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label);
 	if(ativar.tecnicos)
@@ -80,16 +85,24 @@ int menu(void)
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(cadastros),cadastrosl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(faturamento),faturamentol[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(compras),comprasl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(financeiro),financeirol[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(estoque),estoquel[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
+	for(cont=0;cont<LINE_ICO_QNT;cont++)
+		gtk_box_pack_start(GTK_BOX(marketing),marketingl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(tecnicos),tecnicosl[cont],0,0,20);
 

@@ -109,6 +109,7 @@ int desktop()
 			ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
 			ativar.estoque=atoi(row[CONTRATO_EST_COL]);
 			ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
+			ativar.marketing=atoi(row[CONTRATO_MKT_COL]);
 			ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
 		}else{
 			popup(NULL,"Não há lista de permissões");
@@ -120,7 +121,8 @@ int desktop()
 			ativar.faturamento=0;
 			ativar.estoque=0;
 			ativar.financeiro=0;
-			ativar.relatorios=1;
+			ativar.marketing=0;
+			ativar.relatorios=0;
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
@@ -129,6 +131,7 @@ int desktop()
 		ativar.faturamento=1;
 		ativar.estoque=1;
 		ativar.financeiro=1;
+		ativar.marketing=1;
 		ativar.relatorios=1;
 		ativar.tecnicos=1;
 	}

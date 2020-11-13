@@ -2,6 +2,7 @@ int inicializar_ter();
 int  cad_terc();
 
 struct _terc_infos{
+  int index;
   int code;
   char *razao;
   char *ie;

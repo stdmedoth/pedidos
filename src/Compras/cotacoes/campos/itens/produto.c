@@ -1,8 +1,13 @@
 int cotat_itens_prod_fun(GtkEntry *entry, int pos){
 
+  if(cotac_get_participante())
+    return 1;
+
+  int cod = cotac_get_participante_index(atoi(cotac_partc_gchar));
+
   gchar *text = (gchar*)gtk_entry_get_text(entry);
 
-  if(!strlen(text)){
+  if(!text || !strlen(text)){
     popup(NULL,"Insira o código do produto");
     return 1;
   }
@@ -19,9 +24,10 @@ int cotat_itens_prod_fun(GtkEntry *entry, int pos){
     popup(NULL,"Produto não existente");
     return 1;
   }
-  cotac_produto_inserido[pos] = 1;
-  
-  gtk_entry_set_text(GTK_ENTRY(cotac_prod_nome_entry[pos]),row[PROD_NOM_COL]);
-  gtk_widget_grab_focus(cotac_prod_qnt_entry[pos]);
+  cotacao_new->cotacao_itens[cod][pos].produto = atoi(text);
+  cotac_produto_inserido[cod][pos] = 1;
+
+  gtk_entry_set_text(GTK_ENTRY(cotac_prod_nome_entry[cod][pos]),row[PROD_NOM_COL]);
+  gtk_widget_grab_focus(cotac_prod_qnt_entry[cod][pos]);
   return 0;
 }
