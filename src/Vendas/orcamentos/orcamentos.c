@@ -39,9 +39,9 @@ int vnd_orc(){
 
 	orc_notebook = gtk_notebook_new();
 	if(orc_estoque.produtos)
-		orc_estoque.produtos = realloc(orc_estoque.produtos,sizeof(struct _orc_estoque_prods)*MAX_PROD_ORC);
+		orc_estoque.produtos = realloc(orc_estoque.produtos,sizeof(struct _orc_estoque_prods* )*MAX_PROD_ORC);
 	else
-		orc_estoque.produtos = malloc(sizeof(struct _orc_estoque_prods)*MAX_PROD_ORC);
+		orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* )*MAX_PROD_ORC);
 
 	item_frame_char = malloc(strlen("Item ")+10);
 
@@ -165,7 +165,7 @@ int vnd_orc(){
 
 	data_orc_frame = gtk_frame_new("Data");
 	data_orc_entry = gtk_entry_new();
-	data_orc_gchar = malloc(sizeof(gchar*)*15);
+	data_orc_gchar = malloc( sizeof(gchar*)*15);
 	sprintf(data_orc_gchar,"%s",data_sys);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(data_orc_entry),data_orc_gchar);
 	gtk_entry_set_text(GTK_ENTRY(data_orc_entry),data_orc_gchar);
@@ -207,66 +207,66 @@ int vnd_orc(){
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_d,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos),caixa_orc_infos_e,0,0,0);
 
-	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
+	find_subgrupos_restrict = malloc( sizeof(struct duo_widget));
 
-	codigo_orc_prod_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	codigo_orc_prod_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
-	codigo_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	desconto_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	desconto_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	codigo_prod_orc_frame = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	desconto_prod_orc_frame = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	desconto_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
-	preco_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	preco_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	preco_prod_orc_frame = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	preco_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
-	qnt_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	qnt_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	qnt_prod_orc_frame = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	qnt_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
-	saldo_prod_orc_frame = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	saldo_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	saldo_prod_orc_frame = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	saldo_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
-	total_prod_orc_frame = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
-	total_prod_orc_box = malloc(sizeof(GtkFrame)*MAX_PROD_ORC);
-	total_prod_orc_fixed = malloc(sizeof(GtkFixed)*MAX_PROD_ORC);
+	total_prod_orc_frame = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
+	total_prod_orc_box = malloc( sizeof(GtkFrame* )*MAX_PROD_ORC);
+	total_prod_orc_fixed = malloc( sizeof(GtkFixed* )*MAX_PROD_ORC);
 
-	juncao_linha_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
-	linhas_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
-	linhas2_prod_orc_box = malloc(sizeof(GtkBox)*MAX_PROD_ORC);
+	juncao_linha_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
+	linhas_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
+	linhas2_prod_orc_box = malloc( sizeof(GtkBox* )*MAX_PROD_ORC);
 
 	obs_prod_orc_gchar = malloc(MAX_OBS_LEN*MAX_PROD_ORC);
-	obs_prod_orc_buffer = malloc(sizeof(GtkTextBuffer*)*MAX_PROD_ORC);
+	obs_prod_orc_buffer = malloc( sizeof(GtkTextBuffer** )*MAX_PROD_ORC);
 
 	//labels produtos
-	codigo_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	descricao_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	//qnt_prod_est_orc_label = malloc(sizeof(GtkLabel*)*MAX_PROD_ORC);
-	qnt_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	preco_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	orig_preco_prod_orc_combo = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
-	desconto_prod_orc_label = malloc(sizeof(GtkLabel)*MAX_PROD_ORC);
+	codigo_prod_orc_label = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
+	descricao_prod_orc_label = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
+	//qnt_prod_est_orc_label = malloc( sizeof(GtkLabel** )*MAX_PROD_ORC);
+	qnt_prod_orc_label = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
+	preco_prod_orc_label = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
+	orig_preco_prod_orc_combo = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
+	desconto_prod_orc_label = malloc( sizeof(GtkLabel* )*MAX_PROD_ORC);
 
-	obs_prod_orc_view = malloc(sizeof(GtkTextView*)*MAX_PROD_ORC);
-	obs_prod_orc_scroll = malloc(sizeof(GtkScrolledWindow*)*MAX_PROD_ORC);
-	obs_prod_orc_fixed = malloc(sizeof(GtkFixed*)*MAX_PROD_ORC);
-	obs_prod_orc_frame = malloc(sizeof(GtkFrame*)*MAX_PROD_ORC);
+	obs_prod_orc_view = malloc( sizeof(GtkTextView** )*MAX_PROD_ORC);
+	obs_prod_orc_scroll = malloc( sizeof(GtkScrolledWindow** )*MAX_PROD_ORC);
+	obs_prod_orc_fixed = malloc( sizeof(GtkFixed** )*MAX_PROD_ORC);
+	obs_prod_orc_frame = malloc( sizeof(GtkFrame** )*MAX_PROD_ORC);
 
 	//entrys
-	codigo_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	descricao_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	qnt_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	preco_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	saldo_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	desconto_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
-	tipodesconto_prod_orc_combo = malloc(sizeof(GtkComboBoxText)*MAX_PROD_ORC);
-	total_prod_orc_entry = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	codigo_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	descricao_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	qnt_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	preco_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	saldo_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	desconto_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
+	tipodesconto_prod_orc_combo = malloc( sizeof(GtkComboBoxText* )*MAX_PROD_ORC);
+	total_prod_orc_entry = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
 
 	itens_orc_box = gtk_box_new(1,0);
 	outros_orc_box = gtk_box_new(1,0);
 	transp_orc_box = gtk_box_new(1,0);
 
-	pesquisa_prod = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
+	pesquisa_prod = malloc( sizeof(GtkButton** )*MAX_PROD_ORC);
 
-	img_botao_menos = malloc(sizeof(GtkImage*)*MAX_PROD_ORC);
-	botao_menos = malloc(sizeof(GtkButton*)*MAX_PROD_ORC);
+	img_botao_menos = malloc( sizeof(GtkImage** )*MAX_PROD_ORC);
+	botao_menos = malloc( sizeof(GtkButton** )*MAX_PROD_ORC);
 
 	//Botoes opcoes
 	concluir_orc_button = gtk_button_new_with_label("Concluir");
@@ -312,7 +312,7 @@ int vnd_orc(){
 
 	gtk_fixed_put(GTK_FIXED(opcoes_orc_fixed),caixa_opcoes_orc,100,0);
 
-	linhas_prod_orc_frame = malloc(sizeof(GtkEntry)*MAX_PROD_ORC);
+	linhas_prod_orc_frame = malloc( sizeof(GtkEntry* )*MAX_PROD_ORC);
 	prod_scroll_box = gtk_box_new(1,0);
 	orc_prods_grid = gtk_grid_new();
 

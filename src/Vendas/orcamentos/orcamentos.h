@@ -8,6 +8,8 @@
 #define ORC_TOTAL_COL 7
 #define ORC_OBS__COL 8
 
+#define MAX_PROD_ORC 3
+
 enum{
 ORC_PROD_COD_COL,
 ORC_PROD_ITM_COL,

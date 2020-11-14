@@ -65,8 +65,8 @@ int cad_conta_fixa_concluir(){
   sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,0,%i,%i,%i)",
   atoi(conta_fix_id_gchar),
   atoi(conta_fix_forn_gchar),
-  parcelas_ger_qnt-1,
   STAT_PENDENTE,
+  parcelas_ger_qnt-1,
   TP_TIT_PAG);
 
   if(enviar_query(query)){
@@ -114,6 +114,7 @@ int cad_conta_fixa_concluir(){
 
     parcs_qnt++;
   }
+  notificacoes_button_update();
   popup(NULL,"Processo concluído");
 
   return 0;

@@ -17,6 +17,10 @@ int cotac_code_fun();
 
 static int cotac_alterando=0, cotac_concluindo=0;
 
+static int cotac_rec_itens_alter_qnt=0;
+
+static int *cotac_rec_itens_alter_vetor;
+
 
 struct _contacao_itens{
   int index;
@@ -65,4 +69,14 @@ enum{
   COTAC_PUB_COL,
   COTAC_DATA_COL,
   COTAC_VAL_COL
+};
+
+
+enum{
+  COTAC_ITM_CODE_COL,
+  COTAC_ITM_COT_COL,
+  COTAC_ITM_PARTC_COL,
+  COTAC_ITM_PROD_COL,
+  COTAC_ITM_QNT_COL,
+  COTAC_ITM_PRC_COL
 };

@@ -3,7 +3,7 @@ int notificacoes_receber(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+1");
+  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+%i",NOTF_DIAS);
   if((res = consultar(query))){
   	if((row = mysql_fetch_row(res))!=NULL){
       notificacao_pendencias = 1;
@@ -15,7 +15,13 @@ int notificacoes_receber(){
   return 0;
 }
 
-int notificacoes_criar(){
+int notificacoes_button_update(){
+
+  notificacoes_receber();
+  if(!notificacao_pendencias)
+    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_file(EMBLEM_GENERIC));
+  else
+    gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_file(EMBLEM_IMPORTANT));
 
   return 0;
 }

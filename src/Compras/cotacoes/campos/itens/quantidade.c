@@ -11,7 +11,6 @@ int cotat_itens_qnt_fun(GtkEntry *entry, int pos){
     return 1;
   }
   cotacao_new->cotacao_itens[cod][pos].quantidade = atoi(text);
-
   gtk_widget_grab_focus(cotac_prod_prc_entry[cod][pos]);
 
   return 0;

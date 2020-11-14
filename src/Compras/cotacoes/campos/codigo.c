@@ -8,7 +8,7 @@ int cotac_code_fun(){
     return 1;
   }
 
-  sprintf(query,"SELECT * FROM cotacoes WHERE code = %s",cotac_code_gchar);
+  sprintf(query,"SELECT * FROM cotacoes WHERE code = %s", cotac_code_gchar);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar cotação");
     return 1;

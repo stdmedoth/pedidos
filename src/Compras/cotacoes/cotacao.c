@@ -57,8 +57,6 @@ int cotacao_fun(){
 	GtkWidget *cotac_partc_box = gtk_box_new(0,0);
 
 	cotac_partc_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(cotac_partc_combo),0,"nulo","Escolher");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(cotac_partc_combo),0);
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_partc_combo,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_add_partc_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_rem_partc_button,0,0,5);
@@ -136,22 +134,27 @@ int cotacao_fun(){
 	cotac_concluindo=0;
 
 	cotac_container_exists = malloc(sizeof(int) *MAX_PARTC_QNT);
-	cotac_produto_inserido = malloc(sizeof(int) *MAX_PARTC_QNT );
-	cotac_pPos = malloc(sizeof(int) *MAX_PARTC_QNT);
-  cotac_ativo = malloc(sizeof(int) *MAX_PARTC_QNT);
-	cotac_add_button = malloc( sizeof( GtkWidget* )  *MAX_PARTC_QNT);
-	cotac_itens_container = malloc(sizeof(GtkWidget*) *MAX_PARTC_QNT);
+	cotac_rec_itens_alter_vetor = malloc(sizeof(int) *MAX_COTAC_ITENS);
 
-	cotac_prod_cod_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-  cotac_psq_prod_button = malloc (sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-  cotac_prod_nome_entry = malloc (sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-  cotac_prod_qnt_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-  cotac_prod_prc_entry = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-	cotac_rem_button = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
-  cotac_prod_frames = malloc( sizeof( GtkWidget* ) * MAX_PARTC_QNT);
+	cotac_pPos = malloc(sizeof(int*) *MAX_PARTC_QNT);
+  cotac_ativo = malloc(sizeof(int*) *MAX_PARTC_QNT);
+	cotac_produto_inserido = malloc(sizeof(int*) *MAX_PARTC_QNT );
 
-	cotacao_new = malloc(sizeof(struct _cotacao*));
-	cotacao_new->cotacao_itens = malloc(sizeof(struct _contacao_itens *) *MAX_PARTC_QNT );
+	cotac_scroll = malloc(sizeof(GtkWidget**) *MAX_PARTC_QNT);
+	cotac_itens_grid = malloc(sizeof(GtkWidget**) *MAX_PARTC_QNT);
+	cotac_add_button = malloc( sizeof( GtkWidget** )  *MAX_PARTC_QNT);
+	cotac_itens_container = malloc(sizeof(GtkWidget**) *MAX_PARTC_QNT);
+
+	cotac_prod_cod_entry = malloc( sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+  cotac_psq_prod_button = malloc (sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+  cotac_prod_nome_entry = malloc (sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+  cotac_prod_qnt_entry = malloc( sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+  cotac_prod_prc_entry = malloc( sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+	cotac_rem_button = malloc( sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+  cotac_prod_frames = malloc( sizeof( GtkWidget** ) * MAX_PARTC_QNT);
+
+	cotacao_new = malloc(sizeof( struct _cotacao) );
+	cotacao_new->cotacao_itens = malloc( sizeof(struct _contacao_itens* ) *MAX_PARTC_QNT );
 
 	for(int cont=0;cont<MAX_PARTC_QNT;cont++){
 		cotac_container_exists[cont] = 0;

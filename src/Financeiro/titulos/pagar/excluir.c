@@ -52,6 +52,7 @@ int cad_pag_excluir_fun(){
     }
   }
 
+  notificacoes_button_update();
   popup(NULL,"Título deletado com sucesso");
 
   return 0;

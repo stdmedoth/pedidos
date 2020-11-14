@@ -38,9 +38,6 @@ int cad_rec_concluir_fun(){
         return 1;
       }
       if(!(row=mysql_fetch_row(res))){
-        popup(NULL,"Título base não existente");
-        return 1;
-
         sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,%i)",
         atoi(cad_rec_code_gchar),
         atoi(cad_rec_cli_gchar),
@@ -55,6 +52,7 @@ int cad_rec_concluir_fun(){
     }
 
     sprintf(query,"select * from titulos where code = %i",atoi(cad_rec_code_gchar));
+
     if(!(res=consultar(query))){
       popup(NULL,"Erro ao confirmar existencia do título");
       return 1;
@@ -130,6 +128,7 @@ int cad_rec_concluir_fun(){
   else
     popup(NULL,"Título atualizado com sucesso");
 
+  notificacoes_button_update();
   cad_rec_cancelar_fun();
   return 0;
 }

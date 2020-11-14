@@ -12,12 +12,12 @@ GtkWidget *cotac_get_itens_container(int index){
 
   GtkWidget *container = gtk_box_new(0,0);
   GtkWidget *frame = gtk_frame_new(nome_item);
-  cotac_scroll = gtk_scrolled_window_new(NULL,NULL);
-  cotac_itens_grid = gtk_grid_new();
-  gtk_widget_set_size_request(cotac_itens_grid,700,300);
-  gtk_widget_set_size_request(frame,700,300);
-  gtk_widget_set_size_request(cotac_scroll,700,300);
-  gtk_widget_set_size_request(container,700,300);
+  cotac_scroll[index] = gtk_scrolled_window_new(NULL,NULL);
+  cotac_itens_grid[index] = gtk_grid_new();
+  gtk_widget_set_size_request(cotac_itens_grid[index],900,400);
+  gtk_widget_set_size_request(cotac_scroll[index],900,400);
+  gtk_widget_set_size_request(frame,900,400);
+  gtk_widget_set_size_request(container,900,400);
 
   cotac_ativo[index] = malloc(sizeof(int) *MAX_COTAC_ITENS);
   cotac_pPos[index] = malloc(sizeof(int) *MAX_COTAC_ITENS);
@@ -31,11 +31,11 @@ GtkWidget *cotac_get_itens_container(int index){
   }
 
   cotac_container_exists[index] = 1;
-  gtk_container_add (GTK_CONTAINER(cotac_scroll), cotac_itens_grid);
-  gtk_box_pack_start (GTK_BOX(container), cotac_scroll,0,0,5);
+  gtk_container_add (GTK_CONTAINER(cotac_scroll[index]), cotac_itens_grid[index]);
+  gtk_box_pack_start (GTK_BOX(container), cotac_scroll[index],0,0,5);
   gtk_container_add (GTK_CONTAINER(frame), container);
 
-  cotac_prod_cod_entry[index] = malloc( sizeof( GtkWidget* ) *MAX_COTAC_ITENS  );
+  cotac_prod_cod_entry[index] = malloc( sizeof( GtkWidget* ) *MAX_COTAC_ITENS );
   cotac_psq_prod_button[index] = malloc (sizeof( GtkWidget* ) *MAX_COTAC_ITENS );
   cotac_prod_nome_entry[index] = malloc (sizeof( GtkWidget* ) *MAX_COTAC_ITENS );
   cotac_prod_qnt_entry[index] = malloc( sizeof( GtkWidget* ) *MAX_COTAC_ITENS );

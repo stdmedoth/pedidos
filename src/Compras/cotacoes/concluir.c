@@ -48,9 +48,9 @@ int cotacao_concluir_fun(){
 
   for(int participantes_pos=0; participantes_pos<Participantes->qnt; participantes_pos++){
     int participante_index = Participantes->terceiro[participantes_pos].index;
-    g_print("Iniciando analise dos itens do fornecedor %i\n",Participantes->terceiro[participantes_pos].code);
+    g_print("Concluindo para os itens do fornecedor %i\n",Participantes->terceiro[participantes_pos].code);
     for(int cont=0;cont<MAX_COTAC_ITENS;cont++){
-      g_print("Iniciando analise dos itens do fornecedor %i index %i na posicao %i\n",Participantes->terceiro[participantes_pos].code, participante_index, cont);
+      g_print("Concluindo para o fornecedor %i index %i na posicao %i\n",Participantes->terceiro[participantes_pos].code, participante_index, cont);
       if(cotac_ativo[participante_index][cont] && cotac_produto_inserido[participante_index][cont]){
 
         if(cotat_itens_prod_fun(GTK_ENTRY(cotac_prod_cod_entry[participante_index][cont]), cont))

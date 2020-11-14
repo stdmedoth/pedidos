@@ -116,6 +116,7 @@ int menu(void)
 
 int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
 {
+
 	switch(evento->keyval)
 	{
 		case (ABRIR_MENU_TECLA):

@@ -49,6 +49,10 @@ static int adicionar_linha_orc()
 					return 1;
 		}
 	}
+	if(itens_qnt>=MAX_PROD_ORC){
+		popup(NULL,"Limite de itens");
+		return 1;
+	}
 
 	if(gerar_total_geral())
 		return 1;

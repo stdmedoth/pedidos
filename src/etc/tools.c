@@ -78,7 +78,7 @@ void doc_gerar_header(FILE *file, char *title){
 
 char  *string_to_int(char *string){
   int cont2=0;
-  char *formated_string = malloc(strlen(string));
+  char *formated_string = strdup(string);
   strcpy(formated_string,"");
 
   for(int cont=0;cont<strlen(string);cont++){
@@ -87,7 +87,8 @@ char  *string_to_int(char *string){
       cont2++;
     }
   }
-  formated_string[cont2] = '\0';
+
+	formated_string[cont2] = '\0';
   return formated_string;
 }
 
@@ -106,23 +107,23 @@ char *status_tit_str(int status){
 }
 
 char *formatar_data(char *data){
-	int dia=0,mes=0,ano=0;
+
+	int dia=0, mes=0, ano=0;
 	int formats_qnt=4;
 
-
-  if(!strlen(data)){
-    data = malloc(strlen(data_sys));
-    strcpy(data,data_sys);
+	if(!data || !strlen(data)){
+    data = strdup( data_sys );
   }
-	char *format = string_to_int(data);
-	//provaveis formatos de data
 
+	char *format = string_to_int(data);
+	if(!format)
+		return NULL;
+
+	//possiveis formatos de data
 	char *formats[] = {"%2d%2d%4d",
                     "%2d%2d%2d",
                     "%1d%1d%4d",
                     "%1d%1d%2d"};
-	if(!data)
-		return NULL;
 
 	for(int cont=0;cont<formats_qnt;cont++){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
@@ -130,17 +131,13 @@ char *formatar_data(char *data){
           ano += 2000;
 				GTimeZone *tz = g_time_zone_new(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);
-				if(!gdatetime){
-					if(cont>=formats_qnt){
-						popup(NULL,"Data incorreta");
-						return NULL;
-					}
-				}
-				else
+				if(gdatetime){
 					return g_date_time_format(gdatetime,"%d/%m/%Y");
+				}
 			}
 	}
-	popup(NULL,"Formato não encontrado");
+
+	popup(NULL,"Formato de data não identificado");
 	return NULL;
 }
 

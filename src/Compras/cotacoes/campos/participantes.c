@@ -1,7 +1,6 @@
 int cotac_get_participante(){
   cotac_partc_gchar = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(cotac_partc_combo));
   if(!cotac_partc_gchar || !strlen(cotac_partc_gchar)){
-    popup(NULL,"Não foi possível receber o Participante");
     return 1;
   }
 
@@ -35,18 +34,21 @@ struct _Terceiros *cotac_get_participantes(){
   gchar *id = malloc(20);
   gchar *nome = malloc(500);
   int cont=0;
-  struct _Terceiros *pTerceiros = malloc(sizeof(struct _Terceiros *));
-  pTerceiros->terceiro = malloc(sizeof(struct _terc_infos*)*MAX_PARTC_QNT);
+
+  struct _Terceiros *pTerceiros = malloc(sizeof(struct _Terceiros));
+  pTerceiros->terceiro = malloc(sizeof(struct _terc_infos)*MAX_PARTC_QNT);
 
   GtkTreeModel *model = gtk_combo_box_get_model(GTK_COMBO_BOX(cotac_partc_combo));
+
   gtk_tree_model_get_iter_first(model,&iter);
   pIter = &iter;
 
   while(pIter){
+
     if(cont >= MAX_PARTC_QNT){
       popup(NULL,"Máximo de participantes;");
       pTerceiros->qnt = cont;
-      return pTerceiros;
+      return NULL;
     }
 
     gtk_tree_model_get (model, &iter, 1, &id, -1);
@@ -59,10 +61,8 @@ struct _Terceiros *cotac_get_participantes(){
       pTerceiros->terceiro[cont].razao = strdup(nome);
       cont++;
     }
-
     if(!gtk_tree_model_iter_next(model,&iter))
       break;
-
     pIter = &iter;
   }
   pTerceiros->qnt = cont;
@@ -142,6 +142,9 @@ int cotac_partc_fun(){
 
 int cotac_partc_combo_fun(){
 
+  while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
   if(cotac_get_participante())
     return 1;
 
@@ -159,12 +162,17 @@ int cotac_partc_combo_fun(){
   }
 
   for(int cont=0;cont<MAX_PARTC_QNT;cont++){
-    if(cotac_container_exists[cont])
-      gtk_widget_hide(cotac_itens_container[cont]);
+    if(cont != participante_index)
+      if(cotac_container_exists[cont]){
+        gtk_widget_hide(cotac_itens_container[cont]);
+    }
   }
 
   if(cotac_container_exists[participante_index])
     gtk_widget_show_all(cotac_itens_container[participante_index]);
+
+  while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
   return 0;
 }

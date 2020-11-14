@@ -200,7 +200,7 @@ int desktop()
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();
-		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
+		g_object_set(settings, "gtk-theme-name",NIVEL_TECNICO_THEME,NULL);
 	}
 
 	caixa_infos = gtk_box_new(1,0);

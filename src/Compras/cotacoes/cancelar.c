@@ -1,6 +1,9 @@
 int cotacao_cancelar_fun(){
 
   char task[12];
+  cotac_alterando = 0;
+  cotac_concluindo = 0;
+
   sprintf(task,"%i",tasker("cotacoes"));
   gtk_entry_set_text(GTK_ENTRY(cotac_code_entry),task);
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cotac_descricao_view));
@@ -10,11 +13,29 @@ int cotacao_cancelar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cotac_partc_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cotac_data_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cotac_validade_entry),"");
+  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(cotac_partc_combo),0,"nulo","Escolher");
   gtk_combo_box_set_active(GTK_COMBO_BOX(cotac_partc_combo),0);
 
-  cotac_alterando = 0;
-  cotac_concluindo = 0;
+  struct _Terceiros *Participantes = cotac_get_participantes();
 
+  gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(cotac_partc_combo));
+  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(cotac_partc_combo),0,"nulo","Escolher");
+  gtk_combo_box_set_active(GTK_COMBO_BOX(cotac_partc_combo),0);
+
+  if(Participantes){
+    for(int participantes_pos=0; participantes_pos<Participantes->qnt; participantes_pos++){
+      int participante_index = Participantes->terceiro[participantes_pos].index;
+      g_print("Limpando itens do fornecedor %i\n",Participantes->terceiro[participantes_pos].code);
+      cotac_container_exists[participante_index] = 0;
+      for(int cont=0;cont<MAX_COTAC_ITENS;cont++){
+        if(cotac_ativo[participante_index][cont]){
+          cotac_ativo[participante_index][cont] = 0;
+          gtk_grid_remove_row(GTK_GRID(cotac_itens_grid[participante_index]),cont);
+        }
+      }
+      gtk_widget_destroy(cotac_itens_container[participante_index]);
+    }
+  }
 
   return 0;
 }

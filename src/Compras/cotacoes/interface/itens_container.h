@@ -4,15 +4,15 @@ int cotat_itens_prc_fun(GtkEntry *entry, int pos);
 
 int contac_get_ult_pos();
 
-GtkWidget *cotac_scroll;
 
 int **cotac_pPos, **cotac_ativo;
 int **cotac_produto_inserido;
 int *cotac_container_exists;
 
 GtkWidget *cotac_partc_itens;
+GtkWidget **cotac_scroll;
+GtkWidget **cotac_itens_grid;
 GtkWidget ***cotac_prod_frames;
-GtkWidget *cotac_itens_grid;
 
 int cotac_add_item();
 int cotac_rem_item(GtkWidget *widget, int pos);
