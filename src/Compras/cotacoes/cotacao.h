@@ -15,7 +15,7 @@ int cotacao_fun();
 
 int cotac_code_fun();
 
-static int cotac_alterando=0, cotac_concluindo=0;
+static int cotac_alterando=0, cotac_concluindo=0, cotac_excluindo=0;
 
 static int cotac_rec_itens_alter_qnt=0;
 
@@ -24,11 +24,12 @@ static int *cotac_rec_itens_alter_vetor;
 
 struct _contacao_itens{
   int index;
+  int requisicao;
   int produto;
   int participante;
-  float valor;
-  float quantidade;
-  float total;
+  double valor;
+  double quantidade;
+  double total;
 };
 
 struct _cotacao{
@@ -63,6 +64,12 @@ gchar *cotac_data_gchar;
 gchar *cotac_validade_gchar;
 
 enum{
+  COTAC_STAT_CRIACAO,
+  COTAC_STAT_PENDENTE,
+  COTAC_STAT_ENCERRADA
+};
+
+enum{
   COTAC_CODE_COL,
   COTAC_DESCR_COL,
   COTAC_STAT_COL,
@@ -71,9 +78,9 @@ enum{
   COTAC_VAL_COL
 };
 
-
 enum{
   COTAC_ITM_CODE_COL,
+  COTAC_ITM_INDEX_COL,
   COTAC_ITM_COT_COL,
   COTAC_ITM_PARTC_COL,
   COTAC_ITM_PROD_COL,

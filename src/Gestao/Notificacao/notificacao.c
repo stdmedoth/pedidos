@@ -138,9 +138,9 @@ void notificacoes_wnd(){
   gtk_container_add(GTK_CONTAINER(notf_frame),notf_scroll);
   gtk_container_add(GTK_CONTAINER(notf_wnd),notf_frame);
 
-  gtk_widget_set_size_request(notf_scroll,600,300);
-  gtk_widget_set_size_request(notf_box,600,300);
-  gtk_widget_set_size_request(notf_wnd,600,300);
+  gtk_widget_set_size_request(notf_scroll,900,400);
+  gtk_widget_set_size_request(notf_box,900,400);
+  gtk_widget_set_size_request(notf_wnd,900,400);
 
   gtk_widget_show_all(notf_wnd);
 

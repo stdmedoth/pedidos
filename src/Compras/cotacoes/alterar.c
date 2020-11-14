@@ -34,7 +34,7 @@ int cotacao_alterar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cotac_data_entry),row[COTAC_DATA_COL+2]);
   gtk_entry_set_text(GTK_ENTRY(cotac_validade_entry),row[COTAC_VAL_COL+2]);
 
-  sprintf(query,"SELECT participante_id FROM itens_cotacoes WHERE code = %i GROUP BY participante_id",cotacao_new->code);
+  sprintf(query,"SELECT participante FROM cotacoes_participantes WHERE cotacoes_id = %i GROUP BY participante ORDER BY participante",cotacao_new->code);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar itens da cotação");
     return 1;
@@ -54,7 +54,7 @@ int cotacao_alterar_fun(){
     g_print("Alterando com fornecedor %i index %i\n",Participantes->terceiro[participantes_pos].code,participantes_pos);
   }
 
-  sprintf(query,"SELECT * FROM itens_cotacoes WHERE code = %i ORDER BY participante_id",cotacao_new->code);
+  sprintf(query,"SELECT * FROM itens_cotacoes WHERE cotacoes_id = %i ORDER BY participante_id",cotacao_new->code);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar itens da cotação");
     return 1;
@@ -75,9 +75,16 @@ int cotacao_alterar_fun(){
     gtk_entry_set_text(GTK_ENTRY(cotac_prod_cod_entry[participante_index][pos]),row[COTAC_ITM_PROD_COL]);
     gtk_widget_activate(cotac_prod_cod_entry[participante_index][pos]);
 
+    gtk_entry_set_text(GTK_ENTRY(cotac_prod_qnt_entry[participante_index][pos]),row[COTAC_ITM_QNT_COL]);
+    gtk_widget_activate(cotac_prod_qnt_entry[participante_index][pos]);
+
+    gtk_entry_set_text(GTK_ENTRY(cotac_prod_prc_entry[participante_index][pos]),row[COTAC_ITM_PRC_COL]);
+    gtk_widget_activate(cotac_prod_prc_entry[participante_index][pos]);
+
     cotac_add_item(NULL, participante_index);
     cotac_rec_itens_alter_qnt++;
   }
+
   if(!cotac_rec_itens_alter_qnt){
     popup(NULL,"Sem itens na cotação");
     return 1;

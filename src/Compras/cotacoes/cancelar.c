@@ -3,7 +3,7 @@ int cotacao_cancelar_fun(){
   char task[12];
   cotac_alterando = 0;
   cotac_concluindo = 0;
-
+  cotac_excluindo = 0;
   sprintf(task,"%i",tasker("cotacoes"));
   gtk_entry_set_text(GTK_ENTRY(cotac_code_entry),task);
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cotac_descricao_view));
@@ -30,11 +30,14 @@ int cotacao_cancelar_fun(){
       for(int cont=0;cont<MAX_COTAC_ITENS;cont++){
         if(cotac_ativo[participante_index][cont]){
           cotac_ativo[participante_index][cont] = 0;
-          gtk_grid_remove_row(GTK_GRID(cotac_itens_grid[participante_index]),cont);
+          cotac_produto_inserido[participante_index][cont] = 0;
+          gtk_grid_remove_row(GTK_GRID(cotac_itens_grid[participante_index]),0);
         }
       }
-      gtk_widget_destroy(cotac_itens_container[participante_index]);
+      cotac_container_exists[participante_index] = 0;
+      gtk_grid_remove_column(GTK_GRID(cotac_partc_itens),0);
     }
+    gtk_grid_insert_column(GTK_GRID(cotac_partc_itens),0);
   }
 
   return 0;

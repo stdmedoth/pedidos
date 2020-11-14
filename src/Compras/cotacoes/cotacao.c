@@ -36,7 +36,7 @@ int cotacao_fun(){
 
 	GtkWidget *cotac_linha1 = gtk_box_new(0,0);
 	GtkWidget *cotac_linha2 = gtk_box_new(0,0);
-	cotac_partc_itens = gtk_box_new(0,0);
+	cotac_partc_itens = gtk_grid_new();
 	GtkWidget *cotac_linha4 = gtk_box_new(0,0);
 	GtkWidget *cotac_linhas = gtk_box_new(1,0);
 
@@ -77,10 +77,9 @@ int cotacao_fun(){
 	GtkWidget *cotac_status_frame = gtk_frame_new("Status");
 	GtkWidget *cotac_status_box = gtk_box_new(0,0);
 	cotac_status_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),0,"Aberta");
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),1,"Encerrada");
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),2,"Pendente Encerramento");
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),3,"Pendente Aprovação");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),COTAC_STAT_CRIACAO,"Em criação");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),COTAC_STAT_PENDENTE,"Pendente");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cotac_status_combo),COTAC_STAT_ENCERRADA,"Encerrada");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(cotac_status_combo),0);
 	gtk_box_pack_start(GTK_BOX(cotac_status_box),cotac_status_combo,0,0,0);
 	gtk_container_add(GTK_CONTAINER(cotac_status_frame),cotac_status_box);

@@ -20,7 +20,7 @@ create table cotacoes(
 );
 
 create table cotacoes_participantes(
-  code int primary key not null,
+  code int primary key auto_increment not null,
   cotacoes_id int not null,
   participante int not null,
   foreign key(cotacoes_id) references cotacoes(code),
@@ -29,9 +29,10 @@ create table cotacoes_participantes(
 
 create table itens_cotacoes(
   code int primary key auto_increment not null,
+  item_index int not null,
   cotacoes_id int not null,
   participante_id int not null,
-  produto int not null,
+  requisicao int not null,
   qnt float not null,
   preco float not null,
   foreign key(produto) references produtos(code),

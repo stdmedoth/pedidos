@@ -1,10 +1,26 @@
 int cotac_get_itens_qnt(int cod){
   int qnt=0;
+  g_print("Recebendo quantidade de itens ativos em %i\n",cod);
   for(int cont=0;cont<MAX_COTAC_ITENS;cont++){
     if(cotac_ativo[cod][cont]){
       qnt++;
     }
   }
+  g_print("Ativos %i\n",qnt);
+  return qnt;
+}
+
+int cotac_get_req_qnt(int cod){
+  int qnt=0;
+  g_print("Recebendo quantidade de requisições inseridas em %i\n",cod);
+  for(int cont=0;cont<MAX_COTAC_ITENS;cont++){
+    if(cotac_ativo[cod][cont]){
+      if(cotac_produto_inserido[cod][cont]){
+        qnt++;
+      }
+    }
+  }
+  g_print("Inseridas %i\n",qnt);
   return qnt;
 }
 
@@ -55,6 +71,7 @@ int cotac_add_item(GtkWidget *button, int cod){;
   g_print("participante = %i\n", cod);
   g_print("pos = %i\n", pos);
   cotac_ativo[cod][pos] = 1;
+  cotac_produto_inserido[cod][pos] = 0;
   cotac_pPos[cod][pos] = pos;
 
   printf("ponteiro '%i'\n", cotac_pPos[cod][pos]);
@@ -95,12 +112,12 @@ int cotac_add_item(GtkWidget *button, int cod){;
 	g_object_ref_sink(cotac_add_button[cod]);
 	gtk_button_set_image(GTK_BUTTON(cotac_add_button[cod]),img_cotac_add_button);
 
-  cotac_prod_qnt_entry[cod][pos] = gtk_spin_button_new_with_range(1,1000000,1);
+  cotac_prod_qnt_entry[cod][pos] = gtk_spin_button_new_with_range(1,10000,0.05);
   gtk_entry_set_width_chars(GTK_ENTRY(cotac_prod_qnt_entry[cod][pos]),15);
   gtk_box_pack_start(GTK_BOX(cotac_prod_qnt_box),cotac_prod_qnt_entry[cod][pos],0,0,5);
   gtk_container_add(GTK_CONTAINER(cotac_prod_qnt_frame),cotac_prod_qnt_box);
 
-  cotac_prod_prc_entry[cod][pos] = gtk_spin_button_new_with_range(0,1000000,0.05);
+  cotac_prod_prc_entry[cod][pos] = gtk_spin_button_new_with_range(0,10000,0.05);
   gtk_entry_set_width_chars(GTK_ENTRY(cotac_prod_prc_entry[cod][pos]),15);
   gtk_box_pack_start(GTK_BOX(cotac_prod_prc_box),cotac_prod_prc_entry[cod][pos],0,0,5);
   gtk_container_add(GTK_CONTAINER(cotac_prod_prc_frame),cotac_prod_prc_box);

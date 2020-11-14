@@ -7,6 +7,14 @@
   background: orange;
 }
 
+#bar_buttons_tertiary:hover{
+  background: Gainsboro;
+}
+
+#bar_buttons_cancell:hover{
+  background: red;
+}
+
 #caixa_frame{
   border: solid #dcdcdc 1px;
 }

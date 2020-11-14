@@ -22,6 +22,7 @@ int barra_icones_add(gchar *Nome, int (*funcao) ()){
 	gtk_button_set_image(GTK_BUTTON(novo_icone),gtk_image_new_from_file(Nome));
 	gtk_layout_put(GTK_LAYOUT(layout_barra),novo_icone,0,ULT_BARRA_POS);
 	gtk_widget_set_size_request(GTK_WIDGET(novo_icone),75,60);
+	gtk_widget_set_name(novo_icone,"bar_buttons_tertiary");
 	g_signal_connect(GTK_BUTTON(novo_icone),"clicked",G_CALLBACK(funcao),NULL);
   return 0;
 }
@@ -62,8 +63,8 @@ GtkWidget *barra_icones_wnd(){
 
 	gtk_widget_set_name(penden_button,"bar_buttons_secondary");
 	gtk_widget_set_name(param_button,"bar_buttons_secondary");
-	gtk_widget_set_name(sair_button,"bar_buttons_secondary");
-	gtk_widget_set_name(logoff_button,"bar_buttons_secondary");
+	gtk_widget_set_name(sair_button,"bar_buttons_cancell");
+	gtk_widget_set_name(logoff_button,"bar_buttons_cancell");
 	gtk_widget_set_name(suport_button,"bar_buttons_secondary");
 	gtk_widget_set_name(kanban_button,"bar_buttons_secondary");
 

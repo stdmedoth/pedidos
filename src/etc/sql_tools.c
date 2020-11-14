@@ -36,9 +36,7 @@ MYSQL_RES *consultar(char *query){
 	#ifdef QUERY_DEBUG
 	g_print("%s\n",query);
 	#endif
-	err = mysql_query(&conectar,query);
-	if(err!=0)
-	{
+	if((err = mysql_query(&conectar,query))){
 		file_logger((char*)mysql_error(&conectar));
 		file_logger(query);
 		autologger((char*)mysql_error(&conectar));
@@ -48,9 +46,7 @@ MYSQL_RES *consultar(char *query){
 		return NULL;
 	}
 
-	vetor = mysql_store_result(&conectar);
-	if(vetor==NULL)
-	{
+	if(!(vetor = mysql_store_result(&conectar))){
 		file_logger((char*)mysql_error(&conectar));
 		file_logger(query);
 		autologger((char*)mysql_error(&conectar));

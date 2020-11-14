@@ -132,6 +132,8 @@ int cotac_partc_fun(){
   if(code && razao){
     g_print("id: %s - Razão %s\n",code, razao);
     gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cotac_partc_combo),code,razao);
+    gtk_combo_box_set_active_id(GTK_COMBO_BOX(cotac_partc_combo),code);
+    cotac_partc_combo_fun();
   }else{
     popup(NULL,"Não foi possivel inserir informações do Participante");
     return 1;
@@ -158,7 +160,7 @@ int cotac_partc_combo_fun(){
   if(!cotac_container_exists[participante_index]){
     cotac_container_exists[participante_index] = 1;
     cotac_itens_container[participante_index] = cotac_get_itens_container(participante_index);
-    gtk_box_pack_start(GTK_BOX(cotac_partc_itens),cotac_itens_container[participante_index],0,0,0);
+    gtk_grid_attach(GTK_GRID(cotac_partc_itens),cotac_itens_container[participante_index],participante_index,0,1,1);
   }
 
   for(int cont=0;cont<MAX_PARTC_QNT;cont++){

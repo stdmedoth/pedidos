@@ -17,6 +17,8 @@ GtkWidget ***cotac_prod_frames;
 int cotac_add_item();
 int cotac_rem_item(GtkWidget *widget, int pos);
 
+int cotac_get_req_qnt(int cod);
+
 int cotac_get_livre_pos();
 
 GtkWidget ***cotac_prod_cod_entry, ***cotac_prod_nome_entry, ***cotac_psq_prod_button,
@@ -26,3 +28,5 @@ GtkWidget ***cotac_prod_cod_entry, ***cotac_prod_nome_entry, ***cotac_psq_prod_b
 GtkWidget **cotac_add_button;
 
 GtkWidget *cotac_get_itens_container(int cod);
+
+int cotac_partc_combo_fun();

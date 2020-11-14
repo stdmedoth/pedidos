@@ -42,7 +42,7 @@ GtkWidget *cotac_get_itens_container(int index){
   cotac_prod_prc_entry[index] = malloc( sizeof( GtkWidget* ) *MAX_COTAC_ITENS );
   cotac_rem_button[index] = malloc( sizeof(GtkWidget* ) *MAX_COTAC_ITENS );
   cotac_prod_frames[index] = malloc( sizeof( GtkWidget* ) *MAX_COTAC_ITENS );
-  cotacao_new->cotacao_itens[index] = malloc(sizeof(struct _contacao_itens *) *MAX_COTAC_ITENS );
+  cotacao_new->cotacao_itens[index] = malloc(sizeof(struct _contacao_itens) *MAX_COTAC_ITENS );
 
   cotac_add_item(NULL,index);
 
