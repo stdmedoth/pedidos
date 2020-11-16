@@ -288,18 +288,20 @@ int orc_pag_datas_livres(){
       strcpy(datas_lives_str[cont].datas,data_sys);
       gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),datas_lives_str[cont].datas);
     }*/
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),10);
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),15);
 
     orc_pag_datas_entry2[cont] = gtk_entry_new();
     gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_pag_datas_entry2[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),10);
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),15);
     gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry2[cont]),valor);
 
     orc_pag_vetor[cont] = cont;
 
     datas_lives_str[cont].id = cont;
     datas_lives_str[cont].entry1 = orc_pag_datas_entry1[cont];
+    gtk_entry_set_width_chars(GTK_ENTRY(datas_lives_str[cont].entry1),15);
     datas_lives_str[cont].entry2 = orc_pag_datas_entry2[cont];
+    gtk_entry_set_width_chars(GTK_ENTRY(datas_lives_str[cont].entry2),15);
 
     #pragma GCC diagnostic ignored "-Wint-conversion"
     g_signal_connect(orc_pag_datas_entry1[cont],"activate",G_CALLBACK(orc_pag_dl_dts_vlrs_fun),orc_pag_vetor[cont]);

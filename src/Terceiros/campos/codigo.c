@@ -1,5 +1,4 @@
-int code_terc()
-{
+int code_terc(){
 	char code[10];
 	char task[8];
 	MYSQL_RES *vetor;

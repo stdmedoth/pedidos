@@ -86,8 +86,14 @@ int cotacao_alterar_fun(){
   }
 
   if(!cotac_rec_itens_alter_qnt){
-    popup(NULL,"Sem itens na cotação");
-    return 1;
+    for(int cont=0;cont<MAX_PARTC_QNT;cont++){
+      if(cotac_container_exists[cont]){
+        gtk_widget_hide(cotac_itens_container[cont]);
+      }
+    }
+    
+    //popup(NULL,"Sem itens na cotação");
+    //return 1;
   }
 
   return 0;

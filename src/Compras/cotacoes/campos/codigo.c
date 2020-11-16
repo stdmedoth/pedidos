@@ -4,7 +4,8 @@ int cotac_code_fun(){
   char query[MAX_QUERY_LEN];
 
   cotac_code_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(cotac_code_entry));
-  if(!strlen(cotac_code_gchar)){
+
+  if(!strlen(cotac_code_gchar) || !atoi(cotac_code_gchar)){
     popup(NULL,"Insira o código");
     return 1;
   }
@@ -14,7 +15,6 @@ int cotac_code_fun(){
     popup(NULL,"Não foi possível consultar cotação");
     return 1;
   }
-
   cotacao_new->code = atoi(cotac_code_gchar);
   if(!(row = mysql_fetch_row(res))){
     gtk_widget_grab_focus(cotac_data_entry);

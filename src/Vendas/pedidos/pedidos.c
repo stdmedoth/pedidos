@@ -55,19 +55,20 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),atoi(row[3]));
 
-	sprintf(query,"select nome from bancos where code = %s",row[4]);
+	sprintf(query,"select code,nome from bancos where code = %s",row[4]);
 	if(!(res2 = consultar(query))){
 		popup(NULL,"Não foi possível consultar Banco");
 		return 1;
 	}
-	if((row2 = mysql_fetch_row(res2)))
-		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[0]);
-	else
+	if((row2 = mysql_fetch_row(res2))){
+		gtk_entry_set_text(GTK_ENTRY(ped_bancocod_entry),row2[0]);
+		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[1]);
+	}
+	else{
 		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),"Sem Banco");
+	}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),atoi(row[5]));
-
-	gtk_widget_set_sensitive(ped_tipo_combo,FALSE);
 
 	sprintf(query,"select * from pag_cond where code = %s",row[2]);
 
@@ -368,6 +369,7 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_tipo_box),ped_tipo_combo,0,0,10);
 	gtk_container_add(GTK_CONTAINER(ped_tipo_frame),ped_tipo_box);
 	gtk_fixed_put(GTK_FIXED(ped_tipo_fixed),ped_tipo_frame,10,10);
+	gtk_widget_set_sensitive(ped_tipo_combo,FALSE);
 
 	linha1 = gtk_box_new(0,0);
 	linha2 = gtk_box_new(0,0);
@@ -394,7 +396,7 @@ int vnd_ped()
 	gtk_container_add(GTK_CONTAINER(ped_data_frame),ped_data_box);
 	gtk_fixed_put(GTK_FIXED(ped_data_fixed),ped_data_frame,10,10);
 	gtk_entry_set_width_chars(GTK_ENTRY(ped_data_entry),10);
-	gtk_widget_set_sensitive(ped_data_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(ped_data_entry),FALSE);
 
 	ped_ter_entry = gtk_entry_new();
 	ped_ter_fixed = gtk_fixed_new();
@@ -404,7 +406,7 @@ int vnd_ped()
 	gtk_container_add(GTK_CONTAINER(ped_ter_frame),ped_ter_box);
 	gtk_fixed_put(GTK_FIXED(ped_ter_fixed),ped_ter_frame,10,10);
 	gtk_entry_set_width_chars(GTK_ENTRY(ped_ter_entry),40);
-	gtk_widget_set_sensitive(ped_ter_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(ped_ter_entry),FALSE);
 
 	ped_pag_entry = gtk_entry_new();
 	ped_pag_fixed = gtk_fixed_new();
@@ -414,7 +416,7 @@ int vnd_ped()
 	gtk_container_add(GTK_CONTAINER(ped_pag_frame),ped_pag_box);
 	gtk_fixed_put(GTK_FIXED(ped_pag_fixed),ped_pag_frame,10,10);
 	gtk_entry_set_width_chars(GTK_ENTRY(ped_pag_entry),15);
-	gtk_widget_set_sensitive(ped_pag_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(ped_pag_entry),FALSE);
 
 	emiteped_status_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Pendentes");
@@ -427,14 +429,19 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(ped_status_box),emiteped_status_combo,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ped_status_frame),ped_status_box);
 	gtk_fixed_put(GTK_FIXED(ped_status_fixed),ped_status_frame,10,10);
+	gtk_widget_set_sensitive(emiteped_status_combo,FALSE);
 
 	ped_banco_entry = gtk_entry_new();
+	ped_bancocod_entry = gtk_entry_new();
 	ped_banco_fixed  = gtk_fixed_new();
 	ped_banco_box = gtk_box_new(0,0);
 	ped_banco_frame = gtk_frame_new("Banco");
+	gtk_entry_set_width_chars(GTK_ENTRY(ped_bancocod_entry),5);
+	gtk_box_pack_start(GTK_BOX(ped_banco_box),ped_bancocod_entry,0,0,5);
 	gtk_box_pack_start(GTK_BOX(ped_banco_box),ped_banco_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ped_banco_frame),ped_banco_box);
 	gtk_fixed_put(GTK_FIXED(ped_banco_fixed),ped_banco_frame,10,10);
+	gtk_editable_set_editable(GTK_EDITABLE(ped_banco_entry),FALSE);
 
 	treeview = campos_produto_ped();
 
@@ -449,14 +456,10 @@ int vnd_ped()
 	gtk_box_pack_start(GTK_BOX(linha1),ped_pag_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_tipo_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_status_fixed,0,0,0);
-	gtk_widget_set_sensitive(ped_status_fixed,FALSE);
-	gtk_widget_set_name(ped_status_fixed,"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(linha2),ped_ter_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha2),ped_est_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha2),ped_banco_fixed,0,0,0);
-	gtk_widget_set_sensitive(ped_banco_fixed,FALSE);
-	gtk_widget_set_name(ped_banco_fixed,"entry_unsensetivate");
 
 	gtk_box_pack_start(GTK_BOX(linha3),caixa_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha4),ped_opcoes_fixed,0,0,0);

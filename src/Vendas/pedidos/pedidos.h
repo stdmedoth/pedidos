@@ -1,10 +1,13 @@
-#define PED_CODE_COL 0
-#define PED_TIPO_COL 1
-#define PED_VENDDOR_COL 2
-#define PED_CLI_COL 3
-#define PED_DATE_COL 4
-#define PED_TOT_COL 5
-#define PED_STATUS_COL 6
+enum PED_COLS{
+	PED_CODE_COL,
+	PED_TIPO_COL,
+	PED_VENDDOR_COL,
+	PED_CLI_COL,
+	PED_DATE_COL,
+	PED_PAG_COND,
+	PED_TOT_COL,
+	PED_STATUS_COL
+};
 
 static GtkWidget *janela_pedidos;
 static GtkWidget *ped_cod_entry;
@@ -14,7 +17,7 @@ static GtkWidget *ped_pag_entry;
 static GtkWidget *ped_est_combo;
 static GtkWidget *ped_tipo_combo;
 static GtkWidget *emiteped_status_combo;
-static GtkWidget *ped_banco_entry;
+static GtkWidget *ped_bancocod_entry,*ped_banco_entry;
 static GtkWidget *ped_psq_cod_button;
 
 static struct _ped_valores{
@@ -51,6 +54,7 @@ struct _pedido{
 	struct _ped_valores *valores;
 	struct _ped_infos *infos;
 	struct _ped_parcelas *parcelas;
+	struct _orc_itens *itens;
 };
 
 int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview);

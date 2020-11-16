@@ -9,25 +9,14 @@ int ped_cancelar(){
 
 	ped_infos.ped_code = atoi(ped_code);
 
-	sprintf(query,"select * from pedidos where code = %i",ped_infos.ped_code);
-	if(!(res = consultar(query))){
-		popup(NULL,"Não foi possível consultar pedido");
+	int ped_status = ped_get_status();
+	if(ped_status == -1){
 		return 1;
-	}
-	if(!(row = mysql_fetch_row(res))){
-		popup(NULL,"O pedido não existe");
-		return 1;
-	}
-	ped_infos.status = atoi(row[7]);
-	if(ped_infos.status == STATUS_PED_CAN){
-		popup(NULL,"Aviso! O pedido já possui status cancelado");
 	}
 
-	if(strlen(ped_code)<=0)
-	{
-		gtk_widget_grab_focus(ped_cod_entry);
-		popup(NULL,"Insira o código do orcamento");
-		return 1;
+	if(ped_status == STATUS_PED_CAN){
+		if(!PopupBinario("O pedido já está cancelado!", "Remova possíveis movimentos", "Abortar"))
+			return 0;
 	}
 
 	sprintf(query,"select b.parcelas_id from baixas_titulos as b inner join titulos as tit on b.parcelas_id = tit.code where tit.pedido = %i",
@@ -77,7 +66,7 @@ int ped_cancelar(){
 		return 1;
 	}
 
-	sprintf(query,"update pedidos set status = 2 where code = '%i'",ped_infos.ped_code);
+	sprintf(query,"update pedidos set status = %i where code = '%i'",STATUS_PED_CAN,ped_infos.ped_code);
 	if(enviar_query(query)!=0)
 	{
 		popup(NULL,"Erro ao inserir valor total");
@@ -85,5 +74,6 @@ int ped_cancelar(){
 	}
 
 	popup(NULL,"Pedido cancelado com sucesso!");
+	ped_get_status();
 	return 0;
 }

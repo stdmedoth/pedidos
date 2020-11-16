@@ -1,5 +1,7 @@
 int ped_get_status();
 
-#define STATUS_PED_PEND 0
-#define STATUS_PED_EMIT 1
-#define STATUS_PED_CAN 2
+enum{
+  STATUS_PED_PEND,
+  STATUS_PED_EMIT,
+  STATUS_PED_CAN
+};

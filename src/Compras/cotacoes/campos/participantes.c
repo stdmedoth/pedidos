@@ -178,3 +178,34 @@ int cotac_partc_combo_fun(){
 
   return 0;
 }
+
+int cotac_partc_remove_fun(){
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+
+  if(cotac_get_participante())
+    return 1;
+
+  struct _Terceiros *terceiros = cotac_get_participantes();
+  gchar *id = (gchar*)gtk_combo_box_get_active_id(GTK_COMBO_BOX(cotac_partc_combo));
+  int position = gtk_combo_box_get_active(GTK_COMBO_BOX(cotac_partc_combo));
+  for(int cont=0;cont<terceiros->qnt;cont++){
+    if(atoi(id)){
+      if(atoi(id) == terceiros->terceiro[cont].code){
+        sprintf(query,"delete from cotacoes_participantes WHERE cotacoes_id = %i and participante = %i",cotacao_new->code, terceiros->terceiro[cont].code);
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível retirar Participante");
+          return 1;
+        }
+        cotac_container_exists[terceiros->terceiro[cont].index] = 0;
+        gtk_widget_destroy(cotac_itens_container[terceiros->terceiro[cont].index]);
+        gtk_combo_box_text_remove(GTK_COMBO_BOX_TEXT(cotac_partc_combo),position);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(cotac_partc_combo),0);
+        return 0;
+      }
+    }
+  }
+  popup(NULL,"Sem participantes");
+  return 0;
+}

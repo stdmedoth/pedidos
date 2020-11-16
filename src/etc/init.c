@@ -374,7 +374,6 @@ int init()
 
 	if(!(row = mysql_fetch_row(res))){
 		person_tecn_prim = 1;
-		popup(NULL,"Sem dados técnicos personalizados");
 		strcpy(cad_emp_strc.init_image_path,"");
 	}
 	else{
@@ -398,14 +397,12 @@ int init()
 	gtk_widget_show_all(janela_inicializacao);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if((row = mysql_fetch_row(res))==NULL){
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
@@ -428,25 +425,19 @@ int init()
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
 
-	if(atoi(row[0])==0)
-	{
+	if(atoi(row[0])==0){
 		sessao_oper.code = default_user_code;
 		sessao_oper.nivel = 3;
 		gtk_widget_destroy(janela_inicializacao);
-		if(desktop()!=0)
-		{
+		if(desktop()!=0){
 			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
 		}
 	}
-	else
-	{
+	else{
 		login();
 		gtk_widget_show_all(janela_login);
-		if(person_tecn_prim){
-			cadastro_empresa();
-		}
 	}
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;

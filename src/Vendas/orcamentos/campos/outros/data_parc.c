@@ -91,14 +91,14 @@ int orc_pag_datas_fun(void){
     orc_pag_datas_entry1[cont] = gtk_entry_new();
     gtk_widget_set_sensitive(orc_pag_datas_entry1[cont],FALSE);
     gtk_widget_set_name(orc_pag_datas_entry1[cont],"entry_unsensetivate");
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),10);
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry1[cont]),15);
     gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry1[cont]),orc_parcelas.datas[cont]);
 
     orc_pag_datas_entry2[cont] = gtk_entry_new();
     gtk_widget_set_sensitive(orc_pag_datas_entry2[cont],FALSE);
     gtk_widget_set_name(orc_pag_datas_entry2[cont],"entry_unsensetivate");
     gtk_entry_set_icon_from_icon_name(GTK_ENTRY(orc_pag_datas_entry2[cont]),GTK_ENTRY_ICON_PRIMARY,"money");
-    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),10);
+    gtk_entry_set_width_chars(GTK_ENTRY(orc_pag_datas_entry2[cont]),15);
     gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_entry2[cont]),valor);
 
     gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);

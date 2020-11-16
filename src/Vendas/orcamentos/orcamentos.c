@@ -13,7 +13,7 @@ int vnd_orc(){
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_transient_for(GTK_WINDOW(janela_orcamento),GTK_WINDOW(janela_principal));
-	gtk_widget_set_size_request(janela_orcamento,1300,500);
+	gtk_widget_set_size_request(janela_orcamento,1340,500);
 	gtk_window_set_title(GTK_WINDOW(janela_orcamento),"Orçamentos");
 	gtk_window_set_position(GTK_WINDOW(janela_orcamento),3);
 	gtk_window_set_icon_name(GTK_WINDOW(janela_orcamento),"document-revert");
@@ -94,14 +94,14 @@ int vnd_orc(){
 	gtk_button_set_image(GTK_BUTTON(pesquisa_ter),gtk_image_new_from_file(IMG_PESQ));
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_entry),"Código");
 	cliente_orc_name_entry = gtk_entry_new();
-	gtk_widget_set_sensitive(cliente_orc_name_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(cliente_orc_name_entry),FALSE);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_name_entry),"Nome");
 	cliente_orc_end_entry = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_end_entry),"Endereco");
-	gtk_widget_set_sensitive(cliente_orc_end_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(cliente_orc_end_entry),FALSE);
 	cliente_orc_tel_entry = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_tel_entry),"Telefone");
-	gtk_widget_set_sensitive(cliente_orc_tel_entry,FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(cliente_orc_tel_entry),FALSE);
 	cliente_orc_box = gtk_box_new(0,0);
 
 	orc_bnc_box = gtk_box_new(0,0);
@@ -113,18 +113,13 @@ int vnd_orc(){
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_bnc_code_entry),10);
 	orc_bnc_nome_entry = gtk_entry_new();
 	gtk_entry_set_width_chars(GTK_ENTRY(orc_bnc_nome_entry),20);
-	gtk_widget_set_sensitive(orc_bnc_nome_entry,FALSE);
-	gtk_widget_set_name(orc_bnc_nome_entry,"entry_unsensetivate");
+
+	gtk_editable_set_editable(GTK_EDITABLE(orc_bnc_nome_entry),FALSE);
 	gtk_box_pack_start(GTK_BOX(orc_bnc_box),orc_bnc_code_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_bnc_box),orc_bnc_psq_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(orc_bnc_box),orc_bnc_nome_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(orc_bnc_frame),orc_bnc_box);
 	gtk_fixed_put(GTK_FIXED(orc_bnc_fixed),orc_bnc_frame,20,20);
-
-	gtk_widget_set_name(cliente_orc_entry,"entry_unsensetivate");
-	gtk_widget_set_name(cliente_orc_name_entry,"entry_unsensetivate");
-	gtk_widget_set_name(cliente_orc_end_entry,"entry_unsensetivate");
-	gtk_widget_set_name(cliente_orc_tel_entry,"entry_unsensetivate");
 
 	orc_pag_cond_psq_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(orc_pag_cond_psq_button),gtk_image_new_from_file(IMG_PESQ));
@@ -143,8 +138,7 @@ int vnd_orc(){
 	gtk_container_add(GTK_CONTAINER(orc_pag_cond_frame),orc_pag_cond_box);
 	gtk_fixed_put(GTK_FIXED(orc_pag_cond_fixed),orc_pag_cond_frame,10,10);
 	gtk_widget_set_size_request(orc_pag_cond_box,100,40);
-	gtk_widget_set_sensitive(orc_pag_cond_nome,FALSE);
-	gtk_widget_set_name(orc_pag_cond_nome,"entry_unsensetivate");
+	gtk_editable_set_editable(GTK_EDITABLE(orc_pag_cond_nome),FALSE);
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,10);
@@ -200,7 +194,7 @@ int vnd_orc(){
 
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
-	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,650-MARGEM_D,90);
+	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,750,90);//-MARGEM_D,90);
 
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_d),orc_infos_fixed,0,0,0);
 	gtk_box_pack_end(GTK_BOX(caixa_orc_infos_e),observacoes_orc_frame,0,0,10);
@@ -372,14 +366,11 @@ int vnd_orc(){
 	g_signal_connect(orc_bnc_psq_button,"clicked",G_CALLBACK(psq_bnc),orc_bnc_code_entry);
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
+	g_signal_connect(orc_prods_grid,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
 
 	cancela_orc();
 
-	gtk_widget_grab_focus(pesquisa_ter);
+	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
-
-	gtk_widget_hide(codigo_orc_entry);
-	gtk_widget_hide(cliente_orc_entry);
-
 	return 0;
 }

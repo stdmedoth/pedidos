@@ -8,19 +8,19 @@
 #define ORC_TOTAL_COL 7
 #define ORC_OBS__COL 8
 
-#define MAX_PROD_ORC 3
+#define MAX_PROD_ORC 990
 
-enum{
-ORC_PROD_COD_COL,
-ORC_PROD_ITM_COL,
-ORC_PROD_PROD_COL,
-ORC_PROD_UND_COL,
-ORC_PROD_VLR_COL,
-ORC_PROD_VLR_ORIG_COL,
-ORC_PROD_TIP_DESC_COL,
-ORC_PROD_DESC_COL,
-ORC_PROD_TOTAL_COL,
-ORC_PROD_OBS_COL
+enum ORC_PROD_COLS{
+	ORC_PROD_COD_COL,
+	ORC_PROD_ITM_COL,
+	ORC_PROD_PROD_COL,
+	ORC_PROD_UND_COL,
+	ORC_PROD_VLR_COL,
+	ORC_PROD_VLR_ORIG_COL,
+	ORC_PROD_TIP_DESC_COL,
+	ORC_PROD_DESC_COL,
+	ORC_PROD_TOTAL_COL,
+	ORC_PROD_OBS_COL
 };
 
 struct _orc_estoque_prods{
@@ -41,8 +41,13 @@ static struct _orc_itens
 {
 	int id;
 	int item;
+	char item_c[12];
 	int produto;
+	char produto_c[12];
 	char produto_nome[MAX_NAME_LEN];
+	char CFOP[5];
+	char cEAN[15];
+	char NCM[10];
 	float qnt_f;
 	float preco_f;
 	float desconto_f;

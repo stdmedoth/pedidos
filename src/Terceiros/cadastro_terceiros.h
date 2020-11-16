@@ -9,6 +9,13 @@ struct _terc_infos{
   char *doc;
   int tipo_terc;
   char *cep;
+  char *xLgr;
+  int i_nro;
+  char *c_nro;
+  char *xCpl;
+  char *xBairro;
+  char *xMun;
+  char *UF;
 };
 
 struct _Terceiros{
@@ -68,5 +75,7 @@ enum{
 #define TER_PAGE_ITENS 0
 #define TER_PAGE_TRSP 1
 #define TER_PAGE_OUTR 2
+
+#define MAX_TERC_QNT 100;
 
 #include "campos.h"

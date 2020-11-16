@@ -1,3 +1,24 @@
+int get_terceiro_origem(int code){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	gchar *query = malloc(MAX_QUERY_LEN);
+
+	sprintf(query,"select uf from terceiros where code = %i",code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar origem do terceiro");
+		return -1;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		popup(NULL,"Terceiro não existe");
+		return -1;
+	}
+	if(!strcmp(cad_emp_strc.UF,row[0])){
+		return TER_DENTRO_ESTADO;
+	}else{
+		return TER_FORA_ESTADO;
+	}
+}
+
 int uf_terc()
 {
 	uf_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(uf_ter_field));
@@ -20,7 +41,7 @@ int uf_terc()
 		gtk_widget_grab_focus(uf_ter_field);
 		return 1;
 	}
-	
+
 	if(escolha_tipo_ter()!=0)
 		return 1;
 

@@ -20,38 +20,33 @@ int ped_emitir()
 	pedido.parcelas = &ped_parcelas;
 	pedidoPtr = &pedido;
 
-	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0)
-	{
+	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0){
 		gtk_widget_grab_focus(ped_cod_entry);
 		popup(NULL,"Insira o código do orcamento");
 		return 1;
 	}
 
 	ped_infos.ped_code = atoi(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
-	char orc_path[strlen(ORC_PATH)+MAX_CODE_LEN];
+	char *orc_path = malloc(strlen(ORC_PATH)+20);
 
 	//verificando status do pedido
 	sprintf(query,"select status from pedidos where code = %i",ped_infos.ped_code);
 
 	res = consultar(query);
-	if(res==NULL)
-	{
+	if(res==NULL){
 		popup(NULL,"Erro ao buscar valor total nos dados");
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if((row = mysql_fetch_row(res))==NULL){
 		popup(NULL,"Pedido não criado");
 		return 1;
 	}
 
-	if(atoi(row[0])==STATUS_PED_EMIT)
-	{
+	if(atoi(row[0])==STATUS_PED_EMIT){
 		popup(NULL,"Pedido já emitido");
 		return 1;
 	}
-	if(atoi(row[0])==STATUS_PED_CAN)
-	{
+	if(atoi(row[0])==STATUS_PED_CAN){
 		popup(NULL,"Pedido cancelado");
 		if(orcamentos.criticar.orc_ped_cancelado == 0)
 		{
@@ -59,8 +54,7 @@ int ped_emitir()
 		}
 	}
 
-	if(gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo))<=0)
-	{
+	if(gtk_combo_box_get_active(GTK_COMBO_BOX(ped_est_combo))<=0){
 		popup(NULL,"Selecione um estoque");
 		gtk_widget_grab_focus(ped_est_combo);
 		return 1;
@@ -68,14 +62,12 @@ int ped_emitir()
 
 	sprintf(query,"select cliente,banco,data_mov,tipo_mov,pag_cond from pedidos where code = %i",ped_infos.ped_code);
 
-	if(!(res = consultar(query)))
-	{
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar infos do pedido");
 		return 1;
 	}
 
-	if(!(row = mysql_fetch_row(res)))
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Sem Informações do pedido");
 		return 1;
 	}
@@ -92,35 +84,29 @@ int ped_emitir()
 		ped_parcelas.condpag.code = atoi(row[4]);
 
 	sprintf(query,"select nome, email from contatos where terceiro = %i",ped_infos.cliente_code);
-	if(!(res = consultar(query)))
-	{
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar Informações do cliente");
 		return 1;
 	}
 
-	if(!(row = mysql_fetch_row(res)))
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Cliente sem contatos");
 		strcpy(nome_cliente,"");
 		strcpy(email_cliente,"");
 	}else{
-
 		if(row[0])
-		strcpy(nome_cliente,row[0]);
-
+			strcpy(nome_cliente,row[0]);
 		if(row[1])
-		strcpy(email_cliente,row[1]);
+			strcpy(email_cliente,row[1]);
 	}
 
 	//calculando financeiro
 	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",ped_infos.ped_code);
-	if(!(res = consultar(query)))
-	{
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar valor total dos produtos");
 		return 1;
 	}
-	if(!(row = mysql_fetch_row(res)))
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Sem valor para faturamento");
 		return 1;
 	}
@@ -172,7 +158,8 @@ int ped_emitir()
 
 	if(sscanf(ped_infos.data_mov, "%d-%d-%d", &ano, &mes, &dia) == EOF){
     popup(NULL,"Não foi possivel ler data");
-    g_print("Erro no parser de data: %s\n",strerror(errno));
+    autologger("Erro no parser de data: %s\n");
+		autologger(strerror(errno));
     return 1;
   }
 
@@ -304,12 +291,6 @@ int ped_emitir()
 			}
 		}
 	}
-	//tipo_mov
-	//0 = manual
-	//1 = venda
-	//2 = compra
-	//3 = devolucao venda
-	//4 = devolucao compra
 
 	sprintf(formato_preco1,"%.2f",ped_valores.valor_prds_liquido + ped_valores.valor_frete_liquido);
 
@@ -363,8 +344,7 @@ int ped_emitir()
 		}
 		cont++;
 	}
-	if(cont==0)
-	{
+	if(cont==0){
 		popup(NULL,"Estoque sem nenhuma movimentação");
 	}
 
@@ -375,28 +355,40 @@ int ped_emitir()
 		popup(NULL,"Erro ao inserir dados para fechar o pedido");
 		return 1;
 	}
-
 	//*==========================sendo desenvolvido============================*/
 
 	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
-	g_print("xml de cupom recebido\n");
-	char *cupom_path = malloc(strlen(CUPONS_XMLS_DIR) + 20);
-	sprintf(cupom_path,"%s%i.xml",CUPONS_XMLS_DIR,ped_infos.ped_code);
-	FILE *xml = fopen(cupom_path,"w");
-	if(xml){
-		if(cfe->xml){
-			xmlDocDump(xml,	cfe->xml);
-		}else{
 
+	if(!cfe){
+		if(PopupBinario("O pedido não pode teve o cupom emitido, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
+			ped_cancelar();
+			return 0;
 		}
-		fclose (xml);
 	}else{
-		popup(NULL,"Erro ao abrir arquivo para CFe, Cancele!");
-		return 1;
+
+		autologger("xml de cupom recebido\n");
+		char *cupom_path = malloc( strlen(CUPONS_XMLS_DIR) + 30);
+		sprintf(cupom_path,"%spedido_%i.xml",CUPONS_XMLS_DIR,ped_infos.ped_code);
+
+		FILE *xml = fopen(cupom_path,"w");
+		if(xml){
+			if(cfe->xml){
+				autologger("Exportando\n");
+				if(!xmlDocDump(xml,	cfe->xml)){
+					if(PopupBinario("O pedido não pode teve o cupom emitido, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
+						ped_cancelar();
+						return 0;
+					}
+				}
+			}
+			fclose (xml);
+		}else{
+			popup(NULL,"Erro ao abrir arquivo para Cupom, Cancele!");
+			return 1;
+		}
 	}
-
+	return 0;
 	//*==========================sendo desenvolvido============================*/
-
 	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
 
 	if(!fopen(orc_path,"rb")){
@@ -408,11 +400,12 @@ int ped_emitir()
 			}
 		}
 	}else{
-		sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
+		sprintf(orc_path,"%ped%i.pdf",ORC_PATH,ped_infos.ped_code);
 		enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
 	}
 
 	emitindo_ped = 0;
 	popup(NULL,"Pedido emitido com sucesso!");
+	ped_get_status();
 	return 0;
 }

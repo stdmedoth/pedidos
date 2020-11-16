@@ -468,12 +468,20 @@ int contatos_update(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
+
+  if(!code_terc())
+    return 1;
+
+  contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<=contatos_qnt;cont++){
     if(cntts[cont].ativo){
 
       if(!cntts[cont].nome) cntts[cont].nome = "Nome";
+
       if(!cntts[cont].telefone) cntts[cont].telefone = "Telefone";
+
       if(!cntts[cont].celular) cntts[cont].celular = "Celular";
+
       if(!cntts[cont].email) cntts[cont].email = "Email";
 
       cntts[cont].id = cont;

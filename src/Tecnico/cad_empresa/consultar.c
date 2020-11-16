@@ -3,19 +3,15 @@ int cad_emp_consulta(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  if(cad_emp_prim){
-    sprintf(query,"select * from empresa");
-    if(!(res = consultar(query))){
-      cad_emp_prim=1;
-      popup(NULL,"Erro ao receber informações da empresa");
-      return 1;
-    }
-    if(!(row = mysql_fetch_row(res))){
-      cad_emp_prim=1;
-      popup(NULL,"Empresa sem informações");
-      return 1;
-    }
-  }else{
+  sprintf(query,"select * from empresa");
+  if(!(res = consultar(query))){
+    cad_emp_prim=1;
+    popup(NULL,"Erro ao receber informações da empresa");
+    return 1;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    cad_emp_prim=1;
+    popup(NULL,"Empresa sem informações");
     return 1;
   }
 
@@ -57,6 +53,7 @@ int cad_emp_consulta(){
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_emailsenha_entry),row[EMP_EMAILSEN_COL]);
 
+
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){
     person_tecn_prim=1;
@@ -91,8 +88,24 @@ int cad_emp_recebe(){
   }
   if(!(row = mysql_fetch_row(res))){
     cad_emp_prim=1;
-    popup(NULL,"Empresa sem informações");
-    return 1;
+    if(PopupBinario("Empresa ainda não informações, deseja criar um cadastro temporário?", "Sim! Criar agora", "Não! cadastrarei em breve")){
+      struct _maquina *maquina = maquinas_get_atual();
+      char *sobre = strdup("Uma base de gestão Calistu em criação");
+      if(maquina){
+        sprintf(query,"insert into empresa(razao, sobre) values('%s', '%s')",maquina->nome, sobre);
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível cadastrar base da empresa");
+          return 1;
+        }
+      }
+      sprintf(query,"select * from empresa");
+      if(!(res = consultar(query)) || !(row = mysql_fetch_row(res))){
+        popup(NULL,"Erro ao receber informações da empresa");
+        return 1;
+      }
+    }else{
+      return 1;
+    }
   }
 
   strcpy(cad_emp_strc.CNPJ,row[EMP_CNPJ_COL]);
@@ -125,9 +138,19 @@ int cad_emp_recebe(){
     popup(NULL,"Erro ao receber informações da empresa");
     return 1;
   }
+
   if(!(row = mysql_fetch_row(res))){
     person_tecn_prim=1;
-    popup(NULL,"Empresa sem informações Técnicas");
+    if(person_tecn_prim){
+			if(PopupBinario("Não há personalização, Deseja Criar?", "Sim! adiante meu serviço", "Não! prefiro fazer eu mesmo")){
+				sprintf(query,"insert into tecn_pers_elem(code, path_img_init, script_bin_path) values(%i, '%s' , '')",sessao_oper.code, INI_LOGO);
+				if(enviar_query(query)){
+					popup(NULL,"Não foi possível criar dados técnicos");
+				}else{
+          person_tecn_prim=0;
+        }
+			}
+		}
     return 1;
   }
 

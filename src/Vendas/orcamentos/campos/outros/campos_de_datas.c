@@ -72,15 +72,15 @@ GtkWidget *orc_campos_datas(){
   gtk_container_add(GTK_CONTAINER(orc_pag_datas_livres_scroll),orc_pag_datas_grid);
   gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_scroll_box),orc_pag_datas_livres_scroll,0,0,0);
 
-  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),orc_pag_datas_livres_scroll_box,0,0,0);
+  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),orc_pag_datas_livres_scroll_box,0,0,5);
 
   gtk_box_pack_start(GTK_BOX(rest_parcqnt_box),orc_pag_datas_parcqnt_fixed,0,0,0);
   gtk_box_pack_start(GTK_BOX(rest_parcqnt_box),orc_pag_datas_livres_rest_fixed,0,0,0);
-  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),rest_parcqnt_box,0,0,0);
+  gtk_box_pack_start(GTK_BOX(orc_pag_datas_livres_box),rest_parcqnt_box,0,0,5);
 
-  gtk_widget_set_size_request(orc_pag_datas_livres_scroll,230,200);
-  //gtk_widget_set_size_request(orc_pag_datas_livres_scroll_box,290,200);
-  //gtk_widget_set_size_request(orc_pag_datas_grid,200,200);
+  gtk_widget_set_size_request(orc_pag_datas_livres_scroll,330,200);
+  gtk_widget_set_size_request(orc_pag_datas_livres_box,330,200);
+  gtk_widget_set_size_request(orc_pag_datas_grid,330,200);
 
   gtk_container_add(GTK_CONTAINER(orc_pag_datas_livres_frame),orc_pag_datas_livres_box);
   gtk_fixed_put(GTK_FIXED(orc_pag_datas_livres_fixed),orc_pag_datas_livres_frame,20,20);

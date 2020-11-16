@@ -18,3 +18,9 @@ struct {
   gchar *xMun;
   gchar *UF;
 }consulta_cnpj;
+
+enum TER_ORIG{
+  TER_DENTRO_ESTADO,
+  TER_FORA_ESTADO,
+  TER_FORA_PAIS,
+};

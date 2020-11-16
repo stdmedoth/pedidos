@@ -40,6 +40,7 @@
 #define PDV_STYLE     "C:/pedidos/files/assets/pdv.css"
 #define LOGO_HEADER   "C:/pedidos/files/assets/logo_header.png"
 #define PDV_LOGO      "C:/pedidos/files/assets/pdv_logo.png"
+#define INI_LOGO      "C:/pedidos/files/assets/logo.png"
 #define BANNER        "C:/pedidos/files/princ_imgs/banner.png"
 #define BARRA_IMG     "C:/pedidos/files/princ_imgs/barra.png"
 #define BOTAO_MENU    "C:/pedidos/files/princ_imgs/botao_menu.png"
@@ -153,6 +154,7 @@
 #define BACKUP        "/usr/share/pedidos/files/backup"
 #define LOGO_HEADER   "/usr/share/pedidos/files/assets/logo_header.png"
 #define PDV_LOGO      "/usr/share/pedidos/files/assets/pdv_logo.png"
+#define INI_LOGO      "/usr/share/pedidos/files/assets/logo.png"
 #define BANNER        "/usr/share/pedidos/files/princ_imgs/banner.png"
 #define MSG_PRINC     "/usr/share/pedidos/files/msg"
 #define BARRA_IMG     "/usr/share/pedidos/files/princ_imgs/barra.png"
@@ -323,7 +325,7 @@
 #define MAX_COMPLMNTO_LEN 20
 #define MAX_CNTTS_QNT 20
 
-#define MAX_QUERY_LEN 5000
+#define MAX_QUERY_LEN 3000
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 
@@ -364,12 +366,19 @@ enum{
 #define TIPO_TER_CLIFRN 3
 #define TIPO_TER_TRSP 4
 
+enum TIPO_OPERACOES{
+  OPER_ENTRADA,
+  OPER_SAIDA
+};
+
 //id das operacoes
-#define VENDA 0
-#define DEV_VENDA 1
-#define COMPRA 2
-#define DEV_COMPRA 3
-#define OUTRAS_OPERACOES 3
+enum ID_OPERACOES{
+  VENDA,
+  DEV_VENDA,
+  COMPRA,
+  DEV_COMPRA,
+  OUTRAS_OPERACOES
+};
 
 enum{
   CONTRATO_CAD_COL,

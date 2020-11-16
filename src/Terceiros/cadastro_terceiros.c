@@ -54,6 +54,44 @@ int inicializar_ter()
 	return 0;
 }
 
+struct _terc_infos *terceiros_get_terceiro(int code){
+
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos*));
+
+	sprintf(query,"select * from terceiros where code = %i", code);
+  if(!(res = consultar(query))){
+    popup(NULL,"Não foi possível consultar dados da entrega");
+    return NULL;
+  }
+	if((row = mysql_fetch_row(res))){
+		terceiros->code = atoi(row[COD_TER_COL]);
+		terceiros->razao = strdup(row[RAZ_TER_COL]);
+		terceiros->ie = strdup(row[IE_TER_COL]);
+		terceiros->doc = strdup(row[IE_TER_COL]);
+		terceiros->tipo_terc = atoi(row[TIPI_TER_COL]);
+		terceiros->cep = strdup(row[CEP_TER_COL]);
+		terceiros->i_nro = atoi(row[REND_TER_COL]);
+		terceiros->c_nro = strdup(row[REND_TER_COL]);
+	}
+	sprintf(query,"select * from logradouro where CEP = '%s'", terceiros->cep);
+	if(!(res = consultar(query))){
+    popup(NULL,"Não foi possível consultar logradouro da entrega");
+    return NULL;
+  }
+	if((row = mysql_fetch_row(res))){
+		terceiros->xLgr = strdup(row[CEP_DESCR_COL]);
+		terceiros->xCpl = strdup(row[CEP_COMPLEM_COL]);
+		terceiros->xBairro = strdup(row[CEP_DESCR_BAIRRO]);
+		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
+		terceiros->UF = strdup(row[CEP_UF_COL]);
+	}
+
+	return terceiros;
+}
+
 int  cad_terc()
 {
 	char task[20];
@@ -622,9 +660,6 @@ int  cad_terc()
 
 	gtk_widget_show_all(janela);
 	vinc_transp();
-	gtk_widget_hide(transp_codigo_entry);
-	gtk_widget_hide(code_ter_field);
 	gtk_widget_grab_focus(doc_ter_field);
-
 	return 0;
 }

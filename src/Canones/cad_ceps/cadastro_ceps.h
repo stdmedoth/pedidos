@@ -35,16 +35,19 @@ GtkWidget *cad_cep_confirma_button,
 *cad_cep_exclui_button;
 
 char uf_list[MAX_UF_QNT][MAX_UF_LEN];
-int cad_cep(),cad_ceps_uf_qnt=0;
+int cad_cep();
+int cad_ceps_uf_qnt=0;
 
-#include "campos/codigo.c"
-#include "campos/cep.c"
-#include "campos/logr_descricao.c"
-#include "campos/tipo_logr.c"
-#include "campos/uf.c"
-#include "campos/bairro.c"
-#include "campos/cidade.c"
-#include "cancelar.c"
-#include "concluir.c"
-#include "alterar.c"
-#include "excluir.c"
+enum CEP_COLS{
+  CEP_CEP_COL,
+  CEP_ID_COL,
+  CEP_TIPO_COL,
+  CEP_DESCR_COL,
+  CEP_IDCIDADE_COL,
+  CEP_UF_COL,
+  CEP_COMPLEM_COL,
+  CEP_DESCRSNUM_COL,
+  CEP_DESCRCID_COL,
+  CEP_CODIBGE_COL,
+  CEP_DESCR_BAIRRO
+};

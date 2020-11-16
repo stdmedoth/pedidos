@@ -166,6 +166,7 @@ int cotacao_fun(){
 	cotacao_cancelar_fun();
 
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
+	g_signal_connect(cotac_rem_partc_button,"clicked",G_CALLBACK(cotac_partc_remove_fun),NULL);
 	g_signal_connect(cotac_partc_entry,"activate", G_CALLBACK(cotac_partc_fun),NULL);
 	g_signal_connect(cotac_code_entry,"activate",G_CALLBACK(cotac_code_fun),NULL);
 	g_signal_connect(cotac_data_entry,"activate",G_CALLBACK(cotac_data_fun),NULL);
