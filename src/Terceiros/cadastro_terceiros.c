@@ -59,7 +59,7 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos*));
+	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos));
 
 	sprintf(query,"select * from terceiros where code = %i", code);
   if(!(res = consultar(query))){
@@ -87,6 +87,9 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->xBairro = strdup(row[CEP_DESCR_BAIRRO]);
 		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
 		terceiros->UF = strdup(row[CEP_UF_COL]);
+	}else{
+		popup(NULL,"Não foi possível consultar endereços da entrega");
+    return NULL;
 	}
 
 	return terceiros;

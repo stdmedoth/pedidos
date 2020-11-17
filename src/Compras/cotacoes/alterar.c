@@ -84,17 +84,17 @@ int cotacao_alterar_fun(){
     cotac_add_item(NULL, participante_index);
     cotac_rec_itens_alter_qnt++;
   }
-
-  if(!cotac_rec_itens_alter_qnt){
-    for(int cont=0;cont<MAX_PARTC_QNT;cont++){
-      if(cotac_container_exists[cont]){
-        gtk_widget_hide(cotac_itens_container[cont]);
-      }
+  for(int cont=0;cont<MAX_PARTC_QNT;cont++){
+    if(cotac_container_exists[cont]){
+      gtk_widget_hide(cotac_itens_container[cont]);
     }
-    
-    //popup(NULL,"Sem itens na cotação");
-    //return 1;
   }
+  /*if(!cotac_rec_itens_alter_qnt){
+
+
+    popup(NULL,"Sem itens na cotação");
+    return 1;
+  }*/
 
   return 0;
 }

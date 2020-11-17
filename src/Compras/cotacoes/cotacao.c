@@ -13,6 +13,7 @@
 #include "campos/itens/preco.c"
 #include "campos/itens/quantidade.c"
 
+#include "resultado.c"
 #include "concluir.c"
 #include "alterar.c"
 #include "excluir.c"
@@ -54,12 +55,15 @@ int cotacao_fun(){
 	cotac_partc_entry = gtk_entry_new();
 	GtkWidget *cotac_add_partc_button = gtk_button_new_with_label("Adicionar");
 	GtkWidget *cotac_rem_partc_button = gtk_button_new_with_label("Remover");
+	GtkWidget *cotac_det_partc_button = gtk_button_new_with_label("Detalhar");
+	GtkWidget *cotac_result_button = gtk_button_new_with_label("Resultado");
 	GtkWidget *cotac_partc_box = gtk_box_new(0,0);
 
 	cotac_partc_combo = gtk_combo_box_text_new();
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_partc_combo,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_add_partc_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_rem_partc_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cotac_partc_box),cotac_det_partc_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(cotac_partc_frame),cotac_partc_box);
 
 	GtkWidget *cotac_descricao_frame = gtk_frame_new("Descrição");
@@ -94,6 +98,7 @@ int cotacao_fun(){
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_status_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_publica_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_descricao_frame,0,0,0);
+	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_result_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_partc_entry,0,0,5);
 
 	GtkWidget *cotac_data_box = gtk_box_new(0,0);
@@ -167,6 +172,10 @@ int cotacao_fun(){
 
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
 	g_signal_connect(cotac_rem_partc_button,"clicked",G_CALLBACK(cotac_partc_remove_fun),NULL);
+	g_signal_connect(cotac_det_partc_button,"clicked",G_CALLBACK(cotac_partc_combo_fun),NULL);
+	g_signal_connect(cotac_result_button,"clicked", G_CALLBACK(cotacao_resultado_fun),NULL);
+
+
 	g_signal_connect(cotac_partc_entry,"activate", G_CALLBACK(cotac_partc_fun),NULL);
 	g_signal_connect(cotac_code_entry,"activate",G_CALLBACK(cotac_code_fun),NULL);
 	g_signal_connect(cotac_data_entry,"activate",G_CALLBACK(cotac_data_fun),NULL);

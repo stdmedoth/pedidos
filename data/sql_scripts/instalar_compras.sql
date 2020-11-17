@@ -35,7 +35,7 @@ create table itens_cotacoes(
   requisicao int not null,
   qnt float not null,
   preco float not null,
-  foreign key(produto) references produtos(code),
+  foreign key(requisicao) references prod_requisicoes(code),
   foreign key(cotacoes_id) references cotacoes(code),
   foreign key(participante_id) references terceiros(code)
 );

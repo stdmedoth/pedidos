@@ -103,9 +103,9 @@ int solicitacao(){
 	gtk_box_pack_start(GTK_BOX(req_prod_linha3),req_prod_descr_frame,0,0,0);
 
 	req_prod_prori_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), 0, "Baixa prioridade");
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), 1, "Média prioridade");
-	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), 2, "Alta prioridade");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), REQ_BAIXA_PRIOR, "Baixa prioridade");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), REQ_MEDIA_PRIOR, "Média prioridade");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(req_prod_prori_combo), REQ_ALTA_PRIOR, "Alta prioridade");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(req_prod_prori_combo),0);
 	req_prod_prori_frame = gtk_frame_new("Prioridade");
 	gtk_container_add(GTK_CONTAINER(req_prod_prori_frame), req_prod_prori_combo);

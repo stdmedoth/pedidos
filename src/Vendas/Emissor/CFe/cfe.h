@@ -7,6 +7,7 @@ struct _cfe_ide{
 struct _cfe_emit{
   char CNPJ[15];
   char IE[15];
+  char IM[15];
   char cRegTribISSQN[10];
   char indRatISSQN[10];
 };
@@ -87,7 +88,7 @@ struct _cfe_produto *get_cupom_itens(int orc_code);
 
 xmlNode *add_dest_xml(struct _CFe *cfe_struct, struct _terc_infos *destinatario);
 
-xmlNode *add_dets_xml(struct _CFe *cfe_struct, struct _cfe_det *detalhamentos, int itens_qnt);
+xmlNode *add_dets_xml(struct _CFe *cfe_struct);
 
 xmlNode *add_ide_xml(struct _CFe *cfe_struct);
 

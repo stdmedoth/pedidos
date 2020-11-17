@@ -4,6 +4,7 @@ int cotacao_cancelar_fun(){
   cotac_alterando = 0;
   cotac_concluindo = 0;
   cotac_excluindo = 0;
+  cotac_gerresultado = 0;
   sprintf(task,"%i",tasker("cotacoes"));
   gtk_entry_set_text(GTK_ENTRY(cotac_code_entry),task);
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cotac_descricao_view));

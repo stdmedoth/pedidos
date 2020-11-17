@@ -24,6 +24,28 @@ int pdv_princ_wnd(){
     struct _caixa *caixa = caixa_get_aberto(maquina_atual);
   }
 
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN], nome_oper[40];
+  strcpy(nome_oper, "");
+  sprintf(query,"select nome from operadores where code = %i",caixa->operador);
+  if(!(res = consultar(query))){
+    popup(NULL,"Não foi possível receber informação do operador");
+  }else{
+    if(!(row = mysql_fetch_row(res))){
+      popup(NULL,"Operador não encontrado");
+    }else{
+      strcpy(nome_oper,row[0]);
+    }
+  }
+
+  if(caixa->operador != sessao_oper.code){
+    gchar *msg = malloc(100);
+    sprintf(msg,"Caixa já aberto para operador %s", nome_oper);
+    popup(NULL,msg);
+    return 1;
+  }
+
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_name(janela,"janela_pdv");
   gtk_widget_hide_on_delete(janela);
@@ -53,20 +75,7 @@ int pdv_princ_wnd(){
 
   GtkWidget *info_caixa = gtk_label_new (NULL);
   char *str = malloc(300);
-  MYSQL_RES *res;
-  MYSQL_ROW row;
-  char query[MAX_QUERY_LEN], nome_oper[40];
-  strcpy(nome_oper, "");
-  sprintf(query,"select nome from operadores where code = %i",caixa->operador);
-  if(!(res = consultar(query))){
-    popup(NULL,"Não foi possível receber informação do operador");
-  }else{
-    if(!(row = mysql_fetch_row(res))){
-      popup(NULL,"Operador não encontrado");
-    }else{
-      strcpy(nome_oper,row[0]);
-    }
-  }
+
   sprintf(str,"%s : %s",caixa->nome, nome_oper);
   gtk_label_set_text(GTK_LABEL(info_caixa),str);
   gtk_widget_set_name(info_caixa,"infos_caixa");

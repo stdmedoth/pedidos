@@ -2,7 +2,8 @@
 #define LOADING_GIF   "C:/pedidos/files/gen_imgs/carregando.gif"
 #define SERVER_CONF   "C:/pedidos/files/server.xml"
 #define TEMA_PATH	    "C:/gtk/share/themes/"
-#define ORC_PATH      "C:/pedidos/files/impressao/"
+#define ORC_PATH      "C:/pedidos/files/impressao/orcs/"
+#define COT_RES_PATH  "C:/pedidos/files/impressao/cots"
 #define IMG_REC       "C:/pedidos/files/opcoes_padrao/recarregar.png"
 #define IMG_MONEY     "C:/pedidos/files/opcoes_padrao/cash-outline.png"
 #define IMG_OK        "C:/pedidos/files/opcoes_padrao/ok.png"
@@ -115,7 +116,6 @@
 #define BACKUP_QUERY_FILE "C:/pedidos/files/backup_querys"
 #define MOZ_CERT          "C:/pedidos/files/cacert.pem"
 #define EMBLEM_GENERIC    "C:/pedidos/files/icones_opc/emblem_generic.png"
-#define EMBLEM_IMPORTANT  "C:/pedidos/files/icones_opc/emblem_important.png"
 #define SUP_XML           "C:/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "C:/pedidos/files/orc_params.xml"
 #define PROD_PARAMS       "C:/pedidos/files/prod_params.xml"
@@ -130,7 +130,7 @@
 #define LOADING_GIF   "/usr/share/pedidos/files/gen_imgs/carregando.gif"
 #define IMP_PORT1     "/usr/share/pedidos/files/impressao/linux_print_emulator1/"
 #define IMP_PORT2     "/usr/share/pedidos/files/impressao/linux_print_emulator2/"
-#define ORC_PATH 	  "/usr/share/pedidos/files/impressao/"
+#define ORC_PATH 	    "/usr/share/pedidos/files/impressao/"
 #define DESKTOP_STYLE "/usr/share/pedidos/files/desktop/style.css"
 #define KANBAN_STYLE  "/usr/share/pedidos/files/assets/kanban.css"
 #define PDV_STYLE     "/usr/share/pedidos/files/assets/pdv.css"
@@ -228,11 +228,11 @@
 #define REL_FIX_VND_PATH  "/usr/share/pedidos/files/impressao/relatorios/fixos/vendas"
 #define REL_FIX_MOV_PATH 	"/usr/share/pedidos/files/impressao/relatorios/fixos/movimentos"
 #define REL_FIX_FIN_PATH 	"/usr/share/pedidos/files/impressao/relatorios/fixos/financeiros/"
+#define COT_RES_PATH      "/usr/share/pedidos/files/impressao/relatorios/compras/"
 #define IMG_IMP_LOGO      "/usr/share/pedidos/files/impressao/imgs/logo.png"
 #define BACKUP_QUERY_FILE "/usr/share/pedidos/files/backup_querys"
 #define CUPONS_XMLS_DIR   "/usr/share/pedidos/files/xmls/cupom/"
 #define EMBLEM_GENERIC    "/usr/share/pedidos/files/icones_opc/emblem_generic.png"
-#define EMBLEM_IMPORTANT  "/usr/share/pedidos/files/icones_opc/emblem_important.png"
 #define SCRPT_TER_INFOS_ENV "/usr/share/pedidos/files/scripts/files/dados_emissor.xml"
 #define SCRPT_TER_INFOS_RET "/usr/share/pedidos/files/scripts/files/dados_retorno.xml"
 #define SCRPT_NFE_INFOS     "/usr/share/pedidos/files/scripts/files/dados_nfe.xml"
@@ -257,8 +257,8 @@
 #define MAX_TEMA_LEN 50
 #define MAX_TEMA_QNT 50
 #define MAX_PATH_LEN 1000
-#define MAX_EMAIL_LEN 100
-#define MAX_OBS_LEN 500
+#define MAX_EMAIL_LEN 200
+#define MAX_OBS_LEN 550
 #define MAX_PROD 990
 #define CONECT_QNT 1
 #define CODE_LEN 15
@@ -280,7 +280,6 @@
 #define MAX_GRP_LEN 100
 #define MAX_MRC_LEN 20
 #define MAX_FOR_LEN 100
-#define MAX_OBS_LEN 500
 #define MAX_SIGLA 10
 #define MAX_GRP 20
 #define MAX_CEP_LEN 10

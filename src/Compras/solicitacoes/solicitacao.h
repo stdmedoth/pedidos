@@ -8,7 +8,7 @@ struct _requisicao_prod{
   int status;
 };
 
-enum{
+enum REQ_COLS{
   REQ_CODE_COL,
   REQ_PROD_COL,
   REQ_QNT_COL,
@@ -19,7 +19,13 @@ enum{
   REQ_STATUS_COL
 };
 
-enum{
+enum REQ_PRIOR{
+  REQ_BAIXA_PRIOR,
+  REQ_MEDIA_PRIOR,
+  REQ_ALTA_PRIOR
+};
+
+enum REQ_STATUS{
   REQ_PROD_PENDENTE,
   REQ_PROD_REPREVADO,
   REQ_PROD_APROVADO,
@@ -32,6 +38,8 @@ int req_prod_excluir_fun();
 int req_prod_concluir_fun();
 int req_prod_cancelar_fun();
 int req_prod_alterar_fun();
+
+char *req_prod_get_prior_name(int prior);
 
 static int req_prod_concluindo=0, req_prod_alterando=0;
 GtkWidget *req_prod_concluir_button,

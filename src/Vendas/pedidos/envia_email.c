@@ -6,23 +6,24 @@ int ped_enviar(){
 	char *email_cliente = malloc(MAX_EMAIL_LEN);
 	char *query = malloc(MAX_QUERY_LEN);
 
-	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)))<=0)
-	{
+	gchar *ped_code = (gchar*)gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
+	if(strlen(gtk_entry_get_text(GTK_ENTRY(ped_code)))<=0){
 		gtk_widget_grab_focus(ped_cod_entry);
-		popup(NULL,"Insira o código do orcamento");
+		popup(NULL,"Insira o código do pedido");
 		return 1;
 	}
 
-	ped_infos.ped_code = atoi(gtk_entry_get_text(GTK_ENTRY(ped_cod_entry)));
+	struct _pedido *pedidoPtr = malloc(sizeof(struct _pedido));
+	pedidoPtr->infos->ped_code = atoi(ped_code);
 
-	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,ped_infos.ped_code);
+	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
 
 	if(ped_get_status() == STATUS_PED_CAN){
 		if(!PopupBinario("O pedido está cancelado, Ainda deseja enviar?", "Sim, enviar mesmo assim", "Desistir."))
 			return 0;
 	}
 
-	sprintf(query,"select cliente from pedidos where code = %i",ped_infos.ped_code);
+	sprintf(query,"select cliente from pedidos where code = %i",pedidoPtr->infos->ped_code);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar Informações do cliente");
 		return 1;
@@ -33,9 +34,9 @@ int ped_enviar(){
 	}
 
 	if(row[0])
-		ped_infos.cliente_code = atoi(row[0]);
+		pedidoPtr->infos->cliente_code = atoi(row[0]);
 
-	sprintf(query,"select nome, email from contatos where terceiro = %i",ped_infos.cliente_code);
+	sprintf(query,"select nome, email from contatos where terceiro = %i",pedidoPtr->infos->cliente_code);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar Informações do cliente");
 		return 1;
@@ -53,9 +54,9 @@ int ped_enviar(){
 
 
 	if(!fopen(orc_path,"r")){
-		sprintf(orc_path,"%simp%i.html",ORC_PATH,ped_infos.ped_code);
+		sprintf(orc_path,"%simp%i.html",ORC_PATH,pedidoPtr->infos->ped_code);
 		if( PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")
-		&& !gerar_orcs_html( ped_infos.ped_code )
+		&& !gerar_orcs_html( pedidoPtr->infos->ped_code )
 		&& !desenhar_pdf(orc_path))
 			if(enviar_email_orcamento(nome_cliente,email_cliente,orc_path))
 				return 1;

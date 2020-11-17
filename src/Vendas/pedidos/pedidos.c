@@ -312,20 +312,17 @@ int vnd_ped()
 
 	cont=0;
 	sprintf(query,"select code,nome from estoques");
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao buscar estoques");
 		return 1;
 	}
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
+	while((row = mysql_fetch_row(res))!=NULL){
 		sprintf(nome_estoque,"%s - %s",row[0],row[1]);
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ped_est_combo),nome_estoque);
 
 		cont++;
 	}
-	if(cont==0)
-	{
+	if(cont==0){
 		popup(NULL,"Sem nenhum estoque cadastrado");
 		cad_est();
 		return 1;

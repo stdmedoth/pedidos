@@ -11,11 +11,13 @@ int cotacao_concluir_fun();
 
 int cotacao_cancelar_fun();
 
+int cotacao_resultado_fun();
+
 int cotacao_fun();
 
 int cotac_code_fun();
 
-static int cotac_alterando=0, cotac_concluindo=0, cotac_excluindo=0;
+static int cotac_alterando=0, cotac_concluindo=0, cotac_excluindo=0, cotac_gerresultado=0;
 
 static int cotac_rec_itens_alter_qnt=0;
 

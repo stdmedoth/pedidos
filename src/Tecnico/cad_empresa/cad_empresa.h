@@ -1,6 +1,10 @@
 enum CAD_EMP_ENUM{
   EMP_CNPJ_COL,
   EMP_NOME_COL,
+  EMP_IE_COL,
+  EMP_IM_COL,
+  EMP_REGTRIB_COL,
+  EMP_REGISSQN_COL,
   EMP_CEP_COL,
   EMP_LOGR_COL,
   EMP_BAIR_COL,
@@ -14,7 +18,12 @@ enum CAD_EMP_ENUM{
   EMP_SMTP_PORT_COL,
   EMP_EMAIL_COL,
   EMP_EMAILSEN_COL,
-  EMP_SOBRE_COL
+  EMP_SOBRE_COL,
+};
+
+enum REGTRIB{
+  SIMPLES_NACIONAL=1,
+  REGIME_NORMAL=3,
 };
 
 enum REGISSQN_ENUM{
@@ -28,6 +37,9 @@ enum REGISSQN_ENUM{
 
 GtkWidget *cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
+*cad_emp_ie_entry,
+*cad_emp_im_entry,
+*cad_emp_regime_combo,
 *cad_emp_logr_entry,
 *cad_emp_cep_entry,
 *cad_emp_bairro_entry,
@@ -50,8 +62,10 @@ GtkWidget *cad_emp_nome_entry,
 static struct _cad_emp{
   char xNome[MAX_NAME_LEN];
   char IE[15];
+  char IM[15];
   int CRT ; // 3
   char CNPJ[CNPJ_S_LEN];
+  char RegTrib[12];
   char cRegTribISSQN[12];
   char indRatISSQN[12]; /* S / N */
 
