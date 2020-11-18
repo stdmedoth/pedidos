@@ -469,7 +469,7 @@ int contatos_update(){
   char query[MAX_QUERY_LEN];
 
 
-  if(!code_terc())
+  if(code_terc())
     return 1;
 
   contatos_ter = atoi(codigos_ter);

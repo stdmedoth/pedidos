@@ -13,7 +13,7 @@
 #include "campos/itens/preco.c"
 #include "campos/itens/quantidade.c"
 
-#include "resultado.c"
+#include "vencedores.c"
 #include "concluir.c"
 #include "alterar.c"
 #include "excluir.c"
@@ -56,7 +56,7 @@ int cotacao_fun(){
 	GtkWidget *cotac_add_partc_button = gtk_button_new_with_label("Adicionar");
 	GtkWidget *cotac_rem_partc_button = gtk_button_new_with_label("Remover");
 	GtkWidget *cotac_det_partc_button = gtk_button_new_with_label("Detalhar");
-	GtkWidget *cotac_result_button = gtk_button_new_with_label("Resultado");
+	GtkWidget *cotac_result_button = gtk_button_new_with_label("Vencedores");
 	GtkWidget *cotac_partc_box = gtk_box_new(0,0);
 
 	cotac_partc_combo = gtk_combo_box_text_new();
@@ -97,8 +97,8 @@ int cotacao_fun(){
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_code_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_status_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_publica_frame,0,0,5);
-	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_descricao_frame,0,0,0);
-	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_result_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_descricao_frame,0,0,5);
+	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_result_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(cotac_linha1),cotac_partc_entry,0,0,5);
 
 	GtkWidget *cotac_data_box = gtk_box_new(0,0);
@@ -173,7 +173,7 @@ int cotacao_fun(){
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
 	g_signal_connect(cotac_rem_partc_button,"clicked",G_CALLBACK(cotac_partc_remove_fun),NULL);
 	g_signal_connect(cotac_det_partc_button,"clicked",G_CALLBACK(cotac_partc_combo_fun),NULL);
-	g_signal_connect(cotac_result_button,"clicked", G_CALLBACK(cotacao_resultado_fun),NULL);
+	g_signal_connect(cotac_result_button,"clicked", G_CALLBACK(cotacao_vencedores_fun),NULL);
 
 
 	g_signal_connect(cotac_partc_entry,"activate", G_CALLBACK(cotac_partc_fun),NULL);

@@ -1,4 +1,4 @@
-int cotacao_resultado_fun(){
+int cotacao_vencedores_fun(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
@@ -9,7 +9,7 @@ int cotacao_resultado_fun(){
   "<html>"
     "<head>"
       "<meta charset=\"utf-8\"/>"
-      "<title>Resultado da cotação</title>"
+      "<title>Vencedores da cotação</title>"
       "<link href=\"../styles/relatorios.css\" rel=\"stylesheet\">"
     "</head>";
 
@@ -23,8 +23,9 @@ int cotacao_resultado_fun(){
   fprintf(file_arq,html_header);
   fprintf(file_arq,"<body>");
   fprintf(file_arq,"<div style='background: Gainsboro;'>");
-  fprintf(file_arq,"<h1>Resultado da Cotação</h1>");
+  fprintf(file_arq,"<h1>Vencedores da Cotação</h1>");
   fprintf(file_arq,"<p>%s</p>",data_sys);
+  fprintf(file_arq,"<p>Cotação %s</p>",cotac_code_gchar);
   fprintf(file_arq,"</div>");
 
   fprintf(file_arq,"<div>");
@@ -34,7 +35,7 @@ int cotacao_resultado_fun(){
   if(cotac_code_fun())
     return 1;
 
-  sprintf(query,"select pr.code, ter.razao, p.code, p.nome, pr.quantidade, DATE_FORMAT(pr.data,'%%d/%%m/%%Y'), pr.prioridade, ic.qnt, ic.preco, ic.qnt * ic.preco, u.nome from itens_cotacoes as ic inner join produtos as p inner join prod_requisicoes as pr inner join terceiros as ter inner join unidades as u on u.code = p.unidades and ic.requisicao = pr.code and pr.produto = p.code and ic.participante_id = ter.code where ic.cotacoes_id = %i order by ic.requisicao, ic.qnt, (ic.qnt * ic.preco);", atoi(cotac_code_gchar));
+  sprintf(query,"select ic.requisicao, ter.razao, p.code, p.nome, pr.quantidade, DATE_FORMAT(pr.data,'%%d/%%m/%%Y'), pr.prioridade, ic.qnt, ic.preco, ic.qnt * ic.preco, u.nome from itens_cotacoes as ic inner join produtos as p inner join prod_requisicoes as pr inner join terceiros as ter inner join unidades as u on u.code = p.unidades and ic.requisicao = pr.code and pr.produto = p.code and ic.participante_id = ter.code where ic.cotacoes_id = %i group by ic.requisicao order by ic.qnt, (ic.qnt * ic.preco);", atoi(cotac_code_gchar));
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar cotação");
     return 1;
@@ -42,6 +43,8 @@ int cotacao_resultado_fun(){
   fprintf(file_arq,"<table>");
 
   fprintf(file_arq,"<tr class='relat-infos'>");
+
+  fprintf(file_arq,"<th>Posição</th>");
 
   fprintf(file_arq,"<th>Requisição</th>");
 
@@ -64,8 +67,9 @@ int cotacao_resultado_fun(){
   fprintf(file_arq,"</tr>");
 
   while((row = mysql_fetch_row(res))){
-    fprintf(file_arq,"<tr class='tr-focus'>");
 
+    fprintf(file_arq,"<tr class='tr-focus'>");
+    fprintf(file_arq,"<td>Posição %iº</td>",itens_qnt+1);
     fprintf(file_arq,"<td>%s</td>",row[0]);
     fprintf(file_arq,"<td>%s</td>",row[1]);
     fprintf(file_arq,"<td>%s: %s</td>",row[2],row[3]);
@@ -73,8 +77,8 @@ int cotacao_resultado_fun(){
     fprintf(file_arq,"<td>%s</td>",row[5]);
     fprintf(file_arq,"<td>%s</td>",req_prod_get_prior_name(atoi(row[6])));
     fprintf(file_arq,"<td>%.2f %s</td>",atof(row[7]), row[10]);
-    fprintf(file_arq,"<td>%.2f</td>",atof(row[8]));
-    fprintf(file_arq,"<td>%.2f</td>",atof(row[9]));
+    fprintf(file_arq,"<td>R$ %.2f</td>",atof(row[8]));
+    fprintf(file_arq,"<td>R$ %.2f</td>",atof(row[9]));
 
     fprintf(file_arq,"</tr>");
 

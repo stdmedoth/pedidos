@@ -28,6 +28,12 @@ struct _Terceiros{
 static int concluindo_ter=0;
 static int ter_com_entrega = 0;
 
+enum TER_SETOR{
+  SETOR_INDUSTRIAL,
+  SETOR_COMERCIAL,
+  SETOR_PREST_SERV
+};
+
 enum{
   COD_TER_COL,
   COD_TER_NFE_COL,

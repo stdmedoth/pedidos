@@ -90,6 +90,9 @@ int cotac_add_item(GtkWidget *button, int cod){;
   cotac_rem_button[cod][pos] = gtk_button_new();
   gtk_button_set_image(GTK_BUTTON(cotac_rem_button[cod][pos]),gtk_image_new_from_file(IMG_MENOS));
   gtk_widget_set_sensitive(cotac_rem_button[cod][pos],FALSE);
+  if( pos && cotac_ativo[cod][pos-1]){
+    gtk_widget_set_sensitive(cotac_rem_button[cod][pos-1],TRUE);
+  }
 
   gtk_button_set_image(GTK_BUTTON(cotac_psq_prod_button[cod][pos]),gtk_image_new_from_file(IMG_PESQ));
   gtk_editable_set_editable(GTK_EDITABLE(cotac_prod_nome_entry[cod][pos]),FALSE);

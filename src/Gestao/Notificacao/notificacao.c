@@ -55,17 +55,22 @@ int notificacoes_button_update(){
 
 void notificacoes_wnd(){
   GtkWidget *notf_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  enum{
-    NOME_COL,
-    DESCR_COL,
-    STAT_COL
-  };
-
   /*registrando a janela para o reg_win*/
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].reg_id = REG_NOTIF;
 	if(ger_janela_aberta(notf_wnd, &janelas_gerenciadas.vetor_janelas[REG_NOTIF]))
 		return ;
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].janela_pointer = notf_wnd;
+
+  g_signal_connect(notf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_NOTIF]);
+  
+  gtk_widget_set_name(notf_wnd,"notificacoes");
+	gtk_window_set_position(GTK_WINDOW(notf_wnd),3);
+	gtk_window_set_resizable(GTK_WINDOW(notf_wnd),FALSE);
+	gtk_window_set_title(GTK_WINDOW(notf_wnd),"Notificações");
+	gtk_window_set_icon_name(GTK_WINDOW(notf_wnd),"software-update-urgent");
+	gtk_window_set_transient_for(GTK_WINDOW(notf_wnd),GTK_WINDOW(janela_principal));
+	gtk_container_set_border_width (GTK_CONTAINER (notf_wnd), 10);
+
 
   GtkWidget *notf_box = gtk_box_new(1,0);
   GtkWidget *notf_scroll = gtk_scrolled_window_new(NULL,NULL);
@@ -74,7 +79,13 @@ void notificacoes_wnd(){
   GtkTreeIter campos;
   MYSQL_RES *res;
   MYSQL_ROW row;
+
   char query[MAX_QUERY_LEN];
+  enum{
+    NOME_COL,
+    DESCR_COL,
+    STAT_COL
+  };
 
   GtkTreeViewColumn *coluna_nome = gtk_tree_view_column_new_with_attributes(
     "Nome",
@@ -170,7 +181,5 @@ void notificacoes_wnd(){
   gtk_widget_set_size_request(notf_wnd,900,400);
 
   gtk_widget_show_all(notf_wnd);
-
-  g_signal_connect(notf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_NOTIF]);
   return ;
 }

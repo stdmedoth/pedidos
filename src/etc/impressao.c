@@ -35,6 +35,9 @@ int iniciar_impressao(char *gerado)
 	GSubprocess *processo=NULL;
 	GError *erro=NULL;
 
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
 	switch (imp_opc)
 	{
 
@@ -75,11 +78,13 @@ int iniciar_impressao(char *gerado)
 			break;
 	}
 
-	g_usleep(G_USEC_PER_SEC*2);
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
 
 		processo=NULL;
 		erro=NULL;
+
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
 
 		if(navegadores.navegador_pdr == 1){
 			sprintf(chamada,"%s %s",navegadores.navegador_path1,gerado);

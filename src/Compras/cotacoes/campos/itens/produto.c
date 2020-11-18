@@ -10,6 +10,7 @@ int cotat_itens_prod_fun(GtkEntry *entry, int pos){
 
   if( (text == NULL) && !(strlen(text)) ){
     popup(NULL,"Insira a requisição");
+    cotac_produto_inserido[cod][pos] = 0;
     return 1;
   }
   MYSQL_RES *res;
@@ -24,32 +25,38 @@ int cotat_itens_prod_fun(GtkEntry *entry, int pos){
   }
   if(!(row = mysql_fetch_row(res))){
     popup(NULL,"Requisição não existe");
+    cotac_produto_inserido[cod][pos] = 0;
     gtk_entry_set_text(GTK_ENTRY( cotac_prod_nome_entry[cod][pos]), "" );
     return 1;
   }
 
   requisicao = atoi(row[REQ_CODE_COL]);
   produto = atoi(row[REQ_PROD_COL]);
-  quantidade = strdup(row[REQ_QNT_COL]);
-  gtk_entry_set_text(GTK_ENTRY(cotac_prod_qnt_entry[cod][pos]),quantidade);
+  if(!cotac_produto_inserido[cod][pos]){
+    quantidade = strdup(row[REQ_QNT_COL]);
+    gtk_entry_set_text(GTK_ENTRY(cotac_prod_qnt_entry[cod][pos]),quantidade);
+  }
 
   sprintf(query,"SELECT * FROM produtos WHERE code = %i",produto);
 
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar produto");
     gtk_entry_set_text(GTK_ENTRY( cotac_prod_nome_entry[cod][pos]), "" );
+    cotac_produto_inserido[cod][pos] = 0;
     return 1;
   }
 
   if(!(row = mysql_fetch_row(res))){
     popup(NULL,"Produto da requisição não existente");
     gtk_entry_set_text(GTK_ENTRY( cotac_prod_nome_entry[cod][pos]), "" );
+    cotac_produto_inserido[cod][pos] = 0;
     return 1;
   }
 
   cotacao_new->cotacao_itens[cod][pos].requisicao = requisicao;
   cotacao_new->cotacao_itens[cod][pos].produto = produto;
-  cotacao_new->cotacao_itens[cod][pos].quantidade = atof(quantidade);
+  if(!cotac_produto_inserido[cod][pos])
+    cotacao_new->cotacao_itens[cod][pos].quantidade = atof(quantidade);
 
   cotac_produto_inserido[cod][pos] = 1;
 

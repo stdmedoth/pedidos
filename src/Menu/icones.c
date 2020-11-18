@@ -40,6 +40,7 @@ int add_icones(void)
 	estq_ico();
 	cmp_ico();
 	fin_ico();
+	mkt_ico();
 	rel_ico();
 	tcn_ico();
 	return 0;

@@ -14,7 +14,7 @@ void passa_nome()
 	oper_nome_login = malloc(MAX_OPER_LEN);
 	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	if(!strlen(oper_nome_login)){
-		popup(NULL,"Insira o operador");
+		popup(janela_login,"Insira o operador");
 		gtk_widget_grab_focus(nome_entry);
 		return ;
 	}
@@ -47,13 +47,12 @@ void verifica_senha()
 
 	if(!(res = consultar(query)))
 	{
-		popup(NULL,"Erro de comunicacao com banco");
+		popup(janela_login,"Erro de comunicacao com banco");
 		encerrando();
 		return ;
 	}
 
-	if((row = mysql_fetch_row(res)))
-	{
+	if((row = mysql_fetch_row(res))){
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);
@@ -68,7 +67,7 @@ void verifica_senha()
 	}
 	else
 	{
-		popup(NULL,"Usuário ou Senha incorretos");
+		popup(janela_login,"Usuário ou Senha incorretos");
 		gtk_widget_grab_focus(senha_entry);
 		return;
 	}
@@ -91,9 +90,7 @@ void login()
 	gtk_window_set_icon_name(GTK_WINDOW(janela_login),"system-users");
 	gtk_window_set_title(GTK_WINDOW(janela_login),"Login");
 	gtk_window_set_resizable(GTK_WINDOW(janela_login),FALSE);
-
-	gtk_window_set_transient_for(GTK_WINDOW(janela_login),
-		GTK_WINDOW(janelas_gerenciadas.fundo_inicializacao.janela_pointer));
+	gtk_window_set_transient_for(GTK_WINDOW(janela_login),GTK_WINDOW(janelas_gerenciadas.fundo_inicializacao.janela_pointer));
 
 	gtk_window_set_keep_above(GTK_WINDOW(janela_login),TRUE);
 

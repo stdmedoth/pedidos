@@ -145,6 +145,9 @@
 #include "../Relatorios/fixados/financeiro/receber/principal.h"
 #include "../Relatorios/fixados/financeiro/pagar/principal.h"
 
+#include "../Marketing/analises/analisar.h"
+#include "../Marketing/emails/modela_email.h"
+
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"

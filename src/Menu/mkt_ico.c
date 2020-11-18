@@ -7,10 +7,15 @@ int mkt_ico(void)
 	//imagem dos icones
 
 	//label dos icones
+	mkt_anal_ico = gtk_image_new_from_file(ANLS_MKT_IMG);
+	mkt_anal_lbl = gtk_label_new("Análise");
+
+	mkt_email_ico = gtk_image_new_from_file(MODELMAIL_IMG);
+	mkt_email_lbl = gtk_label_new("Emails");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
-	/*
+
 	for(cont=0;cont<MKT_ICO_QNT;cont++)
 	{
 		mkt_box[cont] = gtk_box_new(1,0);
@@ -28,15 +33,19 @@ int mkt_ico(void)
 		}
 		gtk_box_pack_start(GTK_BOX(marketingl[linha]),eventos[cont],0,0,45);
 		cont2++;
-	}*/
+	}
 
-	//icone cadastro produto
-  //gtk_box_pack_end(GTK_BOX(cad_box[0]), ,0,0,0);
-	//gtk_box_pack_end(GTK_BOX(cad_box[0]), ,0,0,0);
+	//icone analise
+  gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_ico,0,0,0);
+	gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_lbl,0,0,0);
+
+	//icone emails
+	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_ico,0,0,0);
+	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_lbl,0,0,0);
 
 	//sinais para chamada da opçao...
-	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(),NULL);
-	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(),NULL);
+	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(mkt_analise),NULL);
+	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(mkt_email_models),NULL);
 
 	return 0;
 }

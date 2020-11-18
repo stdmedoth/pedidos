@@ -65,7 +65,6 @@
 #include "../Compras/cotacoes/cotacao.c"
 #include "../Compras/solicitacoes/solicitacao.c"
 
-
 #include "../Vendas/condicoes_pag/cad_pag.c"
 #include "../Vendas/condicoes_pag/campos/pag_cod.c"
 #include "../Vendas/condicoes_pag/campos/pag_nome.c"
@@ -149,6 +148,9 @@
 #include "../Relatorios/fixados/estoques/principal.c"
 #include "../Relatorios/fixados/financeiro/receber/principal.c"
 #include "../Relatorios/fixados/financeiro/pagar/principal.c"
+
+#include "../Marketing/analises/analisar.c"
+#include "../Marketing/emails/modela_email.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"
