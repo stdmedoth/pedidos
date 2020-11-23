@@ -14,6 +14,7 @@
 #include "criticas.c"
 #include "pesquisador.c"
 #include "css.c"
+#include "http.c"
 #include "impressao.c"
 #include "temas.c"
 #include "barra_icones.c"

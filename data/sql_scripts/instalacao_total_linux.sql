@@ -6,10 +6,10 @@ source /usr/share/pedidos/files/sql_scripts/instalar_unidades.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_contrato.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_estoques.sql
 source /usr/share/pedidos/files/sql_scripts/instalacao_kanban.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_cidades.zip
+source /usr/share/pedidos/files/sql_scripts/instalar_cidades.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_compras.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_grupos.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_logradouros.zip
+source /usr/share/pedidos/files/sql_scripts/instalar_logradouros.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_parametros.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_precos_grupos.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_precos.sql

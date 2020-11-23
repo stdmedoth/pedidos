@@ -12,7 +12,7 @@ int rel_fix_fin_pag_gerar(){
     "<head>"
       "<meta charset=\"utf-8\"/>"
       "<title>Relatório de Títulos à Pagar</title>"
-      "<link href=\"../styles/relatorios.css\" rel=\"stylesheet\">"
+      "<link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">"
     "</head>";
 
   GDir *teste;

@@ -1,4 +1,3 @@
-
 xmlNode *add_emit_xml(struct _CFe *cfe_struct){
 
   if(!cfe_struct->xml)

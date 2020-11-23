@@ -19,6 +19,7 @@
 
 #include "stoi.h"
 #include "css.h"
+#include "http.h"
 #include "criticas.h"
 #include "barra_icones.h"
 #include "analisa_campos.h"

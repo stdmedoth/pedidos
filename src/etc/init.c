@@ -19,15 +19,12 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
-
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
-
 	return ;
 }
 
 
-int desktop()
-{
+int desktop(){
 	int err=0;
 	GtkWidget  *juncao;
 	GtkWidget  *layout;
@@ -44,7 +41,7 @@ int desktop()
 	char markup[500];
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
-			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
+		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
 		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_CORRECT_FINAL);
@@ -55,7 +52,6 @@ int desktop()
 
 		if((row = mysql_fetch_row(res))){
 			if(atoi(row[2])!=0){
-
 				encerramento_brusco = 1;
 			}
 
@@ -70,15 +66,21 @@ int desktop()
 		0,
 		sessao_oper.code);
 		err = mysql_query(&conectar,query);
-		if(err!=0)
-		{
+		if(err){
 			popup(NULL,"Não foi possivel salvar status da sessão\n");
 			file_logger(query);
 			file_logger((char*)mysql_error(&conectar));
 		}
 	}
 
-	criar_janela_princ();
+	app = gtk_application_new ("calisto.pedidos", G_APPLICATION_FLAGS_NONE);
+ 	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
+	int status = g_application_run (G_APPLICATION (app), 0, NULL);
+	if(status){
+		popup(NULL,"Não foi possível carregar App");
+		return 1;
+	}
+	g_object_unref (app);
 
 	sprintf(query,"select data_vencimento - now() from contratos");
 	if(!(res = consultar(query))){

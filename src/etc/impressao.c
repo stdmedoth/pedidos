@@ -1,9 +1,10 @@
-#define IMP_PATH1 1
-#define IMP_PATH2 2
-#define IMP_PATH3 3
-
-#define PDF_IMP 4
-#define HTML_IMP 5
+enum{
+	IMP_PATH1,
+	IMP_PATH2,
+	IMP_PATH3,
+	PDF_IMP,
+	HTML_IMP
+};
 
 static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4, *imp_botao_radio5;
 static int imps_qnt=0, navs_qnt=0;
@@ -141,8 +142,8 @@ int desenhar_pdf(char *gerando_file)
 
 		if(iniciar_impressao(gerado))
 			return 1;
-		else
-			popup(NULL,"Processo finalizado");
+		//else
+		//	popup(NULL,"Processo finalizado");
 	}
 
 	return 0;

@@ -71,12 +71,13 @@ struct _CFe{
   struct _cfe_emit emit;
   struct _cfe_dest dest;
   struct _cfe_det *det;
-  struct _pedido *pedido;
   xmlDoc *xml;
 };
 
 
 struct _CFe *get_cupons_from_orc();
+
+struct _cfe_produto *get_cupom_itens_from_orc(int orc_code);
 
 xmlDoc *ini_cupom_xml(struct _CFe *cfe_struct);
 

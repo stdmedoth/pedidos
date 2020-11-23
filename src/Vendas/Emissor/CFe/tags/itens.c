@@ -1,4 +1,4 @@
-struct _cfe_produto *get_cupom_itens(int orc_code){
+struct _cfe_produto *get_cupom_itens_from_orc(int orc_code){
   MYSQL_RES *res;
   MYSQL_ROW row;
   char *query = malloc(MAX_QUERY_LEN);

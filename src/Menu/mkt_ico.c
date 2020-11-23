@@ -11,7 +11,7 @@ int mkt_ico(void)
 	mkt_anal_lbl = gtk_label_new("Análise");
 
 	mkt_email_ico = gtk_image_new_from_file(MODELMAIL_IMG);
-	mkt_email_lbl = gtk_label_new("Emails");
+	mkt_email_lbl = gtk_label_new("Modelagem Emails");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
@@ -36,12 +36,12 @@ int mkt_ico(void)
 	}
 
 	//icone analise
-  gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_ico,0,0,0);
 	gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_lbl,0,0,0);
+  gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_ico,0,0,0);
 
 	//icone emails
-	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_ico,0,0,0);
 	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_ico,0,0,0);
 
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(mkt_analise),NULL);

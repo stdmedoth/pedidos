@@ -27,14 +27,12 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   if(!add_entrega_xml(pCFe, destino))
     return NULL;
 
-  pCFe->pedido = pedido;
-
   struct _cfe_det *detalhamentos = malloc(sizeof(struct _cfe_det));
   pCFe->det = detalhamentos;
 
   int itens_qnt = orcamentos_get_orc_itens_qnt(pedido->infos->ped_code);
   pCFe->det->itens_qnt = itens_qnt;
-  struct _cfe_produto *itens = get_cupom_itens(pedido->infos->ped_code);
+  struct _cfe_produto *itens = get_cupom_itens_from_orc(pedido->infos->ped_code);
   if(!itens)
     return NULL;
   detalhamentos->produtos = itens;

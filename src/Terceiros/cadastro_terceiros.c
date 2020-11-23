@@ -361,13 +361,13 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(doc),doc_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(doc),cnst_cad_button,0,0,0);
-	gtk_entry_set_width_chars(GTK_ENTRY(doc_ter_field),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(doc_ter_field),30);
 
 	inscr = gtk_box_new(1,0);
 	gtk_widget_set_name(inscr,"caixa");
 	gtk_box_pack_start(GTK_BOX(inscr),inscr_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(inscr),inscr_ter_field,0,0,0);
-	gtk_entry_set_width_chars(GTK_ENTRY(inscr_ter_field),15);
+	gtk_entry_set_width_chars(GTK_ENTRY(inscr_ter_field),25);
 
 	name = gtk_box_new(1,0);
 	gtk_widget_set_name(name,"caixa");

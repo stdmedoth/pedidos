@@ -37,8 +37,7 @@ int entry_prod_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 
 	sprintf(query,"select p.code, p.nome, p.peso, g.nome from produtos as p inner join grupos as g on g.code = p.grupo where p.nome like '%c%s%c'",37,entrada,37);
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(res == NULL){
 		return 1;
 	}
 	while((row = mysql_fetch_row(res))!=NULL)
@@ -64,7 +63,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
-	GtkWidget *pesquisa_entry;
+
 	GtkWidget *caixa_grande;
 
 	gchar *entrada = malloc(MAX_GRP_LEN);
@@ -77,7 +76,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 
 	caixa_grande = gtk_box_new(1,0);
-	pesquisa_entry = gtk_entry_new();
+	psq_prod_pesquisa_entry = gtk_entry_new();
 	coluna1 = gtk_tree_view_column_new();
 	celula1 = gtk_cell_renderer_text_new();
 	coluna2 = gtk_tree_view_column_new();
@@ -92,7 +91,7 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
-	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(pesquisa_entry));
+	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),GTK_ENTRY(psq_prod_pesquisa_entry));
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
@@ -164,12 +163,12 @@ int psq_prod(GtkWidget *button, GtkEntry *cod_prod_entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),psq_prod_pesquisa_entry,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_prod_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 	gtk_container_add(GTK_CONTAINER(psq_prod_wnd),caixa_grande);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_prod_pesquisa),treeview);
+	g_signal_connect(psq_prod_pesquisa_entry,"activate",G_CALLBACK(entry_prod_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_prod_entry);
 
 	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_prod_wnd);
