@@ -13,8 +13,7 @@ static gchar *cad_rel_code_gchar,
 
 static char campos_query[MAX_RELAT_CAMPOS+1][MAX_ROW_LEN];
 
-static struct
-{
+static struct{
 	int codigo;
 	int campos_code[MAX_RELAT_CAMPOS+1];
 	int campos_code_bkp[MAX_RELAT_CAMPOS+1];

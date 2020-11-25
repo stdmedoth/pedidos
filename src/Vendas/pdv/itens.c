@@ -11,6 +11,12 @@ GtkWidget *get_pdv_itens_container(){
     N_COLUMNS
   };
 
+  pdv_venda_atual->cupom_atual = malloc(sizeof(struct _CFe));
+  pdv_venda_atual->cupom_atual->det = malloc(sizeof(struct _cfe_det));
+  pdv_venda_atual->cupom_atual->xml = xmlNewDoc((xmlChar*)"1.0");
+  pdv_venda_atual->cupom_atual->det->produtos = malloc(sizeof(struct _cfe_produto )*MAX_CUPOM_ITENS);
+  pdv_venda_atual->cupom_atual->det->impostos = malloc(sizeof(struct _cfe_imposto )*MAX_CUPOM_ITENS);
+
   GtkTreeViewColumn *coluna1,
   *coluna2,
   *coluna3,

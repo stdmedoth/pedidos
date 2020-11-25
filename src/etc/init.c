@@ -81,6 +81,9 @@ int desktop(){
 		return 1;
 	}
 	g_object_unref (app);
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
 
 	sprintf(query,"select data_vencimento - now() from contratos");
 	if(!(res = consultar(query))){
@@ -182,8 +185,7 @@ int desktop(){
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
 	row = mysql_fetch_row(res);
-	if(row!=NULL)
-	{
+	if(row!=NULL){
 		imagem_desktop = gtk_image_new_from_file(DESKTOP);
 		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
 		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
@@ -196,6 +198,9 @@ int desktop(){
 		gtk_main_quit();
 		return 1;
 	}
+
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO)
 	{
@@ -284,6 +289,8 @@ int desktop(){
 
 	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
 	hostname_label = gtk_label_new(endereco_maquina);
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	gtk_widget_set_name(hostname_fixed,"hostname-label");
 	gtk_widget_set_name(hostname_label,"hostname-label");
@@ -336,6 +343,8 @@ int desktop(){
 
 	if(menu()!=0)
 		return 1;
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
@@ -423,6 +432,8 @@ int init()
 		strcpy((char*)path[n_elements-1],ICON_PATH);
 		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 	}
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
@@ -441,6 +452,8 @@ int init()
 		login();
 		gtk_widget_show_all(janela_login);
 	}
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
 	janelas_gerenciadas.fundo_inicializacao.reg_id = 1;

@@ -77,6 +77,7 @@ struct _CFe{
 
 struct _CFe *get_cupons_from_orc();
 
+
 struct _cfe_produto *get_cupom_itens_from_orc(int orc_code);
 
 xmlDoc *ini_cupom_xml(struct _CFe *cfe_struct);
@@ -98,3 +99,6 @@ xmlNode *add_emit_xml(struct _CFe *cfe_struct);
 xmlNode *criar_InfCFeNode(xmlDoc *xml);
 
 struct _CFe *cupom_get_base_infos(struct _CFe *cfe_struct);
+
+
+#define MAX_CUPOM_ITENS 990

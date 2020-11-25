@@ -55,12 +55,13 @@ enum PDV_ADDITEM_OPER{
 };
 
 struct _pdv_venda_atual{
-
   int operacao_atual;
   int status_atual;
+  int cliente;
   struct _caixa *caixa_atual;
   struct _CFe *cupom_atual;
   struct _pdv_item_atual *pdv_item_atual;
   int itens_qnt;
-
 }*pdv_venda_atual;
+
+struct _CFe *get_cupom_from_pdv(struct _pdv_venda_atual *pdv);

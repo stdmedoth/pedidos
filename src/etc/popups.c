@@ -304,3 +304,90 @@ gpointer carregando_wnd(){
 	gtk_widget_show_all(janela);
 	return janela;
 }
+
+gboolean get_gestor_perm(GtkWidget *button, GtkWidget *parent_wnd){
+
+	int len;
+	GtkWidget *janela, *fields, *fixed, *box;
+	int resultado;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	gchar *user;
+	gchar *pass;
+
+	janela = gtk_dialog_new_with_buttons("Insira a senha para confirmar permissões",NULL,4,"Confirmar Usuário",GTK_RESPONSE_ACCEPT,NULL);
+
+	gtk_window_set_title(GTK_WINDOW(janela),"Permissão Gerência");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"user-availables");
+
+	if(parent_wnd)
+		gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(parent_wnd));
+	else
+		gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
+	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_position(GTK_WINDOW(janela),3);
+
+	GtkWidget *user_entry = gtk_entry_new();
+	GtkWidget *user_frame = gtk_frame_new("Usuário");
+	gtk_container_add(GTK_CONTAINER(user_frame), user_entry);
+	GtkWidget *pass_entry = gtk_entry_new();
+	GtkWidget *pass_frame = gtk_frame_new("Senha");
+	gtk_container_add(GTK_CONTAINER(pass_frame), pass_entry);
+
+	GtkWidget *confirma_button = gtk_dialog_get_widget_for_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT);
+	g_signal_connect(user_entry, "activate", G_CALLBACK(passar_campo), pass_entry );
+	g_signal_connect(pass_entry, "activate", G_CALLBACK(passar_campo), confirma_button );
+
+	fields = gtk_bin_get_child(GTK_BIN(janela));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+	gtk_box_pack_start(GTK_BOX(box),user_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(box),pass_frame,0,0,10);
+
+	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
+
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+
+	gtk_dialog_set_default_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(janela);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(janela));
+	switch (resultado) {
+		case GTK_RESPONSE_ACCEPT:
+			user = (gchar *)gtk_entry_get_text(GTK_ENTRY(user_entry));
+			if(!strlen(user)){
+				popup(NULL,"Usuário não inserido");
+				break;
+			}
+			pass = (gchar *)gtk_entry_get_text(GTK_ENTRY(pass_entry));
+			if(!strlen(pass)){
+				pass = strdup("");
+			}
+			char unvulned_nome[MAX_OPER_LEN];
+			char unvulned_senha[MAX_SEN_LEN];
+			mysql_real_escape_string(&conectar,unvulned_nome, user,strlen(user));
+			mysql_real_escape_string(&conectar,unvulned_senha, pass,strlen(pass));
+
+			sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
+			if(!(res = consultar(query))){
+				popup(janela_login,"Erro de comunicacao com banco");
+				return 1;
+			}
+
+			if((row = mysql_fetch_row(res))){
+				gtk_widget_destroy(janela);
+				if(atoi(row[2]) < NIVEL_GERENCIAL){
+					popup(NULL,"Sem permissão");
+					return 0;
+				}
+				return 1;
+			}else{
+				popup(janela,"Usuário ou Senha incorretos");
+			}
+	}
+
+	gtk_widget_destroy(janela);
+	return 0;
+
+}

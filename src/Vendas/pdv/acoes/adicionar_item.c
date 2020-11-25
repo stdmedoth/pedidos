@@ -1,4 +1,5 @@
 int pdv_codprod_fun(){
+
   enum{
     COLUMN0,
     COLUMN1,
@@ -101,9 +102,10 @@ int pdv_codprod_fun(){
   gchar *formata_preco = malloc(MAX_PRECO_LEN);
   gchar *formata_desconto = malloc(MAX_PRECO_LEN);
   gchar *formata_total = malloc(MAX_PRECO_LEN);
+  int produto=0;
   float preco=0, qnt=0, desconto=0, total=0;
   GtkTreeStore *modelo	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(pdv_itens_treeview)));
-  GtkTreeIter colunas, campos;
+  GtkTreeIter campos;
   gtk_tree_store_append(modelo,&campos,NULL);
   qnt = int_qntprod;
   sprintf(formata_qnt,"%d",int_qntprod);
@@ -113,10 +115,33 @@ int pdv_codprod_fun(){
   total = preco * qnt;
   sprintf(formata_total,"R$ %.2f",total);
 
-  pdv_venda_atual->pdv_item_atual->produto = atoi(row[PROD_COD_COL]);
+  produto = atoi(row[PROD_COD_COL]);
+
+  pdv_venda_atual->pdv_item_atual->produto = produto;
   pdv_venda_atual->pdv_item_atual->qnt = qnt;
   pdv_venda_atual->pdv_item_atual->vlr_unit = preco;
   pdv_venda_atual->pdv_item_atual->total = total;
+
+  GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL(modelo), &campos);
+  gint *posP = gtk_tree_path_get_indices(path);
+
+  if(!posP)
+    return 1;
+
+  gint pos = *posP;
+
+  pdv_venda_atual->cupom_atual->det->produtos[pos].cProd = inttochar(produto);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].nItem = inttochar(pos+1);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].cEAN = inttochar(0);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].xProd = strdup(row[PROD_NOM_COL]);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].NCM = strdup("12212121");
+  pdv_venda_atual->cupom_atual->det->produtos[pos].CFOP = strdup("5102");
+  pdv_venda_atual->cupom_atual->det->produtos[pos].uCom = strdup("Unidade");
+  pdv_venda_atual->cupom_atual->det->produtos[pos].qCom = inttochar(qnt);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vUnCom = inttochar(preco);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].indRegra = strdup("A");
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vDesc = floattochar(desconto);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vOutro = floattochar(0);
   pdv_venda_atual->itens_qnt++;
 
   gtk_tree_store_set(modelo,&campos,

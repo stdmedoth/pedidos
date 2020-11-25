@@ -31,7 +31,7 @@ int pdv_princ_wnd(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char query[MAX_QUERY_LEN], nome_oper[40];
+  char query[MAX_QUERY_LEN], nome_oper[MAX_NAME_LEN];
   strcpy(nome_oper, "");
   sprintf(query,"select nome from operadores where code = %i",caixa->operador);
   if(!(res = consultar(query))){
@@ -57,6 +57,7 @@ int pdv_princ_wnd(){
   pdv_venda_atual->caixa_atual = caixa;
   pdv_venda_atual->cupom_atual = malloc(sizeof(struct _CFe));
   pdv_venda_atual->pdv_item_atual = malloc(sizeof(struct _pdv_item_atual));
+  pdv_venda_atual->itens_qnt = 0;
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_name(janela,"janela_pdv");
@@ -188,6 +189,7 @@ int pdv_princ_wnd(){
 
   abrir_css(PDV_SHORTCUTS);
 
+  pdv_add_item_fun();
   gtk_widget_hide(pdv_qntprod_frame);
 
   g_signal_connect(encerrar_caixa,"clicked",G_CALLBACK(signal_caixa_encerramento),caixa);

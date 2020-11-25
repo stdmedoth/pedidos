@@ -17,13 +17,15 @@ xmlNode *add_entrega_xml(struct _CFe *cfe_struct, struct _terc_infos *destinatar
   xmlNode *xMun = xmlNewNode(NULL, (xmlChar*)"xMun");
   xmlNode *UF = xmlNewNode(NULL, (xmlChar*)"UF");
 
+  if( strlen(destinatario->xLgr) >= 60 )
+    destinatario->xLgr[60] = '\0';
+    
   xmlNodeAddContent(xLgr,(xmlChar*)destinatario->xLgr);
   xmlNodeAddContent(nro,(xmlChar*)destinatario->c_nro);
   xmlNodeAddContent(xCpl,(xmlChar*)destinatario->xCpl);
   xmlNodeAddContent(xBairro,(xmlChar*)destinatario->xBairro);
   xmlNodeAddContent(xMun,(xmlChar*)destinatario->xMun);
   xmlNodeAddContent(UF,(xmlChar*)destinatario->UF);
-
 
   xmlAddChild(entrega,xLgr);
   xmlAddChild(entrega,nro);

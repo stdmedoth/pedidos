@@ -1,5 +1,17 @@
 #include "sql_tools.c"
 
+char *floattochar(float floatnum){
+  char *number = malloc(12);
+  sprintf(number, "%.2f", floatnum);
+  return number;
+}
+
+
+char *inttochar(int intnum){
+  char *number = malloc(12);
+  sprintf(number, "%i", intnum);
+  return number;
+}
 
 // Function to replace a string with another
 // string

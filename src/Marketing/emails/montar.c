@@ -57,7 +57,7 @@ int mkt_mail_montar_fun(){
   xmlAddChild(headTag, meta);
 
   xmlNodePtr style = xmlNewNode(NULL,(xmlChar*)"style");
-  if(strlen(css_filename)){
+  if(css_filename && strlen(css_filename)){
     char *contents = malloc(1024*1024*4);
 
     FILE *cssfile = fopen(css_filename, "r");
@@ -81,14 +81,20 @@ int mkt_mail_montar_fun(){
     xmlAddChild(bodyTag, div);
   }
 
+  xmlNodePtr tableTag = xmlNewNode(NULL,(xmlChar*)"table");
   if(body1 && strlen(body1)){
-    xmlNodePtr div = xmlNewNode(NULL,(xmlChar*)"tbody");
+    xmlNodePtr tr = xmlNewNode(NULL,(xmlChar*)"tr");
+    xmlNodePtr td = xmlNewNode(NULL,(xmlChar*)"td");
+
     xmlNodePtr p = xmlNewNode(NULL,(xmlChar*)"p");
     xmlSetProp(p, (xmlChar*) "class", (xmlChar*)"corpo1");
     xmlNodeAddContent(p, (xmlChar*)body1);
-    xmlAddChild(div, p);
-    xmlAddChild(bodyTag, div);
+
+    xmlAddChild(td, p);
+    xmlAddChild(tr, td);
+    xmlAddChild(bodyTag, tr);
   }
+
   if(body2 && strlen(body2)){
     xmlNodePtr div = xmlNewNode(NULL,(xmlChar*)"tbody");
     xmlNodePtr p = xmlNewNode(NULL,(xmlChar*)"p");

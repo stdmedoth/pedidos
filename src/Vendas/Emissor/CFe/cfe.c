@@ -6,6 +6,7 @@
 #include "tags/impostos.c"
 #include "tags/itens.c"
 #include "tags/pedidos.c"
+#include "tags/cupom.c"
 
 struct _CFe *cupom_get_base_infos(struct _CFe *cfe_struct){
 
