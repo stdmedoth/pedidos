@@ -13,7 +13,7 @@ GtkWidget *est_said_ped_entry;
 GtkWidget *est_said_campo_nome_prod;
 GtkWidget *est_said_campo_nome_client;
 
-gint est_said_tipo_int;
+gint est_said_tipo_int, mov_said_est_limit=0;
 
 GtkWidget *est_said_confirma_button,
 *est_said_cancela_button,
@@ -32,6 +32,11 @@ static int alterando_mov_said_est=0, concluindo_mov_said_est=0, cancelando_mov_s
 void est_said_confirmar_fun();
 void est_said_cancelar_fun();
 void est_said_alterar_fun();
+
+
+int est_said_produto_fun();
+int est_said_qnt_fun();
+int est_said_est_fun();
 
 void inicializar_saidas();
 

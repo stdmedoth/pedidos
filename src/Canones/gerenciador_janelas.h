@@ -39,7 +39,13 @@ CAD_CONT_FIX_WND,
 IMPORT_TITS_WND,
 KANBAN_PRINC_WND,
 REG_PDV_WND,
-REG_WIN_QNT
+REG_SOLIT_WND,
+REG_COTAC_WND,
+REG_ORDCMP_WND,
+REG_ENTCMP_WND,
+REG_ANLMKT_PROD,
+REG_MODMAIL_PROD,
+REG_WIN_QNT,
 };
 
 #define REG_PRINC_WIN 9990
@@ -84,7 +90,14 @@ static const char *janelas_nomes[] = {
   "Notificações",
   "Contas Fixas",
   "Importador de títulos",
-  "Kanban"
+  "Kanban",
+  "PDV",
+  "Solicitação de Materiais",
+  "Cotação de Materiais",
+  "Ordem de Compra",
+  "Entrada de Documentos",
+  "Análise de Marketing",
+  "Modelo de Emails"
 };
 
 typedef struct _janelas_info{
@@ -98,13 +111,13 @@ typedef struct _janelas_info{
   GtkWidget *janela_pointer;
 }janelas_info;
 
-struct{
+static struct{
   janelas_info vetor_janelas[REG_WIN_QNT+1];
   janelas_info principal;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;
   janelas_info aplicacao;
-}static janelas_gerenciadas;
+}janelas_gerenciadas;
 
 int iniciar_gerenciador_janela();
 

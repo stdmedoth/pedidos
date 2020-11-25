@@ -1,6 +1,5 @@
 struct
 {
-
 	char *campos;
 	char **campo_query;
 	int campos_qnt;

@@ -1,22 +1,45 @@
-#define EMP_CNPJ_COL 0
-#define EMP_NOME_COL 1
-#define EMP_CEP_COL 2
-#define EMP_LOGR_COL 3
-#define EMP_BAIR_COL 4
-#define EMP_CID_COL 5
-#define EMP_UF_COL 6
-#define EMP_NRUA_COL 7
-#define EMP_TRUA_COL 8
-#define EMP_TEL_COL 9
-#define EMP_CEL_COL 10
-#define EMP_SMTP_COL 11
-#define EMP_SMTP_PORT_COL 12
-#define EMP_EMAIL_COL 13
-#define EMP_EMAILSEN_COL 14
-#define EMP_SOBRE_COL 15
+enum CAD_EMP_ENUM{
+  EMP_CNPJ_COL,
+  EMP_NOME_COL,
+  EMP_IE_COL,
+  EMP_IM_COL,
+  EMP_REGTRIB_COL,
+  EMP_REGISSQN_COL,
+  EMP_CEP_COL,
+  EMP_LOGR_COL,
+  EMP_BAIR_COL,
+  EMP_CID_COL,
+  EMP_UF_COL,
+  EMP_NRUA_COL,
+  EMP_TRUA_COL,
+  EMP_TEL_COL,
+  EMP_CEL_COL,
+  EMP_SMTP_COL,
+  EMP_SMTP_PORT_COL,
+  EMP_EMAIL_COL,
+  EMP_EMAILSEN_COL,
+  EMP_SOBRE_COL,
+};
+
+enum REGTRIB{
+  SIMPLES_NACIONAL=1,
+  REGIME_NORMAL=3,
+};
+
+enum REGISSQN_ENUM{
+  REGISSQN_MEMMUN,
+  REGISSQN_ESTM,
+  REGISSQN_SOCIPROF,
+  REGISSQN_COOP,
+  REGISSQN_MEI,
+  REGISSQN_QNT
+};
 
 GtkWidget *cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
+*cad_emp_ie_entry,
+*cad_emp_im_entry,
+*cad_emp_regime_combo,
 *cad_emp_logr_entry,
 *cad_emp_cep_entry,
 *cad_emp_bairro_entry,
@@ -36,11 +59,15 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_script_path_entry,
 *cad_emp_script_path_chooser;
 
-static struct{
+static struct _cad_emp{
   char xNome[MAX_NAME_LEN];
   char IE[15];
+  char IM[15];
   int CRT ; // 3
   char CNPJ[CNPJ_S_LEN];
+  char RegTrib[12];
+  char cRegTribISSQN[12];
+  char indRatISSQN[12]; /* S / N */
 
   char xLgr[MAX_LOGR_LEN];
   int nro;
@@ -67,6 +94,13 @@ static struct{
   char init_image_path[MAX_PATH_LEN];
   char script_bin_path[MAX_PATH_LEN];
 }cad_emp_strc;
+
+static struct _cad_software_house{
+  char xNome[MAX_NAME_LEN];
+  char CNPJ[CNPJ_S_LEN];
+  char signAC[345];
+  char tpAmb[10];
+}cad_software_house;
 
 int cadastro_empresa();
 

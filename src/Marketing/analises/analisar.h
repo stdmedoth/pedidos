@@ -1,0 +1,1 @@
+int mkt_analise();

@@ -19,6 +19,7 @@
 
 #include "stoi.h"
 #include "css.h"
+#include "http.h"
 #include "criticas.h"
 #include "barra_icones.h"
 #include "analisa_campos.h"
@@ -53,6 +54,7 @@
 #include "../pesquisadores/relatorios.h"
 #include "../pesquisadores/cond_pag.h"
 #include "../pesquisadores/operadores.h"
+#include "../pesquisadores/requisicoes.h"
 #include "../pesquisadores/fin_rec.h"
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
@@ -60,10 +62,10 @@
 #include "../pesquisadores/serv_transporte.h"
 
 #include "../Compras/cadastro_compras.h"
-#include "../Compras/cotacao.h"
-#include "../Compras/entradas.h"
-#include "../Compras/ordem.h"
-#include "../Compras/solicitacao.h"
+#include "../Compras/entradas/entradas.h"
+#include "../Compras/ordens/ordem.h"
+#include "../Compras/cotacoes/cotacao.h"
+#include "../Compras/solicitacoes/solicitacao.h"
 
 #include "../Unidades/cadastro_unidades.h"
 
@@ -144,6 +146,9 @@
 #include "../Relatorios/fixados/financeiro/receber/principal.h"
 #include "../Relatorios/fixados/financeiro/pagar/principal.h"
 
+#include "../Marketing/analises/analisar.h"
+#include "../Marketing/emails/modela_email.h"
+
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
 #include "../Suporte/atualiza.h"
@@ -163,6 +168,5 @@
 #include "../Gestao/Notificacao/notificacao.h"
 
 #include "../Kanban/kanban.h"
-
 
 #endif

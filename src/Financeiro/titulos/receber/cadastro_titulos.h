@@ -37,18 +37,3 @@ static int cad_rec_alterando=0, cad_rec_concluindo=0;
 int cad_rec_cancelar_fun();
 int cad_rec_alterar_fun();
 int cad_rec_concluir_fun();
-
-#include "campos/codigo.c"
-#include "campos/parcela.c"
-#include "campos/cliente.c"
-#include "campos/pedido.c"
-#include "campos/status.c"
-#include "campos/datacriacao.c"
-#include "campos/datavencimento.c"
-#include "campos/banco.c"
-#include "campos/valor.c"
-
-#include "cancelar.c"
-#include "alterar.c"
-#include "concluir.c"
-#include "excluir.c"

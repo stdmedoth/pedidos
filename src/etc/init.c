@@ -18,12 +18,13 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.principal.aberta = 1;
 	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
+	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 	return ;
 }
 
 
-int desktop()
-{
+int desktop(){
 	int err=0;
 	GtkWidget  *juncao;
 	GtkWidget  *layout;
@@ -40,7 +41,7 @@ int desktop()
 	char markup[500];
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
-			gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
+		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
 		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_CORRECT_FINAL);
@@ -51,7 +52,6 @@ int desktop()
 
 		if((row = mysql_fetch_row(res))){
 			if(atoi(row[2])!=0){
-
 				encerramento_brusco = 1;
 			}
 
@@ -66,15 +66,24 @@ int desktop()
 		0,
 		sessao_oper.code);
 		err = mysql_query(&conectar,query);
-		if(err!=0)
-		{
+		if(err){
 			popup(NULL,"Não foi possivel salvar status da sessão\n");
 			file_logger(query);
 			file_logger((char*)mysql_error(&conectar));
 		}
 	}
 
-	criar_janela_princ();
+	app = gtk_application_new ("calisto.pedidos", G_APPLICATION_FLAGS_NONE);
+ 	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
+	int status = g_application_run (G_APPLICATION (app), 0, NULL);
+	if(status){
+		popup(NULL,"Não foi possível carregar App");
+		return 1;
+	}
+	g_object_unref (app);
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
 
 	sprintf(query,"select data_vencimento - now() from contratos");
 	if(!(res = consultar(query))){
@@ -105,6 +114,7 @@ int desktop()
 			ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
 			ativar.estoque=atoi(row[CONTRATO_EST_COL]);
 			ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
+			ativar.marketing=atoi(row[CONTRATO_MKT_COL]);
 			ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
 		}else{
 			popup(NULL,"Não há lista de permissões");
@@ -116,7 +126,8 @@ int desktop()
 			ativar.faturamento=0;
 			ativar.estoque=0;
 			ativar.financeiro=0;
-			ativar.relatorios=1;
+			ativar.marketing=0;
+			ativar.relatorios=0;
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
@@ -125,6 +136,7 @@ int desktop()
 		ativar.faturamento=1;
 		ativar.estoque=1;
 		ativar.financeiro=1;
+		ativar.marketing=1;
 		ativar.relatorios=1;
 		ativar.tecnicos=1;
 	}
@@ -173,8 +185,7 @@ int desktop()
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
 	row = mysql_fetch_row(res);
-	if(row!=NULL)
-	{
+	if(row!=NULL){
 		imagem_desktop = gtk_image_new_from_file(DESKTOP);
 		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
 		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
@@ -188,12 +199,15 @@ int desktop()
 		return 1;
 	}
 
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
+
 	if(sessao_oper.nivel>=NIVEL_TECNICO)
 	{
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();
-		g_object_set(settings, "gtk-theme-name","Adwaita-dark",NULL);
+		g_object_set(settings, "gtk-theme-name",NIVEL_TECNICO_THEME,NULL);
 	}
 
 	caixa_infos = gtk_box_new(1,0);
@@ -275,6 +289,8 @@ int desktop()
 
 	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
 	hostname_label = gtk_label_new(endereco_maquina);
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	gtk_widget_set_name(hostname_fixed,"hostname-label");
 	gtk_widget_set_name(hostname_label,"hostname-label");
@@ -327,13 +343,11 @@ int desktop()
 
 	if(menu()!=0)
 		return 1;
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
-
-	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
-
-	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 
 	gtk_widget_show_all(janela_principal);
 
@@ -371,7 +385,6 @@ int init()
 
 	if(!(row = mysql_fetch_row(res))){
 		person_tecn_prim = 1;
-		popup(NULL,"Sem dados técnicos personalizados");
 		strcpy(cad_emp_strc.init_image_path,"");
 	}
 	else{
@@ -395,14 +408,12 @@ int init()
 	gtk_widget_show_all(janela_inicializacao);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if((row = mysql_fetch_row(res))==NULL){
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
@@ -421,27 +432,28 @@ int init()
 		strcpy((char*)path[n_elements-1],ICON_PATH);
 		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 	}
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
 
-	if(atoi(row[0])==0)
-	{
+	if(atoi(row[0])==0){
 		sessao_oper.code = default_user_code;
 		sessao_oper.nivel = 3;
 		gtk_widget_destroy(janela_inicializacao);
-		if(desktop()!=0)
-		{
+		if(desktop()!=0){
 			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
 		}
 	}
-	else
-	{
+	else{
 		login();
 		gtk_widget_show_all(janela_login);
 	}
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
 	janelas_gerenciadas.fundo_inicializacao.reg_id = 1;

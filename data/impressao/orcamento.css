@@ -1,16 +1,12 @@
 #div-titulo{
-	border: solid black 1px;
-	background: #00238c;
-	height: 60px;
+	background: lavender;
+	height: 100px;
 }
 
-#div-titulo:hover{
-	background: #00638c;
-}
 
 #logo-img{
-	margin-top: 1%;
-	margin-left: 10%;
+	padding: 10px;
+	margin-left: 5%;
 }
 
 #titulo{

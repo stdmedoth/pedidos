@@ -47,7 +47,8 @@ int desconto_prod_orc(GtkWidget *widget,int posicao)
 		strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
 		critica_real(ativos[posicao].total_c,total_prod_orc_entry[posicao]);
 
-		gerar_total_geral();
+		if(gerar_total_geral())
+			return 1;
 	}
 	gtk_widget_grab_focus(total_prod_orc_entry[posicao]);
 	return 0;

@@ -4,50 +4,47 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 
 	char *query;
 	concluindo_ter = 1;
-	if(code_terc()!=0)
-	{
+	if(code_terc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(code_ter_field);
 		return 1;
 	}
-	if(code_ter_nfe()!=0)
-	{
+
+	if(code_ter_nfe()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(code_ter_nfe_field);
 		return 1;
 	}
-	if(name_terc()!=0)
-	{
+
+	if(name_terc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(name_ter_field);
 		return 1;
 	}
-	if(escolha_doc()!=0)
-	{
+
+	if(escolha_doc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
-	if(inscr_terc()!=0)
-	{
+
+	if(inscr_terc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(inscr_ter_field);
 		return 1;
 	}
-	if(escolha_tipo_ter()!=0)
-	{
+
+	if(escolha_tipo_ter()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(type_ter_field);
 		return 1;
 	}
-	if(cep_terc()!=0)
-	{
+	if(cep_terc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(cep_ter_field);
 		return 1;
 	}
-	if(address_terc()!=0)
-	{
+	if(address_terc()!=0){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(address_ter_field);
 		return 1;

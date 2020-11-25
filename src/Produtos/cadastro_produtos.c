@@ -32,6 +32,7 @@ int  cad_prod(){
 	*fornecedor_prod_label, *grupo_prod_label,
 	*preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
 	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
+
 	if(integracoes.config.intgr_id){
 		intgr1_prod_button = gtk_button_new_with_label("Puxar");
 		intgr2_prod_button = gtk_button_new_with_label("Enviar");

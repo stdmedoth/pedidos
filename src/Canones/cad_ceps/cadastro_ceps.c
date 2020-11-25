@@ -1,3 +1,16 @@
+#include "campos/codigo.c"
+#include "campos/cep.c"
+#include "campos/logr_descricao.c"
+#include "campos/tipo_logr.c"
+#include "campos/uf.c"
+#include "campos/bairro.c"
+#include "campos/cidade.c"
+#include "cancelar.c"
+#include "concluir.c"
+#include "alterar.c"
+#include "excluir.c"
+
+
 int cad_cep(){
   GtkWidget *janela;
   janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);

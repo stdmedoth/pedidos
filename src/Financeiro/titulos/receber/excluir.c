@@ -51,7 +51,7 @@ int cad_rec_excluir_fun(){
       return 1;
     }
   }
-
+  notificacoes_button_update();
   popup(NULL,"Título deletado com sucesso");
 
   return 0;

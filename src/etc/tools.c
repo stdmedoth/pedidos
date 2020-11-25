@@ -1,5 +1,60 @@
 #include "sql_tools.c"
 
+char *floattochar(float floatnum){
+  char *number = malloc(12);
+  sprintf(number, "%.2f", floatnum);
+  return number;
+}
+
+
+char *inttochar(int intnum){
+  char *number = malloc(12);
+  sprintf(number, "%i", intnum);
+  return number;
+}
+
+// Function to replace a string with another
+// string
+// retirado de https://www.geeksforgeeks.org/c-program-replace-word-text-another-given-word/ em novembro de 2020
+char* replaceWord(const char* s, const char* oldW,
+                  const char* newW)
+{
+    char* result;
+    int i, cnt = 0;
+    int newWlen = strlen(newW);
+    int oldWlen = strlen(oldW);
+
+    // Counting the number of times old word
+    // occur in the string
+    for (i = 0; s[i] != '\0'; i++) {
+        if (strstr(&s[i], oldW) == &s[i]) {
+            cnt++;
+
+            // Jumping to index after the old word.
+            i += oldWlen - 1;
+        }
+    }
+
+    // Making new string of enough length
+    result = (char*)malloc(i + cnt * (newWlen - oldWlen) + 1);
+
+    i = 0;
+    while (*s) {
+        // compare the substring with the result
+        if (strstr(s, oldW) == s) {
+            strcpy(&result[i], newW);
+            i += newWlen;
+            s += oldWlen;
+        }
+        else
+            result[i++] = *s++;
+    }
+
+    result[i] = '\0';
+    return result;
+}
+
+
 void passar_campo(GtkWidget *widget,gpointer widget2)
 {
 	gtk_widget_grab_focus(widget2);
@@ -78,7 +133,7 @@ void doc_gerar_header(FILE *file, char *title){
 
 char  *string_to_int(char *string){
   int cont2=0;
-  char *formated_string = malloc(strlen(string));
+  char *formated_string = strdup(string);
   strcpy(formated_string,"");
 
   for(int cont=0;cont<strlen(string);cont++){
@@ -87,7 +142,8 @@ char  *string_to_int(char *string){
       cont2++;
     }
   }
-  formated_string[cont2] = '\0';
+
+	formated_string[cont2] = '\0';
   return formated_string;
 }
 
@@ -106,23 +162,23 @@ char *status_tit_str(int status){
 }
 
 char *formatar_data(char *data){
-	int dia=0,mes=0,ano=0;
+
+	int dia=0, mes=0, ano=0;
 	int formats_qnt=4;
 
-
-  if(!strlen(data)){
-    data = malloc(strlen(data_sys));
-    strcpy(data,data_sys);
+	if(!data || !strlen(data)){
+    data = strdup( data_sys );
   }
-	char *format = string_to_int(data);
-	//provaveis formatos de data
 
+	char *format = string_to_int(data);
+	if(!format)
+		return NULL;
+
+	//possiveis formatos de data
 	char *formats[] = {"%2d%2d%4d",
                     "%2d%2d%2d",
                     "%1d%1d%4d",
                     "%1d%1d%2d"};
-	if(!data)
-		return NULL;
 
 	for(int cont=0;cont<formats_qnt;cont++){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
@@ -130,17 +186,13 @@ char *formatar_data(char *data){
           ano += 2000;
 				GTimeZone *tz = g_time_zone_new(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);
-				if(!gdatetime){
-					if(cont>=formats_qnt){
-						popup(NULL,"Data incorreta");
-						return NULL;
-					}
-				}
-				else
+				if(gdatetime){
 					return g_date_time_format(gdatetime,"%d/%m/%Y");
+				}
 			}
 	}
-	popup(NULL,"Formato não encontrado");
+
+	popup(NULL,"Formato de data não identificado");
 	return NULL;
 }
 
@@ -171,18 +223,14 @@ void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeVi
 }
 
 void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-
 	return ;
 }
 
 void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-
 	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
-
 	return ;
 }
 

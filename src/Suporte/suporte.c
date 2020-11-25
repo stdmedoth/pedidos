@@ -17,9 +17,7 @@ int suporte_princ_wnd(){
   gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   gtk_window_set_default_size(GTK_WINDOW(janela),600,500);
-
-  if(personalizacao.janela_keep_above==1)
-    gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 
   caixa_postlist = gtk_box_new(1,0);
   scroll_postlist = gtk_scrolled_window_new(NULL,NULL);

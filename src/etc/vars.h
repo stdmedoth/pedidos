@@ -12,6 +12,7 @@ struct modulos
 	int faturamento;
 	int estoque;
 	int financeiro;
+	int marketing;
 	int relatorios;
 	int tecnicos;
 }ativar;

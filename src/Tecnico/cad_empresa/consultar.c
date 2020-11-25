@@ -37,6 +37,13 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_celular_entry),row[EMP_CEL_COL]);
   strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
+  strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_ie_entry),row[EMP_IE_COL]);
+  strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_im_entry),row[EMP_IM_COL]);
+  strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(cad_emp_regime_combo),atoi(row[EMP_REGTRIB_COL]));
+  strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
@@ -52,6 +59,7 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_email_entry),row[EMP_EMAIL_COL]);
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_emailsenha_entry),row[EMP_EMAILSEN_COL]);
+
 
   sprintf(query,"select * from tecn_pers_elem");
   if(!(res = consultar(query))){
@@ -87,8 +95,24 @@ int cad_emp_recebe(){
   }
   if(!(row = mysql_fetch_row(res))){
     cad_emp_prim=1;
-    popup(NULL,"Empresa sem informações");
-    return 1;
+    if(PopupBinario("Empresa ainda não informações, deseja criar um cadastro temporário?", "Sim! Criar agora", "Não! cadastrarei em breve")){
+      struct _maquina *maquina = maquinas_get_atual();
+      char *sobre = strdup("Uma base de gestão Calistu em criação");
+      if(maquina){
+        sprintf(query,"insert into empresa(razao, sobre) values('%s', '%s')",maquina->nome, sobre);
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível cadastrar base da empresa");
+          return 1;
+        }
+      }
+      sprintf(query,"select * from empresa");
+      if(!(res = consultar(query)) || !(row = mysql_fetch_row(res))){
+        popup(NULL,"Erro ao receber informações da empresa");
+        return 1;
+      }
+    }else{
+      return 1;
+    }
   }
 
   strcpy(cad_emp_strc.CNPJ,row[EMP_CNPJ_COL]);
@@ -106,6 +130,11 @@ int cad_emp_recebe(){
   cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   strcpy(cad_emp_strc.email,row[EMP_EMAIL_COL]);
   strcpy(cad_emp_strc.email_senha,row[EMP_EMAILSEN_COL]);
+  strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
+  strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
+  strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
+  strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
+
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
   }else{
@@ -121,9 +150,19 @@ int cad_emp_recebe(){
     popup(NULL,"Erro ao receber informações da empresa");
     return 1;
   }
+
   if(!(row = mysql_fetch_row(res))){
     person_tecn_prim=1;
-    popup(NULL,"Empresa sem informações Técnicas");
+    if(person_tecn_prim){
+			if(PopupBinario("Não há personalização, Deseja Criar?", "Sim! adiante meu serviço", "Não! prefiro fazer eu mesmo")){
+				sprintf(query,"insert into tecn_pers_elem(code, path_img_init, script_bin_path) values(%i, '%s' , '')",sessao_oper.code, INI_LOGO);
+				if(enviar_query(query)){
+					popup(NULL,"Não foi possível criar dados técnicos");
+				}else{
+          person_tecn_prim=0;
+        }
+			}
+		}
     return 1;
   }
 

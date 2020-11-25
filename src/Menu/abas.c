@@ -7,16 +7,20 @@ int menu(void)
 	GtkWidget *faturamento,*faturamento_label;
 	GtkWidget *estoque,    *estoque_label;
 	GtkWidget *financeiro, *financeiro_label;
+	GtkWidget *marketing, *marketings_label;
 	GtkWidget *relatorios, *relatorios_label;
 	GtkWidget *tecnicos, *tecnicos_label;
 
 	GtkWidget *lembrete_box, *lembrete_fixed , *lembrete_ico, *lembrete_label;
+	GtkWidget *principal_box, *principal_scroll;
 
 	//aba principal
 	GtkWidget *texto_sobre, *logo_img;
 	gchar *texto;
 	texto = malloc(2000);
 	logo_img = gtk_image_new_from_file(LOGO);
+	principal_scroll = gtk_scrolled_window_new(NULL,NULL);
+	principal_box = gtk_box_new(1,0);
 
 	strcpy(texto,cad_emp_strc.sobre);
 
@@ -26,6 +30,7 @@ int menu(void)
 	faturamento  = gtk_box_new(1,0);
 	estoque      = gtk_box_new(1,0);
 	financeiro   = gtk_box_new(1,0);
+	marketing     = gtk_box_new(1,0);
 	relatorios   = gtk_box_new(1,0);
 	tecnicos     = gtk_box_new(1,0);
 
@@ -38,6 +43,7 @@ int menu(void)
 	compras_label     = gtk_label_new("COMPRAS");
 	estoque_label     = gtk_label_new("ESTOQUE");
 	financeiro_label  = gtk_label_new("FINANCEIRO");
+	marketings_label  = gtk_label_new("MARKETING");
 	relatorios_label  = gtk_label_new("RELATÓRIOS");
 	tecnicos_label  = gtk_label_new("FERRAMENTAS TÉCNICAS");
 
@@ -54,6 +60,13 @@ int menu(void)
 	gtk_box_pack_start(GTK_BOX(lembrete_box),lembrete_label,0,0,0);
 */
 
+	//gtk_widget_set_size_request(GTK_WIDGET(principal_box),1100,380);
+	gtk_widget_set_size_request(GTK_WIDGET(principal_scroll),1100,380);
+	gtk_box_pack_start(GTK_BOX(principal_box),texto_sobre,0,0,0);
+	gtk_box_pack_start(GTK_BOX(principal_box),logo_img,0,0,50);
+	gtk_container_add(GTK_CONTAINER(principal_scroll), principal_box);
+	gtk_box_pack_start(GTK_BOX(principal),principal_scroll,0,0,0);
+
 	//inserindo abas
 	gtk_widget_set_name(lista_abas,"menu");
 	gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),principal,principal_label);
@@ -67,6 +80,8 @@ int menu(void)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),estoque,estoque_label);
 	if(ativar.financeiro)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),financeiro,financeiro_label);
+	if(ativar.marketing)
+		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),marketing,marketings_label);
 	if(ativar.relatorios)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),relatorios,relatorios_label);
 	if(ativar.tecnicos)
@@ -74,22 +89,27 @@ int menu(void)
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
 
-	gtk_box_pack_start(GTK_BOX(principal),texto_sobre,0,0,150);
-	gtk_box_pack_start(GTK_BOX(principal),logo_img,0,0,50);
-
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(cadastros),cadastrosl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(faturamento),faturamentol[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(compras),comprasl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(financeiro),financeirol[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(estoque),estoquel[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(relatorios),relatoriosl[cont],0,0,20);
+	for(cont=0;cont<LINE_ICO_QNT;cont++)
+		gtk_box_pack_start(GTK_BOX(marketing),marketingl[cont],0,0,20);
+
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
 		gtk_box_pack_start(GTK_BOX(tecnicos),tecnicosl[cont],0,0,20);
 
@@ -101,19 +121,15 @@ int menu(void)
 	return 0;
 }
 
-int tecla_menu(GtkWidget *widget,GdkEventKey *evento)
-{
-	switch(evento->keyval)
-	{
+gboolean tecla_menu (GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
+	switch(event->keyval){
 		case (ABRIR_MENU_TECLA):
-			if(controle_menu)
-			{
+			if(controle_menu){
 				gtk_widget_hide(lista_abas);
 				gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Menu");
 				controle_menu=0;
 			}
-			else
-			{
+			else{
 				gtk_widget_show_all(lista_abas);
 				gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Fecha");
 				controle_menu=1;

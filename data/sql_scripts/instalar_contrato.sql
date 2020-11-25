@@ -5,6 +5,7 @@ compras int default 0,
 faturamento int default 0,
 estoque int default 0,
 financeiro int default 0,
+marketing int default 0,
 relatorios int default 0,
 data_vencimento datetime default '2049-12-31');
 

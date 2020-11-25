@@ -2,3 +2,25 @@
   background-color: GainsBoro;
 
 }
+
+#infos_caixa{
+  font-size: 25px;
+  color: #ff5800;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px black;
+  font-family: fantasy;
+  opacity: 0.5;
+}
+
+#code_prod{
+  background-color: white;
+  padding: 2px;
+  border-bottom: 1px solid black;
+  border-radius: 10px;
+  font-size: 30px;
+  color: black;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px grey;
+  font-family: fantasy;
+  border: grey;
+}

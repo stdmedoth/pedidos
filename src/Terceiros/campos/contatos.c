@@ -1,44 +1,3 @@
-#define CTTO_ID_COL 0
-#define CTTO_TER_COL 1
-#define CTTO_NOME_COL 2
-#define CTTO_CEL_COL 3
-#define CTTO_TEL_COL 4
-#define CTTO_EMAIL_COL 5
-
-typedef struct _Contato
-{
-  gint   id;
-  gint ativo;
-  gchar *nome;
-  gchar *celular;
-  gchar *telefone;
-  gchar *email;
-}Contato;
-
-static int contatos_ter=0;
-static int contatos_qnt=0;
-static int cntt_exists[MAX_CNTTS_QNT];
-
-struct _Contato cntts[MAX_CNTTS_QNT];
-
-enum
-{
-  COLUMN_CTTO_ID,
-  COLUMN_CTTO_NOME,
-  COLUMN_CTTO_CEL,
-  COLUMN_CTTO_TEL,
-  COLUMN_CTTO_EMAIL,
-  NUM_ITEM_COLUMNS
-};
-
-enum
-{
-  COLUMN_NUMBER_TEXT,
-  NUM_NUMBER_COLUMNS
-};
-
-static GArray *cont_lis = NULL;
-
 static void
 add_items (int terceiro)
 {
@@ -509,12 +468,20 @@ int contatos_update(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
+
+  if(code_terc())
+    return 1;
+
+  contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<=contatos_qnt;cont++){
     if(cntts[cont].ativo){
 
       if(!cntts[cont].nome) cntts[cont].nome = "Nome";
+
       if(!cntts[cont].telefone) cntts[cont].telefone = "Telefone";
+
       if(!cntts[cont].celular) cntts[cont].celular = "Celular";
+
       if(!cntts[cont].email) cntts[cont].email = "Email";
 
       cntts[cont].id = cont;

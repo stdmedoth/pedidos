@@ -103,6 +103,7 @@ int cad_pag_concluir_fun(){
   else
     popup(NULL,"Título atualizado com sucesso");
 
+  notificacoes_button_update();
   cad_pag_cancelar_fun();
   return 0;
 }

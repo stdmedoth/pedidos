@@ -35,6 +35,10 @@ create table logs( descricao varchar (2000), data datetime);
 
 create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
   razao varchar(150) default 'Empresa Sem Nome',
+  ie varchar(20) default '',
+  im varchar(20) default '',
+  regime_tributario int default 1,
+  regime_issqn int default 1,
   cep varchar(15) default '' not null,
   endereco varchar(400) default '' not null,
   bairro  varchar(100) default '' not null,

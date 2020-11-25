@@ -10,10 +10,10 @@ int escolha_tipo_ter()
 	{
 		case TIPO_TER_NULL:
 			terci_tipo = 0;
-			if(terceiros.criticar.tipo==0)
-			{
+			if(terceiros.criticar.tipo==0){
 				strcpy(tipo_ter,"");
-				gtk_widget_grab_focus(prazo_ter_field);
+				gtk_combo_box_set_active(GTK_COMBO_BOX(type_ter_field),1);
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
 				return 0;
 			}
 			terci_tipo = TIPO_TER_NULL;

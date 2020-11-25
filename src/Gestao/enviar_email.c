@@ -34,7 +34,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
 
   GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
   char mensagem[1000];
-  char **headers_text = malloc(MAX_EMAIL_LEN*2+MAX_NAME_LEN+MAX_DATE_LEN+50);;
+  char **headers_text = malloc(sizeof(char *) * 5);;
 
   if(strlen(email_destino)<=0){
     popup(NULL,"Não há email para o cliente");
@@ -91,7 +91,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
   else
     strcpy(headers_text[2]," ");
 
-  headers_text[3] = malloc(MAX_NAME_LEN + 10);
+  headers_text[3] = malloc(MAX_NAME_LEN + 20);
   sprintf(headers_text[3],"Subject: Envio %s",cad_emp_strc.xNome);
 
   headers_text[4] = NULL;
@@ -211,10 +211,11 @@ int enviar_email_suporte( char *arquivo_suporte ){
   char sup_email[] = "jovictor210@gmail.com";
   GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
   enviando_email=1;
-  headers_text = malloc(1200);
-  headers_text[0] = malloc(300);
+  headers_text = malloc(sizeof(char*) * 3);
+
+  headers_text[0] = malloc(sizeof(char) * MAX_DATE_LEN +  + 20);
   sprintf(headers_text[0],"Date: %s",g_date_time_format(data,"%T"));
-  headers_text[1] = malloc(300);
+  headers_text[1] = malloc(sizeof(char) * MAX_NAME_LEN + 20);
   sprintf(headers_text[1],"Subject: Suporte %s",cad_emp_strc.xNome);
   headers_text[2] = NULL;
 

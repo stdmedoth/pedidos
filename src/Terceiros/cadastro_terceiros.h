@@ -1,28 +1,57 @@
 int inicializar_ter();
 int  cad_terc();
 
+struct _terc_infos{
+  int index;
+  int code;
+  char *razao;
+  char *ie;
+  char *doc;
+  int tipo_terc;
+  char *cep;
+  char *xLgr;
+  int i_nro;
+  char *c_nro;
+  char *xCpl;
+  char *xBairro;
+  char *xMun;
+  char *UF;
+};
+
+struct _Terceiros{
+  struct _terc_infos *terceiro;
+  int qnt;
+};
+
 //variaveis referentes ao campos em campos/vars/campos_ter.h
 
 static int concluindo_ter=0;
 static int ter_com_entrega = 0;
 
-#define COD_TER_COL 0
-#define COD_TER_NFE_COL 1
-#define RAZ_TER_COL 2
-#define DOC_TER_COL 3
-#define IE_TER_COL 4
-#define TDOC_TER_COL 5
-#define TIPC_TER_COL 6
-#define TIPI_TER_COL 7
-#define CEP_TER_COL 8
-#define END_TER_COL 9
-#define BAIR_TER_COL 10
-#define CID_TER_COL 11
-#define UF_TER_COL 12
-#define REND_TER_COL 13
-#define CPLMNT_TER_COL 14
-#define TRUA_TER_COL 15
+enum TER_SETOR{
+  SETOR_INDUSTRIAL,
+  SETOR_COMERCIAL,
+  SETOR_PREST_SERV
+};
 
+enum{
+  COD_TER_COL,
+  COD_TER_NFE_COL,
+  RAZ_TER_COL,
+  DOC_TER_COL,
+  IE_TER_COL,
+  TDOC_TER_COL,
+  TIPC_TER_COL,
+  TIPI_TER_COL,
+  CEP_TER_COL,
+  END_TER_COL,
+  CPLMNT_TER_COL,
+  BAIR_TER_COL,
+  CID_TER_COL,
+  UF_TER_COL,
+  REND_TER_COL,
+  TRUA_TER_COL
+};
 /*
 #define TEL_TER_COL 16
 #define CTEL_TER_COL 17
@@ -52,5 +81,7 @@ static int ter_com_entrega = 0;
 #define TER_PAGE_ITENS 0
 #define TER_PAGE_TRSP 1
 #define TER_PAGE_OUTR 2
+
+#define MAX_TERC_QNT 100;
 
 #include "campos.h"

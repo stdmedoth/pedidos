@@ -1,3 +1,27 @@
+#bar_buttons_princ:hover{
+  background: #9ACD32;
+  color: white;
+}
+
+#bar_buttons_secondary:hover{
+  background: orange;
+}
+
+#bar_buttons_tertiary:hover{
+  background: Gainsboro;
+}
+
+#bar_buttons_notif{
+  color: white;
+  padding: 5px;
+  background: #ca4a1f;
+  border-radius: 20px;
+}
+
+#bar_buttons_cancell:hover{
+  background: red;
+}
+
 #caixa_frame{
   border: solid #dcdcdc 1px;
 }
@@ -8,11 +32,6 @@
 
 #acao_atual{
   color: green;
-}
-
-#botao_iniciar{
-  background-color: white;
-  border-radius: 5px;
 }
 
 #barra{

@@ -1,9 +1,10 @@
-#define IMP_PATH1 1
-#define IMP_PATH2 2
-#define IMP_PATH3 3
-
-#define PDF_IMP 4
-#define HTML_IMP 5
+enum{
+	IMP_PATH1,
+	IMP_PATH2,
+	IMP_PATH3,
+	PDF_IMP,
+	HTML_IMP
+};
 
 static GtkWidget *imp_botao_radio1,*imp_botao_radio2,*imp_botao_radio3,*imp_botao_radio4, *imp_botao_radio5;
 static int imps_qnt=0, navs_qnt=0;
@@ -34,6 +35,9 @@ int iniciar_impressao(char *gerado)
 	char chamada[strlen(COPY_PROG)+strlen(gerado)+MAX_PATH_LEN*2];
 	GSubprocess *processo=NULL;
 	GError *erro=NULL;
+
+	while (g_main_context_pending(NULL))
+		g_main_context_iteration(NULL,FALSE);
 
 	switch (imp_opc)
 	{
@@ -75,11 +79,13 @@ int iniciar_impressao(char *gerado)
 			break;
 	}
 
-	g_usleep(G_USEC_PER_SEC*2);
 	if(imp_opc == PDF_IMP || imp_opc == HTML_IMP){
 
 		processo=NULL;
 		erro=NULL;
+
+		while (g_main_context_pending(NULL))
+			g_main_context_iteration(NULL,FALSE);
 
 		if(navegadores.navegador_pdr == 1){
 			sprintf(chamada,"%s %s",navegadores.navegador_path1,gerado);
@@ -118,6 +124,7 @@ int desenhar_pdf(char *gerando_file)
 
 	GSubprocess *processo = g_subprocess_new(G_SUBPROCESS_FLAGS_STDOUT_SILENCE,&erro,
 		PDF_GEN,
+		"--quiet",
 		"--enable-local-file-access",
 		"--print-media-type",
 		"--page-size",
@@ -135,8 +142,8 @@ int desenhar_pdf(char *gerando_file)
 
 		if(iniciar_impressao(gerado))
 			return 1;
-		else
-			popup(NULL,"Processo finalizado");
+		//else
+		//	popup(NULL,"Processo finalizado");
 	}
 
 	return 0;

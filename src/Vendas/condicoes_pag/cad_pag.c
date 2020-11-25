@@ -7,10 +7,7 @@ int cad_pag(){
   GtkWidget *pag_psq_cod_box;
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   char code[MAX_CODE_LEN];
-
-  if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
-
+  gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
   gtk_window_set_position(GTK_WINDOW(janela),3);
   gtk_window_set_title(GTK_WINDOW(janela),"Condições de pagamento");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"x-office-calendar");

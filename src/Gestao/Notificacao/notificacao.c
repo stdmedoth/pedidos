@@ -3,36 +3,74 @@ int notificacoes_receber(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+1");
-  if((res = consultar(query))){
-  	if((row = mysql_fetch_row(res))!=NULL){
-      notificacao_pendencias = 1;
-    }else{
-      notificacao_pendencias = 0;
-    }
-  }
+  notificacao_pendencias = 0;
 
+  sprintf(query,
+    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+%i"
+    ,NOTF_DIAS);
+
+  if((res = consultar(query))){
+    notificacao_pendencias += mysql_num_rows(res);
+  }
   return 0;
 }
 
-int notificacoes_criar(){
+int notificacoes_button_update(){
+
+  gtk_button_set_image(GTK_BUTTON(penden_button),gtk_image_new_from_file(EMBLEM_GENERIC));
+  notificacoes_receber();
+  if(!notificacao_pendencias)
+    gtk_button_set_label(GTK_BUTTON(penden_button),"");
+  else{
+    gchar *qnt = malloc(30);
+    sprintf(qnt,"%i",notificacao_pendencias);
+
+    GtkWidget *child = gtk_bin_get_child(GTK_BIN(penden_button));
+    if(child)
+      gtk_widget_destroy(child);
+
+    GtkWidget *circle = gtk_layout_new(NULL,NULL);
+    GtkWidget *label = gtk_label_new(qnt);
+    GtkWidget *box = gtk_box_new(0,0);
+
+    gtk_box_pack_start(GTK_BOX(box), label,0,0,0);
+    gtk_widget_set_name(box,"bar_buttons_notif");
+    GtkWidget *image = gtk_image_new_from_file(EMBLEM_GENERIC);
+    GtkWidget *evento = gtk_event_box_new();
+
+    gtk_widget_set_size_request(GTK_WIDGET(box),20,20);
+    gtk_layout_set_size(GTK_LAYOUT(circle),40,40);
+    gtk_layout_put(GTK_LAYOUT(circle),box,20,20);
+    gtk_layout_put(GTK_LAYOUT(circle),image,0,0);
+    gtk_container_add(GTK_CONTAINER(evento),circle);
+    gtk_widget_set_events(evento,GDK_BUTTON_PRESS_MASK);
+    g_signal_connect(evento,"button_press_event",G_CALLBACK(notificacoes_wnd),NULL);
+
+    gtk_container_add(GTK_CONTAINER(GTK_BIN(penden_button)),evento);
+    gtk_widget_show_all(penden_button);
+  }
 
   return 0;
 }
 
 void notificacoes_wnd(){
   GtkWidget *notf_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  enum{
-    NOME_COL,
-    DESCR_COL,
-    STAT_COL
-  };
-
   /*registrando a janela para o reg_win*/
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].reg_id = REG_NOTIF;
 	if(ger_janela_aberta(notf_wnd, &janelas_gerenciadas.vetor_janelas[REG_NOTIF]))
 		return ;
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].janela_pointer = notf_wnd;
+
+  g_signal_connect(notf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_NOTIF]);
+  
+  gtk_widget_set_name(notf_wnd,"notificacoes");
+	gtk_window_set_position(GTK_WINDOW(notf_wnd),3);
+	gtk_window_set_resizable(GTK_WINDOW(notf_wnd),FALSE);
+	gtk_window_set_title(GTK_WINDOW(notf_wnd),"Notificações");
+	gtk_window_set_icon_name(GTK_WINDOW(notf_wnd),"software-update-urgent");
+	gtk_window_set_transient_for(GTK_WINDOW(notf_wnd),GTK_WINDOW(janela_principal));
+	gtk_container_set_border_width (GTK_CONTAINER (notf_wnd), 10);
+
 
   GtkWidget *notf_box = gtk_box_new(1,0);
   GtkWidget *notf_scroll = gtk_scrolled_window_new(NULL,NULL);
@@ -41,7 +79,13 @@ void notificacoes_wnd(){
   GtkTreeIter campos;
   MYSQL_RES *res;
   MYSQL_ROW row;
+
   char query[MAX_QUERY_LEN];
+  enum{
+    NOME_COL,
+    DESCR_COL,
+    STAT_COL
+  };
 
   GtkTreeViewColumn *coluna_nome = gtk_tree_view_column_new_with_attributes(
     "Nome",
@@ -132,12 +176,10 @@ void notificacoes_wnd(){
   gtk_container_add(GTK_CONTAINER(notf_frame),notf_scroll);
   gtk_container_add(GTK_CONTAINER(notf_wnd),notf_frame);
 
-  gtk_widget_set_size_request(notf_scroll,600,300);
-  gtk_widget_set_size_request(notf_box,600,300);
-  gtk_widget_set_size_request(notf_wnd,600,300);
+  gtk_widget_set_size_request(notf_scroll,900,400);
+  gtk_widget_set_size_request(notf_box,900,400);
+  gtk_widget_set_size_request(notf_wnd,900,400);
 
   gtk_widget_show_all(notf_wnd);
-
-  g_signal_connect(notf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_NOTIF]);
   return ;
 }

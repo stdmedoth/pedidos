@@ -66,6 +66,7 @@ static int concluir_orc(){
 	{
 		if( ativos[cont].id == 1 && produto_inserido[cont] == 1 )
 		{
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0){
 				gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
 				return 1;
@@ -132,6 +133,7 @@ static int concluir_orc(){
 			while (g_main_context_pending(NULL))
 				g_main_context_iteration(NULL,FALSE);
 
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 			if(codigo_cli_orc()!=0)
 				return 1;
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)!=0)
@@ -238,23 +240,15 @@ static int concluir_orc(){
 	orc_infos.observacoes,
 	codigo_orc_gchar);
 
-	erro = enviar_query(query);
-	if(erro != 0 )
-	{
-
+	if(enviar_query(query)){
 		popup(NULL,"Erro ao tentar calcular total");
 		autologger("Erro ao tentar calcular total");
 		return 1;
 	}
-
 	finalizacao_orc();
-
 	cancela_orc();
-
 	popup(NULL,"Orcamento concluido");
-
 	sprintf(code,"%i",tasker("orcamentos"));
-
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),code);
 	gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_entry),"");

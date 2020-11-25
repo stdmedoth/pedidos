@@ -8,17 +8,19 @@
 #define ORC_TOTAL_COL 7
 #define ORC_OBS__COL 8
 
-enum{
-ORC_PROD_COD_COL,
-ORC_PROD_ITM_COL,
-ORC_PROD_PROD_COL,
-ORC_PROD_UND_COL,
-ORC_PROD_VLR_COL,
-ORC_PROD_VLR_ORIG_COL,
-ORC_PROD_TIP_DESC_COL,
-ORC_PROD_DESC_COL,
-ORC_PROD_TOTAL_COL,
-ORC_PROD_OBS_COL
+#define MAX_PROD_ORC 990
+
+enum ORC_PROD_COLS{
+	ORC_PROD_COD_COL,
+	ORC_PROD_ITM_COL,
+	ORC_PROD_PROD_COL,
+	ORC_PROD_UND_COL,
+	ORC_PROD_VLR_COL,
+	ORC_PROD_VLR_ORIG_COL,
+	ORC_PROD_TIP_DESC_COL,
+	ORC_PROD_DESC_COL,
+	ORC_PROD_TOTAL_COL,
+	ORC_PROD_OBS_COL
 };
 
 struct _orc_estoque_prods{
@@ -30,17 +32,22 @@ struct _orc_estoque_prods{
 	int mov_qnt;
 };
 
-static struct _orc_estoque{
+struct _orc_estoque{
 	struct _orc_estoque_prods **produtos;
-}orc_estoque;
+}static orc_estoque;
 
 
 static struct _orc_itens
 {
 	int id;
 	int item;
+	char item_c[12];
 	int produto;
+	char produto_c[12];
 	char produto_nome[MAX_NAME_LEN];
+	char CFOP[5];
+	char cEAN[15];
+	char NCM[10];
 	float qnt_f;
 	float preco_f;
 	float desconto_f;
@@ -115,6 +122,7 @@ GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
 
+int orig_preco_prod_orc(GtkWidget *widget,int posicao);
 static int vnd_orc();
 
 static int recebendo_prod_orc=0;
@@ -126,7 +134,6 @@ static int excluindo_orc=0;
 static int aviso_estoque[MAX_PROD_ORC];
 static int orc_pag_cond_activated=0;
 
-static int movendo_scroll=0;
 static int adicionando_linha_ignore=0;
 
 static int pag_cond=0, tipo_pag=0;

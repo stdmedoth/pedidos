@@ -63,11 +63,10 @@ int relat_mov_query_fun()
 	if(relat_mov_cresc_int==1)
 		strcat(filtros_order_by," desc");
 
-	sprintf(filtros_query_gchar,"where m_e.code >= %i and m_e.code <= %i and m_e.cliente >= %i and m_e.cliente <= %i and m_e.produto >= %i and m_e.produto <= %i and m_e.subgrupo >= %i and m_e.subgrupo <= %i and m_e.pedido >= %i and m_e.pedido <= %i %s %s",
+	sprintf(filtros_query_gchar,"where m_e.code >= %i and m_e.code <= %i and m_e.cliente >= %i and m_e.cliente <= %i and m_e.produto >= %i and m_e.produto <= %i and m_e.pedido >= %i and m_e.pedido <= %i %s %s",
 	relat_mov_int1_mov_int, relat_mov_int2_mov_int,
 	relat_mov_int1_ter_int, relat_mov_int2_ter_int,
 	relat_mov_int1_prod_int, relat_mov_int2_prod_int,
-	relat_mov_int1_grp_int, relat_mov_int2_grp_int,
 	relat_mov_int1_ped_int, relat_mov_int2_ped_int,
 	tipo_mov_query,
 	filtros_order_by);

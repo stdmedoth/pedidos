@@ -33,6 +33,7 @@ int codigo_cli_orc()
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));
+	orc_transp_frete_pago_loaded=1;
 	if(strlen(cliente_orc_gchar)<=0)
 	{
 		popup(NULL,"O código cliente deve ser inserido");
@@ -47,7 +48,7 @@ int codigo_cli_orc()
 		return 1;
 	}
 
-	sprintf(query,"select razao,endereco,obs,prazo,transp_code,transp_cep from terceiros where code = %s",cliente_orc_gchar);
+	sprintf(query,"select razao,endereco,obs,prazo,transp_code,transp_cep,frete_pago,vlr_frete_pago from terceiros where code = %s",cliente_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{
@@ -65,6 +66,14 @@ int codigo_cli_orc()
 		return 1;
 	}
 	orc_infos.cliente = atoi(cliente_orc_gchar);
+
+	if(atoi(campos[6])){
+		orc_transp_frete_pago_int = 1;
+		orc_transp_frete_pago_vlr = atof(campos[7]);
+	}else{
+		orc_transp_frete_pago_int = 0;
+		orc_transp_frete_pago_vlr = 0;
+	}
 
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);

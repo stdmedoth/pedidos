@@ -45,7 +45,8 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
     }
     cont++;
   }
-  gtk_widget_set_sensitive (operador_combo, FALSE);
+	if(sessao_oper.nivel < NIVEL_GERENCIAL)
+  	gtk_widget_set_sensitive (operador_combo, FALSE);
 
   GtkWidget *operador_frame = gtk_frame_new("Operador");
 	gtk_container_add(GTK_CONTAINER(operador_frame), operador_combo);
@@ -64,7 +65,8 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
     }
     cont++;
   }
-  gtk_widget_set_sensitive (maquina_combo, FALSE);
+	if(sessao_oper.nivel < NIVEL_GERENCIAL)
+  	gtk_widget_set_sensitive (maquina_combo, FALSE);
 
   GtkWidget *maquina_frame = gtk_frame_new("Máquina");
 	gtk_container_add(GTK_CONTAINER(maquina_frame), maquina_combo);
@@ -105,9 +107,8 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
         return 1;
       }
 			return 0;
-
 	}
-
+	gtk_widget_destroy(janela);
 	return 1;
 }
 
@@ -188,6 +189,7 @@ void signal_caixa_encerramento(GtkWidget *button, struct _caixa *caixa){
 	return ;
 }
 
+
 int janela_caixa_encerrar(struct _caixa *caixa){
   if(!caixa){
     popup(NULL,"Erro ao processar caixa atual");
@@ -215,6 +217,7 @@ int janela_caixa_encerrar(struct _caixa *caixa){
 
   return 0;
 }
+
 
 struct _caixa *caixa_get_aberto(struct _maquina *maquina){
 

@@ -14,6 +14,7 @@
 #include "criticas.c"
 #include "pesquisador.c"
 #include "css.c"
+#include "http.c"
 #include "impressao.c"
 #include "temas.c"
 #include "barra_icones.c"
@@ -43,6 +44,7 @@
 #include "../pesquisadores/fin_rec.c"
 #include "../pesquisadores/fin_pag.c"
 #include "../pesquisadores/cidades.c"
+#include "../pesquisadores/requisicoes.c"
 #include "../pesquisadores/bancos.c"
 #include "../pesquisadores/serv_transporte.c"
 
@@ -59,11 +61,10 @@
 #include "../Unidades/cadastro_unidades.c"
 
 #include "../Compras/cadastro_compras.c"
-#include "../Compras/cotacao.c"
-#include "../Compras/entradas.c"
-#include "../Compras/ordem.c"
-#include "../Compras/solicitacao.c"
-
+#include "../Compras/entradas/entradas.c"
+#include "../Compras/ordens/ordem.c"
+#include "../Compras/cotacoes/cotacao.c"
+#include "../Compras/solicitacoes/solicitacao.c"
 
 #include "../Vendas/condicoes_pag/cad_pag.c"
 #include "../Vendas/condicoes_pag/campos/pag_cod.c"
@@ -148,6 +149,9 @@
 #include "../Relatorios/fixados/estoques/principal.c"
 #include "../Relatorios/fixados/financeiro/receber/principal.c"
 #include "../Relatorios/fixados/financeiro/pagar/principal.c"
+
+#include "../Marketing/analises/analisar.c"
+#include "../Marketing/emails/modela_email.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"

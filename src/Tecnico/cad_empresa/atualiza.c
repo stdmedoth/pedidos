@@ -6,16 +6,20 @@ int cad_emp_atualiza(){
 
   GtkTextBuffer *sobre_buffer;
 
-  char *nome,*cnpj,*logr,*cep,
+  char *nome,*cnpj,*ie,*im,*logr,*cep,
   *bairro,*cidade,*uf,*telefone,
   *celular, *smtp_server,*smtp_port,
   *email, *senhaemail, *sobre, *path_img_init,
   *path_script;
 
-  int numrua,tiporua;
+  int numrua,tiporua,regime_trib,regime_issq;
 
   nome = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_nome_entry));
   cnpj = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_cpnj_entry));
+  ie = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_ie_entry));
+  im = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_im_entry));
+  regime_trib = gtk_combo_box_get_active(GTK_COMBO_BOX(cad_emp_regime_combo));
+  regime_issq = 1;//gtk_combo_box_get_active(GTK_COMBO_BOX(cad_emp_regime_combo));
   logr = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_logr_entry));
   cep = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_cep_entry));
   bairro = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_bairro_entry));
@@ -41,15 +45,16 @@ int cad_emp_atualiza(){
   char *char_cnpj = string_to_int(cnpj);
   //informativos
   if(cad_emp_prim){
-    sprintf(query,"insert into empresa values('%s','%s','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
-    char_cnpj, nome,cep, logr, bairro,
+    sprintf(query,
+      "insert into empresa(cnpj,razao, ie, im, regime_tributario, regime_issqn, cep, endereco, bairro, cidade, uf, numrua, tiporua, telefone, celular, smtp, porta, email, senhaemail, sobre ) \
+      values('%s','%s', '%s', '%s', '%i','%i','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
+    char_cnpj, nome, ie, im, regime_trib, regime_issq,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular,smtp_server, atoi(smtp_port), email, senhaemail,sobre);
-
   }else{
 
-    sprintf(query,"update empresa set cnpj = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
-    char_cnpj, nome  ,cep, logr, bairro,
+    sprintf(query,"update empresa set cnpj = '%s', ie = '%s', im = '%s', regime_tributario = '%i', regime_issqn = '%i', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
+    char_cnpj, ie, im, regime_trib, regime_issq, nome  ,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular, smtp_server, atoi(smtp_port), email, senhaemail, sobre);
   }
@@ -79,6 +84,7 @@ int cad_emp_atualiza(){
   }
   if(cad_emp_recebe())
     return 1;
+  cad_emp_prim=0;
   popup(NULL,"Informações atualizadas com suceeso");
 
   return 0;
