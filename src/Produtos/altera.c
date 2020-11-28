@@ -3,13 +3,13 @@ int altera_prod()
 	char task[10];
 	char query[MAX_QUERY_LEN];
 	char *row;
-	MYSQL_RES *vetor;
-	MYSQL_ROW campo;
+	MYSQL_RES *vetor, *res;
+	MYSQL_ROW campo, mrow;
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.cst, p.origem,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -36,17 +36,37 @@ int altera_prod()
 	sprintf(row,"%.2f",atof(campo[PROD_PRC_COL]));
 	gtk_entry_set_text(GTK_ENTRY(preco_prod_field),row);
 
-	strcpy(row,campo[PROD_GRP_COL]);
+	row = strdup(campo[PROD_GRP_COL]);
 	gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),row);
 
-	strcpy(row,campo[PROD_FORN_COL]);
+	row = strdup(campo[PROD_FORN_COL]);
 	gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),row);
 
-	strcpy(row,campo[PROD_UND_COL]);
+	row = strdup(campo[PROD_UND_COL]);
 	gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),row);
 
-	strcpy(row,campo[PROD_UND_ATAC_COL]);
+	row = strdup(campo[PROD_UND_ATAC_COL]);
 	gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),row);
+
+	row = strdup(campo[PROD_NCM_COL]);
+	sprintf(query, "select cod_ncm from ncm where code = '%s'", row);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar NCM base");
+		return 1;
+	}
+	if(!(mrow = mysql_fetch_row(res))){
+		popup(NULL,"NCM base não existente");
+		return 1;
+	}else{
+		row = strdup(mrow[0]);
+		gtk_entry_set_text(GTK_ENTRY(prod_ncm_entry),row);
+	}
+
+	row = strdup(campo[PROD_CST_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_cst_combo),row);
+
+	row = strdup(campo[PROD_ORIGEM_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_origem_combo),row);
 
 	strcpy(observacoes_prod,campo[PROD_OBS_COL]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));

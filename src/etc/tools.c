@@ -1,11 +1,45 @@
 #include "sql_tools.c"
 
+char *abrevia_text(char *text) {
+
+  if(!text)
+    return NULL;
+
+  int tamanho = strlen(text);
+  char *token = strtok(text, " ");
+  char *texto_todo=NULL;
+  char *texto_todo2=NULL;
+
+  while(token) {
+
+    char *token2 = strdup(token);
+    if(strlen(token2)>5){
+      token2[5] = '.';
+      token2[6] = '\0';
+    }
+
+    if(texto_todo2){
+      texto_todo2 = realloc(texto_todo2, strlen(texto_todo) + strlen(token2) + 2);
+      sprintf(texto_todo2, "%s %s", texto_todo, token2);
+    }
+    else{
+      texto_todo2 = malloc( strlen(token2) + 2 );
+      sprintf(texto_todo2, "%s ",token2);
+    }
+
+    texto_todo = strdup(texto_todo2);
+
+    printf("\n%s", texto_todo);
+    token = strtok(NULL, " ");
+  }
+  return texto_todo;
+}
+
 char *floattochar(float floatnum){
   char *number = malloc(12);
   sprintf(number, "%.2f", floatnum);
   return number;
 }
-
 
 char *inttochar(int intnum){
   char *number = malloc(12);

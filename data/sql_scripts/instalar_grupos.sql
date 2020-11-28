@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `grupos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `grupos` (
-  `code` int NOT NULL AUTO_INCREMENT,
+  `code` int NOT NULL,
   `pai` int DEFAULT '0',
   `nome` varchar(50) DEFAULT 'Grupo Sem Nome',
   `nivel` int DEFAULT '1',
@@ -37,7 +37,6 @@ CREATE TABLE `grupos` (
 
 LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
-INSERT INTO `grupos` VALUES (1,1,'RAIZ',1),(2,1,'Papelão',1),(3,2,'Cinza',2),(4,2,'Face Branca',2),(5,2,'Bolacha de Chopp',2),(6,2,'Folha Avulsa',2),(7,1,'Percalux',1),(8,7,'Liso',2),(9,8,'1,30 Larg. - 25 MT',3),(10,8,'1,30 Larg - 50 MT',3),(11,8,'1,30 Larg - Avulso',3),(12,7,'Metalizado',2),(13,12,' 1,30 Larg./25M',3),(14,12,'1,30 Larg - Avulso',3),(15,7,'Bicolor',2),(16,7,'Ouro',2),(17,7,'Bronze',2),(18,15,'1,30 Larg./25M',3),(19,16,'1,30 Larg./25M',3),(20,17,'1,30 Larg./25M',3),(21,15,'1,30 Larg. - Avulso',3),(22,16,'1,30 Larg. - Avulso',3),(23,17,'1,30 Larg. - Avulso',3),(24,1,'Cabeceado',1),(25,24,' Fita Algodão',2),(26,24,'Filho Acetinado',2),(27,25,'50M -  PCT',3),(28,25,'100M - PCT',3),(29,25,'Metro Diverso - PCT',3),(30,1,'Cola',1),(31,30,'Artecola',2),(32,31,'Litro',3),(33,31,'Galão 5 Litro',3),(34,31,'Balde 10KG',3),(35,1,'Linha ',1),(37,35,'N° 30',2),(38,37,'Capa Dura 2,500M ',3),(39,38,'Marca Cifa',4),(40,35,'N° 10',2),(41,40,'Capa Dura 300M',3),(42,41,'Marca Cifa',4),(43,35,'N° 4',2),(44,43,' Capa Dura 200M',3),(45,44,' Marca Cifa',4),(46,1,'Papel Offset',1),(50,46,' Pacote C/ 250FOLHAS',2),(51,50,'TAM. 66 X 96',3),(52,1,'Película',2),(53,52,'Printek',3),(54,53,'10CM X 122M',4),(55,54,' DIV. Cores',5),(56,53,'15CM X 122M -',4),(57,56,'Ouro',4),(59,53,'20CM X 122M',4),(60,59,'Ouro',4),(61,1,'Resistência',1),(62,61,' HOT STAMP TR2',2),(63,62,'100/220VOLTS',3),(64,1,'Espiral',1),(65,64,'Preta',2),(66,64,'Trasparente',2),(67,64,'Cores',2);
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

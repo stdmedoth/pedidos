@@ -88,7 +88,7 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
 		terceiros->UF = strdup(row[CEP_UF_COL]);
 	}else{
-		popup(NULL,"Não foi possível consultar endereços da entrega");
+		popup(NULL,"Cliente/Fornecedor sem endereço!");
     return NULL;
 	}
 

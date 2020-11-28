@@ -9,7 +9,6 @@ int add_icones(void);
 #define FIN_ICO_QNT 6
 #define MKT_ICO_QNT 2
 #define REL_ICO_QNT 6
-#define TCN_ICO_QNT 1
 
 GtkWidget **eventos;
 

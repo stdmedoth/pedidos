@@ -327,7 +327,7 @@ int pesquisa_subgrp()
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(find_subgrupos_restrict->entry);
-
+	
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_subgrp_code),treeview);
 	gtk_widget_show_all(psq_subgrp_wnd);
 	return 0;

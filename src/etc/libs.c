@@ -166,5 +166,6 @@
 #include "../Kanban/kanban.c"
 
 #include "../Tecnico/cad_empresa/cad_empresa.c"
+#include "../Tecnico/contratos/contratos.c"
 
 #include "../Canones/gerenciador_janelas.c"

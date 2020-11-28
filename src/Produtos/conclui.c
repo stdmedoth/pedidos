@@ -35,10 +35,24 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
-	if(und_atac_prod()!=0){
+	if(und_atac_prod()){
 		gtk_widget_grab_focus(unidade_prod_field);
 		return 1;
 	}
+	if(prod_ncm_fun()){
+		gtk_widget_grab_focus(prod_ncm_entry);
+		return 1;
+	}
+	if(prod_origem_fun()){
+		gtk_widget_grab_focus(prod_origem_combo);
+		return 1;
+	}
+	if(prod_cst_fun()){
+		gtk_widget_grab_focus(prod_cst_combo);
+		return 1;
+	}
+
+
 	if(obs_prod()!=0){
 
 		return 1;

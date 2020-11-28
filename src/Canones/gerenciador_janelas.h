@@ -45,6 +45,7 @@ REG_ORDCMP_WND,
 REG_ENTCMP_WND,
 REG_ANLMKT_PROD,
 REG_MODMAIL_PROD,
+REG_CAD_CNTRATS,
 REG_WIN_QNT,
 };
 
@@ -97,7 +98,8 @@ static const char *janelas_nomes[] = {
   "Ordem de Compra",
   "Entrada de Documentos",
   "Análise de Marketing",
-  "Modelo de Emails"
+  "Modelo de Emails",
+  "Cadastro de Contratos"
 };
 
 typedef struct _janelas_info{

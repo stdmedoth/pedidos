@@ -29,6 +29,8 @@ struct _cfe_produto{
   char *cEAN;
   char *xProd;
   char *NCM;
+  char *CST;
+  char *Orig;
   char *CFOP;
   char *uCom;
   char *qCom;

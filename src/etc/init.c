@@ -109,13 +109,13 @@ int desktop(){
 
 	if(ativar.ativo){
 		if((row = mysql_fetch_row(res))!=NULL){
-			ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
-			ativar.compras=atoi(row[CONTRATO_CMP_COL]);
-			ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
-			ativar.estoque=atoi(row[CONTRATO_EST_COL]);
-			ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
-			ativar.marketing=atoi(row[CONTRATO_MKT_COL]);
-			ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
+			ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
+			ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
+			ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
+			ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
+			ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
+			ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
+			ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
 		}else{
 			popup(NULL,"Não há lista de permissões");
 			return 1;
@@ -432,6 +432,7 @@ int init()
 		strcpy((char*)path[n_elements-1],ICON_PATH);
 		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 	}
+
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 

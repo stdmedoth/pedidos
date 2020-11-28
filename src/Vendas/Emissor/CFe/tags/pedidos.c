@@ -9,24 +9,31 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   if(!pCFe)
     return NULL;
 
+  autologger("Base do cupom criada");
   if(!ini_cupom_xml(pCFe))
     return NULL;
 
+  autologger("Xml do cupom inicializada");
   if(!add_ide_xml(pCFe))
     return NULL;
 
+  autologger("Dados do software adicionados");
   if(!add_emit_xml(pCFe))
     return NULL;
 
+  autologger("Dados do emitente adicionados");
   struct _terc_infos *destino = terceiros_get_terceiro(pedido->infos->cliente_code);
   if(!destino)
     return NULL;
 
   if(!add_dest_xml(pCFe, destino))
     return NULL;
+  autologger("Dados do destinatário adicionados");
+
   if(!add_entrega_xml(pCFe, destino))
     return NULL;
 
+  autologger("Dados da entrega adicionados");
   struct _cfe_det *detalhamentos = malloc(sizeof(struct _cfe_det));
   pCFe->det = detalhamentos;
 
@@ -44,6 +51,7 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
 
   if(!add_dets_xml(pCFe))
     return NULL;
-
+  autologger("Detalhamentos adicionados");
+  autologger("XML gerado");
   return pCFe;
 }

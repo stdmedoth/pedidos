@@ -23,12 +23,12 @@ struct _cfe_imposto *get_cupom_impostos(struct _CFe *cupom){
 
   for(int item=0;item<cupom->det->itens_qnt;item++){
 
-
     float valortotalitem = atof(cupom->det->produtos[item].qCom) * atof(cupom->det->produtos[item].vUnCom);
     float vicms = valortotalitem * fAlICMS / 100;
 
-    imposto[item].ICMSCST = strdup(csticms);
-    imposto[item].Orig = strdup(prod_origem);
+    imposto[item].ICMSCST = strdup(cupom->det->produtos[item].CST);
+
+    imposto[item].Orig = strdup(cupom->det->produtos[item].Orig);
     imposto[item].pICMS = strdup(cAlICMS);
 
     imposto[item].PISAliqCST = strdup(cAlICMS);

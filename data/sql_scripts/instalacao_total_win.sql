@@ -13,6 +13,9 @@ source C:/pedidos/files/sql_scripts/instalar_logradouros.sql
 source C:/pedidos/files/sql_scripts/instalar_parametros.sql
 source C:/pedidos/files/sql_scripts/instalar_precos_grupos.sql
 source C:/pedidos/files/sql_scripts/instalar_precos.sql
+source C:/pedidos/files/sql_scripts/instalar_cfops.sql
+source C:/pedidos/files/sql_scripts/instalar_ncms.sql
+source C:/pedidos/files/sql_scripts/instalar_cst.sql
 source C:/pedidos/files/sql_scripts/instalar_produtos.sql
 source C:/pedidos/files/sql_scripts/instalar_relatorios.sql
 source C:/pedidos/files/sql_scripts/instalar_suporte.sql

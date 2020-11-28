@@ -158,6 +158,7 @@
 #include "../Integracoes/woocommerce/clientes.h"
 
 #include "../Tecnico/cad_empresa/cad_empresa.h"
+#include "../Tecnico/contratos/contratos.h"
 
 #include "../Estoque/cadastro/conclui.h"
 #include "../Estoque/cadastro/cancela.h"

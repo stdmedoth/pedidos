@@ -19,7 +19,7 @@ xmlNode *add_entrega_xml(struct _CFe *cfe_struct, struct _terc_infos *destinatar
 
   if( strlen(destinatario->xLgr) >= 60 )
     destinatario->xLgr[60] = '\0';
-    
+
   xmlNodeAddContent(xLgr,(xmlChar*)destinatario->xLgr);
   xmlNodeAddContent(nro,(xmlChar*)destinatario->c_nro);
   xmlNodeAddContent(xCpl,(xmlChar*)destinatario->xCpl);

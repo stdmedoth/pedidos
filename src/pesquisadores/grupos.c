@@ -169,7 +169,6 @@ int pesquisa_grp(GtkWidget *button, GtkEntry *cod_grp_entry)
 
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_grp_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_grp_entry);
-
 //	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_grp_code),NULL);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_grp_code),treeview);
 

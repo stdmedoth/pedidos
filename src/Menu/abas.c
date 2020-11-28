@@ -87,7 +87,7 @@ int menu(void)
 	if(ativar.tecnicos)
 		gtk_notebook_append_page(GTK_NOTEBOOK(lista_abas),tecnicos,tecnicos_label);
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),1);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(lista_abas),0);
 
 	add_icones();
 	for(cont=0;cont<LINE_ICO_QNT;cont++)
