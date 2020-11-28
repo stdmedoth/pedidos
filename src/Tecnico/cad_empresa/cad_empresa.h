@@ -23,6 +23,7 @@ enum CAD_EMP_ENUM{
 
 enum REGTRIB{
   SIMPLES_NACIONAL=1,
+  SIMPLES_NAC_EXCESSO=2,
   REGIME_NORMAL=3,
 };
 
@@ -66,6 +67,7 @@ static struct _cad_emp{
   int CRT ; // 3
   char CNPJ[CNPJ_S_LEN];
   char RegTrib[12];
+  int  RegTribInt;
   char cRegTribISSQN[12];
   char indRatISSQN[12]; /* S / N */
 

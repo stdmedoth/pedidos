@@ -52,6 +52,20 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   if(!add_dets_xml(pCFe))
     return NULL;
   autologger("Detalhamentos adicionados");
+
+  if(!add_total_xml(pCFe))
+    return NULL;
+  autologger("Totais adicionados");
+
+  if(!add_pgto_xml(pCFe))
+    return NULL;
+  autologger("Pagamentos adicionados");
+
+  if(!add_infAdic_xml(pCFe))
+    return NULL;
+
+  autologger("informacoes adicionadas");
+
   autologger("XML gerado");
   return pCFe;
 }

@@ -20,10 +20,13 @@ int clique_menu(void){
 int barra_icones_add(gchar *Nome, int (*funcao) ()){
 	GtkWidget *novo_icone = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(novo_icone),gtk_image_new_from_file(Nome));
-	gtk_layout_put(GTK_LAYOUT(layout_barra),novo_icone,0,ULT_BARRA_POS);
 	gtk_widget_set_size_request(GTK_WIDGET(novo_icone),75,60);
 	gtk_widget_set_name(novo_icone,"bar_buttons_tertiary");
 	g_signal_connect(GTK_BUTTON(novo_icone),"clicked",G_CALLBACK(funcao),NULL);
+
+	if(ativar.ativo){
+		gtk_layout_put(GTK_LAYOUT(layout_barra),novo_icone,0,ULT_BARRA_POS);
+	}
   return 0;
 }
 
@@ -39,6 +42,7 @@ GtkWidget *barra_icones_wnd(){
 
 
 	ult_barra_pos = 0;
+
 	penden_button = gtk_button_new();
 
 	notificacoes_button_update();
@@ -46,17 +50,18 @@ GtkWidget *barra_icones_wnd(){
 	param_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(param_button),gtk_image_new_from_icon_name("emblem-system",GTK_ICON_SIZE_DIALOG));
 
+	suport_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("system-help",GTK_ICON_SIZE_DIALOG));
+
+	kanban_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(kanban_button),gtk_image_new_from_icon_name("emblem-documents",GTK_ICON_SIZE_DIALOG));
+
 	sair_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(sair_button),gtk_image_new_from_icon_name("application-exit",GTK_ICON_SIZE_DIALOG));
 
 	logoff_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
 
-	suport_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(suport_button),gtk_image_new_from_icon_name("system-help",GTK_ICON_SIZE_DIALOG));
-
-	kanban_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(kanban_button),gtk_image_new_from_icon_name("emblem-documents",GTK_ICON_SIZE_DIALOG));
 
 	gtk_widget_set_name(penden_button,"bar_buttons_secondary");
 	gtk_widget_set_name(param_button,"bar_buttons_secondary");
@@ -72,22 +77,27 @@ GtkWidget *barra_icones_wnd(){
 	gtk_widget_set_name(botao_iniciar,"bar_buttons_princ");
 	gtk_button_set_image(GTK_BUTTON(botao_iniciar),gtk_image_new_from_icon_name("help-contents",GTK_ICON_SIZE_SMALL_TOOLBAR));
 
-  /*basicos*/
+	/*basicos*/
   gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
   gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
 
-  /*ferramentas*/
-  gtk_layout_put(GTK_LAYOUT(layout_barra),penden_button,0,ULT_BARRA_POS);
-  gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,ULT_BARRA_POS);
-  gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,ULT_BARRA_POS);
-	gtk_layout_put(GTK_LAYOUT(layout_barra),kanban_button,0,ULT_BARRA_POS);
+
+	if(ativar.financeiro)
+		gtk_layout_put(GTK_LAYOUT(layout_barra),penden_button,0,ULT_BARRA_POS);
+
+	if(ativar.ativo){
+		/*ferramentas*/
+	  gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,ULT_BARRA_POS);
+	  gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,ULT_BARRA_POS);
+		gtk_layout_put(GTK_LAYOUT(layout_barra),kanban_button,0,ULT_BARRA_POS);
+
+	}
 
 	struct _maquina *maquina = maquinas_get_atual();
 	if(maquina){
 		struct _caixa *caixa = caixa_get_aberto(maquina);
-		if(caixa->status == CAIXA_ABERTO)
+		if(caixa->status == CAIXA_ABERTO && ativar.faturamento)
 			barra_icones_add(CX_BAR_IMG, pdv_princ_wnd);
-
 	}
 
   /*sessao*/

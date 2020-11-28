@@ -55,6 +55,9 @@ xmlNode *add_dets_xml(struct _CFe *cfe_struct){
     xmlNode *ICMS = xmlNewNode(NULL, (xmlChar*)"ICMS");
 
     gchar *icmscst = malloc(sizeof(char) * strlen(cfe_struct->det->impostos[item].ICMSCST)+10);
+    gchar *piscst = malloc(sizeof(char) * strlen(cfe_struct->det->impostos[item].PISCST)+10);
+    gchar *cofinscst = malloc(sizeof(char) * strlen(cfe_struct->det->impostos[item].COFINSCST)+10);
+
     sprintf(icmscst,"ICMS%s", cfe_struct->det->impostos[item].ICMSCST);
     xmlNode *ICMSNUM = xmlNewNode(NULL, (xmlChar*)icmscst);
 
@@ -73,26 +76,41 @@ xmlNode *add_dets_xml(struct _CFe *cfe_struct){
 
     xmlAddChild(ICMS, ICMSNUM);
 
-    /*
-    PISAliq
-    CST
-    vBC
-    pPIS
-    PISST
-    vBC
-    pPIS
-    COFINS
-    COFINSAliq
-    CST
-    vBC
-    pCOFINS
-    COFINSST
-    vBC
-    pCOFINS
-    */
+    xmlNode *PIS = xmlNewNode(NULL, (xmlChar*)"PIS");
+    xmlNode *PISAliq = xmlNewNode(NULL, (xmlChar*)"PISAliq");
+    xmlNode *PISCST = xmlNewNode(NULL, (xmlChar*)"CST");
+    xmlNode *PISvBC = xmlNewNode(NULL, (xmlChar*)"vBC");
+    xmlNode *pPIS = xmlNewNode(NULL, (xmlChar*)"pPIS");
+
+    xmlAddChild(PISAliq, PISCST);
+    xmlAddChild(PISAliq, PISvBC);
+    xmlAddChild(PISAliq, pPIS);
+
+    xmlNodeAddContent(PISCST, (xmlChar*)cfe_struct->det->impostos[item].PISCST);
+    xmlNodeAddContent(PISvBC, (xmlChar*)cfe_struct->det->impostos[item].PISvBC);
+    xmlNodeAddContent(pPIS, (xmlChar*)cfe_struct->det->impostos[item].PISAliq);
+
+    xmlAddChild(PIS, PISAliq);
+
+    xmlNode *COFINS = xmlNewNode(NULL, (xmlChar*)"COFINS");
+    xmlNode *COFINSAliq = xmlNewNode(NULL, (xmlChar*)"COFINSAliq");
+    xmlNode *COFINSCST = xmlNewNode(NULL, (xmlChar*)"CST");
+    xmlNode *COFINSvBC = xmlNewNode(NULL, (xmlChar*)"vBC");
+    xmlNode *pCOFINS = xmlNewNode(NULL, (xmlChar*)"pCOFINS");
+
+    xmlNodeAddContent(COFINSCST, (xmlChar*)cfe_struct->det->impostos[item].COFINSCST);
+    xmlNodeAddContent(COFINSvBC, (xmlChar*)cfe_struct->det->impostos[item].COFINSvBC);
+    xmlNodeAddContent(pCOFINS, (xmlChar*)cfe_struct->det->impostos[item].COFINSAliq);
+
+    xmlAddChild(COFINSAliq, COFINSCST);
+    xmlAddChild(COFINSAliq, COFINSvBC);
+    xmlAddChild(COFINSAliq, pCOFINS);
+
+    xmlAddChild(COFINS, COFINSAliq);
 
     xmlAddChild(imposto,ICMS);
-
+    xmlAddChild(imposto,PIS);
+    xmlAddChild(imposto,COFINS);
 
     xmlAddChild(det,prod);
     xmlAddChild(det,imposto);

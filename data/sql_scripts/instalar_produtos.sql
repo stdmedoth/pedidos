@@ -1,76 +1,83 @@
--- MySQL dump 10.13  Distrib 5.6.6-m9, for Win32 (x86)
---
--- Host: localhost    Database: erp
--- ------------------------------------------------------
--- Server version	5.6.6-m9-log
+create table if not exists grupos( code int primary key auto_increment,
+  pai int default 0,
+  nome varchar(50) default 'Grupo Sem Nome',
+  nivel int default 1 );
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+create table if not exists unidades( code int primary key auto_increment,
+  nome varchar(50) default '',
+  sigla varchar(10) default '',
+  multiplo int default 1,
+  medida int default 0);
 
---
--- Table structure for table `produtos`
---
+create table pis_cofins(
+   code int not null primary key,
+   cst varchar(2) not null,
+   descricao varchar(126) not null
+);
 
-DROP TABLE IF EXISTS `produtos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `produtos` (
+CREATE TABLE IF NOT EXISTS `IcmsInterestadual` (
   `code` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT 'Produto Sem Nome',
-  `peso` float DEFAULT '0',
-  `preco` float DEFAULT '0',
-  `unidades` int(11) DEFAULT '1',
-  `unidades_atacado` int(11) DEFAULT '1',
-  `fornecedor` int(11) DEFAULT '1',
-  `grupo` int(11) DEFAULT '1',
-  `grupo_nivel` int(11) DEFAULT '2',
-  `ncm` int NOT NULL ,
-  `cst` int NOT NULL ,
-  `origem` int NOT NULL,
-  `observacoes` varchar(500) DEFAULT '',
+  `origem` varchar(2) NOT NULL,
+  `destino` varchar(2) NOT NULL,
+  `icms` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=730 ;
 
-  PRIMARY KEY (`code`),
-  KEY `unidades` (`unidades`),
-  KEY `fornecedor` (`fornecedor`),
-  KEY `grupo` (`grupo`),
-  KEY `ncm` (`ncm`),
-  KEY `cst` (`cst`),
-  KEY `origem` (`origem`),
+CREATE TABLE IF NOT EXISTS `ncm` (
+  `code` INT(16) NOT NULL AUTO_INCREMENT ,
+  `cod_ncm` VARCHAR(8) NOT NULL ,
+  `nome_ncm` VARCHAR(128) NOT NULL ,
+  PRIMARY KEY (`code`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
-  CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`unidades`) REFERENCES `unidades` (`code`),
-  CONSTRAINT `produtos_ibfk_2` FOREIGN KEY (`fornecedor`) REFERENCES `terceiros` (`code`),
-  CONSTRAINT `produtos_ibfk_3` FOREIGN KEY (`grupo`) REFERENCES `grupos` (`code`),
-  CONSTRAINT `produtos_ibfk_5` FOREIGN KEY (`ncm`) REFERENCES `ncm` (`code`),
-  CONSTRAINT `produtos_ibfk_6` FOREIGN KEY (`cst`) REFERENCES `cst_cson` (`code`),
-  CONSTRAINT `produtos_ibfk_7` FOREIGN KEY (`origem`) REFERENCES `prod_origem` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE INDEX `descricao` ON `ncm` (`nome_ncm` ASC) ;
 
---
--- Dumping data for table `produtos`
---
+create table prod_origem(
+  code int not null primary key,
+  idOrigem int not null,
+  nome varchar(200),
+  aliquota float
+);
 
-LOCK TABLES `produtos` WRITE;
-/*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+create table cst_cson(
+  code int not null primary key,
+  charIdTrib varchar(3) not null,
+  nome varchar(200),
+  regime int not null
+);
 
-/*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+CREATE TABLE  produtos(
+  code int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(150) DEFAULT 'Produto Sem Nome',
+  peso float DEFAULT '0',
+  preco float DEFAULT '0',
+  unidades int(11) DEFAULT '1',
+  unidades_atacado int(11) DEFAULT '1',
+  fornecedor int(11) DEFAULT '1',
+  grupo int(11) DEFAULT '1',
+  grupo_nivel int(11) DEFAULT '2',
+  ncm int NOT NULL ,
+  icmscst int NOT NULL ,
+  piscst int NOT NULL ,
+  pisaliq float not null,
+  cofinscst int NOT NULL,
+  cofinsaliq float not null,
+  origem int NOT NULL,
+  observacoes varchar(500) DEFAULT '',
+  FOREIGN KEY (unidades) REFERENCES unidades(code),
+  FOREIGN KEY (fornecedor) REFERENCES terceiros(code),
+  FOREIGN KEY (grupo) REFERENCES grupos(code),
+  FOREIGN KEY (ncm) REFERENCES ncm(code),
+  FOREIGN KEY (icmscst) REFERENCES cst_cson(code),
+  FOREIGN KEY (piscst) REFERENCES pis_cofins(code),
+  FOREIGN KEY (cofinscst) REFERENCES pis_cofins(code),
+  FOREIGN KEY (origem) REFERENCES prod_origem(code)
+);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2020-07-19 17:51:46
+create table if not exists precos( code int primary key auto_increment,
+  produto int default 1,
+  valor_fat float default 0.0,
+  valor_vist float default 0.0,
+  foreign key(produto) references produtos(code));

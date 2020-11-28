@@ -7,7 +7,7 @@ int tcn_ico(void)
 
 	//imagem dos icones
 	emp_ico = gtk_image_new_from_file(CAD_EMP_IMG);
-	cntrats_ico = gtk_image_new_from_file(CAD_EMP_IMG);
+	cntrats_ico = gtk_image_new_from_file(CAD_CONTR_IMG);
 
 	//label dos icones
 	emp_lbl = gtk_label_new("Cadastro Empresa");

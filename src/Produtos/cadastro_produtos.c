@@ -33,7 +33,7 @@ int  cad_prod(){
 	GtkWidget *code_prod_label,  *nome_prod_label,
 	*preco_prod_label, *peso_prod_label , *unidade_prod_label,
 	*fornecedor_prod_label, *grupo_prod_label,
-	*preco_faturado_prod_label,  *observacao_prod_label,*qnt_atacado_label;
+	*preco_faturado_prod_label,  *observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_label;
 	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
 
 	if(integracoes.config.intgr_id){
@@ -55,18 +55,21 @@ int  cad_prod(){
 
  	//container/visual
 	GtkWidget *janela;
-	GtkWidget *fixed, *fixed2, *fixed3,*box, *box2, *box3, *vertical_box1, *vertical_box2, *vertical_box3, *separator;
+	GtkWidget *fixed, *fixed2, *fixed3,*box, *box2, *box3, *box4, *vertical_box1, *vertical_box2, *vertical_box3, *separator;
 	GtkWidget *code, *name, *preco, *peso, *unidade, *qnt_atacado, *fornecedor, *grupo, *preco_faturado, *observacoes;
 	GtkWidget *caixa_grande, *psq_prod_codigo_box;
 	GtkWidget *observacoes_scroll;
 	GtkWidget *acao;
 	GtkWidget *precos_box;
+	GtkWidget *prod_icms_frame;
 
 	GtkWidget *prod_ncm_psq_button;
-	GtkWidget *prod_fiscal_box1,*prod_fiscal_box2,*prod_fiscal_box3, *prod_fiscal_box4;
+	GtkWidget *prod_fiscal_box1,*prod_fiscal_box2,*prod_fiscal_box3, *prod_fiscal_box4, *prod_fiscal_box5, *prod_fiscal_box6;
 	GtkWidget *prod_ncm_frame, *prod_cst_frame, *prod_origem_frame;
 	GtkWidget *prod_ncm_fixed, *prod_cst_fixed, *prod_origem_fixed;
 	GtkWidget *prod_ncm_box, *prod_cst_box, *prod_origem_box;
+
+	GtkWidget *prod_outros_box1;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"produtos");
@@ -143,10 +146,13 @@ int  cad_prod(){
 	box = gtk_box_new(0,0);
 	box2 = gtk_box_new(0,0);
 	box3 = gtk_box_new(0,0);
+	box4 = gtk_box_new(0,0);
 
 	vertical_box1 = gtk_box_new(1,0);
 	vertical_box2 = gtk_box_new(1,0);
 	vertical_box3 = gtk_box_new(1,0);
+
+	prod_outros_box1 = gtk_box_new(0,0);
 
 	separator = gtk_separator_new(1);
 
@@ -158,7 +164,7 @@ int  cad_prod(){
 	fornecedor_prod_label =  gtk_label_new("Fornecedor: ");
 	grupo_prod_label =  gtk_label_new("Grupo: ");
 	preco_faturado_prod_label =  gtk_label_new("Preço Faturado: ");
-	observacao_prod_label =  gtk_label_new("Observacoes: ");
+	observacao_prod_frame =  gtk_frame_new("Observacoes: ");
 	qnt_atacado_label = gtk_label_new("Quantidade Varejo");
 
 	campo_nome_fornecedor = gtk_entry_new();
@@ -262,7 +268,7 @@ int  cad_prod(){
 
 	prod_ncm_entry = gtk_entry_new();
 	prod_ncm_psq_button = gtk_button_new();
-	prod_cst_combo = gtk_combo_box_text_new();
+	prod_icmscst_combo = gtk_combo_box_text_new();
 	sprintf(query, "SELECT * FROM cst_cson");
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível buscar CST/CSON");
@@ -274,9 +280,9 @@ int  cad_prod(){
 		descricao = malloc( strlen(row[1]) + strlen(row[2]) + 10);
 		sprintf(descricao, "%s - %s", row[1], row[2]);
 
-		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(prod_cst_combo),row[0], descricao );
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(prod_icmscst_combo),row[0], descricao );
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(prod_cst_combo),0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(prod_icmscst_combo),0);
 
 	prod_origem_combo = gtk_combo_box_text_new();
 	sprintf(query, "SELECT * FROM prod_origem");
@@ -299,24 +305,77 @@ int  cad_prod(){
 	prod_origem_box = gtk_box_new(0,0);
 	prod_origem_frame = gtk_frame_new("Origem");
 	prod_ncm_frame = gtk_frame_new("NCM");
+	prod_icms_frame = gtk_frame_new("ICMS");
 	prod_cst_frame = gtk_frame_new("CST");
 	prod_cst_fixed = gtk_fixed_new();
 	prod_origem_fixed = gtk_fixed_new();
 	prod_ncm_fixed = gtk_fixed_new();
 	prod_fiscal_box1 = gtk_box_new(0,0);
 	prod_fiscal_box2 = gtk_box_new(0,0);
-	prod_fiscal_box3 = gtk_box_new(0,0);
+	prod_fiscal_box3 = gtk_box_new(1,0);
 	prod_fiscal_box4 = gtk_box_new(0,0);
+	prod_fiscal_box5 = gtk_box_new(0,0);
+	prod_fiscal_box6 = gtk_box_new(0,0);
+
+	//PIS E COFINS
+	GtkWidget *prod_pis_frame, *prod_pis_fixed, *prod_pis_box;
+	GtkWidget *prod_cofins_frame, *prod_cofins_fixed, *prod_cofins_box;
+	prod_cofins_frame = gtk_frame_new("COFINS");
+	prod_cofins_fixed = gtk_fixed_new();
+	prod_cofins_box = gtk_box_new(1,0);
+	prod_pis_frame = gtk_frame_new("PIS");
+	prod_pis_fixed = gtk_fixed_new();
+	prod_pis_box = gtk_box_new(1,0);
+
+	prod_pisaliq_entry = gtk_spin_button_new_with_range(0,100,0.05);
+	gtk_entry_set_width_chars(GTK_ENTRY(prod_pisaliq_entry), 10);
+	prod_cofinsaliq_entry = gtk_spin_button_new_with_range(0,100,0.05);
+	gtk_entry_set_width_chars(GTK_ENTRY(prod_cofinsaliq_entry), 10);
+
+	prod_piscst_combo = gtk_combo_box_text_new();
+	prod_cofinscst_combo = gtk_combo_box_text_new();
+
+	gtk_box_pack_start(GTK_BOX(prod_pis_box), prod_pisaliq_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(prod_pis_box), prod_piscst_combo,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(prod_cofins_box), prod_cofinsaliq_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(prod_cofins_box), prod_cofinscst_combo,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(prod_pis_frame), prod_pis_box);
+	gtk_container_add(GTK_CONTAINER(prod_cofins_frame), prod_cofins_box);
+
+	gtk_fixed_put(GTK_FIXED(prod_pis_fixed), prod_pis_frame,20,20);
+	gtk_fixed_put(GTK_FIXED(prod_cofins_fixed), prod_cofins_frame,20,20);
+
+	sprintf(query, "SELECT * FROM pis_cofins");
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível buscar CST/CSON");
+		return 1;
+	}
+	while((row = mysql_fetch_row(res))){
+
+		gchar *descricao;
+		descricao = malloc( strlen(row[1]) + strlen(row[2]) + 10);
+		sprintf(descricao, "%s - %s", row[1], row[2]);
+
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(prod_piscst_combo),strdup(row[0]), strdup(descricao) );
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(prod_cofinscst_combo),strdup(row[0]), strdup(descricao) );
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(prod_piscst_combo),0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(prod_cofinscst_combo),0);
+	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(prod_piscst_combo),2);
+	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(prod_cofinscst_combo),2);
 
 	gtk_button_set_image(GTK_BUTTON(prod_ncm_psq_button), gtk_image_new_from_file(IMG_PESQ));
 
 	gtk_box_pack_start(GTK_BOX(prod_ncm_box), prod_ncm_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_ncm_box), prod_ncm_psq_button,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(prod_cst_box), prod_cst_combo,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prod_cst_box), prod_icmscst_combo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_origem_box), prod_origem_combo,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(prod_ncm_frame), prod_ncm_box);
+
 	gtk_container_add(GTK_CONTAINER(prod_cst_frame), prod_cst_box);
 	gtk_container_add(GTK_CONTAINER(prod_origem_frame), prod_origem_box);
 
@@ -327,26 +386,16 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(prod_fiscal_box2), prod_ncm_fixed,0,0,5);
 
 	gtk_box_pack_start(GTK_BOX(prod_fiscal_box3), prod_origem_fixed,0,0,5);
-	gtk_box_pack_start(GTK_BOX(prod_fiscal_box4), prod_cst_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(prod_fiscal_box3), prod_cst_fixed,0,0,5);
+	gtk_container_add(GTK_CONTAINER(prod_icms_frame), prod_fiscal_box3);
 
-
-	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
-	observacoes = gtk_box_new(1,0);
-	gtk_widget_set_name(observacoes,"caixa_frame");
-	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_label,0,0,10);
-	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_field,0,0,10);
-
-	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
-
-	gtk_widget_set_size_request(observacao_prod_field,400,150);
-	gtk_widget_set_size_request(observacoes_scroll,400,150);
-	gtk_widget_set_size_request(observacoes,400,150);
+	gtk_box_pack_start(GTK_BOX(prod_fiscal_box4), prod_pis_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(prod_fiscal_box5), prod_cofins_fixed,0,0,5);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),name,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),peso,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_three),fornecedor,0,0,50);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),observacoes_scroll,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_three),fornecedor,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
@@ -355,8 +404,24 @@ int  cad_prod(){
 
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box1,0,0,5);
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box2,0,0,5);
-	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box3,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_icms_frame,0,0,0);
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box4,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box5,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box6,0,0,0);
+
+	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
+	observacoes = gtk_box_new(1,0);
+	observacao_prod_fixed = gtk_fixed_new();
+	gtk_widget_set_name(observacoes,"caixa_frame");
+	gtk_container_add(GTK_CONTAINER(observacao_prod_frame), observacao_prod_field);
+	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_frame,0,0,20);
+	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
+	gtk_fixed_put(GTK_FIXED(observacao_prod_fixed), observacoes_scroll, 20,20);
+
+	gtk_widget_set_size_request(observacao_prod_field,500,350);
+	gtk_widget_set_size_request(observacoes_scroll,500,350);
+	gtk_widget_set_size_request(observacoes,500,350);
+	gtk_box_pack_start(GTK_BOX(prod_outros_box1),observacao_prod_fixed,0,0,10);
 
 	prod_concluir_button = gtk_button_new_with_label("Concluir");
 	prod_alterar_button = gtk_button_new_with_label("Alterar");
@@ -409,7 +474,7 @@ int  cad_prod(){
 
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_five,MARGEM_D,20);
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,120);
-	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_seven,MARGEM_D,220);
+	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_seven,MARGEM_D+20,220);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);
 	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
@@ -419,11 +484,13 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,10);
 	gtk_box_pack_start(GTK_BOX(box2),vertical_box2,0,0,10);
 	gtk_box_pack_start(GTK_BOX(box3),vertical_box3,0,0,10);
+	gtk_box_pack_start(GTK_BOX(box4),prod_outros_box1,0,0,10);
 
 	notebook_cad_prod = gtk_notebook_new();
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box,gtk_label_new("Informações do Produto"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box2,gtk_label_new("Faturamento"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box3,gtk_label_new("Fiscal"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box4,gtk_label_new("Complemento"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),notebook_cad_prod,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),horizontal_box_eight,0,0,0);

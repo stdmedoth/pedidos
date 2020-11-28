@@ -27,6 +27,8 @@ int pdv_princ_wnd(){
       return 1;
 
     struct _caixa *caixa = caixa_get_aberto(maquina_atual);
+    if(!caixa)
+      return 1;
   }
 
   MYSQL_RES *res;

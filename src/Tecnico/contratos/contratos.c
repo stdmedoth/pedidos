@@ -1,5 +1,6 @@
 #include "campos/codigo.c"
 #include "campos/modulos.c"
+#include "campos/ativo.c"
 #include "campos/vencimento.c"
 
 #include "concluir.c"
@@ -48,8 +49,10 @@ int cad_contratos(){
   gtk_box_pack_start(GTK_BOX(caixa_opcoes), cntrats_cancelar_button,0,0,5);
 
   cntrats_code_entry = gtk_entry_new();
+  cntrats_ativo_check = gtk_check_button_new_with_label("Ativo?");
   gtk_box_pack_start(GTK_BOX(cntrats_code_box), cntrats_code_entry,0,0,5);
   gtk_box_pack_start(GTK_BOX(cntrats_code_box), cntrats_code_psq_button,0,0,5);
+  gtk_box_pack_start(GTK_BOX(cntrats_code_box), cntrats_ativo_check,0,0,5);
   gtk_container_add(GTK_CONTAINER(cntrats_code_frame), cntrats_code_box);
   cntrats_cadastro_check = gtk_check_button_new_with_label("Módulo Cadastros");
   cntrats_compras_check = gtk_check_button_new_with_label("Módulo Compras");

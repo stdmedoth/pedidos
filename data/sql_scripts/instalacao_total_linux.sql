@@ -1,4 +1,5 @@
 source /usr/share/pedidos/files/sql_scripts/instalar_base.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_produtos.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_dados_basicos.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_vendas.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_financeiros.sql
@@ -13,11 +14,12 @@ source /usr/share/pedidos/files/sql_scripts/instalar_logradouros.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_parametros.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_precos_grupos.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_precos.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_cfops.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_ncms.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_cst.sql
-source /usr/share/pedidos/files/sql_scripts/instalar_produtos.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_relatorios.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_suporte.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_terceiros.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_transporte.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_cfops.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_cst.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_ncms.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_aliquotas_icms.sql
+source /usr/share/pedidos/files/sql_scripts/instalar_pis_cofins.sql

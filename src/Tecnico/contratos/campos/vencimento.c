@@ -2,9 +2,9 @@ int cntrats_vencimento_fun(){
 
   cntrats_vencimento_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cntrats_vencimento_entry));
   if(!strlen(cntrats_vencimento_gchar)){
-    popup(NULL,"Insira a data de vencimento");
-    return 1;
+    cntrats_vencimento_gchar = strdup("");
   }
+
   gchar *cntrats_vencimento_gchar2 = formatar_data(cntrats_vencimento_gchar);
   if(!cntrats_vencimento_gchar2)
     return 1;

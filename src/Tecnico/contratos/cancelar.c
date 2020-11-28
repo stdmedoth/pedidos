@@ -14,7 +14,7 @@ int cntrats_cancelar_fun(){
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_financeiro_check), FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_marketing_check), FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_relatorios_check), FALSE);
-
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_ativo_check), FALSE);
   gtk_widget_grab_focus(cntrats_code_entry);
 
   return 0;

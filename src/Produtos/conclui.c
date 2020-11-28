@@ -10,51 +10,72 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 	concluindo_prod=1;
 	if(code_prod()){
 		gtk_widget_grab_focus(codigo_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 		return 1;
 	}
 	if(nome_prod()){
 		gtk_widget_grab_focus(nome_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 		return 1;
 	}
 	if(peso_prod()){
 		gtk_widget_grab_focus(peso_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 		return 1;
 	}
 	if(grupo_prod()){
 		gtk_widget_grab_focus(grupo_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
 		return 1;
 	}
 	if(precos_prod_fun()){
 		gtk_widget_grab_focus(preco_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
+		return 1;
 	}
 	if(fornecedor_prod()){
 		gtk_widget_grab_focus(fornecedor_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
 		return 1;
 	}
 	if(und_unt_prod()){
 		gtk_widget_grab_focus(unidade_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
 		return 1;
 	}
 	if(und_atac_prod()){
 		gtk_widget_grab_focus(unidade_prod_field);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),1);
 		return 1;
 	}
 	if(prod_ncm_fun()){
 		gtk_widget_grab_focus(prod_ncm_entry);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
 		return 1;
 	}
 	if(prod_origem_fun()){
 		gtk_widget_grab_focus(prod_origem_combo);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
 		return 1;
 	}
-	if(prod_cst_fun()){
-		gtk_widget_grab_focus(prod_cst_combo);
+	if(prod_icmscst_fun()){
+		gtk_widget_grab_focus(prod_icmscst_combo);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
 		return 1;
 	}
-
+	if(prod_piscst_fun()){
+		gtk_widget_grab_focus(prod_piscst_combo);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
+		return 1;
+	}
+	if(prod_cofinscst_fun()){
+		gtk_widget_grab_focus(prod_cofinscst_combo);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
+		return 1;
+	}
 
 	if(obs_prod()!=0){
-
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),3);
 		return 1;
 	}
 

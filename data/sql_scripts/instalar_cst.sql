@@ -1,17 +1,3 @@
-create table prod_origem(
-  code int not null primary key,
-  idOrigem int not null,
-  nome varchar(200),
-  aliquota float
-);
-
-create table cst_cson(
-  code int not null primary key,
-  charIdTrib varchar(3) not null,
-  nome varchar(200),
-  regime int not null
-);
-
 insert into prod_origem values(1,0,"Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8	", 7);
 insert into prod_origem values(2,1,"Estrangeira – Importação direta, exceto a indicada no código 6	", 4);
 insert into prod_origem values(3,2,"Estrangeira – Adquirida no mercado interno, exceto a indicada no código 7	", 4);

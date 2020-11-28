@@ -27,10 +27,13 @@ int suporte_princ_wnd(){
   sup_posts_pos=0;
   sup_posts_qnt=0;
   sup_vet_posts_qnt = malloc(MAX_POST_QNT*sizeof (int*));
+  sup_vet_posts_ativos = malloc(MAX_POST_QNT*sizeof (int*));
   suporte_list = malloc(sizeof(struct _suporte_list*)*MAX_POST_QNT);
 
-  for(int cont=0;cont<MAX_POST_QNT;cont++)
+  for(int cont=0;cont<MAX_POST_QNT;cont++){
     sup_vet_posts_qnt[cont] = 0;
+    sup_vet_posts_ativos[cont] = 0;
+  }
 
   sup_adiciona_button = gtk_button_new_with_label("Adicionar");
   gtk_button_set_image(GTK_BUTTON(sup_adiciona_button),gtk_image_new_from_icon_name("tab-new",GTK_ICON_SIZE_DIALOG));

@@ -85,49 +85,37 @@ int desktop(){
 		g_main_context_iteration(NULL,FALSE);
 
 
-	sprintf(query,"select data_vencimento - now() from contratos");
+	sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar status do serviço");
 		return 1;
 	}
 	if(!(row = mysql_fetch_row(res))){
-		popup(NULL,"Serviço sem contrato definido, verifique!");
+		autologger("Não existem contratos ativos");
 		ativar.ativo = 0;
 	}else{
-		if(atof(row[0])<=0){
+		if(atoi(row[CONTRATOS_COLS_QNT])<=0){
 			popup(NULL,"Serviço Expirado");
 			ativar.ativo = 0;
 		}else
 			ativar.ativo = 1;
 	}
-
-	sprintf(query,"select * from contratos");
-	if((res = consultar(query))==NULL){
-		popup(NULL,"Não foi possivel receber lista de permissões");
-		return 1;
-	}
-
 	if(ativar.ativo){
-		if((row = mysql_fetch_row(res))!=NULL){
-			ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
-			ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
-			ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
-			ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
-			ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
-			ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
-			ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
-		}else{
-			popup(NULL,"Não há lista de permissões");
-			return 1;
-		}
+		ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
+		ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
+		ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
+		ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
+		ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
+		ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
+		ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
 	}else{
-			ativar.cadastro=0;
-			ativar.compras=0;
-			ativar.faturamento=0;
-			ativar.estoque=0;
-			ativar.financeiro=0;
-			ativar.marketing=0;
-			ativar.relatorios=0;
+		ativar.cadastro=0;
+		ativar.compras=0;
+		ativar.faturamento=0;
+		ativar.estoque=0;
+		ativar.financeiro=0;
+		ativar.marketing=0;
+		ativar.relatorios=0;
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
@@ -271,8 +259,8 @@ int desktop(){
 
 	nivel_usuario_fixed = gtk_fixed_new();
 
-	if(sessao_oper.nivel-1<oper_perm_qnt_niveis)
-		nivel_usuario_label = gtk_label_new(niveis_gerenciais[sessao_oper.nivel-1]);
+	if(sessao_oper.nivel<oper_perm_qnt_niveis)
+		nivel_usuario_label = gtk_label_new(niveis_gerenciais[sessao_oper.nivel]);
 	else
 		nivel_usuario_label = gtk_label_new("Nivel Ilimitado");
 

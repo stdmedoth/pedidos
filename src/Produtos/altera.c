@@ -9,7 +9,7 @@ int altera_prod()
 	GtkTextIter inicio,fim;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.cst, p.origem,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.icmscst, p.piscst, p.pisaliq, p.cofinscst, p.cofinsaliq, p.origem,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -62,11 +62,23 @@ int altera_prod()
 		gtk_entry_set_text(GTK_ENTRY(prod_ncm_entry),row);
 	}
 
-	row = strdup(campo[PROD_CST_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_cst_combo),row);
+	gchar *icmscst = strdup(campo[PROD_ICMSCST_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_icmscst_combo), icmscst);
 
-	row = strdup(campo[PROD_ORIGEM_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_origem_combo),row);
+	gchar *piscst = strdup(campo[PROD_PISCST_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_piscst_combo), piscst);
+
+	gchar *pisaliq = strdup(campo[PROD_PISALIQ_COL]);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_pisaliq_entry), atof(pisaliq));
+
+	gchar *cofinscst = strdup(campo[PROD_COFINSCST_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_cofinscst_combo), cofinscst);
+
+	gchar *cofinsaliq = strdup(campo[PROD_COFINSALIQ_COL]);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_cofinsaliq_entry), atof(cofinsaliq));
+
+	gchar *origem = strdup(campo[PROD_ORIGEM_COL]);
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_origem_combo), origem);
 
 	strcpy(observacoes_prod,campo[PROD_OBS_COL]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));

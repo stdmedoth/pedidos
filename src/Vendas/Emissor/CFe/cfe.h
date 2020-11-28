@@ -29,7 +29,11 @@ struct _cfe_produto{
   char *cEAN;
   char *xProd;
   char *NCM;
-  char *CST;
+  char *ICMSCST;
+  char *PISCST;
+  char *PISAliq;
+  char *COFINSCST;
+  char *COFINSAliq;
   char *Orig;
   char *CFOP;
   char *uCom;
@@ -38,6 +42,8 @@ struct _cfe_produto{
   char *indRegra;
   char *vDesc;
   char *vOutro;
+  char *ctotal;
+  double dtotal;
 };
 
 struct _cfe_imposto{
@@ -45,16 +51,13 @@ struct _cfe_imposto{
   char *Orig;   // estado
   char *pICMS;  //tributacao
 
-  char *PISAliqCST; //cst do pis
-  char *PISAliqvBC; // base do pis
-  char *PISAliqpPIS; //valor do pis
+  char *PISCST;
+  char *PISAliq;
+  char *PISvBC;
 
-  char *PISSTvBC; //base do pis para substituicao
-  char *PISSTpPIS; //valor do pis para substituicao
-
-  char *COFINSAliqCST; //cst do cofins
-  char *COFINSAliqvBC; //base do cofins
-  char *COFINSAliqpCOFINS; //valor do cofins
+  char *COFINSCST;
+  char *COFINSAliq;
+  char *COFINSvBC;
 
   char *COFINSSTvBC; //base do cofins para st
   char *COFINSSTpCOFINS; //valor do cofins para st
@@ -63,6 +66,8 @@ struct _cfe_imposto{
 struct _cfe_det{ //itens
   int nItem; //atributo
   int itens_qnt;
+  gchar *ctotal;
+  double dtotal;
   struct _cfe_produto *produtos;
   struct _cfe_imposto *impostos;
 };
@@ -75,7 +80,6 @@ struct _CFe{
   struct _cfe_det *det;
   xmlDoc *xml;
 };
-
 
 struct _CFe *get_cupons_from_orc();
 

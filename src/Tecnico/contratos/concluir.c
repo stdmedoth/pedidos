@@ -10,6 +10,9 @@ int cntrats_concluir_fun(){
   if(cntrats_modulos_fun())
     return 1;
 
+  if(cntrats_ativo_fun())
+    return 1;
+    
   if(cntrats_vencimento_fun())
     return 1;
 
@@ -20,7 +23,7 @@ int cntrats_concluir_fun(){
   }
 
   if(!(row = mysql_fetch_row(res))){
-    sprintf(query,"insert into contratos values(%s, %i, %i, %i, %i, %i, %i, %i, STR_TO_DATE('%s', '%%d/%%m/%%Y'))",
+    sprintf(query,"insert into contratos values(%s, %i, %i, %i, %i, %i, %i, %i, %i, STR_TO_DATE('%s', '%%d/%%m/%%Y'))",
       cntrats_code_gchar,
       contrato_modulos[CONTRATOS_CAD_MOD],
       contrato_modulos[CONTRATOS_CMP_MOD],
@@ -29,6 +32,7 @@ int cntrats_concluir_fun(){
       contrato_modulos[CONTRATOS_FIN_MOD],
       contrato_modulos[CONTRATOS_MARKT_MOD],
       contrato_modulos[CONTRATOS_REL_MOD],
+      cntrats_ativo_gint,
       cntrats_vencimento_gchar
     );
     if(enviar_query(query)){
@@ -36,7 +40,7 @@ int cntrats_concluir_fun(){
       return 1;
     }
   }else{
-    sprintf(query,"update contratos set cadastro = '%i', compras = %i, faturamento = %i, estoque  = %i, financeiro = %i, marketing = %i, relatorios = %i, data_vencimento = STR_TO_DATE('%s', '%%d/%%m/%%Y') where code = %s",
+    sprintf(query,"update contratos set cadastro = '%i', compras = %i, faturamento = %i, estoque  = %i, financeiro = %i, marketing = %i, relatorios = %i, ativo = %i, data_vencimento = STR_TO_DATE('%s', '%%d/%%m/%%Y') where code = %s",
       contrato_modulos[CONTRATOS_CAD_MOD],
       contrato_modulos[CONTRATOS_CMP_MOD],
       contrato_modulos[CONTRATOS_FAT_MOD],
@@ -44,6 +48,7 @@ int cntrats_concluir_fun(){
       contrato_modulos[CONTRATOS_FIN_MOD],
       contrato_modulos[CONTRATOS_MARKT_MOD],
       contrato_modulos[CONTRATOS_REL_MOD],
+      cntrats_ativo_gint,
       cntrats_vencimento_gchar,
       cntrats_code_gchar
     );

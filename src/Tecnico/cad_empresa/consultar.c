@@ -42,7 +42,8 @@ int cad_emp_consulta(){
   strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_im_entry),row[EMP_IM_COL]);
   strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
-  gtk_combo_box_set_active(GTK_COMBO_BOX(cad_emp_regime_combo),atoi(row[EMP_REGTRIB_COL]));
+  cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
+  gtk_combo_box_set_active_id(GTK_COMBO_BOX(cad_emp_regime_combo), row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
 
   if(row[EMP_SOBRE_COL]){
@@ -133,6 +134,7 @@ int cad_emp_recebe(){
   strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
   strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
   strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
+  cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
 
   if(row[EMP_SOBRE_COL]){

@@ -13,6 +13,7 @@ int carrega_posts(MYSQL_RES *res){
       char post_name[30];
       if(sup_posts_pos<MAX_POST_QNT&&sup_posts_pos>=0){
 
+        sup_vet_posts_ativos[sup_posts_pos] = 1;
         sup_vet_posts_qnt[sup_posts_pos] = sup_posts_pos;
         postlist[sup_posts_pos] = gtk_box_new(1,0);
         titulo_list[sup_posts_pos] = gtk_entry_new();
@@ -75,7 +76,7 @@ int carrega_posts(MYSQL_RES *res){
         strcpy(suporte_list[sup_posts_pos].status, row[SUP_STAT]);
         strcpy(suporte_list[sup_posts_pos].prioridade, row[SUP_PRIOR]);
         strcpy(suporte_list[sup_posts_pos].tipo, row[SUP_TIP]);
-
+        suporte_list[sup_posts_pos].ativo = 1;
         strcpy(title_text,row[SUP_TIT]);
         strcpy(descr_text,row[SUP_DESCR]);
 
@@ -104,7 +105,7 @@ int carrega_posts(MYSQL_RES *res){
         gtk_grid_attach(GTK_GRID(suport_grid),sup_posts_frame[sup_posts_pos],0,sup_posts_pos,1,1);
 
         #pragma GCC diagnostic ignored "-Wint-conversion"
-        g_signal_connect(titulo_list[sup_posts_pos],"activate",G_CALLBACK(suporte_princ_atualiza),sup_vet_posts_qnt[sup_posts_pos]);
+        g_signal_connect(titulo_list[sup_posts_pos],"activate",G_CALLBACK(passar_campo),descr_list[sup_posts_pos]);
 
         g_signal_connect(sup_atualiza_button[sup_posts_pos],"clicked",G_CALLBACK(suporte_princ_atualiza),sup_vet_posts_qnt[sup_posts_pos]);
 
@@ -121,13 +122,25 @@ int carrega_posts(MYSQL_RES *res){
   return 0;
 }
 
+int suporte_get_livre_pos(){
+  int index=0;
+
+  for(int cont=0; cont<MAX_POST_QNT; cont++){
+    if(sup_vet_posts_ativos[cont] == 0)
+      return cont;
+  }
+  popup(NULL, "Limite atingido");
+  return MAX_POST_QNT;
+}
+
 int suporte_princ_add(){
   char post_name[30];
   GtkWidget *descr_scrolls = gtk_scrolled_window_new(NULL,NULL);;
 
-  sup_posts_pos++;
+  sup_posts_pos = suporte_get_livre_pos();
 
   sup_vet_posts_qnt[sup_posts_pos] = sup_posts_pos;
+  sup_vet_posts_ativos[sup_posts_pos] = 1;
 
   postlist[sup_posts_pos] = gtk_box_new(1,0);
   titulo_list[sup_posts_pos] = gtk_entry_new();
@@ -190,7 +203,7 @@ int suporte_princ_add(){
   gtk_widget_grab_focus(titulo_list[sup_posts_pos]);
 
   #pragma GCC diagnostic ignored "-Wint-conversion"
-  g_signal_connect(titulo_list[sup_posts_pos],"activate",G_CALLBACK(suporte_princ_atualiza),sup_vet_posts_qnt[sup_posts_pos]);
+  g_signal_connect(titulo_list[sup_posts_pos],"activate",G_CALLBACK(passar_campo),descr_list[sup_posts_pos]);
 
   g_signal_connect(sup_atualiza_button[sup_posts_pos],"clicked",G_CALLBACK(suporte_princ_atualiza),sup_vet_posts_qnt[sup_posts_pos]);
 
@@ -213,6 +226,7 @@ int post_recarregar_posts(){
       gtk_grid_remove_row(GTK_GRID(suport_grid),cont);
       free(sup_status_nomes[cont]);
     }
+    sup_vet_posts_ativos[cont] = 0;
     sup_vet_posts_qnt[cont] = 0;
   }
 

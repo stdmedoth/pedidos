@@ -5,6 +5,9 @@
 #include "tags/ide.c"
 #include "tags/impostos.c"
 #include "tags/itens.c"
+#include "tags/total.c"
+#include "tags/pagamento.c"
+#include "tags/informacoes.c"
 #include "tags/pedidos.c"
 #include "tags/cupom.c"
 

@@ -39,6 +39,7 @@ int cntrats_alterar_fun(){
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_financeiro_check), atoi(row[CONTRATOS_FIN_COL]));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_marketing_check), atoi(row[CONTRATOS_MARKT_COL]));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_relatorios_check), atoi(row[CONTRATOS_REL_COL]));
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cntrats_ativo_check), atoi(row[CONTRATOS_ATIVO_COL]));
   gtk_entry_set_text(GTK_ENTRY(cntrats_vencimento_entry), formated_date);
 
   return 0;

@@ -77,6 +77,7 @@
 #define FATOR_IMG     "C:/pedidos/files/icones_opc/fatores.png"
 #define PRMT_IMG      "C:/pedidos/files/icones_opc/parametros.png"
 #define CAD_EMP_IMG   "C:/pedidos/files/icones_opc/company.png"
+#define CAD_CONTR_IMG "C:/pedidos/files/icones_opc/contratos.png"
 #define ATL_PROD_IMG  "C:/pedidos/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/pedidos/files/icones_opc/vinculos.png"
 #define BANCOS_IMG    "C:/pedidos/files/icones_opc/bancos.png"
@@ -208,6 +209,7 @@
 #define UND_IMG       "/usr/share/pedidos/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/pedidos/files/icones_opc/vinculos.png"
 #define CAD_EMP_IMG   "/usr/share/pedidos/files/icones_opc/company.png"
+#define CAD_CONTR_IMG "/usr/share/pedidos/files/icones_opc/contratos.png"
 #define TRSP_IMG      "/usr/share/pedidos/files/icones_opc/transportes.png"
 #define ATL_PROD_IMG  "/usr/share/pedidos/files/icones_opc/atualiza_prod_nomes.png"
 #define IMG_OK        "/usr/share/pedidos/files/opcoes_padrao/ok.png"
@@ -378,6 +380,13 @@ enum{
 enum TIPO_OPERACOES{
   OPER_ENTRADA,
   OPER_SAIDA
+};
+
+enum ICMS_INTERSTADUAL_COL{
+  INTERICMS_CODE_COL,
+  INTERICMS_ORIGEM_COL,
+  INTERICMS_DESTINO_COL,
+  INTERICMS_ALIQ_COL
 };
 
 //id das operacoes

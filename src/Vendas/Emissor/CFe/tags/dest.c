@@ -11,6 +11,7 @@ xmlNode *add_dest_xml(struct _CFe *cfe_struct, struct _terc_infos *destinatario)
 
     xmlNodeAddContent(xNome,(xmlChar*)destinatario->razao);
     xmlNodeAddContent(CPF,(xmlChar*)destinatario->doc);
+    strcpy(cfe_struct->dest.UF, destinatario->UF);
 
     xmlAddChild(dest,CPF);
     xmlAddChild(dest,xNome);
