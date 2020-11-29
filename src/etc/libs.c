@@ -20,6 +20,7 @@
 #include "barra_icones.c"
 #include "../Inicio/pega_data.c"
 #include "analisa_campos.c"
+#include "mp_popup.c"
 
 #include "operadores.c"
 
@@ -46,6 +47,7 @@
 #include "../pesquisadores/cidades.c"
 #include "../pesquisadores/requisicoes.c"
 #include "../pesquisadores/bancos.c"
+#include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
 
 #include "../Canones/Cadastro_Operadores.c"

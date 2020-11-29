@@ -16,7 +16,7 @@ int ped_cancelar(){
 	pedidoPtr->infos->ped_code = atoi(ped_code);
 
 	int ped_status = ped_get_status();
-	
+
 	if(ped_status == STATUS_PED_CAN){
 		if(!PopupBinario("O pedido já está cancelado!", "Remova possíveis movimentos", "Abortar"))
 			return 0;
@@ -76,5 +76,6 @@ int ped_cancelar(){
 
 	popup(NULL,"Pedido cancelado com sucesso!");
 	ped_get_status();
+
 	return 0;
 }

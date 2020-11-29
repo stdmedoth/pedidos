@@ -1,5 +1,6 @@
 #include "sql_tools.c"
 
+//abreviar palavras em um texto
 char *abrevia_text(char *text) {
 
   if(!text)
@@ -35,20 +36,22 @@ char *abrevia_text(char *text) {
   return texto_todo;
 }
 
+
+//converte float para char
 char *floattochar(float floatnum){
   char *number = malloc(12);
   sprintf(number, "%.2f", floatnum);
   return number;
 }
 
+//converte inteiro para char
 char *inttochar(int intnum){
   char *number = malloc(12);
   sprintf(number, "%i", intnum);
   return number;
 }
 
-// Function to replace a string with another
-// string
+//Função abaixo substitui ocorrencia de string em um texto
 // retirado de https://www.geeksforgeeks.org/c-program-replace-word-text-another-given-word/ em novembro de 2020
 char* replaceWord(const char* s, const char* oldW,
                   const char* newW)

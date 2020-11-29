@@ -84,3 +84,13 @@ insert into estados(sigla,nome)
   ('SE','Sergipe'),
   ('TO','Tocantins'),
   ('SP','São Paulo');
+
+insert into meios_pagamento (code, nome)
+  values
+  (1 , 'Dinheiro'),
+  (2 , 'Cheque'),
+  (3 , 'Cartão Crédito'),
+  (4 , 'Cartão Débito'),
+  (5 , 'Cartão Aliment.'),
+  (6 , 'Vale Aliment.(em papel)'),
+  (7 , 'Outros');

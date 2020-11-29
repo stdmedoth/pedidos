@@ -5,6 +5,8 @@ enum{
 	NIVEL_TECNICO
 };
 
+#define OPER_MAX_NIVEL 10
+
 static struct{
 	int code;
 	char nome[MAX_NAME_LEN];

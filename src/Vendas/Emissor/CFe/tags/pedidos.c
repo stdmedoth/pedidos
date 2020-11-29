@@ -3,8 +3,10 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   if(!pedido)
     return NULL;
 
+
   struct _CFe *pCFe = malloc(sizeof(struct _CFe));
   pCFe = cupom_get_base_infos(pCFe);
+  pCFe->pgto = NULL;
 
   if(!pCFe)
     return NULL;

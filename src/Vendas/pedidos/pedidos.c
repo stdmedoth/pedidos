@@ -10,14 +10,12 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
 
-	if(strlen(entrada)<=0)
-	{
+	if(strlen(entrada)<=0){
 		popup(NULL,"Necessário inserir código");
 		return 1;
 	}
 
-	if(strlen(entrada)>=MAX_CODE_LEN)
-	{
+	if(strlen(entrada)>=MAX_CODE_LEN){
 		popup(NULL,"Código extenso");
 		return 1;
 	}
@@ -41,12 +39,10 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(res == NULL){
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if((row = mysql_fetch_row(res))==NULL){
 		popup(NULL,"Pedido não existe");
 		return 1;
 	}

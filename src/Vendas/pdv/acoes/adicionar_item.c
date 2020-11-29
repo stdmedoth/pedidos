@@ -130,11 +130,25 @@ int pdv_codprod_fun(){
 
   gint pos = *posP;
 
+  sprintf(query, "SELECT * FROM produtos WHERE code = %i",
+    pdv_venda_atual->pdv_item_atual->produto);
+
   pdv_venda_atual->cupom_atual->det->produtos[pos].cProd = inttochar(produto);
   pdv_venda_atual->cupom_atual->det->produtos[pos].nItem = inttochar(pos+1);
   pdv_venda_atual->cupom_atual->det->produtos[pos].cEAN = inttochar(0);
   pdv_venda_atual->cupom_atual->det->produtos[pos].xProd = strdup(row[PROD_NOM_COL]);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].NCM = strdup("12212121");
+  pdv_venda_atual->cupom_atual->det->produtos[pos].NCM = strdup(row[PROD_NCM_COL]);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].Orig = strdup(row[PROD_ORIGEM_COL]);
+
+  pdv_venda_atual->cupom_atual->det->produtos[pos].ICMSCST = strdup(row[PROD_ICMSCST_COL]);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].ICMSCST = strdup(row[PROD_NOM_COL]);
+
+  pdv_venda_atual->cupom_atual->det->produtos[pos].PISCST = strdup(row[PROD_PISCST_COL]);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].PISAliq = strdup(row[PROD_PISALIQ_COL]);
+
+  pdv_venda_atual->cupom_atual->det->produtos[pos].COFINSCST = strdup(row[PROD_COFINSCST_COL]);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].COFINSAliq = strdup(row[PROD_COFINSALIQ_COL]);
+
   pdv_venda_atual->cupom_atual->det->produtos[pos].CFOP = strdup("5102");
   pdv_venda_atual->cupom_atual->det->produtos[pos].uCom = strdup("Unidade");
   pdv_venda_atual->cupom_atual->det->produtos[pos].qCom = inttochar(qnt);
@@ -142,6 +156,7 @@ int pdv_codprod_fun(){
   pdv_venda_atual->cupom_atual->det->produtos[pos].indRegra = strdup("A");
   pdv_venda_atual->cupom_atual->det->produtos[pos].vDesc = floattochar(desconto);
   pdv_venda_atual->cupom_atual->det->produtos[pos].vOutro = floattochar(0);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].dtotal = 
   pdv_venda_atual->itens_qnt++;
 
   gtk_tree_store_set(modelo,&campos,

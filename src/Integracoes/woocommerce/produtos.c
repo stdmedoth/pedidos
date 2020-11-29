@@ -5,7 +5,7 @@ struct _WC_Product **get_wc_produtos(){
 
   if(intgr_params_testar())
     return NULL;
-    
+
   int err = mysql_query(&intgr_con,wp_all_prod_query);
 	if(err!=0)
 	{

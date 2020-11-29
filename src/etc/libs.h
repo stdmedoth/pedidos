@@ -23,6 +23,7 @@
 #include "criticas.h"
 #include "barra_icones.h"
 #include "analisa_campos.h"
+#include "mp_popup.h"
 
 #include "../Canones/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas.h"
@@ -59,6 +60,7 @@
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
 #include "../pesquisadores/bancos.h"
+#include "../pesquisadores/contratos.h"
 #include "../pesquisadores/serv_transporte.h"
 
 #include "../Compras/cadastro_compras.h"

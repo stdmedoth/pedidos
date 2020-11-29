@@ -257,12 +257,18 @@ int desktop(){
 		return 1;
 	}
 
+	nivel_usuario_label = gtk_label_new("Nível Indefinido");
+
 	nivel_usuario_fixed = gtk_fixed_new();
 
 	if(sessao_oper.nivel<oper_perm_qnt_niveis)
-		nivel_usuario_label = gtk_label_new(niveis_gerenciais[sessao_oper.nivel]);
-	else
-		nivel_usuario_label = gtk_label_new("Nivel Ilimitado");
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), niveis_gerenciais[sessao_oper.nivel]);
+
+	if(sessao_oper.nivel >= NIVEL_TECNICO && sessao_oper.nivel < OPER_MAX_NIVEL )
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), "Nível Técnico");
+
+	if(sessao_oper.nivel >= OPER_MAX_NIVEL)
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label),"O Criador");
 
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
@@ -390,7 +396,7 @@ int init()
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
+	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janela_inicializacao);

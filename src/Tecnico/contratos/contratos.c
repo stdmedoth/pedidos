@@ -83,6 +83,8 @@ int cad_contratos(){
 
   gtk_fixed_put(GTK_FIXED(fixed), caixa, 20,20);
 
+
+  g_signal_connect(cntrats_code_psq_button, "clicked", G_CALLBACK(psq_cntrat), cntrats_code_entry);
   g_signal_connect(cntrats_code_entry, "activate", G_CALLBACK(cntrats_code_fun), NULL);
   g_signal_connect(cntrats_vencimento_entry, "activate", G_CALLBACK(cntrats_vencimento_fun), NULL);
 
