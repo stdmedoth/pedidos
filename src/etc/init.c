@@ -74,7 +74,7 @@ int desktop(){
 	}
 
 	app = gtk_application_new ("calisto.pedidos", G_APPLICATION_FLAGS_NONE);
- 	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
+	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
 	int status = g_application_run (G_APPLICATION (app), 0, NULL);
 	if(status){
 		popup(NULL,"Não foi possível carregar App");

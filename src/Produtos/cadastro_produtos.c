@@ -21,6 +21,14 @@ int inicializar_prod(){
 	return 0;
 }
 
+struct _cad_produtos *get_cad_prod(int prod_code){
+
+	struct _cad_produtos *produto  = malloc(sizeof(struct _cad_produtos ));
+
+
+	return produto;
+}
+
 int  cad_prod(){
 	char task[20];
 	sprintf(task,"%i",tasker("produtos"));
@@ -79,6 +87,7 @@ int  cad_prod(){
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"system-software-install");
 	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+	//gtk_widget_set_size_request(janela,);
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].reg_id = REG_CAD_PROD;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].aberta = 1;

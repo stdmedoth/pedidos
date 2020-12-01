@@ -15,7 +15,8 @@ enum PROD_COLS{
   PROD_COFINSCST_COL,
   PROD_COFINSALIQ_COL,
   PROD_ORIGEM_COL,
-  PROD_OBS_COL
+  PROD_OBS_COL,
+  PROD_COLS_QNT
 };
 
 int code_prod();
@@ -72,6 +73,21 @@ static GtkWidget *campo_nome_unidade,
 *campo_nome_fornecedor,
 *campo_nome_grupo,
 *campo_nome_qnt_atacado;
+
+struct _cad_produtos{
+  char *code;
+  char *xNome;
+  char *Peso;
+  char *Preco;
+  char *Und;
+  char *xUND;
+  char *Grp;
+  char *xGrp;
+  char *NCM;
+  char *cNCM;
+};
+
+struct _cad_produtos *get_cad_prod(int prod_code);
 
 //produtos
 #define PROD_CAD_QUERY "insert into produtos(nome, peso, preco, unidades, unidades_atacado ,fornecedor, grupo, grupo_nivel, ncm, origem, icmscst, piscst, pisaliq, cofinscst, cofinsaliq, observacoes) values( '%s', %s, %s, %s, %s, %s, %s, %i, %s, %s, %s, '%s', '%s', '%s', '%s', '%s');"

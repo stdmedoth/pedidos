@@ -53,7 +53,7 @@ struct _CFe *get_cupom_from_pdv(struct _pdv_venda_atual *pdv){
     popup(NULL,"Estrutura de pagamento não foi criada");
     return NULL;
   }
-  
+
   if(!pdv->cupom_atual){
     popup(NULL,"Não foi possível recuperar estrutura do cupom atual");
     return NULL;

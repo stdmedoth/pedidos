@@ -62,7 +62,7 @@ void notificacoes_wnd(){
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].janela_pointer = notf_wnd;
 
   g_signal_connect(notf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_NOTIF]);
-  
+
   gtk_widget_set_name(notf_wnd,"notificacoes");
 	gtk_window_set_position(GTK_WINDOW(notf_wnd),3);
 	gtk_window_set_resizable(GTK_WINDOW(notf_wnd),FALSE);

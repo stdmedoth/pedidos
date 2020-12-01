@@ -36,7 +36,7 @@ int *barra_icones_rem(){
   return 0;
 }
 
-GtkWidget *penden_button, *param_button, *sair_button, *logoff_button, *suport_button, *kanban_button;
+GtkWidget *penden_button, *param_button, *sair_button, *debug_button, *logoff_button, *suport_button, *kanban_button;
 
 GtkWidget *barra_icones_wnd(){
 
@@ -62,10 +62,13 @@ GtkWidget *barra_icones_wnd(){
 	logoff_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(logoff_button),gtk_image_new_from_icon_name("emblem-synchronizing",GTK_ICON_SIZE_DIALOG));
 
+	debug_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(debug_button),gtk_image_new_from_icon_name("preferences-system",GTK_ICON_SIZE_DIALOG));
 
 	gtk_widget_set_name(penden_button,"bar_buttons_secondary");
 	gtk_widget_set_name(param_button,"bar_buttons_secondary");
 	gtk_widget_set_name(sair_button,"bar_buttons_cancell");
+	gtk_widget_set_name(debug_button,"bar_buttons_secondary");
 	gtk_widget_set_name(logoff_button,"bar_buttons_cancell");
 	gtk_widget_set_name(suport_button,"bar_buttons_secondary");
 	gtk_widget_set_name(kanban_button,"bar_buttons_secondary");
@@ -81,12 +84,14 @@ GtkWidget *barra_icones_wnd(){
   gtk_layout_put(GTK_LAYOUT(layout_barra),imagem_barra,0,0);
   gtk_layout_put(GTK_LAYOUT(layout_barra),botao_iniciar,0,1);
 
-
 	if(ativar.financeiro)
 		gtk_layout_put(GTK_LAYOUT(layout_barra),penden_button,0,ULT_BARRA_POS);
 
 	if(ativar.ativo){
 		/*ferramentas*/
+		if(sessao_oper.nivel >= NIVEL_CRIADOR)
+			gtk_layout_put(GTK_LAYOUT(layout_barra),debug_button,0,ULT_BARRA_POS);
+			
 	  gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,ULT_BARRA_POS);
 	  gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,ULT_BARRA_POS);
 		gtk_layout_put(GTK_LAYOUT(layout_barra),kanban_button,0,ULT_BARRA_POS);
@@ -107,8 +112,10 @@ GtkWidget *barra_icones_wnd(){
 	gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar),75,60);
 
 	gtk_widget_set_size_request(GTK_WIDGET(penden_button),75,60);
+
+	gtk_widget_set_size_request(GTK_WIDGET(debug_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(suport_button),75,60);
-  gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
+	gtk_widget_set_size_request(GTK_WIDGET(param_button),75,60);
 	gtk_widget_set_size_request(GTK_WIDGET(kanban_button),75,60);
 
 	gtk_widget_set_size_request(GTK_WIDGET(logoff_button),75,60);
@@ -128,6 +135,8 @@ GtkWidget *barra_icones_wnd(){
 	g_signal_connect(GTK_BUTTON(suport_button),"clicked",G_CALLBACK(suporte_princ_wnd),NULL);
 
   g_signal_connect(GTK_BUTTON(logoff_button),"clicked",G_CALLBACK(fechar_sessao),NULL);
+
+	g_signal_connect(GTK_BUTTON(debug_button),"clicked",G_CALLBACK(ativar_debug_fun),NULL);
 
   gtk_widget_set_size_request(layout_barra,80,750);
 

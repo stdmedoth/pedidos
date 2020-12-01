@@ -108,21 +108,21 @@ int est_saidas(){
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),est_said_cod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),psq_cod_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_cod_frame),est_said_cod_box);
-	gtk_fixed_put(GTK_FIXED(est_said_cod_fixed),est_said_cod_frame,20,20);
+	gtk_fixed_put(GTK_FIXED(est_said_cod_fixed),est_said_cod_frame,20,5);
 
 	est_said_prod_frame = gtk_frame_new("Produto");
 	est_said_prod_fixed = gtk_fixed_new();
 	est_said_prod_entry = gtk_entry_new();
 	est_said_campo_nome_prod = gtk_entry_new();
 	est_said_prod_box = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(est_said_prod_box),est_said_campo_nome_prod,0,0,0);
-	gtk_widget_set_sensitive(est_said_campo_nome_prod,FALSE);
-	gtk_widget_set_name(est_said_campo_nome_prod,"entry_unsensetivate");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(est_said_campo_nome_prod),"Nome Produto");
+	gtk_editable_set_editable(GTK_EDITABLE(est_said_campo_nome_prod),FALSE);
 	gtk_box_pack_start(GTK_BOX(produto_box),est_said_prod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(produto_box),psq_prod_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_said_prod_box),produto_box,0,0,0);
-	gtk_container_add(GTK_CONTAINER(est_said_prod_frame),est_said_prod_box);
-	gtk_fixed_put(GTK_FIXED(est_said_prod_fixed),est_said_prod_frame,20,20);
+	gtk_box_pack_start(GTK_BOX(produto_box),est_said_campo_nome_prod,0,0,0);
+	gtk_container_add(GTK_CONTAINER(est_said_prod_frame),produto_box);
+	gtk_fixed_put(GTK_FIXED(est_said_prod_fixed),est_said_prod_frame,20,5);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_said_prod_entry),8);
 
 	est_said_est_frame = gtk_frame_new("Estoque");
 	est_said_est_fixed = gtk_fixed_new();
@@ -132,20 +132,17 @@ int est_saidas(){
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_est_combo),"Escolha o estoque");
 	sprintf(query,"select code,nome from estoques");
 	cont=0;
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao buscar estoques");
 		return 1;
 	}
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
+	while((row = mysql_fetch_row(res))!=NULL){
 		sprintf(nome_estoque,"%s - %s",row[0],row[1]);
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_est_combo),nome_estoque);
 
 		cont++;
 	}
-	if(cont==0)
-	{
+	if(cont==0){
 		popup(NULL,"Sem nenhum estoque cadastrado");
 		cad_est();
 		return 1;
@@ -185,13 +182,13 @@ int est_saidas(){
 	est_said_client_entry = gtk_entry_new();
 	est_said_campo_nome_client = gtk_entry_new();
 	est_said_client_box = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(est_said_client_box),est_said_campo_nome_client,0,0,0);
-	gtk_widget_set_sensitive(est_said_campo_nome_client,FALSE);
-	gtk_widget_set_name(est_said_campo_nome_client,"entry_unsensetivate");
+	gtk_entry_set_placeholder_text(GTK_ENTRY(est_said_campo_nome_client),"Nome Cliente");
+	gtk_editable_set_editable(GTK_EDITABLE(est_said_campo_nome_client),FALSE);
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_said_client_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_said_client_box),cliente_box,0,0,0);
-	gtk_container_add(GTK_CONTAINER(est_said_client_frame),est_said_client_box);
+	gtk_box_pack_start(GTK_BOX(cliente_box),est_said_campo_nome_client,0,0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_said_client_entry),8);
+	gtk_container_add(GTK_CONTAINER(est_said_client_frame),cliente_box);
 	gtk_fixed_put(GTK_FIXED(est_said_client_fixed),est_said_client_frame,20,20);
 
 	est_said_ped_frame = gtk_frame_new("Vin. Pedido");
@@ -255,7 +252,7 @@ int est_saidas(){
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,580,500);
+	gtk_widget_set_size_request(janela,580,400);
 	gtk_widget_show_all(janela);
 
 	return 0;

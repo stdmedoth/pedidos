@@ -19,7 +19,7 @@ void receber_est_ent_mov_code(GtkWidget *button, GtkTreeView *treeview)
 
 int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
+	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
@@ -29,13 +29,6 @@ int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	char tipo_mov[30];
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	char *source,*dest;
-	char **familia_char;
-	int grupo_len;
-	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
 
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 	char query[MAX_QUERY_LEN];
@@ -44,11 +37,10 @@ int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 and t.razao like '%c%s%c' limit 20",37,entrada,37);
+	sprintf(query,"select m.code, t.razao, m.entradas, DATE_FORMAT(m.data_mov, '%%d/%%m/%%Y') from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 and t.razao like '%c%s%c' limit 20",37,entrada,37);
 
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(res == NULL){
 		return 1;
 	}
 
@@ -56,31 +48,16 @@ int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	{
 
 		int cont=0;
-		if((grupo_len = rec_familia_nome(familia_char, atoi(row[2]) ))<0)
-			break;
-
-		memset(dest,0x0,strlen(dest));
-		memset(source,0x0,strlen(source));
-
-		for(int cont=grupo_len;cont>0;cont--)
-		{
-			sprintf(dest,"%s %s",source,familia_char[cont]);
-
-			strcpy(source,dest);
-		}
 
 		strcpy(tipo_mov,"Entrada");
-
-
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
 		COLUMN1,row[1],
-		COLUMN2,dest,
-		COLUMN3,tipo_mov,
-		COLUMN4,row[4],
+		COLUMN2,tipo_mov,
+		COLUMN3,row[3],
 		-1);
 	}
 	return 0;
@@ -88,10 +65,10 @@ int entry_est_ent_mov_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 
 int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 {
-	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
+	enum {N_COLUMNS=4,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkWidget *scrollwindow;
-	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4, *coluna5;
-	GtkCellRenderer *celula1, *celula2, *celula3, *celula4, *celula5;
+	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4;
+	GtkCellRenderer *celula1, *celula2, *celula3, *celula4;
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
@@ -104,14 +81,7 @@ int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	char *source,*dest;
-	char **familia_char;
 	char tipo_mov[30];
-	int grupo_len;
-	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO-1);
 
 	gchar *formata_peso = malloc(MAX_PRECO_LEN);
 
@@ -125,8 +95,6 @@ int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 	celula3 = gtk_cell_renderer_text_new();
 	coluna4 = gtk_tree_view_column_new();
 	celula4 = gtk_cell_renderer_text_new();
-	coluna5 = gtk_tree_view_column_new();
-	celula5 = gtk_cell_renderer_text_new();
 
 	treeview = gtk_tree_view_new();
 
@@ -155,67 +123,40 @@ int psq_est_ent_mov(GtkWidget *button, GtkEntry *cod_est_ent_mov_entry)
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
 
 	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
-	gtk_tree_view_column_set_title(coluna3,"SubGrupo");
+	gtk_tree_view_column_set_title(coluna3,"Tipo");
 	gtk_tree_view_column_set_spacing(coluna3,5);
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
 	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
-	gtk_tree_view_column_set_title(coluna4,"Tipo");
+	gtk_tree_view_column_set_title(coluna4,"Data Movimentação");
 	gtk_tree_view_column_set_spacing(coluna4,5);
 	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
-
-	gtk_tree_view_column_pack_start(coluna5,celula5,TRUE);
-	gtk_tree_view_column_set_title(coluna5,"Data Movimentação");
-	gtk_tree_view_column_set_spacing(coluna5,5);
-	gtk_tree_view_column_add_attribute(coluna5,celula5,"text",4);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
 
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select m.code, t.razao, m.subgrupo, m.entradas, m.data_mov from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 limit 20");
+	sprintf(query,"select m.code, t.razao, m.entradas, DATE_FORMAT(m.data_mov, '%%d/%%m/%%Y') from movimento_estoque as m inner join terceiros as t on t.code = m.cliente where m.entradas > 0 limit 20");
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(!res)
 		return 1;
-	}
 
-
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
-
+	while((row = mysql_fetch_row(res))){
 		int cont=0;
-		if((grupo_len = rec_familia_nome(familia_char, atoi(row[2]) ))<0)
-			break;
-
-		memset(dest,0x0,strlen(dest));
-		memset(source,0x0,strlen(source));
-
-		for(int cont=grupo_len;cont>0;cont--)
-		{
-			sprintf(dest,"%s %s",source,familia_char[cont]);
-
-			strcpy(source,dest);
-		}
-
 		strcpy(tipo_mov,"Entrada");
-
-
 
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
 		COLUMN1,row[1],
-		COLUMN2,dest,
-		COLUMN3,tipo_mov,
-		COLUMN4,row[4],
+		COLUMN2,tipo_mov,
+		COLUMN3,row[3],
 		-1);
 	}
 

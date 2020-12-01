@@ -40,8 +40,8 @@ int mkt_mail_modelpronto_fun(){
   gtk_window_set_title(GTK_WINDOW(janela),"Modelos Base");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"mail-replied");
 
-  if(janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD].janela_pointer)
-    gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD].janela_pointer));
+  if(janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].janela_pointer)
+    gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].janela_pointer));
   else
     gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 

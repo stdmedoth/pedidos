@@ -14,17 +14,15 @@ void est_ent_alterar_fun()
 		return ;
 
 	sprintf(query,"select * from movimento_estoque where code = %s",est_ent_cod_gchar);
-	if((estado = consultar(query))==NULL)
+	if(!(estado = consultar(query)))
 		return ;
 
-	if((campo = mysql_fetch_row(estado))==NULL)
-	{
+	if(!(campo = mysql_fetch_row(estado))){
 		popup(NULL,"O movimento não existe");
 		return ;
 	}
 
-	if(sscanf(campo[DATA_MOV_EST], "%d-%d-%d", &ano, &mes, &dia) == EOF)
-  {
+	if(sscanf(campo[DATA_MOV_EST], "%d-%d-%d", &ano, &mes, &dia) == EOF){
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return ;
   }

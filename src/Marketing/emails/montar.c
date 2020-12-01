@@ -29,7 +29,6 @@ int mkt_mail_montar_fun(){
     body3 = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(buffer), &inicio, &fim, TRUE);
   }
 
-
   /*buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mkt_mail_editorfooter_view));
   if(buffer){
     gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffer), &inicio, &fim);
@@ -65,9 +64,7 @@ int mkt_mail_montar_fun(){
       popup(NULL,"Stylesheets não encontrado");
       return 1;
     }
-
     fread(contents, 1024*1024*4, 1, cssfile);
-
     xmlNodeAddContent(style, (xmlChar*)contents);
   }
   xmlAddChild(headTag, style);
@@ -80,37 +77,47 @@ int mkt_mail_montar_fun(){
     xmlAddChild(div, titleTag);
     xmlAddChild(bodyTag, div);
   }
-
   xmlNodePtr tableTag = xmlNewNode(NULL,(xmlChar*)"table");
+  xmlSetProp(tableTag, (xmlChar*) "cellpadding", (xmlChar*) "0");
+  xmlSetProp(tableTag, (xmlChar*) "cellspacing", (xmlChar*) "0");
+
   if(body1 && strlen(body1)){
     xmlNodePtr tr = xmlNewNode(NULL,(xmlChar*)"tr");
+    xmlSetProp(tr, (xmlChar*) "class", (xmlChar*)"corpo1");
     xmlNodePtr td = xmlNewNode(NULL,(xmlChar*)"td");
 
     xmlNodePtr p = xmlNewNode(NULL,(xmlChar*)"p");
-    xmlSetProp(p, (xmlChar*) "class", (xmlChar*)"corpo1");
     xmlNodeAddContent(p, (xmlChar*)body1);
 
     xmlAddChild(td, p);
     xmlAddChild(tr, td);
-    xmlAddChild(bodyTag, tr);
+    xmlAddChild(tableTag, tr);
   }
-
   if(body2 && strlen(body2)){
-    xmlNodePtr div = xmlNewNode(NULL,(xmlChar*)"tbody");
+    xmlNodePtr tr = xmlNewNode(NULL,(xmlChar*)"tr");
+    xmlSetProp(tr, (xmlChar*) "class", (xmlChar*)"corpo2");
+    xmlNodePtr td = xmlNewNode(NULL,(xmlChar*)"td");
+
     xmlNodePtr p = xmlNewNode(NULL,(xmlChar*)"p");
-    xmlSetProp(p, (xmlChar*) "class", (xmlChar*)"corpo2");
     xmlNodeAddContent(p, (xmlChar*)body2);
-    xmlAddChild(div, p);
-    xmlAddChild(bodyTag, div);
+
+    xmlAddChild(td, p);
+    xmlAddChild(tr, td);
+    xmlAddChild(tableTag, tr);
   }
   if(body3 && strlen(body3)){
-    xmlNodePtr div = xmlNewNode(NULL,(xmlChar*)"tbody");
+    xmlNodePtr tr = xmlNewNode(NULL,(xmlChar*)"tr");
+    xmlSetProp(tr, (xmlChar*) "class", (xmlChar*)"corpo3");
+    xmlNodePtr td = xmlNewNode(NULL,(xmlChar*)"td");
+
     xmlNodePtr p = xmlNewNode(NULL,(xmlChar*)"p");
-    xmlSetProp(p, (xmlChar*) "class", (xmlChar*)"corpo3");
     xmlNodeAddContent(p, (xmlChar*)body3);
-    xmlAddChild(div, p);
-    xmlAddChild(bodyTag, div);
+
+    xmlAddChild(td, p);
+    xmlAddChild(tr, td);
+    xmlAddChild(tableTag, tr);
   }
+  xmlAddChild(bodyTag, tableTag);
 
   xmlDocSetRootElement(document, htmlTag);
   int mem;

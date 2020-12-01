@@ -24,6 +24,7 @@
 #include "barra_icones.h"
 #include "analisa_campos.h"
 #include "mp_popup.h"
+#include "debugger.h"
 
 #include "../Canones/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas.h"

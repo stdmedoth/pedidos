@@ -103,7 +103,7 @@ int pdv_codprod_fun(){
   gchar *formata_desconto = malloc(MAX_PRECO_LEN);
   gchar *formata_total = malloc(MAX_PRECO_LEN);
   int produto=0;
-  float preco=0, qnt=0, desconto=0, total=0;
+  float preco=0, qnt=0, desconto=0, total=0, outras_deducoes=0;
   GtkTreeStore *modelo	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(pdv_itens_treeview)));
   GtkTreeIter campos;
   gtk_tree_store_append(modelo,&campos,NULL);
@@ -124,7 +124,7 @@ int pdv_codprod_fun(){
 
   GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL(modelo), &campos);
   gint *posP = gtk_tree_path_get_indices(path);
-
+  gchar *formatar_valor = malloc(20);
   if(!posP)
     return 1;
 
@@ -144,19 +144,25 @@ int pdv_codprod_fun(){
   pdv_venda_atual->cupom_atual->det->produtos[pos].ICMSCST = strdup(row[PROD_NOM_COL]);
 
   pdv_venda_atual->cupom_atual->det->produtos[pos].PISCST = strdup(row[PROD_PISCST_COL]);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].PISAliq = strdup(row[PROD_PISALIQ_COL]);
+  sprintf(formatar_valor,"%010.4f",atof(row[PROD_PISALIQ_COL]));
+  pdv_venda_atual->cupom_atual->det->produtos[pos].PISAliq = strdup(formatar_valor);
 
   pdv_venda_atual->cupom_atual->det->produtos[pos].COFINSCST = strdup(row[PROD_COFINSCST_COL]);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].COFINSAliq = strdup(row[PROD_COFINSALIQ_COL]);
+  sprintf(formatar_valor,"%010.4f",atof(row[PROD_PISALIQ_COL]));
+  pdv_venda_atual->cupom_atual->det->produtos[pos].COFINSAliq = strdup(formatar_valor);
 
   pdv_venda_atual->cupom_atual->det->produtos[pos].CFOP = strdup("5102");
   pdv_venda_atual->cupom_atual->det->produtos[pos].uCom = strdup("Unidade");
-  pdv_venda_atual->cupom_atual->det->produtos[pos].qCom = inttochar(qnt);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].vUnCom = inttochar(preco);
+  sprintf(formatar_valor,"%010.4f",qnt);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].qCom = strdup(formatar_valor);
+  sprintf(formatar_valor,"%010.2f",preco);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vUnCom = strdup(formatar_valor);
   pdv_venda_atual->cupom_atual->det->produtos[pos].indRegra = strdup("A");
-  pdv_venda_atual->cupom_atual->det->produtos[pos].vDesc = floattochar(desconto);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].vOutro = floattochar(0);
-  pdv_venda_atual->cupom_atual->det->produtos[pos].dtotal = 
+  sprintf(formatar_valor,"%010.2f",desconto);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vDesc = strdup(formatar_valor);
+  sprintf(formatar_valor,"%010.2f",outras_deducoes);
+  pdv_venda_atual->cupom_atual->det->produtos[pos].vOutro = strdup(formatar_valor);
+  //pdv_venda_atual->cupom_atual->det->produtos[pos].dtotal =
   pdv_venda_atual->itens_qnt++;
 
   gtk_tree_store_set(modelo,&campos,

@@ -43,8 +43,9 @@ REG_SOLIT_WND,
 REG_COTAC_WND,
 REG_ORDCMP_WND,
 REG_ENTCMP_WND,
-REG_ANLMKT_PROD,
-REG_MODMAIL_PROD,
+REG_ANLMKT_WND,
+REG_MODMAIL_WND,
+REG_ENVMAIL_WND,
 REG_CAD_CNTRATS,
 REG_WIN_QNT,
 };
@@ -99,6 +100,7 @@ static const char *janelas_nomes[] = {
   "Entrada de Documentos",
   "Análise de Marketing",
   "Modelo de Emails",
+  "Envio de Emails",
   "Cadastro de Contratos"
 };
 

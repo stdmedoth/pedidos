@@ -115,6 +115,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 
 int iniciar_gerenciador_janela(){
 
+  inativar_debug_fun();
   for(int cont=0;cont<=REG_WIN_QNT;cont++){
 
     if(janelas_gerenciadas.vetor_janelas[cont].aberta){

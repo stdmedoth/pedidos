@@ -33,7 +33,8 @@ xmlNode *add_pgto_xml(struct _CFe *cfe_struct){
 
     xmlAddChild(MP,cMP);
     xmlAddChild(MP,vMP);
-    xmlAddChild(MP,cAdmC);
+    if(cfe_struct->pgto[cont].icMP == MEIO_PAG_CTCREDITO || cfe_struct->pgto[cont].icMP == MEIO_PAG_CTDEBITO)
+      xmlAddChild(MP,cAdmC);
     xmlAddChild(pgto,MP);
 
   }

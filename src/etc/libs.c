@@ -21,6 +21,7 @@
 #include "../Inicio/pega_data.c"
 #include "analisa_campos.c"
 #include "mp_popup.c"
+#include "debugger.c"
 
 #include "operadores.c"
 

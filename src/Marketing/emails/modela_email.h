@@ -14,6 +14,7 @@ int mkt_mail_tipo_fun();
 int mkt_mail_header_fun();
 int mkt_mail_body_fun();
 int mkt_mail_footer_fun();
+int mkt_envia_emails();
 
 static int mkt_email_alterando =0, mkt_email_concluindo =0, mkt_email_visualizando =0  ;
 

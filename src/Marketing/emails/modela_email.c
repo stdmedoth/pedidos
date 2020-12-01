@@ -12,6 +12,7 @@
 #include "concluir.c"
 #include "visualizar.c"
 #include "modelosprontos.c"
+#include "envio_emails.c"
 #include "montar.c"
 
 int mkt_email_models(){
@@ -32,11 +33,11 @@ int mkt_email_models(){
 	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 
-	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD].reg_id = REG_MODMAIL_PROD;
-	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD].aberta = 1;
-	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD]))
+	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].reg_id = REG_MODMAIL_WND;
+	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND]))
 		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD].janela_pointer = janela;
+	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].janela_pointer = janela;
 
   GtkWidget *mkt_mail_code_frame, *mkt_mail_html_frame, *mkt_mail_editor_frame;
   GtkWidget *mkt_mail_code_box, *mkt_mail_html_box, *mkt_mail_editor_box;
@@ -49,6 +50,7 @@ int mkt_email_models(){
 
   GtkWidget *mkt_mail_css_path_frame, *mkt_mail_css_path_box, *mkt_mail_css_path_fixed;
   GtkWidget *mkt_mail_title_frame, *mkt_mail_title_box, *mkt_mail_title_fixed;
+  GtkWidget *mkt_mail_editorbody0_frame, *mkt_mail_editorbody0_box, *mkt_mail_editorbody0_fixed;
   GtkWidget *mkt_mail_editorbody1_frame, *mkt_mail_editorbody1_box, *mkt_mail_editorbody1_fixed, *mkt_mail_editorbody1_scroll;
   GtkWidget *mkt_mail_editorbody2_frame, *mkt_mail_editorbody2_box, *mkt_mail_editorbody2_fixed, *mkt_mail_editorbody2_scroll;
   GtkWidget *mkt_mail_editorbody3_frame, *mkt_mail_editorbody3_box, *mkt_mail_editorbody3_fixed, *mkt_mail_editorbody3_scroll;
@@ -63,6 +65,7 @@ int mkt_email_models(){
   *mkt_mail_editheader2_box,
   *mkt_mail_editheader3_box,
   *mkt_mail_editheader_fixed;
+
   GtkWidget *processa_button;
   GtkWidget *mkt_mail_editbody_frame, *mkt_mail_editbody_box, *mkt_mail_editbody_fixed;
 
@@ -83,6 +86,10 @@ int mkt_email_models(){
   gtk_box_pack_start(GTK_BOX(mkt_mail_title_box), mkt_mail_title_entry,0,0,0);
   gtk_container_add(GTK_CONTAINER(mkt_mail_title_frame), mkt_mail_title_box);
   gtk_fixed_put(GTK_FIXED(mkt_mail_title_fixed), mkt_mail_title_frame,10,10);
+
+  mkt_mail_editorbody0_frame = gtk_frame_new("Corpo Header");
+  mkt_mail_editorbody0_box = gtk_box_new(1,0);
+  mkt_mail_editorbody0_fixed = gtk_fixed_new();
 
   mkt_mail_editorbody1_frame = gtk_frame_new("Corpo 1 (.corpo1)");
   mkt_mail_editorbody1_box = gtk_box_new(0,0);
@@ -156,25 +163,31 @@ int mkt_email_models(){
   gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody2_scroll), mkt_mail_editorbody2_view);
   gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody3_scroll), mkt_mail_editorbody3_view);
 
+
+  gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody0_box), mkt_mail_title_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody0_box), mkt_mail_backimg_path_fixed,0,0,0);
+
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody1_box), mkt_mail_editorbody1_scroll,0,0,0);
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody2_box), mkt_mail_editorbody2_scroll,0,0,0);
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody3_box), mkt_mail_editorbody3_scroll,0,0,0);
 
+  gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody0_frame), mkt_mail_editorbody0_box);
   gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody1_frame), mkt_mail_editorbody1_box);
   gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody2_frame), mkt_mail_editorbody2_box);
   gtk_container_add(GTK_CONTAINER(mkt_mail_editorbody3_frame), mkt_mail_editorbody3_box);
 
+  gtk_fixed_put(GTK_FIXED(mkt_mail_editorbody0_fixed), mkt_mail_editorbody0_frame,0,0);
   gtk_fixed_put(GTK_FIXED(mkt_mail_editorbody1_fixed), mkt_mail_editorbody1_frame,0,0);
   gtk_fixed_put(GTK_FIXED(mkt_mail_editorbody2_fixed), mkt_mail_editorbody2_frame,0,0);
   gtk_fixed_put(GTK_FIXED(mkt_mail_editorbody3_fixed), mkt_mail_editorbody3_frame,0,0);
 
-  gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxh), mkt_mail_title_fixed,0,0,5);
+
+  gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxh), mkt_mail_editorbody0_fixed,0,0,5);
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxh), mkt_mail_editorbody1_fixed,0,0,5);
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxh), mkt_mail_editorbody2_fixed,0,0,5);
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxh), mkt_mail_editorbody3_fixed,0,0,5);
 
   gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxv), mkt_mail_editorbody_boxh,0,0,5);
-  gtk_box_pack_start(GTK_BOX(mkt_mail_editorbody_boxv), mkt_mail_backimg_path_fixed,0,0,5);
 
   gtk_container_add(GTK_CONTAINER(editor_corpo_scroll), mkt_mail_editorbody_boxv);
 
@@ -322,7 +335,7 @@ int mkt_email_models(){
 
   gtk_widget_show_all(janela);
 
-  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MODMAIL_PROD]);
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND]);
 
   return 0;
 }
