@@ -504,10 +504,11 @@ GtkWidget *rec_grupos()
 
 	return 0;
 }
-enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
+
 int criar_modelo(GtkTreeStore *modelo)
 {
 
+	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	//GtkWidget *scrollwindow;
 	//GtkTreeViewColumn *coluna1, *coluna2, *coluna3;
 	//GtkCellRenderer *celula1, *celula2, *celula3;
@@ -608,6 +609,12 @@ int criar_modelo(GtkTreeStore *modelo)
 
 int cad_grupo()
 {
+	enum {
+    COLUMN0,
+    COLUMN1,
+    COLUMN2,
+    N_COLUMNS
+  };
 	GtkWidget *visao_geral_grp_scroll, *visao_geral_grp_box, *visao_geral_grp_fixed, *visao_geral_grp_frame;
 	GtkWidget *caixa_grande;
 	GtkWidget *cod_grupo_frame, *cod_grupo_box, *cod_grupo_fixed;

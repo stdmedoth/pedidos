@@ -20,7 +20,7 @@ int cad_ico(void)
 
 	//label dos icones
 	prd_lbl = gtk_label_new("Novo Produto");
-	ter_lbl = gtk_label_new("Novo Terceiro");
+	ter_lbl = gtk_label_new("Nova Pessoa");
 	opr_lbl = gtk_label_new("Novo Operador");
 	trs_lbl = gtk_label_new("Nova Transação");
 	und_lbl = gtk_label_new("Nova Unidade Medida");

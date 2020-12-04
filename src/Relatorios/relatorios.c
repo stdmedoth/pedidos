@@ -12,6 +12,12 @@
 
 void cad_relat()
 {
+	enum {
+    COLUMN0,
+    COLUMN1,
+    COLUMN2,
+    N_COLUMNS
+  };
 	GtkWidget *janela, *caixa_grande,
 	*caixa_campos_box, *caixa_campos_scroll, *caixa_campos_frame, *caixa_campos_fixed,
 	*caixa_opcoes_box, *caixa_opcoes_fixed;

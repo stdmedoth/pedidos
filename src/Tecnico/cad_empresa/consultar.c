@@ -35,8 +35,6 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_telefone_entry),row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_celular_entry),row[EMP_CEL_COL]);
-  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
-  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
   strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_ie_entry),row[EMP_IE_COL]);
   strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
@@ -51,6 +49,10 @@ int cad_emp_consulta(){
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cad_emp_sobre_text_view));
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[EMP_SOBRE_COL], strlen(row[EMP_SOBRE_COL]));
   }
+
+  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
+
   cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   char smtp_port[6];
   sprintf(smtp_port,"%i",cad_emp_strc.smtp_port);

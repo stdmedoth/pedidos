@@ -137,7 +137,6 @@
 #include "../Financeiro/titulos/etc/importacao/importador.c"
 #include "../Financeiro/titulos/etc/importacao/iniciar.c"
 
-
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"
 #include "../Relatorios/relatorios/produtos/produtos.c"
@@ -155,6 +154,7 @@
 
 #include "../Marketing/analises/analisar.c"
 #include "../Marketing/emails/modela_email.c"
+#include "../Marketing/emails/envio_emails.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"

@@ -27,6 +27,11 @@ create table if not exists operadores( code int primary key auto_increment,
   senha varchar(50) default '',
   nivel int default 1);
 
+create table if not exists setores(
+  code int primary key auto_increment,
+  nome varchar(30)
+);
+
 create table if not exists niveis_gerenciais( code int primary key auto_increment,
   nome varchar(50) default 'NivelGerencialSemNome',
   nivel int default 0);

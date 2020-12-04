@@ -669,6 +669,7 @@ int  cad_terc()
 
 	gtk_widget_show_all(janela);
 	vinc_transp();
+	cancelar_ter();
 	gtk_widget_grab_focus(doc_ter_field);
 	return 0;
 }

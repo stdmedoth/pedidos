@@ -12,7 +12,6 @@
 #include "concluir.c"
 #include "visualizar.c"
 #include "modelosprontos.c"
-#include "envio_emails.c"
 #include "montar.c"
 
 int mkt_email_models(){

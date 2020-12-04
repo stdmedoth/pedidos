@@ -54,6 +54,12 @@ int notificacoes_button_update(){
 }
 
 void notificacoes_wnd(){
+  enum {
+    COLUMN0,
+    COLUMN1,
+    COLUMN2,
+    N_COLUMNS
+  };
   GtkWidget *notf_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   /*registrando a janela para o reg_win*/
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].reg_id = REG_NOTIF;

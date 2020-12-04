@@ -151,6 +151,7 @@
 
 #include "../Marketing/analises/analisar.h"
 #include "../Marketing/emails/modela_email.h"
+#include "../Marketing/emails/envio_emails.h"
 
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"

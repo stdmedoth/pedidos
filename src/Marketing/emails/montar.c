@@ -66,8 +66,8 @@ int mkt_mail_montar_fun(){
     }
     fread(contents, 1024*1024*4, 1, cssfile);
     xmlNodeAddContent(style, (xmlChar*)contents);
+    xmlAddChild(headTag, style);
   }
-  xmlAddChild(headTag, style);
 
   if(title && strlen(title)){
     xmlNodePtr titleTag = xmlNewNode(NULL,(xmlChar*)"h1");

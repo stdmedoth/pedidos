@@ -1,5 +1,4 @@
-void cancelar_ter()
-{
+void cancelar_ter(){
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
@@ -27,11 +26,6 @@ void cancelar_ter()
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vinc_transporte_flag),FALSE);
-
-	GList *colunas = gtk_tree_view_get_columns(GTK_TREE_VIEW (contatos_treeview));
-	for(GList *coluna = colunas; coluna; coluna = g_list_next(coluna)){
-		gtk_tree_view_remove_column(GTK_TREE_VIEW (contatos_treeview),GTK_TREE_VIEW_COLUMN(coluna->data));
-	}
 
 	//entrega
 	gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),"");
@@ -63,6 +57,14 @@ void cancelar_ter()
 	gtk_widget_set_sensitive(psq_ter_button,TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),TRUE);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+
+	GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
+  if(contatos_model){
+    g_object_ref(G_OBJECT(contatos_model));
+    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
+    gtk_list_store_clear(contatos_model);
+    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
+  }
 
 	gtk_widget_grab_focus(name_ter_field);
 }

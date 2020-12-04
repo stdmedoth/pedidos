@@ -1,5 +1,18 @@
 #include "sql_tools.c"
 
+
+void checkcellrenderer ( GtkCellRendererToggle *cell )
+{
+    int active = gtk_cell_renderer_toggle_get_active ( cell );
+    if ( active ){
+        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), FALSE );
+    }
+    else{
+        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), TRUE) ;
+    }
+    return;
+}
+
 //abreviar palavras em um texto
 char *abrevia_text(char *text) {
 
@@ -375,11 +388,12 @@ int file_logger(char *string){
 int autologger(char *string)
 {
 	char *string1, *string2,*unvulned_query;
+  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	logging = 1;
-	string1 = malloc(MAX_QUERY_LEN+strlen(string));
+	string1 = malloc(MAX_QUERY_LEN+strlen(string) + strlen(g_date_time_format(data,"%T")));
 	string2 = malloc(MAX_QUERY_LEN+strlen(string));
 
-	sprintf(string1,"%s",string);
+	sprintf(string1,"%s - %s",g_date_time_format(data,"%T"), string);
   //ainda um pouco pesado, vou melhorar...
 
 /*
