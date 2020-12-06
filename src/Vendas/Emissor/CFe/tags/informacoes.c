@@ -12,8 +12,8 @@ xmlNode *add_infAdic_xml(struct _CFe *cfe_struct){
   xmlNode *infAdic = xmlNewNode(NULL, (xmlChar*)"infAdic");
   xmlNode *infCpl = xmlNewNode(NULL, (xmlChar*)"infCpl");
 
-  xmlAddChild(infAdic,infCpl);
-  xmlAddChild(infCFe,infAdic);
+//  xmlAddChild(infAdic,infCpl);
+//  xmlAddChild(infCFe,infAdic);
 
   return infAdic;
 }

@@ -138,6 +138,7 @@ int cad_emp_recebe(){
   strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
   cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
+  strcpy(cad_emp_strc.indRatISSQN, "S"); // pode ser N, depende da operação
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);

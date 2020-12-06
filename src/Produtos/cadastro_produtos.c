@@ -278,7 +278,7 @@ int  cad_prod(){
 	prod_ncm_entry = gtk_entry_new();
 	prod_ncm_psq_button = gtk_button_new();
 	prod_icmscst_combo = gtk_combo_box_text_new();
-	sprintf(query, "SELECT * FROM cst_cson");
+	sprintf(query, "SELECT * FROM cst_cson where regime = %i", cad_emp_strc.RegTribInt);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível buscar CST/CSON");
 		return 1;

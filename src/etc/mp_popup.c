@@ -111,7 +111,8 @@ struct _cfe_pgto *get_mp_popup(GtkWidget *parent){
 
 		tipospag_ids[mp_tipospag_qnt] = malloc(12);
 		tipospag_nomes[mp_tipospag_qnt] = malloc(MAX_NAME_LEN);
-		strcpy(tipospag_ids[mp_tipospag_qnt], row[0]);
+
+    sprintf(tipospag_ids[mp_tipospag_qnt], "%02i", atoi(row[0]));
 		strcpy(tipospag_nomes[mp_tipospag_qnt], row[1]);
 		mp_tipospag_qnt++;
 	}

@@ -46,7 +46,9 @@ REG_ENTCMP_WND,
 REG_ANLMKT_WND,
 REG_MODMAIL_WND,
 REG_ENVMAIL_WND,
+REG_MAILDSTRB_WND,
 REG_CAD_CNTRATS,
+REG_TNCLOG_WND,
 REG_WIN_QNT,
 };
 
@@ -101,7 +103,9 @@ static const char *janelas_nomes[] = {
   "Análise de Marketing",
   "Modelo de Emails",
   "Envio de Emails",
-  "Cadastro de Contratos"
+  "Lista de Distribuições",
+  "Cadastro de Contratos",
+  "Visualizador de Logs"
 };
 
 typedef struct _janelas_info{

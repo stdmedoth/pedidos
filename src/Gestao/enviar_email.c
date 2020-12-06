@@ -17,6 +17,10 @@ static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp)
 
     return len;
   }
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
 
   return 0;
 }
@@ -124,6 +128,11 @@ int enviar_email_html(char *assunto, char *nome_destino, char *email_destino, ch
   curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
   curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
+   
   res = curl_easy_perform(curl);
 
   if(res != CURLE_OK){

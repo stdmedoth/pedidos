@@ -1,3 +1,82 @@
+void mkt_envmail_load(){
+  double max = gtk_level_bar_get_max_value (GTK_LEVEL_BAR(mkt_envmail_carregando_bar));
+  double value = gtk_level_bar_get_value(GTK_LEVEL_BAR(mkt_envmail_carregando_bar));
+
+  if(value >= max){
+
+    gtk_label_set_text(GTK_LABEL(mkt_envmail_carregando_label), "Concluido");
+
+    gtk_level_bar_set_value (GTK_LEVEL_BAR(mkt_envmail_carregando_bar), max);
+
+    while (g_main_context_pending(NULL))
+      g_main_context_iteration(NULL,FALSE);
+    return ;
+  }
+  value++;
+
+  char *log = malloc(100);
+  double percent = max/value * 100;
+  double faltante = max - value;
+  GTimeZone *tz = g_time_zone_new (NULL);
+  GDateTime *data = g_date_time_new(tz, 1, 1, 1, 1, 1 , 1);
+  GDateTime *datanew = NULL;
+  gchar *tempo_restante = NULL;
+
+  if(data){
+    datanew = g_date_time_add_seconds(data, MAIL_SEND_SECS * faltante);
+    if(datanew)
+      tempo_restante =  g_date_time_format(datanew,"aproximadamente %S segundos");
+    else{
+      autologger("Não foi possível adicionar segundos ao GDateTime");
+    }
+  }else{
+    autologger("Não foi possível criar GDateTime");
+  }
+
+  if(!tempo_restante)
+    tempo_restante = strdup("Calculando tempo...");
+
+  sprintf(log, "%.1f de %.1f - %.1f%%  - %s", value, max, percent,tempo_restante);
+  gtk_label_set_text(GTK_LABEL(mkt_envmail_carregando_label), log);
+  autologger(log);
+
+  gtk_level_bar_set_value (GTK_LEVEL_BAR(mkt_envmail_carregando_bar), value);
+
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+  return ;
+}
+
+GtkWidget *mkt_envmail_carregando(double max){
+  GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(janela),3);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
+	gtk_window_set_title(GTK_WINDOW(janela),"Enviando");
+	gtk_window_set_icon_name(GTK_WINDOW(janela),"mail-replied");
+
+  GtkWidget *box = gtk_box_new(1,0);
+  mkt_envmail_carregando_label = gtk_label_new("Iniciando");
+  mkt_envmail_carregando_bar = gtk_level_bar_new_for_interval(1,max);
+  mkt_envmail_carregando_button = gtk_button_new_with_label("Fechar");
+  gtk_box_pack_start(GTK_BOX(box), mkt_envmail_carregando_bar,0,0,5);
+  gtk_box_pack_start(GTK_BOX(box), mkt_envmail_carregando_label,0,0,5);
+  gtk_box_pack_start(GTK_BOX(box), mkt_envmail_carregando_button,0,0,5);
+  gtk_widget_set_size_request(mkt_envmail_carregando_bar, 300, 20);
+  gtk_container_add(GTK_CONTAINER(janela), box);
+  gtk_window_set_transient_for(GTK_WINDOW(janela),
+  GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND].janela_pointer));
+
+  gtk_widget_show_all(janela);
+
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_signal_connect(mkt_envmail_carregando_button, "clicked", G_CALLBACK(close_window_callback), janela);
+
+  return janela;
+}
+
 int mkt_envmail_model_fun(){
 
   MYSQL_RES *res;
@@ -18,9 +97,12 @@ int mkt_envmail_model_fun(){
     popup(NULL,"Modelo de email não existente");
     return 1;
   }
+
+  gtk_entry_set_text(GTK_ENTRY(mkt_envmail_model_nome_entry), row[0]);
   gtk_widget_grab_focus(mkt_envmail_list_treeview);
   return 0;
 }
+
 int mkt_envmail_enviar_distri(){
 
   MYSQL_RES *res;
@@ -50,10 +132,10 @@ int mkt_envmail_enviar_distri(){
   gchar *conteudo = malloc(strlen(row[1]) + strlen(row[2]) + strlen(row[3]) + 100);
   sprintf(conteudo,
     "<html>"
-      "<head>%s</head>"
-      "<body>%s</body>"
-      "<footer>%s</footer>"
-      "</html>",
+      "%s"
+      "%s"
+      "%s"
+    "</html>",
       row[1], row[2], row[3]);
 
   enum{
@@ -64,7 +146,9 @@ int mkt_envmail_enviar_distri(){
     TELEFONE,
   };
 
-  GtkTreeIter env_iter;
+  GtkTreeIter env_iter, iter;
+  double emails_qnt=1;
+
   GtkTreeStore *envmodel = (GtkTreeStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(mkt_envmail_envlist_treeview));
   if(!envmodel){
     popup(NULL,"TreeView sem modelo");
@@ -74,6 +158,18 @@ int mkt_envmail_enviar_distri(){
     popup(NULL,"Sem emails a enviar");
     return 1;
   }
+
+  gtk_tree_model_iter_children(GTK_TREE_MODEL(envmodel), &iter, NULL);
+  while(gtk_tree_model_iter_next(GTK_TREE_MODEL(envmodel), &iter)){
+    emails_qnt++;
+  }
+
+  GtkWidget *envmail_wnd = mkt_envmail_carregando(emails_qnt);
+
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
 
   char *id = malloc(MAX_CODE_LEN);
   char *nome = malloc(MAX_NAME_LEN);
@@ -102,19 +198,29 @@ int mkt_envmail_enviar_distri(){
         while (g_main_context_pending(NULL))
           g_main_context_iteration(NULL,FALSE);
 
-        if(enviar_email_html(assunto, nome, email, conteudo_editado))
+        g_main_context_iteration  (NULL, FALSE);
+        if(enviar_email_html(assunto, nome, email, conteudo_editado)){
           autologger("Email não enviado");
+          continue;
+        }
       }else{
         autologger("Não foi possível formatar html do email");
+        continue;
       }
 
+      while (g_main_context_pending(NULL))
+        g_main_context_iteration(NULL,FALSE);
+
+      g_main_context_iteration  (NULL, FALSE);
+      if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
+        mkt_envmail_load();
       if(!gtk_tree_store_remove(GTK_TREE_STORE(envmodel), &env_iter))
         break;
 
     }
   }
-  popup(NULL,"Processo finalizado");
-
+  if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
+    mkt_envmail_load();
   return 0;
 }
 
@@ -165,6 +271,54 @@ void mkt_models_envlist_add_contato(){
   gtk_tree_store_remove(GTK_TREE_STORE(list_model),&list_iter);
  }
 
+
+ void mkt_models_envlist_rem_contato(){
+
+  enum{
+    ID,
+    NOME,
+    EMAIL,
+    CELULAR,
+    TELEFONE,
+  };
+
+  GtkTreeSelection *selection;
+  GtkTreeModel *list_model, *env_model;
+  GtkTreeIter list_iter, env_iter;
+  char *id = malloc(MAX_CODE_LEN);
+  char *nome = malloc(MAX_NAME_LEN);
+  char *email = malloc(MAX_EMAIL_LEN);
+  char *celular = malloc(MAX_CEL_LEN);
+  char *telefone = malloc(MAX_TEL_LEN);
+
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mkt_envmail_envlist_treeview));
+  if(!gtk_tree_selection_get_selected(selection, &env_model, &env_iter))
+    return ;
+
+  gtk_tree_model_get (env_model, &env_iter,
+   ID, &id,
+   NOME, &nome,
+   EMAIL, &email,
+   CELULAR, &celular,
+   TELEFONE, &telefone,
+   -1);
+
+  list_model = gtk_tree_view_get_model(GTK_TREE_VIEW(mkt_envmail_list_treeview));
+  if(!list_model)
+   return ;
+
+  gtk_tree_store_append(GTK_TREE_STORE(list_model),&list_iter,NULL);
+  gtk_tree_store_set(GTK_TREE_STORE(list_model),&list_iter,
+  ID,id,
+  NOME,nome,
+  EMAIL,email,
+  CELULAR,celular,
+  TELEFONE,telefone,
+  -1);
+
+  gtk_tree_store_remove(GTK_TREE_STORE(env_model),&env_iter);
+}
+
 GtkTreeStore *mkt_models_list_get_model(){
 
   enum{
@@ -196,6 +350,19 @@ GtkTreeStore *mkt_models_list_get_model(){
 
   if(!strlen(distribuicao))
     return NULL;
+
+  sprintf(query,"select * from distribuicoes where code = %s", distribuicao);
+  if(!(res = consultar(query))){
+    popup(NULL,"Não foi possível consultar existencia da lista");
+    return NULL;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    popup(NULL,"Lista de distribuição não existente");
+    return NULL;
+  }
+  if(row[1])
+    gtk_entry_set_text(GTK_ENTRY(mkt_envmail_distrib_nome_entry), row[1]);
+
 
   sprintf(query,"select t.code, t.razao, c.email, c.telefone, c.celular from PessoasDistribuicao as d inner join terceiros as t inner join contatos as c on t.code = d.pessoa and c.terceiro = t.code where d.distribuicao = %s", distribuicao);
   if(!(res = consultar(query))){
@@ -277,6 +444,10 @@ int mkt_models_envia_emails(){
   mkt_envmail_envlist_scroll = gtk_scrolled_window_new(NULL,NULL);
   mkt_envmail_list_frame = gtk_frame_new("Distribuição atual:");
   mkt_envmail_envlist_frame = gtk_frame_new("Enviar para:");
+  mkt_envmail_distrib_nome_entry = gtk_entry_new();
+  gtk_editable_set_editable(GTK_EDITABLE(mkt_envmail_distrib_nome_entry), FALSE);
+  mkt_envmail_model_nome_entry = gtk_entry_new();
+  gtk_editable_set_editable(GTK_EDITABLE(mkt_envmail_model_nome_entry), FALSE);
 
   gtk_widget_set_size_request(mkt_envmail_list_scroll, 500, 400);
   gtk_widget_set_size_request(mkt_envmail_envlist_scroll, 500, 400);
@@ -375,11 +546,15 @@ int mkt_models_envia_emails(){
 
   gtk_box_pack_start(GTK_BOX(mkt_envmail_distrib_box), mkt_envmail_distrib_entry,0,0,0);
   gtk_box_pack_start(GTK_BOX(mkt_envmail_distrib_box), mkt_envmail_distrib_psq_button,0,0,5);
+  gtk_box_pack_start(GTK_BOX(mkt_envmail_distrib_box), mkt_envmail_distrib_nome_entry,0,0,5);
+
   gtk_container_add(GTK_CONTAINER(mkt_envmail_distrib_frame), mkt_envmail_distrib_box);
   gtk_fixed_put(GTK_FIXED(mkt_envmail_distrib_fixed), mkt_envmail_distrib_frame, 20,20);
 
   gtk_box_pack_start(GTK_BOX(mkt_envmail_model_box), mkt_envmail_model_entry,0,0,0);
   gtk_box_pack_start(GTK_BOX(mkt_envmail_model_box), mkt_envmail_model_psq_button,0,0,5);
+  gtk_box_pack_start(GTK_BOX(mkt_envmail_model_box), mkt_envmail_model_nome_entry,0,0,5);
+
   gtk_container_add(GTK_CONTAINER(mkt_envmail_model_frame), mkt_envmail_model_box);
   gtk_fixed_put(GTK_FIXED(mkt_envmail_model_fixed), mkt_envmail_model_frame, 20,20);
 
@@ -402,14 +577,14 @@ int mkt_models_envia_emails(){
   gtk_box_pack_start(GTK_BOX(box), box2,0,0,5);
   gtk_box_pack_start(GTK_BOX(box), opcoes_box,0,0,5);
 
-
   gtk_container_add(GTK_CONTAINER(janela), box);
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND]);
   g_signal_connect(mkt_envmail_list_treeview,"row-activated",G_CALLBACK(mkt_models_envlist_add_contato),NULL);
+  g_signal_connect(mkt_envmail_envlist_treeview,"row-activated",G_CALLBACK(mkt_models_envlist_rem_contato),NULL);
   g_signal_connect(mkt_envmail_distrib_entry,"activate",G_CALLBACK(mkt_models_list_get_model),NULL);
+  g_signal_connect(mkt_envmail_distrib_psq_button,"clicked",G_CALLBACK(psq_maildistrib),mkt_envmail_distrib_entry);
   g_signal_connect(mkt_envmail_model_entry,"activate",G_CALLBACK(mkt_envmail_model_fun),NULL);
   g_signal_connect(mkt_envmail_envia_button,"clicked",G_CALLBACK(mkt_envmail_enviar_distri),NULL);
-
 
   gtk_widget_show_all(janela);
   return 0;

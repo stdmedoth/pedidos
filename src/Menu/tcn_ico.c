@@ -8,10 +8,12 @@ int tcn_ico(void)
 	//imagem dos icones
 	emp_ico = gtk_image_new_from_file(CAD_EMP_IMG);
 	cntrats_ico = gtk_image_new_from_file(CAD_CONTR_IMG);
+	logs_ico = gtk_image_new_from_file(CAD_LOGS_IMG);
 
 	//label dos icones
 	emp_lbl = gtk_label_new("Cadastro Empresa");
 	cntrats_lbl = gtk_label_new("Contratos");
+	logs_lbl = gtk_label_new("Logger");
 
 	//caixas onde ficarao os icones
 	//cria eventos para tcna botao
@@ -34,19 +36,24 @@ int tcn_ico(void)
 		cont2++;
 	}
 
-	//icone tcnastro produto
 	gtk_box_pack_start(GTK_BOX(tcn_box[0]),emp_ico,0,0,0);
   gtk_box_pack_start(GTK_BOX(tcn_box[0]),emp_lbl,0,0,0);
 
-	//icone tcnastro produto
 	gtk_box_pack_start(GTK_BOX(tcn_box[1]),cntrats_ico,0,0,0);
 	gtk_box_pack_start(GTK_BOX(tcn_box[1]),cntrats_lbl,0,0,0);
+
+	//icone logs
+	gtk_box_pack_start(GTK_BOX(tcn_box[2]),logs_ico,0,0,0);
+	gtk_box_pack_start(GTK_BOX(tcn_box[2]),logs_lbl,0,0,0);
 
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cadastro_empresa),NULL);
 
 
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_contratos),NULL);
+
+
+	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(tecn_logger_wnd),NULL);
 
 
 	return 0;

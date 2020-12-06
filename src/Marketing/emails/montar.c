@@ -121,6 +121,7 @@ int mkt_mail_montar_fun(){
 
   xmlDocSetRootElement(document, htmlTag);
   int mem;
+
   xmlBufferPtr xmlbuf = xmlBufferCreate();
   if(xmlNodeDump(xmlbuf, document, headTag, 1,1)){
     gchar *content = (gchar*) xmlBufferContent(xmlbuf);

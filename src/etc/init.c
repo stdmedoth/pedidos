@@ -285,8 +285,7 @@ int desktop(){
 	hostname_label = gtk_label_new(endereco_maquina);
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
-
-	gtk_widget_set_name(hostname_fixed,"hostname-label");
+		
 	gtk_widget_set_name(hostname_label,"hostname-label");
 
 	nome_usuario_fixed = gtk_fixed_new();

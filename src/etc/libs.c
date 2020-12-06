@@ -50,6 +50,7 @@
 #include "../pesquisadores/bancos.c"
 #include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
+#include "../pesquisadores/mail_distribuicoes.c"
 
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
@@ -91,6 +92,7 @@
 
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
 #include "../Vendas/Emissor/CFe/cfe.c"
+#include "../Vendas/Emissor/CFe/bemasat.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"
@@ -155,6 +157,7 @@
 #include "../Marketing/analises/analisar.c"
 #include "../Marketing/emails/modela_email.c"
 #include "../Marketing/emails/envio_emails.c"
+#include "../Marketing/distribuicao/cad_distribuicao.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"
@@ -169,6 +172,7 @@
 #include "../Kanban/kanban.c"
 
 #include "../Tecnico/cad_empresa/cad_empresa.c"
+#include "../Tecnico/debugger/logs.c"
 #include "../Tecnico/contratos/contratos.c"
 
 #include "../Canones/gerenciador_janelas.c"

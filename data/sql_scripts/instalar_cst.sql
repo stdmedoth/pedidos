@@ -8,15 +8,25 @@ insert into prod_origem values(7,6,"Estrangeira – Importação direta, (Ver li
 insert into prod_origem values(8,7,"Estrangeira – Adquirida no mercado interno(Ver lista de Bens Sem Similar Nac. – LESSIN)", 7);
 insert into prod_origem values(9,8,"Nacional, Conteúdo de Importação superior a 70%", 4);
 
+insert into cst_cson values(1,"101", "Tributada pelo S.N. com perm. de créd.", 1);
+insert into cst_cson values(2,"102", "Tributada pelo S.N. sem perm. de créd.", 1);
+insert into cst_cson values(3,"103", "Isenção do ICMS no S.N. para faixa de receita bruta", 1);
+insert into cst_cson values(4,"201", "Tributada pelo S.N. com perm. de créd. e com cobrança do ICMS por ST", 1);
+insert into cst_cson values(5,"202", "Tributada pelo S.N. sem permissão de crédito e com cobrança do ICMS por ST", 1);
+insert into cst_cson values(6,"203", "Isenção do ICMS no S.N. para faixa de receita bruta e com cobrança do ICMS por ST", 1);
+insert into cst_cson values(7,"300", "Imune", 1);
+insert into cst_cson values(8,"400", "Não tributada pelo S.N.", 1);
+insert into cst_cson values(9,"500", "ICMS cobrado anteriormente por ST (substituído) ou por antecipação", 1);
+insert into cst_cson values(10,"900", "Outros", 1);
 
-insert into cst_cson values(1,"00", "Tributada integralmente", 1);
-insert into cst_cson values(2,"10", "Tributada e com cobrança do ICMS por substituição tributária", 1);
-insert into cst_cson values(3,"20",  "Com redução de base de cálculo", 1);
-insert into cst_cson values(4,"30", "Isenta ou não tributada e com cobrança do ICMS por substituição tributária", 1);
-insert into cst_cson values(5,"40", "Isenta", 1);
-insert into cst_cson values(6,"41", "Não tributada", 1);
-insert into cst_cson values(7,"50", "Suspensão", 1);
-insert into cst_cson values(8,"51", "Diferimento", 1);
-insert into cst_cson values(9,"60", "ICMS cobrado anteriormente por substituição tributária", 1);
-insert into cst_cson values(10,"70", "Com redução de base de cálculo e cobrança do ICMS por substituição tributária", 1);
-insert into cst_cson values(11,"90", "Outras", 1);
+insert into cst_cson values(11,"00", "Tributada integralmente", 3);
+insert into cst_cson values(12,"10", "Tributada e com cobrança do ICMS por substituição tributária", 3);
+insert into cst_cson values(13,"20",  "Com redução de base de cálculo", 3);
+insert into cst_cson values(14,"30", "Isenta ou não tributada e com cobrança do ICMS por substituição tributária", 3);
+insert into cst_cson values(15,"40", "Isenta", 3);
+insert into cst_cson values(16,"41", "Não tributada", 3);
+insert into cst_cson values(17,"50", "Suspensão", 3);
+insert into cst_cson values(18,"51", "Diferimento", 3);
+insert into cst_cson values(19,"60", "ICMS cobrado anteriormente por substituição tributária", 3);
+insert into cst_cson values(20,"70", "Com redução de base de cálculo e cobrança do ICMS por substituição tributária", 3);
+insert into cst_cson values(21,"90", "Outras", 3);

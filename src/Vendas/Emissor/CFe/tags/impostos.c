@@ -22,12 +22,11 @@ struct _cfe_imposto *get_cupom_impostos(struct _CFe *cupom){
   gchar *cAlPIS = strdup(valor);
   float fAlPIS = 0.65;
 
-  float base=0;
-  for(int item=0;item<cupom->det->itens_qnt;item++){
-    base += cupom->det->produtos[item].dtotal;
-  }
 
   for(int item=0;item<cupom->det->itens_qnt;item++){
+
+    float base=0;
+    base += cupom->det->produtos[item].dtotal;
 
     float valortotalitem = atof(cupom->det->produtos[item].qCom) * atof(cupom->det->produtos[item].vUnCom);
     float vicms = valortotalitem * fAlICMS / 100;
