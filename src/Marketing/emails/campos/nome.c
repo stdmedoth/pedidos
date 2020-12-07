@@ -4,6 +4,6 @@ int mkt_mail_nome_fun(){
     popup(NULL,"Insira um nome para o email");
     return 1;
   }
-  gtk_widget_grab_focus(mkt_mail_tipo_combo);
+  gtk_widget_grab_focus(mkt_mail_assunto_entry);
   return 0;
 }

@@ -3,7 +3,7 @@ int oper_cancelar()
 	gtk_entry_set_text(GTK_ENTRY(oper_nome_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(oper_senha_entry),"");
 	gtk_widget_grab_focus(oper_nome_entry);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),1);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),0);
 	oper_alterando = 0;
 	oper_perm_qnt_niveis=0;
 	return 0;

@@ -1,5 +1,6 @@
 #include "campos/codigo.c"
 #include "campos/nome.c"
+#include "campos/assunto.c"
 #include "campos/tipo.c"
 #include "campos/setor.c"
 #include "campos/header.c"
@@ -43,6 +44,7 @@ int mkt_email_models(){
   GtkWidget *mkt_mail_code_fixed, *mkt_mail_html_fixed, *mkt_mail_editor_fixed;
   GtkWidget *opcoes_box, *opcoes_fixed, *cancelar_button, *excluir_button, *alterar_button, *visualiza_button;
   GtkWidget *mkt_mail_nome_frame, *mkt_mail_nome_box, *mkt_mail_nome_fixed;
+  GtkWidget *mkt_mail_assunto_frame, *mkt_mail_assunto_box, *mkt_mail_assunto_fixed;
   GtkWidget *mkt_mail_tipo_frame, *mkt_mail_tipo_box;
   GtkWidget *mkt_mail_setor_frame, *mkt_mail_setor_box;
   GtkWidget *mkt_mail_opt_box = gtk_box_new(0,0);
@@ -231,6 +233,11 @@ int mkt_email_models(){
   gtk_container_add(GTK_CONTAINER(html_footer_scroll),mkt_mail_footer_view);
 
   gtk_entry_set_width_chars(GTK_ENTRY(mkt_mail_code_entry), 8);
+  mkt_mail_assunto_entry = gtk_entry_new();
+  mkt_mail_assunto_frame = gtk_frame_new("Assunto");
+  gtk_entry_set_width_chars(GTK_ENTRY(mkt_mail_assunto_entry), 35);
+  mkt_mail_assunto_box = gtk_box_new(0,0);
+  mkt_mail_assunto_fixed = gtk_fixed_new();
   mkt_mail_nome_entry = gtk_entry_new();
   mkt_mail_nome_fixed = gtk_fixed_new();
   mkt_mail_nome_box = gtk_box_new(0,0);
@@ -239,6 +246,10 @@ int mkt_email_models(){
   gtk_box_pack_start(GTK_BOX(mkt_mail_nome_box), mkt_mail_nome_entry,0,0,5);
   gtk_container_add(GTK_CONTAINER(mkt_mail_nome_frame), mkt_mail_nome_box);
   gtk_fixed_put(GTK_FIXED(mkt_mail_nome_fixed), mkt_mail_nome_frame,5,5);
+
+  gtk_box_pack_start(GTK_BOX(mkt_mail_assunto_box), mkt_mail_assunto_entry,0,0,5);
+  gtk_container_add(GTK_CONTAINER(mkt_mail_assunto_frame), mkt_mail_assunto_box);
+  gtk_fixed_put(GTK_FIXED(mkt_mail_assunto_fixed), mkt_mail_assunto_frame,5,5);
 
   mkt_mail_tipo_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(mkt_mail_tipo_combo), EMAIL_NEWSLETTER, "Newsletter");
@@ -306,8 +317,12 @@ int mkt_email_models(){
   gtk_notebook_append_page(GTK_NOTEBOOK(mkt_mail_geral_notebook), mkt_mail_editor_fixed, gtk_label_new("Editor"));
   gtk_notebook_append_page(GTK_NOTEBOOK(mkt_mail_geral_notebook), mkt_mail_html_fixed, gtk_label_new("HTML"));
 
+  GtkWidget *linha2 = gtk_box_new(0,0);
+  gtk_box_pack_start(GTK_BOX(linha2), mkt_mail_nome_fixed,0,0,5);
+  gtk_box_pack_start(GTK_BOX(linha2), mkt_mail_assunto_fixed,0,0,5);
+
   gtk_grid_attach(GTK_GRID(grid), mkt_mail_code_fixed,0,0,1,1);
-  gtk_grid_attach(GTK_GRID(grid), mkt_mail_nome_fixed,0,1,1,1);
+  gtk_grid_attach(GTK_GRID(grid), linha2,0,1,1,1);
   gtk_grid_attach(GTK_GRID(grid), mkt_mail_opt_box,0,2,1,1);
   gtk_grid_attach(GTK_GRID(grid), mkt_mail_geral_notebook,0,3,1,1);
   gtk_grid_attach(GTK_GRID(grid), opcoes_fixed,0,4,1,1);
@@ -316,11 +331,13 @@ int mkt_email_models(){
   gtk_container_add(GTK_CONTAINER(janela),  grid);
 
   g_signal_connect(mkt_mail_code_entry, "activate", G_CALLBACK(mkt_mail_code_fun), NULL);
+  g_signal_connect(mkt_mail_assunto_entry, "activate", G_CALLBACK(mkt_mail_assunto_fun), NULL);
   g_signal_connect(mkt_mail_nome_entry, "activate", G_CALLBACK(mkt_mail_nome_fun), NULL);
   g_signal_connect(mkt_mail_tipo_combo, "changed", G_CALLBACK(mkt_mail_tipo_fun), NULL);
   g_signal_connect(mkt_mail_setor_combo, "changed", G_CALLBACK(mkt_mail_setor_fun), NULL);
 
   g_signal_connect(mkt_mail_modelos_button, "clicked", G_CALLBACK(mkt_mail_modelpronto_fun), NULL);
+  g_signal_connect(mkt_mail_psq_button, "clicked", G_CALLBACK(psq_modelmail), mkt_mail_code_entry);
 
   g_signal_connect(mkt_mail_concluir_button, "clicked", G_CALLBACK(mkt_mail_concluir_fun), NULL);
   g_signal_connect(alterar_button, "clicked", G_CALLBACK(mkt_mail_alterar_fun), NULL);

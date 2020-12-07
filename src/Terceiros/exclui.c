@@ -1,35 +1,43 @@
-int verifica_chaves()
-{
+int verifica_ter_chaves(){
 	char *query;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	query = malloc(MAX_QUERY_LEN);
 	gchar *cod_delel;
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
-	//cliente - precos
-	sprintf(query,"select * from precos where terceiro = %s;",cod_delel);
+
+	//fornecedor - cotacoes
+	sprintf(query,"select * from itens_cotacoes where participante_id = %s;",cod_delel);
 	vetor = consultar(query);
-	if(vetor ==NULL)
-	{
-		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
+	if(!vetor){
+		popup(NULL,"Erro ao tentar verificar cotacoes para o fornecedor");
 		return 1;
 	}
-	if((campos = mysql_fetch_row(vetor))!=NULL)
-	{
-		popup(NULL,"Existem Precos para esse Cliente");
+	if((campos = mysql_fetch_row(vetor))){
+		popup(NULL,"Existem cotações para esse fornecedor");
+		return 1;
+	}
+
+	//fornecedor - lista distribuição
+	sprintf(query,"select * from PessoasDistribuicao where pessoa = %s",cod_delel);
+	vetor = consultar(query);
+	if(!vetor){
+		popup(NULL,"Erro ao tentar verificar lista de distribuicao para a pessoa");
+		return 1;
+	}
+	if((campos = mysql_fetch_row(vetor))){
+		popup(NULL,"Esta pessoa está vinculada à uma lista de distribuição");
 		return 1;
 	}
 
 	//fornecedor - produtos
 	sprintf(query,"select * from produtos where fornecedor = %s",cod_delel);
 	vetor = consultar(query);
-	if(vetor ==NULL)
-	{
-		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
+	if(!vetor){
+		popup(NULL,"Erro ao tentar verificar produtos para o fornecedor");
 		return 1;
 	}
-	if((campos = mysql_fetch_row(vetor))!=NULL)
-	{
+	if((campos = mysql_fetch_row(vetor))){
 		popup(NULL,"Existem Produtos para esse Fornecedor");
 		return 1;
 	}
@@ -37,13 +45,11 @@ int verifica_chaves()
 	//cliente - pedidos
 	sprintf(query,"select * from pedidos where cliente = %s",cod_delel);
 	vetor = consultar(query);
-	if(vetor ==NULL)
-	{
+	if(!vetor){
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
 	}
-	if((campos = mysql_fetch_row(vetor))!=NULL)
-	{
+	if((campos = mysql_fetch_row(vetor))){
 		popup(NULL,"Existem Pedidos para esse cliente");
 		return 1;
 	}
@@ -51,13 +57,11 @@ int verifica_chaves()
 	//pedidos - vendedor
 	sprintf(query,"select * from pedidos where vendedor = %s",cod_delel);
 	vetor = consultar(query);
-	if(vetor ==NULL)
-	{
+	if(!vetor){
 		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
 		return 1;
 	}
-	if((campos = mysql_fetch_row(vetor))!=NULL)
-	{
+	if((campos = mysql_fetch_row(vetor))){
 		popup(NULL,"Existem Pedidos para esse vendedor");
 		return 1;
 	}
@@ -85,7 +89,7 @@ int exclui_ter(GtkWidget *botao,gpointer *ponteiro)
 		return 1;
 	}
 
-	if(verifica_chaves()!=0)
+	if(verifica_ter_chaves()!=0)
 		return 1;
 
 	sprintf(query,"delete from terceiros where code = '%s';",cod_delel);

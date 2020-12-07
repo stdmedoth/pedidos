@@ -1,6 +1,7 @@
 create table emails_model(
   code int primary key not null,
   nome varchar(50) not null,
+  assunto varchar(20),
   tipo int not null,
   setor int not null
 );

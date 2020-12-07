@@ -15,6 +15,8 @@ int entradas_fun(){
 	janelas_gerenciadas.vetor_janelas[REG_ENTCMP_WND].janela_pointer = janela;
 
 
+	
+
 	gtk_widget_show_all(janela);
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ENTCMP_WND]);

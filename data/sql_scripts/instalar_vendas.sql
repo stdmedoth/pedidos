@@ -30,7 +30,8 @@ create table if not exists Produto_Orcamento( code int,
   desconto float default 0.0,
   total float default 0.0,
   observacoes varchar(500) default '',
-  foreign key(code) references orcamentos(code));
+  foreign key(code) references orcamentos(code),
+  foreign key(produto) references produtos(code));
 
 create table if not exists faturamento ( code int primary key auto_increment,
   pedido int default 0,

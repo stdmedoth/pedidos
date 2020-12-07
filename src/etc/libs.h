@@ -64,6 +64,7 @@
 #include "../pesquisadores/contratos.h"
 #include "../pesquisadores/serv_transporte.h"
 #include "../pesquisadores/mail_distribuicoes.h"
+#include "../pesquisadores/modelos_email.h"
 
 
 #include "../Compras/cadastro_compras.h"

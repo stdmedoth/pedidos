@@ -1,6 +1,10 @@
-
 static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp)
 {
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
+
   struct upload_status *upload_ctx = (struct upload_status *)userp;
   const char *data;
 
@@ -17,11 +21,6 @@ static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp)
 
     return len;
   }
-  while (g_main_context_pending(NULL))
-    g_main_context_iteration(NULL,FALSE);
-
-   g_main_context_iteration  (NULL, FALSE);
-
   return 0;
 }
 
@@ -132,7 +131,7 @@ int enviar_email_html(char *assunto, char *nome_destino, char *email_destino, ch
     g_main_context_iteration(NULL,FALSE);
 
    g_main_context_iteration  (NULL, FALSE);
-   
+
   res = curl_easy_perform(curl);
 
   if(res != CURLE_OK){

@@ -114,7 +114,7 @@ int mkt_envmail_enviar_distri(){
     return 1;
   }
 
-  sprintf(query,"select m.nome, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.code = m.code and b.code = m.code and f.code = m.code where m.code = %s", modelo_email);
+  sprintf(query,"select m.assunto, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.code = m.code and b.code = m.code and f.code = m.code where m.code = %s", modelo_email);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível buscar modelo de email");
     return 1;
@@ -123,12 +123,15 @@ int mkt_envmail_enviar_distri(){
     popup(NULL,"Modelo de email não existente");
     return 1;
   }
+  gchar *assunto = NULL;
+  if(row[0])
+    assunto = strdup(row[0]);
 
-  gchar *assunto = strdup(row[0]);
-  if(!strlen(assunto)){
+  if(!assunto || !strlen(assunto)){
     popup(NULL,"Modelo sem assunto");
     return 1;
   }
+
   gchar *conteudo = malloc(strlen(row[1]) + strlen(row[2]) + strlen(row[3]) + 100);
   sprintf(conteudo,
     "<html>"
@@ -189,7 +192,7 @@ int mkt_envmail_enviar_distri(){
 
       char *conteudo_editado;
       if(nome && strlen(nome))
-        conteudo_editado = replaceWord(conteudo, "mktmail_nome_cliente", nome);
+        conteudo_editado = replaceWord(conteudo, "*|ASSUNTO|*", assunto);
       else
         conteudo_editado = strdup(conteudo);
 
@@ -201,8 +204,12 @@ int mkt_envmail_enviar_distri(){
         g_main_context_iteration  (NULL, FALSE);
         if(enviar_email_html(assunto, nome, email, conteudo_editado)){
           autologger("Email não enviado");
-          continue;
+          gchar *msg = malloc(1000);
+          sprintf(msg, "O email para %s não foi enviado, deseja continuar?", email);
+          if(PopupBinario(msg, "Sim! continuar enviando", "Não! cancelar processo"))
+            return 1;
         }
+
       }else{
         autologger("Não foi possível formatar html do email");
         continue;
@@ -214,9 +221,9 @@ int mkt_envmail_enviar_distri(){
       g_main_context_iteration  (NULL, FALSE);
       if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
         mkt_envmail_load();
+
       if(!gtk_tree_store_remove(GTK_TREE_STORE(envmodel), &env_iter))
         break;
-
     }
   }
   if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
@@ -407,7 +414,6 @@ int mkt_models_envia_emails(){
     N_COLS
   };
 
-
 	janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND].reg_id = REG_ENVMAIL_WND;
 	janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND].aberta = 1;
 	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND]))
@@ -420,7 +426,7 @@ int mkt_models_envia_emails(){
   GtkWidget *linha1, *linha2, *linha3;
   GtkWidget *box1, *box2;
   GtkWidget *box;
-  GtkWidget *opcoes_box;
+  GtkWidget *opcoes_box, *opcoes_fixed, *opcoes_frame;
 
   GtkTreeStore *model;
   GtkWidget *mkt_envmail_distrib_frame = gtk_frame_new("Distribuição");
@@ -449,10 +455,10 @@ int mkt_models_envia_emails(){
   mkt_envmail_model_nome_entry = gtk_entry_new();
   gtk_editable_set_editable(GTK_EDITABLE(mkt_envmail_model_nome_entry), FALSE);
 
-  gtk_widget_set_size_request(mkt_envmail_list_scroll, 500, 400);
-  gtk_widget_set_size_request(mkt_envmail_envlist_scroll, 500, 400);
-  gtk_widget_set_size_request(mkt_envmail_list_treeview, 500, 400);
-  gtk_widget_set_size_request(mkt_envmail_envlist_treeview, 500, 400);
+  gtk_widget_set_size_request(mkt_envmail_list_scroll, 600, 400);
+  gtk_widget_set_size_request(mkt_envmail_envlist_scroll, 600, 400);
+  gtk_widget_set_size_request(mkt_envmail_list_treeview, 600, 400);
+  gtk_widget_set_size_request(mkt_envmail_envlist_treeview, 600, 400);
 
   GtkCellRenderer *mkt_envmail_list_idcell = gtk_cell_renderer_text_new();
   GtkTreeViewColumn *mkt_envmail_list_idcol = gtk_tree_view_column_new_with_attributes("Id", mkt_envmail_list_idcell, "text", ID, NULL);
@@ -489,7 +495,6 @@ int mkt_models_envia_emails(){
   gtk_tree_view_column_set_visible(mkt_envmail_envlist_idcol, FALSE);
   gtk_tree_view_column_set_visible(mkt_envmail_list_idcol, FALSE);
 
-
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[ MAX_QUERY_LEN ];
@@ -518,17 +523,18 @@ int mkt_models_envia_emails(){
   gtk_tree_view_set_model(GTK_TREE_VIEW(mkt_envmail_list_treeview), GTK_TREE_MODEL(mkt_envmail_list_model));
   gtk_tree_view_set_model(GTK_TREE_VIEW(mkt_envmail_envlist_treeview), GTK_TREE_MODEL(mkt_envmail_envlist_model));
 
-  mkt_envmail_concluir_button = gtk_button_new_with_label("Concluir");
-  gtk_button_set_image(GTK_BUTTON(mkt_envmail_concluir_button), gtk_image_new_from_file(IMG_OK));
   mkt_envmail_cancelar_button = gtk_button_new_with_label("Cancelar");
   gtk_button_set_image(GTK_BUTTON(mkt_envmail_cancelar_button), gtk_image_new_from_file(IMG_CANCEL));
   mkt_envmail_envia_button = gtk_button_new_with_label("Enviar");
   gtk_button_set_image(GTK_BUTTON(mkt_envmail_envia_button), gtk_image_new_from_icon_name("mail-replied", GTK_ICON_SIZE_BUTTON));
 
   opcoes_box = gtk_box_new(0,0);
-  gtk_box_pack_start(GTK_BOX(opcoes_box), mkt_envmail_concluir_button,0,0,20);
-  gtk_box_pack_start(GTK_BOX(opcoes_box), mkt_envmail_cancelar_button,0,0,5);
+  opcoes_fixed = gtk_fixed_new();
+  opcoes_frame = gtk_frame_new("Opções");
   gtk_box_pack_start(GTK_BOX(opcoes_box), mkt_envmail_envia_button,0,0,5);
+  gtk_box_pack_start(GTK_BOX(opcoes_box), mkt_envmail_cancelar_button,0,0,5);
+  gtk_container_add(GTK_CONTAINER(opcoes_frame), opcoes_box);
+  gtk_fixed_put(GTK_FIXED(opcoes_fixed), opcoes_frame, 20,20);
 
   gtk_container_add(GTK_CONTAINER(mkt_envmail_list_scroll), mkt_envmail_list_treeview);
   gtk_container_add(GTK_CONTAINER(mkt_envmail_envlist_scroll), mkt_envmail_envlist_treeview);
@@ -575,7 +581,7 @@ int mkt_models_envia_emails(){
 
   gtk_box_pack_start(GTK_BOX(box), box1,0,0,5);
   gtk_box_pack_start(GTK_BOX(box), box2,0,0,5);
-  gtk_box_pack_start(GTK_BOX(box), opcoes_box,0,0,5);
+  gtk_box_pack_start(GTK_BOX(box), opcoes_fixed,0,0,5);
 
   gtk_container_add(GTK_CONTAINER(janela), box);
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND]);
@@ -583,6 +589,7 @@ int mkt_models_envia_emails(){
   g_signal_connect(mkt_envmail_envlist_treeview,"row-activated",G_CALLBACK(mkt_models_envlist_rem_contato),NULL);
   g_signal_connect(mkt_envmail_distrib_entry,"activate",G_CALLBACK(mkt_models_list_get_model),NULL);
   g_signal_connect(mkt_envmail_distrib_psq_button,"clicked",G_CALLBACK(psq_maildistrib),mkt_envmail_distrib_entry);
+  g_signal_connect(mkt_envmail_model_psq_button,"clicked",G_CALLBACK(psq_modelmail),mkt_envmail_model_entry);
   g_signal_connect(mkt_envmail_model_entry,"activate",G_CALLBACK(mkt_envmail_model_fun),NULL);
   g_signal_connect(mkt_envmail_envia_button,"clicked",G_CALLBACK(mkt_envmail_enviar_distri),NULL);
 

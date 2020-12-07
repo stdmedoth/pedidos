@@ -26,10 +26,10 @@ int cad_ico(void)
 	und_lbl = gtk_label_new("Nova Unidade Medida");
 	vin_lbl = gtk_label_new("Verificar vinculos");
 	grp_lbl = gtk_label_new("Grupo de Produtos");
-	pag_lbl = gtk_label_new("Cond. Pagamento");
+	pag_lbl = gtk_label_new("Novo Pagamento");
 	crel_lbl = gtk_label_new("Novo Relatório");
 	ceps_lbl = gtk_label_new("Códigos Postais");
-	bnc_lbl = gtk_label_new("Bancos");
+	bnc_lbl = gtk_label_new("Novo Banco");
 
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao

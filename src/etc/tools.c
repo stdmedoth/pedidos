@@ -504,28 +504,33 @@ char *ped_status_from_int(int code){
 }
 
 char **get_csv_line(char *line){
-  int v_=0,v=0,pos=0;
 
+  int v_=0,v=0,pos=0;
+  int length[200];
   for(int cont=0;cont<strlen(line);cont++){
-    if(line[cont] == ';'){
+    if(line[cont] == ';')
       v_++;
-    }
   }
 
-  char **vetor = malloc(strlen(line)*v_);
+  char **vetor = malloc( strlen(line) * v_);
   vetor[0] = malloc(strlen(line));
   strcpy(vetor[0],"");
   for(int cont=0;cont<strlen(line);cont++){
+
     if(line[cont] == ';'){
+
       vetor[v][pos] = '\0';
       v++;
       pos = 0;
       vetor[v] = malloc(strlen(line));
       strcpy(vetor[v],"");
       continue;
+
     }
+
     vetor[v][pos] = line[cont];
     pos++;
   }
   return vetor;
+
 }

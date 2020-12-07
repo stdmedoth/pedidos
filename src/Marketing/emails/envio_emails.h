@@ -7,7 +7,6 @@ GtkWidget *mkt_envmail_model_entry, *mkt_envmail_model_nome_entry;
 GtkWidget *mkt_envmail_list_treeview;
 GtkWidget *mkt_envmail_envlist_treeview;
 
-GtkWidget *mkt_envmail_concluir_button;
 GtkWidget *mkt_envmail_cancelar_button;
 GtkWidget *mkt_envmail_envia_button;
 

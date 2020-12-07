@@ -51,6 +51,7 @@
 #include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
 #include "../pesquisadores/mail_distribuicoes.c"
+#include "../pesquisadores/modelos_email.c"
 
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"

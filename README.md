@@ -61,9 +61,10 @@
 </ul>
 
 <h3>Linux:</h3>
-<p>sudo ./comp.sh</p>
+<p>make</p>
+<p>sudo make install</p>
 <h3>Windows:</h3>
-<p>comp.bat</p>
+<p>instalar msys2 em C:/gnu para utilizar o script comp.bat</p>
 
 Calisto – jovictor210@gmail.com
 

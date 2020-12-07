@@ -219,6 +219,7 @@ int desktop(){
 	razao = gtk_label_new(cad_emp_strc.xNome);
 	endereco = gtk_label_new(cad_emp_strc.xLgr);
 	cnpj = gtk_label_new(cad_emp_strc.CNPJ);
+	gtk_label_set_selectable(GTK_LABEL(cnpj),TRUE);
 
 	gtk_widget_set_name(razao,"infos");
 	gtk_widget_set_name(cnpj,"infos");
@@ -282,10 +283,12 @@ int desktop(){
 	}
 
 	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
+
 	hostname_label = gtk_label_new(endereco_maquina);
+	gtk_label_set_selectable(GTK_LABEL(hostname_label),TRUE);
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
-		
+
 	gtk_widget_set_name(hostname_label,"hostname-label");
 
 	nome_usuario_fixed = gtk_fixed_new();

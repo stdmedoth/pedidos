@@ -23,6 +23,7 @@ GtkWidget *mkt_mail_code_entry;
 GtkWidget *mkt_mail_modelos_button;
 
 GtkWidget *mkt_mail_nome_entry;
+GtkWidget *mkt_mail_assunto_entry;
 GtkWidget *mkt_mail_tipo_combo;
 GtkWidget *mkt_mail_setor_combo;
 
@@ -48,7 +49,7 @@ GtkWidget *mkt_mail_geral_notebook;
 
 GtkWidget *mkt_mail_concluir_button;
 
-gchar *mkt_mail_code_gchar, *mkt_mail_nome_gchar;
+gchar *mkt_mail_code_gchar, *mkt_mail_nome_gchar, *mkt_mail_assunto_gchar;
 gchar *mkt_mail_header_gchar, *mkt_mail_body_gchar, *mkt_mail_footer_gchar;
 gint mkt_mail_tipo_int, mkt_mail_setor_int;
 
@@ -76,6 +77,7 @@ enum EMAIL_FOOTER_COLS{
 enum EMAIL_MODEL_COLS{
   EMAILMODEL_CODE_COL,
   EMAILMODEL_NOME_COL,
+  EMAILMODEL_ASSUNTO_COL,
   EMAILMODEL_TIPO_COL,
   EMAILMODEL_SETOR_COL
 };
