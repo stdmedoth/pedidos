@@ -3,7 +3,7 @@ int oper_cancelar()
 	gtk_entry_set_text(GTK_ENTRY(oper_nome_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(oper_senha_entry),"");
 	gtk_widget_grab_focus(oper_nome_entry);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),1);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),0);
 	oper_alterando = 0;
 	oper_perm_qnt_niveis=0;
 	return 0;
@@ -154,10 +154,17 @@ int oper_passa_senha()
 
 int oper_rec_nivel()
 {
-
 	oper_perm_int = gtk_spin_button_get_value(GTK_SPIN_BUTTON(oper_perm_entry));
 
-	gtk_label_set_text(GTK_LABEL(oper_perm_name_entry),niveis_gerenciais[oper_perm_int-1]);
+	if(oper_perm_int < oper_perm_qnt_niveis)
+		gtk_label_set_text(GTK_LABEL(oper_perm_name_entry),niveis_gerenciais[oper_perm_int]);
+
+	if(oper_perm_int >= NIVEL_TECNICO && oper_perm_int < OPER_MAX_NIVEL )
+		gtk_label_set_text(GTK_LABEL(oper_perm_name_entry),"Nível Técnico");
+
+	if(oper_perm_int >= OPER_MAX_NIVEL)
+		gtk_label_set_text(GTK_LABEL(oper_perm_name_entry),"O Criador");
+
 
 	return 0;
 }
@@ -277,16 +284,19 @@ int cad_oper()
 	oper_senha_entry = gtk_entry_new();
 	gtk_entry_set_visibility(GTK_ENTRY(oper_senha_entry),FALSE);
 
-	if(sessao_oper.nivel>1){
-		if(sessao_oper.nivel<=NIVEL_TECNICO)
-			oper_perm_entry = gtk_spin_button_new_with_range(1,sessao_oper.nivel,1);
-		else
-			oper_perm_entry = gtk_spin_button_new_with_range(1,NIVEL_TECNICO,1);
-	}
-	else{
-		oper_perm_entry = gtk_spin_button_new_with_range(1,1,1);
+	if(sessao_oper.nivel>=1 && sessao_oper.nivel<NIVEL_TECNICO){
+		oper_perm_entry = gtk_spin_button_new_with_range(0,sessao_oper.nivel,1);
+	}else{
+		oper_perm_entry = gtk_spin_button_new_with_range(0,1,1);
 		gtk_widget_set_sensitive(oper_perm_entry,FALSE);
 	}
+
+	if(sessao_oper.nivel>=NIVEL_TECNICO && sessao_oper.nivel < OPER_MAX_NIVEL)
+		oper_perm_entry = gtk_spin_button_new_with_range(0, OPER_MAX_NIVEL - 1 ,1);
+
+	if(sessao_oper.nivel>=OPER_MAX_NIVEL)
+		oper_perm_entry = gtk_spin_button_new_with_range(0, OPER_MAX_NIVEL * 10 ,1);
+
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),1);
 
 	oper_nome_frame = gtk_frame_new("Nome:");
@@ -341,19 +351,19 @@ int cad_oper()
 	niveis_gerenciais = malloc(MAX_NIVEL_GER_NOME*MAX_NIVEL_GER_QNT);
 	oper_perm_qnt_niveis = 0;
 
-	if((res = consultar(query))==NULL)
+	if(!(res = consultar(query)))
 		return 1;
 
-	while((row = mysql_fetch_row(res))!=NULL){
+	while((row = mysql_fetch_row(res))){
+
+		if(oper_perm_qnt_niveis>=MAX_NIVEL_GER_QNT)
+			break;
 
 		niveis_gerenciais[oper_perm_qnt_niveis] = malloc(MAX_NIVEL_GER_NOME);
 
 		strcpy(niveis_gerenciais[oper_perm_qnt_niveis],row[1]);
 
 		oper_perm_qnt_niveis++;
-
-		if(oper_perm_qnt_niveis>=MAX_NIVEL_GER_QNT)
-			break;
 	}
 
 	if(oper_perm_qnt_niveis<=0){

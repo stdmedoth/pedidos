@@ -160,7 +160,7 @@ int cadastro_empresa(){
   gtk_entry_set_width_chars(GTK_ENTRY(cad_emp_im_entry),20);
   cad_emp_regime_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cad_emp_regime_combo),"1", "Simples Nacional");
-  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cad_emp_regime_combo),"2", "Regime Normal");
+  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cad_emp_regime_combo),"3", "Regime Normal");
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_emp_regime_combo),0);
   cad_emp_logr_entry = gtk_entry_new();
   gtk_entry_set_width_chars(GTK_ENTRY(cad_emp_logr_entry),40);

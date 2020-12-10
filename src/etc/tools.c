@@ -1,20 +1,69 @@
 #include "sql_tools.c"
 
+void checkcellrenderer ( GtkCellRendererToggle *cell )
+{
+    int active = gtk_cell_renderer_toggle_get_active ( cell );
+    if ( active ){
+        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), FALSE );
+    }
+    else{
+        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), TRUE) ;
+    }
+    return;
+}
+
+//abreviar palavras em um texto
+char *abrevia_text(char *text) {
+
+  if(!text)
+    return NULL;
+
+  int tamanho = strlen(text);
+  char *token = strtok(text, " ");
+  char *texto_todo=NULL;
+  char *texto_todo2=NULL;
+
+  while(token) {
+
+    char *token2 = strdup(token);
+    if(strlen(token2)>5){
+      token2[5] = '.';
+      token2[6] = '\0';
+    }
+
+    if(texto_todo2){
+      texto_todo2 = realloc(texto_todo2, strlen(texto_todo) + strlen(token2) + 2);
+      sprintf(texto_todo2, "%s %s", texto_todo, token2);
+    }
+    else{
+      texto_todo2 = malloc( strlen(token2) + 2 );
+      sprintf(texto_todo2, "%s ",token2);
+    }
+
+    texto_todo = strdup(texto_todo2);
+
+    printf("\n%s", texto_todo);
+    token = strtok(NULL, " ");
+  }
+  return texto_todo;
+}
+
+
+//converte float para char
 char *floattochar(float floatnum){
   char *number = malloc(12);
   sprintf(number, "%.2f", floatnum);
   return number;
 }
 
-
+//converte inteiro para char
 char *inttochar(int intnum){
   char *number = malloc(12);
   sprintf(number, "%i", intnum);
   return number;
 }
 
-// Function to replace a string with another
-// string
+//Função abaixo substitui ocorrencia de string em um texto
 // retirado de https://www.geeksforgeeks.org/c-program-replace-word-text-another-given-word/ em novembro de 2020
 char* replaceWord(const char* s, const char* oldW,
                   const char* newW)
@@ -338,11 +387,12 @@ int file_logger(char *string){
 int autologger(char *string)
 {
 	char *string1, *string2,*unvulned_query;
+  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	logging = 1;
-	string1 = malloc(MAX_QUERY_LEN+strlen(string));
+	string1 = malloc(MAX_QUERY_LEN+strlen(string) + strlen(g_date_time_format(data,"%F %T")));
 	string2 = malloc(MAX_QUERY_LEN+strlen(string));
 
-	sprintf(string1,"%s",string);
+	sprintf(string1,"%s - %s",g_date_time_format(data,"%F %T"), string);
   //ainda um pouco pesado, vou melhorar...
 
 /*
@@ -454,28 +504,33 @@ char *ped_status_from_int(int code){
 }
 
 char **get_csv_line(char *line){
-  int v_=0,v=0,pos=0;
 
+  int v_=0,v=0,pos=0;
+  int length[200];
   for(int cont=0;cont<strlen(line);cont++){
-    if(line[cont] == ';'){
+    if(line[cont] == ';')
       v_++;
-    }
   }
 
-  char **vetor = malloc(strlen(line)*v_);
+  char **vetor = malloc( strlen(line) * v_);
   vetor[0] = malloc(strlen(line));
   strcpy(vetor[0],"");
   for(int cont=0;cont<strlen(line);cont++){
+
     if(line[cont] == ';'){
+
       vetor[v][pos] = '\0';
       v++;
       pos = 0;
       vetor[v] = malloc(strlen(line));
       strcpy(vetor[v],"");
       continue;
+
     }
+
     vetor[v][pos] = line[cont];
     pos++;
   }
   return vetor;
+
 }

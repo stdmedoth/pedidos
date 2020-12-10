@@ -6,14 +6,12 @@ int code_terc(){
 	char query[MAX_QUERY_LEN];
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 
-	if(strlen(codigos_ter)<=0)
-	{
+	if(strlen(codigos_ter)<=0){
 		g_print("Codigo terceiro deve ser inserido\n");
 		popup(NULL,"Por favor, insira um Código para o terceiro!");
                 sprintf(code,"%i",tasker("terceiros"));
 		gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 		gtk_widget_grab_focus(GTK_WIDGET(code_ter_field));
-		vet_erro[COD_ERR]=1;
 		return 1;
 	}
 

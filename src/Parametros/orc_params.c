@@ -61,7 +61,6 @@ int atualizar_orc_params(){
 		else
 			xmlNodeSetContent(orc_ped_canc,(xmlChar *)"0");
 	}
-
 	FILE *xmlf = fopen(ORC_PARAMS, "w");
 	if(!xmlf){
 		popup(NULL,"Não foi possível abrir arquivo de parametros");

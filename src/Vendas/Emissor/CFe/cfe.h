@@ -29,6 +29,16 @@ struct _cfe_produto{
   char *cEAN;
   char *xProd;
   char *NCM;
+
+  char *ICMSCST;
+
+  char *PISCST;
+  char *PISAliq;
+
+  char *COFINSCST;
+  char *COFINSAliq;
+
+  char *Orig;
   char *CFOP;
   char *uCom;
   char *qCom;
@@ -36,6 +46,8 @@ struct _cfe_produto{
   char *indRegra;
   char *vDesc;
   char *vOutro;
+  char *ctotal;
+  double dtotal;
 };
 
 struct _cfe_imposto{
@@ -43,37 +55,44 @@ struct _cfe_imposto{
   char *Orig;   // estado
   char *pICMS;  //tributacao
 
-  char *PISAliqCST; //cst do pis
-  char *PISAliqvBC; // base do pis
-  char *PISAliqpPIS; //valor do pis
+  char *PISCST;
+  char *PISAliq;
+  char *PISvBC;
 
-  char *PISSTvBC; //base do pis para substituicao
-  char *PISSTpPIS; //valor do pis para substituicao
-
-  char *COFINSAliqCST; //cst do cofins
-  char *COFINSAliqvBC; //base do cofins
-  char *COFINSAliqpCOFINS; //valor do cofins
+  char *COFINSCST;
+  char *COFINSAliq;
+  char *COFINSvBC;
 
   char *COFINSSTvBC; //base do cofins para st
   char *COFINSSTpCOFINS; //valor do cofins para st
 };
 
+struct _cfe_pgto{
+  int icMP;
+  char *ccMP;
+  float fvMP;
+  char *cvMP;
+  char *cAdmC;
+};
+
 struct _cfe_det{ //itens
   int nItem; //atributo
   int itens_qnt;
+  gchar *ctotal;
+  double dtotal;
   struct _cfe_produto *produtos;
   struct _cfe_imposto *impostos;
 };
-
 
 struct _CFe{
   struct _cfe_ide ide;
   struct _cfe_emit emit;
   struct _cfe_dest dest;
   struct _cfe_det *det;
+  struct _cfe_pgto *pgto;
+  int MPqnt;
   xmlDoc *xml;
 };
-
 
 struct _CFe *get_cupons_from_orc();
 
@@ -99,6 +118,5 @@ xmlNode *add_emit_xml(struct _CFe *cfe_struct);
 xmlNode *criar_InfCFeNode(xmlDoc *xml);
 
 struct _CFe *cupom_get_base_infos(struct _CFe *cfe_struct);
-
 
 #define MAX_CUPOM_ITENS 990

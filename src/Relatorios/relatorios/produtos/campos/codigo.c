@@ -37,10 +37,12 @@ int relat_prod_codigo_fun()
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_prod_ordem_combo),"Selecionar Ordem");
 		gtk_combo_box_set_active(GTK_COMBO_BOX(relat_prod_ordem_combo),0);
 		while((row = mysql_fetch_row(res))){
-			if(cont>MAX_RELAT_CAMPOS)
+			if(cont>=MAX_RELAT_CAMPOS)
 				break;
 
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_prod_ordem_combo),row[0]);
+			if(strlen(row[1]) >= MAX_ROW_LEN)
+				row[1] = '\0';
 			strcpy(campos_query[cont],row[1]);
 			cont++;
 		}

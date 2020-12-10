@@ -18,7 +18,7 @@ static char **sup_status_nomes;
 static int sup_status_nomes_qnt=0, sup_status = 0;
 
 static int sup_posts_qnt=1, sup_posts_pos=1;
-static int *sup_vet_posts_qnt;
+static int *sup_vet_posts_qnt, *sup_vet_posts_ativos;
 
 static char status_end_query[MAX_QUERY_LEN/3];
 static char prioridade_end_query[MAX_QUERY_LEN/3];
@@ -31,16 +31,19 @@ static int sup_tipo_nomes_qnt=0, sup_tipo = 0;
 
 int suporte_princ_wnd();
 
-#define SUP_CODE 0
-#define SUP_OPER 1
-#define SUP_TIT 2
-#define SUP_DESCR 3
-#define SUP_DATA 4
-#define SUP_STAT 5
-#define SUP_PRIOR 6
-#define SUP_TIP 7
+enum{
+ SUP_CODE,
+ SUP_OPER,
+ SUP_TIT,
+ SUP_DESCR,
+ SUP_DATA,
+ SUP_STAT,
+ SUP_PRIOR,
+ SUP_TIP
+};
 
 static struct _suporte_list{
+  int ativo;
   char *id;
   char *titulo;
   char *descricao;

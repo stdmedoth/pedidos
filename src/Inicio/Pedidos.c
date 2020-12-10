@@ -35,8 +35,8 @@ int main(int argc,char *argv[])
 
 	gtk_disable_setlocale();
 	//setlocale(LC_ALL,"");
-	//setlocale(LC_COLLATE,"pt_BR");
-	setlocale(LC_CTYPE,"pt_BR");
+	setlocale(LC_COLLATE,"pt_BR");
+	//setlocale(LC_CTYPE,"pt_BR");
 	setlocale(LC_MONETARY,"en_US");
 	setlocale(LC_NUMERIC,"en_US");
 

@@ -33,15 +33,17 @@ static gchar *est_ent_cod_gchar,
 
 static int alterando_mov_ent_est=0, concluindo_mov_ent_est=0;
 
-#define COD_MOV_EST 0
-#define EST_MOV_EST 1
-#define PED_MOV_EST 2
-#define CLI_MOV_EST 3
-#define PROD_MOV_EST 4
-#define ENTS_MOV_EST 6
-#define SAID_MOV_EST 7
-#define DATA_MOV_EST 8
-#define TIPO_MOV_EST 9
+enum{
+  COD_MOV_EST,
+  EST_MOV_EST,
+  PED_MOV_EST,
+  CLI_MOV_EST,
+  PROD_MOV_EST,
+  ENTS_MOV_EST,
+  SAID_MOV_EST,
+  DATA_MOV_EST,
+  TIPO_MOV_EST
+};
 
 int est_entradas();
 void est_ent_confirmar_fun();

@@ -19,6 +19,7 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(sobre_infos_keyfun),NULL);
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 	return ;
 }
@@ -74,7 +75,7 @@ int desktop(){
 	}
 
 	app = gtk_application_new ("calisto.pedidos", G_APPLICATION_FLAGS_NONE);
- 	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
+	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
 	int status = g_application_run (G_APPLICATION (app), 0, NULL);
 	if(status){
 		popup(NULL,"Não foi possível carregar App");
@@ -85,49 +86,37 @@ int desktop(){
 		g_main_context_iteration(NULL,FALSE);
 
 
-	sprintf(query,"select data_vencimento - now() from contratos");
+	sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar status do serviço");
 		return 1;
 	}
 	if(!(row = mysql_fetch_row(res))){
-		popup(NULL,"Serviço sem contrato definido, verifique!");
+		autologger("Não existem contratos ativos");
 		ativar.ativo = 0;
 	}else{
-		if(atof(row[0])<=0){
+		if(atoi(row[CONTRATOS_COLS_QNT])<=0){
 			popup(NULL,"Serviço Expirado");
 			ativar.ativo = 0;
 		}else
 			ativar.ativo = 1;
 	}
-
-	sprintf(query,"select * from contratos");
-	if((res = consultar(query))==NULL){
-		popup(NULL,"Não foi possivel receber lista de permissões");
-		return 1;
-	}
-
 	if(ativar.ativo){
-		if((row = mysql_fetch_row(res))!=NULL){
-			ativar.cadastro=atoi(row[CONTRATO_CAD_COL]);
-			ativar.compras=atoi(row[CONTRATO_CMP_COL]);
-			ativar.faturamento=atoi(row[CONTRATO_FAT_COL]);
-			ativar.estoque=atoi(row[CONTRATO_EST_COL]);
-			ativar.financeiro=atoi(row[CONTRATO_FIN_COL]);
-			ativar.marketing=atoi(row[CONTRATO_MKT_COL]);
-			ativar.relatorios=atoi(row[CONTRATO_REL_COL]);
-		}else{
-			popup(NULL,"Não há lista de permissões");
-			return 1;
-		}
+		ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
+		ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
+		ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
+		ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
+		ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
+		ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
+		ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
 	}else{
-			ativar.cadastro=0;
-			ativar.compras=0;
-			ativar.faturamento=0;
-			ativar.estoque=0;
-			ativar.financeiro=0;
-			ativar.marketing=0;
-			ativar.relatorios=0;
+		ativar.cadastro=0;
+		ativar.compras=0;
+		ativar.faturamento=0;
+		ativar.estoque=0;
+		ativar.financeiro=0;
+		ativar.marketing=0;
+		ativar.relatorios=0;
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
@@ -231,6 +220,7 @@ int desktop(){
 	razao = gtk_label_new(cad_emp_strc.xNome);
 	endereco = gtk_label_new(cad_emp_strc.xLgr);
 	cnpj = gtk_label_new(cad_emp_strc.CNPJ);
+	gtk_label_set_selectable(GTK_LABEL(cnpj),TRUE);
 
 	gtk_widget_set_name(razao,"infos");
 	gtk_widget_set_name(cnpj,"infos");
@@ -269,12 +259,18 @@ int desktop(){
 		return 1;
 	}
 
+	nivel_usuario_label = gtk_label_new("Nível Indefinido");
+
 	nivel_usuario_fixed = gtk_fixed_new();
 
-	if(sessao_oper.nivel-1<oper_perm_qnt_niveis)
-		nivel_usuario_label = gtk_label_new(niveis_gerenciais[sessao_oper.nivel-1]);
-	else
-		nivel_usuario_label = gtk_label_new("Nivel Ilimitado");
+	if(sessao_oper.nivel<oper_perm_qnt_niveis)
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), niveis_gerenciais[sessao_oper.nivel]);
+
+	if(sessao_oper.nivel >= NIVEL_TECNICO && sessao_oper.nivel < OPER_MAX_NIVEL )
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), "Nível Técnico");
+
+	if(sessao_oper.nivel >= OPER_MAX_NIVEL)
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label),"O Criador");
 
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
@@ -288,11 +284,12 @@ int desktop(){
 	}
 
 	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
+
 	hostname_label = gtk_label_new(endereco_maquina);
+	gtk_label_set_selectable(GTK_LABEL(hostname_label),TRUE);
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 
-	gtk_widget_set_name(hostname_fixed,"hostname-label");
 	gtk_widget_set_name(hostname_label,"hostname-label");
 
 	nome_usuario_fixed = gtk_fixed_new();
@@ -402,7 +399,7 @@ int init()
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
-	gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
+	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janela_inicializacao);
@@ -432,6 +429,7 @@ int init()
 		strcpy((char*)path[n_elements-1],ICON_PATH);
 		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 	}
+
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 

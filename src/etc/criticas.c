@@ -55,6 +55,7 @@ int simp_critica_real(gchar *valor)
 	}
 
 	for(int cont=0;cont<strlen(valor);cont++){
+
 		if(valor[cont] == 45){
 			valor[cont] = 45;
 		}else

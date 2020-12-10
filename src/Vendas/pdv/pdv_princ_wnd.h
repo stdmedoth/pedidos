@@ -23,6 +23,16 @@ GtkWidget *pdv_qntprod_entry;
 
 gchar *pdv_prod_antes_psq;
 
+enum MEIO_PAGS{
+  MEIO_PAG_DINHEIRO,
+  MEIO_PAG_CHEQUE,
+  MEIO_PAG_CTCREDITO,
+  MEIO_PAG_CTDEBITO,
+  MEIO_PAG_CTALIMENT,
+  MEIO_PAG_VALEALIMENT,
+  MEIO_PAG_OUTROS
+};
+
 struct _pdv_item_atual{
   int item;
   int produto;

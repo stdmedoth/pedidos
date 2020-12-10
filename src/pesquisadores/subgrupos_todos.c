@@ -205,7 +205,6 @@ int pesquisa_subgrp_todos(GtkWidget *widget, gpointer entry)
 
 	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);
 
-
 	escolher_campo_button = gtk_button_new_with_label("Selecionar");
 	escolher_campo_img = gtk_image_new_from_file(IMG_PROCR);
 	escolher_campo_fixed = gtk_fixed_new();
@@ -222,7 +221,6 @@ int pesquisa_subgrp_todos(GtkWidget *widget, gpointer entry)
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_todos_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(entry);
-
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_subgrp_todos_code),treeview);
 	gtk_widget_show_all(psq_subgrp_todos_wnd);
 	return 0;

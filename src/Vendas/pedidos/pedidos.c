@@ -10,14 +10,12 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
 
-	if(strlen(entrada)<=0)
-	{
+	if(strlen(entrada)<=0){
 		popup(NULL,"Necessário inserir código");
 		return 1;
 	}
 
-	if(strlen(entrada)>=MAX_CODE_LEN)
-	{
+	if(strlen(entrada)>=MAX_CODE_LEN){
 		popup(NULL,"Código extenso");
 		return 1;
 	}
@@ -41,12 +39,10 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(res == NULL){
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if((row = mysql_fetch_row(res))==NULL){
 		popup(NULL,"Pedido não existe");
 		return 1;
 	}
@@ -287,13 +283,6 @@ int vnd_ped()
 	gtk_window_set_position(GTK_WINDOW(janela_pedidos),3);
 	gtk_widget_set_size_request(janela_pedidos,820,480);
 
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
-
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
-
 	caixa_grande = gtk_box_new(1,0);
 	caixa_scroll = gtk_scrolled_window_new(NULL,NULL);
 	caixa_fixed = gtk_fixed_new();
@@ -474,6 +463,13 @@ int vnd_ped()
 	g_signal_connect(ped_regerar_button,"clicked",G_CALLBACK(ped_gerar),NULL);
 	g_signal_connect(ped_enviar_button,"clicked",G_CALLBACK(ped_enviar),NULL);
 	g_signal_connect(ped_excluir_button,"clicked",G_CALLBACK(ped_excluir),NULL);
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
 
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);
 	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);

@@ -23,6 +23,9 @@
 #include "criticas.h"
 #include "barra_icones.h"
 #include "analisa_campos.h"
+#include "mp_popup.h"
+#include "debugger.h"
+#include "sobre.h"
 
 #include "../Canones/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas.h"
@@ -59,7 +62,11 @@
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
 #include "../pesquisadores/bancos.h"
+#include "../pesquisadores/contratos.h"
 #include "../pesquisadores/serv_transporte.h"
+#include "../pesquisadores/mail_distribuicoes.h"
+#include "../pesquisadores/modelos_email.h"
+
 
 #include "../Compras/cadastro_compras.h"
 #include "../Compras/entradas/entradas.h"
@@ -105,6 +112,8 @@
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.h"
 #include "../Vendas/Emissor/CFe/cfe.h"
 
+#include "../Vendas/Emissor/CFe/bemasat.h"
+
 #include "../Vendas/pdv/pdv_princ_wnd.h"
 #include "../Vendas/pdv/caixa.h"
 
@@ -148,6 +157,8 @@
 
 #include "../Marketing/analises/analisar.h"
 #include "../Marketing/emails/modela_email.h"
+#include "../Marketing/emails/envio_emails.h"
+#include "../Marketing/distribuicao/cad_distribuicao.h"
 
 #include "../Suporte/suporte.h"
 #include "../Suporte/adicionar.h"
@@ -158,6 +169,8 @@
 #include "../Integracoes/woocommerce/clientes.h"
 
 #include "../Tecnico/cad_empresa/cad_empresa.h"
+#include "../Tecnico/debugger/logs.h"
+#include "../Tecnico/contratos/contratos.h"
 
 #include "../Estoque/cadastro/conclui.h"
 #include "../Estoque/cadastro/cancela.h"

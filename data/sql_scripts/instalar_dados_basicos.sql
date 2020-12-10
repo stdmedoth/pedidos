@@ -24,15 +24,15 @@ values('Documento','terceiros','ter_doc',1),
 ('Pedidos cancelados são reaproveitados','orcamentos','orc_ped_cancelado',0);
 
 insert into operadores (nome,senha,nivel)
-values ('Adm',MD5(''),3),
+values ('Adm',MD5(''),1),
 ('Calistu',MD5('password'),5);
 
 insert into niveis_gerenciais (nome,nivel)
 values
-('Operacional',1),
-('Gerencial',2),
-('Estratégico',3),
-('Técnico Software',4);
+('Operacional',0),
+('Gerencial',1),
+('Estratégico',2),
+('Técnico Software',3);
 
 insert into perfil_desktop(desktop_img,tema,janela_init,janelas_keep_above) values
 (3,1,1,1),
@@ -84,3 +84,13 @@ insert into estados(sigla,nome)
   ('SE','Sergipe'),
   ('TO','Tocantins'),
   ('SP','São Paulo');
+
+insert into meios_pagamento (code, nome)
+  values
+  (1 , 'Dinheiro'),
+  (2 , 'Cheque'),
+  (3 , 'Cartão Crédito'),
+  (4 , 'Cartão Débito'),
+  (5 , 'Cartão Aliment.'),
+  (6 , 'Vale Aliment.(em papel)'),
+  (7 , 'Outros');

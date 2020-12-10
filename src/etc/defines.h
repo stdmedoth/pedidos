@@ -21,6 +21,7 @@
 #define ICO           "C:/pedidos/files/ico.ico"
 #define MSG_PRINC     "C:/pedidos/files/msg"
 #define LOGO          "C:/pedidos/files/logo.png"
+#define LOGO_PEQUENA  "C:/pedidos/files/logo_pequena.png"
 #define BACKUP        "C:/pedidos/files/backup"
 #define DESKTOP       "C:/pedidos/files/desktop.png"
 #define DESKTOP1      "C:/pedidos/files/desktop/desktop1.png"
@@ -70,18 +71,22 @@
 #define PAG_IMG       "C:/pedidos/files/icones_opc/datas.png"
 #define ANLS_MKT_IMG  "C:/pedidos/files/icones_opc/analise_marketing.png"
 #define MODELMAIL_IMG "C:/pedidos/files/icones_opc/modelos_email.png"
+#define ENVMAIL_IMG   "C:/pedidos/files/icones_opc/envia_emails.png"
+#define MAILILIST_IMG "C:/pedidos/files/icones_opc/mailing_list.png"
 #define REC_TIT_IMG   "C:/pedidos/files/icones_opc/descendente.png"
 #define PAG_TIT_IMG   "C:/pedidos/files/icones_opc/ascendente.png"
-#define BX_PAG_TIT_IMG   "C:/pedidos/files/icones_opc/baixas_pagar.png"
-#define BX_REC_TIT_IMG   "C:/pedidos/files/icones_opc/baixas_receber.png"
+#define BX_PAG_TIT_IMG "C:/pedidos/files/icones_opc/baixas_pagar.png"
+#define BX_REC_TIT_IMG "C:/pedidos/files/icones_opc/baixas_receber.png"
 #define FATOR_IMG     "C:/pedidos/files/icones_opc/fatores.png"
 #define PRMT_IMG      "C:/pedidos/files/icones_opc/parametros.png"
 #define CAD_EMP_IMG   "C:/pedidos/files/icones_opc/company.png"
+#define CAD_CONTR_IMG "C:/pedidos/files/icones_opc/contratos.png"
 #define ATL_PROD_IMG  "C:/pedidos/files/icones_opc/atualiza_prod_nomes.png"
 #define VINC_IMG      "C:/pedidos/files/icones_opc/vinculos.png"
 #define BANCOS_IMG    "C:/pedidos/files/icones_opc/bancos.png"
 #define TRSP_IMG      "C:/pedidos/files/icones_opc/transportes.png"
 #define CAD_CEP_IMG   "C:/pedidos/files/icones_opc/search_cep.png"
+#define CAD_LOGS_IMG   "C:/pedidos/files/icones_opc/logs.png"
 #define REL_PROD_IMG     "C:/pedidos/files/icones_opc/relatorio_prod.png"
 #define REL_FIX_PROD_IMG "C:/pedidos/files/icones_opc/relatorio_fixos_produtos.png"
 #define REL_FIX_TER_IMG  "C:/pedidos/files/icones_opc/relatorio_fixos_terceiros.png"
@@ -156,6 +161,7 @@
 #define THUMBDESKTOP6 "/usr/share/pedidos/files/thumbs/thumbdesktop6.png"
 #define ICO           "/usr/share/pedidos/files/ico.ico"
 #define LOGO          "/usr/share/pedidos/files/logo.png"
+#define LOGO_PEQUENA  "/usr/share/pedidos/files/logo_pequena.png"
 #define LOGGER        "/usr/share/pedidos/files/logger.log"
 #define BACKUP        "/usr/share/pedidos/files/backup"
 #define LOGO_HEADER   "/usr/share/pedidos/files/assets/logo_header.png"
@@ -208,11 +214,15 @@
 #define UND_IMG       "/usr/share/pedidos/files/icones_opc/unidade.png"
 #define VINC_IMG      "/usr/share/pedidos/files/icones_opc/vinculos.png"
 #define CAD_EMP_IMG   "/usr/share/pedidos/files/icones_opc/company.png"
+#define CAD_LOGS_IMG  "/usr/share/pedidos/files/icones_opc/logs.png"
+#define CAD_CONTR_IMG "/usr/share/pedidos/files/icones_opc/contratos.png"
 #define TRSP_IMG      "/usr/share/pedidos/files/icones_opc/transportes.png"
 #define ATL_PROD_IMG  "/usr/share/pedidos/files/icones_opc/atualiza_prod_nomes.png"
 #define IMG_OK        "/usr/share/pedidos/files/opcoes_padrao/ok.png"
 #define ANLS_MKT_IMG  "/usr/share/pedidos/files/icones_opc/analise_marketing.png"
 #define MODELMAIL_IMG "/usr/share/pedidos/files/icones_opc/modelos_email.png"
+#define ENVMAIL_IMG   "/usr/share/pedidos/files/icones_opc/envia_emails.png"
+#define MAILILIST_IMG "/usr/share/pedidos/files/icones_opc/mailing_list.png"
 #define IMG_REC       "/usr/share/pedidos/files/opcoes_padrao/recarregar.png"
 #define IMG_ENVIA     "/usr/share/pedidos/files/opcoes_padrao/enviar.png"
 #define IMG_GERA      "/usr/share/pedidos/files/opcoes_padrao/geracao.png"
@@ -380,6 +390,13 @@ enum TIPO_OPERACOES{
   OPER_SAIDA
 };
 
+enum ICMS_INTERSTADUAL_COL{
+  INTERICMS_CODE_COL,
+  INTERICMS_ORIGEM_COL,
+  INTERICMS_DESTINO_COL,
+  INTERICMS_ALIQ_COL
+};
+
 //id das operacoes
 enum ID_OPERACOES{
   VENDA,
@@ -387,16 +404,6 @@ enum ID_OPERACOES{
   COMPRA,
   DEV_COMPRA,
   OUTRAS_OPERACOES
-};
-
-enum{
-  CONTRATO_CAD_COL,
-  CONTRATO_CMP_COL,
-  CONTRATO_FAT_COL,
-  CONTRATO_EST_COL,
-  CONTRATO_FIN_COL,
-  CONTRATO_MKT_COL,
-  CONTRATO_REL_COL
 };
 
 #define ABRIR_MENU_TECLA GDK_KEY_Alt_L

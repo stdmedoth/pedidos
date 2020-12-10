@@ -7,6 +7,8 @@ int mkt_mail_alterar_fun(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
+  if(mkt_mail_code_fun())
+    return 1;
 
   sprintf(query,"SELECT * FROM emails_model WHERE code = %i", atoi(mkt_mail_code_gchar));
   if(!(res = consultar(query))){
@@ -17,7 +19,11 @@ int mkt_mail_alterar_fun(){
     popup(NULL,"Modelo não existe");
     return 1;
   }
-  gtk_entry_set_text(GTK_ENTRY(mkt_mail_nome_entry), row[EMAILMODEL_NOME_COL]);
+  if(row[EMAILMODEL_NOME_COL])
+    gtk_entry_set_text(GTK_ENTRY(mkt_mail_nome_entry), row[EMAILMODEL_NOME_COL]);
+
+  if(row[EMAILMODEL_ASSUNTO_COL])
+    gtk_entry_set_text(GTK_ENTRY(mkt_mail_assunto_entry), row[EMAILMODEL_ASSUNTO_COL]);
 
   sprintf(query,"SELECT * FROM emails_header WHERE email_id = %i", atoi(mkt_mail_code_gchar));
   if(!(res = consultar(query))){

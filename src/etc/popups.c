@@ -389,5 +389,4 @@ gboolean get_gestor_perm(GtkWidget *button, GtkWidget *parent_wnd){
 
 	gtk_widget_destroy(janela);
 	return 0;
-
 }

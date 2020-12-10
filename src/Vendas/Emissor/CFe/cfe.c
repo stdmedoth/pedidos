@@ -5,6 +5,9 @@
 #include "tags/ide.c"
 #include "tags/impostos.c"
 #include "tags/itens.c"
+#include "tags/total.c"
+#include "tags/pagamento.c"
+#include "tags/informacoes.c"
 #include "tags/pedidos.c"
 #include "tags/cupom.c"
 
@@ -12,12 +15,12 @@ struct _CFe *cupom_get_base_infos(struct _CFe *cfe_struct){
 
   strcpy(cad_software_house.CNPJ,"23115714000140");
 
-  strcpy(cad_software_house.signAC, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+  strcpy(cad_software_house.signAC, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
   strcpy(cfe_struct->ide.CNPJ,cad_software_house.CNPJ);
   strcpy(cfe_struct->ide.signAC,cad_software_house.signAC);
@@ -39,8 +42,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   strcpy(cfe_struct->emit.CNPJ,cad_emp_strc.CNPJ);
   strcpy(cfe_struct->emit.IE,cad_emp_strc.IE);
   strcpy(cfe_struct->emit.IM,cad_emp_strc.IM);
-  strcpy(cfe_struct->emit.cRegTribISSQN,cad_emp_strc.cRegTribISSQN);
-  strcpy(cfe_struct->emit.indRatISSQN,cad_emp_strc.indRatISSQN);
+  strcpy(cfe_struct->emit.cRegTribISSQN, cad_emp_strc.cRegTribISSQN);
+  strcpy(cfe_struct->emit.indRatISSQN, cad_emp_strc.indRatISSQN);
 
   return cfe_struct;
 }

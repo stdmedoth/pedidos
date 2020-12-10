@@ -20,6 +20,9 @@
 #include "barra_icones.c"
 #include "../Inicio/pega_data.c"
 #include "analisa_campos.c"
+#include "mp_popup.c"
+#include "debugger.c"
+#include "sobre.c"
 
 #include "operadores.c"
 
@@ -46,7 +49,10 @@
 #include "../pesquisadores/cidades.c"
 #include "../pesquisadores/requisicoes.c"
 #include "../pesquisadores/bancos.c"
+#include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
+#include "../pesquisadores/mail_distribuicoes.c"
+#include "../pesquisadores/modelos_email.c"
 
 #include "../Canones/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
@@ -88,6 +94,7 @@
 
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
 #include "../Vendas/Emissor/CFe/cfe.c"
+#include "../Vendas/Emissor/CFe/bemasat.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"
@@ -134,7 +141,6 @@
 #include "../Financeiro/titulos/etc/importacao/importador.c"
 #include "../Financeiro/titulos/etc/importacao/iniciar.c"
 
-
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"
 #include "../Relatorios/relatorios/produtos/produtos.c"
@@ -152,6 +158,8 @@
 
 #include "../Marketing/analises/analisar.c"
 #include "../Marketing/emails/modela_email.c"
+#include "../Marketing/emails/envio_emails.c"
+#include "../Marketing/distribuicao/cad_distribuicao.c"
 
 #include "../Suporte/suporte.c"
 #include "../Suporte/adicionar.c"
@@ -166,5 +174,7 @@
 #include "../Kanban/kanban.c"
 
 #include "../Tecnico/cad_empresa/cad_empresa.c"
+#include "../Tecnico/debugger/logs.c"
+#include "../Tecnico/contratos/contratos.c"
 
 #include "../Canones/gerenciador_janelas.c"

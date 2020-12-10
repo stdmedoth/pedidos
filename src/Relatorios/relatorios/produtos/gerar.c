@@ -2,8 +2,8 @@ int relat_prod_gerar_fun()
 {
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
-	char *gerando_file;
-	int *tipos_colunas,list_qnt=0;
+	char *gerando_file = malloc(strlen(PROD_RELAT_FILE) + 100);
+	int *tipos_colunas = NULL, list_qnt=0;
 	int num_rows;
 	relat_prod_gerando=1;
 	char html_header[] = "<!DOCTYPE html>"
@@ -16,14 +16,14 @@ int relat_prod_gerar_fun()
 
 	char *banner = malloc(strlen(IMG_IMP_LOGO) + 100);
 
-	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PETITTO\">",IMG_IMP_LOGO);
+	sprintf(banner,"<img id=\"logo-img\" src=\"%s\" alt=\"LOGO PEDIDOS\">",IMG_IMP_LOGO);
 
 	char query[MAX_QUERY_LEN];
 	FILE *relatorio_file;
 	int cont=0,pos=0;
-	gerando_file = malloc(MAX_PATH_LEN);
 
-	if(!(relatorio_file = fopen(gerando_file, "w"))){
+	sprintf(gerando_file, "%sprodutos.html", PROD_RELAT_FILE);
+	if( !(relatorio_file = fopen(gerando_file, "w")) ){
 		popup(NULL,"Não foi possivel abrir o arquivo de relatorio");
 		relat_prod_gerando=0;
 		return 1;
@@ -45,27 +45,31 @@ int relat_prod_gerar_fun()
 
 	sprintf(query,"select b.nome,b.tipo_dado from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_prod_codigo_gchar);
 
-	if(!(res1 = consultar(query))){
-		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+	if( !(res1 = consultar(query)) ){
+		popup(NULL,"Não foi possivel receber colunas do relatorio");
+		relat_prod_gerando=0;
+		return 1;
+	}
+	num_rows = mysql_num_rows(res1);
+	if(!num_rows){
+		popup(NULL,"Não há colunas para o relatório");
 		relat_prod_gerando=0;
 		return 1;
 	}
 
-	cont=0;
-	num_rows = mysql_num_rows(res1);
-	tipos_colunas = malloc(num_rows * sizeof(int));
+	tipos_colunas = malloc( num_rows * sizeof(int) );
 	while((row1 = mysql_fetch_row(res1))){
    	fprintf(relatorio_file,"<th>%s</th>",row1[0]);
-		if( cont >= num_rows )
+		if( cont > num_rows )
 			break;
+
 		tipos_colunas[cont] = atoi(row1[1]);
 		g_print("valor tipo coluna row: %i\n",tipos_colunas[cont]);
 		cont++;
 	}
 
 	fprintf(relatorio_file,"</tr>");
-
-	if(!(res2 = consultar(relat_prod_query_gchar))){
+	if( !(res2 = consultar(relat_prod_query_gchar)) ){
 		popup(NULL,"Erro ao receber dados do relatorio");
 		relat_prod_gerando=0;
 		return 1;
@@ -75,7 +79,7 @@ int relat_prod_gerar_fun()
 		cont = 0;
 		fprintf(relatorio_file,"<tr class='tr-estilo'>");
 		list_qnt++;
-		while(cont<prod_query.campos_qnt){
+		while(cont < prod_query.campos_qnt){
 			if(tipos_colunas[cont] == 1)//texto
 					fprintf(relatorio_file,"<td>%s</td>",row2[cont]);
 			else
@@ -111,6 +115,7 @@ int relat_prod_gerar_fun()
 	fprintf(relatorio_file,"</html>");
 
 	relat_prod_gerando=0;
+
 	fclose(relatorio_file);
 
 	escolher_finalizacao(gerando_file);

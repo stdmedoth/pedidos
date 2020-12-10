@@ -9,17 +9,15 @@ int mkt_analise(){
 	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 
-	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_PROD].reg_id = REG_CAD_PROD;
-	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_PROD].aberta = 1;
-	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_ANLMKT_PROD]))
+	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND].reg_id = REG_ANLMKT_WND;
+	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND]))
 		return 1;
-	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_PROD].janela_pointer = janela;
+	janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND].janela_pointer = janela;
 
   gtk_widget_show_all(janela);
 
-  
-
-  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ANLMKT_PROD]);
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND]);
 
   return 0;
 }

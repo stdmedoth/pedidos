@@ -35,14 +35,13 @@ int cad_emp_consulta(){
   gtk_entry_set_text(GTK_ENTRY(cad_emp_telefone_entry),row[EMP_TEL_COL]);
   strcpy(cad_emp_strc.celular,row[EMP_CEL_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_celular_entry),row[EMP_CEL_COL]);
-  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
-  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
   strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_ie_entry),row[EMP_IE_COL]);
   strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_im_entry),row[EMP_IM_COL]);
   strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
-  gtk_combo_box_set_active(GTK_COMBO_BOX(cad_emp_regime_combo),atoi(row[EMP_REGTRIB_COL]));
+  cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
+  gtk_combo_box_set_active_id(GTK_COMBO_BOX(cad_emp_regime_combo), row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
 
   if(row[EMP_SOBRE_COL]){
@@ -50,6 +49,10 @@ int cad_emp_consulta(){
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cad_emp_sobre_text_view));
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[EMP_SOBRE_COL], strlen(row[EMP_SOBRE_COL]));
   }
+
+  strcpy(cad_emp_strc.smtp,row[EMP_SMTP_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_smtp_entry),row[EMP_SMTP_COL]);
+
   cad_emp_strc.smtp_port = atoi(row[EMP_SMTP_PORT_COL]);
   char smtp_port[6];
   sprintf(smtp_port,"%i",cad_emp_strc.smtp_port);
@@ -133,7 +136,9 @@ int cad_emp_recebe(){
   strcpy(cad_emp_strc.IE,row[EMP_IE_COL]);
   strcpy(cad_emp_strc.IM,row[EMP_IM_COL]);
   strcpy(cad_emp_strc.RegTrib,row[EMP_REGTRIB_COL]);
+  cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
+  strcpy(cad_emp_strc.indRatISSQN, "S"); // pode ser N, depende da operação
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);

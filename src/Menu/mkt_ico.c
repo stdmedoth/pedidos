@@ -13,6 +13,12 @@ int mkt_ico(void)
 	mkt_email_ico = gtk_image_new_from_file(MODELMAIL_IMG);
 	mkt_email_lbl = gtk_label_new("Modelagem Emails");
 
+	mkt_enviomail_ico = gtk_image_new_from_file(ENVMAIL_IMG);
+	mkt_enviomail_lbl = gtk_label_new("Envio Emails");
+
+	mkt_mailinglist_ico = gtk_image_new_from_file(MAILILIST_IMG);
+	mkt_mailinglist_lbl = gtk_label_new("Lista de Distribuição");
+
 	//caixas onde ficarao os icones
 	//cria eventos para cada botao
 
@@ -43,9 +49,21 @@ int mkt_ico(void)
 	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_lbl,0,0,0);
 	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_ico,0,0,0);
 
+	//icone lista de Distribuição
+	gtk_box_pack_end(GTK_BOX(mkt_box[2]), mkt_mailinglist_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(mkt_box[2]), mkt_mailinglist_ico,0,0,0);
+
+	//icone envio emails
+	gtk_box_pack_end(GTK_BOX(mkt_box[3]), mkt_enviomail_lbl,0,0,0);
+	gtk_box_pack_end(GTK_BOX(mkt_box[3]), mkt_enviomail_ico,0,0,0);
+
+
+
 	//sinais para chamada da opçao...
 	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(mkt_analise),NULL);
 	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(mkt_email_models),NULL);
+	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(mkt_cad_distrib_fun),NULL);
+	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(mkt_models_envia_emails),NULL);
 
 	return 0;
 }

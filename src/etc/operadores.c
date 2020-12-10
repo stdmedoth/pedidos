@@ -45,8 +45,7 @@ void verifica_senha()
 
 	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
 
-	if(!(res = consultar(query)))
-	{
+	if(!(res = consultar(query))){
 		popup(janela_login,"Erro de comunicacao com banco");
 		encerrando();
 		return ;

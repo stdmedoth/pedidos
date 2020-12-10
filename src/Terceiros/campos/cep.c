@@ -8,8 +8,7 @@ int cep_terc()
 	char ddd[10];
 	query = malloc(MAX_QUERY_LEN);
 	cep_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(cep_ter_field));
-	if(strlen(cep_ter)>=MAX_CEP_LEN)
-	{
+	if(strlen(cep_ter)>=MAX_CEP_LEN){
 		popup(NULL,"CEP muito grande\nPor favor verifique");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
@@ -25,7 +24,6 @@ int cep_terc()
 		}
 		popup(NULL,"Por favor insira um cep");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
-		vet_erro[CEP_ERR]=1;
 		return 1;
 	}
 	if(strlen(cep_ter)!=CEP_LEN)

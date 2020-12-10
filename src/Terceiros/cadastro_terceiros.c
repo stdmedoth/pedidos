@@ -66,6 +66,7 @@ struct _terc_infos *terceiros_get_terceiro(int code){
     popup(NULL,"Não foi possível consultar dados da entrega");
     return NULL;
   }
+
 	if((row = mysql_fetch_row(res))){
 		terceiros->code = atoi(row[COD_TER_COL]);
 		terceiros->razao = strdup(row[RAZ_TER_COL]);
@@ -75,12 +76,17 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->cep = strdup(row[CEP_TER_COL]);
 		terceiros->i_nro = atoi(row[REND_TER_COL]);
 		terceiros->c_nro = strdup(row[REND_TER_COL]);
+	}else{
+		popup(NULL,"Cliente/Fornecedor não existente!");
+    return NULL;
 	}
+
 	sprintf(query,"select * from logradouro where CEP = '%s'", terceiros->cep);
 	if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar logradouro da entrega");
     return NULL;
   }
+
 	if((row = mysql_fetch_row(res))){
 		terceiros->xLgr = strdup(row[CEP_DESCR_COL]);
 		terceiros->xCpl = strdup(row[CEP_COMPLEM_COL]);
@@ -88,7 +94,7 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
 		terceiros->UF = strdup(row[CEP_UF_COL]);
 	}else{
-		popup(NULL,"Não foi possível consultar endereços da entrega");
+		popup(NULL,"Cliente/Fornecedor sem endereço!");
     return NULL;
 	}
 
@@ -663,6 +669,7 @@ int  cad_terc()
 
 	gtk_widget_show_all(janela);
 	vinc_transp();
+	cancelar_ter();
 	gtk_widget_grab_focus(doc_ter_field);
 	return 0;
 }

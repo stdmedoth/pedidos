@@ -44,7 +44,7 @@ int conclui_subgrupo()
 	if(alterando_subgrp==0)
 	{
 		strcpy(mensagem,"Subgrupo criado com sucesso");
-		sprintf(query,"insert into grupos(nome,pai,nivel) values('%s',%s,%i)",subgrpnome,subgrp_paicode,nivel);
+		sprintf(query,"insert into grupos(code,nome,pai,nivel) values('%s','%s',%s,%i)",subgrpcode,subgrpnome,subgrp_paicode,nivel);
 	}
 	else
 	{
@@ -147,19 +147,23 @@ int pai_subgrp()
 		popup(NULL,"O código está muito extenso");
 		return 1;
 	}
-	sprintf(query,"select a.nome,b.nome from grupos as a inner join grupos as b on a.code = b.pai where b.code = %s",subgrp_paicode);
+	sprintf(query,"select a.nome,b.nome from grupos as a right join grupos as b on a.code = b.pai where b.code = %s",subgrp_paicode);
 	res = consultar(query);
-	if(res==NULL)
-	{
+	if(!res){
 		popup(NULL,"Erro ao procurar nome do grupo pai");
 		return 1;
 	}
-	row = mysql_fetch_row(res);
-	if(row==NULL)
-	{
-		popup(NULL,"Erro ao procurar nome do grupo pai");
+	if(!(row = mysql_fetch_row(res))){
+		popup(NULL,"Grupo pai não encontrado");
 		return 1;
 	}
+
+	if(!row[0])
+		row[0] = strdup("Nulo");
+
+	if(!row[1])
+		row[1] = strdup("Nulo");
+
 	if(strcmp(row[0],"RAIZ"))
 		sprintf(nomepai,"%s %s",row[0],row[1]);
 	else
@@ -430,7 +434,7 @@ int conclui_grupo()
 	if(alterando_grp==0)
 	{
 		strcpy(mensagem,"Grupo criado com sucesso");
-		sprintf(query,"insert into grupos(nome,pai,nivel) values('%s',1,1)",grpnome);
+		sprintf(query,"insert into grupos(code,nome,pai,nivel) values('%s','%s',1,1)",grpcode, grpnome);
 	}
 	else
 	{
@@ -500,10 +504,11 @@ GtkWidget *rec_grupos()
 
 	return 0;
 }
-enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
+
 int criar_modelo(GtkTreeStore *modelo)
 {
 
+	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2};
 	//GtkWidget *scrollwindow;
 	//GtkTreeViewColumn *coluna1, *coluna2, *coluna3;
 	//GtkCellRenderer *celula1, *celula2, *celula3;
@@ -604,6 +609,12 @@ int criar_modelo(GtkTreeStore *modelo)
 
 int cad_grupo()
 {
+	enum {
+    COLUMN0,
+    COLUMN1,
+    COLUMN2,
+    N_COLUMNS
+  };
 	GtkWidget *visao_geral_grp_scroll, *visao_geral_grp_box, *visao_geral_grp_fixed, *visao_geral_grp_frame;
 	GtkWidget *caixa_grande;
 	GtkWidget *cod_grupo_frame, *cod_grupo_box, *cod_grupo_fixed;

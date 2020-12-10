@@ -56,10 +56,45 @@ int mkt_mail_visualizar_fun(){
     popup(NULL,"Não foi possível abrir arquivo");
     return 1;
   }
+
+  char *editedheader = replaceWord(header, "teste", "teste");
+  char *editedbody = replaceWord(body, "mktmail_nome_cliente", cad_emp_strc.xNome);
+
+  char *endereco = malloc(strlen(cad_emp_strc.xLgr) + strlen(cad_emp_strc.xBairro) + strlen(cad_emp_strc.UF) + strlen(cad_emp_strc.CEP) + 20);
+  if(!strlen(cad_emp_strc.xLgr)){
+    popup(NULL,"Sem logradouro");
+    return 1;
+  }
+  if(!strlen(cad_emp_strc.xBairro)){
+    popup(NULL,"Sem bairro");
+    return 1;
+  }
+  if(!strlen(cad_emp_strc.UF)){
+    popup(NULL,"Sem bairro");
+    return 1;
+  }
+  if(!strlen(cad_emp_strc.CEP)){
+    popup(NULL,"Sem bairro");
+    return 1;
+  }
+
+  sprintf(endereco,"%s, %i, %s, %s, %s", cad_emp_strc.xLgr, cad_emp_strc.nro, cad_emp_strc.xBairro, cad_emp_strc.UF, cad_emp_strc.CEP);
+  editedbody = strdup(replaceWord(editedbody, "mktmail_endereco", endereco));
+  char *editedfooter=NULL;
+
+  if(!editedheader)
+    editedheader = strdup(header);
+
+  if(!editedbody)
+    editedbody = strdup(body);
+
+  if(!editedfooter)
+    editedfooter = strdup(footer);
+
   fprintf(file, "<html>");
-  fprintf(file, header);
-  fprintf(file, body);
-  fprintf(file, footer);
+  fprintf(file, editedheader);
+  fprintf(file, editedbody);
+  fprintf(file, editedfooter);
   fprintf(file, "</html>");
   fclose(file);
 

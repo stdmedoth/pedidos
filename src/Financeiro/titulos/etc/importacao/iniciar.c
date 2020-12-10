@@ -23,9 +23,10 @@ int import_tits_iniciar(){
   int pos = 0;
   char *linha = malloc(500);
 
-  char *data = malloc(20);
-  char *nome = malloc(200);
-  char *valor = malloc(20);
+  char *nome = NULL;
+  char *data = NULL;
+  char *valor = NULL;
+
   float total_recebido=0;
   float total_pago=0;
   float total_saldo=0;
@@ -53,17 +54,25 @@ int import_tits_iniciar(){
 
     if(pos >= MAX_IMP_TITS)
       break;
-    //struct _imprt_titulos new_tit;
-    //imprt_titulos[pos] = &new_tit;
 
     if(vetor){
+
       fprintf(f_vericador,"<tr>\n");
-      if(vetor[0])
-        data = vetor[0];
-      if(vetor[1])
-        nome = vetor[1];
-      if(vetor[2])
-        valor = vetor[2];
+      if(vetor[0]){
+        data = strdup(vetor[0]);
+      }else{
+        data = strdup("");
+      }
+      if(vetor[1]){
+        nome = strdup(vetor[1]);
+      }else{
+        nome = strdup("");
+      }
+      if(vetor[2]){
+        valor = strdup(vetor[2]);
+      }else{
+        valor = strdup("");
+      }
 
       if(strlen(nome)>20)
         nome[20] = '\0';
@@ -79,21 +88,21 @@ int import_tits_iniciar(){
         }
       }
 
-
       fprintf(f_vericador,"<td>\n");
-      if(nome)
+      if(nome){
         fprintf(f_vericador,"Nome: %s\n",nome);
-      else
+      }else{
         fprintf(f_vericador,"Nome não identificado\n");
+      }
       fprintf(f_vericador,"</td>\n");
 
       fprintf(f_vericador,"<td>\n");
-      if(data)
+      if(data){
         fprintf(f_vericador,"Data: %s\n",data);
-      else
+      }else{
         fprintf(f_vericador,"Data não identificada\n");
+      }
       fprintf(f_vericador,"</td>\n");
-
       fprintf(f_vericador,"<td>\n");
       if(simp_critica_real(valor)){
         fprintf(f_vericador,"Valor a Receber: %.2f (Verifique!)\n",atof(valor));
@@ -104,8 +113,7 @@ int import_tits_iniciar(){
       if(atof(valor)>=0){
         total_recebido += atof(valor);
         fprintf(f_vericador,"Valor Recebido: %.2f\n",atof(valor));
-      }
-      else{
+      }else{
         total_pago += atof(valor);
         fprintf(f_vericador,"Valor Pago: %.2f\n",atof(valor));
       }

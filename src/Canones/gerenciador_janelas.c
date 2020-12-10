@@ -115,6 +115,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 
 int iniciar_gerenciador_janela(){
 
+  inativar_debug_fun();
   for(int cont=0;cont<=REG_WIN_QNT;cont++){
 
     if(janelas_gerenciadas.vetor_janelas[cont].aberta){
@@ -139,6 +140,8 @@ int iniciar_gerenciador_janela(){
 
   janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].fun = cad_prod;
   janelas_gerenciadas.vetor_janelas[REG_CAD_TER].fun = cad_terc;
+  janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].fun = cad_titulos_pagar;
+  janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].fun = cad_titulos_receber;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;

@@ -69,8 +69,7 @@ int cad_rec_concluir_fun(){
     cad_rec_datacriacao_gchar,
     cad_rec_datavencimento_gchar,
     cad_rec_valor_gchar);
-  }
-  else{
+  }else{
     sprintf(query,"update titulos set cliente = %i, pedido = %i, status = %i, qnt_parcelas = 0, tipo_titulo = %i where code = %i",
     atoi(cad_rec_cli_gchar),
     atoi(cad_rec_ped_gchar),

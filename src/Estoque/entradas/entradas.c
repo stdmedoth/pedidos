@@ -111,15 +111,14 @@ int est_entradas()
 	est_ent_prod_entry = gtk_entry_new();
 	est_ent_campo_nome_prod = gtk_entry_new();
 	est_ent_prod_box = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(est_ent_prod_box),est_ent_campo_nome_prod,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(est_ent_campo_nome_prod),"Nome Produto");
-	gtk_widget_set_sensitive(est_ent_campo_nome_prod,FALSE);
-	gtk_widget_set_name(est_ent_campo_nome_prod,"entry_unsensetivate");
+	gtk_editable_set_editable(GTK_EDITABLE(est_ent_campo_nome_prod),FALSE);
 	gtk_box_pack_start(GTK_BOX(produto_box),est_ent_prod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(produto_box),psq_prod_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_ent_prod_box),produto_box,0,0,0);
-	gtk_container_add(GTK_CONTAINER(est_ent_prod_frame),est_ent_prod_box);
-	gtk_fixed_put(GTK_FIXED(est_ent_prod_fixed),est_ent_prod_frame,20,20);
+	gtk_box_pack_start(GTK_BOX(produto_box),est_ent_campo_nome_prod,0,0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_ent_prod_entry),8);
+	gtk_container_add(GTK_CONTAINER(est_ent_prod_frame), produto_box);
+	gtk_fixed_put(GTK_FIXED(est_ent_prod_fixed),est_ent_prod_frame,20,5);
 
 	est_ent_est_frame = gtk_frame_new("Estoque");
 	est_ent_est_fixed = gtk_fixed_new();
@@ -181,14 +180,13 @@ int est_entradas()
 	est_ent_client_entry = gtk_entry_new();
 	est_ent_campo_nome_client = gtk_entry_new();
 	est_ent_client_box = gtk_box_new(1,0);
-	gtk_box_pack_start(GTK_BOX(est_ent_client_box),est_ent_campo_nome_client,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(est_ent_campo_nome_client),"Nome Cliente");
-	gtk_widget_set_sensitive(est_ent_campo_nome_client,FALSE);
-	gtk_widget_set_name(est_ent_campo_nome_client,"entry_unsensetivate");
+	gtk_editable_set_editable(GTK_EDITABLE(est_ent_campo_nome_client),FALSE);
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_ent_client_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_ent_client_box),cliente_box,0,0,0);
-	gtk_container_add(GTK_CONTAINER(est_ent_client_frame),est_ent_client_box);
+	gtk_box_pack_start(GTK_BOX(cliente_box),est_ent_campo_nome_client,0,0,0);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_ent_client_entry),8);
+	gtk_container_add(GTK_CONTAINER(est_ent_client_frame),cliente_box);
 	gtk_fixed_put(GTK_FIXED(est_ent_client_fixed),est_ent_client_frame,20,20);
 
 	gtk_grid_attach(GTK_GRID(grid),est_ent_cod_fixed,0,0,1,1);
@@ -240,13 +238,12 @@ int est_entradas()
 	gtk_entry_set_text(GTK_ENTRY(est_ent_cod_entry),code);
 	gtk_entry_set_text(GTK_ENTRY(est_ent_data_entry),data_sys);
 
-	gtk_widget_set_sensitive(est_ent_data_entry,FALSE);
-	gtk_widget_set_name(est_ent_data_entry,"entry_unsensetivate");
+	gtk_editable_set_editable(GTK_EDITABLE(est_ent_data_entry),FALSE);
 
 	gtk_widget_grab_focus(est_ent_client_entry);
 
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-	gtk_widget_set_size_request(janela,580,500);
+	gtk_widget_set_size_request(janela,580,400);
 
 	gtk_widget_show_all(janela);
 

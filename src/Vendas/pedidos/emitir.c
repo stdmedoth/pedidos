@@ -347,8 +347,6 @@ int ped_emitir()
 		popup(NULL,"Estoque sem nenhuma movimentação");
 	}
 
-	/*==========================sendo desenvolvido============================*/
-
 	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
 
 	if(!cfe){
@@ -385,7 +383,6 @@ int ped_emitir()
 			return 1;
 		}
 	}
-	/*==========================sendo desenvolvido============================*/
 
 	g_print("tamanho do orc_path %li\n",strlen(ORC_PATH));
 	char *orc_path = malloc(sizeof(char) * strlen(ORC_PATH) + 30);

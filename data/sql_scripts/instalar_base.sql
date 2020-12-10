@@ -27,9 +27,14 @@ create table if not exists operadores( code int primary key auto_increment,
   senha varchar(50) default '',
   nivel int default 1);
 
+create table if not exists setores(
+  code int primary key auto_increment,
+  nome varchar(30)
+);
+
 create table if not exists niveis_gerenciais( code int primary key auto_increment,
   nome varchar(50) default 'NivelGerencialSemNome',
-  nivel int default 1);
+  nivel int default 0);
 
 create table logs( descricao varchar (2000), data datetime);
 
@@ -117,37 +122,6 @@ create table if not exists contatos ( code int,
   celular varchar(15) default '' not null,
   email varchar(100) default '' not null);
 
-create table if not exists grupos( code int primary key auto_increment,
-  pai int default 0,
-  nome varchar(50) default 'Grupo Sem Nome',
-  nivel int default 1 );
-
-create table if not exists unidades( code int primary key auto_increment,
-  nome varchar(50) default '',
-  sigla varchar(10) default '',
-  multiplo int default 1,
-  medida int default 0);
-
-create table if not exists produtos( code int primary key auto_increment,
-  nome varchar(150) default 'Produto Sem Nome',
-  peso float default 0.0,
-  preco float default 0.0,
-  unidades int default 1,
-  unidades_atacado int default 1,
-  fornecedor int default 1,
-  grupo int default 1,
-  grupo_nivel int default 2,
-  observacoes varchar(500) default '',
-  foreign key(unidades) references unidades(code),
-  foreign key(fornecedor) references terceiros(code),
-  foreign key(grupo) references grupos(code) );
-
-create table if not exists precos( code int primary key auto_increment,
-  produto int default 1,
-  valor_fat float default 0.0,
-  valor_vist float default 0.0,
-  foreign key(produto) references produtos(code));
-
 create table if not exists preco_cliente( code int primary key auto_increment,
   produto int default 1,
   cliente int default 1,
@@ -203,3 +177,15 @@ create table if not exists maquinas(
   hostname varchar(20),
   ativa tinyint not null
 );
+
+create table if not exists contratos(
+  code int primary key auto_increment,
+  cadastro int default 0,
+  compras int default 0,
+  faturamento int default 0,
+  estoque int default 0,
+  financeiro int default 0,
+  marketing int default 0,
+  relatorios int default 0,
+  ativo int default 1,
+  data_vencimento datetime default '2049-12-31');

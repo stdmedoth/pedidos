@@ -142,6 +142,8 @@ void relat_prod_fun()
 	gtk_box_pack_start(GTK_BOX(caixa),relat_prod_opcoes_fixed,0,0,1);
 	gtk_box_pack_start(GTK_BOX(caixa),relat_prod_query_fixed,0,0,1);
 
+	prod_query.campo_query = malloc( MAX_QUERY_LEN * MAX_RELAT_CAMPOS );
+
 	tabelas_bd_id=1;
 
 	g_signal_connect(psq_relat_prod_code,"clicked",G_CALLBACK(psq_tables_relat),relat_prod_code_entry);

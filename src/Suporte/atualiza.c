@@ -50,7 +50,7 @@ int suporte_princ_atualiza(GtkWidget *entry, int posicao){
 
   sprintf(query,"select * from suporte_posts where code = %i",posicao);
 
-  if((res = consultar(query))==NULL)
+  if(!(res = consultar(query)))
     return 1;
 
   if((row = mysql_fetch_row(res))==NULL){
@@ -62,18 +62,18 @@ int suporte_princ_atualiza(GtkWidget *entry, int posicao){
     }
     gtk_widget_grab_focus(descr_list[posicao]);
     return 0;
+  }else{
+    sprintf(query,"update suporte_posts set titulo = '%s', descricao = '%s', status = %i, tipo = %i, prioridade = %i where code = %i",title, text,status,tipo,prioridade,posicao);
+    if(enviar_query(query)!=0){
+      popup(NULL,"Não foi possivel atualizar o post");
+      g_print("%s\n",query);
+      return 1;
+    }
+    if(descr_list[posicao])
+      gtk_widget_grab_focus(descr_list[posicao]);
   }
-
-  sprintf(query,"update suporte_posts set titulo = '%s', descricao = '%s', status = %i, tipo = %i, prioridade = %i where code = %i",title, text,status,tipo,prioridade,posicao);
-  if(enviar_query(query)!=0){
-    popup(NULL,"Não foi possivel atualizar o post");
-    g_print("%s\n",query);
-    return 1;
-  }
-
-  if(descr_list[posicao])
-    gtk_widget_grab_focus(descr_list[posicao]);
 
   post_recarregar_posts();
+  popup(NULL,"Post atualizado");
   return 0;
 }

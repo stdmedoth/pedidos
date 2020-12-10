@@ -21,6 +21,8 @@ char *formatar_data(char *data);
 
 int file_logger(char *string);
 
+char **array(char *text);
+
 void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window);
 
 void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window);

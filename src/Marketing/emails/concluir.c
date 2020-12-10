@@ -10,6 +10,9 @@ int mkt_mail_concluir_fun(){
   if(mkt_mail_nome_fun())
     return 1;
 
+  if(mkt_mail_assunto_fun())
+    return 1;
+
   if(mkt_mail_tipo_fun())
     return 1;
 
@@ -49,7 +52,7 @@ int mkt_mail_concluir_fun(){
 
   if(!(row = mysql_fetch_row(res))){
 
-    sprintf(query,"INSERT INTO emails_model(code, nome, tipo, setor) values (%i, '%s', %i, %i)",atoi(mkt_mail_code_gchar), mkt_mail_nome_gchar, mkt_mail_tipo_int, mkt_mail_setor_int);
+    sprintf(query,"INSERT INTO emails_model(code, nome, assunto, tipo, setor) values (%i, '%s', '%s', %i, %i)",atoi(mkt_mail_code_gchar), mkt_mail_nome_gchar, mkt_mail_assunto_gchar, mkt_mail_tipo_int, mkt_mail_setor_int);
 
     if(enviar_query(query)){
       popup(NULL,"Não foi possível  cadastrar modelo");
@@ -90,7 +93,7 @@ int mkt_mail_concluir_fun(){
     }
 
   }else{
-    sprintf(query,"UPDATE emails_model set nome = '%s', tipo = %i, setor = %i where code = %i",mkt_mail_nome_gchar, mkt_mail_tipo_int, mkt_mail_setor_int, atoi(mkt_mail_code_gchar));
+    sprintf(query,"UPDATE emails_model set nome = '%s', assunto = '%s', tipo = %i, setor = %i where code = %i",mkt_mail_nome_gchar, mkt_mail_assunto_gchar, mkt_mail_tipo_int, mkt_mail_setor_int, atoi(mkt_mail_code_gchar));
     if(enviar_query(query)){
       popup(NULL,"Não foi possível atualizar modelo");
       return 1;
@@ -134,5 +137,6 @@ int mkt_mail_concluir_fun(){
   else
     popup(NULL,"Modelo atualizado com sucesso");
 
+  mkt_mail_cancelar_fun();
   return 0;
 }

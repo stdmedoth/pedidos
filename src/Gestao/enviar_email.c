@@ -1,3 +1,178 @@
+static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp)
+{
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
+
+  struct upload_status *upload_ctx = (struct upload_status *)userp;
+  const char *data;
+
+  if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
+    return 0;
+  }
+
+  data = mail_payload_text[upload_ctx->lines_read];
+
+  if(data) {
+    size_t len = strlen(data);
+    memcpy(ptr, data, len);
+    upload_ctx->lines_read++;
+
+    return len;
+  }
+  return 0;
+}
+
+int enviar_email_html(char *assunto, char *nome_destino, char *email_destino, char *conteudo){
+
+  CURL *curl;
+  CURLcode res = CURLE_OK;
+  struct curl_slist *recipients = NULL;
+  struct upload_status upload_ctx;
+  upload_ctx.lines_read = 0;
+
+  enviando_email=1;
+
+  if(!strlen(assunto)){
+    autologger("Sem assunto");
+    return 1;
+  }
+
+  if(!strlen(nome_destino)){
+    autologger("Email sem nome");
+    return 1;
+  }
+
+  if(!strlen(email_destino)){
+    autologger("Email sem nome");
+    return 1;
+  }
+
+  if(!strlen(conteudo)){
+    popup(NULL,"Email sem conteudo");
+    return 1;
+  }
+
+  if(!cad_emp_strc.email || !strlen(cad_emp_strc.email)){
+    popup(NULL,"Não há email cadastrado para envio de emails");
+    return 1;
+  }
+
+  if(!cad_emp_strc.email_senha || !strlen(cad_emp_strc.email_senha)){
+    popup(NULL,"Não há senha cadastrado para o envio de emails");
+    return 1;
+  }
+
+  curl = curl_easy_init();
+  if(!curl){
+    autologger("Não foi possível carregar curl");
+    return 1;
+  }
+
+  enum{
+    MAIL_DATE,
+    MAIL_TO,
+    MAIL_FROM,
+    MAIL_SUBJECT,
+    MAIL_CONTENTTYPE,
+    MAIL_MIMEVER,
+    MAIL_EMPTY_LINE,
+    MAIL_BODY,
+    MAIL_LINES
+  };
+
+  mail_payload_text = malloc(sizeof(char *) * MAIL_LINES);
+  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+  mail_payload_text[MAIL_DATE] = malloc(40);
+  sprintf(mail_payload_text[MAIL_DATE],"Date: %s\r\n",g_date_time_format(data,"%T"));
+
+  mail_payload_text[MAIL_TO] = malloc( strlen(email_destino) + 20);
+  sprintf(mail_payload_text[MAIL_TO],"To: %s\r\n",email_destino);
+
+  mail_payload_text[MAIL_FROM] = malloc( strlen(cad_emp_strc.email) + 20);
+  sprintf(mail_payload_text[MAIL_FROM],"From: %s\r\n",cad_emp_strc.email);
+
+  mail_payload_text[MAIL_SUBJECT] = malloc( strlen(assunto) + 20);
+  sprintf(mail_payload_text[MAIL_SUBJECT],"Subject: %s\r\n",assunto);
+
+  mail_payload_text[MAIL_CONTENTTYPE] = malloc( strlen("Content-Type: text/html; charset=us-ascii\r\n") + 20);
+  sprintf(mail_payload_text[MAIL_CONTENTTYPE],"Content-Type: text/html; charset=us-ascii\r\n");
+
+  mail_payload_text[MAIL_MIMEVER] = malloc( strlen("Mime-version: 1.0\r\n") + 20);
+  sprintf(mail_payload_text[MAIL_MIMEVER],"Mime-version: 1.0\r\n");
+
+  gchar *emptyline = "\r\n";
+  mail_payload_text[MAIL_EMPTY_LINE] = malloc( strlen(emptyline) );
+  sprintf(mail_payload_text[MAIL_EMPTY_LINE],emptyline);
+
+  mail_payload_text[MAIL_BODY] = malloc( strlen(conteudo) + 20);
+  sprintf(mail_payload_text[MAIL_BODY],"%s\r\n",conteudo);
+
+  mail_payload_text[MAIL_LINES] = NULL;
+
+  curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
+  curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
+  curl_easy_setopt(curl, CURLOPT_URL, cad_emp_strc.url_smtp);
+  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
+  curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+  curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
+
+  curl_easy_setopt(curl, CURLOPT_MAIL_FROM,  cad_emp_strc.email);
+
+  recipients = curl_slist_append(recipients, email_destino);
+  curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+
+  curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
+  curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
+  curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+
+   g_main_context_iteration  (NULL, FALSE);
+
+  res = curl_easy_perform(curl);
+
+  if(res != CURLE_OK){
+    gchar *msg = malloc(strlen(curl_easy_strerror(res)) + strlen(email_destino) + 100);
+    gchar *erro;
+    switch (res) {
+      case CURLE_LOGIN_DENIED:
+        erro = strdup("Acesso Negado! verifique a senha");
+        break;
+
+      case CURLE_REMOTE_ACCESS_DENIED:
+        erro = strdup("Acesso Negado! verifique a senha");
+        break;
+
+      case CURLE_COULDNT_RESOLVE_HOST:
+        erro = strdup("Não foi possível resolver o host! verifique a servidor");
+        break;
+
+      default:
+        erro = strdup(curl_easy_strerror(res));
+    }
+    sprintf(msg, "%s falhou: %s\n",
+           email_destino,
+           erro);
+    autologger(msg);
+    popup(NULL,msg);
+    return 1;
+  }
+
+  autologger(nome_destino);
+  autologger(email_destino);
+  autologger(cad_emp_strc.email);
+  autologger(cad_emp_strc.email_senha);
+
+ curl_slist_free_all(recipients);
+
+ curl_easy_cleanup(curl);
+
+  return 0;
+}
+
 int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo_orcamento){
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -164,31 +339,34 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
     curl_mime_name(part,cad_emp_strc.xNome);
     curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
 
+    while (g_main_context_pending(NULL))
+  		g_main_context_iteration(NULL,FALSE);
+
     res = curl_easy_perform(curl);
 
     if(res != CURLE_OK){
       file_logger("Erro no envio do email\n");
-      if(nome_destino)
-        file_logger(nome_destino);
-
-      if(email_destino)
-        file_logger(email_destino);
-
-      if(email_copia)
-        file_logger(email_copia);
-
-      if(email_copia)
-        file_logger(arquivo_orcamento);
-
-      if(inline_text)
-        file_logger(inline_text);
-
-      file_logger(cad_emp_strc.email);
-      file_logger(cad_emp_strc.email_senha);
-
       sprintf(mensagem, "Envio do email falhou: %s\n",curl_easy_strerror(res));
       popup(NULL,mensagem);
     }
+    if(nome_destino)
+      file_logger(nome_destino);
+
+    if(email_destino)
+      file_logger(email_destino);
+
+    if(email_copia)
+      file_logger(email_copia);
+
+    if(email_copia)
+      file_logger(arquivo_orcamento);
+
+    if(inline_text)
+      file_logger(inline_text);
+
+    file_logger(cad_emp_strc.email);
+    file_logger(cad_emp_strc.email_senha);
+
     curl_slist_free_all(recipients);
     curl_slist_free_all(headers);
 
@@ -213,7 +391,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
   enviando_email=1;
   headers_text = malloc(sizeof(char*) * 3);
 
-  headers_text[0] = malloc(sizeof(char) * MAX_DATE_LEN +  + 20);
+  headers_text[0] = malloc(sizeof(char) * MAX_DATE_LEN + 20);
   sprintf(headers_text[0],"Date: %s",g_date_time_format(data,"%T"));
   headers_text[1] = malloc(sizeof(char) * MAX_NAME_LEN + 20);
   sprintf(headers_text[1],"Subject: Suporte %s",cad_emp_strc.xNome);

@@ -58,6 +58,7 @@ char *kanban_cart_get_descricao(int cart_code){
 int kanban_add_cart(GtkWidget *button, gpointer data){
   //adicionar nome no widget para que seja possível remover
 
+  GtkWidget *cartao_fixed = gtk_fixed_new();
   GtkWidget *cartao_box = gtk_box_new(1,0);
   gtk_widget_set_name(cartao_box,"cartao-box");
   GtkWidget *titulo_box = gtk_box_new(1,0);
@@ -133,8 +134,9 @@ int kanban_add_cart(GtkWidget *button, gpointer data){
   gtk_box_pack_start(GTK_BOX(cartao_box),descricao_box,0,0,5);
   gtk_box_pack_start(GTK_BOX(cartao_box),checkboxs,0,0,5);
   gtk_widget_set_size_request(cartao_box,250,250);
+  gtk_fixed_put(GTK_FIXED(cartao_fixed), cartao_box, 20,20);
 
-  gtk_grid_attach(GTK_GRID(cartoes_grid),cartao_box,pos,0,1,1);
+  gtk_grid_attach(GTK_GRID(cartoes_grid),cartao_fixed,pos,0,1,1);
   gtk_widget_show_all(cartoes_grid);
   return 0;
 }
@@ -178,9 +180,9 @@ int kanban_princ_wnd(){
   cartoes_box = gtk_box_new(0,0);
   cartoes_scroll = gtk_scrolled_window_new(NULL,NULL);
 
-  gtk_widget_set_size_request(caixa,1000,400);
-  gtk_widget_set_size_request(cartoes_box,1000,400);
-  gtk_widget_set_size_request(cartoes_scroll,1000,400);
+  gtk_widget_set_size_request(caixa,1000,300);
+  gtk_widget_set_size_request(cartoes_box,1000,300);
+  gtk_widget_set_size_request(cartoes_scroll,1000,300);
 
   MYSQL_RES *res = kanban_get_cartoes();
   MYSQL_ROW row;
@@ -206,7 +208,7 @@ int kanban_princ_wnd(){
   gtk_fixed_put(GTK_FIXED(fixed),caixa,10,10);
   gtk_container_add(GTK_CONTAINER(janela),fixed);
 
-  g_signal_connect(cartoes_scroll,"size-allocate",G_CALLBACK(auto_hmover_scroll),cartoes_scroll);
+  //g_signal_connect(janela,"size-allocate",G_CALLBACK(auto_hmover_scroll),cartoes_scroll);
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[KANBAN_PRINC_WND]);
   g_signal_connect(kanban_add_cart_button,"clicked",G_CALLBACK(kanban_add_cart),NULL);
 
