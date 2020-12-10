@@ -2,7 +2,7 @@ int relat_prod_gerar_fun()
 {
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
-	char *gerando_file = malloc(MAX_PATH_LEN);
+	char *gerando_file = malloc(strlen(PROD_RELAT_FILE) + 100);
 	int *tipos_colunas = NULL, list_qnt=0;
 	int num_rows;
 	relat_prod_gerando=1;
@@ -46,25 +46,29 @@ int relat_prod_gerar_fun()
 	sprintf(query,"select b.nome,b.tipo_dado from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_prod_codigo_gchar);
 
 	if( !(res1 = consultar(query)) ){
-		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
+		popup(NULL,"Não foi possivel receber colunas do relatorio");
+		relat_prod_gerando=0;
+		return 1;
+	}
+	num_rows = mysql_num_rows(res1);
+	if(!num_rows){
+		popup(NULL,"Não há colunas para o relatório");
 		relat_prod_gerando=0;
 		return 1;
 	}
 
-	cont=0;
-	num_rows = mysql_num_rows(res1);
 	tipos_colunas = malloc( num_rows * sizeof(int) );
 	while((row1 = mysql_fetch_row(res1))){
    	fprintf(relatorio_file,"<th>%s</th>",row1[0]);
-		if( cont >= num_rows )
+		if( cont > num_rows )
 			break;
+
 		tipos_colunas[cont] = atoi(row1[1]);
 		g_print("valor tipo coluna row: %i\n",tipos_colunas[cont]);
 		cont++;
 	}
 
 	fprintf(relatorio_file,"</tr>");
-
 	if( !(res2 = consultar(relat_prod_query_gchar)) ){
 		popup(NULL,"Erro ao receber dados do relatorio");
 		relat_prod_gerando=0;
@@ -113,7 +117,7 @@ int relat_prod_gerar_fun()
 	relat_prod_gerando=0;
 
 	fclose(relatorio_file);
-	
+
 	escolher_finalizacao(gerando_file);
 
 	return 0;

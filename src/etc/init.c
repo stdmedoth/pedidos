@@ -19,6 +19,7 @@ static void criar_janela_princ(){
 	janelas_gerenciadas.aplicacao.criada = 1;
 	janelas_gerenciadas.principal.janela_pointer = janela_principal;
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal);
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(sobre_infos_keyfun),NULL);
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 	return ;
 }

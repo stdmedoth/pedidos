@@ -22,6 +22,7 @@
 #include "analisa_campos.c"
 #include "mp_popup.c"
 #include "debugger.c"
+#include "sobre.c"
 
 #include "operadores.c"
 

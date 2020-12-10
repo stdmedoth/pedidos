@@ -6,10 +6,8 @@ int cnpj_terc()
 	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
 	len = strlen(doc_ter);
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
-	if(len<=0)
-	{
-		if(terceiros.criticar.doc==0)
-		{
+	if(len<=0){
+		if(terceiros.criticar.doc==0){
 			doc_ter = malloc(sizeof(gchar *));
 			strcpy(doc_ter,"");
 			gtk_widget_grab_focus(GTK_WIDGET(inscr_ter_field));
@@ -20,7 +18,6 @@ int cnpj_terc()
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 		gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-XX");
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-		vet_erro[DOC_ERR]=1;
 		return 1;
 	}
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
@@ -56,7 +53,6 @@ int cnpj_terc()
 				cont2++;
 			}
 			formatar[cont2] = '\0';
-			vet_erro[DOC_ERR] = 0;
 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),formatar);
 	}
 	else
@@ -69,10 +65,8 @@ int cnpj_terc()
 			gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
 			gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-XX");
 			gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
-			vet_erro[DOC_ERR]=1;
 			return 1;
 		}
-		vet_erro[DOC_ERR] = 0;
 		gtk_widget_grab_focus(inscr_ter_field);
 	}
 	else

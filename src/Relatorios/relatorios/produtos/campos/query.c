@@ -5,10 +5,10 @@ int relat_prod_query_fun()
 	MYSQL_ROW row;
 	int campos_qnt=0;
 	char ini_query[] = "select";
-	char query[MAX_QUERY_LEN];
+	char *query = malloc(MAX_QUERY_LEN*3);
 	char *end_query;
 	char *campo_query_cp;
-	char filtros_query_gchar[MAX_QUERY_LEN/2],filtros_order_by[MAX_QUERY_LEN/3];
+	char *filtros_query_gchar = malloc(MAX_QUERY_LEN*2), *filtros_order_by = malloc(MAX_QUERY_LEN);
 
 	gint relat_prod_cod_int1_int, relat_prod_cod_int2_int,
 	relat_prod_forn_int1_int, relat_prod_forn_int2_int,
@@ -44,11 +44,15 @@ int relat_prod_query_fun()
 
 	sprintf(filtros_order_by,"order by %s",campos_query[relat_prod_ordem_int-1]);
 
-	if(relat_prod_cresc_int==0)
-		strcat(filtros_order_by," asc");
+	if(!relat_prod_cresc_int){
+		gchar *copy = strdup(filtros_order_by);
+		sprintf(filtros_order_by,"%s asc", copy);
+	}
 	else
-	if(relat_prod_cresc_int==1)
-		strcat(filtros_order_by," desc");
+	if(relat_prod_cresc_int){
+		gchar *copy = strdup(filtros_order_by);
+		sprintf(filtros_order_by,"%s desc",copy);
+	}
 
 	sprintf(filtros_query_gchar,"where p.code >= %i and p.code <= %i and p.fornecedor >= %i and p.fornecedor <= %i and p.grupo >= %i and p.grupo <= %i %s",
 	relat_prod_cod_int1_int, relat_prod_cod_int2_int, relat_prod_forn_int1_int, relat_prod_forn_int2_int, relat_prod_grp_int1_int, relat_prod_grp_int2_int, filtros_order_by);
@@ -62,6 +66,8 @@ int relat_prod_query_fun()
 		return 1;
 	}
 	campos_qnt=0;
+	int qnt = mysql_num_rows(res);
+	end_query = malloc(MAX_QUERY_LEN);
 	while((row = mysql_fetch_row(res))){
 
 		if( campos_qnt >= MAX_RELAT_CAMPOS ){
@@ -83,7 +89,6 @@ int relat_prod_query_fun()
 		strcpy(campo_query_cp, prod_query.campos); //pega backup query
 		strcpy(prod_query.campo_query[campos_qnt], row[0]);
 
-		end_query = malloc( strlen(row[1]) );
 		sprintf(end_query,"%s", row[1] );
 
 		campos_qnt++;
@@ -99,10 +104,10 @@ int relat_prod_query_fun()
 	if( strlen(prod_query.campos) )
 		prod_query.campos[ strlen(prod_query.campos)-1 ] = '\0';
 
-	relat_prod_query_gchar = malloc( strlen(ini_query) + strlen(prod_query.campos) + strlen(end_query) + strlen(filtros_query_gchar) + 2);
+	relat_prod_query_gchar = malloc( strlen(ini_query) + strlen(prod_query.campos) + strlen(end_query) + strlen(filtros_query_gchar) + 10);
 
 	sprintf(relat_prod_query_gchar,"%s%s%s %s",ini_query,prod_query.campos,end_query,filtros_query_gchar);
-	gtk_entry_set_text(GTK_ENTRY(relat_prod_query_entry),relat_prod_query_gchar);
+	gtk_entry_set_text(GTK_ENTRY(relat_prod_query_entry), relat_prod_query_gchar);
 
 	relat_prod_gerar_fun();
 

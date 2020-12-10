@@ -15,7 +15,6 @@ void notf_consultar_fun(GtkWidget *botao, struct _notf_strct *notf){
     gtk_entry_set_text(GTK_ENTRY(cad_rec_code_entry), id);
     gtk_widget_activate(cad_rec_code_entry);
   }
-
 }
 
 void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data){
@@ -55,7 +54,7 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
   gtk_box_pack_start(GTK_BOX(box), botao,0,0,5);
   g_signal_connect(botao, "clicked", G_CALLBACK(notf_consultar_fun), notf);
   gtk_container_add(GTK_CONTAINER(user_data), box);
-  gtk_popover_set_modal(user_data, TRUE);
+  //gtk_popover_set_modal(user_data, TRUE);
   gtk_widget_show_all(user_data);
 }
 

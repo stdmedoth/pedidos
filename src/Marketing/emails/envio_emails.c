@@ -56,7 +56,7 @@ GtkWidget *mkt_envmail_carregando(double max){
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"mail-replied");
 
   GtkWidget *box = gtk_box_new(1,0);
-  mkt_envmail_carregando_label = gtk_label_new("Iniciando");
+  mkt_envmail_carregando_label = gtk_label_new("Iniciando...");
   mkt_envmail_carregando_bar = gtk_level_bar_new_for_interval(1,max);
   mkt_envmail_carregando_button = gtk_button_new_with_label("Fechar");
   gtk_box_pack_start(GTK_BOX(box), mkt_envmail_carregando_bar,0,0,5);
@@ -88,7 +88,7 @@ int mkt_envmail_model_fun(){
     return 1;
   }
 
-  sprintf(query,"select m.nome, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.code = m.code and b.code = m.code and f.code = m.code where m.code = %s", modelo_email);
+  sprintf(query,"select m.nome, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.email_id = m.code and b.email_id = m.code and f.email_id = m.code where m.code = %s", modelo_email);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível buscar modelo de email");
     return 1;
@@ -114,7 +114,7 @@ int mkt_envmail_enviar_distri(){
     return 1;
   }
 
-  sprintf(query,"select m.assunto, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.code = m.code and b.code = m.code and f.code = m.code where m.code = %s", modelo_email);
+  sprintf(query,"select m.nome, h.conteudo, b.conteudo, f.conteudo from emails_model as m join emails_header as h join emails_body as b join emails_footer as f on h.email_id = m.code and b.email_id = m.code and f.email_id = m.code where m.code = %s", modelo_email);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível buscar modelo de email");
     return 1;
@@ -202,6 +202,10 @@ int mkt_envmail_enviar_distri(){
           g_main_context_iteration(NULL,FALSE);
 
         g_main_context_iteration  (NULL, FALSE);
+
+        if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
+          mkt_envmail_load();
+        
         if(enviar_email_html(assunto, nome, email, conteudo_editado)){
           autologger("Email não enviado");
           gchar *msg = malloc(1000);
@@ -214,13 +218,6 @@ int mkt_envmail_enviar_distri(){
         autologger("Não foi possível formatar html do email");
         continue;
       }
-
-      while (g_main_context_pending(NULL))
-        g_main_context_iteration(NULL,FALSE);
-
-      g_main_context_iteration  (NULL, FALSE);
-      if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
-        mkt_envmail_load();
 
       if(!gtk_tree_store_remove(GTK_TREE_STORE(envmodel), &env_iter))
         break;

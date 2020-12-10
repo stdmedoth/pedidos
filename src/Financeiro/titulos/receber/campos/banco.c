@@ -7,9 +7,9 @@ int cad_rec_bnc_fun(){
   cad_rec_bnc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(cad_rec_bnc_entry));
 
   if(!strlen(cad_rec_bnc_gchar)){
-    popup(NULL,"Insira o Banco");
-    gtk_widget_grab_focus(cad_rec_bnc_entry);
-    return 1;
+    gchar *cad_rec_bnc_gchar2 = strdup("0");
+    cad_rec_bnc_gchar = strdup("0");
+    gtk_entry_set_text(GTK_ENTRY(cad_rec_bnc_entry), cad_rec_bnc_gchar2);
   }
   if(atoi(cad_rec_bnc_gchar)!=0){
     sprintf(query,"select nome from bancos where code = %s",cad_rec_bnc_gchar);

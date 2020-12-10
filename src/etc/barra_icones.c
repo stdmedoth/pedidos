@@ -19,7 +19,13 @@ int clique_menu(void){
 
 int barra_icones_add(gchar *Nome, int (*funcao) ()){
 	GtkWidget *novo_icone = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(novo_icone),gtk_image_new_from_file(Nome));
+	GtkWidget *img;
+	if(!fopen(Nome, "r")){
+		img = gtk_image_new_from_icon_name(Nome, GTK_ICON_SIZE_DIALOG);
+	}else{
+		img = gtk_image_new_from_file(Nome);
+	}
+	gtk_button_set_image(GTK_BUTTON(novo_icone), img);
 	gtk_widget_set_size_request(GTK_WIDGET(novo_icone),75,60);
 	gtk_widget_set_name(novo_icone,"bar_buttons_tertiary");
 	g_signal_connect(GTK_BUTTON(novo_icone),"clicked",G_CALLBACK(funcao),NULL);
@@ -39,7 +45,6 @@ int *barra_icones_rem(){
 GtkWidget *penden_button, *param_button, *sair_button, *debug_button, *logoff_button, *suport_button, *kanban_button;
 
 GtkWidget *barra_icones_wnd(){
-
 
 	ult_barra_pos = 0;
 
@@ -105,6 +110,8 @@ GtkWidget *barra_icones_wnd(){
 		if(caixa->status == CAIXA_ABERTO && ativar.faturamento)
 			barra_icones_add(CX_BAR_IMG, pdv_princ_wnd);
 	}
+
+	barra_icones_add("help-about", info_sobre_wnd);
 
   /*sessao*/
   gtk_layout_put(GTK_LAYOUT(layout_barra),logoff_button,0,590);

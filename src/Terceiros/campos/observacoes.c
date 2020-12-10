@@ -8,7 +8,6 @@ int obs()
 	if(buffer == NULL)
 	{
 		popup(NULL,"erro");
-		vet_erro[OBS_ERR] = 1;
 		return 1;
 	}
 
@@ -18,10 +17,8 @@ int obs()
 	if(strlen(observacoes_ter)>=OBS_MAX_LEN)
 	{
 			popup(NULL,"As observações podem ter até 500 caracteres");
-			vet_erro[OBS_ERR] = 1;
 			return 1;
 	}
-	vet_erro[OBS_ERR] = 0;
 	gtk_widget_grab_focus(concluir_ter_buttom);
 	return 0;
 }

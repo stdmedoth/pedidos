@@ -14,8 +14,8 @@
 #bar_buttons_notif{
   color: white;
   padding: 5px;
-  background: #ca4a1f;
-  border-radius: 20px;
+  background: orange;
+  border-radius: 50%;
 }
 
 #bar_buttons_cancell:hover{

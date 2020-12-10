@@ -23,33 +23,6 @@ static GtkWidget *janela_init,
 #define CAMPOS_QNT 25
 int vet_erro[CAMPOS_QNT+1];
 
-#define COD_ERR 0
-#define DOC_ERR 1
-#define INSC_ERR 2
-#define NOM_ERR 3
-#define END_ERR 4
-#define UF_ERR 5
-#define CID_ERR 6
-#define TIP_ERR 7
-#define CEL_ERR 8
-#define CNC_ERR 9
-#define TEL_ERR 10
-#define CNT_ERR 11
-#define EML_ERR 12
-#define CNE_ERR 13
-#define OBS_ERR 14
-#define PRC_ERR 15
-#define VIN_ERR 16
-#define PES_ERR 17
-#define FOR_ERR 18
-#define UND_ERR 19
-#define GRP_ERR 20
-#define MRC_ERR 21
-#define CEP_ERR 22
-#define PRD_ERR 23
-#define CLI_ERR 24
-#define PRAZ_ERR 25
-#define QNT_ERR 26
 
 static struct {
 	int navegador_pdr;

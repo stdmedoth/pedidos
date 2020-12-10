@@ -7,6 +7,8 @@ int mkt_mail_alterar_fun(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
+  if(mkt_mail_code_fun())
+    return 1;
 
   sprintf(query,"SELECT * FROM emails_model WHERE code = %i", atoi(mkt_mail_code_gchar));
   if(!(res = consultar(query))){

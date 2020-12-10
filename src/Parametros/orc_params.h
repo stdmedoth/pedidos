@@ -1,4 +1,8 @@
-GtkWidget *orc_prod_mov_wdt, *orc_prod_sld_wdt, *orc_prod_sld_lmt_wdt, *orc_ped_canc_wdt;
+GtkWidget *orc_prod_mov_wdt,
+					*orc_prod_sld_wdt,
+					*orc_prod_sld_lmt_wdt,
+					*orc_ped_canc_wdt,
+					*orc_ped_doc_wdt;
 
 static struct{
 	struct {
