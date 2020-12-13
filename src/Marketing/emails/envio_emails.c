@@ -205,7 +205,7 @@ int mkt_envmail_enviar_distri(){
 
         if(mkt_envmail_carregando_bar && GTK_IS_WIDGET(mkt_envmail_carregando_bar))
           mkt_envmail_load();
-        
+
         if(enviar_email_html(assunto, nome, email, conteudo_editado)){
           autologger("Email não enviado");
           gchar *msg = malloc(1000);

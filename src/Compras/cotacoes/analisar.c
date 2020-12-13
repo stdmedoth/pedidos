@@ -1,4 +1,4 @@
-int cotacao_vencedores_fun(){
+int cotacao_analize_fun(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;

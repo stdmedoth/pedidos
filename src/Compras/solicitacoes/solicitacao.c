@@ -84,7 +84,7 @@ int solicitacao(){
 	gtk_container_add(GTK_CONTAINER(req_prod_prod_frame), req_prod_prod_box);
 	gtk_box_pack_start(GTK_BOX(req_prod_linha2),req_prod_prod_frame,0,0,5);
 
-	req_prod_qnt_spin = gtk_spin_button_new_with_range(1,1000,1);
+	req_prod_qnt_spin = gtk_spin_button_new_with_range(1,1000,0.05);
 	req_prod_qnt_box = gtk_box_new(0,0);
 	req_prod_qnt_frame = gtk_frame_new("Quantidade");
 	gtk_entry_set_width_chars(GTK_ENTRY(req_prod_qnt_spin),8);

@@ -2,7 +2,7 @@ static void criar_janela_princ(){
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
+	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
 	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
@@ -12,6 +12,7 @@ static void criar_janela_princ(){
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
 
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
+
 	if(ger_janela_aberta(janela_principal, &janelas_gerenciadas.principal))
 		return ;
 
@@ -454,7 +455,6 @@ int init()
 		g_main_context_iteration(NULL,FALSE);
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
-	janelas_gerenciadas.fundo_inicializacao.reg_id = 1;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
 		return 1;
 

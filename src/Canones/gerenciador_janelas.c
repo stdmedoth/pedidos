@@ -73,16 +73,17 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   struct_wnd->qnt_aberta++;
 
   if(struct_wnd->reg_id == REG_PRINC_WIN){
-    iniciar_gerenciador_janela();
-    file_logger("Resetando gerenciador de janelas\n");
+    file_logger("Janela principal aberta\nResetando gerenciador de janelas\n");
     iniciar_gerenciador_janela();
   }
 
   if(gerenciador_janela())
     return 1;
 
-  if(struct_wnd->reg_id <= REG_WIN_QNT){
-    sprintf(msg,"Janela aberta: %s\n",janelas_nomes[struct_wnd->reg_id]);
+  if(struct_wnd->reg_id < REG_WIN_QNT){
+    sprintf(msg,"Id Janela aberta: %i",struct_wnd->reg_id);
+    autologger(msg);
+    sprintf(msg,"Nome Janela aberta: %s",janelas_nomes[struct_wnd->reg_id]);
     autologger(msg);
   }
   wnd_logger(struct_wnd);
@@ -97,7 +98,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   struct_wnd->qnt_aberta--;
 
   if(struct_wnd->reg_id == REG_PRINC_WIN){
-    file_logger("Resetando gerenciador de janelas\n");
+    file_logger("Janela principal fechada\nResetando gerenciador de janelas\n");
     iniciar_gerenciador_janela();
   }
 
@@ -105,7 +106,9 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
     return 1;
 
   if(struct_wnd->reg_id <= REG_WIN_QNT){
-    sprintf(msg,"Janela fechada: %s\n",janelas_nomes[struct_wnd->reg_id]);
+    sprintf(msg,"Id Janela aberta: %i",struct_wnd->reg_id);
+    autologger(msg);
+    sprintf(msg,"Nome Janela aberta: %s",janelas_nomes[struct_wnd->reg_id]);
     autologger(msg);
   }
 
@@ -116,7 +119,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 int iniciar_gerenciador_janela(){
 
   inativar_debug_fun();
-  for(int cont=0;cont<=REG_WIN_QNT;cont++){
+  for(int cont=0;cont<REG_WIN_QNT;cont++){
 
     if(janelas_gerenciadas.vetor_janelas[cont].aberta){
         g_print("gerenciador finalizando %s ID: %i Contador %i\n",

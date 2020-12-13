@@ -120,7 +120,7 @@ typedef struct _janelas_info{
 }janelas_info;
 
 static struct{
-  janelas_info vetor_janelas[REG_WIN_QNT+1];
+  janelas_info vetor_janelas[REG_WIN_QNT];
   janelas_info principal;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;

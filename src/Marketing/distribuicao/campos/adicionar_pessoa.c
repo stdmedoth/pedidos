@@ -41,7 +41,5 @@ int mkt_cad_distrib_add_fun(){
   TELEFONE,row[TELEFONE],
   -1);
 
-
-
   return 0;
 }

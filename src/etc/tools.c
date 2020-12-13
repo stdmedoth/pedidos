@@ -1,5 +1,30 @@
 #include "sql_tools.c"
 
+int treeview_id_exists(GtkTreeView *treeview, int id){
+
+  gchar *id_char = malloc(12);
+  GtkTreeIter iter;
+  GtkTreeStore *model = (GtkTreeStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+  if(!model){
+    return 0;
+  }
+  if(!gtk_tree_model_iter_children(GTK_TREE_MODEL(model), &iter, NULL)){
+    return 0;
+  }
+
+  do{
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter,
+      0, &id_char, -1);
+
+    int id_int = atoi(id_char);
+    if(id_int == id){
+      return 1;
+    }
+  }while(gtk_tree_model_iter_next(GTK_TREE_MODEL(model), &iter));
+
+  return 0;
+}
+
 void checkcellrenderer ( GtkCellRendererToggle *cell )
 {
     int active = gtk_cell_renderer_toggle_get_active ( cell );

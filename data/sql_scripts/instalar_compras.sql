@@ -42,20 +42,21 @@ create table itens_cotacoes(
 
 create table ordens_compra(
   code int primary key not null,
-  produto int not null,
   fornecedor int not null,
-  data datetime not null,
-  status int not null
+  dtemissao datetime not null,
+  dtentrega datetime not null,
+  condpag int not null,
+  status int not null,
+  foreign key(fornecedor) references terceiros(code),
+  foreign key(condpag) references pag_cond(code)
 );
 
 create table itens_ordens_compra(
-  code int primary key not null,
+  code int primary key auto_increment not null,
   ordem_id int not null,
-  produto int not null,
-  qnt float not null,
-  preco float not null,
-  foreign key(produto) references produtos(code),
-  foreign key(ordem_id) references ordens_compra(code)
+  itens_cotacao int not null,
+  foreign key(ordem_id) references ordens_compra(code),
+  foreign key(itens_cotacao) references itens_cotacoes(code)
 );
 
 create table compras(

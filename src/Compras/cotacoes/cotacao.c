@@ -6,18 +6,19 @@
 #include "campos/data.c"
 #include "campos/validade.c"
 
-#include "interface/itens_container.c"
 
 #include "campos/itens/produto.c"
 #include "campos/itens/participante.c"
 #include "campos/itens/preco.c"
 #include "campos/itens/quantidade.c"
 
-#include "vencedores.c"
+#include "interface/itens_container.c"
+
 #include "concluir.c"
 #include "alterar.c"
 #include "excluir.c"
 #include "cancelar.c"
+#include "analisar.c"
 
 int cotacao_fun(){
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -56,7 +57,7 @@ int cotacao_fun(){
 	GtkWidget *cotac_add_partc_button = gtk_button_new_with_label("Adicionar");
 	GtkWidget *cotac_rem_partc_button = gtk_button_new_with_label("Remover");
 	GtkWidget *cotac_det_partc_button = gtk_button_new_with_label("Detalhar");
-	GtkWidget *cotac_result_button = gtk_button_new_with_label("Vencedores");
+	GtkWidget *cotac_result_button = gtk_button_new_with_label("Analisar");
 	GtkWidget *cotac_partc_box = gtk_box_new(0,0);
 
 	cotac_partc_combo = gtk_combo_box_text_new();
@@ -173,8 +174,7 @@ int cotacao_fun(){
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
 	g_signal_connect(cotac_rem_partc_button,"clicked",G_CALLBACK(cotac_partc_remove_fun),NULL);
 	g_signal_connect(cotac_det_partc_button,"clicked",G_CALLBACK(cotac_partc_combo_fun),NULL);
-	g_signal_connect(cotac_result_button,"clicked", G_CALLBACK(cotacao_vencedores_fun),NULL);
-
+	g_signal_connect(cotac_result_button,"clicked", G_CALLBACK(cotacao_analize_fun),NULL);
 
 	g_signal_connect(cotac_partc_entry,"activate", G_CALLBACK(cotac_partc_fun),NULL);
 	g_signal_connect(cotac_code_entry,"activate",G_CALLBACK(cotac_code_fun),NULL);

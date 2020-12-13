@@ -9,6 +9,7 @@ static int altera_orc()
 	char tmp_cod_orc[MAX_CODE_LEN],*parc_qnt_gchar;
 
 	g_print("Iniciando alterar\n");
+
 	alterando_orc=1;
 	rec_altera_qnt=1;
 	recebendo_prod_orc=1;
@@ -18,26 +19,23 @@ static int altera_orc()
 		return 1;
 	}
 
-	sprintf(query,"select status from pedidos where code = %s",codigo_orc_gchar);
-	if((res = consultar(query))==NULL)
-	{
+	strcpy(tmp_cod_orc, codigo_orc_gchar);
+
+	cancela_orc();
+
+	sprintf(query,"select status from pedidos where code = %s",tmp_cod_orc);
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar vinculos de pedidos");
 		cancela_orc();
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))!=NULL)
-	{
-		if(atoi(row[0]) == STATUS_PED_EMIT){
-			popup(NULL,"Existe um pedido emitido para este orçamento");
-			cancela_orc();
-			return 1;
-		}
+	if((row = mysql_fetch_row(res))){
+		popup(NULL,"Existe um pedido para este orçamento");
+		gtk_widget_set_sensitive(concluir_orc_button, FALSE);
+		gtk_widget_set_sensitive(pedido_orc_button, FALSE);
+		gtk_widget_set_sensitive(excluir_orc_button, FALSE);
 	}
-
-	strcpy(tmp_cod_orc, codigo_orc_gchar);
-
-	cancela_orc();
 
 	alterando_orc=1;
 	rec_altera_qnt=1;
@@ -50,8 +48,7 @@ static int altera_orc()
 	//buscando informações basicas de orçamentos
 	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes, banco from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao buscar orçamento");
 		cancela_orc();
 		return 1;
@@ -305,17 +302,12 @@ static int altera_orc()
 
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
 		sprintf(query,"delete from orcamentos where code = %s",tmp_cod_orc);
-		erro = enviar_query(query);
-
-		if( erro != 0 )
-		{
+		if( enviar_query(query) ){
 			popup(NULL,"Erro ao tentar excluir orçamento vazio");
 			cancela_orc();
 			return 1;
 		}
-
-		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
-
+		cancela_orc();
 		return 0;
 	}
 
