@@ -11,6 +11,58 @@
 #include "alterar.c"
 #include "excluir.c"
 #include "cancelar.c"
+#include "gerar.c"
+
+struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	GDateTime  *gdate;
+	GTimeZone *timezone;
+	char *query = malloc(MAX_QUERY_LEN);
+	struct _ord_cmp *ordem_cmp = malloc(sizeof(struct _ord_cmp));
+  ordem_cmp->itens = malloc(sizeof(struct _ord_cmp_item) * MAX_PROD);
+
+	sprintf(query, "select * from ordens_compra where code = %i", ordcmp_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao consultar ordem de compra");
+	  return NULL;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		return NULL;
+	}
+
+	ordem_cmp->code = atoi(row[ORD_CMP_CODE]);
+	ordem_cmp->fornecedor = terceiros_get_terceiro(atoi(row[ORD_CMP_FORN]));
+
+	gchar *data_gchar = strdup(row[ORD_CMP_DTEMIT]);
+	int ano_emissao=0, mes_emissao=0, dia_emissao=0;
+	int ano_entrega=0, mes_entrega=0, dia_entrega=0;
+
+	if(sscanf(data_gchar, "%d-%d-%d", &ano_emissao , &mes_emissao, &dia_emissao ) == EOF){
+    popup(NULL,"Não foi possivel interpretar data de emissão");
+    g_print("Erro no parser de data: %s\n",strerror(errno));
+    return NULL;
+  }
+	timezone = g_time_zone_new(NULL);
+	gdate = g_date_time_new(timezone,ano_emissao,mes_emissao,dia_emissao,0,0,0);
+	ordem_cmp->data_emissao = strdup(g_date_time_format(gdate,"%d/%m/%Y"));
+
+	data_gchar = strdup(row[ORD_CMP_DTENTR]);
+	if(sscanf(data_gchar, "%d-%d-%d", &ano_entrega , &mes_entrega, &dia_entrega ) == EOF){
+    popup(NULL,"Não foi possivel interpretar data de emissão");
+    g_print("Erro no parser de data: %s\n",strerror(errno));
+    return NULL;
+  }
+	timezone = g_time_zone_new(NULL);
+	gdate = g_date_time_new(timezone,ano_entrega,mes_entrega,dia_entrega,0,0,0);
+	ordem_cmp->data_entrega = strdup(g_date_time_format(gdate,"%d/%m/%Y"));
+	ordem_cmp->condpag = cond_pag_get(atoi(row[ORD_CMP_CONDPAG]));
+	ordem_cmp->status = atoi(row[ORD_CMP_STATUS]);
+
+
+
+	return ordem_cmp;
+}
 
 int ordem_cmp(){
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -85,6 +137,7 @@ int ordem_cmp(){
   ordem_cmp_alterar_button = gtk_button_new_with_label("Alterar");
   ordem_cmp_excluir_button = gtk_button_new_with_label("Excluir");
   ordem_cmp_cancelar_button = gtk_button_new_with_label("Cancelar");
+	ordem_cmp_gerar_button = gtk_button_new_with_label("Gerar");
 
 	ordem_cmp_code_frame = gtk_frame_new("Código");
 	ordem_cmp_dtemissao_frame = gtk_frame_new("Data Emissão");
@@ -219,6 +272,7 @@ int ordem_cmp(){
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_alterar_button ,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_excluir_button ,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_cancelar_button ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_gerar_button ,0,0,5);
 
 	gtk_box_pack_start(GTK_BOX(box), linha1,0,0,5);
 	gtk_box_pack_start(GTK_BOX(box), linha2,0,0,5);
@@ -237,6 +291,7 @@ int ordem_cmp(){
 	g_signal_connect(ordem_cmp_alterar_button, "clicked", G_CALLBACK(ordem_cmp_alterar_fun), NULL);
 	g_signal_connect(ordem_cmp_cancelar_button, "clicked", G_CALLBACK(ordem_cmp_cancelar_fun), NULL);
 	g_signal_connect(ordem_cmp_excluir_button, "clicked", G_CALLBACK(ordem_cmp_excluir_fun), NULL);
+	g_signal_connect(ordem_cmp_gerar_button, "clicked", G_CALLBACK(ordem_cmp_gerar), NULL);
 
 	g_signal_connect(ordem_cmp_forncode_entry, "activate", G_CALLBACK(ordem_cmp_fornecedor_fun), NULL);
 	g_signal_connect(ordem_cmp_dtemissao_entry, "activate", G_CALLBACK(ordem_cmp_dtemissao_fun), NULL);

@@ -130,6 +130,7 @@ int cotac_add_item(GtkWidget *button, int cod){;
   sprintf(item_name,"Item %i",pos+1);
   cotac_prod_frames[cod][pos] = gtk_frame_new(item_name);
 
+  gtk_editable_set_editable(GTK_EDITABLE(cotac_prod_qnt_entry[cod][pos]), FALSE);
   gtk_box_pack_start(GTK_BOX(cotac_prod_linha),cotac_prod_prod_frame,0,0,1);
   gtk_box_pack_start(GTK_BOX(cotac_prod_linha),cotac_prod_qnt_frame,0,0,1);
   gtk_box_pack_start(GTK_BOX(cotac_prod_linha),cotac_prod_prc_frame,0,0,1);

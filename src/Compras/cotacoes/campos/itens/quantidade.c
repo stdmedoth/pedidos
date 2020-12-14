@@ -6,6 +6,7 @@ int cotat_itens_qnt_fun(GtkEntry *entry, int pos){
   int cod = cotac_get_participante_index(atoi(cotac_partc_gchar));
 
   gchar *text = (gchar*)gtk_entry_get_text(entry);
+
   if(!text || !strlen(text)){
     popup(NULL,"Insira a quantidade do produto");
     return 1;

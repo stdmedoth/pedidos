@@ -5,10 +5,12 @@ enum PAG_COND_COLS{
 	PAGCND_DIAFLAG_COL,
 	PAGCND_DIA_COL,
 	PAGCND_INT_COL,
-	PAGCOND_QNT_COL
+	PAGCOND_QNT_COL,
+	PAGCOND_COLS_QNT
 };
 
 int cad_pag(void);
+struct _condpag *cond_pag_get(int condpag_code);
 
 static GtkWidget *pag_psq_cod_button;
 static GtkWidget *pag_cod_entry,*pag_nome_entry,*pag_parc_spin,*pag_parc_qnt_spin,*pag_tipo_combo,*pag_init_spin;
@@ -41,6 +43,7 @@ static GtkWidget *pag_confirmar_button,
 
 struct _condpag{
 	int code;
+	char *nome;
 	int tipo_parc;
 	int dia_inicial_flag;
 	int dia_inicial;

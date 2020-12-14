@@ -60,6 +60,7 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos));
+	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
 
 	sprintf(query,"select * from terceiros where code = %i", code);
   if(!(res = consultar(query))){
@@ -98,6 +99,21 @@ struct _terc_infos *terceiros_get_terceiro(int code){
     return NULL;
 	}
 
+	int contatos_qnt = 0;
+	sprintf(query,"select * from contatos where terceiro = %i", code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar contatos do terceiro");
+		return NULL;
+	}
+	while((row = mysql_fetch_row(res))){
+		terceiros->contatos[contatos_qnt].id = atoi(row[CTTO_ID_COL]);
+		terceiros->contatos[contatos_qnt].nome = strdup(row[CTTO_NOME_COL]);
+		terceiros->contatos[contatos_qnt].celular = strdup(row[CTTO_CEL_COL]);
+		terceiros->contatos[contatos_qnt].telefone = strdup(row[CTTO_TEL_COL]);
+		terceiros->contatos[contatos_qnt].email = strdup(row[CTTO_EMAIL_COL]);
+		contatos_qnt++;
+	}
+	terceiros->contatos_qnt = contatos_qnt;
 	return terceiros;
 }
 

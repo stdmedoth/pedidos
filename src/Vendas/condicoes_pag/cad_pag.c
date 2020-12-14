@@ -1,3 +1,29 @@
+struct _condpag *cond_pag_get(int condpag_code){
+  MYSQL_RES *res;
+	MYSQL_ROW row;
+  char *query = malloc(MAX_QUERY_LEN);
+	struct _condpag *condpag = malloc(sizeof(struct _condpag));
+
+  sprintf(query, "select * from pag_cond where code = %i", condpag_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao consultar Condição de pagamento");
+	  return NULL;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		return NULL;
+	}
+
+  condpag->code = atoi(row[PAGCND_COD_COL]);
+  condpag->nome = strdup(row[PAGCND_NOM_COL]);
+  condpag->tipo_parc = atoi(row[PAGCND_TIP_COL]);
+  condpag->dia_inicial_flag = atoi(row[PAGCND_DIAFLAG_COL]);
+  condpag->dia_inicial = atoi(row[PAGCND_DIA_COL]);
+  condpag->intervalos = atoi(row[PAGCND_INT_COL]);
+  condpag->parcelas_qnt = atoi(row[PAGCOND_QNT_COL]);
+
+  return condpag;
+}
+
 int cad_pag(){
   GtkTreeIter iter1;
   GtkWidget *scrolled,*scrolled_box;

@@ -16,6 +16,8 @@ struct _terc_infos{
   char *xBairro;
   char *xMun;
   char *UF;
+  struct _Contato *contatos;
+  int contatos_qnt;
 };
 
 struct _Terceiros{

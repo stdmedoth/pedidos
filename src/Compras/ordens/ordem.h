@@ -5,7 +5,7 @@ enum ORD_CMP_COLS{
   ORD_CMP_DTENTR,
   ORD_CMP_CONDPAG,
   ORD_CMP_STATUS,
-  ORD_CMP_QNT
+  ORD_CMP_COLS_QNT
 };
 
 enum ORDCMP_STATUS{
@@ -16,8 +16,27 @@ enum ORDCMP_STATUS{
 };
 
 int ordem_cmp();
+struct _ord_cmp *ordem_cmp_get(int ordcmp_code);
 int ordem_cmp_excluidos[MAX_PROD];
 int ordem_cmp_excluido_pos;
+
+struct _ord_cmp_item{
+  struct _requisicao_prod *requisicao;
+  struct _cad_produtos *produto;
+};
+
+struct _ord_cmp{
+
+  int code;
+  struct _terc_infos *fornecedor;
+  struct _ord_cmp_item *itens;
+  struct _condpag *condpag;
+
+  char *data_emissao;
+  char *data_entrega;
+  char *obs;
+  int status;
+};
 
 GtkWidget *ordem_cmp_code_entry,
   *ordem_cmp_dtemissao_entry,
@@ -46,7 +65,8 @@ GtkWidget *ordem_cmp_codepsq_button,
 GtkWidget *ordem_cmp_concluir_button,
   *ordem_cmp_alterar_button,
   *ordem_cmp_excluir_button,
-  *ordem_cmp_cancelar_button;
+  *ordem_cmp_cancelar_button,
+  *ordem_cmp_gerar_button;
 
 GtkWidget *ordem_cmp_req_treeview, *ordem_cmp_ordreq_treeview;
 

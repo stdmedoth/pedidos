@@ -22,6 +22,7 @@
 #define MSG_PRINC     "C:/pedidos/files/msg"
 #define LOGO          "C:/pedidos/files/logo.png"
 #define LOGO_PEQUENA  "C:/pedidos/files/logo_pequena.png"
+#define LOGO_MEDIA    "C:/pedidos/files/logo_media.png"
 #define BACKUP        "C:/pedidos/files/backup"
 #define DESKTOP       "C:/pedidos/files/desktop.png"
 #define DESKTOP1      "C:/pedidos/files/desktop/desktop1.png"
@@ -99,6 +100,7 @@
 #define REL_FIX_MOV_PATH  "C:/pedidos/files/impressao/relatorios/fixos/movimentos"
 #define REL_FIX_FIN_PATH   "C:/pedidos/files/impressao/relatorios/fixos/financeiros/"
 #define PAG_CONT_FIX       "C:/pedidos/files/impressao/conta_fixa.html"
+#define ORD_CMP_PDF_FILE   "C:/pedidos/files/impressao/ord_cmp.pdf"
 #define REL_FIX_FINREC_IMG "C:/pedidos/files/icones_opc/relatorio_fixos_finanrec.png"
 #define REL_FIX_FINPAG_IMG "C:/pedidos/files/icones_opc/relatorio_fixos_finanpag.png"
 #define IMPRT_TIT_IMG      "C:/pedidos/files/icones_opc/import_tits.png"
@@ -162,6 +164,7 @@
 #define ICO           "/usr/share/pedidos/files/ico.ico"
 #define LOGO          "/usr/share/pedidos/files/logo.png"
 #define LOGO_PEQUENA  "/usr/share/pedidos/files/logo_pequena.png"
+#define LOGO_MEDIA    "/usr/share/pedidos/files/logo_media.png"
 #define LOGGER        "/usr/share/pedidos/files/logger.log"
 #define BACKUP        "/usr/share/pedidos/files/backup"
 #define LOGO_HEADER   "/usr/share/pedidos/files/assets/logo_header.png"
@@ -255,6 +258,7 @@
 #define SCRPT_TER_INFOS_ENV "/usr/share/pedidos/files/scripts/files/dados_emissor.xml"
 #define SCRPT_TER_INFOS_RET "/usr/share/pedidos/files/scripts/files/dados_retorno.xml"
 #define SCRPT_NFE_INFOS     "/usr/share/pedidos/files/scripts/files/dados_nfe.xml"
+#define ORD_CMP_PDF_FILE   "/usr/share/pedidos/files/impressao/ord_cmp.pdf"
 #define MOZ_CERT          "/usr/share/pedidos/files/cacert.pem"
 #define SUP_XML           "/usr/share/pedidos/files/suporte.xml"
 #define ORC_PARAMS        "/usr/share/pedidos/files/orc_params.xml"
@@ -342,7 +346,6 @@
 #define MAX_UF_LEN 3
 #define MAX_SERVER_LEN 50
 #define MAX_COMPLMNTO_LEN 20
-#define MAX_CNTTS_QNT 20
 
 #define MAX_QUERY_LEN 3000
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)

@@ -17,6 +17,8 @@ typedef struct _Contato
   gchar *email;
 }Contato;
 
+#define MAX_CNTTS_QNT 20
+
 static int contatos_ter=0;
 static int contatos_qnt=0;
 static int cntt_exists[MAX_CNTTS_QNT];

@@ -128,6 +128,8 @@
 #include "GerarDocs/Orcs/cliente.h"
 #include "GerarDocs/Orcs/gerar_orcs.h"
 
+#include "GerarDocs/OrdensCompra/gerar.h"
+
 #include "../Transportes/cad_trsp.h"
 
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"

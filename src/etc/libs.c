@@ -110,6 +110,8 @@
 #include "GerarDocs/Orcs/cliente.c"
 #include "GerarDocs/Orcs/gerar_orcs.c"
 
+#include "GerarDocs/OrdensCompra/gerar.c"
+
 #include "../Vendas/pedidos/emitir.c"
 #include "../Vendas/pedidos/cancelar.c"
 #include "../Vendas/pedidos/excluir.c"

@@ -1,7 +1,7 @@
 create table prod_requisicoes(
   code int primary key not null,
   produto int not null,
-  quantidade int not null,
+  quantidade float not null,
   descricao varchar(200),
   data datetime not null,
   prioridade int not null,
