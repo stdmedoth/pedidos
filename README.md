@@ -7,7 +7,7 @@
 <li>Compras</li>
 <li>Estoque</li>
 <li>Financeiro</li>
-<li>Financeiro</li>
+<li>Marketing</li>
 <li>Relatórios Gerais</li>
 </ul>
 
