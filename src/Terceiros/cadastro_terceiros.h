@@ -86,4 +86,10 @@ enum{
 
 #define MAX_TERC_QNT 100;
 
+enum TER_ORIG{
+  TER_DENTRO_ESTADO,
+  TER_FORA_ESTADO,
+  TER_FORA_PAIS,
+};
+
 #include "campos.h"

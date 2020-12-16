@@ -36,7 +36,6 @@
 #include "../Parametros/parametros.h"
 
 #include "../Terceiros/cadastro_terceiros.h"
-#include "../Terceiros/pesquisa_cad.h"
 
 #include "../Produtos/cadastro_produtos.h"
 #include "../Produtos/grupos/cad_grupo.h"
@@ -81,19 +80,19 @@
 #include "../Estoque/saidas/saidas.h"
 #include "../Estoque/cadastro/estoque.h"
 
-#include "../Vendas/condicoes_pag/cad_pag.h"
-#include "../Vendas/condicoes_pag/campos/pag_cod.h"
-#include "../Vendas/condicoes_pag/campos/pag_nome.h"
-#include "../Vendas/condicoes_pag/campos/pag_init.h"
-#include "../Vendas/condicoes_pag/campos/pag_tipo.h"
-#include "../Vendas/condicoes_pag/campos/pag_parc_qnt.h"
-#include "../Vendas/condicoes_pag/campos/pag_parc.h"
-#include "../Vendas/condicoes_pag/campos/pag_datas.h"
-#include "../Vendas/condicoes_pag/campos/pag_dia_fixo.h"
-#include "../Vendas/condicoes_pag/cancelar.h"
-#include "../Vendas/condicoes_pag/concluir.h"
-#include "../Vendas/condicoes_pag/alterar.h"
-#include "../Vendas/condicoes_pag/excluir.h"
+#include "./condicoes_pag/cad_pag.h"
+#include "./condicoes_pag/campos/pag_cod.h"
+#include "./condicoes_pag/campos/pag_nome.h"
+#include "./condicoes_pag/campos/pag_init.h"
+#include "./condicoes_pag/campos/pag_tipo.h"
+#include "./condicoes_pag/campos/pag_parc_qnt.h"
+#include "./condicoes_pag/campos/pag_parc.h"
+#include "./condicoes_pag/campos/pag_datas.h"
+#include "./condicoes_pag/campos/pag_dia_fixo.h"
+#include "./condicoes_pag/cancelar.h"
+#include "./condicoes_pag/concluir.h"
+#include "./condicoes_pag/alterar.h"
+#include "./condicoes_pag/excluir.h"
 
 #include "../Vendas/pedidos/pedidos.h"
 #include "../Vendas/pedidos/emitir.h"
@@ -111,6 +110,8 @@
 
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.h"
 #include "../Vendas/Emissor/CFe/cfe.h"
+
+#include "../Vendas/Emissor/ConsultaContrib/consulta_contrib.h"
 
 #include "../Vendas/Emissor/CFe/bemasat.h"
 

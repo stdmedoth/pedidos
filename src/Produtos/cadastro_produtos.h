@@ -75,16 +75,15 @@ static GtkWidget *campo_nome_unidade,
 *campo_nome_qnt_atacado;
 
 struct _cad_produtos{
-  char *code;
+  int code;
   char *xNome;
-  char *Peso;
-  char *Preco;
-  char *Und;
-  char *xUND;
-  char *Grp;
-  char *xGrp;
-  char *NCM;
-  char *cNCM;
+  float peso;
+  float preco;
+  //int und;
+  int grp;
+  int NCM;
+
+  struct _und *und;
 };
 
 struct _cad_produtos *get_cad_prod(int prod_code);

@@ -10,6 +10,33 @@
 #include "excluir.c"
 #include "cancelar.c"
 
+struct _requisicao_prod *requisicao_get(int req_code){
+	struct _requisicao_prod *requisicao = malloc(sizeof(struct _requisicao_prod));
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char *query = malloc(MAX_QUERY_LEN);
+	sprintf(query, "select * from prod_requisicoes where code = %i", req_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao consultar requisição");
+		return NULL;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		return NULL;
+	}
+
+	requisicao->code = atoi(row[REQ_CODE_COL]);
+	requisicao->produto = atoi(row[REQ_PROD_COL]);
+	requisicao->descricao = strdup(row[REQ_DESCR_COL]);
+	requisicao->data = strdup(row[REQ_DATA_COL]);
+	requisicao->qnt = atof(row[REQ_QNT_COL]);
+	requisicao->prioridade = atoi(row[REQ_PRIOR_COL]);
+	requisicao->data_evento = strdup(row[REQ_DTEVENT_COL]);
+	requisicao->status = atoi(row[REQ_STATUS_COL]);
+
+
+	return requisicao;
+}
+
 int solicitacao(){
 
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);

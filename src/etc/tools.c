@@ -25,6 +25,28 @@ int treeview_id_exists(GtkTreeView *treeview, int id){
   return 0;
 }
 
+char  *format_cnpj_num(char *cnpj){
+  int cont2=0;
+  char *formated_cnpj = malloc(strlen(cnpj));
+  strcpy(formated_cnpj,"");
+
+  for(int cont=0;cont<strlen(cnpj);cont++){
+    if(isdigit(cnpj[cont])){
+      formated_cnpj[cont2] = cnpj[cont];
+      cont2++;
+    }
+  }
+  formated_cnpj[cont2] = '\0';
+  return formated_cnpj;
+}
+char *formatar_littobig(char *string){
+  for(int cont=0;cont<strlen(string);cont++){
+    if(isalpha(string[cont]) && islower(string[cont]))
+      string[cont] -= 32;
+  }
+  return string;
+}
+
 void checkcellrenderer ( GtkCellRendererToggle *cell )
 {
     int active = gtk_cell_renderer_toggle_get_active ( cell );

@@ -1,10 +1,12 @@
 struct _requisicao_prod{
   int code;
   int produto;
-  char descricao[MAX_OBS_LEN];
-  char data[MAX_DATE_LEN];
+  char *descricao;
+  float qnt;
+  float valor;
+  char *data;
   int prioridade;
-  char data_evento[MAX_DATE_LEN];
+  char *data_evento;
   int status;
 };
 
@@ -40,6 +42,7 @@ int req_prod_cancelar_fun();
 int req_prod_alterar_fun();
 
 char *req_prod_get_prior_name(int prior);
+struct _requisicao_prod *requisicao_get(int req_code);
 
 static int req_prod_concluindo=0, req_prod_alterando=0;
 GtkWidget *req_prod_concluir_button,

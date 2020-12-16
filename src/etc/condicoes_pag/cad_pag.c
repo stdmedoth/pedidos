@@ -24,6 +24,56 @@ struct _condpag *cond_pag_get(int condpag_code){
   return condpag;
 }
 
+float *cond_pag_get_valores(struct _condpag *parc, float valor_total){
+
+  float *valores = malloc( sizeof(float) * parc->parcelas_qnt );
+
+  for(int cont=0;cont<parc->parcelas_qnt;cont++){
+    float parcela=0;
+    parcela = (valor_total/parc->parcelas_qnt);
+    valores[cont] = parcela;
+  }
+  return valores;
+}
+
+char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
+
+  GDateTime  *gdate;
+  GTimeZone *timezone;
+  gchar **parcelas_datas = malloc( sizeof(char*) * parc->parcelas_qnt );
+  int dia=0, mes=0, ano=0;
+
+  if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF){
+    popup(NULL,"Não foi possivel ler data");
+    g_print("Erro no parser de data: %s\n",strerror(errno));
+    return NULL;
+  }
+
+  timezone = g_time_zone_new(NULL);
+  gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
+  for(int cont=0;cont<parc->parcelas_qnt;cont++){
+
+    if(!g_date_time_format(gdate,"%d/%m/%Y")){
+      popup(NULL,"Operação impossível para esta data");
+      return NULL;
+    }
+
+    if(parc->tipo_parc == CONDPAG_DIAS)
+      gdate = g_date_time_add_days(gdate,parc->intervalos);
+    else
+    if(parc->tipo_parc == CONDPAG_MESES)
+      gdate = g_date_time_add_months(gdate,parc->intervalos);
+
+
+    parcelas_datas[cont] = strdup( g_date_time_format(gdate,"%d/%m/%Y") );
+
+    if(parc->tipo_parc == CONDPAG_DADATA)
+      gdate = g_date_time_add_days(gdate,parc->intervalos);
+  }
+  return parcelas_datas;
+}
+
+
 int cad_pag(){
   GtkTreeIter iter1;
   GtkWidget *scrolled,*scrolled_box;

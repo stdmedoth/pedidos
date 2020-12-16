@@ -8,7 +8,7 @@
 #define WB_TO_RGB(color) color/255.00
 
 #define ORD_CMP_FORN_INFOS_HPOS 50
-#define ORD_CMP_FORN_INFOS_VPOS 336.0
+#define ORD_CMP_FORN_INFOS_VPOS 320.0
 
 #define ORD_CMP_EMP_INFOS_VPOS 100
 #define ORD_CMP_EMP_INFOS_HPOS 400.0
@@ -22,7 +22,11 @@
 #define ORD_CMP_ITENS_HPOS 50.0
 #define ORD_CMP_ITENS_VPOS 970.0
 
+#define ORD_CMP_CONDPAG_HPOS 50.0
+#define ORD_CMP_CONDPAG_VPOS 1380.0
+
 #define TITLE_TEXT_FONT_SIZE 24
+#define ITENS_TEXT_FONT_SIZE 18
 #define DESCR_TEXT_FONT_SIZE 15
 
 int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
@@ -115,13 +119,13 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   cairo_show_text(cairo, ender_fornecedor);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS + 650, ORD_CMP_FORN_INFOS_VPOS + 60);
+  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS, ORD_CMP_FORN_INFOS_VPOS + 90);
   gchar *cidade_fornecedor = malloc(20+strlen(ordem_cmp->fornecedor->xMun)+strlen(ordem_cmp->fornecedor->UF));
   sprintf(cidade_fornecedor, "Cidade: %s/%s", ordem_cmp->fornecedor->xMun, ordem_cmp->fornecedor->UF);
   cairo_show_text(cairo, cidade_fornecedor);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS, ORD_CMP_FORN_INFOS_VPOS + 90);
+  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS, ORD_CMP_FORN_INFOS_VPOS + 120);
   gchar *telefone_fornecedor;
   if(ordem_cmp->fornecedor->contatos_qnt){
     telefone_fornecedor = malloc(20+strlen(ordem_cmp->fornecedor->contatos[0].telefone));
@@ -132,7 +136,7 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   cairo_show_text(cairo, telefone_fornecedor);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS, ORD_CMP_FORN_INFOS_VPOS + 120);
+  cairo_move_to(cairo, ORD_CMP_FORN_INFOS_HPOS, ORD_CMP_FORN_INFOS_VPOS + 150);
   gchar *contato_fornecedor;
   if(ordem_cmp->fornecedor->contatos_qnt){
     contato_fornecedor = malloc(20+strlen(ordem_cmp->fornecedor->contatos[0].nome));
@@ -212,9 +216,103 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   cairo_show_text(cairo, "Itens Solicitados:");
   cairo_fill(cairo);
 
-  cairo_rectangle(cairo, MM_TO_POINTS(6), MM_TO_POINTS(667), MM_TO_POINTS(582), MM_TO_POINTS(80));
+  cairo_rectangle(cairo, MM_TO_POINTS(20), MM_TO_POINTS(490), MM_TO_POINTS(550), MM_TO_POINTS(20));
+  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  cairo_fill(cairo);
+
+  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
+  cairo_move_to(cairo,  MM_TO_POINTS(25), MM_TO_POINTS(505));
+  cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
+  cairo_show_text(cairo, "Nome Produto");
+  cairo_fill(cairo);
+
+  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
+  cairo_move_to(cairo,  MM_TO_POINTS(220), MM_TO_POINTS(505));
+  cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
+  cairo_show_text(cairo, "Quantidade");
+  cairo_fill(cairo);
+
+  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
+  cairo_move_to(cairo,  MM_TO_POINTS(400), MM_TO_POINTS(505));
+  cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
+  cairo_show_text(cairo, "Valor");
+  cairo_fill(cairo);
+
+  int pos=ORD_CMP_ITENS_VPOS+80;
+  cairo_set_font_size(cairo, ITENS_TEXT_FONT_SIZE);
+  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  for(int cont=0;cont<ordem_cmp->itens_qnt;cont++){
+
+    char *format = malloc(strlen(ordem_cmp->itens[cont].produto->xNome));
+    cairo_move_to(cairo, ORD_CMP_ITENS_HPOS, pos);
+    cairo_show_text(cairo, ordem_cmp->itens[cont].produto->xNome);
+    cairo_fill(cairo);
+
+    cairo_move_to(cairo, ORD_CMP_ITENS_HPOS+400, pos);
+    sprintf(format, "%.2f %s", ordem_cmp->itens[cont].requisicao->qnt, ordem_cmp->itens[cont].produto->und->nome);
+    cairo_show_text(cairo, format);
+    cairo_fill(cairo);
+
+    cairo_move_to(cairo, ORD_CMP_ITENS_HPOS+740, pos);
+    sprintf(format, "R$ %.2f", ordem_cmp->itens[cont].requisicao->valor);
+    cairo_show_text(cairo, format);
+    cairo_fill(cairo);
+
+    pos += 30;
+  }
+
+  cairo_rectangle(cairo, MM_TO_POINTS(6), MM_TO_POINTS(667), MM_TO_POINTS(582), MM_TO_POINTS(200));
   cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
   cairo_fill(cairo);
+
+  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
+  cairo_move_to(cairo, ORD_CMP_CONDPAG_HPOS, ORD_CMP_CONDPAG_VPOS);
+  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  cairo_show_text(cairo, "Condições de Pagamento:");
+  cairo_fill(cairo);
+
+  gchar **datas = cond_pag_get_datas(ordem_cmp->condpag, ordem_cmp->data_emissao);
+  if(!datas){
+    popup(NULL,"Não foi possível receber datas");
+    return 1;
+  }
+  float *valores = cond_pag_get_valores(ordem_cmp->condpag, ordem_cmp->vlr_total );
+  if(!valores){
+    popup(NULL,"Não foi possível receber valores");
+    return 1;
+  }
+
+  cairo_rectangle(cairo, MM_TO_POINTS(20), MM_TO_POINTS(700), MM_TO_POINTS(550), MM_TO_POINTS(20));
+  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  cairo_fill(cairo);
+
+  cairo_move_to(cairo, ORD_CMP_CONDPAG_HPOS + 20, ORD_CMP_CONDPAG_VPOS + 50);
+  cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
+  char *format = malloc(strlen(ordem_cmp->condpag->nome) + 30);
+  sprintf(format, " %s | %i x R$ %.2f", ordem_cmp->condpag->nome, ordem_cmp->condpag->parcelas_qnt, ordem_cmp->vlr_total);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+
+  int h_pos=0, v_pos=50, i_pos=0;
+  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  for(int cont=0;cont< ordem_cmp->condpag->parcelas_qnt; cont++){
+
+    cairo_move_to(cairo, ORD_CMP_CONDPAG_HPOS + 20  + h_pos, ORD_CMP_CONDPAG_VPOS + 50 + v_pos);
+
+    gchar *parc = malloc( strlen(datas[cont]) + 30 );
+    sprintf(parc, "| %iº %s R$ %.2f |", cont+1, datas[cont], valores[cont]);
+    cairo_show_text(cairo, parc);
+    cairo_fill(cairo);
+
+    if(i_pos > 1){
+      i_pos = 0;
+      h_pos = 0;
+      v_pos += 50;
+    }else{
+      h_pos+=350;
+      i_pos++;
+    }
+  }
 
   cairo_show_page(cairo);
   cairo_destroy(cairo);

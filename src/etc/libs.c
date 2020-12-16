@@ -60,7 +60,6 @@
 #include "../Inicio/fechar.c"
 
 #include "../Terceiros/cadastro_terceiros.c"
-#include "../Terceiros/pesquisa_cad.c"
 
 #include "../Produtos/cadastro_produtos.c"
 
@@ -72,19 +71,19 @@
 #include "../Compras/cotacoes/cotacao.c"
 #include "../Compras/solicitacoes/solicitacao.c"
 
-#include "../Vendas/condicoes_pag/cad_pag.c"
-#include "../Vendas/condicoes_pag/campos/pag_cod.c"
-#include "../Vendas/condicoes_pag/campos/pag_nome.c"
-#include "../Vendas/condicoes_pag/campos/pag_init.c"
-#include "../Vendas/condicoes_pag/campos/pag_tipo.c"
-#include "../Vendas/condicoes_pag/campos/pag_parc_qnt.c"
-#include "../Vendas/condicoes_pag/campos/pag_parc.c"
-#include "../Vendas/condicoes_pag/campos/pag_datas.c"
-#include "../Vendas/condicoes_pag/campos/pag_dia_fixo.c"
-#include "../Vendas/condicoes_pag/cancelar.c"
-#include "../Vendas/condicoes_pag/concluir.c"
-#include "../Vendas/condicoes_pag/alterar.c"
-#include "../Vendas/condicoes_pag/excluir.c"
+#include "./condicoes_pag/cad_pag.c"
+#include "./condicoes_pag/campos/pag_cod.c"
+#include "./condicoes_pag/campos/pag_nome.c"
+#include "./condicoes_pag/campos/pag_init.c"
+#include "./condicoes_pag/campos/pag_tipo.c"
+#include "./condicoes_pag/campos/pag_parc_qnt.c"
+#include "./condicoes_pag/campos/pag_parc.c"
+#include "./condicoes_pag/campos/pag_datas.c"
+#include "./condicoes_pag/campos/pag_dia_fixo.c"
+#include "./condicoes_pag/cancelar.c"
+#include "./condicoes_pag/concluir.c"
+#include "./condicoes_pag/alterar.c"
+#include "./condicoes_pag/excluir.c"
 
 #include "../Vendas/orcamentos/campos/entrega_campos.c"
 #include "../Vendas/orcamentos/orcamentos.c"
@@ -95,6 +94,8 @@
 #include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
 #include "../Vendas/Emissor/CFe/cfe.c"
 #include "../Vendas/Emissor/CFe/bemasat.c"
+
+#include "../Vendas/Emissor/ConsultaContrib/consulta_contrib.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"

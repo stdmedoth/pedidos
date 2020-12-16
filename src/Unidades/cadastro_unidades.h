@@ -25,3 +25,21 @@ int multiplo_und();
 int deleta_und();
 
 int concluido_und();
+
+struct _und *cad_und_get_und(int und_code);
+
+enum{
+  UND_CODE_COL,
+  UND_NOME_COL,
+  UND_SIGLA_COL,
+  UND_MULTIPLO_COL,
+  UND_MEDIDA_COL
+};
+
+struct _und{
+  int code;
+  char *nome;
+  char *sigla;
+  float multiplo;
+  int medida;
+};

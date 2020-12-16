@@ -8,6 +8,13 @@ enum ORD_CMP_COLS{
   ORD_CMP_COLS_QNT
 };
 
+enum ORDCMP_ITENS_COLS{
+  ORDCMP_ITEM_CODE,
+  ORDCMP_ITEM_ORDID,
+  ORDCMP_ITEM_REQ,
+  ORDCMP_ITEM_COLS_QNT_
+};
+
 enum ORDCMP_STATUS{
   ORDCMP_N_ENVIADO,
   ORD_CMP_ENVIADO,
@@ -29,9 +36,11 @@ struct _ord_cmp{
 
   int code;
   struct _terc_infos *fornecedor;
+  int itens_qnt;
   struct _ord_cmp_item *itens;
   struct _condpag *condpag;
 
+  float vlr_total;
   char *data_emissao;
   char *data_entrega;
   char *obs;
