@@ -14,7 +14,10 @@ int ordem_cmp_gerar(){
     return 1;
   }
 
-  popup(NULL,"Ordem de compra gerada com sucesso");
+  imp_opc = PDF_IMP;
+  if(iniciar_impressao(ORD_CMP_PDF_FILE))
+    return 1;
 
+  popup(NULL,"Ordem de compra gerada com sucesso");
   return 0;
 }

@@ -1,4 +1,4 @@
-void receber_bnc_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_ncm_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -14,12 +14,17 @@ void receber_bnc_code(GtkWidget *button, GtkTreeView *treeview)
 		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
 	}
-	gtk_widget_destroy(psq_bnc_wnd);
+	gtk_widget_destroy(psq_ncm_wnd);
 }
 
-int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+int entry_ncm_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
+  enum {
+    COLUMN0,
+    COLUMN1,
+    N_COLUMNS
+  };
+
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
@@ -34,7 +39,7 @@ int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select code, nome, conta, agencia from bancos where nome like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select cod_ncm, nome_ncm from ncm where nome like '%c%s%c' limit 25",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -46,19 +51,22 @@ int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
-		COLUMN1,row[1],
-		COLUMN2,row[2],
-		COLUMN3,row[3],-1);
+		COLUMN1,row[1],-1);
 	}
 	return 0;
 }
 
-int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
+int psq_ncm(GtkWidget *button, GtkEntry *cod_ncm_entry)
 {
-	enum {N_COLUMNS=4,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
+	enum {
+    COLUMN0,
+    COLUMN1,
+    N_COLUMNS
+  };
+
 	GtkWidget *scrollwindow;
-	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4;
-	GtkCellRenderer *celula1, *celula2, *celula3, *celula4;
+	GtkTreeViewColumn *coluna1, *coluna2;
+	GtkCellRenderer *celula1, *celula2;
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
 	GtkTreeIter colunas, campos;
@@ -78,10 +86,6 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	celula1 = gtk_cell_renderer_text_new();
 	coluna2 = gtk_tree_view_column_new();
 	celula2 = gtk_cell_renderer_text_new();
-	coluna3 = gtk_tree_view_column_new();
-	celula3 = gtk_cell_renderer_text_new();
-	coluna4 = gtk_tree_view_column_new();
-	celula4 = gtk_cell_renderer_text_new();
 
 	treeview = gtk_tree_view_new();
 
@@ -92,17 +96,16 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
-	psq_bnc_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_bnc_wnd),3);
-	gtk_window_set_title(GTK_WINDOW(psq_bnc_wnd),"Pesquisa Bancos");
-	gtk_window_set_icon_name(GTK_WINDOW(psq_bnc_wnd),"system-search");
-	gtk_window_set_keep_above(GTK_WINDOW(psq_bnc_wnd),TRUE);
-	gtk_widget_set_size_request(psq_bnc_wnd,500,250);
+	psq_ncm_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_ncm_wnd),3);
+	gtk_window_set_title(GTK_WINDOW(psq_ncm_wnd),"Pesquisa Bancos");
+	gtk_window_set_icon_name(GTK_WINDOW(psq_ncm_wnd),"system-search");
+	gtk_window_set_keep_above(GTK_WINDOW(psq_ncm_wnd),TRUE);
+	gtk_widget_set_size_request(psq_ncm_wnd,500,250);
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
-	gtk_tree_view_column_set_title(coluna1,"Código");
+	gtk_tree_view_column_set_title(coluna1,"Código NCM");
 	gtk_tree_view_column_set_spacing(coluna1,5);
-	gtk_tree_view_column_set_visible(coluna1,FALSE);
 	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
 
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
@@ -110,25 +113,13 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_column_set_spacing(coluna2,5);
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
 
-	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
-	gtk_tree_view_column_set_title(coluna3,"Conta");
-	gtk_tree_view_column_set_spacing(coluna3,5);
-	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
-
-	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
-	gtk_tree_view_column_set_title(coluna4,"Agência");
-	gtk_tree_view_column_set_spacing(coluna4,5);
-	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
-
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select code, nome, conta, agencia from bancos");
+  sprintf(query,"select cod_ncm, nome_ncm from ncm limit 25");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -143,9 +134,7 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
 		COLUMN0,row[0],
-		COLUMN1,row[1],
-		COLUMN2,row[2],
-		COLUMN3,row[3],-1);
+		COLUMN1,row[1],-1);
 	}
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
@@ -160,16 +149,16 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
-	gtk_container_set_border_width(GTK_CONTAINER(psq_bnc_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_ncm_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
-	gtk_container_add(GTK_CONTAINER(psq_bnc_wnd),caixa_grande);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_bnc_pesquisa),treeview);
-	pesquisa_global_alvo = cod_bnc_entry;
+	gtk_container_add(GTK_CONTAINER(psq_ncm_wnd),caixa_grande);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_ncm_pesquisa),treeview);
+	pesquisa_global_alvo = cod_ncm_entry;
 
-	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_bnc_wnd);
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_ncm_wnd);
 
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_bnc_code),treeview);
-	gtk_widget_show_all(psq_bnc_wnd);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ncm_code),treeview);
+	gtk_widget_show_all(psq_ncm_wnd);
 	return 0;
 }

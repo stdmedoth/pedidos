@@ -26,7 +26,6 @@ int exclui_prod()
 		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
 		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_faturado_prod_field),"");
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 		gtk_text_buffer_get_start_iter (buffer,&inicio);
 		gtk_text_buffer_get_end_iter (buffer,&fim);

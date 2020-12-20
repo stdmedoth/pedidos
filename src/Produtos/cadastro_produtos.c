@@ -14,7 +14,6 @@ int inicializar_prod(){
 	unidades_prod = malloc(MAX_CODE_LEN);
 	unidades_atac_prod = malloc(MAX_CODE_LEN);
 	grupos_prod = malloc(MAX_GRP_LEN);
-	precos_faturado_prod = malloc(MAX_MRC_LEN);
 	fornecedores_prod = malloc(MAX_FOR_LEN);
 	observacoes_prod = malloc(MAX_OBS_LEN);
 
@@ -59,7 +58,7 @@ int  cad_prod(){
 	GtkWidget *code_prod_label,  *nome_prod_label,
 	*preco_prod_label, *peso_prod_label , *unidade_prod_label,
 	*fornecedor_prod_label, *grupo_prod_label,
-	*preco_faturado_prod_label,  *observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_label;
+	*observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_label;
 	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
 
 	if(integracoes.config.intgr_id){
@@ -82,7 +81,7 @@ int  cad_prod(){
  	//container/visual
 	GtkWidget *janela;
 	GtkWidget *fixed, *fixed2, *fixed3,*box, *box2, *box3, *box4, *vertical_box1, *vertical_box2, *vertical_box3, *separator;
-	GtkWidget *code, *name, *preco, *peso, *unidade, *qnt_atacado, *fornecedor, *grupo, *preco_faturado, *observacoes;
+	GtkWidget *code, *name, *preco, *peso, *unidade, *qnt_atacado, *fornecedor, *grupo, *observacoes;
 	GtkWidget *caixa_grande, *psq_prod_codigo_box;
 	GtkWidget *observacoes_scroll;
 	GtkWidget *acao;
@@ -190,7 +189,6 @@ int  cad_prod(){
 	unidade_prod_label =  gtk_label_new("Quantidade Unitária: ");
 	fornecedor_prod_label =  gtk_label_new("Fornecedor: ");
 	grupo_prod_label =  gtk_label_new("Grupo: ");
-	preco_faturado_prod_label =  gtk_label_new("Preço Faturado: ");
 	observacao_prod_frame =  gtk_frame_new("Observacoes: ");
 	qnt_atacado_label = gtk_label_new("Quantidade Varejo");
 
@@ -206,7 +204,6 @@ int  cad_prod(){
 	unidade_prod_field = gtk_entry_new();
 	fornecedor_prod_field = gtk_entry_new();
 	grupo_prod_field = gtk_entry_new();
-	preco_faturado_prod_field = gtk_entry_new();
 	observacao_prod_field = gtk_text_view_new();
 	gtk_widget_set_name(observacao_prod_field,"textview");
 	//gtk_container_set_border_width()
@@ -294,8 +291,13 @@ int  cad_prod(){
 	gtk_widget_set_size_request(grupo_prod_field,100,30);
 
 	prod_ncm_entry = gtk_entry_new();
+	campo_nome_ncm = gtk_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(campo_nome_ncm), "Nome do NCM");
+	gtk_entry_set_width_chars(GTK_ENTRY(prod_ncm_entry),10);
+	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_ncm),30);
 	prod_ncm_psq_button = gtk_button_new();
 	prod_icmscst_combo = gtk_combo_box_text_new();
+
 	sprintf(query, "SELECT * FROM cst_cson where regime = %i", cad_emp_strc.RegTribInt);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível buscar CST/CSON");
@@ -397,6 +399,7 @@ int  cad_prod(){
 
 	gtk_box_pack_start(GTK_BOX(prod_ncm_box), prod_ncm_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_ncm_box), prod_ncm_psq_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(prod_ncm_box), campo_nome_ncm,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(prod_cst_box), prod_icmscst_combo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(prod_origem_box), prod_origem_combo,0,0,0);
@@ -482,6 +485,7 @@ int  cad_prod(){
 	g_signal_connect(GTK_BUTTON(prod_excluir_button),"clicked",G_CALLBACK(exclui_prod),NULL);
 
 	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_subgrp_todos),grupo_prod_field);
+	g_signal_connect(GTK_BUTTON(prod_ncm_psq_button),"clicked",G_CALLBACK(psq_ncm),prod_ncm_entry);
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);
@@ -528,6 +532,7 @@ int  cad_prod(){
 
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_fornecedor),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_grupo),FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_ncm), FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_unidade),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_qnt_atacado),FALSE);
 

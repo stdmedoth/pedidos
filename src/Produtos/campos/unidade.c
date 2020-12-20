@@ -5,10 +5,6 @@ int und_unt_prod()
 	char query[50];
 	unidades_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(unidade_prod_field));
 	if(strlen(unidades_prod)<=0){
-		if(produtos.criticar.unidade==0){
-			gtk_widget_grab_focus(qnt_atacado_field);
-			return 0;
-		}
 		g_print("Inserir uma unidade para o produto");
 		popup(NULL,"Por favor, Insira uma unidade para o produto");
 		gtk_widget_grab_focus(GTK_WIDGET(unidade_prod_field));
@@ -52,11 +48,6 @@ int und_atac_prod()
 	unidades_atac_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(qnt_atacado_field));
 	if(strlen(unidades_atac_prod)<=0)
 	{
-		if(produtos.criticar.unidade==0)
-		{
-			gtk_widget_grab_focus(grupo_prod_field);
-			return 0;
-		}
 		g_print("Inserir uma unidade para o produto");
 		popup(NULL,"Por favor, Insira uma unidade para o produto");
 		gtk_widget_grab_focus(GTK_WIDGET(qnt_atacado_field));

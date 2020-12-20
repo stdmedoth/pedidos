@@ -6,11 +6,6 @@ int grupo_prod()
 	grupos_prod = (gchar*) gtk_entry_get_text(GTK_ENTRY(grupo_prod_field));
 	if(strlen(grupos_prod)<=0)
 	{
-		if(produtos.criticar.grupo==0)
-		{
-			gtk_widget_grab_focus(fornecedor_prod_field);
-			return 0;
-		}
 		popup(NULL,"Por favor, Insira um grupo para o produto");
 		return 1;
 	}

@@ -315,6 +315,7 @@ int ordem_cmp(){
 	gtk_widget_show_all(janela);
 
 	g_signal_connect(ordem_cmp_code_entry, "activate", G_CALLBACK(ordem_cmp_code_fun), NULL);
+	g_signal_connect(ordem_cmp_codepsq_button, "clicked", G_CALLBACK(psq_ord_cmp), ordem_cmp_code_entry);
 
 	g_signal_connect(ordem_cmp_concluir_button, "clicked", G_CALLBACK(ordem_cmp_concluir_fun), NULL);
 	g_signal_connect(ordem_cmp_alterar_button, "clicked", G_CALLBACK(ordem_cmp_alterar_fun), NULL);

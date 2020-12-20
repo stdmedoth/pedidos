@@ -1,4 +1,4 @@
-void receber_bnc_code(GtkWidget *button, GtkTreeView *treeview)
+void receber_ord_cmp_code(GtkWidget *button, GtkTreeView *treeview)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -14,10 +14,10 @@ void receber_bnc_code(GtkWidget *button, GtkTreeView *treeview)
 		gtk_entry_set_text(GTK_ENTRY(pesquisa_global_alvo),codigo);
 		gtk_widget_activate(GTK_WIDGET(pesquisa_global_alvo));
 	}
-	gtk_widget_destroy(psq_bnc_wnd);
+	gtk_widget_destroy(psq_ord_cmp_wnd);
 }
 
-int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
+int entry_ord_cmp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=3,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
@@ -34,7 +34,7 @@ int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select code, nome, conta, agencia from bancos where nome like '%c%s%c'",37,entrada,37);
+	sprintf(query,"select ord.code, f.razao, DATE_FORMAT(ord.dtemissao, '%%d/%%m/%%Y'), cp.nome from ordens_compra as ord inner join terceiros as f inner join pag_cond as cp on ord.fornecedor = f.code and ord.condpag = cp.code where f.razao like '%c%s%c'",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -53,7 +53,7 @@ int entry_bnc_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	return 0;
 }
 
-int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
+int psq_ord_cmp(GtkWidget *button, GtkEntry *cod_ord_cmp_entry)
 {
 	enum {N_COLUMNS=4,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3};
 	GtkWidget *scrollwindow;
@@ -92,12 +92,12 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
 	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
 
-	psq_bnc_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(psq_bnc_wnd),3);
-	gtk_window_set_title(GTK_WINDOW(psq_bnc_wnd),"Pesquisa Bancos");
-	gtk_window_set_icon_name(GTK_WINDOW(psq_bnc_wnd),"system-search");
-	gtk_window_set_keep_above(GTK_WINDOW(psq_bnc_wnd),TRUE);
-	gtk_widget_set_size_request(psq_bnc_wnd,500,250);
+	psq_ord_cmp_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(psq_ord_cmp_wnd),3);
+	gtk_window_set_icon_name(GTK_WINDOW(psq_ord_cmp_wnd),"system-search");
+  gtk_window_set_title(GTK_WINDOW(psq_ord_cmp_wnd),"Pesquisa Ordens");
+	gtk_window_set_keep_above(GTK_WINDOW(psq_ord_cmp_wnd),TRUE);
+	gtk_widget_set_size_request(psq_ord_cmp_wnd,500,250);
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
@@ -106,17 +106,17 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
 
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
-	gtk_tree_view_column_set_title(coluna2,"Nome");
+	gtk_tree_view_column_set_title(coluna2,"Fornecedor");
 	gtk_tree_view_column_set_spacing(coluna2,5);
 	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
 
 	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
-	gtk_tree_view_column_set_title(coluna3,"Conta");
+	gtk_tree_view_column_set_title(coluna3,"Emissão");
 	gtk_tree_view_column_set_spacing(coluna3,5);
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
 	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
-	gtk_tree_view_column_set_title(coluna4,"Agência");
+	gtk_tree_view_column_set_title(coluna4,"Condição Pagamento");
 	gtk_tree_view_column_set_spacing(coluna4,5);
 	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
 
@@ -128,7 +128,7 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select code, nome, conta, agencia from bancos");
+	sprintf(query,"select ord.code, f.razao, DATE_FORMAT(ord.dtemissao, '%%d/%%m/%%Y'), cp.nome from ordens_compra as ord inner join terceiros as f inner join pag_cond as cp on ord.fornecedor = f.code and ord.condpag = cp.code");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -160,16 +160,16 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
-	gtk_container_set_border_width(GTK_CONTAINER(psq_bnc_wnd),10);
+	gtk_container_set_border_width(GTK_CONTAINER(psq_ord_cmp_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
-	gtk_container_add(GTK_CONTAINER(psq_bnc_wnd),caixa_grande);
-	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_bnc_pesquisa),treeview);
-	pesquisa_global_alvo = cod_bnc_entry;
+	gtk_container_add(GTK_CONTAINER(psq_ord_cmp_wnd),caixa_grande);
+	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_ord_cmp_pesquisa),treeview);
+	pesquisa_global_alvo = cod_ord_cmp_entry;
 
-	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_bnc_wnd);
+	g_signal_connect(treeview,"row-activated",G_CALLBACK(receber_psq_code_space),psq_ord_cmp_wnd);
 
-	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_bnc_code),treeview);
-	gtk_widget_show_all(psq_bnc_wnd);
+	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ord_cmp_code),treeview);
+	gtk_widget_show_all(psq_ord_cmp_wnd);
 	return 0;
 }
