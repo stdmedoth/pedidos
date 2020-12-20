@@ -63,6 +63,7 @@
 #include "../pesquisadores/fin_pag.h"
 #include "../pesquisadores/cidades.h"
 #include "../pesquisadores/bancos.h"
+#include "../pesquisadores/cotacoes.h"
 #include "../pesquisadores/contratos.h"
 #include "../pesquisadores/serv_transporte.h"
 #include "../pesquisadores/mail_distribuicoes.h"

@@ -47,7 +47,15 @@ int codigo_cli_orc()
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
-
+	enum{
+		RAZAO,
+		ENDERECO,
+		OBS,
+		PRAZO,
+		TRANSP_CODE,
+		FRETE_PAGO,
+		VLR_FRETE_PAGO
+	};
 	sprintf(query,"select razao,endereco,obs,prazo,transp_code,transp_cep,frete_pago,vlr_frete_pago from terceiros where code = %s",cliente_orc_gchar);
 	vetor = consultar(query);
 	if(vetor==NULL)
@@ -67,18 +75,18 @@ int codigo_cli_orc()
 	}
 	orc_infos.cliente = atoi(cliente_orc_gchar);
 
-	if(atoi(campos[6])){
+	if(atoi(campos[FRETE_PAGO])){
 		orc_transp_frete_pago_int = 1;
-		orc_transp_frete_pago_vlr = atof(campos[7]);
+		orc_transp_frete_pago_vlr = atof(campos[VLR_FRETE_PAGO]);
 	}else{
 		orc_transp_frete_pago_int = 0;
 		orc_transp_frete_pago_vlr = 0;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[0]);
-	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[1]);
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_name_entry),campos[RAZAO]);
+	gtk_entry_set_text(GTK_ENTRY(cliente_orc_end_entry),campos[ENDERECO]);
 
-	strcpy(orc_ter_obs_char,campos[2]);
+	strcpy(orc_ter_obs_char,campos[OBS]);
 
 	if(strlen(orc_ter_obs_char)>0 && is_texto(orc_ter_obs_char) &&alerta_obs==0)
 	{
@@ -88,8 +96,8 @@ int codigo_cli_orc()
 
 	if( alterando_orc == 0 && concluindo_orc == 0 ){
 
-		if( strlen(campos[3]) && atoi(campos[3]) && orc_pag_cond_activated==0){
-			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[3]);
+		if( campos[PRAZO] && atoi(campos[PRAZO]) && orc_pag_cond_activated==0){
+			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[PRAZO]);
 			gtk_widget_activate(orc_pag_cond_entry);
 		}
 

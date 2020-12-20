@@ -171,6 +171,7 @@ int cotacao_fun(){
 
 	cotacao_cancelar_fun();
 
+	g_signal_connect(cotac_psq_code,"clicked", G_CALLBACK(psq_cotac),cotac_code_entry);
 	g_signal_connect(cotac_add_partc_button,"clicked",G_CALLBACK(psq_ter),cotac_partc_entry);
 	g_signal_connect(cotac_rem_partc_button,"clicked",G_CALLBACK(cotac_partc_remove_fun),NULL);
 	g_signal_connect(cotac_det_partc_button,"clicked",G_CALLBACK(cotac_partc_combo_fun),NULL);

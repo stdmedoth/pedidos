@@ -219,6 +219,10 @@ int  cad_prod(){
 		gtk_box_pack_start(GTK_BOX(psq_prod_codigo_box),intgr_prod_box,0,0,10);
 	gtk_box_pack_start(GTK_BOX(code),psq_prod_codigo_box,0,0,0);
 
+	GtkWidget *prod_dt_alteracao_frame = gtk_frame_new("Modificado em");
+	prod_dt_alteracao_entry = gtk_entry_new();
+	gtk_entry_set_placeholder_text(GTK_ENTRY(prod_dt_alteracao_entry), "00/00/0000");
+	gtk_container_add(GTK_CONTAINER(prod_dt_alteracao_frame), prod_dt_alteracao_entry);
 
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(codigo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-system");
 	gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),task);
@@ -462,6 +466,9 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_alterar_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_cancelar_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_excluir_button,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_dt_alteracao_frame,0,0,10);
+
+
 
 	gtk_widget_set_size_request(GTK_WIDGET(prod_concluir_button),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(prod_alterar_button),100,50);
@@ -530,11 +537,14 @@ int  cad_prod(){
 
 	inicializar_prod();
 
+
+
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_fornecedor),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_grupo),FALSE);
-	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_ncm), FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_unidade),FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_ncm),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_qnt_atacado),FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(prod_dt_alteracao_entry),FALSE);
 
 	cancelar_prod();
 	gtk_widget_show_all(janela);

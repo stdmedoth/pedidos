@@ -33,7 +33,6 @@ struct _requisicao_prod *requisicao_get(int req_code){
 	requisicao->data_evento = strdup(row[REQ_DTEVENT_COL]);
 	requisicao->status = atoi(row[REQ_STATUS_COL]);
 
-
 	return requisicao;
 }
 

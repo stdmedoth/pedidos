@@ -63,12 +63,16 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
 	ordem_cmp->status = atoi(row[ORD_CMP_STATUS]);
 
 	int itens_qnt=0;
+	ordem_cmp->vlr_total = 0;
+	
 	sprintf(query, "select ic.requisicao, ic.preco from itens_ordens_compra as ict inner join itens_cotacoes as ic on ict.itens_cotacao = ic.code where ict.ordem_id = %i", ordcmp_code);
+
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao consultar ordem de compra");
 		return NULL;
 	}
 	while((row = mysql_fetch_row(res))){
+
 		ordem_cmp->itens[itens_qnt].requisicao = requisicao_get(atoi(row[0]));
 		if(!ordem_cmp->itens[itens_qnt].requisicao){
 			gchar *msg = malloc(100);
@@ -76,9 +80,11 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
 			popup(NULL,msg);
 			return NULL;
 		}
+
 		ordem_cmp->itens[itens_qnt].requisicao->valor = atof(row[1]);
 		ordem_cmp->vlr_total += ordem_cmp->itens[itens_qnt].requisicao->valor;
 		ordem_cmp->itens[itens_qnt].produto = get_cad_prod(ordem_cmp->itens[itens_qnt].requisicao->produto);
+
 		if(!ordem_cmp->itens[itens_qnt].produto){
 			gchar *msg = malloc(100);
 			sprintf(msg,"erro ao receber produto %i", ordem_cmp->itens[itens_qnt].requisicao->produto);
@@ -86,6 +92,7 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
 			return NULL;
 		}
 		itens_qnt++;
+
 	}
 
 	ordem_cmp->itens_qnt = itens_qnt;

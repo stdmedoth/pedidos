@@ -116,8 +116,9 @@ create table if not exists terceiros (
 
   frete_pago bool default 0 not null,
   vlr_frete_pago float default 0 not null,
-  prazo varchar(20) default '' not null,
-  obs varchar(500) default '' not null);
+  prazo int not null,
+  obs varchar(500) default '' not null,
+  foreign key(prazo) references pag_cond(code));
 
 create table if not exists contatos (
   code int,

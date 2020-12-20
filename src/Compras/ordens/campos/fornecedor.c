@@ -40,7 +40,7 @@ int ordem_cmp_fornecedor_fun(){
   gtk_tree_store_clear(model);
   gtk_tree_view_set_model(GTK_TREE_VIEW(ordem_cmp_req_treeview),GTK_TREE_MODEL(model));
 
-  sprintf(query,"select ct.requisicao, p.nome, ct.qnt, ct.preco, p.code from itens_cotacoes as ct inner join prod_requisicoes as req inner join produtos as p on ct.requisicao = req.code and req.produto = p.code where ct.participante_id = %s", ordem_cmp_forncode_gchar);
+  sprintf(query,"select ct.code, p.nome, ct.qnt, ct.preco, p.code from itens_cotacoes as ct inner join prod_requisicoes as req inner join produtos as p on ct.requisicao = req.code and req.produto = p.code where ct.participante_id = %s", ordem_cmp_forncode_gchar);
   if(!(res = consultar(query))){
     return 1;
   }

@@ -9,7 +9,7 @@ int altera_prod()
 	GtkTextIter inicio,fim;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.icmscst, p.piscst, p.pisaliq, p.cofinscst, p.cofinsaliq, p.origem,  p.observacoes from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.icmscst, p.piscst, p.pisaliq, p.cofinscst, p.cofinsaliq, p.origem,  p.observacoes, DATE_FORMAT(dt_criacao, '%%d/%%m/%%Y'), DATE_FORMAT(dt_modificacao, '%%d/%%m/%%Y') from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -83,6 +83,8 @@ int altera_prod()
 	strcpy(observacoes_prod,campo[PROD_OBS_COL]);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
+
+	gtk_entry_set_text(GTK_ENTRY(prod_dt_alteracao_entry), campo[PROD_DTMODIF_COL]);
 
 	alterando_prod=1;
 	concluindo_prod=0;

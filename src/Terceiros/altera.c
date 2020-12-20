@@ -146,8 +146,13 @@ int altera_ter()
 
 
 	if(campo[PRAZ_TER_COL]){
-		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
-		gtk_widget_activate(frete_pago_entry);
+		if(atoi(campo[PRAZ_TER_COL])){
+			gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
+			gtk_widget_activate(prazo_ter_field);
+		}else{
+			gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
+			gtk_widget_activate(prazo_ter_field);
+		}
 	}
 
 	if(campo[FLAG_MIN_FRT_PAG_COL])

@@ -51,6 +51,7 @@
 #include "../pesquisadores/requisicoes.c"
 #include "../pesquisadores/ord_cmp.c"
 #include "../pesquisadores/bancos.c"
+#include "../pesquisadores/cotacoes.c"
 #include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
 #include "../pesquisadores/mail_distribuicoes.c"

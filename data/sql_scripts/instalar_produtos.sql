@@ -66,6 +66,8 @@ CREATE TABLE  produtos(
   cofinsaliq float not null,
   origem int NOT NULL,
   observacoes varchar(500) DEFAULT '',
+  dt_criacao datetime,
+  dt_modificacao datetime,
   FOREIGN KEY (unidades) REFERENCES unidades(code),
   FOREIGN KEY (fornecedor) REFERENCES terceiros(code),
   FOREIGN KEY (grupo) REFERENCES grupos(code),

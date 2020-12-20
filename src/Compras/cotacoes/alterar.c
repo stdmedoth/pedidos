@@ -64,10 +64,13 @@ int cotacao_alterar_fun(){
 
     int participante = atoi(row[COTAC_ITM_PARTC_COL]);
     int participante_index = cotac_get_participante_index(participante);
-    gchar *id = malloc(20);
+
+    gchar *id = malloc(MAX_CODE_LEN);
+    gchar *msg = malloc(40 + MAX_CODE_LEN);
+    sprintf(msg,"Não  foi possível ativar participante %i",participante);
     sprintf(id,"%i",participante);
     if(!gtk_combo_box_set_active_id(GTK_COMBO_BOX(cotac_partc_combo),id)){
-      popup(NULL,id);
+      popup(NULL,msg);
       return 1;
     }
 
@@ -84,6 +87,7 @@ int cotacao_alterar_fun(){
     cotac_add_item(NULL, participante_index);
     cotac_rec_itens_alter_qnt++;
   }
+
   for(int cont=0;cont<MAX_PARTC_QNT;cont++){
     if(cotac_container_exists[cont]){
       gtk_widget_hide(cotac_itens_container[cont]);

@@ -23,9 +23,15 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       return 1;
     }
   }
-  
+
   if(orig_preco_prod_orc(NULL,posicao))
     return 1;
+
+  if(tipo_pag != PAG_FAT && tipo_pag != PAG_VIST){
+    popup(NULL,"Selecione o tipo de pagamento");
+    gtk_widget_grab_focus(orc_pag_cond_entry);
+    return 1;
+  }
 
   switch(valor_orig[posicao]){
 
@@ -41,24 +47,16 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
         return 1;
 
       if(tipo_pag == PAG_FAT)
-        sprintf(query, "select valor_fat from precos where produto = %s ", codigo_prod_orc_gchar);
-      else
+        sprintf(query, "select valor_fat from precos where produto = %s and tipo_tabela = %i", codigo_prod_orc_gchar, VLR_ORIG_TAB);
+
       if(tipo_pag == PAG_VIST)
-        sprintf(query, "select valor_vist from precos where produto = %s ", codigo_prod_orc_gchar);
-      else
-      {
-        popup(NULL,"Selecione o tipo de pagamento");
-        gtk_widget_grab_focus(orc_pag_cond_entry);
-        return 1;
-      }
+        sprintf(query, "select valor_vist from precos where produto = %s and tipo_tabela = %i", codigo_prod_orc_gchar, VLR_ORIG_TAB);
 
       vetor = consultar(query);
-      if(vetor == NULL)
-      {
+      if(vetor == NULL){
         return 1;
       }
-      if((campos = mysql_fetch_row(vetor))==NULL)
-      {
+      if((campos = mysql_fetch_row(vetor))==NULL){
         popup(NULL,"Produto sem preço vinculado à tabela");
         gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
         return 1;
@@ -79,13 +77,6 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
       if(tipo_pag==PAG_VIST)
         sprintf(query, "select valor_vist from preco_cliente where cliente = %s and produto = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar);
-
-      else
-      {
-        popup(NULL,"Selecione o tipo de pagamento");
-        gtk_widget_grab_focus(orc_pag_cond_entry);
-        return 1;
-      }
 
       vetor = consultar(query);
       if(vetor == NULL){
@@ -140,7 +131,6 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
           aviso_estoque[posicao] = 1;
         }
       }
-
     }
     else{
       if(orcamentos.criticar.prod_movimento){

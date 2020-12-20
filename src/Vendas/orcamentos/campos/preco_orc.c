@@ -10,7 +10,7 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
 		return 1;
 	}
-	
+
 	ativos[posicao].preco_f = atof(preco_prod_orc_gchar);
 	strcpy(ativos[posicao].preco_c,preco_prod_orc_gchar);
 	critica_real(ativos[posicao].preco_c,preco_prod_orc_entry[posicao]);
