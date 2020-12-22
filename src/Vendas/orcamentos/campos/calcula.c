@@ -8,11 +8,15 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   ativos[posicao].qnt_f = 0;
 
-  if(codigo_prod_orc(NULL,posicao))
+  if(codigo_prod_orc(NULL,posicao)){
+    g_print("Erro ao passar pelo código do produto\n");
     return 1;
+  }
 
-  if(orc_prod_calc_saldo(posicao))
+  if(orc_prod_calc_saldo(posicao)){
+    g_print("Erro ao calcular saldo\n");
     return 1;
+  }
 
   int prod_code = atoi(codigo_prod_orc_gchar);
 
@@ -24,8 +28,10 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
     }
   }
 
-  if(orig_preco_prod_orc(NULL,posicao))
+  if(orig_preco_prod_orc(NULL,posicao)){
+    g_print("Erro ao passar por origem preço produto\n");
     return 1;
+  }
 
   if(tipo_pag != PAG_FAT && tipo_pag != PAG_VIST){
     popup(NULL,"Selecione o tipo de pagamento");
@@ -39,38 +45,35 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
       if(produto_inserido[posicao] == 1 && preco_prod_orc_calc){
         popup(NULL,"Selecione a origem do preço");
       }
+      g_print("valor origem zerados\n");
       gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
       return 1;
 
-    case VLR_ORIG_TAB:
-      if(codigo_prod_orc(NULL,posicao)!=0)
-        return 1;
+    case VLR_ORIG_PROD:
+      sprintf(query, "select preco from produtos where code = %s", codigo_prod_orc_gchar);
 
-      if(tipo_pag == PAG_FAT)
-        sprintf(query, "select valor_fat from precos where produto = %s and tipo_tabela = %i", codigo_prod_orc_gchar, VLR_ORIG_TAB);
-
-      if(tipo_pag == PAG_VIST)
-        sprintf(query, "select valor_vist from precos where produto = %s and tipo_tabela = %i", codigo_prod_orc_gchar, VLR_ORIG_TAB);
-
-      vetor = consultar(query);
-      if(vetor == NULL){
+      if(!(vetor = consultar(query))){
         return 1;
       }
-      if((campos = mysql_fetch_row(vetor))==NULL){
-        popup(NULL,"Produto sem preço vinculado à tabela");
+
+      if(!(campos = mysql_fetch_row(vetor))){
+        popup(NULL,"Não foi possível receber preço do produto");
         gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
         return 1;
       }
-      gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
+      gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),strdup(campos[0]));
       break;
 
     case VLR_ORIG_CLI:
-      if(codigo_cli_orc()!=0)
+      if(codigo_cli_orc()!=0){
+        g_print("Erro no código do cliente\n");
         return 1;
+      }
 
-      if(codigo_prod_orc(NULL,posicao)!=0)
+      if(codigo_prod_orc(NULL,posicao)!=0){
+        g_print("Erro no código do produto\n");
         return 1;
-
+      }
 
       if(tipo_pag==PAG_FAT)
         sprintf(query, "select valor_fat from preco_cliente where cliente = %s and produto = %s  ",cliente_orc_gchar , codigo_prod_orc_gchar);
@@ -84,19 +87,42 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
         return 1;
       }
 
-      if((campos = mysql_fetch_row(vetor))==NULL)
+      if(!(campos = mysql_fetch_row(vetor)))
       {
         popup(NULL,"Produto sem preço vinculado ao cliente");
         gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
         return 1;
       }
 
-      gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),campos[0]);
+      gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),strdup(campos[0]));
       break;
 
     case VLR_ORIG_OPER:
 
       break;
+
+    default:
+      if(tipo_pag==PAG_FAT)
+        sprintf(query, "select valor_fat from precos where code = %s", orig_preco_prod_orc_gchar);
+
+      if(tipo_pag==PAG_VIST)
+        sprintf(query, "select valor_vist from precos where code = %s", orig_preco_prod_orc_gchar);
+
+      vetor = consultar(query);
+      if(vetor == NULL){
+        popup(NULL,"Não foi possível  consultar preços por tabela");
+        return 1;
+      }
+
+      if(!(campos = mysql_fetch_row(vetor))){
+        popup(NULL,"Produto sem preço vinculado à tabela");
+        gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
+        return 1;
+      }
+
+      gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]),strdup(campos[0]));
+      break;
+
   }
 
   if(!qnt_prod_orc_calc){
@@ -191,8 +217,10 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
   critica_real(total_prod_orc_gchar,total_prod_orc_entry[posicao]);
   strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
 
-  if(gerar_total_geral())
+  if(gerar_total_geral()){
+
     return 1;
+  }
 
   if(ativos[posicao+1].id && codigo_prod_orc_entry[posicao+1])
     gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);

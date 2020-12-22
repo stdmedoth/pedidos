@@ -3,6 +3,8 @@
 
 enum{
 REG_CAD_PROD,
+REG_PROD_PRC,
+REG_PROD_PRCTABS,
 REG_CAD_TER,
 REG_CAD_OPER,
 REG_CAD_UND,
@@ -60,6 +62,8 @@ REG_WIN_QNT,
 
 static const char *janelas_nomes[] = {
   "Cad. Produtos",
+  "Preços Produtos",
+  "Tabelas Preços",
   "Cad. Terceiros",
   "Cad. Operadores",
   "Cad. Unidades",

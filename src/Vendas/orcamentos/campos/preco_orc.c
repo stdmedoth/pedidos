@@ -19,6 +19,7 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
 		return 1;
 	}
+
 	gtk_widget_grab_focus(total_prod_orc_entry[posicao]);
 	preco_prod_orc_calc = 0;
 	return 0;

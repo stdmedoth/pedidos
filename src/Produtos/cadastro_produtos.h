@@ -26,7 +26,7 @@ int altera_prod();
 
 GtkWidget *prod_concluir_button, *prod_alterar_button, *prod_cancelar_button, *prod_excluir_button;
 GtkWidget *psq_prod_codigo_button;
-static int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
+int alterando_prod=0, concluindo_prod=0, cancelando_prod=0;
 int intgr_prods();
 int inicializar_prod();
 int  cad_prod();
@@ -42,16 +42,16 @@ gchar *observacoes_prod=NULL;
 GtkWidget *grupo_precos_tree;
 GtkWidget *notebook_cad_prod;
 
-static int tipo_prod=0;
-static int tipo_class_prod=0;
-static char *data_alteracao_prod=NULL;
-static char *data_validade_prod=NULL;
-static int ativo_flag_prod=0;
-static float sld_min_lim_prod=0.0;
-static float sld_at_prod=0.0;
+int tipo_prod=0;
+int tipo_class_prod=0;
+char *data_alteracao_prod=NULL;
+char *data_validade_prod=NULL;
+int ativo_flag_prod=0;
+float sld_min_lim_prod=0.0;
+float sld_at_prod=0.0;
 
-static int grupo_nivel=0;
-GtkWidget *atualiza_grupo_preco_button, *atualiza_grupo_preco_fixed;
+int grupo_nivel=0;
+GtkWidget *atualiza_grupo_preco_button, *atualiza_grupo_preco_fixed, *prod_prcwnd_button;
 
 GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_atacado_button;
 GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img,*psq_qnt_atacado_img;

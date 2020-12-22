@@ -1,21 +1,19 @@
 static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
-	MYSQL_RES *vetor;
-	MYSQL_ROW campos;
-	char *query;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char *query = malloc(MAX_QUERY_LEN);
 
 	if(alterando_orc==0)
 	{
 		if(codigo_orc()!=0)
 			return 1;
-
-		query = malloc(MAX_QUERY_LEN);
 		sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
-		vetor = consultar(query);
-		if(vetor!=NULL)
+		res = consultar(query);
+		if(res!=NULL)
 		{
-			if((campos = mysql_fetch_row(vetor))!=NULL)
+			if((row = mysql_fetch_row(res))!=NULL)
 				popup(NULL,"O código de Orcamento usado já existe\nDeseja alterar?");
 		}
 	}
@@ -95,10 +93,10 @@ static int adicionar_linha_orc()
 	preco_prod_orc_entry[itens_qnt] = gtk_spin_button_new_with_range(0,1000000, 0.005);
 
 	orig_preco_prod_orc_combo[itens_qnt] = gtk_combo_box_text_new();
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),0,"Origem");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),"Tabela");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),"Cliente");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),"Operador");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_NUL,ORC_ORIGPRC_NUL,"Origem");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_PROD,ORC_ORIGPRC_PROD,"Produto");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_CLI,ORC_ORIGPRC_CLI,"Cliente");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_OPER,ORC_ORIGPRC_OPER,"Operador");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[itens_qnt]),0);
 
 	tipodesconto_prod_orc_combo[itens_qnt] = gtk_combo_box_text_new();
@@ -244,7 +242,7 @@ static int adicionar_linha_orc()
 
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 
-	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
+	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"popup",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 

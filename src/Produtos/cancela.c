@@ -31,6 +31,7 @@ void cancelar_prod()
 	alterando_prod=0;
 	cancelando_prod=0;
 
+	gtk_widget_set_sensitive(prod_prcwnd_button,FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(codigo_prod_field),TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(psq_prod_codigo_button),TRUE);
 	gtk_widget_set_sensitive(GTK_WIDGET(prod_alterar_button),TRUE);

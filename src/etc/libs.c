@@ -65,6 +65,7 @@
 #include "../Terceiros/cadastro_terceiros.c"
 
 #include "../Produtos/cadastro_produtos.c"
+#include "../Produtos/precos/precos.c"
 
 #include "../Unidades/cadastro_unidades.c"
 

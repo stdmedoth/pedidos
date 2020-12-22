@@ -34,7 +34,7 @@ int prod_ncm_fun(){
   }
   prod_ncm_gchar = strdup(row[0]);
   gtk_entry_set_text(GTK_ENTRY(campo_nome_ncm),row[2]);
-  
+
   gtk_widget_grab_focus(prod_origem_combo);
   return 0;
 }

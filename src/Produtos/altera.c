@@ -97,7 +97,7 @@ int altera_prod()
 	und_atac_prod();
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
-
+	gtk_widget_set_sensitive(prod_prcwnd_button,TRUE);
 	memset(query,0x0,strlen(query));
 
 	gtk_widget_set_sensitive(GTK_WIDGET(botao_mais),TRUE);

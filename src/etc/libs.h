@@ -38,6 +38,7 @@
 #include "../Terceiros/cadastro_terceiros.h"
 
 #include "../Produtos/cadastro_produtos.h"
+#include "../Produtos/precos/precos.h"
 #include "../Produtos/grupos/cad_grupo.h"
 
 #include "../pesquisadores/grupos.h"

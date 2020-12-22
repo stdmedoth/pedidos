@@ -14,7 +14,7 @@ static int altera_orc()
 	rec_altera_qnt=1;
 	recebendo_prod_orc=1;
 
-	if(codigo_orc()!=0){
+	if(codigo_orc()){
 		cancela_orc();
 		return 1;
 	}
@@ -138,8 +138,7 @@ static int altera_orc()
 	}
 
 	for(int cont=1;cont<MAX_PROD_ORC;cont++){
-		if(ativos[cont].id==1)
-		{
+		if(ativos[cont].id==1){
 			tirar_linha(cont);
 		}
 	}
@@ -171,17 +170,34 @@ static int altera_orc()
 				ativos[atoi(row[ORC_PROD_ITM_COL])].produto = atoi(row[ORC_PROD_PROD_COL]);
 			}
 
-			if(row[ORC_PROD_VLR_ORIG_COL])
+			if(row[ORC_PROD_VLR_ORIG_COL]){
+				MYSQL_RES *vetor;
+				MYSQL_ROW campos;
+
+				gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]));
+				gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),ORIGPRC_NUL, ORC_ORIGPRC_NUL,"Origem");
+				gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),ORIGPRC_CLI, ORC_ORIGPRC_CLI,"Cliente");
+				gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),ORIGPRC_PROD, ORC_ORIGPRC_PROD,"Produto");
+				gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),ORIGPRC_OPER, ORC_ORIGPRC_OPER,"Operador");
+				sprintf(query,"select * from precos where produto = %s", codigo_prod_orc_gchar);
+				if(!(vetor = consultar(query))){
+					popup(NULL,"Não foi possível consultar precos para o produto");
+					return 1;
+				}
+				int combo_position = ORIGPRC_COLS_QNT;
+				while((campos = mysql_fetch_row(vetor))){
+					gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]), combo_position, campos[PRC_CODE_COL],campos[PRC_NOME_COL]);
+					combo_position++;
+				}
+				gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),atoi(row[ORC_PROD_VLR_ORIG_COL]));
 				valor_orig[atoi(row[ORC_PROD_ITM_COL])] = atoi(row[ORC_PROD_VLR_ORIG_COL]);
+			}
 
 			if(row[ORC_PROD_UND_COL]){
 				qnt_prod_orc_gchar = malloc(strlen(row[ORC_PROD_UND_COL]));
 				strcpy(qnt_prod_orc_gchar,row[ORC_PROD_UND_COL]);
 				gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]),qnt_prod_orc_gchar);
 			}
-
-			if(row[ORC_PROD_ITM_COL])
-				gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),valor_orig[atoi(row[ORC_PROD_ITM_COL])]);
 
 			if(row[ORC_PROD_TIP_DESC_COL])
 				gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[atoi(row[ORC_PROD_ITM_COL])]),atoi(row[ORC_PROD_TIP_DESC_COL]));
@@ -224,24 +240,28 @@ static int altera_orc()
 		while (g_main_context_pending(NULL))
 			g_main_context_iteration(NULL,FALSE);
 
-		if(ativos[cont].id==1)
-		{
+		if(ativos[cont].id==1){
+
 			if(codigo_prod_orc(codigo_prod_orc_entry[cont],cont)){
+				g_print("Erro ao receber código do produto\n");
 				cancela_orc();
 				return 1;
 			}
 
 			if(qnt_prod_orc(qnt_prod_orc_entry[cont],cont)){
+				g_print("Erro ao receber quantidade do produto\n");
 				cancela_orc();
 				return 1;
 			}
 
 			if(preco_prod_orc(preco_prod_orc_entry[cont],cont)){
+				g_print("Erro ao receber preco do produto\n");
 				cancela_orc();
 				return 1;
 			}
 
 			if(desconto_prod_orc(desconto_prod_orc_entry[cont],cont)){
+				g_print("Erro ao receber desconto do produto\n");
 				cancela_orc();
 				return 1;
 			}

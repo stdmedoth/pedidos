@@ -56,7 +56,7 @@ int  cad_prod(){
 	char query[MAX_QUERY_LEN];
 
 	GtkWidget *code_prod_label,  *nome_prod_label,
-	*preco_prod_label, *peso_prod_label , *unidade_prod_label,
+	*preco_prod_frame, *peso_prod_label , *unidade_prod_label,
 	*fornecedor_prod_label, *grupo_prod_label,
 	*observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_label;
 	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
@@ -125,6 +125,11 @@ int  cad_prod(){
 	psq_subgrp_img = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(psq_grp_button),psq_subgrp_img);
 
+	prod_prcwnd_button = gtk_button_new();
+	GtkWidget *prod_prcwnd_frame = gtk_frame_new("Tabela");
+	gtk_container_add(GTK_CONTAINER(prod_prcwnd_frame), prod_prcwnd_button);
+	gtk_button_set_image(GTK_BUTTON(prod_prcwnd_button),gtk_image_new_from_icon_name("money", GTK_ICON_SIZE_BUTTON));
+
 	psq_und_button = gtk_button_new();
 	psq_und_img = gtk_image_new_from_file(IMG_PROCR);
 	gtk_button_set_image(GTK_BUTTON(psq_und_button),psq_und_img);
@@ -138,7 +143,7 @@ int  cad_prod(){
 	psq_und = gtk_box_new(0,0);
 	psq_qnt_atacado =  gtk_box_new(0,0);
 
-	precos_box = gtk_box_new(1,0);
+	precos_box = gtk_box_new(0,0);
 
 	psq_prod_codigo_box = gtk_box_new(0,0);
 	psq_prod_codigo_button = gtk_button_new();
@@ -184,7 +189,7 @@ int  cad_prod(){
 
 	code_prod_label = gtk_label_new("Codigo: ");
 	nome_prod_label = gtk_label_new("Nome: ");
-	preco_prod_label = gtk_label_new("Preco à Vista: ");
+	preco_prod_frame = gtk_frame_new("Preco simples: ");
 	peso_prod_label = gtk_label_new("Peso: ");
 	unidade_prod_label =  gtk_label_new("Quantidade Unitária: ");
 	fornecedor_prod_label =  gtk_label_new("Fornecedor: ");
@@ -234,7 +239,7 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(name),nome_prod_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(name),nome_prod_field,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(nome_prod_field),GTK_ENTRY_ICON_PRIMARY,"tools-check-spelling");
-	gtk_widget_set_size_request(nome_prod_field,500,30);
+	gtk_entry_set_width_chars(GTK_ENTRY(nome_prod_field), 50);
 
 	peso = gtk_box_new(1,0);
 	gtk_widget_set_name(peso,"caixa");
@@ -242,14 +247,15 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(peso),peso_prod_field,0,0,0);
 	gtk_entry_set_placeholder_text(GTK_ENTRY(peso_prod_field),"00,00 KG");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(peso_prod_field),GTK_ENTRY_ICON_PRIMARY,"insert-object");
-	gtk_widget_set_size_request(peso_prod_field,100,30);
 
-	preco = gtk_box_new(1,0);
+	GtkWidget *preco_fixed = gtk_fixed_new();
+	preco = gtk_box_new(0,0);
 	gtk_widget_set_name(preco,"caixa");
-	gtk_box_pack_start(GTK_BOX(preco),preco_prod_label,0,0,0);
-	gtk_box_pack_start(GTK_BOX(preco),preco_prod_field,0,0,0);
+	gtk_container_add(GTK_CONTAINER(preco_prod_frame), preco_prod_field);
+	gtk_box_pack_start(GTK_BOX(preco),preco_prod_frame,0,0,0);
+	gtk_box_pack_start(GTK_BOX(preco),prod_prcwnd_frame,0,0,0);
+	gtk_fixed_put(GTK_FIXED(preco_fixed), preco, 0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"money");
-	gtk_widget_set_size_request(preco_prod_field,100,30);
 
 	unidade = gtk_box_new(1,0);
 	gtk_widget_set_name(unidade,"caixa");
@@ -281,8 +287,6 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(psq_forn),psq_forn_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(fornecedor),psq_forn,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(fornecedor_prod_field),GTK_ENTRY_ICON_PRIMARY,"x-package-repository");
-	gtk_widget_set_size_request(fornecedor_prod_field,100,30);
-	gtk_widget_set_size_request(campo_nome_fornecedor,100,30);
 
 	grupo = gtk_box_new(1,0);
 	gtk_widget_set_name(grupo,"caixa");
@@ -292,7 +296,6 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(psq_subgrp),psq_grp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo),psq_subgrp,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
-	gtk_widget_set_size_request(grupo_prod_field,100,30);
 
 	prod_ncm_entry = gtk_entry_new();
 	campo_nome_ncm = gtk_entry_new();
@@ -434,7 +437,7 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),preco,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),preco_fixed,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box1,0,0,5);
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box2,0,0,5);
@@ -478,6 +481,7 @@ int  cad_prod(){
 	g_signal_connect(GTK_ENTRY(codigo_prod_field),"activate",G_CALLBACK(code_prod),NULL);
 	g_signal_connect(GTK_ENTRY(nome_prod_field),"activate",G_CALLBACK(nome_prod),NULL);
 	g_signal_connect(GTK_ENTRY(peso_prod_field),"activate",G_CALLBACK(peso_prod),NULL);
+	g_signal_connect(GTK_ENTRY(preco_prod_field),"activate",G_CALLBACK(precos_prod_fun),NULL);
 	g_signal_connect(GTK_ENTRY(unidade_prod_field),"activate",G_CALLBACK(und_unt_prod),NULL);
 	g_signal_connect(GTK_ENTRY(qnt_atacado_field),"activate",G_CALLBACK(und_atac_prod),NULL);
 	g_signal_connect(GTK_ENTRY(grupo_prod_field),"activate",G_CALLBACK(grupo_prod),NULL);
@@ -491,12 +495,12 @@ int  cad_prod(){
 	g_signal_connect(GTK_BUTTON(prod_cancelar_button),"clicked",G_CALLBACK(cancelar_prod),NULL);
 	g_signal_connect(GTK_BUTTON(prod_excluir_button),"clicked",G_CALLBACK(exclui_prod),NULL);
 
+	g_signal_connect(GTK_BUTTON(prod_prcwnd_button), "clicked",G_CALLBACK(prod_precos_wnd),NULL);
 	g_signal_connect(GTK_BUTTON(psq_grp_button),"clicked",G_CALLBACK(pesquisa_subgrp_todos),grupo_prod_field);
 	g_signal_connect(GTK_BUTTON(prod_ncm_psq_button),"clicked",G_CALLBACK(psq_ncm),prod_ncm_entry);
 	g_signal_connect(GTK_BUTTON(psq_forn_button),"clicked",G_CALLBACK(psq_ter),GTK_ENTRY(fornecedor_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_und_button),"clicked",G_CALLBACK(pesquisa_und),GTK_ENTRY(unidade_prod_field));
 	g_signal_connect(GTK_BUTTON(psq_qnt_atacado_button),"clicked",G_CALLBACK(pesquisa_und),qnt_atacado_field);
-
 
 	if(integracoes.config.intgr_id)
 		g_signal_connect(GTK_BUTTON(intgr1_prod_button),"clicked",G_CALLBACK(intgr_prods),NULL);
