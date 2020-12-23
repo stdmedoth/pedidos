@@ -54,7 +54,7 @@ int rec_orc_datas( struct _orc *orc ){
 
       if(orc->parcelas.condpag.tipo_parc == CONDPAG_DIAS)
         gdate = g_date_time_add_days(gdate,orc->parcelas.condpag.intervalos);
-      else
+
       if(orc->parcelas.condpag.tipo_parc == CONDPAG_MESES)
         gdate = g_date_time_add_months(gdate,orc->parcelas.condpag.intervalos);
 

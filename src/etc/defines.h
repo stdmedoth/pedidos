@@ -359,12 +359,6 @@
 
 #define MAX_DIF_VLR 0.4
 
-#define CONDPAG_DIAS 1
-#define CONDPAG_MESES 2
-#define CONDPAG_DT_LVR 3
-#define CONDPAG_S_FIN 4
-#define CONDPAG_DADATA 5
-
 #define PAG_FAT 1
 #define PAG_VIST 2
 

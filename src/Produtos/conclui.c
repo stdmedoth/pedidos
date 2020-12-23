@@ -13,6 +13,7 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 		return 1;
 	}
+
 	if(nome_prod()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),0);
 		gtk_widget_grab_focus(nome_prod_field);
@@ -54,6 +55,12 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(prod_ncm_entry);
 		return 1;
 	}
+	if(prod_barra_fun()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
+		gtk_widget_grab_focus(prod_barra_entry);
+		return 1;
+	}
+
 	if(prod_origem_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_cad_prod),2);
 		gtk_widget_grab_focus(prod_origem_combo);

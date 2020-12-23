@@ -53,17 +53,16 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
   gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
   for(int cont=0;cont<parc->parcelas_qnt;cont++){
 
-    if(!g_date_time_format(gdate,"%d/%m/%Y")){
-      popup(NULL,"Operação impossível para esta data");
-      return NULL;
-    }
-
     if(parc->tipo_parc == CONDPAG_DIAS)
       gdate = g_date_time_add_days(gdate,parc->intervalos);
     else
     if(parc->tipo_parc == CONDPAG_MESES)
       gdate = g_date_time_add_months(gdate,parc->intervalos);
 
+    if(!g_date_time_format(gdate,"%d/%m/%Y")){
+      popup(NULL,"Operação impossível para esta data");
+      return NULL;
+    }
 
     parcelas_datas[cont] = strdup( g_date_time_format(gdate,"%d/%m/%Y") );
 
@@ -173,12 +172,12 @@ int cad_pag(){
   gtk_entry_set_width_chars(GTK_ENTRY(pag_nome_entry),30);
 
   pag_tipo_combo = gtk_combo_box_text_new();
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Escolher Modelo");
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Intervalo/dias");
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Intervalo/Meses");
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Datas Livres");
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"Sem Financeiro");
-  gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),"A partir da data");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_NUL,"Escolher Modelo");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_DIAS,"Intervalo/dias");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_MESES,"Intervalo/Meses");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_DT_LVR,"Datas Livres");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_S_FIN,"Sem Financeiro");
+  gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(pag_tipo_combo),CONDPAG_DADATA,"A partir da data");
 
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_tipo_combo),1);
 

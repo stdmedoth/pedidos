@@ -21,6 +21,8 @@ char *formatar_data(char *data);
 
 int file_logger(char *string);
 
+gchar *get_full_ender_from_cep(gchar *cep, int num);
+
 char **array(char *text);
 
 void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window);

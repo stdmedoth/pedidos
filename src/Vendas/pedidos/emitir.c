@@ -19,6 +19,12 @@ int ped_emitir()
 	pedidoPtr->infos = malloc(sizeof(struct _ped_infos));
 	pedidoPtr->parcelas =  malloc(sizeof(struct _ped_parcelas));
 
+
+	pedidoPtr->valores->valor_prds = 0;
+	pedidoPtr->valores->valor_prds_desc = 0;
+	pedidoPtr->valores->valor_frete = 0;
+	pedidoPtr->valores->desconto_frete = 0;
+
 	gchar *ped_code = (gchar*)gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
 	if(!strlen(ped_code)){
 		gtk_widget_grab_focus(ped_cod_entry);
@@ -109,8 +115,10 @@ int ped_emitir()
 		popup(NULL,"Sem valor para faturamento");
 		return 1;
 	}
+
 	if(row[0])
 		pedidoPtr->valores->valor_prds = atof(row[0]);
+
 	if(row[1])
 		pedidoPtr->valores->valor_prds_desc = atof(row[1]);
 
@@ -146,12 +154,16 @@ int ped_emitir()
 	}
 	if(row[PAGCND_TIP_COL])
 		pedidoPtr->parcelas->condpag.tipo_parc = atoi(row[PAGCND_TIP_COL]);
+
 	if(row[PAGCND_DIAFLAG_COL])
 		pedidoPtr->parcelas->condpag.dia_inicial_flag = atoi(row[PAGCND_DIAFLAG_COL]);
+
 	if(row[PAGCND_DIA_COL])
 		pedidoPtr->parcelas->condpag.dia_inicial = atoi(row[PAGCND_DIA_COL]);
+
 	if(row[PAGCND_INT_COL])
 		pedidoPtr->parcelas->condpag.intervalos = atoi(row[PAGCND_INT_COL]);
+
 	if(row[PAGCOND_QNT_COL])
 		pedidoPtr->parcelas->condpag.parcelas_qnt = atoi(row[PAGCOND_QNT_COL]);
 
@@ -184,6 +196,7 @@ int ped_emitir()
 		pedidoPtr->parcelas->tipo_tit = 2;
 
 	if(pedidoPtr->parcelas->condpag.tipo_parc != CONDPAG_S_FIN){
+
 		titulo_code = tasker("titulos"),
 		sprintf(query,"insert into titulos(code,cliente,pedido,status,qnt_parcelas,tipo_titulo) values(%i,%i,%i,%i,%i,%i)",
 		titulo_code,
@@ -196,27 +209,28 @@ int ped_emitir()
 			popup(NULL,"Não foi possivel criar título no financeiro");
 		}
 
-		if( pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DIAS || pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_MESES || pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DADATA){
+		pedidoPtr->parcelas->total_geral = 0;
+		if( pedidoPtr->parcelas->condpag.tipo_parc != CONDPAG_DT_LVR){
+
 				for(int cont=0;cont<pedidoPtr->parcelas->condpag.parcelas_qnt;cont++){
 
 					if(cont==0){
-						parcela = (pedidoPtr->valores->valor_prds_liquido/pedidoPtr->parcelas->condpag.parcelas_qnt) + pedidoPtr->valores->valor_frete_liquido;
+						parcela = (pedidoPtr->valores->valor_prds_liquido / pedidoPtr->parcelas->condpag.parcelas_qnt) + pedidoPtr->valores->valor_frete_liquido;
 					}else{
-						parcela = (pedidoPtr->valores->valor_prds_liquido/pedidoPtr->parcelas->condpag.parcelas_qnt);
+						parcela = (pedidoPtr->valores->valor_prds_liquido / pedidoPtr->parcelas->condpag.parcelas_qnt);
 					}
 
 					if(g_date_time_format(gdate,"%Y-%m-%d")){
 
-						if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DADATA)
-							gdate = g_date_time_add_days(gdate,pedidoPtr->parcelas->condpag.intervalos);
+						if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DIAS)
+							gdate = g_date_time_add_days(gdate, pedidoPtr->parcelas->condpag.intervalos);
+
+						if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_MESES)
+							gdate = g_date_time_add_months(gdate, pedidoPtr->parcelas->condpag.intervalos);
 
 						pedidoPtr->parcelas->parcelas_data[cont] = malloc(sizeof(char) * strlen(g_date_time_format(gdate,"%Y-%m-%d")));
-						strcpy(pedidoPtr->parcelas->parcelas_data[cont],g_date_time_format(gdate,"%Y-%m-%d"));
-
-						if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DIAS)
-							gdate = g_date_time_add_days(gdate,pedidoPtr->parcelas->condpag.intervalos);
-						if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_MESES)
-							gdate = g_date_time_add_months(gdate,pedidoPtr->parcelas->condpag.intervalos);
+						strcpy(pedidoPtr->parcelas->parcelas_data[cont], g_date_time_format(gdate,"%Y-%m-%d"));
+						
 
 					}else{
 						popup(NULL,"Erro ao calcular datas! Verifique financeiro");
@@ -236,9 +250,13 @@ int ped_emitir()
 					if(enviar_query(query)){
 						popup(NULL,"Não foi possivel criar parcela no financeiro");
 					}
+
+					if(pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DADATA)
+			      gdate = g_date_time_add_days(gdate,pedidoPtr->parcelas->condpag.intervalos);
+
 				}
-		}
-		if( pedidoPtr->parcelas->condpag.tipo_parc == CONDPAG_DT_LVR){
+		}else{
+
 			sprintf(query,"select posicao,DATE_FORMAT(data_vencimento,'%%Y-%%m-%%d'), valor from orc_datas_livres where orcamento = %i",pedidoPtr->infos->ped_code);
 			if(!(res = consultar(query)))
 			{
@@ -283,6 +301,7 @@ int ped_emitir()
 					pedidoPtr->infos->data_mov,
 					pedidoPtr->parcelas->parcelas_data[cont],
 					valor);
+
 					if(enviar_query(query)){
 						popup(NULL,"Não foi possivel criar parcela no financeiro");
 					}

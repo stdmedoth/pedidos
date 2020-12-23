@@ -27,7 +27,7 @@
 #include "debugger.h"
 #include "sobre.h"
 
-#include "../Canones/Cadastro_Operadores.h"
+#include "../Canones/cad_oper/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
 #include "operadores.h"
@@ -68,6 +68,7 @@
 #include "../pesquisadores/contratos.h"
 #include "../pesquisadores/serv_transporte.h"
 #include "../pesquisadores/mail_distribuicoes.h"
+#include "../pesquisadores/precos.h"
 #include "../pesquisadores/modelos_email.h"
 
 

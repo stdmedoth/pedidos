@@ -54,10 +54,11 @@
 #include "../pesquisadores/cotacoes.c"
 #include "../pesquisadores/contratos.c"
 #include "../pesquisadores/serv_transporte.c"
+#include "../pesquisadores/precos.c"
 #include "../pesquisadores/mail_distribuicoes.c"
 #include "../pesquisadores/modelos_email.c"
 
-#include "../Canones/Cadastro_Operadores.c"
+#include "../Canones/cad_oper/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/Vinculos_Chaves.c"
 #include "../Inicio/fechar.c"

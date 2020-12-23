@@ -7,7 +7,7 @@ int relat_fix_est_prod_fun(){
   relat_fix_est_prod_gchar1 = (gchar*) gtk_entry_get_text(GTK_ENTRY(relat_fix_est_prod_entry1));
   relat_fix_est_prod_gchar2 = (gchar*) gtk_entry_get_text(GTK_ENTRY(relat_fix_est_prod_entry2));
 
-  sprintf(query,"select grupo from produtos where code >= %i and code <= %i",atoi(relat_fix_est_prod_gchar1),atoi(relat_fix_est_prod_gchar2));
+  sprintf(query,"select * from produtos where code >= %i and code <= %i",atoi(relat_fix_est_prod_gchar1),atoi(relat_fix_est_prod_gchar2));
 
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar grupo do produto");
@@ -15,7 +15,7 @@ int relat_fix_est_prod_fun(){
   }
 
   if(!(row = mysql_fetch_row(res))){
-    popup(NULL,"Produto não existente");
+    popup(NULL,"Intervalo de produtos vazio");
     return 1;
   }
 

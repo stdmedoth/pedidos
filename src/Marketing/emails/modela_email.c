@@ -201,7 +201,7 @@ int mkt_email_models(){
   cancelar_button = gtk_button_new_with_label("Cancelar");
   excluir_button = gtk_button_new_with_label("Excluir");
   visualiza_button = gtk_button_new_with_label("Visualizar");
-  processa_button = gtk_button_new_with_label("Processar");
+  processa_button = gtk_button_new_with_label("Montar HTML");
   opcoes_box = gtk_box_new(0,0);
   opcoes_fixed = gtk_fixed_new();
   gtk_box_pack_start(GTK_BOX(opcoes_box),mkt_mail_concluir_button,0,0,5);

@@ -19,9 +19,8 @@ int mkt_mail_visualizar_fun(){
   if((row=mysql_fetch_row(res))){
     header = strdup(row[EMLHEADER_CONTEUDO]);
   }else{
-    header = strdup( " " );
+    header = strdup( "" );
   }
-
 
   sprintf(query,"SELECT * FROM emails_body WHERE email_id = %i", atoi(mkt_mail_code_gchar));
   if(!(res = consultar(query))){
@@ -31,7 +30,7 @@ int mkt_mail_visualizar_fun(){
   if((row=mysql_fetch_row(res))){
     body = strdup( row[EMLBODY_CONTEUDO] );
   }else{
-    body = strdup( " " );
+    body = strdup( "" );
   }
 
   sprintf(query,"SELECT * FROM emails_footer WHERE email_id = %i", atoi(mkt_mail_code_gchar));
@@ -42,7 +41,7 @@ int mkt_mail_visualizar_fun(){
   if((row=mysql_fetch_row(res))){
     footer = strdup( row[EMLFOOTER_CONTEUDO] );
   }else{
-    footer = strdup( " " );
+    footer = strdup( "" );
   }
   if(!strlen(header) && !strlen(body) && !strlen(footer)){
     popup(NULL,"Modelo vazio");
@@ -57,30 +56,47 @@ int mkt_mail_visualizar_fun(){
     return 1;
   }
 
-  char *editedheader = replaceWord(header, "teste", "teste");
-  char *editedbody = replaceWord(body, "mktmail_nome_cliente", cad_emp_strc.xNome);
-
-  char *endereco = malloc(strlen(cad_emp_strc.xLgr) + strlen(cad_emp_strc.xBairro) + strlen(cad_emp_strc.UF) + strlen(cad_emp_strc.CEP) + 20);
-  if(!strlen(cad_emp_strc.xLgr)){
-    popup(NULL,"Sem logradouro");
-    return 1;
-  }
-  if(!strlen(cad_emp_strc.xBairro)){
-    popup(NULL,"Sem bairro");
-    return 1;
-  }
-  if(!strlen(cad_emp_strc.UF)){
-    popup(NULL,"Sem bairro");
-    return 1;
-  }
-  if(!strlen(cad_emp_strc.CEP)){
-    popup(NULL,"Sem bairro");
-    return 1;
-  }
-
-  sprintf(endereco,"%s, %i, %s, %s, %s", cad_emp_strc.xLgr, cad_emp_strc.nro, cad_emp_strc.xBairro, cad_emp_strc.UF, cad_emp_strc.CEP);
-  editedbody = strdup(replaceWord(editedbody, "mktmail_endereco", endereco));
+  char *editedheader = NULL;
+  char *editedbody=NULL;
   char *editedfooter=NULL;
+
+  //for(int cont=0;mail_tags_vet[cont];cont++){
+  //  editedbody = replaceWord(body, mail_tags_vet[cont], mail_tags_vet[cont]);
+  //}
+
+  gchar *full_ender=NULL;
+  struct _terc_infos *cli = terceiros_get_simp_terceiro(5);
+  if(!cli){
+    popup(NULL,"Não foi possível consultar cliente");
+    return 1;
+  }
+
+  editedbody = replaceWord(body, mail_tags_vet[MAIL_TAG_EMP_NOME], cad_emp_strc.xNome);
+
+  if((full_ender = get_full_ender_from_cep(cad_emp_strc.CEP, cad_emp_strc.nro))){
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_ENDER], full_ender);
+  }
+
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_TEL], cad_emp_strc.telefone);
+
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_NOME], cli->razao);
+
+  if((full_ender = get_full_ender_from_cep(cli->cep, cli->i_nro))){
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_ENDER], full_ender);
+  }
+
+  if(cli->contatos_qnt){
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CONTATO], cli->contatos[0].nome);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_TEL], cli->contatos[0].telefone);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CEL], cli->contatos[0].celular);
+  }
+
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_DATA], data_sys);
+
+  if(!editedbody){
+    popup(NULL,"Não foi possível editar tags do email");
+    return 1;
+  }
 
   if(!editedheader)
     editedheader = strdup(header);

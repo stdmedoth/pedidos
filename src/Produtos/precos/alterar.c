@@ -30,6 +30,7 @@ int prod_precos_alterar_fun(){
   gtk_widget_set_sensitive(prod_prc_alterar_button, FALSE);
   gtk_widget_set_sensitive(prod_prc_codepsq_button, FALSE);
   gtk_widget_set_sensitive(prod_prc_code_entry, FALSE);
+  gtk_widget_grab_focus(prod_prc_nome_entry);
 
   return 0;
 }

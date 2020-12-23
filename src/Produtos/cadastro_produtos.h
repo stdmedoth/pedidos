@@ -9,6 +9,7 @@ enum PROD_COLS{
   PROD_GRP_COL,
   PROD_GRPNIVEL_COL,
   PROD_NCM_COL,
+  PROD_BAR_COL,
   PROD_ICMSCST_COL,
   PROD_PISCST_COL,
   PROD_PISALIQ_COL,
@@ -39,6 +40,7 @@ gchar *unidades_atac_prod=NULL;
 gchar *fornecedores_prod=NULL;
 gchar *grupos_prod=NULL;
 gchar *observacoes_prod=NULL;
+gchar *prod_barra_gchar=NULL;
 GtkWidget *grupo_precos_tree;
 GtkWidget *notebook_cad_prod;
 
@@ -57,7 +59,7 @@ GtkWidget *psq_forn_button,*psq_subgrp_button,*psq_und_button,*psq_qnt_atacado_b
 GtkWidget *psq_forn_img,*psq_subgrp_img,*psq_und_img,*psq_qnt_atacado_img;
 GtkWidget *psq_forn,*psq_subgrp,*psq_und,*psq_qnt_atacado;
 
-GtkWidget *codigo_prod_field, *nome_prod_field,
+GtkWidget *codigo_prod_field, *prod_barra_entry, *nome_prod_field,
 *preco_prod_field,  *peso_prod_field, *unidade_prod_field,
 *fornecedor_prod_field, *grupo_prod_field, *observacao_prod_field,*qnt_atacado_field;
 
@@ -80,6 +82,7 @@ GtkWidget *prod_dt_alteracao_entry;
 struct _cad_produtos{
   int code;
   char *xNome;
+  char *code_barra;
   float peso;
   float preco;
   //int und;
@@ -92,7 +95,7 @@ struct _cad_produtos{
 struct _cad_produtos *get_cad_prod(int prod_code);
 
 //produtos
-#define PROD_CAD_QUERY "insert into produtos(code, nome, peso, preco, unidades, unidades_atacado ,fornecedor, grupo, grupo_nivel, ncm, origem, icmscst, piscst, pisaliq, cofinscst, cofinsaliq, observacoes, dt_criacao, dt_modificacao) values( %s, '%s', %s, %s, %s, %s, %s, %s, %i, %s, %s, %s, '%s', '%s', '%s', '%s', '%s', now(), now());"
-#define ARGS_PROD_CAD_QUERY codigos_prod, nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, prod_ncm_gchar, prod_origem_gchar, prod_icmscst_gchar, prod_piscst_gchar, prod_pisaliq_gchar, prod_cofinscst_gchar, prod_cofinsaliq_gchar, observacoes_prod
-#define PROD_UPD_QUERY "update produtos set nome = '%s', peso = %s, preco = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, grupo_nivel = %i, ncm = %s, origem = %s, icmscst = '%s', piscst = %s, pisaliq = %s, cofinscst = '%s', cofinsaliq = %s, observacoes = '%s', dt_modificacao = now() where code = %s"
-#define ARGS_PROD_UPD_QUERY nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, prod_ncm_gchar, prod_origem_gchar, prod_icmscst_gchar, prod_piscst_gchar, prod_pisaliq_gchar, prod_cofinscst_gchar, prod_cofinsaliq_gchar, observacoes_prod,codigos_prod
+#define PROD_CAD_QUERY "insert into produtos(code, nome, peso, preco, unidades, unidades_atacado ,fornecedor, grupo, grupo_nivel, ncm, code_barra, origem, icmscst, piscst, pisaliq, cofinscst, cofinsaliq, observacoes, dt_criacao, dt_modificacao) values( %s, '%s', %s, %s, %s, %s, %s, %s, %i, %s, %s,'%s', %s, '%s', '%s', '%s', '%s', '%s', now(), now());"
+#define ARGS_PROD_CAD_QUERY codigos_prod, nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, prod_ncm_gchar, prod_barra_gchar, prod_origem_gchar, prod_icmscst_gchar, prod_piscst_gchar, prod_pisaliq_gchar, prod_cofinscst_gchar, prod_cofinsaliq_gchar, observacoes_prod
+#define PROD_UPD_QUERY "update produtos set nome = '%s', peso = %s, preco = %s, unidades = %s, unidades_atacado = %s,  fornecedor = %s, grupo = %s, grupo_nivel = %i, ncm = %s, code_barra = '%s', origem = %s, icmscst = '%s', piscst = %s, pisaliq = %s, cofinscst = '%s', cofinsaliq = %s, observacoes = '%s', dt_modificacao = now() where code = %s"
+#define ARGS_PROD_UPD_QUERY nomes_prod, pesos_prod, precos_prod, unidades_prod, unidades_atac_prod, fornecedores_prod, grupos_prod, grupo_nivel, prod_ncm_gchar, prod_barra_gchar, prod_origem_gchar, prod_icmscst_gchar, prod_piscst_gchar, prod_pisaliq_gchar, prod_cofinscst_gchar, prod_cofinsaliq_gchar, observacoes_prod,codigos_prod

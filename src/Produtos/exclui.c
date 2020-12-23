@@ -1,58 +1,54 @@
 int exclui_prod()
 {
-	g_print("Iniciando deleta_prod()\n");
 	char stringer[10];
 	char query[100];
 	int erro;
-	gchar *cod_delel;
 	MYSQL_RES *estado;
 	MYSQL_ROW campo;
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
-	alterando_prod=0;
-	concluindo_prod=0;
-	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select code from produtos where code = '%s';",cod_delel);
-	autologger(query);
-	estado = consultar(query);
-	campo = mysql_fetch_row(estado);
-	if(campo==NULL)
-	{
-		popup(NULL,"Produto já não existe");
-		sprintf(stringer,"%i",tasker("produtos"));
-		gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),stringer);
-		gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),"");
-		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),"");
-		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
-		gtk_text_buffer_get_start_iter (buffer,&inicio);
-		gtk_text_buffer_get_end_iter (buffer,&fim);
-		gtk_text_buffer_delete (buffer,&inicio,&fim);
-		gtk_widget_grab_focus (GTK_WIDGET(psq_prod_codigo_button));
+
+	gchar *foreign_tables[] = {
+		"Produto_Orcamento",
+		"precos",
+		"saldo_min",
+		"saldo_max",
+		"movimento_estoque",
+		"prod_requisicoes",
+		"itens_compras",
+		NULL
+	};
+
+	gchar *code = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
+	for(int cont=0;foreign_tables[cont];cont++){
+		sprintf(query,"select * from %s where produto = '%s'",foreign_tables[cont], code);
+		if(!(estado = consultar(query))){
+			popup(NULL,"Não foi possível tabelas vinculadas ao produto");
+			return 1;
+		}
+		if((campo = mysql_fetch_row(estado))){
+			gchar *msg = malloc(100 + strlen(foreign_tables[cont]));
+			sprintf(msg,"Produto vinculado à %s, deseja remover essa informação?", foreign_tables[cont]);
+			if(PopupBinario(msg, "Sim, remova para mim", "Não! irei utilizar")){
+				sprintf(query,"delete from %s where produto = %s", foreign_tables[cont], code);
+				if(enviar_query(query)){
+					sprintf(msg,"Não foi possível o vinculo do produto com %s", foreign_tables[cont]);
+					popup(NULL,msg);
+					return 1;
+				}
+			}else{
+				return 1;
+			}
+		}
+	}
+
+	sprintf(query,"delete from produtos where code = %s", code);
+	if(enviar_query(query)){
+		popup(NULL,"Não foi possível deletar produto");
 		return 1;
 	}
-	sprintf(query,"delete from produtos where code = '%s';",cod_delel);
-	erro = enviar_query(query);
-	if(erro != 0)
-	{
-		popup(NULL,"Erro ao tentar exluir produto");
-		return 1;
-	}
-	query[0] = '\0';
-	sprintf(query,"select code from produtos where code = '%s';",cod_delel);
-	estado = consultar(query);
-	campo = mysql_fetch_row(estado);
-	if(campo==NULL)
-	{
-		popup(NULL,"Deletado com sucesso");
-		cancelar_prod();
-		return 0;
-	}
-	else
-	{
-		popup(NULL,"Não foi possivel deletar");
-	}
+
+	popup(NULL,"Deletado com sucesso");
+	cancelar_prod();
 	return 0;
 }

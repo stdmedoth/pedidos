@@ -1,5 +1,66 @@
 #include "sql_tools.c"
 
+gchar *get_full_ender_from_cep(gchar *cep, int num){
+
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+  gchar *ender = NULL;
+  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep);
+  if(!(res = consultar(query))){
+    popup(NULL,"Erro ao consultar endereços");
+    return NULL;
+  }
+
+  if((row = mysql_fetch_row(res))){
+
+    gchar *logr = NULL;
+    gchar *cnum = NULL;
+    gchar *bairro = NULL;
+    gchar *cidade = NULL;
+    gchar *uf = NULL;
+
+    if(row[0]){
+      logr = malloc(strlen( row[0] ) );
+      sprintf(logr,"%s",row[0]);
+    }else{
+      logr = strdup("");
+    }
+
+    if(num){
+      cnum = malloc(12);
+      sprintf(cnum,"%i",num);
+    }else{
+      cnum = strdup("");
+    }
+
+    if(row[1]){
+      bairro = malloc(strlen( row[1] ) );
+      sprintf(bairro,"%s",row[1]);
+    }else{
+      bairro = strdup("");
+    }
+
+    if(row[2]){
+      cidade = malloc(strlen( row[2] ) );
+      sprintf(cidade,"%s",row[2]);
+    }else{
+      cidade = strdup("");
+    }
+
+    if(row[3]){
+      uf = malloc(strlen( row[3] ) );
+      sprintf(uf,"%s",row[3]);
+    }else{
+      uf = strdup("");
+    }
+    ender = malloc(strlen(logr) + strlen(cnum) + strlen(bairro) + strlen(cidade) + strlen(uf) + 10);
+    sprintf(ender, "%s,%s,%s,%s,%s", logr, cnum, bairro, cidade, uf);
+  }
+
+  return ender;
+}
+
 int treeview_id_exists(GtkTreeView *treeview, int id){
 
   gchar *id_char = malloc(12);

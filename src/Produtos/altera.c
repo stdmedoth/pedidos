@@ -9,7 +9,7 @@ int altera_prod()
 	GtkTextIter inicio,fim;
 	row = malloc(ENTRADA);
 	codigos_prod = (gchar *)gtk_entry_get_text(GTK_ENTRY(codigo_prod_field));
-	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.icmscst, p.piscst, p.pisaliq, p.cofinscst, p.cofinsaliq, p.origem,  p.observacoes, DATE_FORMAT(dt_criacao, '%%d/%%m/%%Y'), DATE_FORMAT(dt_modificacao, '%%d/%%m/%%Y') from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
+	sprintf(query,"select p.code,  p.nome, p.peso, p.preco, p.unidades, p.unidades_atacado,  p.fornecedor,  p.grupo, p.grupo_nivel, p.ncm, p.code_barra, p.icmscst, p.piscst, p.pisaliq, p.cofinscst, p.cofinsaliq, p.origem,  p.observacoes, DATE_FORMAT(dt_criacao, '%%d/%%m/%%Y'), DATE_FORMAT(dt_modificacao, '%%d/%%m/%%Y') from produtos as p join unidades as u on p.unidades = u.code where p.code = '%s';",codigos_prod);
 	g_print("query: %s\n",query);
 	autologger(query);
 	vetor = consultar(query);
@@ -30,61 +30,96 @@ int altera_prod()
 	}
 	gtk_entry_set_text(GTK_ENTRY(nome_prod_field),campo[PROD_NOM_COL]);
 
-	sprintf(row,"%.2f",atof(campo[PROD_PES_COL]));
-	gtk_entry_set_text(GTK_ENTRY(peso_prod_field),row);
-
-	sprintf(row,"%.2f",atof(campo[PROD_PRC_COL]));
-	gtk_entry_set_text(GTK_ENTRY(preco_prod_field),row);
-
-	row = strdup(campo[PROD_GRP_COL]);
-	gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),row);
-
-	row = strdup(campo[PROD_FORN_COL]);
-	gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),row);
-
-	row = strdup(campo[PROD_UND_COL]);
-	gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),row);
-
-	row = strdup(campo[PROD_UND_ATAC_COL]);
-	gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),row);
-
-	row = strdup(campo[PROD_NCM_COL]);
-	sprintf(query, "select cod_ncm from ncm where code = '%s'", row);
-	if(!(res = consultar(query))){
-		popup(NULL,"Não foi possível consultar NCM base");
-		return 1;
-	}
-	if(!(mrow = mysql_fetch_row(res))){
-		popup(NULL,"NCM base não existente");
-		return 1;
-	}else{
-		row = strdup(mrow[0]);
-		gtk_entry_set_text(GTK_ENTRY(prod_ncm_entry),row);
+	if(campo[PROD_PES_COL]){
+		sprintf(row,"%.2f",atof(campo[PROD_PES_COL]));
+		gtk_entry_set_text(GTK_ENTRY(peso_prod_field),row);
 	}
 
-	gchar *icmscst = strdup(campo[PROD_ICMSCST_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_icmscst_combo), icmscst);
+	if(campo[PROD_PRC_COL]){
+		sprintf(row,"%.2f",atof(campo[PROD_PRC_COL]));
+		gtk_entry_set_text(GTK_ENTRY(preco_prod_field),row);
+	}
 
-	gchar *piscst = strdup(campo[PROD_PISCST_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_piscst_combo), piscst);
+	if(campo[PROD_GRP_COL]){
+		row = strdup(campo[PROD_GRP_COL]);
+		gtk_entry_set_text(GTK_ENTRY(grupo_prod_field),row);
+	}
 
-	gchar *pisaliq = strdup(campo[PROD_PISALIQ_COL]);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_pisaliq_entry), atof(pisaliq));
+	if(campo[PROD_FORN_COL]){
+		row = strdup(campo[PROD_FORN_COL]);
+		gtk_entry_set_text(GTK_ENTRY(fornecedor_prod_field),row);
+	}
 
-	gchar *cofinscst = strdup(campo[PROD_COFINSCST_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_cofinscst_combo), cofinscst);
+	if(campo[PROD_UND_COL]){
+		row = strdup(campo[PROD_UND_COL]);
+		gtk_entry_set_text(GTK_ENTRY(unidade_prod_field),row);
+	}
 
-	gchar *cofinsaliq = strdup(campo[PROD_COFINSALIQ_COL]);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_cofinsaliq_entry), atof(cofinsaliq));
+	if(campo[PROD_UND_ATAC_COL]){
+		row = strdup(campo[PROD_UND_ATAC_COL]);
+		gtk_entry_set_text(GTK_ENTRY(qnt_atacado_field),row);
+	}
 
-	gchar *origem = strdup(campo[PROD_ORIGEM_COL]);
-	gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_origem_combo), origem);
+	if(campo[PROD_NCM_COL]){
+		row = strdup(campo[PROD_NCM_COL]);
+		sprintf(query, "select cod_ncm from ncm where code = '%s'", row);
+		if(!(res = consultar(query))){
+			popup(NULL,"Não foi possível consultar NCM base");
+			return 1;
+		}
+		if(!(mrow = mysql_fetch_row(res))){
+			popup(NULL,"NCM base não existente");
+			return 1;
+		}else{
+			row = strdup(mrow[0]);
+			gtk_entry_set_text(GTK_ENTRY(prod_ncm_entry),row);
+		}
+	}
 
-	strcpy(observacoes_prod,campo[PROD_OBS_COL]);
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
-	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
+	if(campo[PROD_BAR_COL]){
+		gchar *code_barra = strdup(campo[PROD_BAR_COL]);
+		gtk_entry_set_text(GTK_ENTRY(prod_barra_entry), code_barra);
+	}
 
-	gtk_entry_set_text(GTK_ENTRY(prod_dt_alteracao_entry), campo[PROD_DTMODIF_COL]);
+	if(campo[PROD_ICMSCST_COL]){
+		gchar *icmscst = strdup(campo[PROD_ICMSCST_COL]);
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_icmscst_combo), icmscst);
+	}
+
+	if(campo[PROD_PISCST_COL]){
+		gchar *piscst = strdup(campo[PROD_PISCST_COL]);
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_piscst_combo), piscst);
+	}
+
+	if(campo[PROD_PISALIQ_COL]){
+		gchar *pisaliq = strdup(campo[PROD_PISALIQ_COL]);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_pisaliq_entry), atof(pisaliq));
+	}
+
+	if(campo[PROD_COFINSCST_COL]){
+		gchar *cofinscst = strdup(campo[PROD_COFINSCST_COL]);
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_cofinscst_combo), cofinscst);
+	}
+
+	if(campo[PROD_COFINSALIQ_COL]){
+		gchar *cofinsaliq = strdup(campo[PROD_COFINSALIQ_COL]);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(prod_cofinsaliq_entry), atof(cofinsaliq));
+	}
+
+	if(campo[PROD_ORIGEM_COL]){
+		gchar *origem = strdup(campo[PROD_ORIGEM_COL]);
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(prod_origem_combo), origem);
+	}
+
+
+	if(campo[PROD_OBS_COL]){
+		strcpy(observacoes_prod,campo[PROD_OBS_COL]);
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
+		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
+	}
+	if(campo[PROD_DTMODIF_COL]){
+		gtk_entry_set_text(GTK_ENTRY(prod_dt_alteracao_entry), campo[PROD_DTMODIF_COL]);
+	}
 
 	alterando_prod=1;
 	concluindo_prod=0;

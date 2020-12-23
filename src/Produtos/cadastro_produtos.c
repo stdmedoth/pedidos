@@ -90,6 +90,7 @@ int  cad_prod(){
 
 	GtkWidget *prod_ncm_psq_button;
 	GtkWidget *prod_fiscal_box1,*prod_fiscal_box2,*prod_fiscal_box3, *prod_fiscal_box4, *prod_fiscal_box5, *prod_fiscal_box6;
+	GtkWidget *prod_barra_frame, *prod_barra_box, *prod_barra_fixed;
 	GtkWidget *prod_ncm_frame, *prod_cst_frame, *prod_origem_frame;
 	GtkWidget *prod_ncm_fixed, *prod_cst_fixed, *prod_origem_fixed;
 	GtkWidget *prod_ncm_box, *prod_cst_box, *prod_origem_box;
@@ -297,6 +298,14 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(grupo),psq_subgrp,0,0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 
+	prod_barra_box = gtk_box_new(1,0);
+	prod_barra_fixed = gtk_fixed_new();
+	prod_barra_frame = gtk_frame_new("Código Barra");
+	prod_barra_entry = gtk_entry_new();
+	gtk_container_add(GTK_CONTAINER(prod_barra_frame), prod_barra_entry);
+	gtk_box_pack_start(GTK_BOX(prod_barra_box),prod_barra_frame,0,0,0);
+	gtk_fixed_put(GTK_FIXED(prod_barra_fixed), prod_barra_box, 20,20);
+
 	prod_ncm_entry = gtk_entry_new();
 	campo_nome_ncm = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(campo_nome_ncm), "Nome do NCM");
@@ -304,6 +313,8 @@ int  cad_prod(){
 	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_ncm),30);
 	prod_ncm_psq_button = gtk_button_new();
 	prod_icmscst_combo = gtk_combo_box_text_new();
+
+
 
 	sprintf(query, "SELECT * FROM cst_cson where regime = %i", cad_emp_strc.RegTribInt);
 	if(!(res = consultar(query))){
@@ -421,6 +432,7 @@ int  cad_prod(){
 	gtk_fixed_put(GTK_FIXED(prod_origem_fixed), prod_origem_frame,20,20);
 
 	gtk_box_pack_start(GTK_BOX(prod_fiscal_box2), prod_ncm_fixed,0,0,5);
+	gtk_box_pack_start(GTK_BOX(prod_fiscal_box2), prod_barra_fixed,0,0,5);
 
 	gtk_box_pack_start(GTK_BOX(prod_fiscal_box3), prod_origem_fixed,0,0,5);
 	gtk_box_pack_start(GTK_BOX(prod_fiscal_box3), prod_cst_fixed,0,0,5);
@@ -471,8 +483,6 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_excluir_button,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_eight),prod_dt_alteracao_frame,0,0,10);
 
-
-
 	gtk_widget_set_size_request(GTK_WIDGET(prod_concluir_button),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(prod_alterar_button),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(prod_cancelar_button),100,50);
@@ -486,8 +496,8 @@ int  cad_prod(){
 	g_signal_connect(GTK_ENTRY(qnt_atacado_field),"activate",G_CALLBACK(und_atac_prod),NULL);
 	g_signal_connect(GTK_ENTRY(grupo_prod_field),"activate",G_CALLBACK(grupo_prod),NULL);
 	g_signal_connect(GTK_ENTRY(fornecedor_prod_field),"activate",G_CALLBACK(fornecedor_prod),NULL);
-
 	g_signal_connect(GTK_ENTRY(prod_ncm_entry),"activate",G_CALLBACK(prod_ncm_fun),NULL);
+	g_signal_connect(GTK_ENTRY(prod_barra_entry),"activate",G_CALLBACK(prod_barra_fun),NULL);
 
 	g_signal_connect(GTK_BUTTON(prod_concluir_button),"clicked",G_CALLBACK(conclui_prod),NULL);
 	g_signal_connect(GTK_BUTTON(prod_alterar_button),"clicked",G_CALLBACK(altera_prod),NULL);

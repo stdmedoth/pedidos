@@ -59,6 +59,7 @@ CREATE TABLE  produtos(
   grupo int(11) DEFAULT '1',
   grupo_nivel int(11) DEFAULT '2',
   ncm int NOT NULL ,
+  code_barra varchar(20),
   icmscst int NOT NULL ,
   piscst int NOT NULL ,
   pisaliq float not null,

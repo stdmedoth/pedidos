@@ -55,6 +55,38 @@ gint mkt_mail_tipo_int, mkt_mail_setor_int;
 
 int mkt_email_code();
 
+enum MAIL_TAGS{
+  MAIL_TAG_EMP_NOME,
+  MAIL_TAG_EMP_ENDER,
+  MAIL_TAG_EMP_CEL,
+  MAIL_TAG_EMP_TEL,
+
+  MAIL_TAG_CLI_NOME,
+  MAIL_TAG_CLI_ENDER,
+  MAIL_TAG_CLI_CEL,
+  MAIL_TAG_CLI_TEL,
+  MAIL_TAG_CLI_CONTATO,
+
+  MAIL_TAG_DATA,
+
+  MAIL_TAGS_QNT
+};
+
+const gchar *mail_tags_vet[] = {
+  "mail_nome_empresa",
+  "mail_ender_empresa",
+  "mail_celular_empresa",
+  "mail_telefone_empresa",
+
+  "mail_nomecli_cliente",
+  "mail_ender_cliente",
+  "mail_celular_cliente",
+  "mail_telefone_cliente",
+  "mail_contato_cliente",
+
+  "mail_data_envio",
+};
+
 enum EMAIL_HEADER_COLS{
   EMLHEADER_CODE,
   EMLHEADER_CONTEUDO,

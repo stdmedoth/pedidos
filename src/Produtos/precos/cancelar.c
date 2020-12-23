@@ -14,10 +14,10 @@ int prod_precos_cancelar_fun(){
   prod_precos_alterando=0;
   prod_precos_concluindo=0;
 
-  gtk_widget_grab_focus(prod_prc_prodcode_entry);
   gtk_widget_set_sensitive(prod_prc_alterar_button, TRUE);
   gtk_widget_set_sensitive(prod_prc_codepsq_button, TRUE);
   gtk_widget_set_sensitive(prod_prc_code_entry, TRUE);
+  gtk_widget_grab_focus(prod_prc_nome_entry);
 
   return 0;
 }

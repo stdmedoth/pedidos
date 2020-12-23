@@ -5,9 +5,16 @@ int orc_prod_calc_saldo(int posicao){
 	MYSQL_ROW campos;
 
 	int prod_code=0;
-	if(strlen(codigo_prod_orc_gchar))
+	if(strlen(codigo_prod_orc_gchar)){
 		prod_code = atoi(codigo_prod_orc_gchar);
+	}
 	else{
+		produto_inserido[posicao] = 0;
+		if(posicao>1){
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
+			gtk_widget_grab_focus(orc_transp_codigo_entry);
+			return 0;
+		}
 		popup(NULL,"Insira o produto");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
@@ -99,8 +106,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		return 0;
 	}
 
-	if(strlen(codigo_prod_orc_gchar)<=0)
-	{
+	if(strlen(codigo_prod_orc_gchar)<=0){
 		produto_inserido[posicao] = 0;
 		if(posicao>1){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -113,8 +119,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	if(stoi(codigo_prod_orc_gchar)==-1)
-	{
+	if(stoi(codigo_prod_orc_gchar)==-1){
 		popup(NULL,"O código do produto deve ser numérico");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;

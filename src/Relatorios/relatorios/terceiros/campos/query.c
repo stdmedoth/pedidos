@@ -35,7 +35,7 @@ int relat_ter_query_fun()
 		return 1;
 	}
 
-	sprintf(filtros_order_by,"order by %s",campos_query[relat_ter_ordem_int-1]);
+	sprintf(filtros_order_by," group by t.code order by %s",campos_query[relat_ter_ordem_int-1]);
 
 	if(relat_ter_cresc_int==0)
 		strcat(filtros_order_by," asc");

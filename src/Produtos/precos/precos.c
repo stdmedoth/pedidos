@@ -116,6 +116,7 @@ int prod_precos_wnd(){
   g_signal_connect(prod_prc_vlrfat_entry, "activate",  G_CALLBACK(prod_precos_vltfat_fun),NULL);
   g_signal_connect(prod_prc_vlrvist_entry, "activate",  G_CALLBACK(prod_precos_vlrvist_fun),NULL);
 
+  g_signal_connect(prod_prc_codepsq_button, "clicked",  G_CALLBACK(psq_preco), prod_prc_code_entry);
   g_signal_connect(prod_prc_prodpsq_button, "clicked",  G_CALLBACK(psq_prod), prod_prc_prodcode_entry);
 
   g_signal_connect(prod_prc_concluir_button, "clicked",  G_CALLBACK(prod_precos_concluir_fun),NULL);
