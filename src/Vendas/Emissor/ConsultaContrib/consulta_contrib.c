@@ -1,7 +1,7 @@
 #include "consultar.c"
 #include "criar_xml.c"
 
-int consulta_contrib_wnd(){
+int consulta_contrib_wnd(struct _terc_infos *contrib){
 
   GtkWidget *janela = gtk_dialog_new_with_buttons(
     "Consultar Contribuintes",
@@ -49,9 +49,9 @@ int consulta_contrib_wnd(){
         return 1;
       }
 
-      consulta_contrib_consulta(formated_cnpj, formated_uf);
+      consulta_contrib_consulta(formated_cnpj, formated_uf, contrib);
       gtk_widget_destroy(janela);
-      break;
+      return 0;
 
     case GTK_RESPONSE_REJECT:
       gtk_widget_destroy(janela);

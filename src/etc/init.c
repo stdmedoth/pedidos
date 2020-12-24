@@ -327,6 +327,8 @@ int desktop(){
 	gtk_widget_set_size_request(barra_icones,80,750);
 	gtk_container_add(GTK_CONTAINER(barra),barra_icones);
 
+	GtkWidget *caixa_calendario = pedidos_get_calendario();
+
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
 
 	gtk_widget_set_size_request(imagem_desktop,1290,750);
@@ -335,6 +337,7 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,500,50);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);

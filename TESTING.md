@@ -10,4 +10,5 @@
   <li>Criação de orçamento utilizando o novo produto com preço vinculado no cliente</li>
   <li>Criação de orçamento utilizando a nova condição de pagamento</li>
   <li>Criação de orçamento utilizando as tabelas de preços personalizadas dos produtos</li>
+  <li>Geração dos relatórios fixados</li>
 </ol>

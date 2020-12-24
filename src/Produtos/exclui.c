@@ -23,7 +23,7 @@ int exclui_prod()
 	for(int cont=0;foreign_tables[cont];cont++){
 		sprintf(query,"select * from %s where produto = '%s'",foreign_tables[cont], code);
 		if(!(estado = consultar(query))){
-			popup(NULL,"Não foi possível tabelas vinculadas ao produto");
+			popup(NULL,"Não foi possível consultar tabela vinculada ao produto");
 			return 1;
 		}
 		if((campo = mysql_fetch_row(estado))){
@@ -32,7 +32,7 @@ int exclui_prod()
 			if(PopupBinario(msg, "Sim, remova para mim", "Não! irei utilizar")){
 				sprintf(query,"delete from %s where produto = %s", foreign_tables[cont], code);
 				if(enviar_query(query)){
-					sprintf(msg,"Não foi possível o vinculo do produto com %s", foreign_tables[cont]);
+					sprintf(msg,"Não foi possível remover o vinculo do produto com %s", foreign_tables[cont]);
 					popup(NULL,msg);
 					return 1;
 				}

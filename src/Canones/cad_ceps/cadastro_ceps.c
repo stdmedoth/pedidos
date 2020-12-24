@@ -10,6 +10,33 @@
 #include "alterar.c"
 #include "excluir.c"
 
+struct _cad_cep *get_ender_by_cep(gchar *cepcode){
+
+  struct _cad_cep *cep = NULL;
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+  sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where l.CEP = '%s'",cepcode);
+
+  if(!(res = consultar(query))){
+    popup(NULL,"Erro ao consulta cep");
+    return NULL;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    return NULL;
+  }
+
+  cep = malloc(sizeof(struct _cad_cep));
+  cep->cep = strdup(row[0]);
+  cep->ldescricao = strdup(row[1]);
+  cep->bairro = strdup(row[2]);
+
+  cep->cidade = malloc(sizeof(struct _cad_cidade));
+  cep->cidade->descricao = strdup(row[3]);
+  cep->cidade->uf = strdup(row[4]);
+
+  return cep;
+}
 
 int cad_cep(){
   GtkWidget *janela;

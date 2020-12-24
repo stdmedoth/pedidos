@@ -1,5 +1,44 @@
 #include "sql_tools.c"
 
+xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+  xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
+  xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
+
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "CadConsultaCadastro4", BAD_CAST "http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro4");
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "nfe", BAD_CAST "http://www.portalfiscal.inf.br/nfe");
+
+  xmlNodePtr node=NULL;
+  if(node_contxt &&
+    node_contxt->nodesetval &&
+    node_contxt->nodesetval->nodeNr &&
+    node_contxt->nodesetval->nodeTab){
+
+    node = node_contxt->nodesetval->nodeTab[0];
+  }
+
+  return node;
+}
+
+size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp){
+  size_t realsize = size * nmemb;
+  struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+
+  mem->memory = realloc(mem->memory, mem->size + realsize + 1);
+  if(mem->memory == NULL) {
+    /* out of memory! */
+    printf("not enough memory (realloc returned NULL)\n");
+    return 0;
+  }
+
+  memcpy(&(mem->memory[mem->size]), contents, realsize);
+  mem->size += realsize;
+  mem->memory[mem->size] = 0;
+
+  return realsize;
+}
+
+
 gchar *get_full_ender_from_cep(gchar *cep, int num){
 
   MYSQL_RES *res;
@@ -97,9 +136,11 @@ char  *format_cnpj_num(char *cnpj){
       cont2++;
     }
   }
+
   formated_cnpj[cont2] = '\0';
   return formated_cnpj;
 }
+
 char *formatar_littobig(char *string){
   for(int cont=0;cont<strlen(string);cont++){
     if(isalpha(string[cont]) && islower(string[cont]))

@@ -3,6 +3,7 @@ int  cad_terc();
 
 struct _terc_infos *terceiros_get_simp_terceiro(int code);
 struct _terc_infos *terceiros_get_terceiro(int code);
+void ter_consulta_contrib();
 
 struct _terc_infos{
   int index;
@@ -29,9 +30,16 @@ struct _Terceiros{
 };
 
 //variaveis referentes ao campos em campos/vars/campos_ter.h
-
 static int concluindo_ter=0;
 static int ter_com_entrega = 0;
+
+enum TIPOS_TER{
+  TIPO_TER_NULL,
+  TIPO_TER_CLI,
+  TIPO_TER_FRN,
+  TIPO_TER_CLIFRN,
+  TIPO_TER_TRSP
+};
 
 enum TER_SETOR{
   SETOR_INDUSTRIAL,

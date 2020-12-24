@@ -104,7 +104,7 @@ xmlNode *add_dets_xml(struct _CFe *cfe_struct){
       PISAliq = xmlNewNode(NULL, (xmlChar*)"PISAliq");
     }
     PISCST = xmlNewNode(NULL, (xmlChar*)"CST");
-xmlNodeAddContent(PISCST, (xmlChar*)cfe_struct->det->impostos[item].PISCST);
+    xmlNodeAddContent(PISCST, (xmlChar*)cfe_struct->det->impostos[item].PISCST);
     xmlAddChild(PISAliq, PISCST);
 
     if(cad_emp_strc.RegTribInt == REGIME_NORMAL){

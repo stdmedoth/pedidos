@@ -377,12 +377,6 @@ enum{
 #define STAT_PARC_BAIXA 1
 #define STAT_PENDENTE 2
 
-#define TIPO_TER_NULL 0
-#define TIPO_TER_CLI 1
-#define TIPO_TER_FRN 2
-#define TIPO_TER_CLIFRN 3
-#define TIPO_TER_TRSP 4
-
 enum TIPO_OPERACOES{
   OPER_ENTRADA,
   OPER_SAIDA

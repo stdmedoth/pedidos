@@ -64,7 +64,7 @@ int mkt_mail_montar_fun(){
       popup(NULL,"Stylesheets não encontrado");
       return 1;
     }
-    fread(contents, 1024*1024*4, 1, cssfile);
+    fread(contents, 1024*1024*5, 1, cssfile);
     xmlNodeAddContent(style, (xmlChar*)contents);
     xmlAddChild(headTag, style);
   }

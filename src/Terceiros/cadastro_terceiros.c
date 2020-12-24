@@ -8,6 +8,7 @@ GtkWidget *concluir_ter_buttom,
 
 #include "campos.c"
 #include "cancela.c"
+#include "consulta.c"
 #include "altera.c"
 #include "exclui.c"
 #include "conclui.c"
@@ -661,7 +662,7 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(psq_ter_button),"clicked",G_CALLBACK(psq_ter),code_ter_field);
 	g_signal_connect(GTK_BUTTON(cancelar_ter_buttom),"clicked",G_CALLBACK(cancelar_ter),NULL);
 	g_signal_connect(GTK_BUTTON(excluir_ter_buttom),"clicked",G_CALLBACK(exclui_ter),NULL);
-	g_signal_connect(GTK_BUTTON(cnst_cad_button),"clicked",G_CALLBACK(consulta_contrib_wnd),NULL);
+	g_signal_connect(GTK_BUTTON(cnst_cad_button),"clicked",G_CALLBACK(ter_consulta_contrib),NULL);
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_TER]);
 

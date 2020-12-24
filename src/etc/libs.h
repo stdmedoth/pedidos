@@ -164,8 +164,8 @@
 #include "../Relatorios/fixados/financeiro/pagar/principal.h"
 
 #include "../Marketing/analises/analisar.h"
-#include "../Marketing/emails/modela_email.h"
-#include "../Marketing/emails/envio_emails.h"
+#include "../Marketing/emails/enviar/envio_emails.h"
+#include "../Marketing/emails/modelar/modela_email.h"
 #include "../Marketing/distribuicao/cad_distribuicao.h"
 
 #include "../Suporte/suporte.h"

@@ -38,6 +38,28 @@ char uf_list[MAX_UF_QNT][MAX_UF_LEN];
 int cad_cep();
 int cad_ceps_uf_qnt=0;
 
+struct _cad_cidade{
+  int code;
+  gchar *descricao;
+  gchar *uf;
+  gchar *ddd;
+  int code_ibge;
+
+};
+
+struct _cad_cep{
+  int code;
+  int tipo;
+  int numero;
+  int id_cidade;
+
+  gchar *cep;
+  gchar *bairro;
+  gchar *ldescricao;
+  gchar *complemento;
+  struct _cad_cidade *cidade;
+};
+
 enum CEP_COLS{
   CEP_CEP_COL,
   CEP_ID_COL,
@@ -51,3 +73,5 @@ enum CEP_COLS{
   CEP_CODIBGE_COL,
   CEP_DESCR_BAIRRO
 };
+
+struct _cad_cep *get_ender_by_cep(gchar *cepcode);

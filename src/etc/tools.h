@@ -67,3 +67,10 @@ char *status_tit_str(int status);
 int aviso_de_baixa_fin();
 
 int cep_nao_existente_fun(gchar *cep);
+
+static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
+
+struct MemoryStruct {
+  char *memory;
+  size_t size;
+};
