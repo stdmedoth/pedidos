@@ -125,20 +125,20 @@ int treeview_id_exists(GtkTreeView *treeview, int id){
   return 0;
 }
 
-char  *format_cnpj_num(char *cnpj){
+char  *format_only_num(char *text){
   int cont2=0;
-  char *formated_cnpj = malloc(strlen(cnpj));
-  strcpy(formated_cnpj,"");
+  char *formated_text = malloc(strlen(text));
+  strcpy(formated_text,"");
 
-  for(int cont=0;cont<strlen(cnpj);cont++){
-    if(isdigit(cnpj[cont])){
-      formated_cnpj[cont2] = cnpj[cont];
+  for(int cont=0;cont<strlen(text);cont++){
+    if(isdigit(text[cont])){
+      formated_text[cont2] = text[cont];
       cont2++;
     }
   }
 
-  formated_cnpj[cont2] = '\0';
-  return formated_cnpj;
+  formated_text[cont2] = '\0';
+  return formated_text;
 }
 
 char *formatar_littobig(char *string){

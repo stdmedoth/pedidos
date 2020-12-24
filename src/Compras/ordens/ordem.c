@@ -64,7 +64,7 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
 
 	int itens_qnt=0;
 	ordem_cmp->vlr_total = 0;
-	
+
 	sprintf(query, "select ic.requisicao, ic.preco from itens_ordens_compra as ict inner join itens_cotacoes as ic on ict.itens_cotacao = ic.code where ict.ordem_id = %i", ordcmp_code);
 
 	if(!(res = consultar(query))){
@@ -174,6 +174,7 @@ int ordem_cmp(){
   ordem_cmp_excluir_button = gtk_button_new_with_label("Excluir");
   ordem_cmp_cancelar_button = gtk_button_new_with_label("Cancelar");
 	ordem_cmp_gerar_button = gtk_button_new_with_label("Gerar");
+	ordem_cmp_enviar_button = gtk_button_new_with_label("Enviar");
 
 	ordem_cmp_code_frame = gtk_frame_new("Código");
 	ordem_cmp_dtemissao_frame = gtk_frame_new("Data Emissão");
@@ -209,6 +210,7 @@ int ordem_cmp(){
 	ordem_cmp_condpagnome_entry = gtk_entry_new();
 	ordem_cmp_fornnome_entry = gtk_entry_new();
 
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ordem_cmp_status_combo), ORDCMP_N_GERADO, "Não Gerado");
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ordem_cmp_status_combo), ORDCMP_N_ENVIADO, "Não enviada");
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ordem_cmp_status_combo), ORD_CMP_ENVIADO, "Enviada");
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ordem_cmp_status_combo), ORD_CMP_CONCLUIDA, "Concluída");
@@ -308,7 +310,9 @@ int ordem_cmp(){
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_alterar_button ,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_excluir_button ,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_cancelar_button ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(opcoes_box), ordem_cmp_gerar_button ,0,0,5);
+
+	gtk_box_pack_end(GTK_BOX(opcoes_box), ordem_cmp_enviar_button ,0,0,5);
+	gtk_box_pack_end(GTK_BOX(opcoes_box), ordem_cmp_gerar_button ,0,0,5);
 
 	gtk_box_pack_start(GTK_BOX(box), linha1,0,0,5);
 	gtk_box_pack_start(GTK_BOX(box), linha2,0,0,5);

@@ -5,10 +5,37 @@
 #include "campos/uf.c"
 #include "campos/bairro.c"
 #include "campos/cidade.c"
-#include "cancelar.c"
+
 #include "concluir.c"
 #include "alterar.c"
+#include "cancelar.c"
+#include "consultar.c"
 #include "excluir.c"
+
+struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode){
+  struct _cad_cidade *cidade = NULL;
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+
+  sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade where codigo_ibge = %i",ibgecode);
+  if(!(res = consultar(query))){
+    popup(NULL,"Erro ao consulta cidade");
+    return NULL;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    return NULL;
+  }
+
+  cidade = malloc(sizeof(struct _cad_cidade));
+  cidade->code = atoi(row[0]);
+  cidade->descricao = strdup(row[1]);
+  cidade->uf = strdup(row[2]);
+  cidade->code_ibge = atoi(row[3]);
+  cidade->ddd = strdup(row[4]);
+
+  return cidade;
+}
 
 struct _cad_cep *get_ender_by_cep(gchar *cepcode){
 
@@ -59,8 +86,6 @@ int cad_cep(){
   GtkWidget *cad_ceps_bairro_frame, *cad_ceps_bairro_fixed, *cad_ceps_bairro_box;
   GtkWidget *cad_ceps_cid_code_frame, *cad_ceps_cid_code_fixed, *cad_ceps_cid_code_box;
 
-  GtkWidget *psq_cep_button, *psq_cid_button;
-
   MYSQL_RES *res;
   MYSQL_ROW row;
   int cont=0;
@@ -79,6 +104,7 @@ int cad_cep(){
   cad_cep_cancela_button = gtk_button_new_with_label("Cancelar");
   cad_cep_altera_button = gtk_button_new_with_label("Alterar");
   cad_cep_exclui_button = gtk_button_new_with_label("Excluir");
+  cad_cep_consulta_button = gtk_button_new();
 
   gtk_button_set_image(GTK_BUTTON(psq_cep_button),gtk_image_new_from_file(IMG_PESQ));
   gtk_button_set_image(GTK_BUTTON(psq_cid_button),gtk_image_new_from_file(IMG_PESQ));
@@ -86,10 +112,11 @@ int cad_cep(){
   gtk_button_set_image(GTK_BUTTON(cad_cep_cancela_button),gtk_image_new_from_file(IMG_CANCEL));
   gtk_button_set_image(GTK_BUTTON(cad_cep_altera_button),gtk_image_new_from_file(IMG_ALTER));
   gtk_button_set_image(GTK_BUTTON(cad_cep_exclui_button),gtk_image_new_from_file(IMG_EXCLUI));
+  gtk_button_set_image(GTK_BUTTON(cad_cep_consulta_button),gtk_image_new_from_icon_name("emblem-web",GTK_ICON_SIZE_LARGE_TOOLBAR));
 
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),cad_cep_confirma_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),cad_cep_cancela_button,0,0,5);
-  //gtk_box_pack_start(GTK_BOX(caixa_opcoes),cad_cep_altera_button,0,0,5);
+  gtk_box_pack_start(GTK_BOX(caixa_opcoes),cad_cep_altera_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),cad_cep_exclui_button,0,0,5);
 
   gtk_container_add(GTK_CONTAINER(frame_opcoes),caixa_opcoes);
@@ -168,6 +195,8 @@ int cad_cep(){
 
   gtk_box_pack_start(GTK_BOX(cad_ceps_code_box),cad_ceps_code_entry,0,0,0);
   gtk_box_pack_start(GTK_BOX(cad_ceps_code_box),psq_cep_button,0,0,0);
+  gtk_box_pack_start(GTK_BOX(cad_ceps_code_box),cad_cep_consulta_button,0,0,0);
+
   gtk_box_pack_start(GTK_BOX(cad_ceps_cep_box),cad_ceps_cep_entry,0,0,0);
 
   gtk_box_pack_start(GTK_BOX(cad_ceps_descr_box),cad_ceps_descr_entry,0,0,0);
@@ -234,6 +263,8 @@ int cad_cep(){
   g_signal_connect(cad_cep_altera_button,"clicked",G_CALLBACK(cad_ceps_alterar_fun),NULL);
   g_signal_connect(cad_cep_cancela_button,"clicked",G_CALLBACK(cad_ceps_cancelar_fun),NULL);
   g_signal_connect(cad_cep_exclui_button,"clicked",G_CALLBACK(cad_ceps_excluir_fun),NULL);
+  g_signal_connect(cad_cep_consulta_button,"clicked",G_CALLBACK(cad_ceps_consultar_fun),NULL);
+
 
   g_signal_connect(cad_ceps_code_entry,"activate",G_CALLBACK(cad_ceps_code_fun),NULL);
   g_signal_connect(cad_ceps_cep_entry,"activate",G_CALLBACK(cad_ceps_cep_fun),NULL);
@@ -241,6 +272,7 @@ int cad_cep(){
   g_signal_connect(cad_ceps_bairro_entry,"activate",G_CALLBACK(cad_ceps_bairro_fun),NULL);
   g_signal_connect(cad_ceps_cid_code_entry,"activate",G_CALLBACK(cad_ceps_cid_code_fun),NULL);
 
+  cad_ceps_cancelar_fun();
   gtk_container_add(GTK_CONTAINER(janela),colunas);
   gtk_widget_show_all(janela);
   return 0;

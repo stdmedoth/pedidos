@@ -35,7 +35,7 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
   switch(resultado){
     case GTK_RESPONSE_ACCEPT:
       cnpj = (gchar*)gtk_entry_get_text(GTK_ENTRY(cnpj_entry));
-      formated_cnpj = strdup(format_cnpj_num(cnpj));
+      formated_cnpj = strdup(format_only_num(cnpj));
       uf = (gchar*)gtk_entry_get_text(GTK_ENTRY(uf_entry));
       formated_uf = strdup(formatar_littobig(uf));
       if(!strlen(formated_cnpj)){

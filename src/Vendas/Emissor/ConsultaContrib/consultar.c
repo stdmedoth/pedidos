@@ -136,6 +136,7 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
         popup(NULL, msg);
         break;
     }
+    return 1;
   }
 
   xmlDocPtr resp_doc = xmlReadDoc((xmlChar*)body_chunk.memory, "", "UTF-8", XML_PARSE_PEDANTIC);
@@ -217,18 +218,21 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     contrib->razao = strdup((gchar*)xmlNodeGetContent(nome_node));
   }else{
     autologger("Não foi possível receber nome na consulta");
+    return 1;
   }
 
   if(cnpj_node && xmlNodeGetContent(cnpj_node)){
     contrib->doc = strdup((gchar*)xmlNodeGetContent(cnpj_node));
   }else{
     autologger("Não foi possível receber cnpj na consulta");
+    return 1;
   }
 
   if(ie_node && xmlNodeGetContent(ie_node)){
     contrib->ie = strdup((gchar*)xmlNodeGetContent(ie_node));
   }else{
     autologger("Não foi possível receber cnpj na consulta");
+    return 1;
   }
 
   if(cep_node && xmlNodeGetContent(cep_node)){

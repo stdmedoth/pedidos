@@ -306,8 +306,6 @@
 #define MAX_FOR_LEN 100
 #define MAX_SIGLA 10
 #define MAX_GRP 20
-#define MAX_CEP_LEN 10
-#define CEP_LEN 8
 #define MAX_ADR_LEN 300
 #define MAX_BAIRRO_LEN 100
 #define MAX_CID_LEN 50

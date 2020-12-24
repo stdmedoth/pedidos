@@ -21,6 +21,8 @@ char *formatar_data(char *data);
 
 int file_logger(char *string);
 
+char  *format_only_num(char *text);
+
 gchar *get_full_ender_from_cep(gchar *cep, int num);
 
 char **array(char *text);

@@ -45,11 +45,11 @@ int entry_ped_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	if(status!=0)
 	{
 		status--;
-		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c' and p.status = %i  order by p.data_mov desc",37,entrada,37,status);
+		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c' and p.status = %i  order by p.data_mov desc limit 200",37,entrada,37,status);
 	}
 	else
 	{
-		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c' order by p.data_mov desc",37,entrada,37);
+		sprintf(query,"select p.code, t.razao, p.data_mov, p.total from pedidos as p inner join terceiros as t on t.code = p.cliente where t.razao like '%c%s%c' order by p.data_mov desc limit 200",37,entrada,37);
 	}
 
 	res = consultar(query);
@@ -148,7 +148,7 @@ int psq_ped(GtkWidget *button, GtkEntry *cod_ped_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select p.code, c.razao, p.data_mov, p.total from pedidos as p inner join terceiros as c on c.code = p.cliente and status = 0 order by p.data_mov desc");
+	sprintf(query,"select p.code, c.razao, p.data_mov, p.total from pedidos as p inner join terceiros as c on c.code = p.cliente and status = 0 order by p.data_mov desc limit 200");
 	res = consultar(query);
 	if(res == NULL)
 	{
@@ -183,8 +183,8 @@ int psq_ped(GtkWidget *button, GtkEntry *cod_ped_entry)
 
 	gtk_container_set_border_width(GTK_CONTAINER(psq_ped_wnd),10);
 
-	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),ped_status_combo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
 
@@ -195,6 +195,7 @@ int psq_ped(GtkWidget *button, GtkEntry *cod_ped_entry)
 	g_signal_connect(ped_status_combo,"changed",G_CALLBACK(mover_para_escrita),pesquisa_entry);
 	pesquisa_global_alvo = GTK_ENTRY(cod_ped_entry);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_ped_code),treeview);
+	gtk_widget_grab_focus(pesquisa_entry);
 	gtk_widget_show_all(psq_ped_wnd);
 	return 0;
 }

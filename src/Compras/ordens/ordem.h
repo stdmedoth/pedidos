@@ -16,6 +16,7 @@ enum ORDCMP_ITENS_COLS{
 };
 
 enum ORDCMP_STATUS{
+  ORDCMP_N_GERADO,
   ORDCMP_N_ENVIADO,
   ORD_CMP_ENVIADO,
   ORD_CMP_CONCLUIDA,
@@ -75,7 +76,8 @@ GtkWidget *ordem_cmp_concluir_button,
   *ordem_cmp_alterar_button,
   *ordem_cmp_excluir_button,
   *ordem_cmp_cancelar_button,
-  *ordem_cmp_gerar_button;
+  *ordem_cmp_gerar_button,
+  *ordem_cmp_enviar_button;
 
 GtkWidget *ordem_cmp_req_treeview, *ordem_cmp_ordreq_treeview;
 

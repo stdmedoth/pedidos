@@ -19,6 +19,10 @@ int ordem_cmp_alterar_fun(){
   gtk_entry_set_text(GTK_ENTRY(ordem_cmp_dtentrega_entry), row[ORD_CMP_DTENTR] );
   gtk_entry_set_text(GTK_ENTRY(ordem_cmp_condpag_entry), row[ORD_CMP_CONDPAG] );
   gtk_combo_box_set_active(GTK_COMBO_BOX(ordem_cmp_status_combo),atoi(row[ORD_CMP_STATUS]));
+  if(atoi(row[ORD_CMP_STATUS]) != ORDCMP_N_GERADO){
+    //gtk_widget_set_sensitive(ordem_cmp_status_combo, TRUE);
+    gtk_combo_box_set_button_sensitivity(GTK_COMBO_BOX(ordem_cmp_status_combo), GTK_SENSITIVITY_ON);
+  }
 
   //gtk_entry_set_text(GTK_ENTRY(ordem_cmp_condpag_entry), );
 

@@ -27,15 +27,18 @@ gint cad_cid_uf_int;
 gchar *cad_cid_ibge_gchar;
 gchar *cad_cid_ddd_gchar;
 
-static int cad_ceps_alterando=0,cad_ceps_concluindo=0;
+GtkWidget *psq_cep_button, *psq_cid_button;
+
+static int cad_ceps_alterando=0,cad_ceps_concluindo=0,cad_ceps_consultando=0;
 
 GtkWidget *cad_cep_confirma_button,
 *cad_cep_cancela_button,
 *cad_cep_altera_button,
-*cad_cep_exclui_button;
+*cad_cep_exclui_button,
+*cad_cep_consulta_button;
 
 char uf_list[MAX_UF_QNT][MAX_UF_LEN];
-int cad_cep();
+
 int cad_ceps_uf_qnt=0;
 
 struct _cad_cidade{
@@ -74,4 +77,23 @@ enum CEP_COLS{
   CEP_DESCR_BAIRRO
 };
 
+#define MAX_CEP_LEN 10
+
+#define CEP_LEN 8
+
 struct _cad_cep *get_ender_by_cep(gchar *cepcode);
+
+int cad_ceps_consultar_fun();
+
+int cad_ceps_excluir_fun();
+
+int cad_ceps_alterar_fun();
+
+int cad_ceps_concluir_fun();
+
+int cad_ceps_cancelar_fun();
+
+int cad_cep();
+
+struct _cad_cep *ws_consulta_ceps();
+struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode);

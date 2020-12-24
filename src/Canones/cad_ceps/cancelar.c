@@ -14,7 +14,7 @@ int cad_ceps_cancelar_fun(){
   gtk_combo_box_set_active(GTK_COMBO_BOX(cad_ceps_uf_combo),0);
   cad_ceps_alterando=0;
   cad_ceps_concluindo=0;
-
+  cad_ceps_consultando = 0;
 
   sprintf(query,"select MAX(id_logradouro)+1 from logradouro");
   if(!(res=consultar(query))){
@@ -25,7 +25,11 @@ int cad_ceps_cancelar_fun(){
       strcpy(code_task,"1");
     else
       strcpy(code_task,row[0]);
-      
+
+  gtk_widget_set_sensitive(cad_cep_consulta_button, TRUE);
+  gtk_widget_set_sensitive(cad_cep_altera_button, TRUE);
+  gtk_widget_set_sensitive(cad_ceps_cep_entry, TRUE);
+  gtk_widget_set_sensitive(psq_cep_button, TRUE);
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_code_entry),code_task);
   return 0;
 }
