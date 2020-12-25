@@ -10,6 +10,7 @@ create table if not exists movimento_estoque( code int primary key auto_incremen
   saidas float default 0,
   data_mov date default '2001-01-01',
   tipo_mov int default 0,
+  obs varchar(100) default '',
   foreign key(estoque) references estoques(code),
   foreign key(produto) references produtos(code));
 

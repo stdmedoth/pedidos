@@ -227,8 +227,13 @@ static int altera_orc()
 				obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])] = malloc(MAX_OBS_LEN);
 				strcpy(obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])],row[ORC_PROD_OBS_COL]);
 				obs_prod_orc_buffer[atoi(row[ORC_PROD_ITM_COL])] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(obs_prod_orc_view[atoi(row[ORC_PROD_ITM_COL])]));
-				gtk_text_buffer_set_text(GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ORC_PROD_ITM_COL])]),
-				obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])],strlen(obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])]));
+
+				gtk_text_buffer_set_text(
+					GTK_TEXT_BUFFER(obs_prod_orc_buffer[atoi(row[ORC_PROD_ITM_COL])]),
+					obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])],
+					strlen(obs_prod_orc_gchar[atoi(row[ORC_PROD_ITM_COL])])
+				);
+
 			}
 		}
 

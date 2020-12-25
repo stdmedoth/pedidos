@@ -28,7 +28,7 @@
 #include "sobre.h"
 
 #include "../Canones/cad_oper/Cadastro_Operadores.h"
-#include "../Canones/gerenciador_janelas.h"
+#include "../Canones/gerenciador_janelas/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
 #include "operadores.h"
 #include "../Inicio/pega_data.h"
@@ -113,12 +113,11 @@
 #include "../Vendas/orcamentos/janela/tirar_linha.h"
 #include "../Vendas/orcamentos/campos/entrega_campos.h"
 
-#include "../Vendas/Emissor/CFe/rec_infos_cupom.h"
-#include "../Vendas/Emissor/CFe/cfe.h"
+#include "../Emissor/CFe/rec_infos_cupom.h"
+#include "../Emissor/CFe/cfe.h"
+#include "../Emissor/CFe/bemasat.h"
 
-#include "../Vendas/Emissor/ConsultaContrib/consulta_contrib.h"
-
-#include "../Vendas/Emissor/CFe/bemasat.h"
+#include "../Emissor/ConsultaContrib/consulta_contrib.h"
 
 #include "../Vendas/pdv/pdv_princ_wnd.h"
 #include "../Vendas/pdv/caixa.h"

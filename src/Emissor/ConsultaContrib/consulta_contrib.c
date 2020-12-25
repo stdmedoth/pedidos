@@ -30,6 +30,10 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
 
   gchar *cnpj, *formated_cnpj;
   gchar *uf, *formated_uf;
+  if(contrib->doc && strlen(contrib->doc)){
+    gtk_entry_set_text(GTK_ENTRY(cnpj_entry), contrib->doc);
+  }
+
   gtk_widget_show_all(janela);
   int resultado = gtk_dialog_run (GTK_DIALOG(janela));
   switch(resultado){
@@ -49,7 +53,11 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
         return 1;
       }
 
-      consulta_contrib_consulta(formated_cnpj, formated_uf, contrib);
+      if(consulta_contrib_consulta(formated_cnpj, formated_uf, contrib)){
+        gtk_widget_destroy(janela);
+        return 1;
+      }
+
       gtk_widget_destroy(janela);
       return 0;
 
@@ -57,7 +65,5 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
       gtk_widget_destroy(janela);
       return 1;
   }
-
-
-  return 0;
+  return 1;
 }

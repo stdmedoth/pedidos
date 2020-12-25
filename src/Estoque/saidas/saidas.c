@@ -7,6 +7,7 @@
 #include "campos/cliente.c"
 #include "campos/estoque.c"
 #include "campos/pedido.c"
+#include "campos/obs.c"
 
 
 #include "cancelar.c"
@@ -34,6 +35,7 @@ int est_saidas(){
 	GtkWidget *est_said_est_frame, *est_said_est_fixed;
 	GtkWidget *est_said_ped_frame, *est_said_ped_fixed;
 	GtkWidget *est_said_client_frame, *est_said_client_fixed;
+	GtkWidget *est_said_obs_frame, *est_said_obs_fixed, *est_said_obs_scroll;
 
 	GtkWidget *est_said_cod_box;
 	GtkWidget *est_said_prod_box;
@@ -41,6 +43,7 @@ int est_saidas(){
 	GtkWidget *est_said_tipo_box;
 	GtkWidget *est_said_data_box;
 	GtkWidget *est_said_client_box;
+	GtkWidget *est_said_obs_box;
 
 	GtkWidget *psq_cod_button, *psq_prod_button, *psq_subgrp_button, *psq_client_button, *psq_data_button;
 	GtkWidget *produto_box, *subgrupo_box, *cliente_box;
@@ -198,6 +201,19 @@ int est_saidas(){
 	gtk_fixed_put(GTK_FIXED(est_said_ped_fixed),est_said_ped_frame,60,20);
 	gtk_entry_set_width_chars(GTK_ENTRY(est_said_ped_entry),15);
 
+	est_said_obs_frame = gtk_frame_new("Observações");
+	est_said_obs_fixed = gtk_fixed_new();
+	est_said_obs_box = gtk_box_new(0,0);
+	est_said_obs_view = gtk_text_view_new();
+	est_said_obs_scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_box_pack_start(GTK_BOX(est_said_obs_box),est_said_obs_view,0,0,0);
+	gtk_container_add(GTK_CONTAINER(est_said_obs_scroll),est_said_obs_box	);
+	gtk_container_add(GTK_CONTAINER(est_said_obs_frame),est_said_obs_scroll	);
+	gtk_fixed_put(GTK_FIXED(est_said_obs_fixed),est_said_obs_frame,20,20);
+	gtk_widget_set_size_request(est_said_obs_view, 300, 80);
+	gtk_widget_set_size_request(est_said_obs_scroll, 300, 80);
+	gtk_widget_set_size_request(est_said_obs_box, 300, 80);
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_cod_fixed,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_data_fixed,1,0,1,1);
 
@@ -209,6 +225,8 @@ int est_saidas(){
 
 	gtk_grid_attach(GTK_GRID(grid),est_said_qnt_fixed,0,3,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_ped_fixed,1,3,1,1);
+
+	gtk_grid_attach(GTK_GRID(grid),est_said_obs_fixed,0,4,1,1);
 
 	g_signal_connect(est_said_cod_entry,"activate",G_CALLBACK(est_said_codigo_fun),NULL);
 

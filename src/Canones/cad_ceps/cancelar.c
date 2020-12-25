@@ -2,7 +2,7 @@ int cad_ceps_cancelar_fun(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char query[MAX_QUERY_LEN],code_task[MAX_CODE_LEN];
+  char query[MAX_QUERY_LEN];
 
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_code_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_cep_entry),"");
@@ -16,15 +16,22 @@ int cad_ceps_cancelar_fun(){
   cad_ceps_concluindo=0;
   cad_ceps_consultando = 0;
 
-  sprintf(query,"select MAX(id_logradouro)+1 from logradouro");
+  gchar *code_task = malloc(MAX_CODE_LEN);
+  sprintf(query,"select MAX(id_logradouro) from logradouro");
   if(!(res=consultar(query))){
     popup(NULL,"Não foi possivel receber task do logradouro");
     return 1;
   }
-  if(!(row = mysql_fetch_row(res)))
+  if(!(row = mysql_fetch_row(res))){
+    strcpy(code_task,"1");
+  }
+  else{
+    if(!row[0]){
       strcpy(code_task,"1");
-    else
-      strcpy(code_task,row[0]);
+    }else{
+      sprintf(code_task,"%i",atoi(row[0])+1);
+    }
+  }
 
   gtk_widget_set_sensitive(cad_cep_consulta_button, TRUE);
   gtk_widget_set_sensitive(cad_cep_altera_button, TRUE);

@@ -380,7 +380,7 @@ char *formatar_data(char *data){
 
 	for(int cont=0;cont<formats_qnt;cont++){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
-        if(ano<2000)
+        if(ano<1900)
           ano += 2000;
 				GTimeZone *tz = g_time_zone_new(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);

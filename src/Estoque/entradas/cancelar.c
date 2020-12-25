@@ -9,6 +9,10 @@ void est_ent_cancelar_fun()
 	gtk_entry_set_text(GTK_ENTRY(est_ent_prod_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(est_ent_qnt_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(est_ent_ped_entry),"");
+
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(est_ent_obs_view));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), "", 0);
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_ent_tipo_combo),0);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_ent_est_combo),0);
 	sprintf(code,"%i",tasker("movimento_estoque"));

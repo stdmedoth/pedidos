@@ -25,7 +25,6 @@ static void criar_janela_princ(){
 	return ;
 }
 
-
 int desktop(){
 	int err=0;
 	GtkWidget  *juncao;
@@ -312,8 +311,8 @@ int desktop(){
 	gtk_widget_set_size_request(GTK_WIDGET(superior),1291,0);
 	gtk_widget_set_size_request(GTK_WIDGET(inferior),1291,0);
 
-	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
 	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1290,750);
+	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
 	gtk_box_pack_start(GTK_BOX(juncao),superior,0,0,0);
 	gtk_box_pack_start(GTK_BOX(juncao),inferior,0,0,0);
 
@@ -327,7 +326,7 @@ int desktop(){
 	gtk_widget_set_size_request(barra_icones,80,750);
 	gtk_container_add(GTK_CONTAINER(barra),barra_icones);
 
-	GtkWidget *caixa_calendario = pedidos_get_calendario();
+	GtkWidget *caixa_calendario = get_desktop_calendario();
 
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
 
@@ -337,7 +336,7 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
-	gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,500,50);
+	gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
@@ -397,10 +396,10 @@ int init()
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
 
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
-	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
-	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);

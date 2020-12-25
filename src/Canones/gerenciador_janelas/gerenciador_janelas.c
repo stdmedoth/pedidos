@@ -3,26 +3,22 @@ int wnd_logger(janelas_info *struct_wnd)
   char query[MAX_QUERY_LEN];
   char janela_nome[200];
 	int err=1;
-	if(primeira_conexao==0)
-	{
-		if(!mysql_init(&conectar))
-		{
+	if(primeira_conexao==0){
+		if(!mysql_init(&conectar)){
 			popup(NULL,"Não foi possivel conectar ao servidor");
 			autologger("Não foi possivel conectar ao servidor");
 			autologger((char*)mysql_error(&conectar));
 			primeira_conexao=0;
 			return 1;
 		}
-		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
-		{
+		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0)){
 			popup(NULL,"Não foi possivel conectar ao servidor");
 			file_logger("Não foi possivel conectar ao servidor");
 			file_logger((char*)mysql_error(&conectar));
 			primeira_conexao=0;
 			return 1;
 		}
-		if (mysql_set_character_set(&conectar, "utf8"))
-		{
+		if (mysql_set_character_set(&conectar, "utf8")){
 			file_logger("Não foi possivel setar novo caracter");
 		}
     primeira_conexao=1;

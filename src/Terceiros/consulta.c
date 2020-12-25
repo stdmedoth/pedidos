@@ -2,6 +2,11 @@ void ter_consulta_contrib(){
 
 	struct _terc_infos contrib;
 
+	gchar *cnpj = (gchar*)gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
+	if((cnpj = format_only_num(cnpj))){
+		contrib.doc = strdup(cnpj);
+	}
+
 	if(consulta_contrib_wnd(&contrib)){
 		return ;
 	}

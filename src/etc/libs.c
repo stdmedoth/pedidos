@@ -60,7 +60,9 @@
 
 #include "../Canones/cad_oper/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"
+#include "../Canones/gerenciador_janelas/gerenciador_janelas.c"
 #include "../Canones/Vinculos_Chaves.c"
+
 #include "../Inicio/fechar.c"
 
 #include "../Terceiros/cadastro_terceiros.c"
@@ -96,11 +98,11 @@
 #include "../Vendas/orcamentos/janela/adicionar_linha.c"
 #include "../Vendas/orcamentos/janela/tirar_linha.c"
 
-#include "../Vendas/Emissor/CFe/rec_infos_cupom.c"
-#include "../Vendas/Emissor/CFe/cfe.c"
-#include "../Vendas/Emissor/CFe/bemasat.c"
+#include "../Emissor/CFe/rec_infos_cupom.c"
+#include "../Emissor/CFe/cfe.c"
+#include "../Emissor/CFe/bemasat.c"
 
-#include "../Vendas/Emissor/ConsultaContrib/consulta_contrib.c"
+#include "../Emissor/ConsultaContrib/consulta_contrib.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"
@@ -184,5 +186,3 @@
 #include "../Tecnico/cad_empresa/cad_empresa.c"
 #include "../Tecnico/debugger/logs.c"
 #include "../Tecnico/contratos/contratos.c"
-
-#include "../Canones/gerenciador_janelas.c"

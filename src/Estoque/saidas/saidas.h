@@ -9,7 +9,7 @@ GtkWidget *est_said_est_combo;
 gint est_said_est_int;
 
 GtkWidget *est_said_ped_entry;
-
+GtkWidget *est_said_obs_view;
 GtkWidget *est_said_campo_nome_prod;
 GtkWidget *est_said_campo_nome_client;
 
@@ -25,7 +25,8 @@ gchar *est_said_cod_gchar,
 *est_said_qnt_gchar,
 *est_said_data_gchar,
 *est_said_client_gchar,
-*est_said_ped_gchar;
+*est_said_ped_gchar,
+*est_said_obs_gchar;
 
 static int alterando_mov_said_est=0, concluindo_mov_said_est=0, cancelando_mov_said_est =0;
 

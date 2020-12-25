@@ -55,5 +55,10 @@ void est_said_alterar_fun()
 	if(atoi(campo[TIPO_MOV_EST])  == DEV_COMPRA)
 		gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),2);
 
+	est_said_obs_gchar = strdup(campo[OBS_MOV_EST]);
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(est_said_obs_view));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), est_said_obs_gchar, strlen(est_said_obs_gchar));
+
+
 	gtk_widget_set_sensitive(est_said_altera_button,FALSE);
 }

@@ -95,5 +95,5 @@ int cad_ceps_cancelar_fun();
 
 int cad_cep();
 
-struct _cad_cep *ws_consulta_ceps();
+struct _cad_cep *get_cep_from_consulta(gchar *cep);
 struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode);

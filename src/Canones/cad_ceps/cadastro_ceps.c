@@ -89,12 +89,11 @@ int cad_cep(){
   MYSQL_RES *res;
   MYSQL_ROW row;
   int cont=0;
-  char query[MAX_QUERY_LEN],*code_task;
+  char query[MAX_QUERY_LEN];
 
   cad_ceps_alterando=0;
   cad_ceps_concluindo=0;
   cad_ceps_uf_qnt=0;
-  code_task = malloc(MAX_CODE_LEN);
   caixa_opcoes = gtk_box_new(0,0);
   frame_opcoes = gtk_frame_new("Opções");
   psq_cep_button = gtk_button_new();
@@ -142,14 +141,18 @@ int cad_cep(){
   }
   else
   while((row=mysql_fetch_row(res))){
-      gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),cad_ceps_uf_qnt,row[0]);
-      if(row[0])
-        strcpy(uf_list[cad_ceps_uf_qnt],row[0]);
-      else
-        continue;
-      cad_ceps_uf_qnt++;
-      if(cad_ceps_uf_qnt>=MAX_UF_QNT)
-        break;
+    if(cad_ceps_uf_qnt>=MAX_UF_QNT)
+      break;
+
+    if(row[0]){
+      strcpy(uf_list[cad_ceps_uf_qnt],row[0]);
+    }
+    else{
+      continue;
+    }
+
+    gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(cad_ceps_uf_combo),cad_ceps_uf_qnt,row[0],row[0]);
+    cad_ceps_uf_qnt++;
   }
   if(!cad_ceps_uf_qnt){
     popup(NULL,"Não Há Estados cadastrados");
@@ -243,18 +246,6 @@ int cad_cep(){
   gtk_box_pack_start(GTK_BOX(colunas),linha3,0,0,5);
   gtk_box_pack_start(GTK_BOX(colunas),linha4,0,0,5);
   gtk_box_pack_start(GTK_BOX(colunas),frame_opcoes,0,0,20);
-
-  sprintf(query,"select MAX(id_logradouro)+1 from logradouro");
-  if(!(res=consultar(query))){
-    popup(NULL,"Não foi possivel receber task do logradouro");
-    return 1;
-  }
-  if(!(row = mysql_fetch_row(res))|| !row[0])
-    strcpy(code_task,"1");
-  else
-    strcpy(code_task,row[0]);
-
-  gtk_entry_set_text(GTK_ENTRY(cad_ceps_code_entry),code_task);
 
   g_signal_connect(psq_cep_button,"clicked",G_CALLBACK(psq_cep),cad_ceps_cep_entry);
   g_signal_connect(psq_cid_button,"clicked",G_CALLBACK(psq_cidd),cad_ceps_cid_code_entry);

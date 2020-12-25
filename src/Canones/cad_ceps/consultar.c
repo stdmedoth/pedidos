@@ -1,4 +1,4 @@
-struct _cad_cep *consultar_cep(gchar *cep){
+struct _cad_cep *get_cep_from_consulta(gchar *cep){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
@@ -115,6 +115,8 @@ struct _cad_cep *consultar_cep(gchar *cep){
 
   xmlNodePtr ibge_node = get_tag_by_namepath(resp_doc, "//*[name()=\"ibge\"]");
 
+  xmlNodePtr ddd_node = get_tag_by_namepath(resp_doc, "//*[name()=\"ddd\"]");
+
   xmlNodePtr erro_node = get_tag_by_namepath(resp_doc, "//*[name()=\"erro\"]");
 
   if(erro_node){
@@ -157,6 +159,13 @@ struct _cad_cep *consultar_cep(gchar *cep){
     return NULL;
   }
 
+  if(ddd_node && xmlNodeGetContent(ddd_node)){
+    cad_cep->cidade->ddd = strdup((gchar*)xmlNodeGetContent(ddd_node));
+  }else{
+    autologger("Não foi possível receber DDD da UF na consulta");
+    return NULL;
+  }
+
   if(ibge_node && xmlNodeGetContent(ibge_node)){
     cad_cep->cidade->code_ibge = atoi((gchar*)xmlNodeGetContent(ibge_node));
   }else{
@@ -185,7 +194,7 @@ int cad_ceps_consultar_fun(){
   if(cad_ceps_cep_fun())
     return 1;
 
-  struct _cad_cep *cep_consultado = consultar_cep(strdup(cad_ceps_cep_gchar));
+  struct _cad_cep *cep_consultado = get_cep_from_consulta(strdup(cad_ceps_cep_gchar));
 
   if(!cep_consultado){
     popup(NULL,"Não foi possível receber dados na consulta");
@@ -199,7 +208,8 @@ int cad_ceps_consultar_fun(){
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_descr_entry), cep_consultado->ldescricao);
   gtk_entry_set_text(GTK_ENTRY(cad_ceps_bairro_entry), cep_consultado->bairro);
   gtk_combo_box_set_active_id(GTK_COMBO_BOX(cad_ceps_uf_combo), cep_consultado->cidade->uf);
-  if(!(cidade = get_cidade_by_ibgecode(cep_consultado->cidade->code_ibge))){
+
+  while(!(cidade = get_cidade_by_ibgecode(cep_consultado->cidade->code_ibge))){
     sprintf(query,"insert into cidade(descricao, uf, codigo_ibge, ddd) values('%s', '%s', %i, '%s')",
       cep_consultado->cidade->descricao,
       cep_consultado->cidade->uf,
@@ -211,6 +221,13 @@ int cad_ceps_consultar_fun(){
       return 1;
     }
   }
+  if(!(cidade = get_cidade_by_ibgecode(cep_consultado->cidade->code_ibge)))
+    return 1;
+
+  gchar *text = malloc(MAX_CODE_LEN);
+  sprintf(text,"%i", cidade->code);
+  gtk_entry_set_text(GTK_ENTRY(cad_ceps_cid_code_entry), text);
+  gtk_widget_activate(cad_ceps_cid_code_entry);
 
   gtk_widget_set_sensitive(cad_cep_consulta_button, TRUE);
   cad_ceps_consultando = 0;

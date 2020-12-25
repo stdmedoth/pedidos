@@ -54,5 +54,10 @@ void est_ent_alterar_fun()
 		gtk_combo_box_set_active(GTK_COMBO_BOX(est_ent_tipo_combo),2);
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_ent_est_combo),atoi(campo[EST_MOV_EST]));
+
+	est_ent_obs_gchar = strdup(campo[OBS_MOV_EST]);
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(est_ent_obs_view));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), est_ent_obs_gchar, strlen(est_ent_obs_gchar));
+
 	gtk_widget_set_sensitive(est_ent_altera_button,FALSE);
 }

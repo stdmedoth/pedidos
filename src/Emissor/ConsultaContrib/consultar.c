@@ -112,36 +112,36 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     switch (res) {
       case CURLE_REMOTE_ACCESS_DENIED:
         popup(NULL, "Acesso Negado!");
-        break;
+        return 1;
 
       case CURLE_COULDNT_CONNECT:
         popup(NULL, "Não foi possível conectar no webservice!");
-        break;
+        return 1;
 
       case CURLE_COULDNT_RESOLVE_HOST:
         popup(NULL, "Não foi possível resolver nome!");
-        break;
+        return 1;
 
       case CURLE_HTTP2_STREAM:
         popup(NULL, "Utilize HTTP v1!");
-        break;
+        return 1;
 
       case CURLE_HTTP_RETURNED_ERROR:
         popup(NULL, "Erro de retorno da SEFAZ!");
-        break;
+        return 1;
 
       default:
-        msg = malloc(20 + strlen(curl_easy_strerror(res)));
+        msg = malloc(30 + strlen(curl_easy_strerror(res)));
         sprintf(msg,"Erro na consulta: %i %s", res, curl_easy_strerror(res));
         popup(NULL, msg);
-        break;
+        return 1;
     }
-    return 1;
   }
 
   xmlDocPtr resp_doc = xmlReadDoc((xmlChar*)body_chunk.memory, "", "UTF-8", XML_PARSE_PEDANTIC);
   if(!resp_doc){
-    popup(NULL,"Erro ao receber resposta");
+    popup(NULL,"Erro ao fazer parser da resposta");
+    autologger(body_chunk.memory);
     return 1;
   }
   //g_print("%s\n",body_chunk.memory);

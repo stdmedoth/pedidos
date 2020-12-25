@@ -4,7 +4,8 @@ static GtkWidget *est_ent_cod_entry,
 *est_ent_qnt_entry,
 *est_ent_tipo_combo,
 *est_ent_data_entry,
-*est_ent_client_entry;
+*est_ent_client_entry,
+*est_ent_obs_view;
 
 GtkWidget *est_ent_est_combo;
 gint est_ent_est_int;
@@ -29,7 +30,8 @@ static gchar *est_ent_cod_gchar,
 *est_ent_qnt_gchar,
 *est_ent_data_gchar,
 *est_ent_client_gchar,
-*est_ent_ped_gchar;
+*est_ent_ped_gchar,
+*est_ent_obs_gchar;
 
 static int alterando_mov_ent_est=0, concluindo_mov_ent_est=0;
 
@@ -42,7 +44,8 @@ enum{
   ENTS_MOV_EST,
   SAID_MOV_EST,
   DATA_MOV_EST,
-  TIPO_MOV_EST
+  TIPO_MOV_EST,
+  OBS_MOV_EST
 };
 
 int est_entradas();
