@@ -73,9 +73,14 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   //curl_easy_setopt(curl, CURLOPT_USERPWD, "clark:kent");
   curl_easy_setopt(curl,CURLOPT_USERAGENT, useragent);
 
-  curl_easy_setopt(curl, CURLOPT_CAINFO, "certificado.pem");
-  curl_easy_setopt(curl, CURLOPT_SSLCERT, "certificado.pem");
-  curl_easy_setopt(curl, CURLOPT_SSLCERTPASSWD, "1234");
+  if(!fopen(cad_emp_strc.digcertpath, "r")){
+    popup(NULL,"Não foi possível encontrar certificado");
+    return 1;
+  }
+
+  curl_easy_setopt(curl, CURLOPT_CAINFO, cad_emp_strc.digcertpath);
+  curl_easy_setopt(curl, CURLOPT_SSLCERT, cad_emp_strc.digcertpath);
+  curl_easy_setopt(curl, CURLOPT_SSLCERTPASSWD, cad_emp_strc.digcertpass);
 
   //curl_easy_setopt(curl, CURLOPT_SSLKEY, "/home/calistu/Desktop/pedidos/iceminas.pem");
   //curl_easy_setopt(curl, CURLOPT_KEYPASSWD, "1234");

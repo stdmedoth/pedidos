@@ -10,6 +10,12 @@ int cadastro_empresa(){
   *person_linha1,*person_linha2,
   *person_linha3,*person_linha4;
 
+  GtkWidget *fiscal_box, *fiscal_frame;
+  GtkWidget *endereco_box, *endereco_box1, *endereco_box2, *endereco_frame;
+  GtkWidget *email_box, *email_frame;
+
+  GtkWidget *cad_emp_digcert_box, *cad_emp_digcert_frame;
+  GtkWidget *cad_emp_digcert_path_box, *cad_emp_digcert_pass_box, *cad_emp_script_path_box ;
 
   GtkWidget *cad_emp_nome_frame,
   *cad_emp_cpnj_frame,
@@ -33,12 +39,9 @@ int cadastro_empresa(){
   *cad_emp_img_init_box,
   *cad_emp_script_path_frame,
   *cad_emp_sobre_frame,
-  *cad_emp_script_path_box,
+  *cad_emp_digcert_path_frame,
+  *cad_emp_digcert_pass_frame,
   *cad_emp_box;
-
-  GtkWidget *fiscal_box, *fiscal_frame;
-  GtkWidget *endereco_box, *endereco_box1, *endereco_box2, *endereco_frame;
-  GtkWidget *email_box, *email_frame;
 
   GtkWidget *cad_emp_nome_fixed,
   *cad_emp_cpnj_fixed,
@@ -61,6 +64,8 @@ int cadastro_empresa(){
   *cad_emp_emailsenha_fixed,
   *cad_emp_img_init_fixed,
   *cad_emp_script_path_fixed,
+  *cad_emp_digcert_path_fixed,
+  *cad_emp_digcert_pass_fixed,
   *cad_emp_integr_fixed;
 
   GtkWidget *cad_emp_frame;
@@ -125,6 +130,11 @@ int cadastro_empresa(){
   cad_emp_email_fixed = gtk_fixed_new();
   cad_emp_emailsenha_fixed = gtk_fixed_new();
 
+  cad_emp_digcert_path_fixed = gtk_fixed_new();
+  cad_emp_digcert_path_box = gtk_box_new(0,0);
+  cad_emp_digcert_pass_fixed = gtk_fixed_new();
+  cad_emp_digcert_pass_box = gtk_box_new(0,0);
+
   cad_emp_script_path_box = gtk_box_new(0,0);
   cad_emp_script_path_fixed = gtk_fixed_new();
 
@@ -148,6 +158,8 @@ int cadastro_empresa(){
   cad_emp_email_frame = gtk_frame_new("Email:");
   cad_emp_emailsenha_frame = gtk_frame_new("Senha:");
   cad_emp_script_path_frame = gtk_frame_new("Interpretador Scripts");
+  cad_emp_digcert_path_frame = gtk_frame_new("Caminho");
+  cad_emp_digcert_pass_frame = gtk_frame_new("Senha");
   cad_emp_box = gtk_box_new(1,0);
 
   cad_emp_nome_entry = gtk_entry_new();
@@ -197,6 +209,26 @@ int cadastro_empresa(){
   cad_emp_emailsenha_entry = gtk_entry_new();
   gtk_entry_set_visibility(GTK_ENTRY(cad_emp_emailsenha_entry),FALSE);
   gtk_entry_set_width_chars(GTK_ENTRY(cad_emp_emailsenha_entry),10);
+
+  cad_emp_digcert_path_entry = gtk_entry_new();
+  cad_emp_digcert_path_chooser = gtk_file_chooser_button_new("Escolher",GTK_FILE_CHOOSER_ACTION_OPEN);
+  gtk_entry_set_width_chars(GTK_ENTRY(cad_emp_digcert_path_entry),30);
+  gtk_box_pack_start(GTK_BOX(cad_emp_digcert_path_box),cad_emp_digcert_path_entry,0,0,20);
+  gtk_box_pack_start(GTK_BOX(cad_emp_digcert_path_box),cad_emp_digcert_path_chooser,0,0,20);
+  gtk_container_add(GTK_CONTAINER(cad_emp_digcert_path_frame),cad_emp_digcert_path_box);
+  gtk_fixed_put(GTK_FIXED(cad_emp_digcert_path_fixed),cad_emp_digcert_path_frame,20,20);
+
+  cad_emp_digcert_pass_entry = gtk_entry_new();
+  gtk_entry_set_width_chars(GTK_ENTRY(cad_emp_digcert_pass_entry),30);
+  gtk_box_pack_start(GTK_BOX(cad_emp_digcert_pass_box),cad_emp_digcert_pass_entry,0,0,20);
+  gtk_container_add(GTK_CONTAINER(cad_emp_digcert_pass_frame),cad_emp_digcert_pass_box);
+  gtk_fixed_put(GTK_FIXED(cad_emp_digcert_pass_fixed),cad_emp_digcert_pass_frame,20,20);
+
+  cad_emp_digcert_frame = gtk_frame_new("Certificado Digital");
+  cad_emp_digcert_box = gtk_box_new(1,0);
+  gtk_box_pack_start(GTK_BOX(cad_emp_digcert_box), cad_emp_digcert_path_fixed,0,0,0);
+  gtk_box_pack_start(GTK_BOX(cad_emp_digcert_box), cad_emp_digcert_pass_fixed,0,0,0);
+  gtk_container_add(GTK_CONTAINER(cad_emp_digcert_frame), cad_emp_digcert_box);
 
   cad_emp_script_path_entry = gtk_entry_new();
   cad_emp_script_path_chooser = gtk_file_chooser_button_new("Abrir",GTK_FILE_CHOOSER_ACTION_OPEN);
@@ -277,6 +309,7 @@ int cadastro_empresa(){
   gtk_box_pack_start(GTK_BOX(email_box),cad_emp_emailsenha_fixed,0,0,0);
   gtk_container_add(GTK_CONTAINER(email_frame),email_box);
   gtk_box_pack_start(GTK_BOX(infos_linha3),email_frame,0,0,0);
+  gtk_box_pack_start(GTK_BOX(infos_linha3),cad_emp_digcert_frame,0,0,0);
 
   gtk_box_pack_start(GTK_BOX(infos_colunas),infos_linha1,0,0,5);
   gtk_box_pack_start(GTK_BOX(infos_colunas),infos_linha2,0,0,5);
@@ -321,6 +354,7 @@ int cadastro_empresa(){
   cad_emp_consulta();
 
   g_signal_connect(cad_emp_img_init_chooser,"file-set",G_CALLBACK(get_filename_to_entry),cad_emp_img_init_entry);
+  g_signal_connect(cad_emp_digcert_path_chooser,"file-set",G_CALLBACK(get_filename_to_entry),cad_emp_digcert_path_entry);
   g_signal_connect(cad_emp_script_path_chooser,"file-set",G_CALLBACK(get_filename_to_entry),cad_emp_script_path_entry);
 
   g_signal_connect(atualizar_button,"clicked",G_CALLBACK(cad_emp_atualiza),NULL);

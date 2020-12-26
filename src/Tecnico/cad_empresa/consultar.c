@@ -44,6 +44,12 @@ int cad_emp_consulta(){
   gtk_combo_box_set_active_id(GTK_COMBO_BOX(cad_emp_regime_combo), row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
 
+  strcpy(cad_emp_strc.digcertpath,row[EMP_DIGCERTPATH_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_digcert_path_entry),row[EMP_DIGCERTPATH_COL]);
+
+  strcpy(cad_emp_strc.digcertpass,row[EMP_DIGCERTPASS_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_digcert_pass_entry),row[EMP_DIGCERTPASS_COL]);
+
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(cad_emp_sobre_text_view));
@@ -139,6 +145,9 @@ int cad_emp_recebe(){
   cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
   strcpy(cad_emp_strc.indRatISSQN, "S"); // pode ser N, depende da operação
+
+  strcpy(cad_emp_strc.digcertpath,row[EMP_DIGCERTPATH_COL]);
+  strcpy(cad_emp_strc.digcertpass,row[EMP_DIGCERTPASS_COL]);
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
