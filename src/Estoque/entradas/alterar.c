@@ -34,6 +34,10 @@ void est_ent_alterar_fun()
 		popup(NULL,"Data incorreta");
 	}
 
+	if(atoi(campo[EST_MOV_EST])){
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(est_ent_est_combo),campo[EST_MOV_EST]);
+	}
+
 	gtk_entry_set_text(GTK_ENTRY(est_ent_data_entry),g_date_time_format(gdate,"%d/%m/%Y"));
 	gtk_widget_activate(est_ent_data_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_ent_client_entry),campo[CLI_MOV_EST]);
@@ -42,6 +46,7 @@ void est_ent_alterar_fun()
 	gtk_widget_activate(est_ent_prod_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_ent_qnt_entry),campo[ENTS_MOV_EST]);
 	gtk_widget_activate(est_ent_qnt_entry);
+
 
 	if(atoi(campo[PED_MOV_EST])>0)
 		gtk_entry_set_text(GTK_ENTRY(est_ent_ped_entry),campo[PED_MOV_EST]);
@@ -60,4 +65,6 @@ void est_ent_alterar_fun()
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), est_ent_obs_gchar, strlen(est_ent_obs_gchar));
 
 	gtk_widget_set_sensitive(est_ent_altera_button,FALSE);
+	gtk_widget_set_sensitive(est_ent_cod_entry,FALSE);
+	gtk_widget_set_sensitive(est_ent_psqcod_button,FALSE);
 }

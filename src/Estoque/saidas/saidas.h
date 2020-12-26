@@ -12,6 +12,7 @@ GtkWidget *est_said_ped_entry;
 GtkWidget *est_said_obs_view;
 GtkWidget *est_said_campo_nome_prod;
 GtkWidget *est_said_campo_nome_client;
+GtkWidget *est_said_psqcod_button;
 
 gint est_said_tipo_int, mov_said_est_limit=0;
 

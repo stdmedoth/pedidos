@@ -137,12 +137,13 @@
 
 #include "../Transportes/cad_trsp.h"
 
+#include "../Financeiro/geral.h"
+#include "../Financeiro/titulos/funcoes.h"
+#include "../Financeiro/bancos/cad_bancos.h"
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
-#include "../Financeiro/titulos/receber/campos/funcoes.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"
 #include "../Financeiro/baixas/receber/cadastro_baixas.h"
 #include "../Financeiro/baixas/pagar/cadastro_baixas.h"
-#include "../Financeiro/bancos/cad_bancos.h"
 #include "../Financeiro/titulos/pagar/contas_fixas/contas_fixas.h"
 #include "../Financeiro/titulos/etc/importacao/importador.h"
 #include "../Financeiro/titulos/etc/importacao/iniciar.h"

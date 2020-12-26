@@ -22,4 +22,6 @@ void est_ent_cancelar_fun()
 	concluindo_mov_ent_est=0;
 	cancelando_mov_ent_est=0;
 	gtk_widget_set_sensitive(est_ent_altera_button,TRUE);
+	gtk_widget_set_sensitive(est_ent_cod_entry,TRUE);
+	gtk_widget_set_sensitive(est_ent_psqcod_button,TRUE);
 }

@@ -2,6 +2,7 @@ void pega_data(GtkWidget *widget, GtkEntry *entry)
 {
 	guint dia,mes,ano;
 	char data[15];
+
 	gtk_calendar_get_date(GTK_CALENDAR(calendario_data),&ano,&mes,&dia);
 	sprintf(data,"%i/%i/%i", dia, mes+1, ano);
 
@@ -40,6 +41,9 @@ void psq_data(GtkWidget *widget, GtkWidget *cod_grp_entry)
 	gtk_box_pack_start(GTK_BOX(caixa_grande),botao_fixed,0,0,5);
 	gtk_container_add(GTK_CONTAINER(psq_datas_window),caixa_grande);
 
+	gtk_calendar_select_month(GTK_CALENDAR(calendario_data), atoi(mes_sys)-1, atoi(ano_sys));
+	gtk_calendar_select_day(GTK_CALENDAR(calendario_data), atoi(dia_sys));
+	gtk_calendar_mark_day(GTK_CALENDAR(calendario_data), atoi(dia_sys));
 
 	g_signal_connect(botao_seleciona,"clicked",G_CALLBACK(pega_data),pesquisa_global_alvo);
 	gtk_widget_grab_focus(botao_seleciona);

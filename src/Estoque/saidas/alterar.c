@@ -36,6 +36,10 @@ void est_said_alterar_fun()
 		popup(NULL,"Data incorreta");
 	}
 
+	if(atoi(campo[EST_MOV_EST])){
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(est_said_est_combo),campo[EST_MOV_EST]);
+	}
+	
 	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),g_date_time_format(gdate,"%d/%m/%Y"));
 	gtk_widget_activate(est_said_data_entry);
 	gtk_entry_set_text(GTK_ENTRY(est_said_client_entry),campo[CLI_MOV_EST]);
@@ -49,6 +53,7 @@ void est_said_alterar_fun()
 		gtk_entry_set_text(GTK_ENTRY(est_said_ped_entry),campo[PED_MOV_EST]);
 	gtk_widget_activate(est_said_ped_entry);
 
+
 	if(atoi(campo[TIPO_MOV_EST])  == VENDA)
 		gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_tipo_combo),1);
 
@@ -61,4 +66,6 @@ void est_said_alterar_fun()
 
 
 	gtk_widget_set_sensitive(est_said_altera_button,FALSE);
+	gtk_widget_set_sensitive(est_said_cod_entry,FALSE);
+	gtk_widget_set_sensitive(est_said_psqcod_button,FALSE);
 }

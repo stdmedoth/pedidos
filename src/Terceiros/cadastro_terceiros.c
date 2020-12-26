@@ -734,5 +734,6 @@ int  cad_terc()
 	vinc_transp();
 	cancelar_ter();
 	gtk_widget_grab_focus(doc_ter_field);
+
 	return 0;
 }

@@ -1,5 +1,28 @@
 #include "sql_tools.c"
 
+int comparar_datas(gchar *primeira, gchar *segunda){
+  int dia1=0, mes1=0, ano1=0;
+  int dia2=0, mes2=0, ano2=0;
+
+  if(sscanf( primeira,"%d/%d/%d", &dia1, &mes1, &ano1)!=3)
+    return DEFAULT_ERROR_CODE;
+
+  if(sscanf( segunda, "%d/%d/%d", &dia2, &mes2, &ano2)!=3)
+    return DEFAULT_ERROR_CODE;
+
+  GTimeZone *tz1 = g_time_zone_new(NULL);
+  GDateTime *gdt1 = g_date_time_new(tz1,ano1,mes1,dia1,0,0,0);
+  if(!gdt1)
+    return DEFAULT_ERROR_CODE;
+
+  GTimeZone *tz2 = g_time_zone_new(NULL);
+  GDateTime *gdt2 = g_date_time_new(tz2,ano2,mes2,dia2,0,0,0);
+  if(!gdt2)
+    return DEFAULT_ERROR_CODE;
+
+  return g_date_time_compare(gdt1, gdt2);
+}
+
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
   xmlNodePtr root = xmlDocGetRootElement(doc);
   xmlXPathContextPtr contxt = xmlXPathNewContext(doc);

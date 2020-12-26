@@ -131,6 +131,19 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
         while((row = mysql_fetch_row(res))){
 
           char vlrabxr[MAX_PRECO_LEN];
+          char *tipo_tit = NULL;
+          switch(atoi(titulos->row[TIT_TIPO_COL])){
+            case TP_TIT_REC:
+              tipo_tit = strdup("A Receber");
+              break;
+            case TP_TIT_PAG:
+              tipo_tit = strdup("A Pagar");
+              break;
+
+            default:
+              tipo_tit = strdup("Não identificado");
+          }
+
           char vlrbx[MAX_PRECO_LEN];
           sprintf(vlrbx,"R$ %.2f",atof(row[1]));
           sprintf(vlrabxr,"R$ %.2f", atof(titulos->row[TIT_VLR_COL]) - atof(row[1]));
@@ -141,7 +154,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
             TIT_PED_COL,titulos->row[TIT_PED_COL],
             TIT_POS_COL,titulos->row[TIT_POS_COL],
             TIT_BANC_COL,titulos->row[TIT_BANC_COL],
-            TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
+            TIT_TIPO_COL,tipo_tit,
             TIT_VLR_COL,vlrprc,
             TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
@@ -155,6 +168,19 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
       }
 
       if(!baixas_qnt){
+        char *tipo_tit = NULL;
+        switch(atoi(titulos->row[TIT_TIPO_COL])){
+          case TP_TIT_REC:
+            tipo_tit = strdup("A Receber");
+            break;
+          case TP_TIT_PAG:
+            tipo_tit = strdup("A Pagar");
+            break;
+
+          default:
+            tipo_tit = strdup("Não identificado");
+        }
+
         gtk_tree_store_append(modelo,&iter,NULL);
         gtk_tree_store_set(modelo,&iter,
           TIT_CODE_COL,titulos->row[TIT_CODE_COL],
@@ -163,7 +189,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
           TIT_POS_COL,titulos->row[TIT_POS_COL],
           TIT_BANC_COL,titulos->row[TIT_BANC_COL],
           TIT_VLR_COL,vlrprc,
-          TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
+          TIT_TIPO_COL,tipo_tit,
           TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
           TIT_BAIXA_COL,"Não baixado",
@@ -232,6 +258,18 @@ int titulos_update_widget(struct _titulo *titulos){
 
       char vlrprc[MAX_PRECO_LEN];
       sprintf(vlrprc,"R$ %.2f",atof(titulos->row[TIT_VLR_COL]));
+      char *tipo_tit = NULL;
+
+      switch(atoi(titulos->row[TIT_TIPO_COL])){
+        case TP_TIT_REC:
+          tipo_tit = strdup("A Receber");
+          break;
+        case TP_TIT_PAG:
+          tipo_tit = strdup("A Pagar");
+          break;
+        default:
+          tipo_tit = strdup("Não identificado");
+      }
 
       if((res = consultar(baixas_query))){
         while((row = mysql_fetch_row(res))){
@@ -248,7 +286,7 @@ int titulos_update_widget(struct _titulo *titulos){
             TIT_PED_COL,titulos->row[TIT_PED_COL],
             TIT_POS_COL,titulos->row[TIT_POS_COL],
             TIT_BANC_COL,titulos->row[TIT_BANC_COL],
-            TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
+            TIT_TIPO_COL,tipo_tit,
             TIT_VLR_COL,vlrprc,
             TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
             TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
@@ -262,6 +300,18 @@ int titulos_update_widget(struct _titulo *titulos){
       }
 
       if(!baixas_qnt){
+        char *tipo_tit = NULL;
+        switch(atoi(titulos->row[TIT_TIPO_COL])){
+          case TP_TIT_REC:
+            tipo_tit = strdup("A Receber");
+            break;
+          case TP_TIT_PAG:
+            tipo_tit = strdup("A Pagar");
+            break;
+
+          default:
+            tipo_tit = strdup("Não identificado");
+        }
         gtk_tree_store_append(modelo,&iter,NULL);
         gtk_tree_store_set(modelo,&iter,
           TIT_CODE_COL,titulos->row[TIT_CODE_COL],
@@ -270,7 +320,7 @@ int titulos_update_widget(struct _titulo *titulos){
           TIT_POS_COL,titulos->row[TIT_POS_COL],
           TIT_BANC_COL,titulos->row[TIT_BANC_COL],
           TIT_VLR_COL,vlrprc,
-          TIT_TIPO_COL,titulos->row[TIT_TIPO_COL],
+          TIT_TIPO_COL,tipo_tit,
           TIT_CRIACAO_COL,titulos->row[TIT_CRIACAO_COL],
           TIT_VENCI_COL,titulos->row[TIT_VENCI_COL],
           TIT_BAIXA_COL,"Não baixado",

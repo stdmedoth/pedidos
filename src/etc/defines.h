@@ -368,8 +368,6 @@ enum{
   VLR_ORIG_DEFAULT
 };
 
-#define TP_TIT_REC 1
-#define TP_TIT_PAG 2
 
 #define STAT_QUITADO 0
 #define STAT_PARC_BAIXA 1

@@ -24,7 +24,6 @@ char *cad_pag_valor_gchar;
 
 static int cad_pag_alterando=0, cad_pag_concluindo=0;
 
-
 int cad_pag_cancelar_fun();
 int cad_pag_alterar_fun();
 int cad_pag_concluir_fun();

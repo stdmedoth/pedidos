@@ -22,6 +22,29 @@ void get_sysdata_from_calendar(GtkCalendar *calendar, gpointer user_data){
 	gtk_entry_set_text(GTK_ENTRY(desktop_calendar_entry), data_sys);
 }
 
+void set_sysdata_from_calendar_entry(GtkWidget *entry, GtkCalendar *calendar){
+
+	gchar *data_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(entry));
+	if(!strlen(data_gchar)){
+		data_gchar = strdup(data_sys);
+	}
+	gchar *format = formatar_data(data_gchar);
+	if(!format){
+		return ;
+	}
+	gtk_entry_set_text(GTK_ENTRY(entry), format);
+	int dia=0, mes=0, ano=0;
+	if(sscanf(format,"%d/%d/%d", &dia, &mes, &ano)==EOF){
+		popup(NULL,"Não foi possível interpretar data");
+		return ;
+	}
+	gtk_calendar_select_month(GTK_CALENDAR(calendar), mes-1, ano);
+	gtk_calendar_select_day(GTK_CALENDAR(calendar), dia);
+	gtk_calendar_mark_day(GTK_CALENDAR(calendar), dia);
+
+	return ;
+}
+
 void desktop_calendar_reset(GtkWidget *button, gpointer calendar){
 
 	pegar_data();
@@ -62,6 +85,7 @@ GtkWidget *get_desktop_calendario(){
 
 	g_signal_connect(resetar_button, "clicked", G_CALLBACK(desktop_calendar_reset), desktop_calendar);
 	g_signal_connect(desktop_calendar, "day-selected", G_CALLBACK(get_sysdata_from_calendar), desktop_calendar_entry);
+	g_signal_connect(desktop_calendar_entry, "activate", G_CALLBACK(set_sysdata_from_calendar_entry), desktop_calendar);
 
 	gtk_calendar_select_month(GTK_CALENDAR(desktop_calendar), atoi(mes_sys)-1, atoi(ano_sys));
 	gtk_calendar_select_day(GTK_CALENDAR(desktop_calendar), atoi(dia_sys));

@@ -1,3 +1,18 @@
+
+enum{
+  COD_MOV_EST,
+  EST_MOV_EST,
+  PED_MOV_EST,
+  CLI_MOV_EST,
+  PROD_MOV_EST,
+  ENTS_MOV_EST,
+  SAID_MOV_EST,
+  DATA_MOV_EST,
+  TIPO_MOV_EST,
+  OBS_MOV_EST
+};
+
+
 int est_cad_alterando=0;
 int est_cad_concluindo=0;
 

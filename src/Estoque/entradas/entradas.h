@@ -7,6 +7,8 @@ static GtkWidget *est_ent_cod_entry,
 *est_ent_client_entry,
 *est_ent_obs_view;
 
+GtkWidget *est_ent_psqcod_button;
+
 GtkWidget *est_ent_est_combo;
 gint est_ent_est_int;
 gint cancelando_mov_ent_est;
@@ -34,19 +36,6 @@ static gchar *est_ent_cod_gchar,
 *est_ent_obs_gchar;
 
 static int alterando_mov_ent_est=0, concluindo_mov_ent_est=0;
-
-enum{
-  COD_MOV_EST,
-  EST_MOV_EST,
-  PED_MOV_EST,
-  CLI_MOV_EST,
-  PROD_MOV_EST,
-  ENTS_MOV_EST,
-  SAID_MOV_EST,
-  DATA_MOV_EST,
-  TIPO_MOV_EST,
-  OBS_MOV_EST
-};
 
 int est_entradas();
 void est_ent_confirmar_fun();

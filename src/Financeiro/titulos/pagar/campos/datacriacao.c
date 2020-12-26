@@ -6,10 +6,11 @@ int cad_pag_datacriacao_fun(){
     gtk_widget_grab_focus(cad_pag_datacriacao_entry);
     return 1;
   }
+  cad_pag_datacriacao_gchar = strdup(formatado);
   gtk_entry_set_text(GTK_ENTRY(cad_pag_datacriacao_entry),formatado);
 
+
+
   gtk_widget_grab_focus(cad_pag_datavencimento_entry);
-
-
   return 0;
 }
