@@ -52,4 +52,4 @@ static int relat_orc_prod_gerando=0;
 int relat_orc_prod_codigo_fun();
 int relat_orc_prod_query_fun();
 int relat_orc_prod_gerar_fun();
-void relat_orc_prod_fun();
+int relat_orc_prod_fun();

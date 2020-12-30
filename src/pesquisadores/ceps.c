@@ -18,7 +18,20 @@ void receber_cep_code(GtkWidget *button, GtkTreeView *treeview)
 
 int entry_cep_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
+	enum {
+		CEP_COL,
+		LOGR_COL,
+		BAIRRO_COL,
+		CIDADE_COL,
+		UF_COL,
+		N_COLUMNS
+	};
+
+	enum {
+		CEP,
+		CIDADE,
+		LOGRADOURO
+	};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
     g_object_ref(G_OBJECT(treestore));
     gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
@@ -35,19 +48,20 @@ int entry_cep_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	tipo_psq = gtk_combo_box_get_active(GTK_COMBO_BOX(psq_cep_combo_box));
 	switch(tipo_psq)
 	{
-		case 0:
+		case CEP:
 			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro ,c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where l.CEP like '%c%s%c' limit 20",37,entrada,37);
 			break;
-		case 1:
+
+		case CIDADE:
 			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where c.descricao like '%c%s%c' limit 20",37,entrada,37);
 			break;
-		case 2:
+
+		case LOGRADOURO:
 			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where l.descricao like '%c%s%c' limit 20",37,entrada,37);
 			break;
 	}
 	res = consultar(query);
-	if(res == NULL)
-	{
+	if(!res){
 		return 1;
 	}
 	int cont=0;
@@ -57,11 +71,12 @@ int entry_cep_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 
 		gtk_tree_store_set(modelo,&campos,
-		COLUMN0,row[0],
-		COLUMN1,row[1],
-		COLUMN2,row[2],
-		COLUMN3,row[3],
-		COLUMN4,row[4],-1);
+		CEP_COL,row[CEP_COL],
+		LOGR_COL,row[LOGR_COL],
+		BAIRRO_COL,row[BAIRRO_COL],
+		CIDADE_COL,row[CIDADE_COL],
+		UF_COL,row[UF_COL],
+		-1);
 	}
 	return 0;
 }
@@ -187,8 +202,8 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),psq_cep_combo_box,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),psq_cep_combo_box,0,0,0);
 	gtk_container_set_border_width(GTK_CONTAINER(psq_cep_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);

@@ -49,11 +49,13 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   gchar *content;
   xmlBufferPtr xmlbuf = xmlBufferCreate();
   xmlNodePtr conscad = xmlDocGetRootElement(doc);
-  if(xmlNodeDump(xmlbuf, doc, conscad, 0,0)){
-    content = (gchar*) xmlBufferContent(xmlbuf);
+  if(!xmlNodeDump(xmlbuf, doc, conscad, 0,0)){
+    popup(NULL,"Não foi possível gerar o conteúdo da requisição");
+    return 1;
   }
+  content = (gchar*) xmlBufferContent(xmlbuf);
 
-  gchar *soup_request = malloc(strlen(soup_header) + strlen(content) + strlen(soup_footer));
+  gchar *soup_request = malloc( strlen(soup_header) + strlen(content) + strlen(soup_footer) + 1);
   sprintf(soup_request, "%s%s%s", soup_header, content, soup_footer);
 
   curl_easy_setopt(curl, CURLOPT_URL, "https://homologacao.nfe.fazenda.sp.gov.br/ws/cadconsultacadastro4.asmx");
@@ -142,6 +144,14 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
         return 1;
     }
   }
+  if(!header_chunk.memory){
+    popup(NULL, "Responta do servidor sem header");
+    return 1;
+  }
+  if(!body_chunk.memory){
+    popup(NULL, "Responta do servidor sem corpo");
+    return 1;
+  }
 
   xmlDocPtr resp_doc = xmlReadDoc((xmlChar*)body_chunk.memory, "", "UTF-8", XML_PARSE_PEDANTIC);
   if(!resp_doc){
@@ -166,23 +176,21 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   xmlBufferPtr status_buf = xmlBufferCreate();
   xmlBufferPtr motivo_buf = xmlBufferCreate();
 
-  /*
-  if(xmlNodeDump(status_buf, resp_doc, status_node, 1,1)){
-    status_msg = (gchar*) xmlBufferContent(status_buf);
-  }
-  xmlBufferEmpty(xmlbuf);
-
-  if(xmlNodeDump(motivo_buf, resp_doc, motivo_node, 1,1)){
-    motivo_msg = (gchar*) xmlBufferContent(motivo_buf);
-  }*/
-
-  g_print(soup_request);
+  autologger(soup_request);
 
   status_msg = (gchar*) xmlNodeGetContent(status_node);
+  if(!status_msg){
+    popup(NULL,"Não foi possível receber conteudo do status");
+    return 1;
+  }
   motivo_msg = (gchar*) xmlNodeGetContent(motivo_node);
+  if(!motivo_msg){
+    popup(NULL,"Não foi possível receber motivo do status");
+    return 1;
+  }
 
-  if(status_msg && atoi(status_msg) != 111){
-    if(motivo_msg && strlen(motivo_msg)){
+  if(atoi(status_msg) != 111){
+    if(strlen(motivo_msg)){
       autologger("Erro ao consultar contribuinte");
       autologger(status_msg);
       autologger(motivo_msg);
@@ -198,27 +206,7 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   g_print("\nResposta do header \n\n%s\n\n",header_chunk.memory);
   g_print("\nResposta do body \n\n%s\n\n",body_chunk.memory);
 
-  curl_easy_cleanup(curl);
-
   xmlNodePtr nome_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xNome\"]");
-
-  xmlNodePtr cnpj_node = get_tag_by_namepath(resp_doc, "//*[name()=\"CNPJ\"]");
-
-  xmlNodePtr ie_node = get_tag_by_namepath(resp_doc, "//*[name()=\"IE\"]");
-
-  xmlNodePtr cep_node = get_tag_by_namepath(resp_doc, "//*[name()=\"CEP\"]");
-
-  xmlNodePtr logr_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xLgr\"]");
-
-  xmlNodePtr bairro_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xBairro\"]");
-
-  xmlNodePtr ibgecid_node = get_tag_by_namepath(resp_doc, "//*[name()=\"cMun\"]");
-
-  xmlNodePtr cidade_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xMun\"]");
-
-  xmlNodePtr uf_node = get_tag_by_namepath(resp_doc, "//*[name()=\"UF\"]");
-
-
   if(nome_node && xmlNodeGetContent(nome_node)){
     contrib->razao = strdup((gchar*)xmlNodeGetContent(nome_node));
   }else{
@@ -226,6 +214,7 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     return 1;
   }
 
+  xmlNodePtr cnpj_node = get_tag_by_namepath(resp_doc, "//*[name()=\"CNPJ\"]");
   if(cnpj_node && xmlNodeGetContent(cnpj_node)){
     contrib->doc = strdup((gchar*)xmlNodeGetContent(cnpj_node));
   }else{
@@ -233,6 +222,7 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     return 1;
   }
 
+  xmlNodePtr ie_node = get_tag_by_namepath(resp_doc, "//*[name()=\"IE\"]");
   if(ie_node && xmlNodeGetContent(ie_node)){
     contrib->ie = strdup((gchar*)xmlNodeGetContent(ie_node));
   }else{
@@ -240,78 +230,117 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     return 1;
   }
 
-  if(cep_node && xmlNodeGetContent(cep_node)){
 
-    struct _cad_cep *cep=NULL;
-    contrib->cep = strdup((gchar*)xmlNodeGetContent(cep_node));
+  xmlNodePtr cep_node = get_tag_by_namepath(resp_doc, "//*[name()=\"CEP\"]");
+  if(!cep_node || !xmlNodeGetContent(cep_node)){
+    popup(NULL,"Não foi possível receber cep na consulta");
+    return 1;
+  }
+  xmlNodePtr logr_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xLgr\"]");
+  if(!logr_node || !xmlNodeGetContent(logr_node)){
+    popup(NULL,"Não foi possível receber logradouro na consulta");
+    return 1;
+  }
 
-    if(!(cep = get_ender_by_cep(contrib->cep))){
+  xmlNodePtr bairro_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xBairro\"]");
+  if(!bairro_node || !xmlNodeGetContent(bairro_node)){
+    popup(NULL,"Não foi possível receber bairro na consulta");
+    return 1;
+  }
 
-      cep = malloc(sizeof(struct _cad_cep));
-      cep->ldescricao = strdup((gchar*)xmlNodeGetContent(logr_node));
-      cep->bairro = strdup((gchar*)xmlNodeGetContent(bairro_node));
+  xmlNodePtr ibgecid_node = get_tag_by_namepath(resp_doc, "//*[name()=\"cMun\"]");
+  if(!ibgecid_node || !xmlNodeGetContent(ibgecid_node)){
+    popup(NULL,"Não foi possível receber código IBGE na consulta");
+    return 1;
+  }
 
-      cep->cidade = malloc(sizeof(struct _cad_cidade));
+  xmlNodePtr cidade_node = get_tag_by_namepath(resp_doc, "//*[name()=\"xMun\"]");
+  if(!cidade_node || !xmlNodeGetContent(cidade_node)){
+    popup(NULL,"Não foi possível receber cidade na consulta");
+    return 1;
+  }
 
-      MYSQL_RES *res;
-      MYSQL_ROW row;
-      char query[MAX_QUERY_LEN];
-      sprintf(query, "select MAX(id_cidade) from cidade");
+  xmlNodePtr uf_node = get_tag_by_namepath(resp_doc, "//*[name()=\"UF\"]");
+  if(!uf_node || !xmlNodeGetContent(uf_node)){
+    popup(NULL,"Não foi possível receber UF na consulta");
+    return 1;
+  }
+
+  struct _cad_cep *cep=NULL;
+  contrib->cep = (gchar*)xmlNodeGetContent(cep_node);
+
+  if(!(cep = get_ender_by_cep(contrib->cep))){
+
+    cep = malloc(sizeof(struct _cad_cep));
+
+    cep->cep = strdup(contrib->cep);
+    cep->ldescricao = (gchar*)xmlNodeGetContent(logr_node);
+    cep->bairro = (gchar*)xmlNodeGetContent(bairro_node);
+
+
+    MYSQL_RES *res;
+    MYSQL_ROW row;
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select MAX(id_cidade) from cidade");
+    if(!(res = consultar(query))){
+      popup(NULL,"Não foi possível pesquisar existencia da cidade");
+      return 1;
+    }
+
+    cep->cidade = malloc(sizeof(struct _cad_cidade));
+    if((row = mysql_fetch_row(res)) && row[0]){
+      cep->cidade->code = atoi(row[0])+1;
+    }else{
+      cep->cidade->code = 1;
+    }
+
+    cep->cidade->descricao = (gchar*)xmlNodeGetContent(cidade_node);
+    cep->cidade->uf = (gchar*)xmlNodeGetContent(uf_node);
+    cep->cidade->code_ibge = atoi((gchar*)xmlNodeGetContent(ibgecid_node));
+    if(!cep->cidade->code_ibge){
+      popup(NULL,"Código IBGE não identificado");
+      return 1;
+    }
+
+    if(PopupBinario("CEP novo encontrado na consulta, deseja importar?", "Sim! aumente o meu banco de dados", "Não! irei cadastrar manualmente")){
+
+      sprintf(query, "select id_cidade from cidade where codigo_ibge = %i", cep->cidade->code_ibge);
       if(!(res = consultar(query))){
         popup(NULL,"Não foi possível pesquisar existencia da cidade");
         return 1;
       }
-      if((row = mysql_fetch_row(res))){
-        cep->cidade->code = atoi(row[0])+1;
+      if(!(row = mysql_fetch_row(res))){
+        sprintf(query, "insert into cidade(id_cidade, descricao, uf, codigo_ibge, ddd) values(%i, '%s', '%s', %i, '')",
+          cep->cidade->code,
+          cep->cidade->descricao,
+          cep->cidade->uf,
+          cep->cidade->code_ibge
+        );
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível cadastrar a cidade");
+          return 1;
+        }
       }else{
-        cep->cidade->code = 1;
+        cep->cidade->code = atoi(row[0]);
       }
 
-      cep->cep = strdup(contrib->cep);
-      cep->cidade->descricao = strdup((gchar*)xmlNodeGetContent(cidade_node));
-      cep->cidade->uf = strdup((gchar*)xmlNodeGetContent(uf_node));
-      cep->cidade->code_ibge = atoi((gchar*)xmlNodeGetContent(ibgecid_node));
+      sprintf(query, "insert into logradouro(CEP, tipo, descricao, id_cidade, UF, descricao_cidade, codigo_cidade_ibge, descricao_bairro) values('%s', 1, '%s', %i, '%s', '%s', %i, '%s')",
+        cep->cep,
 
-      if(PopupBinario("CEP novo encontrado na consulta, deseja importar?", "Sim, aumente o meu banco de dados", "Não, irei cadastrar manualmente")){
+        cep->ldescricao,
+        cep->cidade->code,
+        cep->cidade->uf,
+        cep->cidade->descricao,
+        cep->cidade->code_ibge,
+        cep->bairro);
 
-        sprintf(query, "select id_cidade from cidade where codigo_ibge = %i",cep->cidade->code_ibge);
-        if(!(res = consultar(query))){
-          popup(NULL,"Não foi possível pesquisar existencia da cidade");
-          return 1;
-        }
-        if(!(row = mysql_fetch_row(res))){
-          sprintf(query, "insert into cidade(id_cidade, descricao, uf, code_ibge, ddd) values(%i, '%s', '%s', %i, '')",
-            cep->cidade->code,
-            cep->cidade->descricao,
-            cep->cidade->uf,
-            cep->cidade->code_ibge
-          );
-          if(enviar_query(query)){
-            popup(NULL,"Não foi possível cadastrar a cidade");
-            return 1;
-          }
-        }else{
-          cep->cidade->code = atoi(row[0]);
-        }
-
-        sprintf(query, "insert into logradouro(CEP, tipo, descricao, id_cidade, UF, descricao_cidade, codigo_cidade_ibge, descricao_bairro) values('%s', 1, '%s', %i, '%s', '%s', %i, '%s')",
-          cep->cep,
-          cep->ldescricao,
-          cep->cidade->code,
-          cep->cidade->uf,
-          cep->cidade->descricao,
-          cep->cidade->code_ibge,
-          cep->bairro);
-
-        if(enviar_query(query)){
-          popup(NULL,"Não foi possível cadastrar o cep");
-          return 1;
-        }
+      if(enviar_query(query)){
+        popup(NULL,"Não foi possível cadastrar o cep");
+        return 1;
       }
     }
-  }else{
-    autologger("Não foi possível receber cep na consulta");
   }
+  curl_easy_cleanup(curl);
 
   return 0;
 }

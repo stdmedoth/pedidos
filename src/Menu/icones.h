@@ -20,3 +20,12 @@ static GtkWidget **financeirol;
 static GtkWidget **marketingl;
 static GtkWidget **relatoriosl;
 static GtkWidget **tecnicosl;
+
+#include "cad_ico.h"
+#include "est_ico.h"
+#include "vnd_ico.h"
+#include "cmp_ico.h"
+#include "fin_ico.h"
+#include "mkt_ico.h"
+#include "rel_ico.h"
+#include "tcn_ico.h"

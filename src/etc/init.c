@@ -2,14 +2,14 @@ static void criar_janela_princ(){
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
-	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
-	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
-	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
-	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
-	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
-	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
+	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
+	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
+	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
+	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
 
@@ -336,17 +336,15 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
-	gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
+	if(sessao_oper.nivel >= NIVEL_GERENCIAL)
+		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 
-	if(menu()!=0)
-		return 1;
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 
-	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
 	gtk_widget_show_all(janela_principal);
@@ -355,7 +353,6 @@ int desktop(){
 
 	iniciar_gerenciador_janela();
 
-	gtk_widget_hide(lista_abas);
 	if(encerramento_brusco){
 		reportar_encerramento_brusco();
 		encerramento_brusco = 0;

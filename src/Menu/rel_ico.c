@@ -1,78 +1,56 @@
-#include "rel_ico.h"
+GtkWidget *rel_menu_get_icon_view(){
 
-int rel_ico(void)
-{
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	int cont,cont2=0,linha=0;
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[REG_PROD_RELAT],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PROD_IMG))),
+		2,REG_PROD_RELAT,-1);
 
-	//imagem dos icones
-	rel_prd_ico = gtk_image_new_from_file(REL_PROD_IMG);
-	rel_ter_ico = gtk_image_new_from_file(REL_TER_IMG);
-	rel_est_ico = gtk_image_new_from_file(REL_SLD_IMG);
-	rel_orc_prod_ico = gtk_image_new_from_file(REL_ORC_PROD_IMG);
-	rel_fix_ico = gtk_image_new_from_file(REL_ORC_PROD_IMG);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_TER_RELAT],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_TER_IMG))),
+    2,REG_TER_RELAT,-1);
 
-	//label dos icones
-	rel_prd_lbl = gtk_label_new("Relatório Produtos");
-	rel_ter_lbl = gtk_label_new("Relatório Terceiros");
-	rel_est_lbl = gtk_label_new("Relatório Movimentos");
-	rel_orc_prod_lbl = gtk_label_new("Relatório Orçamentos/Produtos");
-	rel_fix_lbl = gtk_label_new("Relatório Fixos");
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_MOV_RELAT],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_SLD_IMG))),
+    2,REG_MOV_RELAT,-1);
 
-	//caixas onde ficarao os icones
-	//cria eventos para cada botao
-	for(cont=0;cont<REL_ICO_QNT;cont++)
-	{
-		rel_box[cont] = gtk_box_new(1,0);
-		//sprintf(name,"icone%i",cont);
-		gtk_widget_set_name(rel_box[cont],"icone");
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),rel_box[cont]);
-		if(cont2==ICOL)
-		{
-			linha++;
-			cont2=0;
-		}
-		gtk_box_pack_start(GTK_BOX(relatoriosl[linha]),eventos[cont],0,0,45);
-		//memset(name,0x0,strlen(name));
-		cont2++;
-	}
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[CAD_BX_PAG_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_ORC_PROD_IMG))),
+		2,CAD_BX_PAG_WND,-1);
 
-	//icone relatorio produto
-  gtk_box_pack_end(GTK_BOX(rel_box[0]),rel_prd_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[0]),rel_prd_ico,0,0,0);
-
-	//icone relatorio terceiro
-	gtk_box_pack_end(GTK_BOX(rel_box[1]),rel_ter_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[1]),rel_ter_ico,0,0,0);
-
-	//icone relatorio estoque
-	gtk_box_pack_end(GTK_BOX(rel_box[2]),rel_est_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[2]),rel_est_ico,0,0,0);
-
-	//icone relatorio Orçamentos/Produtos
-	gtk_box_pack_end(GTK_BOX(rel_box[3]),rel_orc_prod_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[3]),rel_orc_prod_ico,0,0,0);
-
-	//icone relatorio Orçamentos/Produtos
-	gtk_box_pack_end(GTK_BOX(rel_box[4]),rel_fix_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(rel_box[4]),rel_fix_ico,0,0,0);
-
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(relat_prod_fun),NULL);
-	//g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(NULL),NULL);
-
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(relat_ter_fun),NULL);
-	//g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(NULL),NULL);
-
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(relat_mov_fun),NULL);
-	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
-
-	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(relat_orc_prod_fun),NULL);
-	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
-
-	g_signal_connect(eventos[4],"button_press_event",G_CALLBACK(relat_icon_view_wnd),NULL);
-	//g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(NULL),NULL);
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[CAD_CONT_FIX_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_ORC_PROD_IMG))),
+		2,CAD_CONT_FIX_WND,-1);
 
 
-	return 0;
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
+
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
+
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
+
+	return icon_view;
 }

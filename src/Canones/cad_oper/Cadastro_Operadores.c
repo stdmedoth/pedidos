@@ -262,9 +262,9 @@ int cad_oper()
 	char query[MAX_QUERY_LEN];
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_widget_set_size_request(janela,450,300);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_title(GTK_WINDOW(janela),"Operadores");
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");

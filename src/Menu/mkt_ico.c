@@ -1,69 +1,48 @@
-#include "mkt_ico.h"
+GtkWidget *mkt_menu_get_icon_view(){
 
-int mkt_ico(void)
-{
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	int cont,cont2=0,linha=0;
-	//imagem dos icones
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_EST],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ESTO_IMG))),
+    2,REG_CAD_PROD,-1);
 
-	//label dos icones
-	mkt_anal_ico = gtk_image_new_from_file(ANLS_MKT_IMG);
-	mkt_anal_lbl = gtk_label_new("Análise");
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_ENTS],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ADD_SALDO))),
+    2,REG_ENTS,-1);
 
-	mkt_email_ico = gtk_image_new_from_file(MODELMAIL_IMG);
-	mkt_email_lbl = gtk_label_new("Modelagem Emails");
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[REG_SAIDS],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REM_SALDO))),
+		2,REG_SAIDS,-1);
 
-	mkt_enviomail_ico = gtk_image_new_from_file(ENVMAIL_IMG);
-	mkt_enviomail_lbl = gtk_label_new("Envio Emails");
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_SALD],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(SALD_IMG))),
+    2,REG_SALD,-1);
 
-	mkt_mailinglist_ico = gtk_image_new_from_file(MAILILIST_IMG);
-	mkt_mailinglist_lbl = gtk_label_new("Lista de Distribuição");
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
-	//caixas onde ficarao os icones
-	//cria eventos para cada botao
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-	for(cont=0;cont<MKT_ICO_QNT;cont++)
-	{
-		mkt_box[cont] = gtk_box_new(1,0);
-		gtk_container_set_border_width(GTK_CONTAINER(mkt_box[cont]),1);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
-		gtk_widget_set_name(mkt_box[cont],"icone");
-
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),mkt_box[cont]);
-
-		if(cont2==ICOL)
-		{
-			linha++;
-			cont2=0;
-		}
-		gtk_box_pack_start(GTK_BOX(marketingl[linha]),eventos[cont],0,0,45);
-		cont2++;
-	}
-
-	//icone analise
-	gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_lbl,0,0,0);
-  gtk_box_pack_end(GTK_BOX(mkt_box[0]), mkt_anal_ico,0,0,0);
-
-	//icone emails
-	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(mkt_box[1]), mkt_email_ico,0,0,0);
-
-	//icone lista de Distribuição
-	gtk_box_pack_end(GTK_BOX(mkt_box[2]), mkt_mailinglist_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(mkt_box[2]), mkt_mailinglist_ico,0,0,0);
-
-	//icone envio emails
-	gtk_box_pack_end(GTK_BOX(mkt_box[3]), mkt_enviomail_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(mkt_box[3]), mkt_enviomail_ico,0,0,0);
-
-
-
-	//sinais para chamada da opçao...
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(mkt_analise),NULL);
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(mkt_email_models),NULL);
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(mkt_cad_distrib_fun),NULL);
-	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(mkt_models_envia_emails),NULL);
-
-	return 0;
+	return icon_view;
 }

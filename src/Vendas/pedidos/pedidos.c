@@ -249,8 +249,7 @@ GtkWidget *campos_produto_ped()
 	return treeview;
 }
 
-int vnd_ped()
-{
+int vnd_ped(){
 
 	MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -311,11 +310,20 @@ int vnd_ped()
 
 		cont++;
 	}
-	if(cont==0){
+	if(!cont){
 		popup(NULL,"Sem nenhum estoque cadastrado");
-		cad_est();
+		if(cad_est())
+			return 1;
+
 		return 1;
 	}
+	
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
+	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
+		return 1;
+
+	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_est_combo),1);
 
@@ -463,13 +471,6 @@ int vnd_ped()
 	g_signal_connect(ped_regerar_button,"clicked",G_CALLBACK(ped_gerar),NULL);
 	g_signal_connect(ped_enviar_button,"clicked",G_CALLBACK(ped_enviar),NULL);
 	g_signal_connect(ped_excluir_button,"clicked",G_CALLBACK(ped_excluir),NULL);
-
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
-	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))
-		return 1;
-
-	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].janela_pointer = janela_pedidos;
 
 	g_signal_connect(ped_cod_entry,"activate",G_CALLBACK(produtos_ped_list),treeview);
 	g_signal_connect(janela_pedidos,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_PED]);

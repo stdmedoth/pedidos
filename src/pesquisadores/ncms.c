@@ -39,7 +39,7 @@ int entry_ncm_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter colunas, campos;
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-	sprintf(query,"select cod_ncm, nome_ncm from ncm where nome like '%c%s%c' limit 25",37,entrada,37);
+	sprintf(query,"select cod_ncm, nome_ncm from ncm where nome_ncm like '%c%s%c' limit 40",37,entrada,37);
 	res = consultar(query);
 	if(res == NULL)
 	{

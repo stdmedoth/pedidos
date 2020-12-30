@@ -39,16 +39,17 @@ struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode){
 
 struct _cad_cep *get_ender_by_cep(gchar *cepcode){
 
-  struct _cad_cep *cep = NULL;
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
-  sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where l.CEP = '%s'",cepcode);
+  struct _cad_cep *cep = NULL;
+  sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where l.CEP = '%s'", cepcode);
 
   if(!(res = consultar(query))){
     popup(NULL,"Erro ao consulta cep");
     return NULL;
   }
+
   if(!(row = mysql_fetch_row(res))){
     return NULL;
   }
@@ -72,8 +73,7 @@ int cad_cep(){
   gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
   gtk_window_set_title(GTK_WINDOW(janela),"Cadastro CEPs");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"mark-location");
-  if(personalizacao.janela_keep_above==1)
-    gtk_window_set_keep_above(GTK_WINDOW(janela), TRUE);
+  gtk_window_set_transient_for(GTK_WINDOW(janela), GTK_WINDOW(janela_principal));
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 
   GtkWidget *linha1,*linha2,*linha3,*linha4,*colunas;
@@ -262,6 +262,15 @@ int cad_cep(){
   g_signal_connect(cad_ceps_descr_entry,"activate",G_CALLBACK(cad_ceps_descr_fun),NULL);
   g_signal_connect(cad_ceps_bairro_entry,"activate",G_CALLBACK(cad_ceps_bairro_fun),NULL);
   g_signal_connect(cad_ceps_cid_code_entry,"activate",G_CALLBACK(cad_ceps_cid_code_fun),NULL);
+
+
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CEP].reg_id = REG_CAD_CEP;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CEP].aberta = 1;
+  if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_CEP]))
+    return 1;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CEP].janela_pointer = janela;
+
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_CEP]);
 
   cad_ceps_cancelar_fun();
   gtk_container_add(GTK_CONTAINER(janela),colunas);

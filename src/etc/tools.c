@@ -1,5 +1,24 @@
 #include "sql_tools.c"
 
+void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+  GtkTreeIter iter;
+  char *posicao;
+  GdkPixbuf *pixbuf;
+  int identificacao=0;
+  g_print("recebendo valor do treeicon\n");
+
+  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path))
+    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,0,&posicao,1,&pixbuf,2,&identificacao,-1);
+  else
+    g_print("Não foi possivel encontrar iter\n");
+
+  if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
+    janelas_gerenciadas.vetor_janelas[identificacao].fun();
+    
+  g_print("posicao = :%s\n",posicao);
+}
+
+
 int comparar_datas(gchar *primeira, gchar *segunda){
   int dia1=0, mes1=0, ano1=0;
   int dia2=0, mes2=0, ano2=0;
@@ -149,8 +168,12 @@ int treeview_id_exists(GtkTreeView *treeview, int id){
 }
 
 char  *format_only_num(char *text){
+
+  if(!text)
+    return NULL;
+
   int cont2=0;
-  char *formated_text = malloc(strlen(text));
+  char *formated_text = malloc(strlen(text)+1);
   strcpy(formated_text,"");
 
   for(int cont=0;cont<strlen(text);cont++){
@@ -159,8 +182,8 @@ char  *format_only_num(char *text){
       cont2++;
     }
   }
-
   formated_text[cont2] = '\0';
+
   return formated_text;
 }
 

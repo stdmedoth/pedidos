@@ -137,22 +137,12 @@ int iniciar_gerenciador_janela(){
     janelas_gerenciadas.vetor_janelas[cont].janela_pointer = NULL;
   }
 
-  janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].fun = cad_prod;
-  janelas_gerenciadas.vetor_janelas[REG_CAD_TER].fun = cad_terc;
-  janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].fun = cad_titulos_pagar;
-  janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].fun = cad_titulos_receber;
-  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
-  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
-  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;
-  janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
-  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = rel_fix_fin_rec;
-  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINPAG_WIN].fun = rel_fix_fin_pag;
-  janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
-
   janelas_gerenciadas.principal.aberta = 1;
   janelas_gerenciadas.principal.qnt_aberta = 1;
   janelas_gerenciadas.fundo_inicializacao.aberta = 0;
   janelas_gerenciadas.fundo_inicializacao.qnt_aberta = 0;
+
+  gerenciador_load_funcs();
 
   return 0;
 }
@@ -171,4 +161,63 @@ int gerenciador_janela(){
   }
 
   return 0;
+}
+
+void gerenciador_load_funcs(){
+  janelas_gerenciadas.vetor_janelas[REG_MENU_WND].fun = menu_icon_views_wnd;
+
+  //cadastros
+  janelas_gerenciadas.vetor_janelas[REG_CAD_PROD].fun = cad_prod;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_TER].fun = cad_terc;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CEP].fun = cad_cep;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_OPER].fun = cad_oper;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_UND].fun = cad_und;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].fun = cad_grupo;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_COND].fun = cad_pag;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CEP].fun = cad_cep;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].fun = cad_relat;
+  janelas_gerenciadas.vetor_janelas[CAD_BANCOS_WND].fun = cad_bancos_fun;
+
+  //vendas
+  janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].fun = vnd_orc;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_PED].fun = vnd_ped;
+  janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
+  janelas_gerenciadas.vetor_janelas[REG_PDV_WND].fun = pdv_princ_wnd;
+
+  //financeiro
+  janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].fun = cad_titulos_receber;
+  janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].fun = cad_titulos_pagar;
+  janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
+  janelas_gerenciadas.vetor_janelas[CAD_BX_PAG_WND].fun = cad_baixas_pagar;
+  janelas_gerenciadas.vetor_janelas[CAD_CONT_FIX_WND].fun = cad_conta_fixa;
+  janelas_gerenciadas.vetor_janelas[IMPORT_TITS_WND].fun = import_tits;
+
+  //materiais
+  janelas_gerenciadas.vetor_janelas[REG_CAD_EST].fun = cad_est;
+  janelas_gerenciadas.vetor_janelas[REG_ENTS].fun = est_entradas;
+  janelas_gerenciadas.vetor_janelas[REG_SAIDS].fun = est_saidas;
+  janelas_gerenciadas.vetor_janelas[REG_SALD].fun = cad_est_sld;
+
+  //relatórios montados
+  janelas_gerenciadas.vetor_janelas[REG_PROD_RELAT].fun = relat_prod_fun;
+  janelas_gerenciadas.vetor_janelas[REG_TER_RELAT].fun = relat_ter_fun;
+  janelas_gerenciadas.vetor_janelas[REG_MOV_RELAT].fun = relat_mov_fun;
+  janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = relat_orc_prod_fun;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = relat_icon_view_wnd;
+
+  //relatorios fixos
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;
+  janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = rel_fix_fin_rec;
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINPAG_WIN].fun = rel_fix_fin_pag;
+  janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
+
+  //opcoes tecnicas
+  janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].fun = cadastro_empresa;
+  janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].fun = cad_contratos;
+  janelas_gerenciadas.vetor_janelas[REG_TNCLOG_WND].fun = tecn_logger_wnd;
+
+
 }

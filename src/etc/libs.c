@@ -2,6 +2,7 @@
 
 
 #include "init.c"
+#include "../Menu/iconview.c"
 #include "../Menu/icones.c"
 #include "../Menu/abas.c"
 

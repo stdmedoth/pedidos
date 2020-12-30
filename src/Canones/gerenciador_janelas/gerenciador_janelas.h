@@ -2,24 +2,32 @@
 #define MAX_WNDN_ABRT 1
 
 enum{
+REG_MENU_WND,
+
 REG_CAD_PROD,
-REG_PROD_PRC,
-REG_PROD_PRCTABS,
 REG_CAD_TER,
 REG_CAD_OPER,
 REG_CAD_UND,
 REG_CAD_GRP,
 REG_CAD_COND,
 REG_CAD_RELAT,
+REG_CAD_CEP,
+
+REG_PROD_PRC,
+REG_PROD_PRCTABS,
+
 REG_CAD_ORC,
 REG_CAD_PED,
+
 REG_CAD_EST,
 REG_ENTS,
 REG_SAIDS,
 REG_SALD,
+
 REG_PROD_RELAT,
 REG_TER_RELAT,
 REG_MOV_RELAT,
+REG_ORCPROD_RELAT,
 REG_SUP_WIN,
 REG_PARAM_WIN,
 REG_REL_FIX_PROD_WIN,
@@ -49,6 +57,7 @@ REG_ANLMKT_WND,
 REG_MODMAIL_WND,
 REG_ENVMAIL_WND,
 REG_MAILDSTRB_WND,
+REG_CAD_EMPRESA,
 REG_CAD_CNTRATS,
 REG_TNCLOG_WND,
 REG_WIN_QNT,
@@ -61,24 +70,32 @@ REG_WIN_QNT,
 #define REG_CORRECT_FINAL 99999
 
 static const char *janelas_nomes[] = {
-  "Cad. Produtos",
+  "Janela de Menu",
+
+  "Produtos",
+  "Pessoas",
+  "Operadores",
+  "Unidades",
+  "Grupos",
+  "Condições de Pagamento",
+  "Relatórios",
+  "Códigos Postais",
+
   "Preços Produtos",
   "Tabelas Preços",
-  "Cad. Terceiros",
-  "Cad. Operadores",
-  "Cad. Unidades",
-  "Cad. Grupos",
-  "Cad. Condições",
-  "Cad. Relatorios",
+
   "Orçamentos",
   "Pedidos",
-  "Cad. Estoque",
+
+  "Estoques",
+
   "Entradas",
   "Saídas",
   "Saldos",
-  "Relat. Produtos",
-  "Relat. Terceiros",
-  "Relat. Movimentos",
+  "Relatório de Produtos",
+  "Relatório de Terceiros",
+  "Relatório de Movimentos",
+  "Relatório de Produtos/Orçamentos",
   "Suporte",
   "Parametros",
   "Relatorio Fixo de Produtos",
@@ -108,6 +125,7 @@ static const char *janelas_nomes[] = {
   "Modelo de Emails",
   "Envio de Emails",
   "Lista de Distribuições",
+  "Cadastro da Empresa",
   "Cadastro de Contratos",
   "Visualizador de Logs"
 };
@@ -138,3 +156,5 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd);
 int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd);
 
 int gerenciador_janela();
+
+void gerenciador_load_funcs();

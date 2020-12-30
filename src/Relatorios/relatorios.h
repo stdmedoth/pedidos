@@ -1,4 +1,4 @@
-void cad_relat();
+int cad_relat();
 
 static int codigo_rel_campo=0, codigo_rel_tabel=0;
 

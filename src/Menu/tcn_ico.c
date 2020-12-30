@@ -1,60 +1,41 @@
-#include "tcn_ico.h"
+GtkWidget *tcn_menu_get_icon_view(){
 
-int tcn_ico(void)
-{
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	int cont,cont2=0,linha=0;
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_EMPRESA],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(CAD_EMP_IMG))),
+    2,REG_CAD_EMPRESA,-1);
 
-	//imagem dos icones
-	emp_ico = gtk_image_new_from_file(CAD_EMP_IMG);
-	cntrats_ico = gtk_image_new_from_file(CAD_CONTR_IMG);
-	logs_ico = gtk_image_new_from_file(CAD_LOGS_IMG);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_CNTRATS],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(CAD_CONTR_IMG))),
+    2,REG_CAD_CNTRATS,-1);
 
-	//label dos icones
-	emp_lbl = gtk_label_new("Cadastro Empresa");
-	cntrats_lbl = gtk_label_new("Contratos");
-	logs_lbl = gtk_label_new("Logger");
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[REG_TNCLOG_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(CAD_LOGS_IMG))),
+		2,REG_TNCLOG_WND,-1);
 
-	//caixas onde ficarao os icones
-	//cria eventos para tcna botao
-	for(cont=0;cont<TCN_ICO_QNT;cont++)
-	{
-		tcn_box[cont] = gtk_box_new(1,0);
-		gtk_container_set_border_width(GTK_CONTAINER(tcn_box[cont]),1);
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
-		gtk_widget_set_name(tcn_box[cont],"icone");
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),tcn_box[cont]);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
-		if(cont2==ICOL)
-		{
-			linha++;
-			cont2=0;
-		}
-		gtk_box_pack_start(GTK_BOX(tecnicosl[linha]),eventos[cont],0,0,45);
-		cont2++;
-	}
-
-	gtk_box_pack_start(GTK_BOX(tcn_box[0]),emp_ico,0,0,0);
-  gtk_box_pack_start(GTK_BOX(tcn_box[0]),emp_lbl,0,0,0);
-
-	gtk_box_pack_start(GTK_BOX(tcn_box[1]),cntrats_ico,0,0,0);
-	gtk_box_pack_start(GTK_BOX(tcn_box[1]),cntrats_lbl,0,0,0);
-
-	//icone logs
-	gtk_box_pack_start(GTK_BOX(tcn_box[2]),logs_ico,0,0,0);
-	gtk_box_pack_start(GTK_BOX(tcn_box[2]),logs_lbl,0,0,0);
-
-	//sinais para chamada da opçao...
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cadastro_empresa),NULL);
-
-
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_contratos),NULL);
-
-
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(tecn_logger_wnd),NULL);
-
-
-	return 0;
+	return icon_view;
 }

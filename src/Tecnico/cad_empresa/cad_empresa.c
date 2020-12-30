@@ -81,6 +81,15 @@ int cadastro_empresa(){
   gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
 
+  janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].reg_id = REG_CAD_EMPRESA;
+	janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA]))
+		return 1;
+
+  janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].janela_pointer = janela;
+
+  g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA]);
+
   opcoes_box = gtk_box_new(0,0);
   opcoes_fixed = gtk_fixed_new();
   atualizar_button = gtk_button_new_with_label("Atualizar");
