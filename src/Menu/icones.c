@@ -1,8 +1,0 @@
-#include "cad_ico.c"
-#include "est_ico.c"
-#include "vnd_ico.c"
-#include "cmp_ico.c"
-#include "fin_ico.c"
-#include "mkt_ico.c"
-#include "rel_ico.c"
-#include "tcn_ico.c"

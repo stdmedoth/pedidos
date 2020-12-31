@@ -139,14 +139,12 @@ int desktop(){
 	layout = gtk_layout_new(NULL,NULL);
 
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		gtk_main_quit();
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Sem dados para personalizar o sistema");
 		gtk_main_quit();
 		return 1;
@@ -362,8 +360,7 @@ int desktop(){
 	return 0;
 }
 
-int init()
-{
+int init(){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;

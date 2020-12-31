@@ -9,8 +9,8 @@ void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry){
 	}
 }
 
-void passa_nome()
-{
+void passa_nome(){
+	#define SAIR_BIND_TEXT "sair"
 	oper_nome_login = malloc(MAX_OPER_LEN);
 	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	if(!strlen(oper_nome_login)){
@@ -18,11 +18,14 @@ void passa_nome()
 		gtk_widget_grab_focus(nome_entry);
 		return ;
 	}
+	if(!strcmp(oper_nome_login, SAIR_BIND_TEXT)){
+		encerrando();
+		return ;
+	}
 	gtk_widget_grab_focus(senha_entry);
 }
 
-void passa_senha()
-{
+void passa_senha(){
 	gtk_widget_grab_focus(enviar_login);
 }
 
@@ -59,13 +62,13 @@ void verifica_senha()
 		sessao_oper.code = atoi(row[0]);
 		strcpy(sessao_oper.nome,row[1]);
 		sessao_oper.nivel = atoi(row[2]);
+		sessao_oper.logado = 1;
 
 		if(desktop()!=0)
 			encerrando();
 		return ;
 	}
-	else
-	{
+	else{
 		popup(janela_login,"Usuário ou Senha incorretos");
 		gtk_widget_grab_focus(senha_entry);
 		return;
@@ -83,6 +86,7 @@ void login()
 
 	GtkWidget *nome_fixed, *senha_fixed;
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	sessao_oper.logado = 0;
 	gtk_widget_set_size_request(janela_login,230,200);
 	gtk_window_set_decorated(GTK_WINDOW(janela_login),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_login),FALSE);
@@ -152,7 +156,7 @@ void login()
 	gtk_container_add(GTK_CONTAINER(janela_login),caixa_login);
 
 	g_signal_connect(enviar_login,"clicked",G_CALLBACK(verifica_senha),NULL);
-	g_signal_connect(fechar_login,"clicked",G_CALLBACK(encerrar),NULL);
+	g_signal_connect(fechar_login,"clicked",G_CALLBACK(encerrar),janela_login);
 	g_signal_connect(nome_entry,"activate",G_CALLBACK(passa_nome),NULL);
 	g_signal_connect(senha_entry,"activate",G_CALLBACK(passa_senha),NULL);
 

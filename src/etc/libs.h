@@ -6,10 +6,8 @@
 #include "./init.h"
 
 #include "../Menu/iconview.h"
-#include "../Menu/icones.h"
 #include "../Menu/abas.h"
 
-#include "./fechar.h"
 #include "./receber_confs.h"
 #include "./xml_tools.h"
 #include "./tools.h"
@@ -28,6 +26,7 @@
 #include "./mp_popup.h"
 #include "./debugger.h"
 #include "./sobre.h"
+#include "./fechar.h"
 
 #include "./operadores.h"
 #include "../Canones/cad_oper/Cadastro_Operadores.h"

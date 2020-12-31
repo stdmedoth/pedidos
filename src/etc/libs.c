@@ -1,9 +1,8 @@
 #include "libs.h"
 
 
-#include "init.c"
+#include "./init.c"
 #include "../Menu/iconview.c"
-#include "../Menu/icones.c"
 #include "../Menu/abas.c"
 
 #include "receber_confs.c"
@@ -19,13 +18,14 @@
 #include "impressao.c"
 #include "temas.c"
 #include "barra_icones.c"
-#include "../Inicio/pega_data.c"
 #include "analisa_campos.c"
 #include "mp_popup.c"
 #include "debugger.c"
 #include "sobre.c"
-
 #include "operadores.c"
+#include "./fechar.c"
+
+#include "../Inicio/pega_data.c"
 
 #include "../Parametros/parametros.c"
 
@@ -63,8 +63,6 @@
 #include "../Canones/cad_ceps/cadastro_ceps.c"
 #include "../Canones/gerenciador_janelas/gerenciador_janelas.c"
 #include "../Canones/Vinculos_Chaves.c"
-
-#include "../Inicio/fechar.c"
 
 #include "../Terceiros/cadastro_terceiros.c"
 

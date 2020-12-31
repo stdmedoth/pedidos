@@ -12,6 +12,7 @@ static struct{
 	int code;
 	char nome[MAX_NAME_LEN];
 	int nivel;
+	int logado;
 }sessao_oper;
 
 gchar *oper_nome_login,*oper_senha_login;

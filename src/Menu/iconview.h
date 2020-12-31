@@ -8,3 +8,12 @@ void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer d
 GtkWidget *menu_notebook;
 
 static int menu_notebook_atual_pos=0;
+
+#include "cad_ico.h"
+#include "est_ico.h"
+#include "vnd_ico.h"
+#include "cmp_ico.h"
+#include "fin_ico.h"
+#include "mkt_ico.h"
+#include "rel_ico.h"
+#include "tcn_ico.h"

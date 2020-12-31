@@ -1,3 +1,12 @@
+#include "cad_ico.c"
+#include "est_ico.c"
+#include "vnd_ico.c"
+#include "cmp_ico.c"
+#include "fin_ico.c"
+#include "mkt_ico.c"
+#include "rel_ico.c"
+#include "tcn_ico.c"
+
 void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
 
   if(menu_notebook && GTK_IS_WIDGET(menu_notebook))
@@ -41,6 +50,7 @@ int menu_icon_views_wnd(){
   gtk_window_set_icon_name(GTK_WINDOW(janela),"text-x-generic");
 
   menu_notebook = gtk_notebook_new();
+  GtkWidget *principal = gtk_box_new(0,0);
   GtkWidget *cadastros = cad_menu_get_icon_view();
   GtkWidget *compras = cmp_menu_get_icon_view();
   GtkWidget *estoques = est_menu_get_icon_view();
@@ -49,6 +59,11 @@ int menu_icon_views_wnd(){
   GtkWidget *financeiro = fin_menu_get_icon_view();
   GtkWidget *relatorios = rel_menu_get_icon_view();
   GtkWidget *tecnicos = tcn_menu_get_icon_view();
+
+  gtk_box_pack_start(GTK_BOX(principal), gtk_image_new_from_file(LOGO), 0,0,0);
+  gtk_box_pack_start(GTK_BOX(principal), gtk_label_new(cad_emp_strc.sobre), 0,0,5);
+
+  gtk_notebook_append_page(GTK_NOTEBOOK(menu_notebook),principal, gtk_label_new("Pedidos"));
 
   if(ativar.cadastro)
 		gtk_notebook_append_page(GTK_NOTEBOOK(menu_notebook),cadastros, gtk_label_new("Cadastros"));
@@ -85,7 +100,6 @@ int menu_icon_views_wnd(){
   gtk_container_add(GTK_CONTAINER(janela),menu_notebook);
 
   gtk_widget_grab_focus(menu_notebook);
-
 
   gtk_widget_add_events(janela, GDK_FOCUS_CHANGE_MASK );
   gtk_widget_add_events(janela, GDK_LEAVE_NOTIFY_MASK );
