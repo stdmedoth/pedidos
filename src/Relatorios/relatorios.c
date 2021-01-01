@@ -10,7 +10,7 @@
 
 #include "pesquisar/relat_campos.c"
 
-void cad_relat()
+int cad_relat()
 {
 	enum {
     COLUMN0,
@@ -58,7 +58,7 @@ void cad_relat()
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].reg_id = REG_CAD_RELAT;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].aberta = 1;
 	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]))
-		return ;
+		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].janela_pointer = janela;
 
 
@@ -162,15 +162,13 @@ void cad_relat()
 	cad_rel_tabel_combo = gtk_combo_box_text_new();
 
 	sprintf(query,"select * from relat_tabelas_id");
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro buscando as tabelas disponiveis para o relatorio");
-		return ;
+		return 1;
 	}
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cad_rel_tabel_combo),"Selecione a Tabela do Relatório");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(cad_rel_tabel_combo),0);
-	while((row = mysql_fetch_row(res))!=NULL)
-	{
+	while((row = mysql_fetch_row(res))!=NULL){
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cad_rel_tabel_combo),row[1]);
 	}
 
@@ -227,5 +225,5 @@ void cad_relat()
 	gtk_widget_show_all(janela);
 
 
-	return ;
+	return 0;
 }

@@ -43,7 +43,9 @@ int rec_orc_datas( struct _orc *orc ){
     }
 
   }else{
-    for(int cont=0;cont<orc->parcelas.condpag.parcelas_qnt;cont++){
+
+    orc->parcelas.total_geral = 0;
+    for(int cont=0;cont< orc->parcelas.condpag.parcelas_qnt; cont++){
 
       if(!g_date_time_format(gdate,"%d/%m/%Y")){
         popup(NULL,"Erro em uma das datas de pagamento");
@@ -52,7 +54,7 @@ int rec_orc_datas( struct _orc *orc ){
 
       if(orc->parcelas.condpag.tipo_parc == CONDPAG_DIAS)
         gdate = g_date_time_add_days(gdate,orc->parcelas.condpag.intervalos);
-      else
+
       if(orc->parcelas.condpag.tipo_parc == CONDPAG_MESES)
         gdate = g_date_time_add_months(gdate,orc->parcelas.condpag.intervalos);
 

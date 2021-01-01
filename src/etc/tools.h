@@ -1,6 +1,11 @@
 #define RANDOM_STRING_SIZE 10
+#define DEFAULT_ERROR_CODE 4321
 static int logging = 0;
 static int erro_logger=0;
+
+int validar_sessao_criada();
+
+void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 GtkWidget *print_janela;
 
@@ -20,6 +25,10 @@ char *text_to_html(char *texto);
 char *formatar_data(char *data);
 
 int file_logger(char *string);
+
+char  *format_only_num(char *text);
+
+gchar *get_full_ender_from_cep(gchar *cep, int num);
 
 char **array(char *text);
 
@@ -65,3 +74,10 @@ char *status_tit_str(int status);
 int aviso_de_baixa_fin();
 
 int cep_nao_existente_fun(gchar *cep);
+
+static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
+
+struct MemoryStruct {
+  char *memory;
+  size_t size;
+};

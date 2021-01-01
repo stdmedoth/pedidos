@@ -1,20 +1,3 @@
-void relat_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
-  GtkTreeIter iter;
-  char *posicao;
-  GdkPixbuf *pixbuf;
-  int identificacao=0;
-  g_print("recebendo valor do treeicon\n");
-
-  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path))
-    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,0,&posicao,1,&pixbuf,2,&identificacao,-1);
-  else
-    g_print("Não foi possivel encontrar iter\n");
-
-  if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
-    janelas_gerenciadas.vetor_janelas[identificacao].fun();
-  g_print("posicao = :%s\n",posicao);
-}
-
 int relat_icon_view_wnd(){
   int N_COLUMNS=3;
   GtkWidget *fixed_relats_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -63,7 +46,7 @@ int relat_icon_view_wnd(){
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
   //gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-  g_signal_connect(icon_view,"item-activated",G_CALLBACK(relat_icon_view_select), modelo);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
 
   gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),2);
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);

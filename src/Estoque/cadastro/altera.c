@@ -16,6 +16,7 @@ int est_cad_alterar()
 	}
 	gtk_widget_set_sensitive(est_cod_entry,FALSE);
 	gtk_widget_set_sensitive(est_alterar_button,FALSE);
+	gtk_widget_set_sensitive(est_psq_code_button,FALSE);
 
 	gtk_entry_set_text(GTK_ENTRY(est_nome_entry),row[1]);
 	gtk_widget_grab_focus(est_nome_entry);

@@ -4,47 +4,47 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 
 	char *query;
 	concluindo_ter = 1;
-	if(code_terc()!=0){
+	if(code_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(code_ter_field);
 		return 1;
 	}
 
-	if(code_ter_nfe()!=0){
+	if(code_ter_nfe()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(code_ter_nfe_field);
 		return 1;
 	}
 
-	if(name_terc()!=0){
+	if(name_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(name_ter_field);
 		return 1;
 	}
 
-	if(escolha_doc()!=0){
+	if(escolha_doc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
 
-	if(inscr_terc()!=0){
+	if(inscr_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(inscr_ter_field);
 		return 1;
 	}
 
-	if(escolha_tipo_ter()!=0){
+	if(escolha_tipo_ter()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(type_ter_field);
 		return 1;
 	}
-	if(cep_terc()!=0){
+	if(cep_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(cep_ter_field);
 		return 1;
 	}
-	if(address_terc()!=0){
+	if(address_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(address_ter_field);
 		return 1;
@@ -54,21 +54,20 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(bairro_ter_field);
 		return 1;
 	}
-	if(cidade_terc()!=0)
-	{
+	if(cidade_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(cidade_ter_field);
 		return 1;
 	}
 
-	if( uf_terc()!=0)
+	if( uf_terc())
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(uf_ter_field);
 		return 1;
 	}
 
-	if(numrua()!=0)
+	if(numrua())
 	{
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(address_num_field);
@@ -90,40 +89,39 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		return 1;
 
 	}
-	if(transp_cepc()!=0)
-	{
+	if(transp_cepc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_cep_entry);
 		return 1;
 	}
-	if(transp_logr_fun()!=0)
-	{
+	if(transp_logr_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_logradouro_entry);
 		return 1;
 	}
-	if(transp_num_fun()!=0)
-	{
+	if(transp_num_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_num_entry);
 		return 1;
 	}
-	if(transp_bairroc()!=0)
-	{
+	if(transp_bairroc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_bairro_entry);
 		return 1;
 	}
-	if(transp_cidadec()!=0)
-	{
+	if(transp_cidadec()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_cidade_entry);
 		return 1;
 	}
-	if(transp_estado_fun()!=0)
-	{
+	if(transp_estado_fun()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
 		gtk_widget_grab_focus(transp_estado_entry);
+		return 1;
+	}
+	if(transp_obs_fun()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),2);
+		gtk_widget_grab_focus(transp_obs_entry);
 		return 1;
 	}
 	if(rec_vlr_frete()!=0)

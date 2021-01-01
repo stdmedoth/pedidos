@@ -1,55 +1,49 @@
-#include "est_ico.h"
+GtkWidget *est_menu_get_icon_view(){
 
-int estq_ico(void)
-{
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	int cont;
-//	gchar *name;
-//	name = malloc(15);
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_EST],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ESTO_IMG))),
+    2,REG_CAD_EST,-1);
 
-	//imagem dos icones
-	est_ico = gtk_image_new_from_file(ESTO_IMG);
-	sld_ico = gtk_image_new_from_file(SALD_IMG);
-	ent_ico = gtk_image_new_from_file(ADD_SALDO);
-	sai_ico = gtk_image_new_from_file(REM_SALDO);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_ENTS],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ADD_SALDO))),
+    2,REG_ENTS,-1);
 
-	//label dos icones
-    est_lbl = gtk_label_new("Estoque");
-	sld_lbl = gtk_label_new("Saldo");
-	ent_lbl = gtk_label_new("Entradas");
-	sai_lbl = gtk_label_new("Saídas");
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[REG_SAIDS],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REM_SALDO))),
+		2,REG_SAIDS,-1);
 
-	//caixas onde ficarao os icones
-	//cria eventos para cada botao
-	for(cont=0;cont<=EST_ICO_QNT;cont++)
-	{
-		est_box[cont] = gtk_box_new(1,0);
-//		sprintf(name,"icone%i",cont);
-		gtk_widget_set_name(est_box[cont],"icone");
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),est_box[cont]);
-		gtk_box_pack_start(GTK_BOX(estoquel[0]),eventos[cont],0,0,40);
-//		memset(name,0x0,strlen(name));
-	}
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_SALD],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(SALD_IMG))),
+    2,REG_SALD,-1);
 
-	//icone estoque
-	gtk_box_pack_end(GTK_BOX(est_box[0]),est_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(est_box[0]),est_ico,0,0,0);
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
-	gtk_box_pack_end(GTK_BOX(est_box[1]),ent_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(est_box[1]),ent_ico,0,0,0);
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_SINGLE);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-	gtk_box_pack_end(GTK_BOX(est_box[2]),sai_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(est_box[2]),sai_ico,0,0,0);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
-	gtk_box_pack_end(GTK_BOX(est_box[3]),sld_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(est_box[3]),sld_ico,0,0,0);
-
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_est),NULL);
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_est),NULL);
-
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(est_entradas),NULL);
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(est_saidas),NULL);
-	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_est_sld),NULL);
-	return 0;
+	return icon_view;
 }

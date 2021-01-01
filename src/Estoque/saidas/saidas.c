@@ -7,6 +7,7 @@
 #include "campos/cliente.c"
 #include "campos/estoque.c"
 #include "campos/pedido.c"
+#include "campos/obs.c"
 
 
 #include "cancelar.c"
@@ -34,6 +35,7 @@ int est_saidas(){
 	GtkWidget *est_said_est_frame, *est_said_est_fixed;
 	GtkWidget *est_said_ped_frame, *est_said_ped_fixed;
 	GtkWidget *est_said_client_frame, *est_said_client_fixed;
+	GtkWidget *est_said_obs_frame, *est_said_obs_fixed, *est_said_obs_scroll;
 
 	GtkWidget *est_said_cod_box;
 	GtkWidget *est_said_prod_box;
@@ -41,8 +43,9 @@ int est_saidas(){
 	GtkWidget *est_said_tipo_box;
 	GtkWidget *est_said_data_box;
 	GtkWidget *est_said_client_box;
+	GtkWidget *est_said_obs_box;
 
-	GtkWidget *psq_cod_button, *psq_prod_button, *psq_subgrp_button, *psq_client_button, *psq_data_button;
+	GtkWidget *psq_prod_button, *psq_subgrp_button, *psq_client_button, *psq_data_button;
 	GtkWidget *produto_box, *subgrupo_box, *cliente_box;
 
 	GtkWidget *caixa_fixed, *caixa_opcoes, *caixa_grande;
@@ -90,8 +93,8 @@ int est_saidas(){
 	subgrupo_box = gtk_box_new(0,0);
 	cliente_box = gtk_box_new(0,0);
 
-	psq_cod_button = gtk_button_new();
-	gtk_button_set_image(GTK_BUTTON(psq_cod_button),gtk_image_new_from_file(IMG_PESQ));
+	est_said_psqcod_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(est_said_psqcod_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_data_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(psq_data_button),gtk_image_new_from_file(IMG_PESQ));
 	psq_prod_button = gtk_button_new();
@@ -106,7 +109,7 @@ int est_saidas(){
 	est_said_cod_box = gtk_box_new(0,0);
 	est_said_cod_entry = gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),est_said_cod_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(est_said_cod_box),psq_cod_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(est_said_cod_box),est_said_psqcod_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_cod_frame),est_said_cod_box);
 	gtk_fixed_put(GTK_FIXED(est_said_cod_fixed),est_said_cod_frame,20,5);
 
@@ -131,20 +134,18 @@ int est_saidas(){
 	gtk_fixed_put(GTK_FIXED(est_said_est_fixed),est_said_est_frame,60,60);
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_est_combo),"Escolha o estoque");
 	sprintf(query,"select code,nome from estoques");
-	cont=0;
+	cont=1;
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao buscar estoques");
 		return 1;
 	}
 	while((row = mysql_fetch_row(res))!=NULL){
 		sprintf(nome_estoque,"%s - %s",row[0],row[1]);
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_said_est_combo),nome_estoque);
-
+		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(est_said_est_combo),cont+1,row[0],nome_estoque);
 		cont++;
 	}
-	if(cont==0){
+	if(cont==1){
 		popup(NULL,"Sem nenhum estoque cadastrado");
-		cad_est();
 		return 1;
 	}
 	gtk_combo_box_set_active(GTK_COMBO_BOX(est_said_est_combo),1);
@@ -198,6 +199,19 @@ int est_saidas(){
 	gtk_fixed_put(GTK_FIXED(est_said_ped_fixed),est_said_ped_frame,60,20);
 	gtk_entry_set_width_chars(GTK_ENTRY(est_said_ped_entry),15);
 
+	est_said_obs_frame = gtk_frame_new("Observações");
+	est_said_obs_fixed = gtk_fixed_new();
+	est_said_obs_box = gtk_box_new(0,0);
+	est_said_obs_view = gtk_text_view_new();
+	est_said_obs_scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_box_pack_start(GTK_BOX(est_said_obs_box),est_said_obs_view,0,0,0);
+	gtk_container_add(GTK_CONTAINER(est_said_obs_scroll),est_said_obs_box	);
+	gtk_container_add(GTK_CONTAINER(est_said_obs_frame),est_said_obs_scroll	);
+	gtk_fixed_put(GTK_FIXED(est_said_obs_fixed),est_said_obs_frame,20,20);
+	gtk_widget_set_size_request(est_said_obs_view, 300, 80);
+	gtk_widget_set_size_request(est_said_obs_scroll, 300, 80);
+	gtk_widget_set_size_request(est_said_obs_box, 300, 80);
+
 	gtk_grid_attach(GTK_GRID(grid),est_said_cod_fixed,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_data_fixed,1,0,1,1);
 
@@ -209,6 +223,8 @@ int est_saidas(){
 
 	gtk_grid_attach(GTK_GRID(grid),est_said_qnt_fixed,0,3,1,1);
 	gtk_grid_attach(GTK_GRID(grid),est_said_ped_fixed,1,3,1,1);
+
+	gtk_grid_attach(GTK_GRID(grid),est_said_obs_fixed,0,4,1,1);
 
 	g_signal_connect(est_said_cod_entry,"activate",G_CALLBACK(est_said_codigo_fun),NULL);
 
@@ -227,7 +243,7 @@ int est_saidas(){
 
 	g_signal_connect(est_said_ped_entry,"activate",G_CALLBACK(est_said_ped_fun),NULL);
 
-	g_signal_connect(psq_cod_button,"clicked",G_CALLBACK(psq_est_said_mov),est_said_cod_entry);
+	g_signal_connect(est_said_psqcod_button,"clicked",G_CALLBACK(psq_est_said_mov),est_said_cod_entry);
 
 	g_signal_connect(est_said_confirma_button,"activate",G_CALLBACK(est_said_confirmar_fun),NULL);
 	g_signal_connect(est_said_confirma_button,"clicked",G_CALLBACK(est_said_confirmar_fun),NULL);
@@ -241,13 +257,7 @@ int est_saidas(){
 	gtk_box_pack_start(GTK_BOX(caixa_grande),grid,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_fixed,0,0,20);
 
-	sprintf(code,"%i",tasker("movimento_estoque"));
-	gtk_entry_set_text(GTK_ENTRY(est_said_cod_entry),code);
-	gtk_entry_set_text(GTK_ENTRY(est_said_data_entry),data_sys);
-
-	gtk_widget_set_sensitive(est_said_data_entry,FALSE);
-	gtk_widget_set_name(est_said_data_entry,"entry_unsensetivate");
-	gtk_widget_grab_focus(est_said_client_entry);
+	est_said_cancelar_fun();
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
 

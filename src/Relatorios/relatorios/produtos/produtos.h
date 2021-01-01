@@ -20,7 +20,7 @@ static GtkWidget *psq_relat_prod_code;
 
 static gchar *relat_prod_codigo_gchar, *relat_prod_query_gchar;
 
-void relat_prod_fun();
+int relat_prod_fun();
 
 int relat_prod_codigo_fun();
 int relat_prod_query_fun();

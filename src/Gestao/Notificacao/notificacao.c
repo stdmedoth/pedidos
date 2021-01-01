@@ -66,8 +66,8 @@ int notificacoes_receber(){
   notificacao_pendencias = 0;
 
   sprintf(query,
-    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+%i"
-    ,NOTF_DIAS);
+    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE()-%i and p.data_vencimento <= CURDATE()+%i"
+    ,NOTF_DIAS,NOTF_DIAS);
 
   if((res = consultar(query))){
     notificacao_pendencias += mysql_num_rows(res);
@@ -191,7 +191,7 @@ void notificacoes_wnd(){
 
   GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() and p.data_vencimento <= CURDATE()+2");
+  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE()-2 and p.data_vencimento <= CURDATE()+2");
 	if((res = consultar(query))){
     int notif_qnt=0;
   	while((row = mysql_fetch_row(res))!=NULL){
@@ -204,11 +204,11 @@ void notificacoes_wnd(){
       strcpy(id , row[0]);
 
       switch (atoi(row[5])) {
-        case 1:
+        case TP_TIT_REC:
           sprintf(nome,"Título à Receber");
           sprintf(terceiro,"Cliente");
           break;
-        case 2:
+        case TP_TIT_PAG:
           sprintf(nome,"Título à Pagar");
           sprintf(terceiro,"Fornecedor");
           break;

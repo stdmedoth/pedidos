@@ -5,9 +5,16 @@ int orc_prod_calc_saldo(int posicao){
 	MYSQL_ROW campos;
 
 	int prod_code=0;
-	if(strlen(codigo_prod_orc_gchar))
+	if(strlen(codigo_prod_orc_gchar)){
 		prod_code = atoi(codigo_prod_orc_gchar);
+	}
 	else{
+		produto_inserido[posicao] = 0;
+		if(posicao>1){
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
+			gtk_widget_grab_focus(orc_transp_codigo_entry);
+			return 0;
+		}
 		popup(NULL,"Insira o produto");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
@@ -99,8 +106,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		return 0;
 	}
 
-	if(strlen(codigo_prod_orc_gchar)<=0)
-	{
+	if(strlen(codigo_prod_orc_gchar)<=0){
 		produto_inserido[posicao] = 0;
 		if(posicao>1){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -113,8 +119,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	if(stoi(codigo_prod_orc_gchar)==-1)
-	{
+	if(stoi(codigo_prod_orc_gchar)==-1){
 		popup(NULL,"O código do produto deve ser numérico");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
@@ -148,12 +153,30 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		campos[1][15] = '.';
 		campos[1][15] = '\0';
 	}
-
-	produto_inserido[posicao] = 1;
 	gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
 
 	if(orc_prod_calc_saldo(posicao))
 		return 1;
+
+	if(!produto_inserido[posicao] && !recebendo_prod_orc){
+		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]));
+		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_NUL, ORC_ORIGPRC_NUL,"Origem");
+		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_CLI, ORC_ORIGPRC_CLI,"Cliente");
+		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_PROD, ORC_ORIGPRC_PROD,"Produto");
+		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_OPER, ORC_ORIGPRC_OPER,"Operador");
+		sprintf(query,"select * from precos where produto = %s", codigo_prod_orc_gchar);
+		if(!(vetor = consultar(query))){
+			popup(NULL,"Não foi possível consultar precos para o produto");
+			return 1;
+		}
+		int combo_position = ORIGPRC_COLS_QNT;
+		while((campos = mysql_fetch_row(vetor))){
+			gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]), combo_position, campos[PRC_CODE_COL],campos[PRC_NOME_COL]);
+			combo_position++;
+		}
+		gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[posicao]),0);
+	}
+	produto_inserido[posicao] = 1;
 
 	gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 	return 0;

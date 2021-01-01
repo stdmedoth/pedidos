@@ -1,22 +1,3 @@
-int clique_menu(void){
-
-	if(controle_menu)
-	{
-		gtk_widget_hide(lista_abas);
-		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Menu");
-		controle_menu=0;
-	}
-	else
-	{
-		gtk_widget_show_all(lista_abas);
-		gtk_button_set_label(GTK_BUTTON(botao_iniciar),"Fecha");
-		controle_menu=1;
-	}
-
-	return 0;
-}
-
-
 int barra_icones_add(gchar *Nome, int (*funcao) ()){
 	GtkWidget *novo_icone = gtk_button_new();
 	GtkWidget *img;
@@ -30,9 +11,9 @@ int barra_icones_add(gchar *Nome, int (*funcao) ()){
 	gtk_widget_set_name(novo_icone,"bar_buttons_tertiary");
 	g_signal_connect(GTK_BUTTON(novo_icone),"clicked",G_CALLBACK(funcao),NULL);
 
-	if(ativar.ativo){
-		gtk_layout_put(GTK_LAYOUT(layout_barra),novo_icone,0,ULT_BARRA_POS);
-	}
+	//if(ativar.ativo){
+	gtk_layout_put(GTK_LAYOUT(layout_barra),novo_icone,0,ULT_BARRA_POS);
+	//}
   return 0;
 }
 
@@ -130,7 +111,7 @@ GtkWidget *barra_icones_wnd(){
   gtk_widget_set_size_request(GTK_WIDGET(sair_button),75,60);
 
 
-  g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(clique_menu),NULL);
+  g_signal_connect(GTK_WIDGET(botao_iniciar),"clicked",G_CALLBACK(chama_menu),NULL);
 
   g_signal_connect(GTK_BUTTON(sair_button),"clicked",G_CALLBACK(botao_encerrar),janela_principal);
 

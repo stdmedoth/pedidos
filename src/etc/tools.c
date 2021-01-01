@@ -1,5 +1,237 @@
 #include "sql_tools.c"
 
+GtkWidget *get_pop_parents_wnd(){
+  GtkWidget *parent=NULL;
+  if(janelas_gerenciadas.principal.janela_pointer)
+    parent = janelas_gerenciadas.principal.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+
+  return parent;
+}
+
+int validar_sessao_criada(){
+
+  if(!janelas_gerenciadas.aplicacao.criada && !janelas_gerenciadas.principal.aberta)
+    return 0;
+
+  if(!janelas_gerenciadas.principal.sys_close_wnd)
+    return 0;
+
+  if(sessao_oper.status_sessao == SESSAO_NULA){
+
+
+    popup(NULL,"Sessão com erro, o incidente será reportado");
+		autologger("Desktop aberto sem sessao ativa");
+		encerrando();
+		return 1;
+	}
+
+  return 0;
+}
+
+void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+  GtkTreeIter iter;
+  char *posicao;
+  GdkPixbuf *pixbuf;
+  int identificacao=0;
+  g_print("recebendo valor do treeicon\n");
+
+  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path))
+    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,0,&posicao,1,&pixbuf,2,&identificacao,-1);
+  else
+    g_print("Não foi possivel encontrar iter\n");
+
+  if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
+    janelas_gerenciadas.vetor_janelas[identificacao].fun();
+
+  g_print("posicao = :%s\n",posicao);
+}
+
+
+int comparar_datas(gchar *primeira, gchar *segunda){
+  int dia1=0, mes1=0, ano1=0;
+  int dia2=0, mes2=0, ano2=0;
+
+  if(sscanf( primeira,"%d/%d/%d", &dia1, &mes1, &ano1)!=3)
+    return DEFAULT_ERROR_CODE;
+
+  if(sscanf( segunda, "%d/%d/%d", &dia2, &mes2, &ano2)!=3)
+    return DEFAULT_ERROR_CODE;
+
+  GTimeZone *tz1 = g_time_zone_new(NULL);
+  GDateTime *gdt1 = g_date_time_new(tz1,ano1,mes1,dia1,0,0,0);
+  if(!gdt1)
+    return DEFAULT_ERROR_CODE;
+
+  GTimeZone *tz2 = g_time_zone_new(NULL);
+  GDateTime *gdt2 = g_date_time_new(tz2,ano2,mes2,dia2,0,0,0);
+  if(!gdt2)
+    return DEFAULT_ERROR_CODE;
+
+  return g_date_time_compare(gdt1, gdt2);
+}
+
+xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+  xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
+  xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
+
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "CadConsultaCadastro4", BAD_CAST "http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro4");
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "nfe", BAD_CAST "http://www.portalfiscal.inf.br/nfe");
+
+  xmlNodePtr node=NULL;
+  if(node_contxt &&
+    node_contxt->nodesetval &&
+    node_contxt->nodesetval->nodeNr &&
+    node_contxt->nodesetval->nodeTab){
+
+    node = node_contxt->nodesetval->nodeTab[0];
+  }
+
+  return node;
+}
+
+size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp){
+  size_t realsize = size * nmemb;
+  struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+
+  mem->memory = realloc(mem->memory, mem->size + realsize + 1);
+  if(mem->memory == NULL) {
+    /* out of memory! */
+    printf("not enough memory (realloc returned NULL)\n");
+    return 0;
+  }
+
+  memcpy(&(mem->memory[mem->size]), contents, realsize);
+  mem->size += realsize;
+  mem->memory[mem->size] = 0;
+
+  return realsize;
+}
+
+
+gchar *get_full_ender_from_cep(gchar *cep, int num){
+
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+  gchar *ender = NULL;
+  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep);
+  if(!(res = consultar(query))){
+    popup(NULL,"Erro ao consultar endereços");
+    return NULL;
+  }
+
+  if((row = mysql_fetch_row(res))){
+
+    gchar *logr = NULL;
+    gchar *cnum = NULL;
+    gchar *bairro = NULL;
+    gchar *cidade = NULL;
+    gchar *uf = NULL;
+
+    if(row[0]){
+      logr = malloc(strlen( row[0] ) );
+      sprintf(logr,"%s",row[0]);
+    }else{
+      logr = strdup("");
+    }
+
+    if(num){
+      cnum = malloc(12);
+      sprintf(cnum,"%i",num);
+    }else{
+      cnum = strdup("");
+    }
+
+    if(row[1]){
+      bairro = malloc(strlen( row[1] ) );
+      sprintf(bairro,"%s",row[1]);
+    }else{
+      bairro = strdup("");
+    }
+
+    if(row[2]){
+      cidade = malloc(strlen( row[2] ) );
+      sprintf(cidade,"%s",row[2]);
+    }else{
+      cidade = strdup("");
+    }
+
+    if(row[3]){
+      uf = malloc(strlen( row[3] ) );
+      sprintf(uf,"%s",row[3]);
+    }else{
+      uf = strdup("");
+    }
+    ender = malloc(strlen(logr) + strlen(cnum) + strlen(bairro) + strlen(cidade) + strlen(uf) + 10);
+    sprintf(ender, "%s,%s,%s,%s,%s", logr, cnum, bairro, cidade, uf);
+  }
+
+  return ender;
+}
+
+int treeview_id_exists(GtkTreeView *treeview, int id){
+
+  gchar *id_char = malloc(12);
+  GtkTreeIter iter;
+  GtkTreeStore *model = (GtkTreeStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+  if(!model){
+    return 0;
+  }
+  if(!gtk_tree_model_iter_children(GTK_TREE_MODEL(model), &iter, NULL)){
+    return 0;
+  }
+
+  do{
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter,
+      0, &id_char, -1);
+
+    int id_int = atoi(id_char);
+    if(id_int == id){
+      return 1;
+    }
+  }while(gtk_tree_model_iter_next(GTK_TREE_MODEL(model), &iter));
+
+  return 0;
+}
+
+char  *format_only_num(char *text){
+
+  if(!text)
+    return NULL;
+
+  int cont2=0;
+  char *formated_text = malloc(strlen(text)+1);
+  strcpy(formated_text,"");
+
+  for(int cont=0;cont<strlen(text);cont++){
+    if(isdigit(text[cont])){
+      formated_text[cont2] = text[cont];
+      cont2++;
+    }
+  }
+  formated_text[cont2] = '\0';
+
+  return formated_text;
+}
+
+char *formatar_littobig(char *string){
+  for(int cont=0;cont<strlen(string);cont++){
+    if(isalpha(string[cont]) && islower(string[cont]))
+      string[cont] -= 32;
+  }
+  return string;
+}
+
 void checkcellrenderer ( GtkCellRendererToggle *cell )
 {
     int active = gtk_cell_renderer_toggle_get_active ( cell );
@@ -231,7 +463,7 @@ char *formatar_data(char *data){
 
 	for(int cont=0;cont<formats_qnt;cont++){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
-        if(ano<2000)
+        if(ano<1900)
           ano += 2000;
 				GTimeZone *tz = g_time_zone_new(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);

@@ -44,6 +44,8 @@ create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
   im varchar(20) default '',
   regime_tributario int default 1,
   regime_issqn int default 1,
+  digcert_path varchar(255) default '',
+  digcert_pass varchar(25) default '',
   cep varchar(15) default '' not null,
   endereco varchar(400) default '' not null,
   bairro  varchar(100) default '' not null,
@@ -59,13 +61,15 @@ create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
   senhaemail varchar(100) default '' not null,
   sobre varchar(500));
 
-create table if not exists perfil_desktop(code int primary key auto_increment,
+create table if not exists perfil_desktop(
+  code int primary key auto_increment,
   desktop_img int default 0,
   tema int default 0,
   janela_init bool default 0,
   janelas_keep_above bool default 0);
 
-create table if not exists pag_cond(code int primary key auto_increment,
+create table if not exists pag_cond(
+  code int primary key auto_increment,
   nome varchar(40) default 'Cond. Pag. sem Nome',
   tipo int default 1,
   dia_fixo_flag int default 1,
@@ -78,12 +82,14 @@ create table datas_livres_tab( orcamento int not null,
   data datetime not null,
   valor float not null);
 
-create table if not exists criticas(nome varchar(120),
+create table if not exists criticas(
+  nome varchar(120),
   opcao_nome varchar(30) default 0,
   campo_nome varchar(30) default 0,
   critica bool default 0);
 
-create table if not exists terceiros ( code int primary key auto_increment,
+create table if not exists terceiros (
+  code int primary key auto_increment,
   code_nfe varchar(15) default '' not null,
   razao varchar(300) default '' not null,
   doc varchar(20) default '' not null,
@@ -112,24 +118,29 @@ create table if not exists terceiros ( code int primary key auto_increment,
 
   frete_pago bool default 0 not null,
   vlr_frete_pago float default 0 not null,
-  prazo varchar(20) default '' not null,
-  obs varchar(500) default '' not null);
+  prazo int not null,
+  obs varchar(500) default '' not null,
+  foreign key(prazo) references pag_cond(code));
 
-create table if not exists contatos ( code int,
+create table if not exists contatos (
+  code int,
   terceiro int not null,
   nome varchar(30) default '' not null,
   telefone varchar(15) default '' not null,
   celular varchar(15) default '' not null,
   email varchar(100) default '' not null);
 
-create table if not exists preco_cliente( code int primary key auto_increment,
+create table if not exists preco_cliente(
+  code int primary key auto_increment,
   produto int default 1,
   cliente int default 1,
   valor_fat float default 0.0,
   valor_vist float default 0.0,
   foreign key(cliente) references terceiros(code));
 
-create table if not exists tipo_pagamento( code int, nome varchar(50));
+create table if not exists tipo_pagamento(
+  code int,
+  nome varchar(50));
 
 create table if not exists wnd_logger(id_janela int,
   nome_janela varchar(100),

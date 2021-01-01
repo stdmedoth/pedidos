@@ -44,4 +44,4 @@ static int relat_mov_gerando=0;
 int relat_mov_codigo_fun();
 int relat_mov_query_fun();
 int relat_mov_gerar_fun();
-void relat_mov_fun();
+int relat_mov_fun();

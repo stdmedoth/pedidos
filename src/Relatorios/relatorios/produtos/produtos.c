@@ -2,7 +2,7 @@
 #include "campos/query.c"
 #include "gerar.c"
 
-void relat_prod_fun()
+int relat_prod_fun()
 {
 	GtkWidget *janela;
 	GtkWidget *box, *fixed, *caixa;
@@ -161,4 +161,5 @@ void relat_prod_fun()
 	gtk_widget_set_size_request(janela,500,300);
 
 	gtk_widget_show_all(janela);
+	return 0;
 }

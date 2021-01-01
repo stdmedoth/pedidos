@@ -94,9 +94,9 @@ int psq_bnc(GtkWidget *button, GtkEntry *cod_bnc_entry)
 
 	psq_bnc_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(psq_bnc_wnd),3);
+	gtk_window_set_title(GTK_WINDOW(psq_bnc_wnd),"Pesquisa Bancos");
 	gtk_window_set_icon_name(GTK_WINDOW(psq_bnc_wnd),"system-search");
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(psq_bnc_wnd),TRUE);
+	gtk_window_set_keep_above(GTK_WINDOW(psq_bnc_wnd),TRUE);
 	gtk_widget_set_size_request(psq_bnc_wnd,500,250);
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);

@@ -1,1 +1,1 @@
-void est_cad_excluir();
+int est_cad_excluir();

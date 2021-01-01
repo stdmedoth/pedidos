@@ -84,14 +84,16 @@ GtkWidget *criar_precos_ter_wnd(){
 	GtkWidget *preco_ter_prcfat_frame = gtk_frame_new("Parcelado");
 	GtkWidget *preco_ter_prcvist_frame = gtk_frame_new("À Vista");
 	entry_preco_ter_label = gtk_label_new("Preços");
+
 	entry_preco_ter_prcfat = gtk_entry_new();
 	entry_preco_ter_prcvist = gtk_entry_new();
+
 	gtk_container_add(GTK_CONTAINER(preco_ter_prcfat_frame),entry_preco_ter_prcfat);
 	gtk_container_add(GTK_CONTAINER(preco_ter_prcvist_frame),entry_preco_ter_prcvist);
 
 	gtk_box_pack_start(GTK_BOX(caixa),preco_ter_prcfat_frame,0,0,5);
 	gtk_box_pack_start(GTK_BOX(caixa),preco_ter_prcvist_frame,0,0,5);
-	gtk_box_pack_start(GTK_BOX(caixa),entry_preco_ter_prcvist,0,0,5);
+
 	g_signal_connect(entry_preco_ter_prcfat,"activate",G_CALLBACK(passar_campo),entry_preco_ter_prcvist);
 	g_signal_connect(entry_preco_ter_prcvist,"activate",G_CALLBACK(passar_campo),entry_preco_ter_prcfat);
 	return caixa;

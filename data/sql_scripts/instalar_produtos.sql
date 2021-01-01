@@ -59,6 +59,7 @@ CREATE TABLE  produtos(
   grupo int(11) DEFAULT '1',
   grupo_nivel int(11) DEFAULT '2',
   ncm int NOT NULL ,
+  code_barra varchar(20),
   icmscst int NOT NULL ,
   piscst int NOT NULL ,
   pisaliq float not null,
@@ -66,6 +67,8 @@ CREATE TABLE  produtos(
   cofinsaliq float not null,
   origem int NOT NULL,
   observacoes varchar(500) DEFAULT '',
+  dt_criacao datetime,
+  dt_modificacao datetime,
   FOREIGN KEY (unidades) REFERENCES unidades(code),
   FOREIGN KEY (fornecedor) REFERENCES terceiros(code),
   FOREIGN KEY (grupo) REFERENCES grupos(code),
@@ -76,7 +79,9 @@ CREATE TABLE  produtos(
   FOREIGN KEY (origem) REFERENCES prod_origem(code)
 );
 
-create table if not exists precos( code int primary key auto_increment,
+create table if not exists precos(
+  code int primary key auto_increment,
+  nome varchar(50) not null,
   produto int default 1,
   valor_fat float default 0.0,
   valor_vist float default 0.0,

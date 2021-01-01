@@ -2,7 +2,7 @@
 #include "campos/query.c"
 #include "gerar.c"
 
-void relat_mov_fun()
+int relat_mov_fun()
 {
 	GtkWidget *janela;
 	GtkWidget *grid, *caixa, *frame;
@@ -105,14 +105,16 @@ void relat_mov_fun()
 
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possivel receber tipo operações");
-		return ;
+		return 1;
 	}
 	while((row = mysql_fetch_row(res))){
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),row[0]);
 		cont++;
 	}
-	if(cont==0)
+	if(!cont){
 		popup(NULL,"Não Há operações cadastradas");
+		return 1;
+	}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(relat_mov_tipo_combo),0);
 
@@ -245,4 +247,5 @@ void relat_mov_fun()
 	gtk_container_add(GTK_CONTAINER(janela),caixa);
 	gtk_widget_set_size_request(janela,500,300);
 	gtk_widget_show_all(janela);
+	return 0;
 }

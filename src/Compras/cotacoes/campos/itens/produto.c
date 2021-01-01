@@ -32,10 +32,10 @@ int cotat_itens_prod_fun(GtkEntry *entry, int pos){
 
   requisicao = atoi(row[REQ_CODE_COL]);
   produto = atoi(row[REQ_PROD_COL]);
-  if(!cotac_produto_inserido[cod][pos]){
-    quantidade = strdup(row[REQ_QNT_COL]);
-    gtk_entry_set_text(GTK_ENTRY(cotac_prod_qnt_entry[cod][pos]),quantidade);
-  }
+  //if(!cotac_produto_inserido[cod][pos]){
+  quantidade = strdup(row[REQ_QNT_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cotac_prod_qnt_entry[cod][pos]),quantidade);
+  //}
 
   sprintf(query,"SELECT * FROM produtos WHERE code = %i",produto);
 
@@ -55,8 +55,8 @@ int cotat_itens_prod_fun(GtkEntry *entry, int pos){
 
   cotacao_new->cotacao_itens[cod][pos].requisicao = requisicao;
   cotacao_new->cotacao_itens[cod][pos].produto = produto;
-  if(!cotac_produto_inserido[cod][pos])
-    cotacao_new->cotacao_itens[cod][pos].quantidade = atof(quantidade);
+  //if(!cotac_produto_inserido[cod][pos])
+  cotacao_new->cotacao_itens[cod][pos].quantidade = atof(quantidade);
 
   cotac_produto_inserido[cod][pos] = 1;
 

@@ -28,7 +28,7 @@ static GtkWidget *relat_ter_gerar_button;
 
 static gchar *relat_ter_codigo_gchar, *relat_ter_query_gchar;
 
-void relat_ter_fun();
+int relat_ter_fun();
 int relat_ter_codigo_fun();
 int relat_ter_query_fun();
 int relat_ter_gerar_fun();

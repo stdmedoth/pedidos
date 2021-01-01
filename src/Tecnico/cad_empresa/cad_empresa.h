@@ -5,6 +5,8 @@ enum CAD_EMP_ENUM{
   EMP_IM_COL,
   EMP_REGTRIB_COL,
   EMP_REGISSQN_COL,
+  EMP_DIGCERTPATH_COL,
+  EMP_DIGCERTPASS_COL,
   EMP_CEP_COL,
   EMP_LOGR_COL,
   EMP_BAIR_COL,
@@ -57,6 +59,9 @@ GtkWidget *cad_emp_nome_entry,
 *cad_emp_sobre_text_view,
 *cad_emp_img_init_entry,
 *cad_emp_img_init_chooser,
+*cad_emp_digcert_path_entry,
+*cad_emp_digcert_pass_entry,
+*cad_emp_digcert_path_chooser,
 *cad_emp_script_path_entry,
 *cad_emp_script_path_chooser;
 
@@ -70,6 +75,9 @@ static struct _cad_emp{
   int  RegTribInt;
   char cRegTribISSQN[12];
   char indRatISSQN[12]; /* S / N */
+
+  char digcertpath[MAX_PATH_LEN];
+  char digcertpass[20];
 
   char xLgr[MAX_LOGR_LEN];
   int nro;
@@ -109,3 +117,6 @@ int cadastro_empresa();
 int cad_emp_recebe();
 GtkWidget *cad_emp_notebook;
 static int cad_emp_prim=0,person_tecn_prim=0;
+
+
+int cad_emp_exists_emails();

@@ -6,7 +6,7 @@
 #include "campos/terceiro.c"
 #include "gerar.c"
 
-void relat_orc_prod_fun()
+int relat_orc_prod_fun()
 {
 	GtkWidget *janela;
 	GtkWidget *grid, *caixa, *frame;
@@ -249,4 +249,5 @@ void relat_orc_prod_fun()
 	gtk_container_add(GTK_CONTAINER(janela),caixa);
 	gtk_widget_set_size_request(janela,500,300);
 	gtk_widget_show_all(janela);
+	return 0;
 }

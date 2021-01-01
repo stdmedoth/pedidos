@@ -285,13 +285,8 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
     curl_mimepart *part;
     char **cpp;
 
-    if(!cad_emp_strc.email || !strlen(cad_emp_strc.email)){
-      popup(NULL,"Não há email cadastrado para envio de emails");
-      return 1;
-    }
-
-    if(!cad_emp_strc.email_senha || !strlen(cad_emp_strc.email_senha)){
-      popup(NULL,"Não há senha cadastrado para o envio de emails");
+    if(!cad_emp_exists_emails()){
+      popup(NULL,"Não há email configurado para envio de emails");
       return 1;
     }
 

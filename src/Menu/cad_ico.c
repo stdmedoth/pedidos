@@ -1,113 +1,83 @@
-#include "cad_ico.h"
+GtkWidget *cad_menu_get_icon_view(){
 
-int cad_ico(void)
-{
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	int cont,cont2=0,linha=0;
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_PROD],
+		1, gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(PROD_IMG))),
+    2,REG_CAD_PROD,-1);
 
-	//imagem dos icones
-	prd_ico = gtk_image_new_from_file(PROD_IMG);
-	ter_ico = gtk_image_new_from_file(TERC_IMG);
-	opr_ico = gtk_image_new_from_file(OPR_IMG);
-	trs_ico = gtk_image_new_from_file(TRS_IMG);
-	und_ico = gtk_image_new_from_file(UND_IMG);
-	vin_ico = gtk_image_new_from_file(VINC_IMG);
-	grp_ico = gtk_image_new_from_file(GRP_IMG);
-	pag_ico = gtk_image_new_from_file(PAG_IMG);
-	crel_ico = gtk_image_new_from_file(REL_IMG);
-	ceps_ico = gtk_image_new_from_file(CAD_CEP_IMG);
-	bnc_ico = gtk_image_new_from_file(BANCOS_IMG);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,0,janelas_nomes[REG_CAD_TER],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(TERC_IMG))),
+    2,REG_CAD_TER,-1);
 
-	//label dos icones
-	prd_lbl = gtk_label_new("Novo Produto");
-	ter_lbl = gtk_label_new("Nova Pessoa");
-	opr_lbl = gtk_label_new("Novo Operador");
-	trs_lbl = gtk_label_new("Nova Transação");
-	und_lbl = gtk_label_new("Nova Unidade Medida");
-	vin_lbl = gtk_label_new("Verificar vinculos");
-	grp_lbl = gtk_label_new("Grupo de Produtos");
-	pag_lbl = gtk_label_new("Novo Pagamento");
-	crel_lbl = gtk_label_new("Novo Relatório");
-	ceps_lbl = gtk_label_new("Códigos Postais");
-	bnc_lbl = gtk_label_new("Novo Banco");
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_OPER],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(OPR_IMG))),
+    2,REG_CAD_OPER,-1);
 
-	//caixas onde ficarao os icones
-	//cria eventos para cada botao
-	for(cont=0;cont<CAD_ICO_QNT;cont++)
-	{
-		cad_box[cont] = gtk_box_new(1,0);
-		gtk_container_set_border_width(GTK_CONTAINER(cad_box[cont]),1);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_UND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(UND_IMG))),
+    2,REG_CAD_UND,-1);
 
-		gtk_widget_set_name(cad_box[cont],"icone");
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_GRP],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(GRP_IMG))),
+    2,REG_CAD_GRP,-1);
 
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),cad_box[cont]);
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_COND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(PAG_IMG))),
+    2,REG_CAD_COND,-1);
 
-		if(cont2==ICOL)
-		{
-			linha++;
-			cont2=0;
-		}
-		gtk_box_pack_start(GTK_BOX(cadastrosl[linha]),eventos[cont],0,0,45);
-		cont2++;
-	}
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_RELAT],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_IMG))),
+    2,REG_CAD_RELAT,-1);
 
-	//icone cadastro produto
-  gtk_box_pack_end(GTK_BOX(cad_box[0]),prd_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[0]),prd_ico,0,0,0);
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_CEP],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(CAD_CEP_IMG))),
+    2,REG_CAD_CEP,-1);
 
-	//icone cadastro terceiro
-	gtk_box_pack_end(GTK_BOX(cad_box[1]),ter_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[1]),ter_ico,0,0,0);
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[CAD_BANCOS_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(BANCOS_IMG))),
+    2,CAD_BANCOS_WND,-1);
 
-	//icone cadastro operadores
-	gtk_box_pack_end(GTK_BOX(cad_box[2]),opr_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[2]),opr_ico,0,0,0);
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
-	//icone cadastro de unidades
-	gtk_box_pack_end(GTK_BOX(cad_box[3]),und_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[3]),und_ico,0,0,0);
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_SINGLE);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-	//icone grupos
-	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[4]),grp_ico,0,0,0);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
-	//icone condicao pagamento
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),pag_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[5]),pag_ico,0,0,0);
-
-	//icone novo relatorio
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[6]),crel_ico,0,0,0);
-
-	//icone novo cep
-	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[7]),ceps_ico,0,0,0);
-
-	//icone novo banco
-	gtk_box_pack_end(GTK_BOX(cad_box[8]),bnc_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(cad_box[8]),bnc_ico,0,0,0);
-
-	//sinais para chamada da opçao...
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(inicializar_prod),NULL);
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(cad_prod),NULL);
-
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(inicializar_ter),NULL);
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(cad_terc),NULL);
-
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(cad_oper),NULL);
-
-	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(cad_und),NULL);
-
-	g_signal_connect(eventos[4],"button_press_event",G_CALLBACK(cad_grupo),NULL);
-
-	g_signal_connect(eventos[5],"button_press_event",G_CALLBACK(cad_pag),NULL);
-
-	g_signal_connect(eventos[6],"button_press_event",G_CALLBACK(cad_relat),NULL);
-
-	g_signal_connect(eventos[7],"button_press_event",G_CALLBACK(cad_cep),NULL);
-
-	g_signal_connect(eventos[8],"button_press_event",G_CALLBACK(cad_bancos_fun),NULL);
-
-	return 0;
+	return icon_view;
 }

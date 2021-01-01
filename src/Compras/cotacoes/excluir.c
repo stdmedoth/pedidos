@@ -24,6 +24,16 @@ int cotacao_excluir_fun(){
       return 1;
   }
 
+  sprintf(query,"select * from itens_ordens_compra as ioc inner join itens_cotacoes as ic on ioc.itens_cotacao = ic.code where ic.cotacoes_id = %i", cotacao_new->code);
+  if(!(res = consultar(query))){
+    popup(NULL,"Não foi possível consultar ordens de compra com essa cotação");
+    return 1;
+  }
+  if((row = mysql_fetch_row(res))){
+    popup(NULL,"Existem ordens de compra vinculadas a essa cotação");
+    return 1;
+  }
+
   sprintf(query,"delete from cotacoes_participantes where cotacoes_id = %i", cotacao_new->code);
   if(enviar_query(query)){
     popup(NULL,"Não foi possivel excluir itens da cotação");

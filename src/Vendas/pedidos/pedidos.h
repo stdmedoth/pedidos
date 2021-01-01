@@ -9,16 +9,16 @@ enum PED_COLS{
 	PED_STATUS_COL
 };
 
-static GtkWidget *janela_pedidos;
-static GtkWidget *ped_cod_entry;
-static GtkWidget *ped_ter_entry;
-static GtkWidget *ped_data_entry;
-static GtkWidget *ped_pag_entry;
-static GtkWidget *ped_est_combo;
-static GtkWidget *ped_tipo_combo;
-static GtkWidget *emiteped_status_combo;
-static GtkWidget *ped_bancocod_entry,*ped_banco_entry;
-static GtkWidget *ped_psq_cod_button;
+GtkWidget *janela_pedidos;
+GtkWidget *ped_cod_entry;
+GtkWidget *ped_ter_entry;
+GtkWidget *ped_data_entry;
+GtkWidget *ped_pag_entry;
+GtkWidget *ped_est_combo;
+GtkWidget *ped_tipo_combo;
+GtkWidget *emiteped_status_combo;
+GtkWidget *ped_bancocod_entry,*ped_banco_entry;
+GtkWidget *ped_psq_cod_button;
 
 struct _ped_valores{
 	float valor_prds;

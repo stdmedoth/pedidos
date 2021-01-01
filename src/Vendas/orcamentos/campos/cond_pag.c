@@ -31,7 +31,7 @@ int rec_fat_vist()
 
 	if(orc_pag_tipo_int != CONDPAG_DT_LVR){
 
-		if(atoi(row[6])>1)
+		if(atoi(row[PAGCOND_QNT_COL])>1)
 			tipo_pag = PAG_FAT;
 		else
 			tipo_pag = PAG_VIST;
@@ -47,9 +47,9 @@ int rec_fat_vist()
 	else
 		orc_pag_init_int = atoi(dia_sys);
 
-	orc_pag_parc_int = atoi(row[5]);
+	orc_pag_parc_int = atoi(row[PAGCND_INT_COL]);
 
-	orc_pag_parc_qnt_int = atoi(row[6]);
+	orc_pag_parc_qnt_int = atoi(row[PAGCOND_QNT_COL]);
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{

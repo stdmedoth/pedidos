@@ -3,6 +3,10 @@
   color: white;
 }
 
+#calendario_frame{
+  background: none;
+}
+
 #bar_buttons_secondary:hover{
   background: orange;
 }

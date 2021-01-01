@@ -21,11 +21,13 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
   }
 
 	if(orc_prod_calc_saldo(posicao)){
+		g_print("Erro ao calcular saldo do produto\n");
 		gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
 		return 1;
 	}
 
 	if(calcula_prod_orc(NULL, posicao)){
+		g_print("Erro ao receber calculos de valor do produto\n");
 		return 1;
 	}
 

@@ -1,3 +1,13 @@
+int cad_emp_exists_emails(){
+  if(!cad_emp_strc.email || !strlen(cad_emp_strc.email)){
+    return 0;
+  }
+  if(!cad_emp_strc.email_senha || !strlen(cad_emp_strc.email_senha)){
+    return 0;
+  }
+  return 1;
+}
+
 int cad_emp_consulta(){
   MYSQL_RES*res;
   MYSQL_ROW row;
@@ -43,6 +53,12 @@ int cad_emp_consulta(){
   cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   gtk_combo_box_set_active_id(GTK_COMBO_BOX(cad_emp_regime_combo), row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
+
+  strcpy(cad_emp_strc.digcertpath,row[EMP_DIGCERTPATH_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_digcert_path_entry),row[EMP_DIGCERTPATH_COL]);
+
+  strcpy(cad_emp_strc.digcertpass,row[EMP_DIGCERTPASS_COL]);
+  gtk_entry_set_text(GTK_ENTRY(cad_emp_digcert_pass_entry),row[EMP_DIGCERTPASS_COL]);
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);
@@ -139,6 +155,9 @@ int cad_emp_recebe(){
   cad_emp_strc.RegTribInt = atoi(row[EMP_REGTRIB_COL]);
   strcpy(cad_emp_strc.cRegTribISSQN,row[EMP_REGISSQN_COL]);
   strcpy(cad_emp_strc.indRatISSQN, "S"); // pode ser N, depende da operação
+
+  strcpy(cad_emp_strc.digcertpath,row[EMP_DIGCERTPATH_COL]);
+  strcpy(cad_emp_strc.digcertpass,row[EMP_DIGCERTPASS_COL]);
 
   if(row[EMP_SOBRE_COL]){
     strcpy(cad_emp_strc.sobre,row[EMP_SOBRE_COL]);

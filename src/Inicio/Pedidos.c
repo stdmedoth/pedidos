@@ -14,8 +14,9 @@
 #include <sys/types.h>
 #include <gtk/gtk.h>
 #include <libxml/xinclude.h>
+#include <json-glib-1.0/json-glib/json-glib.h>
+#include <cairo/cairo-pdf.h>
 #include <curl/curl.h>
-#include <libxml/xpath.h>
 #include <time.h>
 
 #ifdef __linux__

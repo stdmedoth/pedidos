@@ -10,7 +10,7 @@ int cad_emp_atualiza(){
   *bairro,*cidade,*uf,*telefone,
   *celular, *smtp_server,*smtp_port,
   *email, *senhaemail, *sobre, *path_img_init,
-  *path_script, *regime_trib;
+  *path_script, *regime_trib, *digcertpath, *digcertpass;
 
   int numrua,tiporua,regime_issq;
 
@@ -98,19 +98,22 @@ int cad_emp_atualiza(){
   if(!strlen(path_script))
     path_script = strdup("");
 
+  digcertpath = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_digcert_path_entry));
+  digcertpass = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_digcert_pass_entry));
+
   char *char_cnpj = string_to_int(cnpj);
   //informativos
   if(cad_emp_prim){
     sprintf(query,
-      "insert into empresa(cnpj,razao, ie, im, regime_tributario, regime_issqn, cep, endereco, bairro, cidade, uf, numrua, tiporua, telefone, celular, smtp, porta, email, senhaemail, sobre ) \
-      values('%s','%s', '%s', '%s', '%s','%i','%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
-    char_cnpj, nome, ie, im, regime_trib, regime_issq,cep, logr, bairro,
+      "insert into empresa(cnpj,razao, ie, im, regime_tributario, regime_issqn, digcert_path, digcert_pass, cep, endereco, bairro, cidade, uf, numrua, tiporua, telefone, celular, smtp, porta, email, senhaemail, sobre ) \
+      values('%s','%s', '%s', '%s', '%s','%i', '%s', '%s', '%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
+    char_cnpj, nome, ie, im, regime_trib, regime_issq, digcertpath, digcertpass, cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular,smtp_server, atoi(smtp_port), email, senhaemail,sobre);
   }else{
 
-    sprintf(query,"update empresa set cnpj = '%s', ie = '%s', im = '%s', regime_tributario = '%s', regime_issqn = '%i', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
-    char_cnpj, ie, im, regime_trib, regime_issq, nome  ,cep, logr, bairro,
+    sprintf(query,"update empresa set cnpj = '%s', ie = '%s', im = '%s', regime_tributario = '%s', regime_issqn = '%i', digcert_path = '%s', digcert_pass = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s'",
+    char_cnpj, ie, im, regime_trib, regime_issq, digcertpath, digcertpass, nome  ,cep, logr, bairro,
     cidade,uf, numrua,tiporua, telefone,
     celular, smtp_server, atoi(smtp_port), email, senhaemail, sobre);
   }

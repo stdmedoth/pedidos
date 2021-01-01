@@ -1,59 +1,49 @@
-#include "vnd_ico.h"
+GtkWidget *vnd_menu_get_icon_view(){
 
-int vnd_ico(void)
-{
-	int cont,linha=0;
+	int N_COLUMNS=3;
+	GtkTreeIter iter;
+	GtkWidget *icon_view = gtk_icon_view_new();
+	GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
-	//imagem dos icones
-	orc_ico = gtk_image_new_from_file(ORC_IMG);
-	ped_ico = gtk_image_new_from_file(PED_IMG);
-	trsp_ico = gtk_image_new_from_file(TRSP_IMG);
-	cx_ico = gtk_image_new_from_file(CX_IMG);
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_ORC],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ORC_IMG))),
+    2,REG_CAD_ORC,-1);
 
-	//label dos icones
-	orc_lbl = gtk_label_new("Orçamentos");
-	ped_lbl = gtk_label_new("Pedidos");
-	cx_lbl = gtk_label_new("PDV");
-	trsp_lbl = gtk_label_new("Transportes");
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_CAD_PED],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(PED_IMG))),
+    2,REG_CAD_PED,-1);
 
-	//caixas onde ficarao os icones
-	//cria eventos para cada botao
-	for(cont=0;cont<=VND_ICO_QNT;cont++)
-	{
-		vnd_box[cont] = gtk_box_new(1,0);
-		//sprintf(name,"icone%i",cont);
-		gtk_widget_set_name(vnd_box[cont],"icone");
-		eventos[cont] = gtk_event_box_new();
-		gtk_container_add(GTK_CONTAINER(eventos[cont]),vnd_box[cont]);
-		if(cont==ICOL)
-			linha++;
-		gtk_box_pack_start(GTK_BOX(faturamentol[linha]),eventos[cont],0,0,40);
-		//memset(name,0x0,strlen(name));
-	}
+	gtk_tree_store_append(modelo,&iter,NULL);
+	gtk_tree_store_set(modelo,
+		&iter,
+		0,janelas_nomes[CAD_TRSP_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(TRSP_IMG))),
+		2,CAD_TRSP_WND,-1);
 
-	//icone orcamentos
-    gtk_box_pack_end(GTK_BOX(vnd_box[0]),orc_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(vnd_box[0]),orc_ico,0,0,0);
+	gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+		0,janelas_nomes[REG_PDV_WND],
+		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(CX_IMG))),
+    2,REG_PDV_WND,-1);
 
-	//icone pedidos
-	gtk_box_pack_end(GTK_BOX(vnd_box[1]),ped_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(vnd_box[1]),ped_ico,0,0,0);
+  gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
-	//icone pdv
-	gtk_box_pack_end(GTK_BOX(vnd_box[2]),cx_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(vnd_box[2]),cx_ico,0,0,0);
+	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
+	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_SINGLE);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
+	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-	//icone Transportes
-	gtk_box_pack_end(GTK_BOX(vnd_box[3]),trsp_lbl,0,0,0);
-	gtk_box_pack_end(GTK_BOX(vnd_box[3]),trsp_ico,0,0,0);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
-	g_signal_connect(eventos[0],"button_press_event",G_CALLBACK(vnd_orc),NULL);
-
-	g_signal_connect(eventos[1],"button_press_event",G_CALLBACK(vnd_ped),NULL);
-
-	g_signal_connect(eventos[2],"button_press_event",G_CALLBACK(pdv_princ_wnd),NULL);
-
-	g_signal_connect(eventos[3],"button_press_event",G_CALLBACK(trsp_cad_fun),NULL);
-
-	return 0;
+	return icon_view;
 }

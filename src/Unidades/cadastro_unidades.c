@@ -7,6 +7,29 @@
 #include "exclui.c"
 #include "conclui.c"
 
+struct _und *cad_und_get_und(int und_code){
+	char query[MAX_QUERY_LEN];
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	struct _und *und = malloc(sizeof(struct _und));
+	sprintf(query,"select * from unidades where code = %i;",und_code);
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível consultar unidade");
+		return NULL;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		popup(NULL,"Unidade não encontrada");
+		return NULL;
+	}
+	und->code = atoi(row[UND_CODE_COL]);
+	und->nome = strdup(row[UND_NOME_COL]);
+	und->sigla = strdup(row[UND_SIGLA_COL]);
+	und->multiplo = atof(row[UND_MULTIPLO_COL]);
+	und->medida = atoi(row[UND_MEDIDA_COL]);
+
+	return und;
+}
+
 int  cad_und()
 {
 	char task[20];

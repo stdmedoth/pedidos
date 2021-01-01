@@ -7,6 +7,28 @@
 #include "cancelar.c"
 #include "alterar.c"
 
+int contratos_get_modulos_qnt(){
+  int qnt=0;
+  if(ativar.cadastro)
+    qnt++;
+  if(ativar.compras)
+    qnt++;
+  if(ativar.faturamento)
+    qnt++;
+  if(ativar.estoque)
+    qnt++;
+  if(ativar.financeiro)
+    qnt++;
+  if(ativar.marketing)
+    qnt++;
+  if(ativar.relatorios)
+    qnt++;
+  if(ativar.tecnicos)
+    qnt++;
+
+  return qnt;
+}
+
 int cad_contratos(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);

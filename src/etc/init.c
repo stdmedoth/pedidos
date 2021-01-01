@@ -2,16 +2,20 @@ static void criar_janela_princ(){
 
 	janela_principal = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_set_title(GTK_WINDOW(janela_principal),"Petitto");
-	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
-	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
-	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
-	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
-	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
-	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
 	gtk_window_maximize(GTK_WINDOW(janela_principal));
+	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
+	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
+	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
+	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal),1366,768);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
+
 
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
+
 	if(ger_janela_aberta(janela_principal, &janelas_gerenciadas.principal))
 		return ;
 
@@ -23,7 +27,6 @@ static void criar_janela_princ(){
 	g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal);
 	return ;
 }
-
 
 int desktop(){
 	int err=0;
@@ -40,6 +43,9 @@ int desktop(){
 	MYSQL_ROW row;
 	char *query = malloc(MAX_QUERY_LEN);
 	char markup[500];
+
+	if(validar_sessao_criada())
+    return 1;
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
@@ -86,51 +92,40 @@ int desktop(){
 		g_main_context_iteration(NULL,FALSE);
 
 
-	sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
-	if(!(res = consultar(query))){
-		popup(NULL,"Erro ao buscar status do serviço");
-		return 1;
-	}
-	if(!(row = mysql_fetch_row(res))){
-		autologger("Não existem contratos ativos");
-		ativar.ativo = 0;
-	}else{
-		if(atoi(row[CONTRATOS_COLS_QNT])<=0){
-			popup(NULL,"Serviço Expirado");
+	if(sessao_oper.status_sessao == SESSAO_LOGADA){
+		sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
+		if(!(res = consultar(query))){
+			popup(NULL,"Erro ao buscar status do serviço");
+			return 1;
+		}
+		if(!(row = mysql_fetch_row(res))){
+			autologger("Não existem contratos ativos");
 			ativar.ativo = 0;
-		}else
-			ativar.ativo = 1;
+		}else{
+			if(atoi(row[CONTRATOS_COLS_QNT])<=0){
+				popup(NULL,"Serviço Expirado");
+				ativar.ativo = 0;
+			}else
+				ativar.ativo = 1;
+		}
 	}
-	if(ativar.ativo){
-		ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
-		ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
-		ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
-		ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
-		ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
-		ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
-		ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
-	}else{
-		ativar.cadastro=0;
-		ativar.compras=0;
-		ativar.faturamento=0;
-		ativar.estoque=0;
-		ativar.financeiro=0;
-		ativar.marketing=0;
-		ativar.relatorios=0;
+
+
+	sessao_set_nonemodules();
+
+	if( ativar.ativo && sessao_oper.status_sessao == SESSAO_LOGADA ){
+		ativar.cadastro = atoi( row[CONTRATOS_CAD_COL] );
+		ativar.compras = atoi( row[CONTRATOS_CMP_COL] );
+		ativar.faturamento = atoi( row[CONTRATOS_FAT_COL] );
+		ativar.estoque = atoi( row[CONTRATOS_EST_COL] );
+		ativar.financeiro = atoi( row[CONTRATOS_FIN_COL] );
+		ativar.marketing = atoi( row[CONTRATOS_MARKT_COL] );
+		ativar.relatorios = atoi( row[CONTRATOS_REL_COL] );
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
-		ativar.cadastro=1;
-		ativar.compras=1;
-		ativar.faturamento=1;
-		ativar.estoque=1;
-		ativar.financeiro=1;
-		ativar.marketing=1;
-		ativar.relatorios=1;
-		ativar.tecnicos=1;
+		sessao_set_allmodules();
 	}
-	else
-		ativar.tecnicos=0;
 
 	fixed_menu = gtk_fixed_new();
 
@@ -139,14 +134,12 @@ int desktop(){
 	layout = gtk_layout_new(NULL,NULL);
 
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
-	if((res = consultar(query))==NULL)
-	{
+	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		gtk_main_quit();
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Sem dados para personalizar o sistema");
 		gtk_main_quit();
 		return 1;
@@ -163,28 +156,25 @@ int desktop(){
 		if(nomes_temas[personalizacao.tema])
 		g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
+	sprintf(query,"select desktop_img from perfil_desktop where code = %i",sessao_oper.code);
 	res = consultar(query);
-	if(res==NULL)
-	{
-		popup(NULL,"Personalizacao com erro");
-		gtk_main_quit();
+	if(!res){
+		popup(NULL,"Não foi possível receber dados do perfil");
+		encerrando();
 		return 1;
 	}
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-	row = mysql_fetch_row(res);
-	if(row!=NULL){
+	if((row = mysql_fetch_row(res))){
 		imagem_desktop = gtk_image_new_from_file(DESKTOP);
-		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
+		sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.nome);
 		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
 		gtk_widget_set_name(nome_usuario_label,"nome_operador");
 		trocar_desktop(NULL,NULL,atoi(row[1]));
 	}
-	else
-	{
-		popup(NULL,"Login sem personalizacao");
-		gtk_main_quit();
+	else{
+		popup(NULL,"Login sem dados de perfil");
+		encerrando();
 		return 1;
 	}
 
@@ -311,8 +301,8 @@ int desktop(){
 	gtk_widget_set_size_request(GTK_WIDGET(superior),1291,0);
 	gtk_widget_set_size_request(GTK_WIDGET(inferior),1291,0);
 
-	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
 	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1290,750);
+	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
 	gtk_box_pack_start(GTK_BOX(juncao),superior,0,0,0);
 	gtk_box_pack_start(GTK_BOX(juncao),inferior,0,0,0);
 
@@ -326,6 +316,8 @@ int desktop(){
 	gtk_widget_set_size_request(barra_icones,80,750);
 	gtk_container_add(GTK_CONTAINER(barra),barra_icones);
 
+	GtkWidget *caixa_calendario = get_desktop_calendario();
+
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
 
 	gtk_widget_set_size_request(imagem_desktop,1290,750);
@@ -334,16 +326,15 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
+	if(sessao_oper.nivel >= NIVEL_GERENCIAL)
+		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 
-	if(menu()!=0)
-		return 1;
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 
-	gtk_fixed_put(GTK_FIXED(fixed_menu),frame_lista_abas,0,0);
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
 	gtk_widget_show_all(janela_principal);
@@ -352,7 +343,6 @@ int desktop(){
 
 	iniciar_gerenciador_janela();
 
-	gtk_widget_hide(lista_abas);
 	if(encerramento_brusco){
 		reportar_encerramento_brusco();
 		encerramento_brusco = 0;
@@ -362,8 +352,7 @@ int desktop(){
 	return 0;
 }
 
-int init()
-{
+int init(){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query;
@@ -393,10 +382,10 @@ int init()
 	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
 
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
+	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
-	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
-	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
 	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
@@ -436,11 +425,10 @@ int init()
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
 
-	if(atoi(row[0])==0){
-		sessao_oper.code = default_user_code;
-		sessao_oper.nivel = 3;
+	if( !atoi(row[0]) ){
+		criar_sessao_default();
 		gtk_widget_destroy(janela_inicializacao);
-		if(desktop()!=0){
+		if(desktop()){
 			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
@@ -454,11 +442,8 @@ int init()
 		g_main_context_iteration(NULL,FALSE);
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
-	janelas_gerenciadas.fundo_inicializacao.reg_id = 1;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
 		return 1;
-
-	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
 

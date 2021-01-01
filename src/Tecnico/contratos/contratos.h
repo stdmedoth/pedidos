@@ -27,6 +27,8 @@ int cntrats_modulos_fun();
 int cntrats_ativo_fun();
 int cntrats_vencimento_fun();
 
+int contratos_get_modulos_qnt();
+
 int cntrats_concluir_fun();
 int cntrats_cancelar_fun();
 int cntrats_alterar_fun();
