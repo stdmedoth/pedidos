@@ -46,7 +46,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 				encerrar_manualmente = 0;
 			}
 			else{
-				if(sessao_oper.logado){
+				if(sessao_oper.status_sessao == SESSAO_LOGADA){
 					if(desktop()){
 							popup(NULL,"Erro na reinicialização");
 							encerrando();
@@ -68,10 +68,23 @@ void botao_encerrar(){
 	encerrar(NULL,GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
 }
 
+gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer   user_data){
+	switch(event->keyval){
+		case LOGOUT_ATALHO_KEY:
+			fechar_sessao();
+			return FALSE;
+		case FECHAR_ATALHO_KEY:
+			encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+			return FALSE;
+
+	}
+	return FALSE;
+}
+
 int fechar_sessao(){
 	int err;
 	char query[MAX_QUERY_LEN];
-	sessao_oper.logado = 0;
+	sessao_oper.status_sessao = SESSAO_NULA;
 
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
   REG_CORRECT_FINAL,

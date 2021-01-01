@@ -3,6 +3,8 @@
 static int logging = 0;
 static int erro_logger=0;
 
+int validar_sessao_criada();
+
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 GtkWidget *print_janela;

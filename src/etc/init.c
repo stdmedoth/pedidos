@@ -11,6 +11,9 @@ static void criar_janela_princ(){
 	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 
+	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
+
+
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
 
 	if(ger_janela_aberta(janela_principal, &janelas_gerenciadas.principal))
@@ -40,6 +43,9 @@ int desktop(){
 	MYSQL_ROW row;
 	char *query = malloc(MAX_QUERY_LEN);
 	char markup[500];
+
+	if(validar_sessao_criada())
+    return 1;
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
@@ -86,51 +92,40 @@ int desktop(){
 		g_main_context_iteration(NULL,FALSE);
 
 
-	sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
-	if(!(res = consultar(query))){
-		popup(NULL,"Erro ao buscar status do serviço");
-		return 1;
-	}
-	if(!(row = mysql_fetch_row(res))){
-		autologger("Não existem contratos ativos");
-		ativar.ativo = 0;
-	}else{
-		if(atoi(row[CONTRATOS_COLS_QNT])<=0){
-			popup(NULL,"Serviço Expirado");
+	if(sessao_oper.status_sessao == SESSAO_LOGADA){
+		sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
+		if(!(res = consultar(query))){
+			popup(NULL,"Erro ao buscar status do serviço");
+			return 1;
+		}
+		if(!(row = mysql_fetch_row(res))){
+			autologger("Não existem contratos ativos");
 			ativar.ativo = 0;
-		}else
-			ativar.ativo = 1;
+		}else{
+			if(atoi(row[CONTRATOS_COLS_QNT])<=0){
+				popup(NULL,"Serviço Expirado");
+				ativar.ativo = 0;
+			}else
+				ativar.ativo = 1;
+		}
 	}
-	if(ativar.ativo){
-		ativar.cadastro=atoi(row[CONTRATOS_CAD_COL]);
-		ativar.compras=atoi(row[CONTRATOS_CMP_COL]);
-		ativar.faturamento=atoi(row[CONTRATOS_FAT_COL]);
-		ativar.estoque=atoi(row[CONTRATOS_EST_COL]);
-		ativar.financeiro=atoi(row[CONTRATOS_FIN_COL]);
-		ativar.marketing=atoi(row[CONTRATOS_MARKT_COL]);
-		ativar.relatorios=atoi(row[CONTRATOS_REL_COL]);
-	}else{
-		ativar.cadastro=0;
-		ativar.compras=0;
-		ativar.faturamento=0;
-		ativar.estoque=0;
-		ativar.financeiro=0;
-		ativar.marketing=0;
-		ativar.relatorios=0;
+
+
+	sessao_set_nonemodules();
+
+	if( ativar.ativo && sessao_oper.status_sessao == SESSAO_LOGADA ){
+		ativar.cadastro = atoi( row[CONTRATOS_CAD_COL] );
+		ativar.compras = atoi( row[CONTRATOS_CMP_COL] );
+		ativar.faturamento = atoi( row[CONTRATOS_FAT_COL] );
+		ativar.estoque = atoi( row[CONTRATOS_EST_COL] );
+		ativar.financeiro = atoi( row[CONTRATOS_FIN_COL] );
+		ativar.marketing = atoi( row[CONTRATOS_MARKT_COL] );
+		ativar.relatorios = atoi( row[CONTRATOS_REL_COL] );
 	}
 
 	if(sessao_oper.nivel>=NIVEL_TECNICO){
-		ativar.cadastro=1;
-		ativar.compras=1;
-		ativar.faturamento=1;
-		ativar.estoque=1;
-		ativar.financeiro=1;
-		ativar.marketing=1;
-		ativar.relatorios=1;
-		ativar.tecnicos=1;
+		sessao_set_allmodules();
 	}
-	else
-		ativar.tecnicos=0;
 
 	fixed_menu = gtk_fixed_new();
 
@@ -161,28 +156,25 @@ int desktop(){
 		if(nomes_temas[personalizacao.tema])
 		g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	sprintf(query,"select a.nome,b.desktop_img from perfil_desktop as b join operadores as a on a.code = b.code where b.code = %i",sessao_oper.code);
+	sprintf(query,"select desktop_img from perfil_desktop where code = %i",sessao_oper.code);
 	res = consultar(query);
-	if(res==NULL)
-	{
-		popup(NULL,"Personalizacao com erro");
-		gtk_main_quit();
+	if(!res){
+		popup(NULL,"Não foi possível receber dados do perfil");
+		encerrando();
 		return 1;
 	}
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-	row = mysql_fetch_row(res);
-	if(row!=NULL){
+	if((row = mysql_fetch_row(res))){
 		imagem_desktop = gtk_image_new_from_file(DESKTOP);
-		sprintf(nome_usuario_gchar,"Operador: %s",row[0]);
+		sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.nome);
 		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
 		gtk_widget_set_name(nome_usuario_label,"nome_operador");
 		trocar_desktop(NULL,NULL,atoi(row[1]));
 	}
-	else
-	{
-		popup(NULL,"Login sem personalizacao");
-		gtk_main_quit();
+	else{
+		popup(NULL,"Login sem dados de perfil");
+		encerrando();
 		return 1;
 	}
 
@@ -433,11 +425,10 @@ int init(){
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
 
-	if(atoi(row[0])==0){
-		sessao_oper.code = default_user_code;
-		sessao_oper.nivel = 3;
+	if( !atoi(row[0]) ){
+		criar_sessao_default();
 		gtk_widget_destroy(janela_inicializacao);
-		if(desktop()!=0){
+		if(desktop()){
 			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
@@ -453,8 +444,6 @@ int init(){
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
 		return 1;
-
-	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 
 	inicializando=0;
 

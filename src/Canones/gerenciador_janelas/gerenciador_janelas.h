@@ -66,6 +66,7 @@ REG_WIN_QNT,
 #define REG_PRINC_WIN 9990
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
+#define REG_WIN_LOGIN 9993
 
 #define REG_CORRECT_FINAL 99999
 
@@ -144,6 +145,7 @@ typedef struct _janelas_info{
 static struct{
   janelas_info vetor_janelas[REG_WIN_QNT];
   janelas_info principal;
+  janelas_info login;
   janelas_info fundo_inicializacao;
   janelas_info encerramento;
   janelas_info aplicacao;

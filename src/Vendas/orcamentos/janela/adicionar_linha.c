@@ -119,8 +119,8 @@ static int adicionar_linha_orc()
 	gtk_widget_set_size_request(obs_prod_orc_view[itens_qnt],500,30);
 
 
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),"0","R$");
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),"1","%");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),DESCT_EM_REAIS,"0","R$");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),DESCT_EM_PORCENT,"1","%");
 
 	//verifica o tipo de calculo de desconto anterior
 	if(ativos_qnt>1){

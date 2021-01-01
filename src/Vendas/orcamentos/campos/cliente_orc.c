@@ -32,48 +32,37 @@ int codigo_cli_orc()
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));
 	orc_transp_frete_pago_loaded=1;
-	if(strlen(cliente_orc_gchar)<=0)
-	{
+	cliente_orc_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cliente_orc_entry));
+	if(strlen(cliente_orc_gchar)<=0){
 		popup(NULL,"O código cliente deve ser inserido");
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
+	orc_infos.cliente = atoi(cliente_orc_gchar);
 
-	if(stoi(cliente_orc_gchar)==-1)
-	{
-		popup(NULL,"O código do cliente deve ser numérico");
-		gtk_widget_grab_focus(cliente_orc_entry);
-		return 1;
-	}
 	enum{
 		RAZAO,
 		ENDERECO,
 		OBS,
 		PRAZO,
 		TRANSP_CODE,
+		TRANSP_CEP,
 		FRETE_PAGO,
 		VLR_FRETE_PAGO
 	};
 	sprintf(query,"select razao,endereco,obs,prazo,transp_code,transp_cep,frete_pago,vlr_frete_pago from terceiros where code = %s",cliente_orc_gchar);
-	vetor = consultar(query);
-	if(vetor==NULL)
-	{
+	if(!(vetor = consultar(query))){
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de cliente no orcamento\n");
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
-
-	campos = mysql_fetch_row(vetor);
-	if(campos == NULL)
-	{
+	if(!(campos = mysql_fetch_row(vetor))){
 		popup(NULL,"Cliente não existente");
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
-	orc_infos.cliente = atoi(cliente_orc_gchar);
 
 	if(atoi(campos[FRETE_PAGO])){
 		orc_transp_frete_pago_int = 1;
@@ -88,8 +77,7 @@ int codigo_cli_orc()
 
 	strcpy(orc_ter_obs_char,campos[OBS]);
 
-	if(strlen(orc_ter_obs_char)>0 && is_texto(orc_ter_obs_char) &&alerta_obs==0)
-	{
+	if(strlen(orc_ter_obs_char)>0 && is_texto(orc_ter_obs_char) &&alerta_obs==0){
 		ter_alert_obs();
 		alerta_obs = 1;
 	}
@@ -111,6 +99,7 @@ int codigo_cli_orc()
 				gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[5]);
 			}
 		}
+
 	}
 
 	if(GTK_IS_WIDGET(codigo_prod_orc_entry[1]))

@@ -5,6 +5,12 @@ enum{
 	NIVEL_TECNICO,
 };
 
+enum{
+	SESSAO_NULA,
+	SESSAO_TESTE,
+	SESSAO_LOGADA
+};
+
 #define OPER_MAX_NIVEL 10
 #define NIVEL_CRIADOR OPER_MAX_NIVEL
 
@@ -12,7 +18,7 @@ static struct{
 	int code;
 	char nome[MAX_NAME_LEN];
 	int nivel;
-	int logado;
+	int status_sessao;
 }sessao_oper;
 
 gchar *oper_nome_login,*oper_senha_login;
@@ -25,4 +31,10 @@ void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry);
 void passa_nome();
 void passa_senha();
 void verifica_senha();
-void login();
+int login();
+
+void sessao_set_allmodules();
+
+void sessao_set_nonemodules();
+
+void criar_sessao_default();

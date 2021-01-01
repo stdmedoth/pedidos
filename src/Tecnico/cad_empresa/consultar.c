@@ -1,3 +1,13 @@
+int cad_emp_exists_emails(){
+  if(!cad_emp_strc.email || !strlen(cad_emp_strc.email)){
+    return 0;
+  }
+  if(!cad_emp_strc.email_senha || !strlen(cad_emp_strc.email_senha)){
+    return 0;
+  }
+  return 1;
+}
+
 int cad_emp_consulta(){
   MYSQL_RES*res;
   MYSQL_ROW row;

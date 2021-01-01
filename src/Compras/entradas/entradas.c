@@ -15,7 +15,7 @@ int entradas_fun(){
 	janelas_gerenciadas.vetor_janelas[REG_ENTCMP_WND].janela_pointer = janela;
 
 
-	
+
 
 	gtk_widget_show_all(janela);
 

@@ -18,8 +18,7 @@ int cad_est()
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(janela),"Estoque");
 	gtk_window_set_position(GTK_WINDOW(janela),3);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"x-package-repository");
 	gtk_widget_set_size_request(GTK_WIDGET(janela),450,300);
 
@@ -86,7 +85,6 @@ int cad_est()
 	g_signal_connect(est_cod_entry,"activate",G_CALLBACK(est_cad_code),NULL);
 	g_signal_connect(est_nome_entry,"activate",G_CALLBACK(est_cad_nome),NULL);
 
-	g_signal_connect(est_concluir_button,"clicked",G_CALLBACK(est_cad_concluir),NULL);
 	g_signal_connect(est_concluir_button,"clicked",G_CALLBACK(est_cad_concluir),NULL);
 	g_signal_connect(est_alterar_button,"clicked",G_CALLBACK(est_cad_alterar),NULL);
 	g_signal_connect(est_cancelar_button,"clicked",G_CALLBACK(est_cad_cancelar),NULL);

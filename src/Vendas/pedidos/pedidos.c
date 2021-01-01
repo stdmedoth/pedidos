@@ -35,7 +35,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	MYSQL_ROW row, row2;
 	char origem_preco[50],tipo_pag[50];
 	char query[MAX_QUERY_LEN];
-	GtkTreeIter campos,adicion;
+	GtkTreeIter campos;
 
 	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	res = consultar(query);
@@ -84,63 +84,73 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	gtk_entry_set_text(GTK_ENTRY(ped_pag_entry),tipo_pag);
 
-	sprintf(query,"select p.nome, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
-	res = consultar(query);
+	enum{
+		NOME_PRODUTO,
+		QUANTIDADE,
+		VLR_UNIT,
+		TIPO_DESCONTO,
+		VLR_DESCONTO,
+		VLR_TOTAL,
+		ORIGEM_VLR
+	};
 
-	if(res == NULL)
-	{
+	sprintf(query,"select p.nome, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
+	if(!(res = consultar(query))){
 		return 1;
 	}
 
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
-		if(strlen(row[0])>15)
-		{
-			row[0][15] = '.';
-			row[0][15] = '\0';
+		if(strlen(row[NOME_PRODUTO])>15){
+			row[NOME_PRODUTO][15] = '.';
+			row[NOME_PRODUTO][15] = '\0';
 		}
 
 		sprintf(formata_preco1,"R$ %.2f",atof(row[2])); //vlr unitario
 
-		switch(atoi(row[4]))
-		{
-			case 0:
-				sprintf(formata_preco2,"R$ %.2f",atof(row[3]));//desconto em reais
+		switch(atoi(row[TIPO_DESCONTO])){
+			case DESCT_EM_REAIS:
+				sprintf(formata_preco2,"R$ %.2f",atof(row[VLR_DESCONTO]));//desconto em reais
 
 				break;
-			case 1:
-				sprintf(formata_preco2,"%.2f%%",atof(row[3])); //desconto em porcentagem
+			case DESCT_EM_PORCENT:
+				sprintf(formata_preco2,"%.2f%%",atof(row[VLR_DESCONTO])); //desconto em porcentagem
 				break;
 		}
-		sprintf(formata_preco3,"R$ %.2f",atof(row[5])); //total
+		sprintf(formata_preco3,"R$ %.2f",atof(row[VLR_TOTAL]));
 		gtk_tree_store_append(modelo,&campos,NULL);
-		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
+		g_print("Inserindo nome: %s\n",row[NOME_PRODUTO]);
 
 		gtk_tree_store_set(modelo,&campos,
-		COLUMN0,row[0],
-		COLUMN1,row[1],
+		COLUMN0,row[NOME_PRODUTO],
+		COLUMN1,row[QUANTIDADE],
 		COLUMN2,formata_preco1,
 		COLUMN3,formata_preco2,
 		COLUMN4,formata_preco3,
 		-1);
 
-		switch(atoi(row[6]))
-		{
-			case 1:
-				strcpy(origem_preco,"Tabela");
+		switch(atoi(row[ORIGEM_VLR])){
+			case ORIGPRC_PROD:
+				strcpy(origem_preco,"Produto");
 				break;
-			case 2:
+			case ORIGPRC_CLI:
 				strcpy(origem_preco,"Cliente");
 				break;
-			case 3:
+			case ORIGPRC_OPER:
 				strcpy(origem_preco,"Operador");
 				break;
 			default:
-				strcpy(origem_preco,"Desconhecida");
+				sprintf(query,"select nome from precos where code = %i", atoi(row[ORIGEM_VLR]));
+				if(!(res = consultar(query))){
+					popup(NULL,"Não foi possível consultar precos para o produto");
+					return 1;
+				}
+				if(!(row=mysql_fetch_row(res))){
+					strcpy(origem_preco,"Desconhecida");
+				}else{
+					strcpy(origem_preco,row[0]);
+				}
 		}
-
-		gtk_tree_store_append(modelo,&adicion,&campos);
-		gtk_tree_store_set(modelo,&adicion, COLUMN0, "Origem Preço:", COLUMN1, origem_preco, -1);
 	}
 
 	sprintf(query,"select t.razao,vlr_frete,valor_desconto_frete,(vlr_frete - valor_desconto_frete),observacoes_entrega from servico_transporte as st inner join terceiros as t on st.transportador = t.code where orcamento = %s",entrada);
@@ -165,8 +175,6 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	return 0;
 }
-
-
 
 GtkWidget *campos_produto_ped()
 {
@@ -317,7 +325,7 @@ int vnd_ped(){
 
 		return 1;
 	}
-	
+
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].reg_id = REG_CAD_PED;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_PED].aberta = 1;
 	if(ger_janela_aberta(janela_pedidos, &janelas_gerenciadas.vetor_janelas[REG_CAD_PED]))

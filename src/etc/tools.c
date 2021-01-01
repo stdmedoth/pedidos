@@ -1,5 +1,42 @@
 #include "sql_tools.c"
 
+GtkWidget *get_pop_parents_wnd(){
+  GtkWidget *parent=NULL;
+  if(janelas_gerenciadas.principal.janela_pointer)
+    parent = janelas_gerenciadas.principal.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+  else
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+
+  return parent;
+}
+
+int validar_sessao_criada(){
+
+  if(!janelas_gerenciadas.aplicacao.criada && !janelas_gerenciadas.principal.aberta)
+    return 0;
+
+  if(!janelas_gerenciadas.principal.sys_close_wnd)
+    return 0;
+
+  if(sessao_oper.status_sessao == SESSAO_NULA){
+
+
+    popup(NULL,"Sessão com erro, o incidente será reportado");
+		autologger("Desktop aberto sem sessao ativa");
+		encerrando();
+		return 1;
+	}
+
+  return 0;
+}
+
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
   GtkTreeIter iter;
   char *posicao;
@@ -14,7 +51,7 @@ void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
 
   if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
     janelas_gerenciadas.vetor_janelas[identificacao].fun();
-    
+
   g_print("posicao = :%s\n",posicao);
 }
 

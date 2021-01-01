@@ -10,7 +10,7 @@ GtkWidget *est_menu_get_icon_view(){
     &iter,
 		0,janelas_nomes[REG_CAD_EST],
 		1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(ESTO_IMG))),
-    2,REG_CAD_PROD,-1);
+    2,REG_CAD_EST,-1);
 
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
@@ -36,8 +36,9 @@ GtkWidget *est_menu_get_icon_view(){
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
 	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
-  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
-  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_SINGLE);
 	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
 	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 

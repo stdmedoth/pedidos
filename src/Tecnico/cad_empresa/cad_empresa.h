@@ -117,3 +117,6 @@ int cadastro_empresa();
 int cad_emp_recebe();
 GtkWidget *cad_emp_notebook;
 static int cad_emp_prim=0,person_tecn_prim=0;
+
+
+int cad_emp_exists_emails();

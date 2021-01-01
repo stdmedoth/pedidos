@@ -312,8 +312,7 @@ int vnd_orc(){
 
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 
-	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
-	{
+	for(int pos=1;pos<=MAX_PROD_ORC;pos++){
 		id_vetor[pos] = 0;
 		ativos[pos].id = 0;
 		excluidos[pos].id = 1;

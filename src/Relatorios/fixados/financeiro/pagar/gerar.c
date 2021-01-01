@@ -52,6 +52,16 @@ int rel_fix_fin_pag_gerar(){
   float parcela = 0, baixa = 0;
   float vlr_total_parcelas=0, vlr_total_baixas=0, vlr_total_faltante=0;
 
+  enum{
+    TIT_CODE,
+    TER_CODE,
+    TER_NOME,
+    TER_DOC,
+    TER_IE,
+    TIT_PED,
+    TIT_STATUS
+  };
+
   for(int cont=atoi(rel_fix_fin_pag_tit_gchar1);cont<=atoi(rel_fix_fin_pag_tit_gchar2);cont++){
     sprintf(query,"select tit.code, t.code, t.razao, t.doc, t.ie, tit.pedido, tit.status "
     "from titulos as tit inner join terceiros as t on tit.cliente = t.code "
@@ -69,11 +79,18 @@ int rel_fix_fin_pag_gerar(){
     if((row = mysql_fetch_row(res))){
       float total_do_tit=0, total_da_baixa=0, total_a_baixar=0;
 
-      if(atoi(row[1]) < atoi(rel_fix_fin_pag_cli_gchar1) || atoi(row[1]) > atoi(rel_fix_fin_pag_cli_gchar2))
+      if(atoi(row[TER_CODE]) < atoi(rel_fix_fin_pag_cli_gchar1) || atoi(row[TER_CODE]) > atoi(rel_fix_fin_pag_cli_gchar2))
         continue;
 
-      if(atoi(row[5]) < atoi(rel_fix_fin_pag_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_pag_ped_gchar2))
+      if(atoi(row[TIT_PED]) < atoi(rel_fix_fin_pag_ped_gchar1) || atoi(row[TIT_PED]) > atoi(rel_fix_fin_pag_ped_gchar2))
         continue;
+
+      enum{
+        PARC_POS,
+        PARC_CRIAC,
+        PARC_VENC,
+        PARC_VLR
+      };
 
       sprintf(query,"select posicao,DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'),DATE_FORMAT(data_vencimento,'%%d/%%m/%%Y'),valor from parcelas_tab where parcelas_id = %s", row[0]);
 
@@ -85,33 +102,33 @@ int rel_fix_fin_pag_gerar(){
       if(mysql_num_rows(res2)){
 
         fprintf(file_arq,"<tr class='relat-infos'>");
-        fprintf(file_arq,"<td>Título: %s<td/>",row[0]);
-        fprintf(file_arq,"<td>Terceiro:  %s/%s<td/>",row[1],row[2]);
-        fprintf(file_arq,"<td>CNPJ/CPF: %s<br>IE/RG: %s<td/>",row[3],row[4]);
-        if(atoi(row[5]))
-          fprintf(file_arq,"<td>Pedido: %s<td/>",row[5]);
+        fprintf(file_arq,"<td>Título: %s<td/>",row[TIT_CODE]);
+        fprintf(file_arq,"<td>Terceiro:  %s/%s<td/>",row[TER_CODE],row[TER_NOME]);
+        fprintf(file_arq,"<td>CNPJ/CPF: %s<br>IE/RG: %s<td/>",row[TER_DOC],row[TER_IE]);
+        if(atoi(row[TIT_PED]))
+          fprintf(file_arq,"<td>Pedido: %s<td/>",row[TIT_PED]);
         else
           fprintf(file_arq,"<td>Pedido: Sem Vínculo<td/>");
-        fprintf(file_arq,"<td>Status: %s<td/>",status_tit_str(atoi(row[6])));
+        fprintf(file_arq,"<td>Status: %s<td/>",status_tit_str(atoi(row[TIT_STATUS])));
 
         fprintf(file_arq,"</tr>");
 
         while((row2 = mysql_fetch_row(res2))){
-          parcela = atof(row2[3]);
+          parcela = atof(row2[PARC_VLR]);
 
           vlr_total_parcelas += parcela;
 
           total_do_tit += parcela;
 
           fprintf(file_arq,"<tr class='tr-focus'>");
-          fprintf(file_arq,"<td>Parcela: %s<td/>",row2[0]);
-          fprintf(file_arq,"<td>Criação:  %s<td/>",row2[1]);
-          fprintf(file_arq,"<td>Vencimento: %s<td/>",row2[2]);
+          fprintf(file_arq,"<td>Parcela: %s<td/>",row2[PARC_POS]);
+          fprintf(file_arq,"<td>Criação:  %s<td/>",row2[PARC_CRIAC]);
+          fprintf(file_arq,"<td>Vencimento: %s<td/>",row2[PARC_VENC]);
           fprintf(file_arq,"<td>Valor: R$ %.2f<td/>",parcela);
           fprintf(file_arq,"</tr>");
           fin_qnt++;
 
-          sprintf(query,"select id_baixa,DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'),valor from baixas_titulos where parcelas_id = %i and posicao = %i", cont, atoi(row2[0]));
+          sprintf(query,"select id_baixa,DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'),valor from baixas_titulos where parcelas_id = %i and posicao = %i", cont, atoi(row2[PARC_POS]));
           if(!(res3 = consultar(query))){
             popup(NULL,"Erro ao consultar baixas");
             return 1;

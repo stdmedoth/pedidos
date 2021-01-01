@@ -65,6 +65,9 @@ int wnd_logger(janelas_info *struct_wnd)
 int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   char msg[200];
 
+  if(validar_sessao_criada())
+    return 1;
+
   struct_wnd->aberta = 1;
   struct_wnd->qnt_aberta++;
 
@@ -178,6 +181,12 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT].fun = cad_relat;
   janelas_gerenciadas.vetor_janelas[CAD_BANCOS_WND].fun = cad_bancos_fun;
 
+  //Compras
+  janelas_gerenciadas.vetor_janelas[REG_SOLIT_WND].fun = solicitacao;
+  janelas_gerenciadas.vetor_janelas[REG_COTAC_WND].fun = cotacao_fun;
+  janelas_gerenciadas.vetor_janelas[REG_ORDCMP_WND].fun= ordem_cmp;
+  janelas_gerenciadas.vetor_janelas[REG_ENTCMP_WND].fun = entradas_fun;
+
   //vendas
   janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].fun = vnd_orc;
   janelas_gerenciadas.vetor_janelas[REG_CAD_PED].fun = vnd_ped;
@@ -206,6 +215,7 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = relat_icon_view_wnd;
 
   //relatorios fixos
+  janelas_gerenciadas.vetor_janelas[REG_REL_FIX_ICONS_WIN].fun = relat_icon_view_wnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_VND_WIN].fun = relat_fix_vnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_EST_WIN].fun = relat_fix_est;
