@@ -1,4 +1,5 @@
 int orc_transp_valor_frete(){
+
   char floating[MAX_PRECO_LEN];
   if(orc_transp_frete_pago_int){
     orc_transp_valor = malloc(MAX_PRECO_LEN);
@@ -24,4 +25,5 @@ int orc_transp_valor_frete(){
 
   gtk_widget_grab_focus(orc_transp_desconto_frete_entry);
   return 0;
+
 }

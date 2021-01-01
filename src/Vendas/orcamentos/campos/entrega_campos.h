@@ -12,7 +12,7 @@
 static int orc_com_entrega=0, alterando_transp=0;
 int orc_transp_frete_pago_int=0;
 float orc_transp_frete_pago_vlr=0;
-int orc_transp_frete_pago_loaded=0;
+int orc_transp_frete_pago_mudado=0;
 static gchar *orc_transp_codigo=NULL,
 *orc_transp_nome=NULL,
 *orc_transp_num=NULL,

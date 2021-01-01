@@ -245,6 +245,7 @@ static int concluir_orc(){
 		autologger("Erro ao tentar calcular total");
 		return 1;
 	}
+
 	finalizacao_orc();
 	cancela_orc();
 	popup(NULL,"Orcamento concluido");

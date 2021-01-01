@@ -3,17 +3,18 @@ static int cancela_orc()
 	char code[MAX_CODE_LEN];
 	GtkTextBuffer *buffer;
 
-	cont=1;
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
-		if(ativos[cont].id==1)
-		{
+		if(ativos[cont].id){
 			tirar_linha(cont);
 		}
-		preco_alterado[cont] = 0;
-		aviso_estoque[cont] = 0;
-		valor_orig[cont] = 0;
+
 		id_vetor[cont] = 0;
+		ativos[cont].id = 0;
+		valor_orig[cont] = 0;
+		excluidos[cont].id = 0;
+		aviso_estoque[cont] = 0;
+		preco_alterado[cont] = 0;
 		produto_inserido[cont] = 0;
 	}
 
@@ -53,20 +54,29 @@ static int cancela_orc()
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
 	cont=1;
+
+	pag_cond = 0;
+	tipo_pag = 0;
 	itens_qnt = 1;
+	alerta_obs = 0;
 	ativos_qnt = 1;
 	rec_altera_qnt = 1;
-
+	transp_verified = 0;
+	orc_com_entrega = 0;
 
 	pag_cond = 0;
 	tipo_pag = 0;
 	alerta_obs = 0;
+	copiando_orc=0;
+	concluindo_orc=0;
 	copiando_orc = 0;
 	alterando_orc = 0;
-	concluindo_orc = 0;
+	alterando_orc = 0;
 	excluindo_orc = 0;
-	orc_pag_cond_activated=0;
+	concluindo_orc = 0;
 	recebendo_prod_orc=0;
+	orc_pag_cond_activated=0;
+	orc_transp_frete_pago_mudado=0;
 
 	orc_valores.valor_prds = 0;
 	orc_valores.valor_prds_desc = 0;

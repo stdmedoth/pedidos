@@ -24,19 +24,6 @@ int vnd_orc(){
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer = janela_orcamento;
 
-	orc_transp_frete_pago_loaded = 0;
-	alerta_obs = 0;
-	pag_cond = 0;
-	tipo_pag = 0;
-	itens_qnt = 1;
-	cont=1;
-	ativos_qnt=1;
-	transp_verified = 0;
-	rec_altera_qnt=1;
-	alterando_orc = 0;
-	concluindo_orc=0;
-	copiando_orc=0;
-
 	orc_notebook = gtk_notebook_new();
 	if(orc_estoque.produtos)
 		orc_estoque.produtos = realloc(orc_estoque.produtos,sizeof(struct _orc_estoque_prods* )*MAX_PROD_ORC);
@@ -312,16 +299,6 @@ int vnd_orc(){
 
 	prod_scroll_window = gtk_scrolled_window_new(NULL,NULL);
 
-	for(int pos=1;pos<=MAX_PROD_ORC;pos++){
-		id_vetor[pos] = 0;
-		ativos[pos].id = 0;
-		excluidos[pos].id = 1;
-		produto_inserido[pos] = 0;
-		preco_alterado[pos] = 0;
-		valor_orig[pos] = 0;
-		aviso_estoque[pos] = 0;
-	}
-
 	gtk_box_pack_start(GTK_BOX(financeiro_box),orc_box_datas,0,0,0);
 	gtk_box_pack_start(GTK_BOX(financeiro_box),orc_bnc_fixed,0,0,0);
 
@@ -366,6 +343,10 @@ int vnd_orc(){
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
 	g_signal_connect(orc_prods_grid,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+		ativos[cont].id = 0;
+
 
 	cancela_orc();
 

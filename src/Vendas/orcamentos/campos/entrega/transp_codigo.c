@@ -9,8 +9,8 @@ int orc_transp_codigo_fun()
 
 	orc_transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(orc_transp_codigo_entry));
 
-	if(strlen(orc_transp_codigo)<=0)
-	{
+	if(strlen(orc_transp_codigo)<=0 || !atoi(orc_transp_codigo)){
+
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
@@ -26,7 +26,7 @@ int orc_transp_codigo_fun()
 		return 0;
 	}
 
-	if( alterando_orc == 1 && alterando_transp == 0 ){
+	/*if( alterando_orc == 1 && alterando_transp == 0 ){
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
@@ -40,39 +40,18 @@ int orc_transp_codigo_fun()
 		orc_com_entrega = 0;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
 		return 0;
-	}
-
-	if(!atoi(orc_transp_codigo)){
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
-		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
-		orc_com_entrega = 0;
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
-		return 0;
-	}
+	}*/
 
 	if(concluindo_orc == 0){
 		sprintf(query,"select * from terceiros where code = %s",orc_transp_codigo);
-		if(!(res = consultar(query)))
-		{
+		if(!(res = consultar(query))){
 			popup(NULL,"Verifique query de transportador com suporte");
 			return 1;
 		}
 
-		if(!(row = mysql_fetch_row(res)))
-		{
+		if(!(row = mysql_fetch_row(res))){
 			popup(NULL,"Nenhum transportador para o código indicado");
 			return 1;
-		}
-
-		if(atoi(row[TIPI_TER_COL]) != TIPO_TER_TRSP){
-			if(gtk_notebook_get_current_page(GTK_NOTEBOOK(orc_notebook))==TER_PAGE_TRSP)
-				popup(NULL,"Aviso! O responsável pelo transporte não é transportador");
 		}
 
 		if(row[RAZ_TER_COL])

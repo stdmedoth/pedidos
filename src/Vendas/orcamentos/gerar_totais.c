@@ -42,7 +42,7 @@ static int gerar_total_geral(){
 	orc_valores.valor_total = orc_valores.valor_prds + orc_valores.valor_frete - (orc_valores.valor_prds_desc + orc_valores.desconto_frete);
 	orc_valores.desconto_total = orc_valores.valor_prds_desc +  orc_valores.desconto_frete;
 
-	if(orc_transp_frete_pago_int){
+	if(!orc_transp_frete_pago_mudado && orc_transp_frete_pago_int){
 		if( orc_valores.valor_prds_liquido >= orc_transp_frete_pago_vlr ){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button),TRUE);
 			gtk_widget_set_sensitive(orc_transp_valor_frete_entry,FALSE);
