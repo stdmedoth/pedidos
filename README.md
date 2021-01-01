@@ -40,7 +40,7 @@
 ## Notificações e Relatórios
 <p>Tenha uma visão detalhada da situação geral do seu comércio ou de suas despesas pessoais, a partir de relátorios fixos ou personalizados</p>
 
-![Relatórios](data/screenshots/relatorio_titulos.png)
+![Relatórios](data/screenshots/relatorios.png)
 
 <p>Monte seus relatórios com os campos de sua preferencia ou necessidade</p>
 
