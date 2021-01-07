@@ -6,6 +6,35 @@
 #include "alterar.c"
 #include "cancelar.c"
 
+struct _grupo *grp_get_grupo(int code_grp){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+
+	enum{
+		GRP_CODE,
+		GRP_NOME,
+		PAI_CODE,
+		PAI_NOME,
+		COLS_QNT
+	};
+
+	struct _grupo *grupo = malloc(sizeof(struct _grupo));
+	sprintf(query,"select b.code, b.nome, a.code, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.code = %i", code_grp);
+	if(!(res = consultar(query))){
+		return NULL;
+	}
+
+	if((row = mysql_fetch_row(res))){
+		grupo->code = atoi(row[GRP_CODE]);
+		grupo->nome = strdup(row[GRP_NOME]);
+		grupo->pai = atoi(row[PAI_CODE]);
+		grupo->pai_nome = strdup(row[GRP_NOME]);
+	}
+
+	return grupo;
+}
+
 GtkTreeStore *grp_get_tree(GtkTreeStore *modelo, int pai, GtkTreeIter *campo){
 
 	MYSQL_RES *res;
@@ -36,6 +65,8 @@ GtkTreeStore *grp_get_tree(GtkTreeStore *modelo, int pai, GtkTreeIter *campo){
 				PAI_NOME, row[PAI_NOME],
 				-1);
 
+
+			//pegar os grupos filhos
 			if(!grp_get_tree(modelo, atoi(row[GRP_CODE]), &campo_novo))
 				return modelo;
 		}

@@ -6,6 +6,14 @@ enum PROD_PRC_COLS{
   PRC_VLRVIST_COL
 };
 
+struct _prod_precos{
+  int code;
+  char *nome;
+  int produto;
+  float vlr_faturado;
+  float vlr_vista;
+};
+
 int prod_precos_wnd();
 GtkWidget *prod_prc_code_entry,
   *prod_prc_prodcode_entry,

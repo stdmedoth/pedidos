@@ -9,6 +9,29 @@
 #include "cancelar.c"
 #include "excluir.c"
 
+struct _prod_precos *precos_get_preco(int prc_code){
+
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+  struct _prod_precos *preco = malloc(sizeof(struct _prod_precos));
+
+  sprintf(query,"select * from precos where code = %i", prc_code);
+  if(!(res = consultar(query))){
+    return NULL;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    return NULL;
+  }
+
+  preco->code = atoi(row[PRC_CODE_COL]);
+  preco->nome = strdup(row[PRC_NOME_COL]);
+  preco->produto = atoi(row[PRC_PROD_COL]);
+  preco->vlr_faturado = atof(row[PRC_VLRFAT_COL]);
+  preco->vlr_vista = atof(row[PRC_VLRVIST_COL]);
+  return preco;
+}
+
 int prod_precos_wnd(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -93,8 +116,9 @@ int prod_precos_wnd(){
   gtk_box_pack_start(GTK_BOX(linha1), prod_prc_code_frame,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha1), prod_prc_nome_frame,0,0,0);
   gtk_box_pack_start(GTK_BOX(linha2), prod_prc_prodcode_frame,0,0,0);
-  gtk_box_pack_start(GTK_BOX(linha3), prod_prc_vlrfat_frame,0,0,0);
-  gtk_box_pack_start(GTK_BOX(linha3), prod_prc_vlrvist_frame,0,0,0);
+
+  gtk_box_pack_start(GTK_BOX(linha3), prod_prc_vlrfat_frame,0,0,5);
+  gtk_box_pack_start(GTK_BOX(linha3), prod_prc_vlrvist_frame,0,0,5);
 
   gtk_box_pack_start(GTK_BOX(opcoes_box), prod_prc_concluir_button,0,0,0);
   gtk_box_pack_start(GTK_BOX(opcoes_box), prod_prc_alterar_button,0,0,0);

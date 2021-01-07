@@ -21,3 +21,10 @@ int rec_familia_nome(char **familia_char,int grupo);
 static int alterando_grp=0,concluindo_grp=0;
 
 GtkTreeStore *grp_get_tree(GtkTreeStore *modelo, int pai, GtkTreeIter *campo);
+
+struct _grupo{
+  int code;
+  char *nome;
+  int pai;
+  char *pai_nome;
+};
