@@ -34,10 +34,11 @@ int entry_grp_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 {
 	enum {N_COLUMNS=3,COLUMN0=0,COLUMN1=1,COLUMN2=2};
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(treeview)));
-    g_object_ref(G_OBJECT(treestore));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
-    gtk_tree_store_clear(treestore);
-    gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
+  g_object_ref(G_OBJECT(treestore));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
+  gtk_tree_store_clear(treestore);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
+
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];

@@ -326,7 +326,6 @@
 #define EMAIL_ROW_POS 13
 #define MAX_OPER_LEN 30
 #define MAX_SEN_LEN 30
-#define MAX_DATE_LEN 15
 #define MAX_FETCH_ROW 3000
 #define MAX_SUBGRUPO 30
 #define MAX_EST_NOME 20

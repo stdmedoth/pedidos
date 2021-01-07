@@ -574,6 +574,12 @@ void encerrando()
 }
 
 
+void esconder_widget_callback(GtkWidget *widget,gpointer *ponteiro){
+  if(ponteiro)
+    if(GTK_IS_WIDGET(ponteiro))
+      gtk_widget_hide(GTK_WIDGET(ponteiro));
+}
+
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro){
 	if(ponteiro)
 		if(GTK_IS_WIDGET(ponteiro))

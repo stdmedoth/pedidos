@@ -1,5 +1,3 @@
-#include "grupos/cad_grupo.c"
-#include "grupos/familia_grupo.c"
 #include "campos/codigo.c"
 #include "campos/barra.c"
 #include "campos/nome.c"

@@ -193,9 +193,9 @@ int ped_emitir()
 	//	return 1;
 
 	if(pedidoPtr->infos->tipo_mov == VENDA || pedidoPtr->infos->tipo_mov == DEV_COMPRA)
-		pedidoPtr->parcelas->tipo_tit = 1;
+		pedidoPtr->parcelas->tipo_tit = TP_TIT_REC;
 	if(pedidoPtr->infos->tipo_mov == DEV_VENDA || pedidoPtr->infos->tipo_mov == COMPRA)
-		pedidoPtr->parcelas->tipo_tit = 2;
+		pedidoPtr->parcelas->tipo_tit = TP_TIT_PAG;
 
 	if(pedidoPtr->parcelas->condpag.tipo_parc != CONDPAG_S_FIN){
 

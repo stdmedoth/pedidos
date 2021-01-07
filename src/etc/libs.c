@@ -1,31 +1,28 @@
 #include "libs.h"
 
-
 #include "./init.c"
+#include "./receber_confs.c"
+#include "./xml_tools.c"
+#include "./tools.c"
+#include "./popups.c"
+#include "./maquinas.c"
+#include "./criticas.c"
+#include "./pesquisador.c"
+#include "./css.c"
+#include "./http.c"
+#include "./impressao.c"
+#include "./temas.c"
+#include "./barra_icones.c"
+#include "./analisa_campos.c"
+#include "./mp_popup.c"
+#include "./debugger.c"
+#include "./sobre.c"
+#include "./operadores.c"
+#include "./fechar.c"
+#include "./pega_data.c"
+
 #include "../Menu/iconview.c"
 #include "../Menu/abas.c"
-
-#include "receber_confs.c"
-
-#include "xml_tools.c"
-#include "tools.c"
-#include "popups.c"
-#include "maquinas.c"
-#include "criticas.c"
-#include "pesquisador.c"
-#include "css.c"
-#include "http.c"
-#include "impressao.c"
-#include "temas.c"
-#include "barra_icones.c"
-#include "analisa_campos.c"
-#include "mp_popup.c"
-#include "debugger.c"
-#include "sobre.c"
-#include "operadores.c"
-#include "./fechar.c"
-
-#include "../Inicio/pega_data.c"
 
 #include "../Parametros/parametros.c"
 
@@ -68,6 +65,10 @@
 
 #include "../Produtos/cadastro_produtos.c"
 #include "../Produtos/precos/precos.c"
+
+#include "../Produtos/grupos/cad_grupo.c"
+#include "../Produtos/grupos/familia_grupo.c"
+#include "../Produtos/subgrupos/subgrupos.c"
 
 #include "../Unidades/cadastro_unidades.c"
 

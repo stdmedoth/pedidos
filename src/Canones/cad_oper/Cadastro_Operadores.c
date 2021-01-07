@@ -262,11 +262,12 @@ int cad_oper()
 	char query[MAX_QUERY_LEN];
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_widget_set_size_request(janela,450,300);
-	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_title(GTK_WINDOW(janela),"Operadores");
+	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
+	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_icon_name(GTK_WINDOW(janela),"applications-development");
 
 	janelas_gerenciadas.vetor_janelas[REG_CAD_OPER].reg_id = REG_CAD_OPER;

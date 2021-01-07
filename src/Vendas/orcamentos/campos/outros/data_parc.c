@@ -23,7 +23,6 @@ int orc_pag_datas_fun(void){
     return 1;
   }
 
-
   if(orc_pag_dia_fixo_int == 0)
     orc_pag_init_int = dia;
 
@@ -34,8 +33,8 @@ int orc_pag_datas_fun(void){
   timezone = g_time_zone_new(NULL);
   gdate = g_date_time_new(timezone,ano,mes,orc_pag_init_int,0,0,0);
 
-  orc_pag_datas_label1 = gtk_label_new("Datas");
-  orc_pag_datas_label2 = gtk_label_new("Valor");
+  orc_pag_datas_label1 = gtk_label_new("Datas:");
+  orc_pag_datas_label2 = gtk_label_new("Valor:");
 
   orc_pag_datas_label1_fixed = gtk_fixed_new();
   orc_pag_datas_label2_fixed = gtk_fixed_new();
@@ -81,8 +80,8 @@ int orc_pag_datas_fun(void){
     sprintf(valor,"R$ %.2f",parcela);
 
     if(g_date_time_format(gdate,"%d/%m/%Y")){
-      orc_parcelas.datas[cont] = malloc(strlen(g_date_time_format(gdate,"%d/%m/%Y")));
-      strcpy(orc_parcelas.datas[cont],g_date_time_format(gdate,"%d/%m/%Y"));
+      orc_parcelas.datas[cont] = malloc( strlen(g_date_time_format(gdate,"%d/%m/%Y")) );
+      strcpy( orc_parcelas.datas[cont], g_date_time_format(gdate,"%d/%m/%Y") );
     }
 
     orc_parcelas.vlrs[cont] = parcela;

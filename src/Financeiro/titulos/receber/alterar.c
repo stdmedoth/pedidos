@@ -10,7 +10,7 @@ int cad_rec_alterar_fun(){
     return 1;
   }
 
-  sprintf(query,"select tl.cliente, t.razao, tl.pedido, p.banco, tl.status, DATE_FORMAT(p.data_criacao,'%%d/%%m/%%Y'),  DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tl.code = %i and p.posicao = %i and tl.tipo_titulo = 1",atoi(cad_rec_code_gchar), cad_rec_parcela_int);
+  sprintf(query,"select tl.cliente, t.razao, tl.pedido, p.banco, tl.status, DATE_FORMAT(p.data_criacao,'%%d/%%m/%%Y'),  DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tl.code = %i and p.posicao = %i and tl.tipo_titulo = %i",atoi(cad_rec_code_gchar), cad_rec_parcela_int, TP_TIT_REC);
   if(!(res=consultar(query))){
     popup(NULL,"Não foi possível pesquisar o título");
     cad_rec_cancelar_fun();

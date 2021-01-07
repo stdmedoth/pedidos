@@ -5,10 +5,10 @@ BDFLAGS=`pkg-config --libs --cflags mariadb`
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 CURLFLAGS=`pkg-config --libs --cflags  libcurl`
-CCFLAGS=-Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic -O0  -fprofile-generate -Wno-write-strings#-Wfatal-errors
+CCFLAGS=-Wall -Wredundant-decls -Wuninitialized -g -Wreturn-type  -Wpedantic -O0  -fprofile-generate -Wno-write-strings #-Wfatal-errors
 ALLFLAGS=$(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS)
 
-TARGET_FILE=Pedidos.c
+TARGET_FILE=src/Pedidos/Pedidos.c
 RESULT_FILE=pedidos
 
 OBJS=Pedidos.o
@@ -22,7 +22,7 @@ all: $(OBJS)
 	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS)
 
 Pedidos.o:
-	$(CC) src/Inicio/$(TARGET_FILE) -c  $(ALLFLAGS)
+	$(CC) $(TARGET_FILE) -c  $(ALLFLAGS)
 
 clear:
 	rm *.o *.gcda $(RESULT_FILE)

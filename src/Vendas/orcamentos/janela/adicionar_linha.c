@@ -5,30 +5,32 @@ static int adicionar_linha_orc()
 	MYSQL_ROW row;
 	char *query = malloc(MAX_QUERY_LEN);
 
-	if(alterando_orc==0)
-	{
-		if(codigo_orc()!=0)
+	if(!alterando_orc){
+
+		if(codigo_orc())
 			return 1;
+
 		sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
 		res = consultar(query);
-		if(res!=NULL)
-		{
+
+		if(!res){
 			if((row = mysql_fetch_row(res))!=NULL)
 				popup(NULL,"O código de Orcamento usado já existe\nDeseja alterar?");
 		}
+
 	}
 
-	if(ativos[itens_qnt-1].id == 1)
-	{
-		int cont;
+	if(ativos[itens_qnt-1].id == 1){
+
+		int cont=0;
+
 		if(codigo_orc()!=0)
 			return 1;
 
 		if(codigo_cli_orc()!=0)
 			return 1;
 
-		if(ativos[itens_qnt-1].id==1)
-		{
+		if(ativos[itens_qnt-1].id==1){
 
 			if(GTK_IS_WIDGET(codigo_prod_orc_entry[itens_qnt-1]))
 				if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
@@ -47,6 +49,7 @@ static int adicionar_linha_orc()
 					return 1;
 		}
 	}
+	
 	if(itens_qnt>=MAX_PROD_ORC){
 		popup(NULL,"Limite de itens");
 		return 1;

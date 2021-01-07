@@ -1,3 +1,5 @@
+#define MAX_DATE_LEN 15
+
 char dia_sys[MAX_DATE_LEN/3];
 char mes_sys[MAX_DATE_LEN/3];
 char ano_sys[MAX_DATE_LEN/3];

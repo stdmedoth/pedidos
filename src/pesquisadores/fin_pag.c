@@ -174,7 +174,7 @@ int psq_fin_pag(GtkWidget *button, GtkEntry *entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tipo_titulo = 2 order by p.data_vencimento asc limit 30");
+	sprintf(query,"select tl.code,t.razao, tl.pedido, tl.status, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and tl.cliente = t.code where tipo_titulo = %i order by p.data_vencimento asc limit 30", TP_TIT_PAG);
 	res = consultar(query);
 	if(res == NULL)
 	{

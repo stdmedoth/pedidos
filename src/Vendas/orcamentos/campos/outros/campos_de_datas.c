@@ -88,7 +88,7 @@ GtkWidget *orc_campos_datas(){
   gtk_box_pack_start(GTK_BOX(orc_pag_datas),orc_pag_datas_livres_fixed,0,0,0);
 
   g_signal_connect(orc_pag_datas_parcqnt,"activate",G_CALLBACK(orc_pag_datas_livres),NULL);
-  g_signal_connect(orc_pag_datas_parcqnt,"value-changed",G_CALLBACK(rec_tipo_condpag),NULL);
+  g_signal_connect(orc_pag_datas_parcqnt,"value-changed",G_CALLBACK(orc_pag_datas_livres),NULL);
 
   return orc_pag_datas;
 }

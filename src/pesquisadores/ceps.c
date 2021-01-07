@@ -83,7 +83,6 @@ int entry_cep_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 
 int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 {
-	enum {N_COLUMNS=5,COLUMN0=0, COLUMN1=1, COLUMN2=2, COLUMN3=3, COLUMN4=4};
 	GtkWidget *scrollwindow;
 	GtkTreeViewColumn *coluna1, *coluna2, *coluna3, *coluna4, *coluna5;
 	GtkCellRenderer *celula1, *celula2, *celula3, *celula4, *celula5;
@@ -98,6 +97,15 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+
+	enum{
+		CEP,
+		LOGRADOURO,
+		BAIRRO,
+		CIDADE,
+		UF,
+		N_COLUMNS
+	};
 
 	caixa_grande = gtk_box_new(1,0);
 	pesquisa_entry = gtk_entry_new();
@@ -141,24 +149,24 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
 	gtk_tree_view_column_set_title(coluna1,"CEP");
-	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",0);
+	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",CEP);
 	//gtk_tree_view_column_set_visible(coluna1,FALSE);
 
 	gtk_tree_view_column_pack_start(coluna2,celula2,TRUE);
 	gtk_tree_view_column_set_title(coluna2,"Logradouro");
-	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",1);
+	gtk_tree_view_column_add_attribute(coluna2,celula2,"text",LOGRADOURO);
 
 	gtk_tree_view_column_pack_start(coluna3,celula3,TRUE);
 	gtk_tree_view_column_set_title(coluna3,"Bairro");
-	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
+	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",BAIRRO);
 
 	gtk_tree_view_column_pack_start(coluna4,celula4,TRUE);
 	gtk_tree_view_column_set_title(coluna4,"Cidade");
-	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",3);
+	gtk_tree_view_column_add_attribute(coluna4,celula4,"text",CIDADE);
 
 	gtk_tree_view_column_pack_start(coluna5,celula5,TRUE);
 	gtk_tree_view_column_set_title(coluna5,"UF");
-	gtk_tree_view_column_add_attribute(coluna5,celula5,"text",4);
+	gtk_tree_view_column_add_attribute(coluna5,celula5,"text",UF);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna2);
@@ -167,7 +175,15 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
 
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+
+	modelo = gtk_tree_store_new(
+		N_COLUMNS,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING
+	);
 
 	sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade limit 20");
 	res = consultar(query);
@@ -182,11 +198,12 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 		gtk_tree_store_append(modelo,&campos,NULL);
 		g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
 		gtk_tree_store_set(modelo,&campos,
-		COLUMN0,row[0],
-		COLUMN1,row[1],
-		COLUMN2,row[2],
-		COLUMN3,row[3],
-		COLUMN4,row[4],-1);
+		CEP,row[CEP],
+		LOGRADOURO,row[LOGRADOURO],
+		BAIRRO,row[BAIRRO],
+		CIDADE,row[CIDADE],
+		UF,row[UF],
+		-1);
 		cont++;
 	}
 
@@ -202,8 +219,10 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	gtk_fixed_put(GTK_FIXED(escolher_campo_fixed),escolher_campo_button,20,10);
 
 	gtk_widget_set_size_request(scrollwindow,600,250);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),psq_cep_combo_box,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(caixa_grande),psq_cep_combo_box,0,0,5);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pesquisa_entry,0,0,5);
+
 	gtk_container_set_border_width(GTK_CONTAINER(psq_cep_wnd),10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),scrollwindow,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),escolher_campo_fixed,0,0,10);
@@ -212,6 +231,7 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_cep_pesquisa),treeview);
 	pesquisa_global_alvo = GTK_ENTRY(cod_cep_entry);
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_cep_code),treeview);
+	gtk_widget_grab_focus(pesquisa_entry);
 	gtk_widget_show_all(psq_cep_wnd);
 	return 0;
 }

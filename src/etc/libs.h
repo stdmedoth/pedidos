@@ -4,10 +4,7 @@
 #include "./basic_headers.h"
 #include "./Pedidos.h"
 #include "./init.h"
-
-#include "../Menu/iconview.h"
-#include "../Menu/abas.h"
-
+#include "./defines.h"
 #include "./receber_confs.h"
 #include "./xml_tools.h"
 #include "./tools.h"
@@ -27,12 +24,16 @@
 #include "./debugger.h"
 #include "./sobre.h"
 #include "./fechar.h"
+#include "./pega_data.h"
+
+#include "../Menu/iconview.h"
+#include "../Menu/abas.h"
+
 
 #include "./operadores.h"
 #include "../Canones/cad_oper/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"
-#include "../Inicio/pega_data.h"
 
 #include "../Parametros/parametros.h"
 
@@ -40,7 +41,9 @@
 
 #include "../Produtos/cadastro_produtos.h"
 #include "../Produtos/precos/precos.h"
+
 #include "../Produtos/grupos/cad_grupo.h"
+#include "../Produtos/subgrupos/subgrupos.h"
 
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/datas.h"

@@ -121,17 +121,18 @@ int iniciar_gerenciador_janela(){
   for(int cont=0;cont<REG_WIN_QNT;cont++){
 
     if(janelas_gerenciadas.vetor_janelas[cont].aberta){
-        g_print("gerenciador finalizando %s ID: %i Contador %i\n",
-        janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id],
-        janelas_gerenciadas.vetor_janelas[cont].reg_id,
-        cont);
+      g_print("gerenciador finalizando %s ID: %i Contador %i\n",
+      janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id],
+      janelas_gerenciadas.vetor_janelas[cont].reg_id,
+      cont);
 
-        if(!GTK_IS_WIDGET(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){
-          g_print("Janela '%s' já estava fechada\n",
-          janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id]);
-        }
-        else
-          gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
+      if(!GTK_IS_WIDGET(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){
+        g_print("Janela '%s' já estava fechada\n",
+        janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id]);
+      }
+      else{
+        gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
+      }
     }
 
     janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 0;

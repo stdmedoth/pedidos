@@ -1,9 +1,12 @@
-#define PARC_ID_COL 0
-#define PARC_POS_COL 1
-#define PARC_BNC_COL 2
-#define PARC_DTCR_COL 3
-#define PARC_DTVN_COL 4
-#define PARC_VLR_COL 5
+enum{
+  PARC_ID_COL,
+  PARC_POS_COL,
+  PARC_BNC_COL,
+  PARC_DTCR_COL,
+  PARC_DTVN_COL,
+  PARC_VLR_COL
+};
+
 
 int cad_titulos_receber();
 

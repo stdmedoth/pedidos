@@ -52,6 +52,20 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 							encerrando();
 					}
 				}
+
+				if(sessao_oper.status_sessao == SESSAO_TESTE){
+					sessao_oper.code = default_user_code;
+					sessao_oper.nivel = 1;
+					ativar.ativo = 0;
+					sessao_oper.status_sessao = SESSAO_TESTE;
+					strcpy(sessao_oper.nome,ENTRAR_BIND_TEXT);
+
+					if(desktop()){
+							popup(NULL,"Erro na reinicialização");
+							encerrando();
+					}
+				}
+
 			}
 			autologger("Reiniciando janela principal");
 			break;

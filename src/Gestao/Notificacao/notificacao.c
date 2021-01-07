@@ -25,6 +25,7 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
   gchar *id = malloc(12);
+
   GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW(tree_view));
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
   if(!gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -49,12 +50,19 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
   GtkWidget *botao = gtk_button_new_with_label("Consultar");
   GtkWidget *box = gtk_box_new (0,0);
   GtkWidget *destroyed = gtk_bin_get_child (user_data);
+
   if(destroyed && GTK_IS_WIDGET(destroyed))
     gtk_widget_destroy(destroyed);
+
   gtk_box_pack_start(GTK_BOX(box), botao,0,0,5);
   g_signal_connect(botao, "clicked", G_CALLBACK(notf_consultar_fun), notf);
+  g_signal_connect(botao, "clicked", G_CALLBACK(esconder_widget_callback), user_data);
+
   gtk_container_add(GTK_CONTAINER(user_data), box);
-  //gtk_popover_set_modal(user_data, TRUE);
+
+  GdkRectangle rect;
+  gtk_tree_view_get_cell_area(tree_view, path, column, &rect);
+  gtk_popover_set_pointing_to(GTK_POPOVER(user_data), &rect);
   gtk_widget_show_all(user_data);
 }
 
@@ -66,7 +74,7 @@ int notificacoes_receber(){
   notificacao_pendencias = 0;
 
   sprintf(query,
-    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE()-%i and p.data_vencimento <= CURDATE()+%i"
+    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY"
     ,NOTF_DIAS,NOTF_DIAS);
 
   if((res = consultar(query))){
@@ -135,14 +143,17 @@ void notificacoes_wnd(){
 	gtk_window_set_resizable(GTK_WINDOW(notf_wnd),FALSE);
 	gtk_window_set_title(GTK_WINDOW(notf_wnd),"Notificações");
 	gtk_window_set_icon_name(GTK_WINDOW(notf_wnd),"software-update-urgent");
-	gtk_window_set_transient_for(GTK_WINDOW(notf_wnd),GTK_WINDOW(janela_principal));
-	gtk_container_set_border_width (GTK_CONTAINER (notf_wnd), 10);
+  gtk_window_set_transient_for(GTK_WINDOW(notf_wnd),GTK_WINDOW(janela_principal));
+  gtk_container_set_border_width (GTK_CONTAINER (notf_wnd), 10);
 
   GtkWidget *notf_box = gtk_box_new(1,0);
   GtkWidget *notf_scroll = gtk_scrolled_window_new(NULL,NULL);
   GtkWidget *notf_tree_view = gtk_tree_view_new();
   GtkWidget *notf_frame = gtk_frame_new("Notificações");
+
   GtkWidget *popupver = gtk_popover_new(notf_tree_view);
+  gtk_popover_set_modal (GTK_POPOVER(popupver), TRUE);
+  gtk_popover_set_constrain_to (GTK_POPOVER(popupver), GTK_POPOVER_CONSTRAINT_WINDOW);
 
   GtkTreeIter campos;
   MYSQL_RES *res;
@@ -191,7 +202,9 @@ void notificacoes_wnd(){
 
   GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE()-2 and p.data_vencimento <= CURDATE()+2");
+  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY",
+  NOTF_DIAS, NOTF_DIAS
+  );
 	if((res = consultar(query))){
     int notif_qnt=0;
   	while((row = mysql_fetch_row(res))!=NULL){

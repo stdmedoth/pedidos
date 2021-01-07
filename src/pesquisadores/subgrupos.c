@@ -97,18 +97,7 @@ int pesquisa_subgrp()
 	GtkWidget *pesquisa_entry;
 	GtkWidget *caixa_grande;
 
-	char *source,*dest;
-	char **familia_char;
-	int grupo_len=0;
-	source = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	dest = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-	familia_char = malloc(MAX_SUBGRUPO*MAX_GRP_LEN+MAX_SUBGRUPO);
-
 	GtkWidget *escolher_campo_button, *escolher_campo_img, *escolher_campo_fixed;
-
-	MYSQL_RES *res[6];
-	MYSQL_ROW row[6];
-	char query[MAX_QUERY_LEN];
 
 	caixa_grande = gtk_box_new(1,0);
 	pesquisa_entry = gtk_entry_new();
@@ -153,158 +142,9 @@ int pesquisa_subgrp()
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
 
-	sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %i",find_subgrupos_restrict->grupo);
-	res[ROW_0] = consultar(query);
-	if(res[ROW_0] == NULL)
-	{
+	if(!grp_get_tree(modelo, 1, NULL))
 		return 1;
-	}
-	//RAIZ
-	while((row[ROW_0] = mysql_fetch_row(res[ROW_0]))!=NULL)
-	{
-		if(atoi(row[ROW_0][0])!=1)
-		{
-			if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_0][0]) ))<0)
-				return 1;
-			strcpy(dest,"");
-			strcpy(source,"");
 
-			for(int cont=grupo_len;cont>0;cont--)
-			{
-				sprintf(dest,"%s %s",source,familia_char[cont]);
-
-				strcpy(source,dest);
-			}
-
-			gtk_tree_store_append(modelo,&campos,NULL);
-			g_print("Inserindo codigo: %s nome: %s\n",row[ROW_0][0],row[ROW_0][1]);
-			gtk_tree_store_set(modelo,&campos, COLUMN0,row[ROW_0][0], COLUMN1,row[ROW_0][1],COLUMN2,dest,-1);
-			sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_0][0]);
-			res[ROW_1] = consultar(query);
-			if(res[ROW_1] == NULL)
-			{
-				return 1;
-			}
-			//camada 2
-			while((row[ROW_1] = mysql_fetch_row(res[ROW_1]))!=NULL)
-			{
-				if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_1][0]) ))<0)
-					return 1;
-				strcpy(dest,"");
-				strcpy(source,"");
-
-				for(int cont=grupo_len;cont>0;cont--)
-				{
-					sprintf(dest,"%s %s",source,familia_char[cont]);
-
-					strcpy(source,dest);
-				}
-
-				gtk_tree_store_append(modelo,&filhos[ROW_1],&campos);
-				g_print("Inserindo codigo: %s nome: %s\n",row[ROW_1][0],row[ROW_1][1]);
-				gtk_tree_store_set(modelo,&filhos[ROW_1], COLUMN0,row[ROW_1][0], COLUMN1,row[ROW_1][1],COLUMN2,dest,-1);
-				sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_1][0]);
-				res[ROW_2] = consultar(query);
-				if(res[ROW_2] == NULL)
-				{
-					return 1;
-				}
-				//camada 3
-				while((row[ROW_2] = mysql_fetch_row(res[ROW_2]))!=NULL)
-				{
-					if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_2][0]) ))<0)
-						return 1;
-					strcpy(dest,"");
-					strcpy(source,"");
-
-					for(int cont=grupo_len;cont>0;cont--)
-					{
-						sprintf(dest,"%s %s",source,familia_char[cont]);
-
-						strcpy(source,dest);
-					}
-
-					gtk_tree_store_append(modelo,&filhos[ROW_2],&filhos[ROW_1]);
-					g_print("Inserindo codigo: %s nome: %s\n",row[ROW_2][0],row[ROW_2][1]);
-					gtk_tree_store_set(modelo,&filhos[ROW_2], COLUMN0,row[ROW_2][0], COLUMN1,row[ROW_2][1],COLUMN2,dest,-1);
-					sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_2][0]);
-					res[ROW_3] = consultar(query);
-					if(res[ROW_3] == NULL)
-					{
-						return 1;
-					}
-					//camada 4
-					while((row[ROW_3] = mysql_fetch_row(res[ROW_3]))!=NULL)
-					{
-						if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_3][0]) ))<0)
-							return 1;
-						strcpy(dest,"");
-						strcpy(source,"");
-
-						for(int cont=grupo_len;cont>0;cont--)
-						{
-							sprintf(dest,"%s %s",source,familia_char[cont]);
-
-							strcpy(source,dest);
-						}
-
-						gtk_tree_store_append(modelo,&filhos[ROW_3],&filhos[ROW_2]);
-						g_print("Inserindo codigo: %s nome: %s\n",row[ROW_3][0],row[ROW_3][1]);
-						gtk_tree_store_set(modelo,&filhos[ROW_3], COLUMN0,row[ROW_3][0], COLUMN1,row[ROW_3][1],COLUMN2,dest,-1);
-						sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_3][0]);
-						res[ROW_4] = consultar(query);
-						if(res[ROW_4] == NULL)
-						{
-							return 1;
-						}
-						//camada 5
-						while((row[ROW_4] = mysql_fetch_row(res[ROW_4]))!=NULL)
-						{
-							if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_4][0]) ))<0)
-								return 1;
-							strcpy(dest,"");
-							strcpy(source,"");
-
-							for(int cont=grupo_len;cont>0;cont--)
-							{
-								sprintf(dest,"%s %s",source,familia_char[cont]);
-
-								strcpy(source,dest);
-							}
-
-							gtk_tree_store_append(modelo,&filhos[ROW_4],&filhos[ROW_3]);
-							g_print("Inserindo codigo: %s nome: %s\n",row[ROW_4][0],row[ROW_4][1]);
-							gtk_tree_store_set(modelo,&filhos[ROW_4], COLUMN0,row[ROW_4][0], COLUMN1,row[ROW_4][1],COLUMN2,dest,-1);
-							sprintf(query,"select b.code, b.nome, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.pai = %s",row[ROW_4][0]);
-							res[ROW_5] = consultar(query);
-							if(res[ROW_5] == NULL)
-							{
-								return 1;
-							}
-							while((row[ROW_5] = mysql_fetch_row(res[ROW_5]))!=NULL)
-							{
-								if((grupo_len = rec_familia_nome(familia_char, atoi(row[ROW_5][0]) ))<0)
-									return 1;
-								strcpy(dest,"");
-								strcpy(source,"");
-
-								for(int cont=grupo_len;cont>0;cont--)
-								{
-									sprintf(dest,"%s %s",source,familia_char[cont]);
-
-									strcpy(source,dest);
-								}
-
-								gtk_tree_store_append(modelo,&filhos[ROW_5],&filhos[ROW_4]);
-								g_print("Inserindo codigo: %s nome: %s\n",row[ROW_5][0],row[ROW_5][1]);
-								gtk_tree_store_set(modelo,&filhos[ROW_5], COLUMN0,row[ROW_5][0], COLUMN1,row[ROW_5][1],COLUMN2,dest,-1);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
 
 	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);
@@ -327,7 +167,7 @@ int pesquisa_subgrp()
 	g_signal_connect(pesquisa_entry,"activate",G_CALLBACK(entry_subgrp_pesquisa),treeview);
 
 	pesquisa_global_alvo = GTK_ENTRY(find_subgrupos_restrict->entry);
-	
+
 	g_signal_connect(escolher_campo_button,"clicked",G_CALLBACK(receber_subgrp_code),treeview);
 	gtk_widget_show_all(psq_subgrp_wnd);
 	return 0;
