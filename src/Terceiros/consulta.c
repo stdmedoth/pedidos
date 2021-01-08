@@ -12,7 +12,7 @@ void ter_consulta_contrib(){
 		popup(NULL,"Insira o cnpj");
 		return ;
 	}
-	
+
 	if(!(cnpj = format_only_num(cnpj))){
 		popup(NULL,"Não foi possível formatar cnpj");
 		return ;

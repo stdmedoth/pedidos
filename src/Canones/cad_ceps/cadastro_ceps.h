@@ -64,8 +64,8 @@ struct _cad_cep{
 };
 
 enum CEP_COLS{
+  CEP_CODE_COL,
   CEP_CEP_COL,
-  CEP_ID_COL,
   CEP_TIPO_COL,
   CEP_DESCR_COL,
   CEP_IDCIDADE_COL,

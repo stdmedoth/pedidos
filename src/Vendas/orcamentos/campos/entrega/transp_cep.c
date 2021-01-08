@@ -40,7 +40,7 @@ int orc_transp_cepc()
 	}
 	autologger("CEP:");
 	autologger(orc_transp_cep);
-	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",orc_transp_cep);
+	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",orc_transp_cep);
 
 	if(!(vetor = consultar(query)))
 	{

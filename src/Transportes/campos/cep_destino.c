@@ -23,7 +23,7 @@ int trsp_cad_cepentr_fun(){
     return 1;
   }
 
-  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",trsp_cad_cepentr_gchar);
+  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",trsp_cad_cepentr_gchar);
   if(!(res = consultar(query)))
   {
     popup(NULL,"Erro ao consultar CEP");

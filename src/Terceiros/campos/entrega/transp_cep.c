@@ -34,7 +34,7 @@ int transp_cepc()
 	g_print("CEP: %s\n",transp_cep);
 	autologger("CEP:");
 	autologger(transp_cep);
-	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",transp_cep);
+	sprintf(query,"select l.descricao, c.descricao, l.UF, l.descricao_bairro  from logradouro as l inner join cidade as c on l.code = c.id_cidade where CEP = '%s'",transp_cep);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{

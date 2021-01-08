@@ -10,7 +10,7 @@ int cad_ceps_alterar_fun(){
   if(cad_ceps_cep_fun())
     return 1;
 
-  sprintf(query,"select l.id_logradouro, l.descricao, l.tipo, l.id_cidade, c.descricao, l.UF, l.descricao_bairro from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cad_ceps_cep_gchar);
+  sprintf(query,"select l.code, l.descricao, l.tipo, l.id_cidade, c.descricao, l.UF, l.descricao_bairro from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",cad_ceps_cep_gchar);
   if(!(vetor = consultar(query))){
     popup(NULL,"Erro na query para CEP\n\tConsulte suporte");
     gtk_widget_grab_focus(GTK_WIDGET(cad_ceps_cep_entry));

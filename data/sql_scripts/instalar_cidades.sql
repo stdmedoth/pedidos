@@ -17,11 +17,8 @@
 -- Dados da tabela `cidade`
 --
 
-INSERT INTO cidade (id_cidade,
-descricao,
-uf,
-codigo_ibge,
-ddd) VALUES 
+INSERT INTO cidade (code, descricao, uf, codigo_ibge, ddd)
+  VALUES
  (1,'Abacate da Pedreira (Macapá)','AP',1600550,'96'),
  (2,'Abadia (Jandaíra)','BA',2917904,'75'),
  (3,'Abadia de Goiás','GO',5200050,'62'),
@@ -4040,7 +4037,7 @@ ddd) VALUES
  (4016,'Hidráulica (Capão do Leão)','RS',4304663,'53'),
  (4017,'Hidrelétrica Itaipu (Foz do Iguaçu)','PR',4125704,'54'),
  (4018,'Hidrelétrica Tucuruí (Tucuruí)','PA',1508100,'94');
-INSERT INTO cidade (id_cidade,descricao,uf,codigo_ibge,ddd) VALUES 
+INSERT INTO cidade (id_cidade,descricao,uf,codigo_ibge,ddd) VALUES
  (4019,'Hidrolândia','CE',2305209,'88'),
  (4020,'Hidrolândia','GO',5209705,'62'),
  (4021,'Hidrolândia (Uibaí)','BA',2932408,'74'),
@@ -5441,7 +5438,7 @@ INSERT INTO cidade (id_cidade,descricao,uf,codigo_ibge,ddd) VALUES
  (5416,'Maceió (Fortim)','CE',2305357,'88'),
  (5417,'Machacalis','MG',3138906,'33'),
  (5418,'Machadinho','RS',4311700,'54'),
- (5419,'Machadinho DOeste','RO',1100130,'69'), 
+ (5419,'Machadinho DOeste','RO',1100130,'69'),
  (5420,'Machado','MG',3139003,'35'),
  (5421,'Machado (Cuiabá)','MT',5103403,'65'),
  (5422,'Machados','PE',2609105,'81'),
@@ -10734,4 +10731,3 @@ INSERT INTO cidade (id_cidade,descricao,uf,codigo_ibge,ddd) VALUES
  (10709,'Zelândia (Santa Juliana)','MG',3157708,'34'),
  (10710,'Zito Soares (Santa Cruz do Escalvado)','MG',3157401,'31'),
  (10711,'Zortéa','SC',4219853,'49');
-

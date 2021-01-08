@@ -23,9 +23,9 @@ int cad_ceps_concluir_fun(){
     return 1;
 
   if(cad_ceps_alterando==0){
-    sprintf(query,"insert into logradouro(CEP, id_logradouro, tipo, descricao, id_cidade, UF, complemento, descricao_sem_numero, descricao_cidade, codigo_cidade_ibge, descricao_bairro) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-    cad_ceps_cep_gchar,
+    sprintf(query,"insert into logradouro(code, CEP, tipo, descricao, id_cidade, UF, complemento, descricao_sem_numero, descricao_cidade, codigo_cidade_ibge, descricao_bairro) values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
     cad_ceps_code_gchar,
+    cad_ceps_cep_gchar,
     tip_logds[cad_ceps_tipo_int],
     cad_ceps_descr_gchar,
     cad_ceps_cid_code_gchar,
@@ -35,7 +35,7 @@ int cad_ceps_concluir_fun(){
     cad_cid_ibge_gchar,
     cad_ceps_bairro_gchar);
   }else{
-    sprintf(query,"update logradouro set CEP = '%s', tipo = '%s', descricao = '%s', id_cidade = '%s', UF = '%s', complemento = '%s', descricao_sem_numero = '%s', descricao_cidade = '%s', codigo_cidade_ibge = '%s', descricao_bairro = '%s' where id_logradouro = '%s'",
+    sprintf(query,"update logradouro set CEP = '%s', tipo = '%s', descricao = '%s', id_cidade = '%s', UF = '%s', complemento = '%s', descricao_sem_numero = '%s', descricao_cidade = '%s', codigo_cidade_ibge = '%s', descricao_bairro = '%s' where code = '%s'",
     cad_ceps_cep_gchar,
     tip_logds[cad_ceps_tipo_int],
     cad_ceps_descr_gchar,

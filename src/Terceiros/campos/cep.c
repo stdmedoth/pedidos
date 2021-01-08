@@ -13,15 +13,7 @@ int cep_terc()
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
 	}
-	if(strlen(cep_ter)<=0)
-	{
-		if(terceiros.criticar.cep==0)
-		{
-			cep_ter = malloc(MAX_CEP_LEN);
-			strcpy(cep_ter,"");
-			gtk_widget_grab_focus(address_ter_field);
-			return 0;
-		}
+	if(strlen(cep_ter)<=0){
 		popup(NULL,"Por favor insira um cep");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
@@ -35,7 +27,7 @@ int cep_terc()
 	g_print("CEP: %s\n",cep_ter);
 	autologger("CEP:");
 	autologger(cep_ter);
-	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF, l.descricao_bairro, c.ddd from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep_ter);
+	sprintf(query,"select l.descricao,l.tipo, c.descricao, l.UF, l.descricao_bairro, c.ddd from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",cep_ter);
 	vetor = consultar(query);
 	if(vetor==NULL)
 	{

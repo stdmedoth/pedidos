@@ -8,7 +8,7 @@ int cad_ceps_cid_code_fun(){
 
   cad_cid_descr_gchar = malloc(MAX_CID_LEN);
   cad_cid_ibge_gchar = malloc(MAX_CODE_LEN);
-  sprintf(query,"select * from cidade where id_cidade = '%s'",cad_ceps_cid_code_gchar);
+  sprintf(query,"select * from cidade where code = '%s'",cad_ceps_cid_code_gchar);
 	if(!(vetor = consultar(query))){
 		popup(NULL,"Erro na query para cidade\n\tConsulte suporte");
 	   gtk_widget_grab_focus(cad_ceps_cid_code_entry);

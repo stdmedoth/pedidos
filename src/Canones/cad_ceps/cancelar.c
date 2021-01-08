@@ -16,22 +16,10 @@ int cad_ceps_cancelar_fun(){
   cad_ceps_concluindo=0;
   cad_ceps_consultando = 0;
 
+
+  int logr_code = tasker("logradouro");
   gchar *code_task = malloc(MAX_CODE_LEN);
-  sprintf(query,"select MAX(id_logradouro) from logradouro");
-  if(!(res=consultar(query))){
-    popup(NULL,"Não foi possivel receber task do logradouro");
-    return 1;
-  }
-  if(!(row = mysql_fetch_row(res))){
-    strcpy(code_task,"1");
-  }
-  else{
-    if(!row[0]){
-      strcpy(code_task,"1");
-    }else{
-      sprintf(code_task,"%i",atoi(row[0])+1);
-    }
-  }
+  sprintf(code_task, "%i", logr_code);
 
   gtk_widget_set_sensitive(cad_cep_consulta_button, TRUE);
   gtk_widget_set_sensitive(cad_cep_altera_button, TRUE);

@@ -18,7 +18,7 @@ struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade where codigo_ibge = %i",ibgecode);
+  sprintf(query,"select code, descricao, uf, codigo_ibge, ddd from cidade where codigo_ibge = %i",ibgecode);
   if(!(res = consultar(query))){
     popup(NULL,"Erro ao consulta cidade");
     return NULL;
@@ -43,7 +43,7 @@ struct _cad_cep *get_ender_by_cep(gchar *cepcode){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
   struct _cad_cep *cep = NULL;
-  sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where l.CEP = '%s'", cepcode);
+  sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.code where l.CEP = '%s'", cepcode);
 
   if(!(res = consultar(query))){
     popup(NULL,"Erro ao consulta cep");

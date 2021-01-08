@@ -1,15 +1,7 @@
 int address_terc()
 {
 	endereco_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(address_ter_field));
-	if(strlen(endereco_ter)<=0)
-	{
-		if(terceiros.criticar.endereco==0)
-		{
-			endereco_ter = malloc(sizeof(char*)*MAX_ADR_LEN);
-			strcpy(endereco_ter,"");
-			gtk_widget_grab_focus(address_num_field);
-			return 0;
-		}
+	if(strlen(endereco_ter)<=0){
 		popup(NULL,"Por favor insira o endereco do terceiro");
 		gtk_widget_grab_focus(GTK_WIDGET(address_ter_field));
 		return 1;

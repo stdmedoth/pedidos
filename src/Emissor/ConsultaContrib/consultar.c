@@ -272,7 +272,6 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   if(!(cep = get_ender_by_cep(contrib->cep))){
 
     cep = malloc(sizeof(struct _cad_cep));
-
     cep->cep = strdup(contrib->cep);
     cep->ldescricao = (gchar*)xmlNodeGetContent(logr_node);
     cep->bairro = (gchar*)xmlNodeGetContent(bairro_node);
@@ -281,19 +280,9 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     MYSQL_RES *res;
     MYSQL_ROW row;
     char query[MAX_QUERY_LEN];
-    sprintf(query, "select MAX(id_cidade) from cidade");
-    if(!(res = consultar(query))){
-      popup(NULL,"Não foi possível pesquisar existencia da cidade");
-      return 1;
-    }
 
     cep->cidade = malloc(sizeof(struct _cad_cidade));
-    if((row = mysql_fetch_row(res)) && row[0]){
-      cep->cidade->code = atoi(row[0])+1;
-    }else{
-      cep->cidade->code = 1;
-    }
-
+    cep->cidade->code = tasker("cidade");
     cep->cidade->descricao = (gchar*)xmlNodeGetContent(cidade_node);
     cep->cidade->uf = (gchar*)xmlNodeGetContent(uf_node);
     cep->cidade->code_ibge = atoi((gchar*)xmlNodeGetContent(ibgecid_node));
@@ -304,13 +293,13 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
 
     if(PopupBinario("CEP novo encontrado na consulta, deseja importar?", "Sim! aumente o meu banco de dados", "Não! irei cadastrar manualmente")){
 
-      sprintf(query, "select id_cidade from cidade where codigo_ibge = %i", cep->cidade->code_ibge);
+      sprintf(query, "select code from cidade where codigo_ibge = %i", cep->cidade->code_ibge);
       if(!(res = consultar(query))){
         popup(NULL,"Não foi possível pesquisar existencia da cidade");
         return 1;
       }
       if(!(row = mysql_fetch_row(res))){
-        sprintf(query, "insert into cidade(id_cidade, descricao, uf, codigo_ibge, ddd) values(%i, '%s', '%s', %i, '')",
+        sprintf(query, "insert into cidade(code, descricao, uf, codigo_ibge, ddd) values(%i, '%s', '%s', %i, '')",
           cep->cidade->code,
           cep->cidade->descricao,
           cep->cidade->uf,

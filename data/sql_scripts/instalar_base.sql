@@ -149,19 +149,21 @@ create table if not exists wnd_logger(id_janela int,
   operador int,
   tempo datetime);
 
-create table if not exists cidade (id_cidade int(11) NOT NULL AUTO_INCREMENT,
+create table if not exists cidade (
+  code int(11) NOT NULL AUTO_INCREMENT,
   descricao varchar(100) DEFAULT '',
   uf varchar(2)  DEFAULT '',
   codigo_ibge int(11)  DEFAULT 0,
   ddd varchar(2)  DEFAULT '',
-  PRIMARY KEY (id_cidade),
-  KEY id (id_cidade) USING BTREE,
-  KEY cidade (id_cidade,
+  PRIMARY KEY (code),
+  KEY code (code) USING BTREE,
+  KEY cidade (code,
   uf) USING BTREE,
   KEY cidade_estado (uf) USING BTREE);
 
-create table if not exists logradouro (  CEP varchar(11) NOT NULL,
-  id_logradouro int(10) unsigned NOT NULL AUTO_INCREMENT,
+create table if not exists logradouro (
+  code int(10) unsigned NOT NULL AUTO_INCREMENT,
+  CEP varchar(11) NOT NULL,
   tipo varchar(50) DEFAULT '',
   descricao varchar(100)  DEFAULT '',
   id_cidade int(11)  DEFAULT 0,
@@ -171,11 +173,11 @@ create table if not exists logradouro (  CEP varchar(11) NOT NULL,
   descricao_cidade varchar(100) DEFAULT '',
   codigo_cidade_ibge int(11) DEFAULT 0,
   descricao_bairro varchar(100) DEFAULT '',
-  PRIMARY KEY (id_logradouro),
+  PRIMARY KEY (code),
   KEY cep (CEP) USING BTREE,
-  KEY cidade (id_cidade,
+  KEY cidade (code,
   UF) USING BTREE,
-  CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (id_cidade));
+  CONSTRAINT FK_cidade_2 FOREIGN KEY (id_cidade) REFERENCES cidade (code));
 
 create table if not exists estados( code int primary key auto_increment,
 sigla varchar(5) not null default 'UF',

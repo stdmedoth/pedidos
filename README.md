@@ -64,7 +64,8 @@
 <p>make</p>
 <p>sudo make install</p>
 <h3>Windows:</h3>
-<p>instalar msys2 em C:/gnu para utilizar o script comp.bat</p>
+<p>MSYS2</p>
+<p>instalar mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
 
 Calisto – jovictor210@gmail.com
 

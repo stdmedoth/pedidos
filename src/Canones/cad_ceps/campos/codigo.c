@@ -9,7 +9,7 @@ int cad_ceps_code_fun(){
     return 1;
   }
 
-  sprintf(query,"select CEP from logradouro where id_logradouro = %s",cad_ceps_code_gchar);
+  sprintf(query,"select CEP from logradouro where code = %s",cad_ceps_code_gchar);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível carregar cep");
     return 1;
