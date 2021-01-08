@@ -32,6 +32,7 @@ gboolean desfocar_menu(GtkWidget *widget, GdkEventCrossing  *event, gpointer   u
 int menu_icon_views_wnd(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
   gtk_container_set_border_width(GTK_CONTAINER(janela), 20);
 
   janelas_gerenciadas.vetor_janelas[REG_MENU_WND].reg_id = REG_MENU_WND;
@@ -39,6 +40,7 @@ int menu_icon_views_wnd(){
   if(ger_janela_aberta(fixed_relats_wnd, &janelas_gerenciadas.vetor_janelas[REG_MENU_WND]))
     return 1;
   janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer = janela;
+
 
   gtk_widget_set_name(janela,"menu_iconview_wnd");
   gtk_window_set_position(GTK_WINDOW(janela),3);
@@ -48,6 +50,7 @@ int menu_icon_views_wnd(){
   gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
   gtk_window_set_title(GTK_WINDOW(janela),"Menu de Opções");
   gtk_window_set_icon_name(GTK_WINDOW(janela),"text-x-generic");
+
 
   menu_notebook = gtk_notebook_new();
   GtkWidget *principal = gtk_box_new(0,0);
@@ -108,7 +111,6 @@ int menu_icon_views_wnd(){
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MENU_WND]);
   g_signal_connect(GTK_WIDGET(janela),"key_press_event",G_CALLBACK(tecla_menu),NULL);
   g_signal_connect(janela,"destroy",G_CALLBACK(chama_menu),NULL);
-
   gtk_widget_show_all(janela);
   return 0;
 }

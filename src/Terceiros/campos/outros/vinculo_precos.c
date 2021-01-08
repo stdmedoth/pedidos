@@ -42,6 +42,7 @@ int insere_preco_ter(){
 
 	preco_fat = (gchar*) gtk_entry_get_text(GTK_ENTRY(entry_preco_ter_prcfat));
 	preco_vist = (gchar*) gtk_entry_get_text(GTK_ENTRY(entry_preco_ter_prcvist));
+
 	if(critica_real(preco_fat, entry_preco_ter_prcfat)!=0){
 		gtk_widget_grab_focus(entry_preco_ter_prcfat);
 		return 1;
