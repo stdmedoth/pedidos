@@ -41,7 +41,8 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 
 		case GTK_RESPONSE_REJECT:
 			g_signal_handler_disconnect(mensagem,handler_id);
-
+			/*
+			 //works only on gtk_window -> janela_principal = (deletable TRUE)
 			if(encerrar_manualmente){
 				encerrar_manualmente = 0;
 			}
@@ -68,9 +69,9 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 
 			}
 			autologger("Reiniciando janela principal");
+			*/
 			break;
 	}
-
 	if(GTK_IS_WIDGET(mensagem))
 		gtk_widget_destroy(mensagem);
 
