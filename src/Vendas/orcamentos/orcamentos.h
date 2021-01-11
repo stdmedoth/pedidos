@@ -1,14 +1,16 @@
-#define ORC_COD_COL 0
-#define ORC_TIPMOV_COL 1
-#define ORC_VENDD_COL 2
-#define ORC_CLI_COL 3
-#define ORC_DATE_COL 4
-#define ORC_PAGCOND_COL 5
-#define ORC_BANC_COL 6
-#define ORC_TOTAL_COL 7
-#define ORC_OBS__COL 8
+enum ORC_COLS{
+	ORC_COD_COL,
+	ORC_TIPMOV_COL,
+	ORC_VENDD_COL,
+	ORC_CLI_COL,
+	ORC_DATE_COL,
+	ORC_PAGCOND_COL,
+	ORC_BANC_COL,
+	ORC_TOTAL_COL,
+	ORC_OBS_COL
+};
 
-#define MAX_PROD_ORC 990
+#define MAX_PROD_ORC 10
 
 enum TIPO_DESC{
 	DESCT_EM_REAIS,
@@ -44,6 +46,7 @@ struct _orc_estoque{
 
 static struct _orc_itens
 {
+
 	int id;
 	int item;
 	char item_c[12];
@@ -62,22 +65,12 @@ static struct _orc_itens
 	char preco_c[MAX_PRECO_LEN];
 	char desconto_c[MAX_PRECO_LEN];
 	char total_c[MAX_PRECO_LEN];
-	char origem_preco[15];
+	int origem_preco;
+	char *observacao;
+
+	struct _cad_produtos *_produto;
 }ativos[MAX_PROD_ORC],excluidos[MAX_PROD_ORC];
 
-
-struct _orc_entrega{
-	int code;
-	int transportador;
-	int cliente;
-	char cep_inicio[MAX_CEP_LEN];
-	char cep_entrega[MAX_CEP_LEN];
-	int num;
-	int orcamento;
-	float vlr;
-	float vlr_desc;
-	char obs[MAX_OBS_LEN];
-};
 
 static struct _orc_valores{
 	float valor_prds;
@@ -93,30 +86,33 @@ static struct _orc_valores{
 }orc_valores;
 
 static struct _orc_infos{
+
 	int code;
-	int cliente;
-	int vendedor;
+	struct _terc_infos *cliente;
+	struct _terc_infos * vendedor;
 	int tipo_mov;
-	char data[MAX_DATE_LEN];
+	char *data;
 	float total;
-	char observacoes[MAX_OBS_LEN];
+	char *observacoes;
+
 }orc_infos;
 
 static struct _orc_parcelas{
-	struct _condpag condpag;
 	int banco;
-	char *datas[MAX_PARCELAS_QNT];
-	float vlrs[MAX_PARCELAS_QNT];
-	float valor_faltante;
 	float total_geral;
+	float valor_faltante;
+	struct _condpag *condpag;
+	float *vlrs;
+	char **datas;
 }orc_parcelas;
 
 struct _orc{
-	struct _orc_infos infos;
-	struct _orc_valores valores;
-	struct _orc_parcelas parcelas;
-	struct _orc_entrega entrega;
-	struct _orc_itens itens;
+	struct _orc_infos *infos;
+	struct _orc_itens **itens;
+	struct _transporte *entrega;
+	struct _orc_valores *valores;
+	struct _orc_parcelas *parcelas;
+	int itens_qnt;
 };
 
 #define DATE_QUERY "select DATE_FORMAT(dia,\"%d/%m/%Y\") from orcamentos where code = "
@@ -126,9 +122,6 @@ GtkWidget *orc_data_vlr_lists_box, **orc_data_lists_entry, **orc_vlr_lists_entry
 GtkWidget *orc_prods_grid;
 
 static float saldo_limite = 3;
-
-int orig_preco_prod_orc(GtkWidget *widget,int posicao);
-static int vnd_orc();
 
 static int recebendo_prod_orc=0;
 static int alterando_orc=0;
@@ -267,4 +260,7 @@ GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;
 
 #include "campos.h"
-#include "campos/rec_orc_infos.h"
+#include "get.h"
+
+int orig_preco_prod_orc(GtkWidget *widget,int posicao);
+static int vnd_orc();

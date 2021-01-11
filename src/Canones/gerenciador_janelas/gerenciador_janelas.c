@@ -93,6 +93,9 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
 int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   char msg[200];
 
+  if(validar_sessao_criada())
+    return 1;
+
   struct_wnd->aberta = 0;
   struct_wnd->qnt_aberta--;
 
@@ -118,6 +121,10 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
 int iniciar_gerenciador_janela(){
 
   inativar_debug_fun();
+
+  if(validar_sessao_criada())
+    return 1;
+
   for(int cont=0;cont<REG_WIN_QNT;cont++){
 
     if(janelas_gerenciadas.vetor_janelas[cont].aberta){
@@ -153,6 +160,9 @@ int iniciar_gerenciador_janela(){
 
 int gerenciador_janela(){
 
+  if(validar_sessao_criada())
+    return 1;
+
   for(int cont=0;cont<=REG_WIN_QNT;cont++){
       if(janelas_gerenciadas.vetor_janelas[cont].qnt_aberta>MAX_WND1_ABRT){
         if(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)
@@ -168,6 +178,7 @@ int gerenciador_janela(){
 }
 
 void gerenciador_load_funcs(){
+
   janelas_gerenciadas.vetor_janelas[REG_MENU_WND].fun = menu_icon_views_wnd;
 
   //cadastros
@@ -207,6 +218,12 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_ENTS].fun = est_entradas;
   janelas_gerenciadas.vetor_janelas[REG_SAIDS].fun = est_saidas;
   janelas_gerenciadas.vetor_janelas[REG_SALD].fun = cad_est_sld;
+
+  //marketing
+  janelas_gerenciadas.vetor_janelas[REG_ANLMKT_WND].fun = mkt_analise;
+  janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].fun = mkt_email_models;
+  janelas_gerenciadas.vetor_janelas[REG_MAILDSTRB_WND].fun = mkt_cad_distrib_fun;
+  janelas_gerenciadas.vetor_janelas[REG_ENVMAIL_WND].fun = mkt_models_envia_emails;
 
   //relatórios montados
   janelas_gerenciadas.vetor_janelas[REG_PROD_RELAT].fun = relat_prod_fun;

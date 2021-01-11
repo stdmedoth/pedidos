@@ -28,7 +28,6 @@ xmlDocPtr consulta_contrib_cria_xml(gchar *cnpj, gchar *uf){
   xmlAddChild(ConsCad,infCons);
 
   xmlDocSetRootElement(doc, ConsCad);
-
   /*
   if(!xmlValidateDtd(valid, doc, dtd)){
     xmlErrorPtr	erro = xmlGetLastError();
@@ -36,7 +35,5 @@ xmlDocPtr consulta_contrib_cria_xml(gchar *cnpj, gchar *uf){
     return NULL;
   }
   */
-
-
   return doc;
 }

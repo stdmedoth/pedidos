@@ -45,7 +45,7 @@ struct _orc *rec_orc_infos(struct _orc *orc){
   orc->infos.tipo_mov = atoi(row[ORC_TIPMOV_COL]);
   //orc.infos.vendedor = atoi(row[ORC_VENDD_COL]);
   orc->infos.cliente = atoi(row[ORC_CLI_COL]);
-  strcpy(orc->infos.data,row[ORC_DATE_COL]);
+  orc->infos.data = strdup(row[ORC_DATE_COL]);
   orc->infos.total = atoi(row[ORC_TOTAL_COL]);
 
   //informações financeiras

@@ -43,3 +43,5 @@ int prod_precos_prod_fun();
 int prod_precos_nome_fun();
 int prod_precos_vltfat_fun();
 int prod_precos_vlrvist_fun();
+
+struct _prod_precos *precos_get_preco(int prc_code);

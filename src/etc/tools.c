@@ -1,5 +1,18 @@
 #include "sql_tools.c"
 
+
+gchar *get_db_formated_date(gchar *date_row){
+  int dia, mes, ano;
+	if(sscanf(date_row, "%d-%d-%d", &ano, &mes, &dia)!=3){
+		return NULL;
+	}
+	GTimeZone *tz = g_time_zone_new(NULL);
+	GDateTime *datetime = g_date_time_new(tz, ano, mes, dia, 0, 0, 0);
+
+	return g_date_time_format(datetime, "%d/%m/%Y");
+
+}
+
 GtkWidget *get_pop_parents_wnd(){
   GtkWidget *parent=NULL;
   if(janelas_gerenciadas.principal.janela_pointer)
@@ -19,17 +32,15 @@ GtkWidget *get_pop_parents_wnd(){
 
 int validar_sessao_criada(){
 
-  if(!janelas_gerenciadas.aplicacao.criada && !janelas_gerenciadas.principal.aberta)
+  if(!janelas_gerenciadas.aplicacao.criada || !janelas_gerenciadas.principal.aberta)
     return 0;
 
-  if(!janelas_gerenciadas.principal.sys_close_wnd)
+  if(janelas_gerenciadas.principal.sys_close_wnd)
     return 0;
 
   if(sessao_oper.status_sessao == SESSAO_NULA){
-
-
-    popup(NULL,"Sessão com erro, o incidente será reportado");
-		autologger("Desktop aberto sem sessao ativa");
+    popup(get_pop_parents_wnd(),"Sessão com erro, o incidente será reportado");
+		autologger("!!!!!!!!!!!!!!!Sistema utilizado sem uma sessao ativa!!!!!!!!!!!!!!!");
 		encerrando();
 		return 1;
 	}
@@ -44,15 +55,21 @@ void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
   int identificacao=0;
   g_print("recebendo valor do treeicon\n");
 
-  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path))
-    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,0,&posicao,1,&pixbuf,2,&identificacao,-1);
-  else
+  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path)){
+    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,
+      0,&posicao,
+      1,&pixbuf,
+      2,&identificacao,
+      -1);
+  }
+  else{
     g_print("Não foi possivel encontrar iter\n");
+  }
 
   if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
     janelas_gerenciadas.vetor_janelas[identificacao].fun();
 
-  g_print("posicao = :%s\n",posicao);
+  g_print("IconView posicao: %s\n",posicao);
 }
 
 

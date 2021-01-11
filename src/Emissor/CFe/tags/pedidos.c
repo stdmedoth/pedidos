@@ -3,7 +3,6 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   if(!pedido)
     return NULL;
 
-
   struct _CFe *pCFe = malloc(sizeof(struct _CFe));
   pCFe = cupom_get_base_infos(pCFe);
   pCFe->pgto = NULL;
@@ -39,7 +38,7 @@ struct _CFe *get_cupons_from_ped(struct _pedido *pedido){
   struct _cfe_det *detalhamentos = malloc(sizeof(struct _cfe_det));
   pCFe->det = detalhamentos;
 
-  int itens_qnt = orcamentos_get_orc_itens_qnt(pedido->infos->ped_code);
+  int itens_qnt = orc_get_itens_qnt(pedido->infos->ped_code);
   pCFe->det->itens_qnt = itens_qnt;
   struct _cfe_produto *itens = get_cupom_itens_from_orc(pedido->infos->ped_code);
   if(!itens)

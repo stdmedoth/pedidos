@@ -194,28 +194,28 @@ int mkt_envmail_enviar_distri(){
       struct _terc_infos *cli = terceiros_get_simp_terceiro(atoi(id));
 
       char *conteudo_editado = NULL;
-      conteudo_editado = replaceWord(conteudo, mail_tags_vet[MAIL_TAG_EMP_NOME], cad_emp_strc.xNome);
+      conteudo_editado = replaceWord(conteudo, mail_tags_vet[MAIL_TAG_EMP_NOME][0], cad_emp_strc.xNome);
 
       if((full_ender = get_full_ender_from_cep(cad_emp_strc.CEP, cad_emp_strc.nro))){
-        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_ENDER], full_ender);
+        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_ENDER][0], full_ender);
       }
 
-      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_TEL], cad_emp_strc.telefone);
-      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_CEL], cad_emp_strc.celular);
+      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_TEL][0], cad_emp_strc.telefone);
+      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_EMP_CEL][0], cad_emp_strc.celular);
 
-      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_NOME], cli->razao);
+      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_NOME][0], cli->razao);
 
       if((full_ender = get_full_ender_from_cep(cli->cep, cli->i_nro))){
-        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_ENDER], full_ender);
+        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_ENDER][0], full_ender);
       }
 
       if(cli->contatos_qnt){
-        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_CONTATO], cli->contatos[0].nome);
-        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_TEL], cli->contatos[0].telefone);
-        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_CEL], cli->contatos[0].celular);
+        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_CONTATO][0], cli->contatos[0].nome);
+        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_TEL][0], cli->contatos[0].telefone);
+        conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_CLI_CEL][0], cli->contatos[0].celular);
       }
 
-      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_DATA], data_sys);
+      conteudo_editado = replaceWord(conteudo_editado, mail_tags_vet[MAIL_TAG_DATA][0], data_sys);
 
       if(conteudo_editado && strlen(conteudo_editado)){
 

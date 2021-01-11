@@ -28,7 +28,7 @@ int concluir_datas_livres(){
       gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
       return 1;
     }
-    orc_parcelas.condpag.parcelas_qnt = orc_parc_lvr_qnt_int;
+    orc_parcelas.condpag->parcelas_qnt = orc_parc_lvr_qnt_int;
 
     orc_parcelas.total_geral += datas_lives_str[cont].vlrs;
     if(orc_parcelas.total_geral>orc_valores.valor_total+MAX_DIF_VLR){
@@ -52,7 +52,7 @@ int concluir_datas_livres(){
     }
     sprintf(query,"insert into orc_datas_livres(orcamento,pag_cond,posicao,data_vencimento,valor) values(%s,%i,%i,STR_TO_DATE('%s','%%d/%%m/%%Y'),%.4f);",
     codigo_orc_gchar,
-    orc_parcelas.condpag.code,
+    orc_parcelas.condpag->code,
     cont,
     datas_lives_str[cont].datas,
     datas_lives_str[cont].vlrs );

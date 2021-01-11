@@ -1,6 +1,7 @@
 #include "libs.h"
 
 #include "./init.c"
+#include "./desktop.c"
 #include "./receber_confs.c"
 #include "./xml_tools.c"
 #include "./tools.c"
@@ -94,6 +95,7 @@
 
 #include "../Vendas/orcamentos/campos/entrega_campos.c"
 #include "../Vendas/orcamentos/orcamentos.c"
+#include "../Vendas/orcamentos/print_operation.c"
 #include "../Vendas/orcamentos/gerar_totais.c"
 #include "../Vendas/orcamentos/janela/adicionar_linha.c"
 #include "../Vendas/orcamentos/janela/tirar_linha.c"
@@ -107,16 +109,13 @@
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"
 
-#include "./GerarDocs/Orcs/banco.c"
-#include "./GerarDocs/Orcs/header.c"
-#include "./GerarDocs/Orcs/infos_header.c"
-#include "./GerarDocs/Orcs/observacao.c"
-#include "./GerarDocs/Orcs/titulo.c"
-#include "./GerarDocs/Orcs/transporte.c"
-#include "./GerarDocs/Orcs/itens.c"
-#include "./GerarDocs/Orcs/rec_datas.c"
-#include "./GerarDocs/Orcs/cliente.c"
-#include "./GerarDocs/Orcs/gerar_orcs.c"
+#include "./GerarDocs/Orcs2/header.c"
+#include "./GerarDocs/Orcs2/cliente.c"
+#include "./GerarDocs/Orcs2/itens.c"
+#include "./GerarDocs/Orcs2/transporte.c"
+#include "./GerarDocs/Orcs2/pagamentos.c"
+#include "./GerarDocs/Orcs2/observacao.c"
+#include "./GerarDocs/Orcs2/gerar.c"
 
 #include "./GerarDocs/OrdensCompra/gerar.c"
 

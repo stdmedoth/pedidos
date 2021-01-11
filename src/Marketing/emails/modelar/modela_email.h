@@ -72,19 +72,19 @@ enum MAIL_TAGS{
   MAIL_TAGS_QNT
 };
 
-const gchar *mail_tags_vet[] = {
-  "mail_nome_empresa",
-  "mail_ender_empresa",
-  "mail_celular_empresa",
-  "mail_telefone_empresa",
+const gchar *mail_tags_vet[][2] = {
+  {"mail_nome_empresa", "Nome empresa"} ,
+  {"mail_ender_empresa", "Endereço da Empresa"} ,
+  {"mail_celular_empresa", "Celular da Empresa"} ,
+  {"mail_telefone_empresa", "Telefone da Empresa"} ,
 
-  "mail_nomecli_cliente",
-  "mail_ender_cliente",
-  "mail_celular_cliente",
-  "mail_telefone_cliente",
-  "mail_contato_cliente",
+  {"mail_nomecli_cliente", "Nome do Cliente"},
+  {"mail_ender_cliente", "Endereço do Cliente"},
+  {"mail_celular_cliente", "Celular do Cliente"},
+  {"mail_telefone_cliente", "Telefone do Cliente"},
+  {"mail_contato_cliente", "Contato do Cliente"},
 
-  "mail_data_envio",
+  {"mail_data_envio","Data Atual no Envio"}
 };
 
 enum EMAIL_HEADER_COLS{
@@ -125,6 +125,14 @@ enum EMAIL_TIPOS{
   EMAIL_FUNC_BOAVINDAS,
   EMAIL_FUNC_FEEDBACK,
   EMAIL_GENERICO
+};
+
+struct _email_model{
+  int code;
+  gchar *nome;
+  gchar *assunto;
+  int tipo;
+  int setor;
 };
 
 #define MODEL_SERVER_URL "http://localhost/email_models/"

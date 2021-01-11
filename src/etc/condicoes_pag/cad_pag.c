@@ -2,14 +2,16 @@ struct _condpag *cond_pag_get(int condpag_code){
   MYSQL_RES *res;
 	MYSQL_ROW row;
   char *query = malloc(MAX_QUERY_LEN);
+
 	struct _condpag *condpag = malloc(sizeof(struct _condpag));
 
   sprintf(query, "select * from pag_cond where code = %i", condpag_code);
 	if(!(res = consultar(query))){
-		popup(NULL,"Erro ao consultar Condição de pagamento");
+    file_logger("Erro em consultar() para cond_pag_get()");
 	  return NULL;
 	}
 	if(!(row = mysql_fetch_row(res))){
+    file_logger("Erro em mysql_fetch_row(res) para cond_pag_get()");
 		return NULL;
 	}
 
@@ -42,6 +44,12 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
   GTimeZone *timezone;
   gchar **parcelas_datas = malloc( sizeof(char*) * parc->parcelas_qnt );
   int dia=0, mes=0, ano=0;
+
+  if(!parc)
+    return NULL;
+
+  if(!data_gchar)
+    return NULL;
 
   if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF){
     popup(NULL,"Não foi possivel ler data");

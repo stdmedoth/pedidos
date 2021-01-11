@@ -58,9 +58,9 @@ static int concluir_orc(){
 		return 1;
 	}
 
-	orc_infos.cliente = atoi(cliente_orc_gchar);
+	orc_infos.cliente = terceiros_get_terceiro(atoi(cliente_orc_gchar));
 	if(observacoes_orc_gchar)
-		strcpy(orc_infos.observacoes,observacoes_orc_gchar);
+		orc_infos.observacoes = strdup(observacoes_orc_gchar);
 
 	for(cont=1;cont<MAX_PROD_ORC;cont++)
 	{
@@ -233,9 +233,9 @@ static int concluir_orc(){
 	sprintf(query,"update orcamentos set banco = %s, tipo_mov = %i, cliente = %i, dia = STR_TO_DATE('%s','%%d/%%m/%%Y'), pag_cond = %i, total = %s, observacoes = '%s' where code = %s",
 	orc_bnc_code_gchar,
 	operacao_orc_int,
-	orc_infos.cliente,
+	orc_infos.cliente->code,
 	data_sys,
-	orc_parcelas.condpag.code,
+	orc_parcelas.condpag->code,
 	valor,
 	orc_infos.observacoes,
 	codigo_orc_gchar);

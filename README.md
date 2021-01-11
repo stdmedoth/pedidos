@@ -1,4 +1,4 @@
-# Pedidos
+# Pedidos (EM DESENVOLVIMENTO - beta)
 > Sistema gerencial para pedidos.
 
 <p>Software gerencial para controle de vendas, compras, financeiro, estoque e marketing</p>
@@ -71,7 +71,7 @@ Calisto – jovictor210@gmail.com
 
 ## Contribuindo
 
-1. Fork (<https://github.com/Calistu/pedidos/fork>)
+1. Fork (<https://github.com/stdmedoth/pedidos/fork>)
 2. Crie seu branch (`git checkout -b feature/algo`)
 3. Comite as alterações (`git commit -am 'Adicionando algo'`)
 4. Suba como branch (`git push origin feature/algo`)

@@ -6,6 +6,7 @@
 #include "campos/header.c"
 #include "campos/body.c"
 #include "campos/footer.c"
+#include "campos/tags_view.c"
 
 #include "alterar.c"
 #include "cancelar.c"
@@ -14,6 +15,32 @@
 #include "visualizar.c"
 #include "modelosprontos.c"
 #include "montar.c"
+
+struct _email_model *mkt_email_models_get_model(int model_code){
+
+  MYSQL_ROW row;
+  MYSQL_RES *res;
+  char query[MAX_QUERY_LEN];
+
+  struct _email_model *modelo = malloc(sizeof(struct _email_model));
+
+  sprintf(query, "select * from emails_model where code = %i", model_code);
+  if(!(res = consultar(query))){
+    return NULL;
+  }
+
+  if(!(row = mysql_fetch_row(res))){
+    return NULL;
+  }
+
+  modelo->code = atoi(row[EMAILMODEL_CODE_COL]);
+  modelo->nome = strdup(row[EMAILMODEL_NOME_COL]);
+  modelo->assunto = strdup(row[EMAILMODEL_ASSUNTO_COL]);
+  modelo->tipo = atoi(row[EMAILMODEL_TIPO_COL]);
+  modelo->setor = atoi(row[EMAILMODEL_SETOR_COL]);
+
+  return modelo;
+}
 
 int mkt_email_models(){
 
@@ -39,9 +66,9 @@ int mkt_email_models(){
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_MODMAIL_WND].janela_pointer = janela;
 
-  GtkWidget *mkt_mail_code_frame, *mkt_mail_html_frame, *mkt_mail_editor_frame;
-  GtkWidget *mkt_mail_code_box, *mkt_mail_html_box, *mkt_mail_editor_box;
-  GtkWidget *mkt_mail_code_fixed, *mkt_mail_html_fixed, *mkt_mail_editor_fixed;
+  GtkWidget *mkt_mail_code_frame, *mkt_mail_html_frame, *mkt_mail_editor_frame, *mkt_mail_tags_frame;
+  GtkWidget *mkt_mail_code_box, *mkt_mail_html_box, *mkt_mail_editor_box, *mkt_mail_tags_box;
+  GtkWidget *mkt_mail_code_fixed, *mkt_mail_html_fixed, *mkt_mail_editor_fixed, *mkt_mail_tags_fixed;
   GtkWidget *opcoes_box, *opcoes_fixed, *cancelar_button, *excluir_button, *alterar_button, *visualiza_button;
   GtkWidget *mkt_mail_nome_frame, *mkt_mail_nome_box, *mkt_mail_nome_fixed;
   GtkWidget *mkt_mail_assunto_frame, *mkt_mail_assunto_box, *mkt_mail_assunto_fixed;
@@ -215,10 +242,12 @@ int mkt_email_models(){
   mkt_mail_code_box = gtk_box_new(0,0);
   mkt_mail_html_box = gtk_box_new(0,0);
   mkt_mail_editor_box = gtk_box_new(0,0);
+  mkt_mail_tags_box = gtk_box_new(0,0);
 
   mkt_mail_code_fixed = gtk_fixed_new();
   mkt_mail_html_fixed = gtk_fixed_new();
   mkt_mail_editor_fixed = gtk_fixed_new();
+  mkt_mail_tags_fixed = gtk_fixed_new();
 
   mkt_mail_psq_button = gtk_button_new();
   gtk_button_set_image(GTK_BUTTON(mkt_mail_psq_button),gtk_image_new_from_file(IMG_PESQ));
@@ -294,14 +323,21 @@ int mkt_email_models(){
   mkt_mail_code_frame = gtk_frame_new("ID Email:");
   mkt_mail_html_frame = gtk_frame_new("Divisões");
   mkt_mail_editor_frame = gtk_frame_new("Editor");
+  mkt_mail_tags_frame = gtk_frame_new("Tags");
+
+  GtkWidget *tags_box = mkt_email_get_tags();
+  if(tags_box)
+    gtk_box_pack_start(GTK_BOX(mkt_mail_tags_box), tags_box ,0,0,0);
 
   gtk_container_add(GTK_CONTAINER(mkt_mail_code_frame), mkt_mail_code_box);
   gtk_container_add(GTK_CONTAINER(mkt_mail_html_frame), mkt_mail_html_box);
   gtk_container_add(GTK_CONTAINER(mkt_mail_editor_frame), mkt_mail_editor_box);
+  gtk_container_add(GTK_CONTAINER(mkt_mail_tags_frame), mkt_mail_tags_box);
 
   gtk_fixed_put(GTK_FIXED(mkt_mail_code_fixed), mkt_mail_code_frame,5,5);
   gtk_fixed_put(GTK_FIXED(mkt_mail_html_fixed), mkt_mail_html_frame,5,5);
   gtk_fixed_put(GTK_FIXED(mkt_mail_editor_fixed), mkt_mail_editor_frame,5,5);
+  gtk_fixed_put(GTK_FIXED(mkt_mail_tags_fixed), mkt_mail_tags_frame,5,5);
 
   gtk_box_pack_start(GTK_BOX(mkt_mail_opt_box),mkt_mail_tipo_frame,0,0,5);
   gtk_box_pack_start(GTK_BOX(mkt_mail_opt_box),mkt_mail_setor_frame,0,0,5);
@@ -316,6 +352,7 @@ int mkt_email_models(){
 
   gtk_notebook_append_page(GTK_NOTEBOOK(mkt_mail_geral_notebook), mkt_mail_editor_fixed, gtk_label_new("Editor"));
   gtk_notebook_append_page(GTK_NOTEBOOK(mkt_mail_geral_notebook), mkt_mail_html_fixed, gtk_label_new("HTML"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(mkt_mail_geral_notebook), mkt_mail_tags_fixed, gtk_label_new("Tags"));
 
   GtkWidget *linha2 = gtk_box_new(0,0);
   gtk_box_pack_start(GTK_BOX(linha2), mkt_mail_nome_fixed,0,0,5);

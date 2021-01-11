@@ -78,6 +78,7 @@ int orc_prod_calc_saldo(int posicao){
 	g_print("valor a ser inserido : %.2f\n",orc_estoque.produtos[prod_code]->saldo_liquido);
 	sprintf(saldo,"%.2f",orc_estoque.produtos[prod_code]->saldo_liquido);
 	gtk_entry_set_text(GTK_ENTRY(saldo_prod_orc_entry[posicao]),saldo);
+
 	return 0;
 }
 

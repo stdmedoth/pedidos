@@ -75,7 +75,7 @@ int ped_enviar(){
 	if(!fopen(orc_path,"r")){
 		sprintf(orc_path,"%simp%i.html",ORC_PATH,pedidoPtr->infos->ped_code);
 		if( PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")
-		&& !gerar_orcs_html( pedidoPtr->infos->ped_code )
+		//&& !gerar_orcs_html( pedidoPtr->infos->ped_code )
 		&& !desenhar_pdf(orc_path) )
 			if(enviar_email_orcamento(nome_cliente,email_cliente,orc_path))
 				return 1;

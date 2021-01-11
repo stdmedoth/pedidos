@@ -16,6 +16,9 @@ int orc_pag_datas_fun(void){
   data_gchar = malloc(MAX_DATE_LEN);
   strcpy(data_gchar,data_sys);
 
+  orc_parcelas.vlrs = malloc(sizeof(float) * MAX_PARC_QNT);
+  orc_parcelas.datas = malloc(sizeof(char) * MAX_DATE_LEN * MAX_PARC_QNT);
+
   if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF)
   {
     popup(NULL,"Não foi possivel ler data");
@@ -51,15 +54,15 @@ int orc_pag_datas_fun(void){
   gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label1_fixed,0,0,1,1);
   gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
-  orc_parcelas.condpag.parcelas_qnt = orc_pag_parc_qnt_int;
+  orc_parcelas.condpag->parcelas_qnt = orc_pag_parc_qnt_int;
   orc_parcelas.total_geral = 0;
 
-  sprintf(parc_qnt,"%i",orc_parcelas.condpag.parcelas_qnt);
+  sprintf(parc_qnt,"%i",orc_parcelas.condpag->parcelas_qnt);
   gtk_entry_set_text(GTK_ENTRY(orc_pag_datas_parcqnt),parc_qnt);
   gtk_widget_set_sensitive(orc_pag_datas_parcqnt,FALSE);
   gtk_widget_set_name(orc_pag_datas_parcqnt,"entry_unsensetivate");
 
-  for(int cont=0;cont<orc_parcelas.condpag.parcelas_qnt;cont++){
+  for(int cont=0;cont<orc_parcelas.condpag->parcelas_qnt;cont++){
 
     if(!g_date_time_format(gdate,"%d/%m/%Y")){
       popup(NULL,"Operação impossível para esta data");

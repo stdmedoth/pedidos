@@ -1,5 +1,32 @@
 int trsp_cad_fun();
 
+enum TRSP_COLS{
+  TRSP_CODE_COL,
+  TRSP_TRANSP_COL,
+  TRSP_CLI_COL,
+  TRSP_CEPINI_COL,
+  TRSP_CEPFIM_COL,
+  TRSP_NUM_COL,
+  TRSP_ORC_COL,
+  TRSP_VLR_COL,
+  TRSP_DESC_COL,
+  TRSP_OBS_COL
+};
+
+struct _transporte{
+	int code;
+	int transportador;
+	int cliente;
+	char *cep_inicio;
+	char *cep_entrega;
+	int num;
+	int orcamento;
+	float vlr;
+	float vlr_desc;
+	char *obs;
+};
+
+
 GtkWidget *trsp_cad_code_entry, *trsp_cad_code_button;
 GtkWidget *trsp_cad_trspcode_entry, *trsp_cad_trsp_entry, *trsp_cad_trsp_button;
 GtkWidget *trsp_cad_clicode_entry, *trsp_cad_cli_entry, *trsp_cad_cli_button;

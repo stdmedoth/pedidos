@@ -1,3 +1,11 @@
+int alterando_ter=0;
+
+GtkWidget *concluir_ter_buttom,
+*alterar_ter_buttom,
+*psq_ter_button,
+*cancelar_ter_buttom,
+*excluir_ter_buttom;
+
 int inicializar_ter();
 int  cad_terc();
 
@@ -73,16 +81,18 @@ enum{
 #define EMAIL_TER_COL 20
 #define CEMAIL_TER_COL 21
 */
+enum {
+  TER_TRSP_COD_COL=16,
+  TER_TRSP_LOGR_COL=17,
+  TER_TRSP_NUM_COL=18,
+  TER_TRSP_BAIR_COL=19,
+  TER_TRSP_CID_COL=20,
+  TER_TRSP_UF_COL=21,
+  TER_TRSP_CEP_COL=22,
+  TER_TRSP_TEL_COL=23,
+  TER_TRSP_OBS_COL=24,
+};
 
-#define TRSP_COD_COL 16
-#define TRSP_LOGR_COL 17
-#define TRSP_NUM_COL 18
-#define TRSP_BAIR_COL 19
-#define TRSP_CID_COL 20
-#define TRSP_UF_COL 21
-#define TRSP_CEP_COL 22
-#define TRSP_TEL_COL 23
-#define TRSP_OBS_COL 24
 
 #define FLAG_MIN_FRT_PAG_COL 25
 #define VLR_MIN_FRT_PAG_COL 26

@@ -1,3 +1,3 @@
 static int altera_orc();
 
-void loging_alteracao(MYSQL_ROW row);
+void orc_loging_alteracao(MYSQL_ROW row);

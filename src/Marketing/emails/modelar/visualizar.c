@@ -71,27 +71,27 @@ int mkt_mail_visualizar_fun(){
     return 1;
   }
 
-  editedbody = replaceWord(body, mail_tags_vet[MAIL_TAG_EMP_NOME], cad_emp_strc.xNome);
+  editedbody = replaceWord(body, mail_tags_vet[MAIL_TAG_EMP_NOME][0], cad_emp_strc.xNome);
 
   if((full_ender = get_full_ender_from_cep(cad_emp_strc.CEP, cad_emp_strc.nro))){
-    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_ENDER], full_ender);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_ENDER][0], full_ender);
   }
 
-  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_TEL], cad_emp_strc.telefone);
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_EMP_TEL][0], cad_emp_strc.telefone);
 
-  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_NOME], cli->razao);
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_NOME][0], cli->razao);
 
   if((full_ender = get_full_ender_from_cep(cli->cep, cli->i_nro))){
-    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_ENDER], full_ender);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_ENDER][0], full_ender);
   }
 
   if(cli->contatos_qnt){
-    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CONTATO], cli->contatos[0].nome);
-    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_TEL], cli->contatos[0].telefone);
-    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CEL], cli->contatos[0].celular);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CONTATO][0], cli->contatos[0].nome);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_TEL][0], cli->contatos[0].telefone);
+    editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_CLI_CEL][0], cli->contatos[0].celular);
   }
 
-  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_DATA], data_sys);
+  editedbody = replaceWord(editedbody, mail_tags_vet[MAIL_TAG_DATA][0], data_sys);
 
   if(!editedbody){
     popup(NULL,"Não foi possível editar tags do email");

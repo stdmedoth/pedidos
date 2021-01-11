@@ -2,6 +2,12 @@ int orig_preco_prod_orc(GtkWidget *widget,int posicao){
 
 	orig_preco_prod_orc_gchar = (gchar*) gtk_combo_box_get_active_id(GTK_COMBO_BOX(orig_preco_prod_orc_combo[posicao]));
 
+	if(!orig_preco_prod_orc_gchar || !strlen(orig_preco_prod_orc_gchar)){
+		popup(NULL,"Origem do Preço não existente");
+		file_logger("Id do preco inexistente em orig_preco_prod_orc() -> gtk_combo_box_get_active_id()");
+		return 1;
+	}
+
 	valor_orig[posicao] = VLR_ORIG_DEFAULT;
 
 	if(!strcmp(orig_preco_prod_orc_gchar, ORC_ORIGPRC_NUL)){

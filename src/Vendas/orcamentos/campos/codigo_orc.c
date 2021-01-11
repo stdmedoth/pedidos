@@ -18,8 +18,7 @@ int codigo_orc()
 		return 1;
 	}
 
-	if( !alterando_orc && !concluindo_orc && !copiando_orc && !excluindo_orc )
-	{
+	if( !alterando_orc && !concluindo_orc && !copiando_orc && !excluindo_orc ){
 		sprintf(query,"select code from orcamentos where code = '%s'",codigo_orc_gchar);
 		vetor = consultar(query);
 		if(vetor==NULL)
@@ -27,11 +26,9 @@ int codigo_orc()
 			return 1;
 		}
 
-		if((campos = mysql_fetch_row(vetor))!=NULL)
-		{
+		if((campos = mysql_fetch_row(vetor))!=NULL){
 			altera_orc();
 		}
-
 	}
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
 		if(ativos[cont].id){

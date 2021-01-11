@@ -12,7 +12,6 @@
     return 1;
   }
 
-
   sprintf(query,"select code from orcamentos where code = %s",codigo_orc_gchar);
   if(!(res = consultar(query))){
     copiando_orc=0;
@@ -33,13 +32,12 @@
     return 1;
   }
 
-  sprintf(query,"insert into Produto_Orcamento select %i,item,produto,subgrupo,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes from Produto_Orcamento where code = %s;",task_atual_int,codigo_orc_gchar);
+  sprintf(query,"insert into Produto_Orcamento select %i,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes from Produto_Orcamento where code = %s;",task_atual_int,codigo_orc_gchar);
 
   if(enviar_query(query)!=0){
     popup(NULL,"Não foi possivel copiar produtos do orcamento");
     return 1;
   }
-
 
   sprintf(task_atual_char,"%i",task_atual_int);
   gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),task_atual_char);

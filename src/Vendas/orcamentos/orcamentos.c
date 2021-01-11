@@ -1,5 +1,6 @@
 #include "campos.c"
-#include "campos/rec_orc_infos.c"
+#include "get.c"
+//#include "campos/rec_orc_infos.c"
 
 int vnd_orc(){
 
@@ -25,10 +26,11 @@ int vnd_orc(){
 	janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].janela_pointer = janela_orcamento;
 
 	orc_notebook = gtk_notebook_new();
+
 	if(orc_estoque.produtos)
-		orc_estoque.produtos = realloc(orc_estoque.produtos,sizeof(struct _orc_estoque_prods* )*MAX_PROD_ORC);
+		orc_estoque.produtos = realloc(orc_estoque.produtos, sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
 	else
-		orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* )*MAX_PROD_ORC);
+		orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
 
 	item_frame_char = malloc(strlen("Item ")+10);
 
@@ -346,7 +348,6 @@ int vnd_orc(){
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		ativos[cont].id = 0;
-
 
 	cancela_orc();
 

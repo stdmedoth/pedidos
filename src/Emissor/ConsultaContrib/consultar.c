@@ -286,13 +286,13 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
     cep->cidade->descricao = (gchar*)xmlNodeGetContent(cidade_node);
     cep->cidade->uf = (gchar*)xmlNodeGetContent(uf_node);
     cep->cidade->code_ibge = atoi((gchar*)xmlNodeGetContent(ibgecid_node));
+
     if(!cep->cidade->code_ibge){
       popup(NULL,"Código IBGE não identificado");
       return 1;
     }
 
     if(PopupBinario("CEP novo encontrado na consulta, deseja importar?", "Sim! aumente o meu banco de dados", "Não! irei cadastrar manualmente")){
-
       sprintf(query, "select code from cidade where codigo_ibge = %i", cep->cidade->code_ibge);
       if(!(res = consultar(query))){
         popup(NULL,"Não foi possível pesquisar existencia da cidade");

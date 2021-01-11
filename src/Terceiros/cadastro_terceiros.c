@@ -1,11 +1,3 @@
-int alterando_ter=0;
-
-GtkWidget *concluir_ter_buttom,
-*alterar_ter_buttom,
-*psq_ter_button,
-*cancelar_ter_buttom,
-*excluir_ter_buttom;
-
 #include "campos.c"
 #include "cancela.c"
 #include "consulta.c"

@@ -38,7 +38,10 @@ int codigo_cli_orc()
 		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
 	}
-	orc_infos.cliente = atoi(cliente_orc_gchar);
+	
+	orc_infos.cliente = terceiros_get_terceiro(atoi(cliente_orc_gchar));
+	if(!orc_infos.cliente)
+		return 1;
 
 	enum CLIENTE_INFOS{
 		RAZAO,

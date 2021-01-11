@@ -62,8 +62,12 @@ int rec_fat_vist()
 		}
 	}
 
+	if(!orc_parcelas.condpag){
+		orc_parcelas.condpag = cond_pag_get(atoi(orc_pag_cond_gchar));
+		if(!orc_parcelas.condpag)
+			return 1;
+	}
 	pag_cond = atoi(orc_pag_cond_gchar);
-	orc_parcelas.condpag.code = pag_cond;
 	orc_pag_cond_activated=1;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
