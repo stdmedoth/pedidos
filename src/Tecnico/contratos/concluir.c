@@ -1,4 +1,5 @@
 int cntrats_concluir_fun(){
+
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
@@ -12,7 +13,7 @@ int cntrats_concluir_fun(){
 
   if(cntrats_ativo_fun())
     return 1;
-    
+
   if(cntrats_vencimento_fun())
     return 1;
 
@@ -23,6 +24,7 @@ int cntrats_concluir_fun(){
   }
 
   if(!(row = mysql_fetch_row(res))){
+
     sprintf(query,"insert into contratos values(%s, %i, %i, %i, %i, %i, %i, %i, %i, STR_TO_DATE('%s', '%%d/%%m/%%Y'))",
       cntrats_code_gchar,
       contrato_modulos[CONTRATOS_CAD_MOD],
@@ -39,7 +41,9 @@ int cntrats_concluir_fun(){
       popup(NULL,"Erro ao criar contrato");
       return 1;
     }
+
   }else{
+
     sprintf(query,"update contratos set cadastro = '%i', compras = %i, faturamento = %i, estoque  = %i, financeiro = %i, marketing = %i, relatorios = %i, ativo = %i, data_vencimento = STR_TO_DATE('%s', '%%d/%%m/%%Y') where code = %s",
       contrato_modulos[CONTRATOS_CAD_MOD],
       contrato_modulos[CONTRATOS_CMP_MOD],
@@ -56,6 +60,7 @@ int cntrats_concluir_fun(){
       popup(NULL,"Erro ao atualizar contrato");
       return 1;
     }
+
   }
 
   popup(NULL,"Contrato atualizado com sucesso");

@@ -121,6 +121,9 @@ int cad_grupo()
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(cad_grp_treeview),TRUE);
+	gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(cad_grp_treeview), TRUE);
+	gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(cad_grp_treeview), TRUE);
+	gtk_tree_view_set_headers_clickable(GTK_TREE_VIEW(cad_grp_treeview), TRUE);
 	//gtk_tree_view_set_show_expanders(GTK_TREE_VIEW(cad_grp_treeview),TRUE);
 	gtk_tree_view_column_set_title(coluna1,"Código");
 	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
@@ -147,6 +150,7 @@ int cad_grupo()
 	gtk_tree_view_column_set_visible(coluna3,FALSE);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(cad_grp_treeview),GTK_TREE_MODEL(modelo));
+	gtk_tree_view_column_set_reorderable(coluna2, TRUE);
 	gtk_widget_set_size_request(cad_grp_treeview,430,210);
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(cad_grp_treeview));
 	g_object_unref(modelo);

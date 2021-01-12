@@ -56,10 +56,10 @@ struct _terc_infos *terceiros_get_simp_terceiro(int code){
 	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
 
 	sprintf(query,"select * from terceiros where code = %i", code);
-  if(!(res = consultar(query))){
-    popup(NULL,"Não foi possível consultar dados da entrega");
-    return NULL;
-  }
+	if(!(res = consultar(query))){
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> consultar()");
+		return NULL;
+	}
 
 	if((row = mysql_fetch_row(res))){
 		terceiros->code = atoi(row[COD_TER_COL]);
@@ -71,14 +71,15 @@ struct _terc_infos *terceiros_get_simp_terceiro(int code){
 		terceiros->i_nro = atoi(row[REND_TER_COL]);
 		terceiros->c_nro = strdup(row[REND_TER_COL]);
 	}else{
-		popup(NULL,"Cliente/Fornecedor não existente!");
-    return NULL;
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> mysql_fetch_row() -> Infos Básicas");
+		return NULL;
 	}
 
 	int contatos_qnt = 0;
 	sprintf(query,"select * from contatos where terceiro = %i", code);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível consultar contatos do terceiro");
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> consultar() -> Contatos");
 		return NULL;
 	}
 	while((row = mysql_fetch_row(res))){
@@ -102,10 +103,10 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
 
 	sprintf(query,"select * from terceiros where code = %i", code);
-  if(!(res = consultar(query))){
-    popup(NULL,"Não foi possível consultar dados da entrega");
-    return NULL;
-  }
+	  if(!(res = consultar(query))){
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Infos Básicas");
+		return NULL;
+	  }
 
 	if((row = mysql_fetch_row(res))){
 		terceiros->code = atoi(row[COD_TER_COL]);
@@ -117,14 +118,14 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->i_nro = atoi(row[REND_TER_COL]);
 		terceiros->c_nro = strdup(row[REND_TER_COL]);
 	}else{
-		popup(NULL,"Cliente/Fornecedor não existente!");
-    return NULL;
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> mysql_fetch_row() -> Infos Básicas");
+		return NULL;
 	}
 
 	sprintf(query,"select * from logradouro where CEP = '%s'", terceiros->cep);
 	if(!(res = consultar(query))){
-    popup(NULL,"Não foi possível consultar logradouro da entrega");
-    return NULL;
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Endereço");
+		return NULL;
   }
 
 	if((row = mysql_fetch_row(res))){
@@ -134,14 +135,14 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
 		terceiros->UF = strdup(row[CEP_UF_COL]);
 	}else{
-		popup(NULL,"Cliente/Fornecedor sem endereço!");
-    return NULL;
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> mysql_fetch_row() -> Endereço");
+		return NULL;
 	}
 
 	int contatos_qnt = 0;
 	sprintf(query,"select * from contatos where terceiro = %i", code);
 	if(!(res = consultar(query))){
-		popup(NULL,"Não foi possível consultar contatos do terceiro");
+		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Contatos");
 		return NULL;
 	}
 	while((row = mysql_fetch_row(res))){

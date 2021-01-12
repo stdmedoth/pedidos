@@ -28,10 +28,11 @@ struct _cad_produtos *get_cad_prod(int prod_code){
 	struct _cad_produtos *produto  = malloc(sizeof(struct _cad_produtos ));
 	sprintf(query, "select * from produtos where code = %i", prod_code);
 	if(!(res = consultar(query))){
-		popup(NULL,"Erro ao consultar produto");
-	  return NULL;
+		file_logger("Estrutura de Produto não criada! get_cad_prod() -> consultar()");
+		return NULL;
 	}
 	if(!(row = mysql_fetch_row(res))){
+		file_logger("Estrutura de Produto não criada! get_cad_prod() -> mysql_fetch_row()");
 		return NULL;
 	}
 
@@ -40,6 +41,10 @@ struct _cad_produtos *get_cad_prod(int prod_code){
 	produto->peso = atof(row[PROD_PES_COL]);
 	produto->preco = atof(row[PROD_PRC_COL]);
 	produto->und = cad_und_get_und(atoi(row[PROD_UND_COL]));
+	if(!produto->und){
+		file_logger("Estrutura de Produto não criada! get_cad_prod() -> cad_und_get_und()");
+		return NULL;
+	}
 	produto->grp = atoi(row[PROD_GRP_COL]);
 	produto->NCM = atoi(row[PROD_NCM_COL]);
 

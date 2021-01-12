@@ -1,5 +1,5 @@
 int cntrats_code_fun(){
-  cntrats_code_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cntrats_code_entry));
+  cntrats_code_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(cntrats_code_entry));
   if(!strlen(cntrats_code_gchar)){
     popup(NULL,"Insira o código do contrato");
     return 1;

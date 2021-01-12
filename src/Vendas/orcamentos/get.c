@@ -7,13 +7,14 @@ struct _orc_valores *orc_get_valores(struct _orc *orc){
 	struct _orc_itens **itens = NULL;
 
 	int itens_qnt = orc_get_itens_qnt(orc->infos->code);
-	if(itens_qnt){
-		itens = orc_get_itens(orc);
+	if(!itens_qnt){
+		file_logger("Orçamento não recebeu itens em orc_get_valores() -> orc_get_itens_qnt()");
 	}
-
-	if(!itens)
+	itens = orc_get_itens(orc);
+	if(!itens){
+		file_logger("Estrutura de valores do orçamento não criada!  orc_get_valores() -> orc_get_itens()");
 		return NULL;
-
+	}	
 	valores->valor_prds = 0;
 	valores->valor_prds_desc = 0;
 	valores->valor_prds_liquido = 0;
@@ -31,7 +32,7 @@ struct _orc_valores *orc_get_valores(struct _orc *orc){
 	}
 
 	valores->valor_prds_liquido = valores->valor_prds - valores->valor_prds_desc;
-
+	
 	if(orc->entrega){
 		valores->valor_frete = orc->entrega->vlr;
 		valores->desconto_frete = orc->entrega->vlr_desc;
@@ -52,28 +53,33 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	int itens_qnt = orc_get_itens_qnt(orc->infos->code);
-
 	sprintf(query, "select pag_cond from orcamentos where code = %i", orc->infos->code);
+	
 	if(!(res = consultar(query))){
+		file_logger("Estrutura de parcelas do orçamento não criada! consultar() em orc_get_parcelas()");
 		return NULL;
 	}
 	if(!(row = mysql_fetch_row(res))){
+		file_logger("Estrutura de parcelas do orçamento não criada! mysql_fetch_row() em orc_get_parcelas()");
 		return NULL;
 	}
 
 	parcelas->condpag = cond_pag_get(atoi(row[0]));
-	if(!parcelas->condpag)
+	if(!parcelas->condpag){
+		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get() em orc_get_parcelas()");
 		return NULL;
+	}
 
 	parcelas->datas = cond_pag_get_datas(parcelas->condpag, orc->infos->data);
-  if(!parcelas->datas){
-    return NULL;
-  }
-  parcelas->vlrs = cond_pag_get_valores(parcelas->condpag, orc->valores->valor_total );
-  if(!parcelas->vlrs){
-    popup(NULL,"Não foi possível receber valores");
-    return NULL;
-  }
+	if(!parcelas->datas){
+		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get_datas() em orc_get_parcelas()");
+		return NULL;
+	}
+	parcelas->vlrs = cond_pag_get_valores(parcelas->condpag, orc->valores->valor_total );
+	if(!parcelas->vlrs){
+		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get_valores() em orc_get_parcelas()");
+		return NULL;
+	}
 
 	return parcelas;
 }
@@ -87,9 +93,11 @@ struct _transporte *orc_get_entrega(struct _orc *orc){
 
 	sprintf(query, "select * from servico_transporte where orcamento = %i", orc->infos->code);
 	if(!(res = consultar(query))){
+		file_logger("Estrutura de entrega do orçamento não criada! consultar() em orc_get_entrega()");
 		return NULL;
 	}
 	if(!(row = mysql_fetch_row(res))){
+		file_logger("Estrutura de entrega do orçamento não criada! mysql_fetch_row() em orc_get_entrega()");
 		return NULL;
 	}
 	entrega->code = atoi(row[TRSP_CODE_COL]);
@@ -116,6 +124,7 @@ struct _orc_itens **orc_get_itens(struct _orc *orc){
 	int cont=0;
 	sprintf(query, "select * from Produto_Orcamento where code = %i", orc->infos->code);
 	if(!(res = consultar(query))){
+		file_logger("Estrutura de do orçamento não criada! consultar() em orc_get_itens()");
 		return NULL;
 	}
 	while((row = mysql_fetch_row(res))){
@@ -132,8 +141,10 @@ struct _orc_itens **orc_get_itens(struct _orc *orc){
 		itens[cont]->observacao = strdup(row[ORC_PROD_OBS_COL]);
 
 		itens[cont]->_produto = get_cad_prod(atoi(row[ORC_PROD_PROD_COL]));
-		if(!itens[cont]->_produto)
+		if(!itens[cont]->_produto){
+			file_logger("Estrutura de do produto não criada! get_cad_prod() em orc_get_itens()");
 			return NULL;
+		}
 	}
 
 
@@ -180,7 +191,11 @@ struct _orc *orc_get_orc(int orc_code){
 	orc->infos->code = atoi(row[ORC_COD_COL]);
 	orc->infos->tipo_mov = atoi(row[ORC_TIPMOV_COL]);
 	orc->infos->vendedor = terceiros_get_terceiro(atoi(row[ORC_VENDD_COL]));
+	if(!orc->infos->vendedor)
+		return NULL;
 	orc->infos->cliente = terceiros_get_terceiro(atoi(row[ORC_CLI_COL]));
+	if(!orc->infos->cliente)
+		return NULL;
 
 	gchar *formated_date = get_db_formated_date(row[ORC_DATE_COL]);
 	if(!formated_date){
@@ -193,7 +208,6 @@ struct _orc *orc_get_orc(int orc_code){
 	orc->infos->observacoes = strdup(row[ORC_OBS_COL]);
 
 	orc->itens_qnt = orc_get_itens_qnt(orc->infos->code);
-
 	orc->itens = orc_get_itens(orc);
 	if(!orc->itens){
 		file_logger("Estrutura de itens em orc_get_itens(orc) retornada nula");

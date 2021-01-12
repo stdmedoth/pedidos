@@ -4,6 +4,7 @@ int cntrats_cancelar_fun(){
   sprintf(task, "%i", tasker("contratos"));
   gtk_entry_set_text(GTK_ENTRY(cntrats_code_entry), task);
   gtk_entry_set_text(GTK_ENTRY(cntrats_vencimento_entry), "");
+
   cntrats_concluindo=0;
   cntrats_alterando=0;
 

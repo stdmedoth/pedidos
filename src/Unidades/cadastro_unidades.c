@@ -14,11 +14,11 @@ struct _und *cad_und_get_und(int und_code){
 	struct _und *und = malloc(sizeof(struct _und));
 	sprintf(query,"select * from unidades where code = %i;",und_code);
 	if(!(res = consultar(query))){
-		popup(NULL,"Não foi possível consultar unidade");
+		file_logger("Estrutura de Unidade do produto não criada! cad_und_get_und() -> consultar()");
 		return NULL;
 	}
 	if(!(row = mysql_fetch_row(res))){
-		popup(NULL,"Unidade não encontrada");
+		file_logger("Estrutura de Unidade do produto não criada!");
 		return NULL;
 	}
 	und->code = atoi(row[UND_CODE_COL]);
@@ -37,8 +37,8 @@ int  cad_und()
 	sprintf(task,"%i",tasker("unidades"));
 	GtkWidget *fixed, *fixed2, *fixed3, *fixed4;
 	GtkWidget *horizontal_box_one, *horizontal_box_two, *horizontal_box_three, *horizontal_box_four, *vertical_box;
-  GtkWidget *medida_und_fixed;
-  GtkWidget *separator1,*separator2;
+	GtkWidget *medida_und_fixed;
+	GtkWidget *separator1,*separator2;
 	GtkWidget *code, *name, *sigla, *mult;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);

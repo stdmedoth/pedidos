@@ -8,6 +8,7 @@
 #include "alterar.c"
 
 int contratos_get_modulos_qnt(){
+
   int qnt=0;
   if(ativar.cadastro)
     qnt++;
@@ -32,6 +33,7 @@ int contratos_get_modulos_qnt(){
 int cad_contratos(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
   janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].reg_id = REG_CAD_CNTRATS;
 	janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].aberta = 1;
 	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS]))
@@ -46,6 +48,7 @@ int cad_contratos(){
 	gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
   gtk_widget_set_size_request(janela, 300,300);
 	janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].janela_pointer = janela;
+
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS]);
 
   GtkWidget *caixa, *caixa_opcoes;
@@ -104,7 +107,6 @@ int cad_contratos(){
   gtk_box_pack_start(GTK_BOX(caixa), caixa_opcoes,0,0,10);
 
   gtk_fixed_put(GTK_FIXED(fixed), caixa, 20,20);
-
 
   g_signal_connect(cntrats_code_psq_button, "clicked", G_CALLBACK(psq_cntrat), cntrats_code_entry);
   g_signal_connect(cntrats_code_entry, "activate", G_CALLBACK(cntrats_code_fun), NULL);
