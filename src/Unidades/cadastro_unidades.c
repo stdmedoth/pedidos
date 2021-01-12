@@ -26,7 +26,6 @@ struct _und *cad_und_get_und(int und_code){
 	und->sigla = strdup(row[UND_SIGLA_COL]);
 	und->multiplo = atof(row[UND_MULTIPLO_COL]);
 	und->medida = atoi(row[UND_MEDIDA_COL]);
-
 	return und;
 }
 

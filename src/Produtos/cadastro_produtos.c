@@ -556,8 +556,6 @@ int  cad_prod(){
 
 	inicializar_prod();
 
-
-
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_fornecedor),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_grupo),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_unidade),FALSE);

@@ -164,6 +164,10 @@ MYSQL_RES *kanban_get_cartoes(){
 }
 
 int kanban_princ_wnd(){
+
+  if(!app_is_ativo())
+    return 1;
+
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   GtkWidget *caixa = gtk_box_new(1,0), *kanban_add_cart_fixed = gtk_fixed_new(), *fixed = gtk_fixed_new();
 

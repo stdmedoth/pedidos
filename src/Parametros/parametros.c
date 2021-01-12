@@ -72,6 +72,10 @@ int atualizar_paramentros()
 
 int parametrizar()
 {
+
+	if(!app_is_ativo())
+		return 1;
+
 	GtkWidget *janela_parametros;
 	GtkWidget *notebook;
 	GtkWidget *caixona,*caixa_superior;

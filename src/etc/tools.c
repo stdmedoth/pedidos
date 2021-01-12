@@ -1,5 +1,10 @@
 #include "sql_tools.c"
 
+void carregar_interface(){
+  while (g_main_context_pending(NULL))
+    g_main_context_iteration(NULL,FALSE);
+  return ;
+}
 
 gchar *get_db_formated_date(gchar *date_row){
   int dia, mes, ano;
@@ -15,16 +20,17 @@ gchar *get_db_formated_date(gchar *date_row){
 
 GtkWidget *get_pop_parents_wnd(){
   GtkWidget *parent=NULL;
-  if(janelas_gerenciadas.principal.janela_pointer)
+
+  if(janelas_gerenciadas.principal.janela_pointer && GTK_IS_WINDOW(janelas_gerenciadas.principal.janela_pointer))
     parent = janelas_gerenciadas.principal.janela_pointer;
   else
-  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer && GTK_IS_WINDOW(janelas_gerenciadas.fundo_inicializacao.janela_pointer))
     parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
   else
-  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
-    parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
+  if(janelas_gerenciadas.login.janela_pointer && GTK_IS_WINDOW(janelas_gerenciadas.login.janela_pointer))
+    parent = janelas_gerenciadas.login.janela_pointer;
   else
-  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer)
+  if(janelas_gerenciadas.fundo_inicializacao.janela_pointer && GTK_IS_WINDOW(janelas_gerenciadas.fundo_inicializacao.janela_pointer))
     parent = janelas_gerenciadas.fundo_inicializacao.janela_pointer;
 
   return parent;
@@ -32,8 +38,10 @@ GtkWidget *get_pop_parents_wnd(){
 
 int validar_sessao_criada(){
 
-  if(!janelas_gerenciadas.aplicacao.criada || !janelas_gerenciadas.principal.aberta)
+  if(!janelas_gerenciadas.aplicacao.criada || !janelas_gerenciadas.principal.aberta){
+
     return 0;
+  }
 
   if(janelas_gerenciadas.principal.sys_close_wnd)
     return 0;
@@ -45,8 +53,22 @@ int validar_sessao_criada(){
 		return 1;
 	}
 
+  GDateTime *atual = g_date_time_new_now_local();
+  if(g_date_time_compare(atual, sessao_oper.expiracao) >=0 ){
+    gchar *msg = malloc(100);
+    sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
+    file_logger(msg);
+    sprintf(msg, "data expiracao = %s\n", g_date_time_format (sessao_oper.expiracao, "%F %T"));
+    file_logger(msg);
+    fechar_sessao();
+		popup(janelas_gerenciadas.login.janela_pointer,"Sessão expirada!");
+    autologger("Sessão expirada");
+		return 1;
+	}
+
   return 0;
 }
+
 
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
   GtkTreeIter iter;

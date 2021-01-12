@@ -97,31 +97,27 @@ gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer 
 }
 
 int fechar_sessao(){
-	int err;
 	char query[MAX_QUERY_LEN];
-
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
   REG_CORRECT_FINAL,
   "Fazendo Logoff...",
   0,
   0,
   sessao_oper.code);
-
-	err = mysql_query(&conectar,query);
-	if(err){
-		popup(NULL,"Não foi possivel salvar status da sessão\n");
+	if(mysql_query(&conectar,query)){
+		file_logger("Não foi possivel salvar status da sessão\n");
 		file_logger(query);
 		file_logger((char*)mysql_error(&conectar));
-		return 1;
 	}
 
-	sessao_oper.status_sessao = SESSAO_NULA;
-	janelas_gerenciadas.principal.aberta = 0;
-	janelas_gerenciadas.aplicacao.criada = 0;
+	limpar_sessao();
+	limpar_applicacao();
 
 	//variavel de encerramento ocorrida pelo proprio sistema (logoff)
 	janelas_gerenciadas.principal.sys_close_wnd = 1;
-	gtk_widget_destroy(janelas_gerenciadas.principal.janela_pointer);
+
+	if(janelas_gerenciadas.principal.janela_pointer)
+		gtk_widget_destroy(janelas_gerenciadas.principal.janela_pointer);
 
 	if(init())
 		return 1;
@@ -129,4 +125,30 @@ int fechar_sessao(){
 	janelas_gerenciadas.principal.sys_close_wnd = 0;
 
 	return 0;
+}
+
+
+int app_is_ativo(){
+	return ativar.ativo;
+}
+
+int limpar_sessao(){
+
+	sessao_oper.code = 0;
+	sessao_oper.nivel = 0;
+	strcpy(sessao_oper.nome,"");
+	sessao_oper.status_sessao = SESSAO_NULA;
+	ativar.ativo = 0;
+
+	sessao_set_nonemodules();
+
+	return 0;
+}
+
+void limpar_applicacao(){
+	janelas_gerenciadas.principal.aberta = 0;
+	janelas_gerenciadas.aplicacao.criada = 0;
+
+	limpar_sessao();
+	return ;
 }

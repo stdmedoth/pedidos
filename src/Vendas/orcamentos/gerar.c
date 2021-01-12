@@ -7,7 +7,7 @@ int gerar_orc(){
 	}
 	struct _orc *orc = orc_get_orc(atoi(codigo_orc_gchar));
 	if(!orc){
-		file_logger("Não foi possível criar estrutura do orçamento! gerar_orc() -> orc_get_orc()");]
+		file_logger("Não foi possível criar estrutura do orçamento! gerar_orc() -> orc_get_orc()");
 		popup(NULL, "Não foi possível gerar o orçamento!");
 		return 1;
 	}

@@ -138,6 +138,7 @@ int cad_grupo()
 	gtk_tree_view_column_add_attribute(coluna3,celula3,"text",2);
 
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(cad_grp_treeview),TRUE);
+	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(cad_grp_treeview),TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_grp_treeview),coluna1);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_grp_treeview),coluna2);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(cad_grp_treeview),coluna3	);

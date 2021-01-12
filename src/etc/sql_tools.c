@@ -8,8 +8,9 @@ MYSQL_RES *consultar(char *query){
 	if(primeira_conexao==0)
 	{
 		GtkWidget *loading_wnd = carregando_wnd();
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
+
+		carregar_interface();
+
 		if(!mysql_init(&conectar))
 		{
 			popup(NULL,"Não foi possivel iniciar conector");
@@ -18,6 +19,7 @@ MYSQL_RES *consultar(char *query){
 			return NULL;
 		}
 
+		carregar_interface();
 		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
       popup(NULL,"Não foi possível conectar ao servidor");
@@ -74,8 +76,7 @@ int enviar_query(char *query){
 	if(primeira_conexao==0)
 	{
 		GtkWidget *loading_wnd = carregando_wnd();
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
+		carregar_interface();
 		if(!mysql_init(&conectar))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
@@ -87,8 +88,9 @@ int enviar_query(char *query){
 			gtk_widget_destroy(loading_wnd);
 			return 1;
 		}
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
+
+		carregar_interface();
+
 		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
 		{
 			popup(NULL,"Não foi possivel conectar ao servidor");
@@ -117,6 +119,8 @@ int enviar_query(char *query){
 	g_print("%s\n",query);
 	#endif
 
+	carregar_interface();
+	
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

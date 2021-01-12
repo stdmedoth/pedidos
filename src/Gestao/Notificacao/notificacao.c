@@ -122,6 +122,10 @@ int notificacoes_button_update(){
 }
 
 void notificacoes_wnd(){
+
+  if(!app_is_ativo())
+    return ;
+
   enum {
     COLUMN0,
     COLUMN1,

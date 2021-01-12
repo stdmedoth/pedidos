@@ -107,13 +107,17 @@ void verifica_senha()
 
 	if((row = mysql_fetch_row(res))){
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
-		if(GTK_IS_WIDGET(janela_login))
-			gtk_widget_destroy(janela_login);
 
 		sessao_oper.code = atoi(row[0]);
 		strcpy(sessao_oper.nome,row[1]);
 		sessao_oper.nivel = atoi(row[2]);
+
+		sessao_oper.criacao = g_date_time_new_now_local();
+		sessao_oper.expiracao = g_date_time_add (sessao_oper.criacao, G_TIME_SPAN_MINUTE * 30);
 		sessao_oper.status_sessao = SESSAO_LOGADA;
+
+		if(GTK_IS_WIDGET(janela_login))
+			gtk_widget_destroy(janela_login);
 
 		if(desktop()!=0)
 			encerrando();

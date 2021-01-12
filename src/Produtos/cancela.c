@@ -4,9 +4,9 @@ void cancelar_prod()
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
 
-	code = malloc(10);
-	code[0] = '\0';
+
 	cancelando_prod=1;
+	code = malloc(10);
 	sprintf(code,"%i",tasker("produtos"));
 	gtk_entry_set_text(GTK_ENTRY(codigo_prod_field),code);
 	gtk_entry_set_text(GTK_ENTRY(nome_prod_field),"");

@@ -48,7 +48,8 @@ int main(int argc,char *argv[])
 
 	load_styles();
 
-	janelas_gerenciadas.aplicacao.criada = 0;
+  limpar_sessao();
+	limpar_applicacao();
 
 	if(init())
 		return 1;

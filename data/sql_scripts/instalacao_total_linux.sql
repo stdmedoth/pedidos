@@ -23,3 +23,4 @@ source /usr/share/pedidos/files/sql_scripts/instalar_cst.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_ncms.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_aliquotas_icms.sql
 source /usr/share/pedidos/files/sql_scripts/instalar_pis_cofins.sql
+source /usr/share/pedidos/files/sql_scripts/desinstalar_marketing.sql
