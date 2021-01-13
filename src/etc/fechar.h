@@ -15,3 +15,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent);
 void botao_encerrar();
 
 gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer   user_data);
+
+int aplicacao_inicializada();
+
+void encerrando();

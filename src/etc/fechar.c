@@ -1,3 +1,34 @@
+void encerrando()
+{
+	int err;
+	char query[MAX_QUERY_LEN];
+	char *enc_infos;
+	enc_infos = malloc(MAX_LOG_DESC);
+
+	//enviar aqui todas informacoes importantes para o banco
+	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
+  REG_CORRECT_FINAL,
+  "Encerrando...",
+  0,
+  0,
+  sessao_oper.code);
+	err = mysql_query(&conectar,query);
+	if(err!=0)
+	{
+		popup(NULL,"Não foi possivel salvar status da sessão\n");
+		file_logger(query);
+		file_logger((char*)mysql_error(&conectar));
+	}
+
+	iniciar_gerenciador_janela();
+	//sprintf(enc_infos,"Finalizando aplicacao");
+
+	//autologger(enc_infos);
+
+	gtk_main_quit();
+	return ;
+}
+
 int encerrar(GtkWidget *buttton,GtkWindow *parent)
 {
 	GtkWidget * mensagem;
@@ -127,6 +158,12 @@ int fechar_sessao(){
 	return 0;
 }
 
+int aplicacao_inicializada(){
+	if(janelas_gerenciadas.principal.aberta && janelas_gerenciadas.aplicacao.criada)
+		return 1;
+
+	return 0;
+}
 
 int app_is_ativo(){
 	return ativar.ativo;

@@ -1,5 +1,35 @@
 #include "sql_tools.c"
 
+gboolean atualizar_inatividade_label(){
+
+  carregar_interface();
+  gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
+  GTimeSpan inatividade = g_date_time_difference ( g_date_time_new_now_local (), sessao_oper.ult_ativ);;
+  gint64 faltante =  -(inatividade - G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND;
+
+  sprintf(sessao_inatividade_gchar,"Limite Inatividade: %li segundos", faltante);
+
+  if(validar_sessao_criada())
+    return FALSE;
+
+  if(sessao_inatividade_label)
+    gtk_label_set_text(GTK_LABEL(sessao_inatividade_label), sessao_inatividade_gchar);
+
+  if(aplicacao_inicializada())
+    return G_SOURCE_CONTINUE;
+  else
+    return FALSE;
+
+}
+
+gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   user_data){
+
+  if(validar_sessao_criada())
+    return 1;
+  sessao_oper.ult_ativ = g_date_time_new_now_local();
+  return FALSE;
+}
+
 void carregar_interface(){
   while (g_main_context_pending(NULL))
     g_main_context_iteration(NULL,FALSE);
@@ -38,22 +68,32 @@ GtkWidget *get_pop_parents_wnd(){
 
 int validar_sessao_criada(){
 
-  if(!janelas_gerenciadas.aplicacao.criada || !janelas_gerenciadas.principal.aberta){
-
+  if(!aplicacao_inicializada())
     return 0;
-  }
 
   if(janelas_gerenciadas.principal.sys_close_wnd)
     return 0;
 
   if(sessao_oper.status_sessao == SESSAO_NULA){
     popup(get_pop_parents_wnd(),"Sessão com erro, o incidente será reportado");
-		autologger("!!!!!!!!!!!!!!!Sistema utilizado sem uma sessao ativa!!!!!!!!!!!!!!!");
+		autologger("!!!!!!!!!!!!!!!\nSistema utilizado sem uma sessao ativa\n!!!!!!!!!!!!!!!");
 		encerrando();
 		return 1;
 	}
 
   GDateTime *atual = g_date_time_new_now_local();
+
+  if(g_date_time_difference(atual, sessao_oper.ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
+    gchar *msg = malloc(100);
+    sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
+    file_logger(msg);
+    sprintf(msg, "data da ultima atividade = %s\n", g_date_time_format (sessao_oper.ult_ativ, "%F %T"));
+    fechar_sessao();
+		popup(janelas_gerenciadas.login.janela_pointer,"Sessão reiniciada por ausência de atividade!");
+    autologger("Sessão reiniciada por ausência de atividade");
+		return 1;
+  }
+
   if(g_date_time_compare(atual, sessao_oper.expiracao) >=0 ){
     gchar *msg = malloc(100);
     sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
@@ -581,37 +621,6 @@ char *get_elem_from_path(char *path){
 void get_filename_to_entry(GtkFileChooserButton *fchooser, GtkEntry *entry){
 		gtk_entry_set_text(entry,gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fchooser)));
 }
-
-void encerrando()
-{
-	int err;
-	char query[MAX_QUERY_LEN];
-	char *enc_infos;
-	enc_infos = malloc(MAX_LOG_DESC);
-
-	//enviar aqui todas informacoes importantes para o banco
-	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  REG_CORRECT_FINAL,
-  "Encerrando...",
-  0,
-  0,
-  sessao_oper.code);
-	err = mysql_query(&conectar,query);
-	if(err!=0)
-	{
-		popup(NULL,"Não foi possivel salvar status da sessão\n");
-		file_logger(query);
-		file_logger((char*)mysql_error(&conectar));
-	}
-
-	//sprintf(enc_infos,"Finalizando aplicacao");
-
-	//autologger(enc_infos);
-
-	gtk_main_quit();
-	return ;
-}
-
 
 void esconder_widget_callback(GtkWidget *widget,gpointer *ponteiro){
   if(ponteiro)

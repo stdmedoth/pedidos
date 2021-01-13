@@ -3,6 +3,10 @@
 static int logging = 0;
 static int erro_logger=0;
 
+gboolean atualizar_inatividade_label();
+
+gboolean atualizar_inatividade();
+
 int validar_sessao_criada();
 
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
@@ -43,8 +47,6 @@ void button_mover_scroll(GtkButton *button, GtkWidget *scroll_window);
 char *get_elem_from_path(char *path);
 
 void get_filename_to_entry(GtkFileChooserButton *fchooser, GtkEntry *entry);
-
-void encerrando();
 
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro);
 

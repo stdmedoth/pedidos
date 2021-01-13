@@ -19,8 +19,9 @@ static struct{
 	char nome[MAX_NAME_LEN];
 	int nivel;
 	GDateTime *criacao;
+	GDateTime *ult_ativ;
 	GDateTime *expiracao;
-	
+
 	int status_sessao;
 }sessao_oper;
 

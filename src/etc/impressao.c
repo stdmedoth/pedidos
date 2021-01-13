@@ -92,7 +92,7 @@ int iniciar_impressao(char *gerado)
 			g_print(chamada);
 			processo = g_subprocess_new(G_SUBPROCESS_FLAGS_NONE,&erro,navegadores.navegador_path1,gerado,NULL);
 		}
-		
+
 		if(navegadores.navegador_pdr == 2){
 			sprintf(chamada,"%s %s",navegadores.navegador_path2,gerado);
 			g_print(chamada);

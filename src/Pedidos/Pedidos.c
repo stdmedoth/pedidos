@@ -54,6 +54,8 @@ int main(int argc,char *argv[])
 	if(init())
 		return 1;
 
+	//carregar_interface();
+
 	gtk_main();
 	return 0;
 }

@@ -37,7 +37,7 @@ int init(){
 	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
-	gtk_widget_show_all(janela_inicializacao);
+	gtk_widget_show_all(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL){
@@ -65,8 +65,7 @@ int init(){
 		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
 	}
 
-	while (g_main_context_pending(NULL))
-		g_main_context_iteration(NULL,FALSE);
+	carregar_interface();
 
 	personalizacao.tema = atoi(row[1]);
 	ler_theme_dir();
@@ -84,8 +83,7 @@ int init(){
 		login();
 		gtk_widget_show_all(janela_login);
 	}
-	while (g_main_context_pending(NULL))
-		g_main_context_iteration(NULL,FALSE);
+	carregar_interface();
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
 	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))

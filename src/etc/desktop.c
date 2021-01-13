@@ -28,6 +28,8 @@ static void criar_janela_princ(){
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
 
+	g_timeout_add (1000, atualizar_inatividade_label, NULL);
+
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal); //works only on gtk_window_set_deletable = TRUE
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal); //works only on gtk_window_set_deletable = TRUE
 	return ;
@@ -84,6 +86,30 @@ int desktop(){
 			file_logger((char*)mysql_error(&conectar));
 		}
 	}
+
+	gchar *sessao_criacao_gchar = malloc(MAX_DATE_LEN + 30);
+	gchar *sessao_expiracao_gchar = malloc(MAX_DATE_LEN + 30);
+	gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
+
+	GtkWidget *sessao_criacao_fixed = gtk_fixed_new();
+	GtkWidget *sessao_expiracao_fixed = gtk_fixed_new();
+	GtkWidget *sessao_inatividade_fixed = gtk_fixed_new();
+
+	sprintf(sessao_criacao_gchar,"Entrou em : %s", g_date_time_format (sessao_oper.criacao, "%H:%M:%S"));
+	sprintf(sessao_expiracao_gchar,"Expira em : %s", g_date_time_format (sessao_oper.expiracao, "%H:%M:%S"));
+	sprintf(sessao_inatividade_gchar,"Limite Inatividade: %ld segundos", (G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND);
+
+	sessao_criacao_label = gtk_label_new(sessao_criacao_gchar);
+	gtk_fixed_put(GTK_FIXED(sessao_criacao_fixed), sessao_criacao_label, 100,5);
+	gtk_widget_set_name(sessao_criacao_label,"sessao_infos");
+
+	sessao_expiracao_label = gtk_label_new(sessao_expiracao_gchar);
+	gtk_fixed_put(GTK_FIXED(sessao_expiracao_fixed), sessao_expiracao_label, 100,0);
+	gtk_widget_set_name(sessao_expiracao_label,"sessao_infos");
+
+	sessao_inatividade_label = gtk_label_new(sessao_inatividade_gchar);
+	gtk_fixed_put(GTK_FIXED(sessao_inatividade_fixed), sessao_inatividade_label, 100,0);
+	gtk_widget_set_name(sessao_inatividade_label,"sessao_infos");
 
 	app = gtk_application_new ("calisto.pedidos", G_APPLICATION_FLAGS_NONE);
 	g_signal_connect (app, "activate", G_CALLBACK (criar_janela_princ), NULL);
@@ -297,6 +323,10 @@ int desktop(){
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_cnpj,0,0,0);
 
+	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_criacao_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_expiracao_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_inatividade_fixed,0,0,0);
+
 	gtk_box_pack_start(GTK_BOX(superior),superior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(superior),superior_2,0,0,0);
 
@@ -331,14 +361,15 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
+
 	if(sessao_oper.nivel >= NIVEL_GERENCIAL)
 		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
+
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);
 
-	while (g_main_context_pending(NULL))
-		g_main_context_iteration(NULL,FALSE);
+	carregar_interface();
 
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 

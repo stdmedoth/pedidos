@@ -65,6 +65,14 @@ int wnd_logger(janelas_info *struct_wnd)
 int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
   char msg[200];
 
+
+  if(janela){
+    gtk_widget_add_events(janela, GDK_KEY_PRESS_MASK);
+    gtk_widget_add_events(janela, GDK_FOCUS_CHANGE_MASK);
+    g_signal_connect(janela, "focus-in-event", G_CALLBACK(atualizar_inatividade), NULL);
+    g_signal_connect(janela, "key-press-event", G_CALLBACK(atualizar_inatividade), NULL);
+  }
+
   if(validar_sessao_criada())
     return 1;
 
@@ -96,6 +104,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   if(validar_sessao_criada())
     return 1;
 
+  sessao_oper.ult_ativ = g_date_time_new_now_local();
   struct_wnd->aberta = 0;
   struct_wnd->qnt_aberta--;
 

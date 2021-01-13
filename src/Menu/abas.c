@@ -1,10 +1,17 @@
 void chama_menu(GtkWidget *widget){
+
+	if(!aplicacao_inicializada())
+		return ;
+
 	GdkEventKey  event;
 	event.keyval = ABRIR_MENU_TECLA;
 	tecla_menu(widget, &event, NULL);
 }
 
 gboolean tecla_menu(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
+
+	if(!aplicacao_inicializada())
+		return FALSE;
 
 	switch(event->keyval){
 
@@ -37,5 +44,5 @@ gboolean tecla_menu(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data
 			break;
 	}
 
-	return 0;
+	return FALSE;
 }

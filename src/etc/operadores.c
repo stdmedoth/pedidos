@@ -1,7 +1,11 @@
 void criar_sessao_default(){
+
 	sessao_oper.code = default_user_code;
 	sessao_oper.nivel = NIVEL_GERENCIAL;
 	sessao_oper.status_sessao = SESSAO_LOGADA;
+	sessao_oper.criacao = g_date_time_new_now_local();
+	sessao_oper.ult_ativ = g_date_time_new_now_local();
+	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
 	return ;
 }
 
@@ -66,7 +70,6 @@ void passa_nome(){
 		if(desktop()!=0)
 			encerrando();
 		return ;
-
 	}
 
 	if(!strcmp(oper_nome_login, SAIR_BIND_TEXT)){
@@ -113,7 +116,8 @@ void verifica_senha()
 		sessao_oper.nivel = atoi(row[2]);
 
 		sessao_oper.criacao = g_date_time_new_now_local();
-		sessao_oper.expiracao = g_date_time_add (sessao_oper.criacao, G_TIME_SPAN_MINUTE * 30);
+		sessao_oper.ult_ativ = g_date_time_new_now_local();
+		sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
 		sessao_oper.status_sessao = SESSAO_LOGADA;
 
 		if(GTK_IS_WIDGET(janela_login))
