@@ -1,5 +1,5 @@
 int calcula_prod_orc(GtkWidget *widget, int posicao){
-
+  tracelogger_set_func_name("calcula_prod_orc");
   char query[MAX_QUERY_LEN];
   int tipodesc;
 

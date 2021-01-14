@@ -103,6 +103,7 @@ void verifica_senha()
 	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
 
 	if(!(res = consultar(query))){
+		file_logger("verifica_senha() -> consultar() -> tabela operadores");
 		popup(janela_login,"Erro de comunicacao com banco");
 		encerrando();
 		return ;
@@ -123,8 +124,10 @@ void verifica_senha()
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);
 
-		if(desktop()!=0)
+		if(desktop()!=0){
+			file_logger("verifica_senha() -> desktop()");
 			encerrando();
+		}
 		return ;
 	}
 	else{

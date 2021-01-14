@@ -1,5 +1,6 @@
 int codigo_orc()
 {
+	tracelogger_set_func_name("codigo_orc");
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	char query[MAX_QUERY_LEN];

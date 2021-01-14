@@ -14,7 +14,7 @@ struct _orc_valores *orc_get_valores(struct _orc *orc){
 	if(!itens){
 		file_logger("Estrutura de valores do orçamento não criada!  orc_get_valores() -> orc_get_itens()");
 		return NULL;
-	}	
+	}
 	valores->valor_prds = 0;
 	valores->valor_prds_desc = 0;
 	valores->valor_prds_liquido = 0;
@@ -32,7 +32,7 @@ struct _orc_valores *orc_get_valores(struct _orc *orc){
 	}
 
 	valores->valor_prds_liquido = valores->valor_prds - valores->valor_prds_desc;
-	
+
 	if(orc->entrega){
 		valores->valor_frete = orc->entrega->vlr;
 		valores->desconto_frete = orc->entrega->vlr_desc;
@@ -54,7 +54,7 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 	char query[MAX_QUERY_LEN];
 	int itens_qnt = orc_get_itens_qnt(orc->infos->code);
 	sprintf(query, "select pag_cond from orcamentos where code = %i", orc->infos->code);
-	
+
 	if(!(res = consultar(query))){
 		file_logger("Estrutura de parcelas do orçamento não criada! consultar() em orc_get_parcelas()");
 		return NULL;
@@ -100,6 +100,7 @@ struct _transporte *orc_get_entrega(struct _orc *orc){
 		file_logger("Estrutura de entrega do orçamento não criada! mysql_fetch_row() em orc_get_entrega()");
 		return NULL;
 	}
+
 	entrega->code = atoi(row[TRSP_CODE_COL]);
 	entrega->transportador = atoi(row[TRSP_TRANSP_COL]);
 	entrega->cliente = atoi(row[TRSP_CLI_COL]);
@@ -145,6 +146,7 @@ struct _orc_itens **orc_get_itens(struct _orc *orc){
 			file_logger("Estrutura de do produto não criada! get_cad_prod() em orc_get_itens()");
 			return NULL;
 		}
+		cont++;
 	}
 
 
@@ -213,7 +215,6 @@ struct _orc *orc_get_orc(int orc_code){
 		file_logger("Estrutura de itens em orc_get_itens(orc) retornada nula");
 		return NULL;
 	}
-
 	orc->entrega = orc_get_entrega(orc);
 
 	orc->valores = orc_get_valores(orc);

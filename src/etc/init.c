@@ -41,11 +41,13 @@ int init(){
 
 	sprintf(query,"select janela_init,tema from perfil_desktop");
 	if((res = consultar(query))==NULL){
+		file_logger("init() -> consultar() -> tabela perfil_desktop");
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
 
 	if((row = mysql_fetch_row(res))==NULL){
+		file_logger("init() -> mysql_fetch_row() -> tabela perfil_desktop");
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
 	}
@@ -75,6 +77,7 @@ int init(){
 		criar_sessao_default();
 		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()){
+			file_logger("init() -> desktop()");
 			popup(NULL,"Erro de inicializacao");
 			inicializando=0;
 			return 1;
@@ -87,8 +90,10 @@ int init(){
 	carregar_interface();
 
 	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
-	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao))
+	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao)){
+		file_logger("init() -> ger_janela_aberta() -> janela_inicializacao");
 		return 1;
+	}
 
 	inicializando=0;
 

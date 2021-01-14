@@ -5,7 +5,7 @@
 int vnd_orc(){
 
 	char code[10];
-
+	tracelogger_set_func_name("vnd_orc");
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
 	GtkWidget *orc_bnc_box, *orc_bnc_fixed, *orc_bnc_frame;

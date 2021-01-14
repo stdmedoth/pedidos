@@ -51,8 +51,10 @@ int desktop(){
 	char *query = malloc(MAX_QUERY_LEN);
 	char markup[500];
 
-	if(validar_sessao_criada())
-    return 1;
+	if(validar_sessao_criada()){
+		file_logger("desktop() -> validar_sessao_criada()");
+		return 1;
+	}
 
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
@@ -81,6 +83,7 @@ int desktop(){
 		sessao_oper.code);
 		err = mysql_query(&conectar,query);
 		if(err){
+
 			popup(NULL,"Não foi possivel salvar status da sessão\n");
 			file_logger(query);
 			file_logger((char*)mysql_error(&conectar));
@@ -190,6 +193,7 @@ int desktop(){
 	sprintf(query,"select desktop_img from perfil_desktop where code = %i",sessao_oper.code);
 	res = consultar(query);
 	if(!res){
+		file_logger("desktop() -> consultar() -> tabela perfil_desktop");
 		popup(NULL,"Não foi possível receber dados do perfil");
 		encerrando();
 		return 1;
@@ -204,6 +208,7 @@ int desktop(){
 		trocar_desktop(NULL,NULL,atoi(row[1]));
 	}
 	else{
+		file_logger("desktop() -> mysql_fetch_row() -> tabela perfil_desktop");
 		popup(NULL,"Login sem dados de perfil");
 		encerrando();
 		return 1;
@@ -260,8 +265,10 @@ int desktop(){
 	niveis_gerenciais = malloc(MAX_NIVEL_GER_NOME*MAX_NIVEL_GER_QNT);
 	oper_perm_qnt_niveis = 0;
 
-	if((res = consultar(query))==NULL)
+	if(!(res = consultar(query))){
+		file_logger("desktop() -> consultar() -> tabela niveis_gerenciais");
 		return 1;
+	}
 
 	while((row = mysql_fetch_row(res))!=NULL){
 
@@ -276,6 +283,7 @@ int desktop(){
 	}
 
 	if(oper_perm_qnt_niveis<=0){
+		file_logger("desktop() -> mysql_fetch_row() -> tabela niveis_gerenciais");
 		popup(NULL,"Faltam dados para niveis gerenciais");
 		return 1;
 	}
@@ -301,6 +309,7 @@ int desktop(){
 	if(maquina)
 		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina->hostname) + 2);
 	else{
+		file_logger("desktop() -> maquinas_get_atual()");
 		return 1;
 	}
 

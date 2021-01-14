@@ -1,7 +1,41 @@
-#include "sql_tools.c"
+ #include "sql_tools.c"
 
+void *NOT_NULL(void *pointer){
+  if(!pointer){
+    pointer = malloc(1);
+    memset(pointer, 0, 1);
+    return pointer;
+  }
+  else
+    return pointer;
+}
+
+char *camel_case(char *text){
+  tracelogger_set_func_name("camel_case");
+  if(!text)
+    return NULL;
+  int cased=1, pos=0;
+  char *cased_text = malloc(strlen(text));
+
+  for(int cont=0;cont<strlen(text);cont++){
+    if(text[pos] == ' '){
+      cased = 1;
+      pos++;
+    }
+
+    if(cased){
+      cased_text[cont] = toupper(text[pos]);
+      cased = 0;
+    }else{
+      cased_text[cont] = text[pos];
+    }
+    pos++;
+  }
+
+  return cased_text;
+}
 gboolean atualizar_inatividade_label(){
-
+//  tracelogger_set_func_name("atualizar_inatividade_label");
   carregar_interface();
   gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
   GTimeSpan inatividade = g_date_time_difference ( g_date_time_new_now_local (), sessao_oper.ult_ativ);;
@@ -28,6 +62,7 @@ gboolean atualizar_inatividade_label(){
 }
 
 gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   user_data){
+//  tracelogger_set_func_name("atualizar_inatividade");
 
   if(validar_sessao_criada())
     return 1;
@@ -39,12 +74,14 @@ gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   u
 }
 
 void carregar_interface(){
+//  tracelogger_set_func_name("carregar_interface");
   while (g_main_context_pending(NULL))
     g_main_context_iteration(NULL,FALSE);
   return ;
 }
 
 gchar *get_db_formated_date(gchar *date_row){
+  tracelogger_set_func_name("get_db_formated_date");
   int dia, mes, ano;
 	if(sscanf(date_row, "%d-%d-%d", &ano, &mes, &dia)!=3){
 		return NULL;
@@ -57,6 +94,7 @@ gchar *get_db_formated_date(gchar *date_row){
 }
 
 GtkWidget *get_pop_parents_wnd(){
+  tracelogger_set_func_name("get_pop_parents_wnd");
   GtkWidget *parent=NULL;
 
   if(janelas_gerenciadas.principal.janela_pointer && GTK_IS_WINDOW(janelas_gerenciadas.principal.janela_pointer))
@@ -76,6 +114,7 @@ GtkWidget *get_pop_parents_wnd(){
 
 int validar_sessao_criada(){
 
+//  tracelogger_set_func_name("validar_sessao_criada");
   if(!aplicacao_inicializada())
     return 0;
 
@@ -119,6 +158,7 @@ int validar_sessao_criada(){
 
 
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+  tracelogger_set_func_name("icon_view_select");
   GtkTreeIter iter;
   char *posicao;
   GdkPixbuf *pixbuf;
@@ -144,6 +184,7 @@ void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
 
 
 int comparar_datas(gchar *primeira, gchar *segunda){
+  tracelogger_set_func_name("comparar_datas");
   int dia1=0, mes1=0, ano1=0;
   int dia2=0, mes2=0, ano2=0;
 
@@ -167,6 +208,7 @@ int comparar_datas(gchar *primeira, gchar *segunda){
 }
 
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
+  tracelogger_set_func_name("get_tag_by_namepath");
   xmlNodePtr root = xmlDocGetRootElement(doc);
   xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
   xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
@@ -187,6 +229,7 @@ xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
 }
 
 size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp){
+  tracelogger_set_func_name("WriteMemoryCallback");
   size_t realsize = size * nmemb;
   struct MemoryStruct *mem = (struct MemoryStruct *)userp;
 
@@ -206,6 +249,7 @@ size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *user
 
 
 gchar *get_full_ender_from_cep(gchar *cep, int num){
+  tracelogger_set_func_name("get_full_ender_from_cep");
 
   MYSQL_RES *res;
   MYSQL_ROW row;
@@ -267,7 +311,7 @@ gchar *get_full_ender_from_cep(gchar *cep, int num){
 }
 
 int treeview_id_exists(GtkTreeView *treeview, int id){
-
+  tracelogger_set_func_name("treeview_id_exists");
   gchar *id_char = malloc(12);
   GtkTreeIter iter;
   GtkTreeStore *model = (GtkTreeStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
@@ -292,7 +336,7 @@ int treeview_id_exists(GtkTreeView *treeview, int id){
 }
 
 char  *format_only_num(char *text){
-
+  tracelogger_set_func_name("format_only_num");
   if(!text)
     return NULL;
 
@@ -312,6 +356,7 @@ char  *format_only_num(char *text){
 }
 
 char *formatar_littobig(char *string){
+  tracelogger_set_func_name("formatar_littobig");
   for(int cont=0;cont<strlen(string);cont++){
     if(isalpha(string[cont]) && islower(string[cont]))
       string[cont] -= 32;
@@ -321,19 +366,21 @@ char *formatar_littobig(char *string){
 
 void checkcellrenderer ( GtkCellRendererToggle *cell )
 {
-    int active = gtk_cell_renderer_toggle_get_active ( cell );
-    if ( active ){
-        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), FALSE );
-    }
-    else{
-        gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), TRUE) ;
-    }
-    return;
+  tracelogger_set_func_name("checkcellrenderer");
+  int active = gtk_cell_renderer_toggle_get_active ( cell );
+  if ( active ){
+    gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), FALSE );
+  }
+  else{
+    gtk_cell_renderer_toggle_set_active (GTK_CELL_RENDERER_TOGGLE ( cell ), TRUE) ;
+  }
+  return;
 }
 
 //abreviar palavras em um texto
 char *abrevia_text(char *text) {
 
+  tracelogger_set_func_name("abrevia_text");
   if(!text)
     return NULL;
 
@@ -370,6 +417,7 @@ char *abrevia_text(char *text) {
 
 //converte float para char
 char *floattochar(float floatnum){
+  tracelogger_set_func_name("floattochar");
   char *number = malloc(12);
   sprintf(number, "%.2f", floatnum);
   return number;
@@ -377,6 +425,7 @@ char *floattochar(float floatnum){
 
 //converte inteiro para char
 char *inttochar(int intnum){
+  tracelogger_set_func_name("inttochar");
   char *number = malloc(12);
   sprintf(number, "%i", intnum);
   return number;
@@ -661,7 +710,7 @@ char *randomizar_string(){
 int file_logger(char *string){
 	FILE *logger;
 
-	logger = fopen(LOGGER,"a+");
+	logger = fopen(LOGGER,"w+");
 
 	if(logger)
 		fprintf(logger,"%s\n",string);

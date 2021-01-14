@@ -1,5 +1,6 @@
 static int gerar_total_geral(){
 
+	tracelogger_set_func_name("gerar_total_geral");
 	char *muda_label;
 	total_geral_orc = 0;
 	desconto_geral_orc = 0;

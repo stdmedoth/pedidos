@@ -1,4 +1,6 @@
 static int excluir_orc(){
+
+  tracelogger_set_func_name("excluir_orc");
   MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];

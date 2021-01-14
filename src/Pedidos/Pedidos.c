@@ -43,6 +43,8 @@ int main(int argc,char *argv[])
 
 	gtk_init(&argc, &argv);
 
+	init_logger();
+	
 	if(rec_vars_from_file())
 		return 1;
 

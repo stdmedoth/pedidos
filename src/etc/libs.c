@@ -5,6 +5,7 @@
 #include "./receber_confs.c"
 #include "./xml_tools.c"
 #include "./tools.c"
+#include "./logger.c"
 #include "./popups.c"
 #include "./maquinas.c"
 #include "./criticas.c"

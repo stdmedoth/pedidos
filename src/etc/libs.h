@@ -10,6 +10,7 @@
 #include "./xml_tools.h"
 #include "./sql_tools.h"
 #include "./tools.h"
+#include "./logger.h"
 #include "./popups.h"
 #include "./maquinas.h"
 #include "./temas.h"

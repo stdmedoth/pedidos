@@ -1,5 +1,6 @@
 int rec_fat_vist()
 {
+	tracelogger_set_func_name("rec_fat_vist");
 	int cont=0,notepage=0;
 	MYSQL_RES *res;
 	MYSQL_ROW row;

@@ -83,3 +83,7 @@ struct MemoryStruct {
 gchar *get_db_formated_date(gchar *date_row);
 
 void carregar_interface();
+
+char *camel_case(char *text);
+
+void *NOT_NULL(void *pointer);

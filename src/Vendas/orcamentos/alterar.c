@@ -1,5 +1,6 @@
 static int altera_orc()
 {
+	tracelogger_set_func_name("altera_orc");
 	char query[MAX_QUERY_LEN];
 	int cont=1,erro=0;
 	char code[MAX_CODE_LEN];

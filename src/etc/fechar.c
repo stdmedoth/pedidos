@@ -24,7 +24,6 @@ void encerrando()
 	//sprintf(enc_infos,"Finalizando aplicacao");
 
 	//autologger(enc_infos);
-
 	gtk_main_quit();
 	return ;
 }
@@ -130,16 +129,16 @@ gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer 
 int fechar_sessao(){
 	char query[MAX_QUERY_LEN];
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  REG_CORRECT_FINAL,
-  "Fazendo Logoff...",
-  0,
-  0,
-  sessao_oper.code);
+  	REG_CORRECT_FINAL,
+  	"Fazendo Logoff...",
+  	0,0,
+  	sessao_oper.code);
 	if(mysql_query(&conectar,query)){
 		file_logger("Não foi possivel salvar status da sessão\n");
 		file_logger(query);
 		file_logger((char*)mysql_error(&conectar));
 	}
+
 	limpar_sessao();
 	limpar_applicacao();
 
@@ -172,6 +171,9 @@ int limpar_sessao(){
 
 	sessao_oper.code = 0;
 	sessao_oper.nivel = 0;
+	sessao_oper.criacao = NULL;
+	sessao_oper.ult_ativ = NULL;
+	sessao_oper.expiracao = NULL;
 	strcpy(sessao_oper.nome,"");
 	sessao_oper.status_sessao = SESSAO_NULA;
 	ativar.ativo = 0;
