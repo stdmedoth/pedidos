@@ -68,6 +68,7 @@ int init(){
 	carregar_interface();
 
 	personalizacao.tema = atoi(row[1]);
+
 	ler_theme_dir();
 
 	if( !atoi(row[0]) ){

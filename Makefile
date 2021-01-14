@@ -19,6 +19,8 @@ DIR_FILES=/usr/share/pedidos/files
 DIR_BIN=/bin/
 
 all: $(OBJS)
+	#make -C src/Transportes0/
+	#$(CC) $(OBJS) src/Transportes0/*.o -o $(RESULT_FILE) $(ALLFLAGS)
 	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS)
 
 Pedidos.o:

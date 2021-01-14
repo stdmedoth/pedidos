@@ -140,7 +140,6 @@ int fechar_sessao(){
 		file_logger(query);
 		file_logger((char*)mysql_error(&conectar));
 	}
-
 	limpar_sessao();
 	limpar_applicacao();
 

@@ -12,11 +12,16 @@ gboolean atualizar_inatividade_label(){
   if(validar_sessao_criada())
     return FALSE;
 
-  if(sessao_inatividade_label)
-    gtk_label_set_text(GTK_LABEL(sessao_inatividade_label), sessao_inatividade_gchar);
+  if(faltante<=0)
+    return FALSE;
 
-  if(aplicacao_inicializada())
+
+  if(aplicacao_inicializada()){
+    if(sessao_inatividade_label){
+      gtk_label_set_text(GTK_LABEL(sessao_inatividade_label), sessao_inatividade_gchar);
+    }
     return G_SOURCE_CONTINUE;
+  }
   else
     return FALSE;
 
@@ -26,8 +31,11 @@ gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   u
 
   if(validar_sessao_criada())
     return 1;
+
   sessao_oper.ult_ativ = g_date_time_new_now_local();
+
   return FALSE;
+
 }
 
 void carregar_interface(){

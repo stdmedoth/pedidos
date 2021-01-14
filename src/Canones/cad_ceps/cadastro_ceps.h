@@ -1,3 +1,6 @@
+#ifndef PEDIDOS_CAD_CEPS_HEADER
+#define PEDIDOS_CAD_CEPS_HEADER
+
 GtkWidget *cad_ceps_code_entry;
 GtkWidget *cad_ceps_cep_entry;
 GtkWidget *cad_ceps_descr_entry;
@@ -97,3 +100,5 @@ int cad_cep();
 
 struct _cad_cep *get_cep_from_consulta(gchar *cep);
 struct _cad_cidade *get_cidade_by_ibgecode(int ibgecode);
+
+#endif

@@ -8,22 +8,23 @@ int ler_theme_dir()
 	tema_name = malloc(MAX_TEMA_LEN);
 	strcpy(temas_dir_char,TEMA_PATH);
 
-	temas_dir = g_dir_open(temas_dir_char,0,&erro);
 	temas_qnt=0;
-
-	while((tema_name = (gchar* ) g_dir_read_name(temas_dir))!=NULL)
-	{
-		if( strlen(tema_name) <= MAX_TEMA_LEN )
+	temas_dir = g_dir_open(temas_dir_char,0,&erro);
+	if(temas_dir){
+		while((tema_name = (gchar* ) g_dir_read_name(temas_dir))!=NULL)
 		{
-			nomes_temas[temas_qnt] = malloc(MAX_TEMA_LEN);
-			strcpy(nomes_temas[temas_qnt],tema_name);
-			temas_qnt++;
-			if(temas_qnt>MAX_TEMA_QNT)
-				break;
+			if( strlen(tema_name) <= MAX_TEMA_LEN )
+			{
+				nomes_temas[temas_qnt] = malloc(MAX_TEMA_LEN);
+				strcpy(nomes_temas[temas_qnt],tema_name);
+				temas_qnt++;
+				if(temas_qnt>MAX_TEMA_QNT)
+					break;
+			}
 		}
 	}
-	if(!temas_qnt)
-	{
+
+	if(!temas_qnt){
 		nomes_temas[temas_qnt] = malloc(MAX_TEMA_LEN);
 		strcpy(nomes_temas[temas_qnt],"Default");
 	}
@@ -34,8 +35,7 @@ int temas()
 {
 	GtkWidget *tema_window;
 	gchar *tema_atual = malloc(MAX_TEMA_LEN);
-	if(inicializando==0)
-	{
+	if(inicializando==0){
 		ler_personalizacao();
 	}
 	GtkSettings *settings;

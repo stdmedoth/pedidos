@@ -14,7 +14,7 @@ enum{
 #define OPER_MAX_NIVEL 10
 #define NIVEL_CRIADOR OPER_MAX_NIVEL
 
-static struct{
+struct{
 	int code;
 	char nome[MAX_NAME_LEN];
 	int nivel;

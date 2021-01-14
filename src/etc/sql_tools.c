@@ -1,3 +1,36 @@
+int conectar_mysql(){
+	GtkWidget *loading_wnd = carregando_wnd();
+
+	carregar_interface();
+
+	if(!mysql_init(&conectar)){
+		popup(NULL,"Não foi possivel iniciar conector");
+		autologger((char*)mysql_error(&conectar));
+		gtk_widget_destroy(loading_wnd);
+		return 1;
+	}
+	unsigned long int timeout = SESSAO_EXP_MIN * G_TIME_SPAN_MINUTE* 2;
+	mysql_options(&conectar, MYSQL_OPT_CONNECT_TIMEOUT, &timeout);
+
+	carregar_interface();
+	if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0)){
+		popup(NULL,"Não foi possível conectar ao servidor");
+		gtk_widget_destroy(loading_wnd);
+		return 1;
+	}
+	gchar *character = strdup("utf8");
+	gchar *msg = malloc(strlen(character) + 200);
+	sprintf(msg, "setando caracete %s", character);
+	autologger( msg );
+	if (mysql_set_character_set(&conectar, character)){
+		autologger("Não foi possivel setar novo caracter");
+	}
+
+	gtk_widget_destroy(loading_wnd);
+	primeira_conexao=1;
+	return 0;
+}
+
 MYSQL_RES *consultar(char *query){
 	MYSQL_RES *vetor;
 
@@ -5,37 +38,8 @@ MYSQL_RES *consultar(char *query){
 	FILE *backup_query;
 	backup_query = fopen(BACKUP_QUERY_FILE,"+a");
 
-	if(primeira_conexao==0)
-	{
-		GtkWidget *loading_wnd = carregando_wnd();
-
-		carregar_interface();
-
-		if(!mysql_init(&conectar))
-		{
-			popup(NULL,"Não foi possivel iniciar conector");
-			autologger((char*)mysql_error(&conectar));
-			gtk_widget_destroy(loading_wnd);
-			return NULL;
-		}
-
-		carregar_interface();
-		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
-		{
-      popup(NULL,"Não foi possível conectar ao servidor");
-			gtk_widget_destroy(loading_wnd);
-			return NULL;
-		}
-		gchar *character = strdup("utf8");
-		gchar *msg = malloc(strlen(character) + 200);
-		sprintf(msg, "setando caracete %s", character);
-		autologger( msg );
-		if (mysql_set_character_set(&conectar, character)){
-			autologger("Não foi possivel setar novo caracter");
-		}
-
-		gtk_widget_destroy(loading_wnd);
-		primeira_conexao=1;
+	if(!primeira_conexao){
+		conectar_mysql();
 	}
 
 	#ifdef QUERY_DEBUG
@@ -73,46 +77,8 @@ int enviar_query(char *query){
 	backup_query = fopen(BACKUP_QUERY_FILE,"a+");
 
 	int err=1;
-	if(primeira_conexao==0)
-	{
-		GtkWidget *loading_wnd = carregando_wnd();
-		carregar_interface();
-		if(!mysql_init(&conectar))
-		{
-			popup(NULL,"Não foi possivel conectar ao servidor");
-			if(logging == 0){
-				autologger("Não foi possivel conectar ao servidor");
-				autologger((char*)mysql_error(&conectar));
-			}
-			primeira_conexao=0;
-			gtk_widget_destroy(loading_wnd);
-			return 1;
-		}
-
-		carregar_interface();
-
-		if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0))
-		{
-			popup(NULL,"Não foi possivel conectar ao servidor");
-      file_logger((char*)mysql_error(&conectar));
-			if(logging == 0){
-				autologger("Não foi possivel conectar ao servidor");
-				autologger((char*)mysql_error(&conectar));
-			}
-			primeira_conexao=0;
-			gtk_widget_destroy(loading_wnd);
-			return 1;
-		}
-		gchar *character = strdup("utf8");
-		gchar *msg = malloc(strlen(character) + 200);
-		sprintf(msg, "setando caracete %s", character);
-		autologger( msg );
-		if (mysql_set_character_set(&conectar, character)){
-			autologger("Não foi possivel setar novo caracter");
-		}
-
-		gtk_widget_destroy(loading_wnd);
-		primeira_conexao=1;
+	if(!primeira_conexao){
+		conectar_mysql();
 	}
 
 	#ifdef QUERY_DEBUG
@@ -120,7 +86,7 @@ int enviar_query(char *query){
 	#endif
 
 	carregar_interface();
-	
+
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

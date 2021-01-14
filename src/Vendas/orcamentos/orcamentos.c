@@ -353,7 +353,5 @@ int vnd_orc(){
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
-
-	gtk_widget_queue_draw (janela_orcamento);
 	return 0;
 }

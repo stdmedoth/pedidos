@@ -367,6 +367,12 @@ gboolean get_gestor_perm(GtkWidget *button, GtkWidget *parent_wnd){
 			mysql_real_escape_string(&conectar,unvulned_nome, user,strlen(user));
 			mysql_real_escape_string(&conectar,unvulned_senha, pass,strlen(pass));
 
+
+			enum{
+				CODE,
+				NOME,
+				NIVEL
+			};
 			sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
 			if(!(res = consultar(query))){
 				popup(janela_login,"Erro de comunicacao com banco");
@@ -375,7 +381,7 @@ gboolean get_gestor_perm(GtkWidget *button, GtkWidget *parent_wnd){
 
 			if((row = mysql_fetch_row(res))){
 				gtk_widget_destroy(janela);
-				if(atoi(row[2]) < NIVEL_GERENCIAL){
+				if(atoi(row[NIVEL]) < NIVEL_GERENCIAL){
 					popup(NULL,"Sem permissão");
 					return 0;
 				}

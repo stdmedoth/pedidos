@@ -8,6 +8,7 @@
 #include "./defines.h"
 #include "./receber_confs.h"
 #include "./xml_tools.h"
+#include "./sql_tools.h"
 #include "./tools.h"
 #include "./popups.h"
 #include "./maquinas.h"
@@ -138,6 +139,7 @@
 
 #include "./GerarDocs/OrdensCompra/gerar.h"
 
+//#include "../Transportes0/cad_trsp.h"
 #include "../Transportes/cad_trsp.h"
 
 #include "../Financeiro/geral.h"

@@ -54,10 +54,6 @@ char *randomizar_string();
 
 int autologger(char *string);
 
-MYSQL_RES *consultar(char *query);
-
-int enviar_query(char *query);
-
 int tasker(char *table);
 
 char *infos(int pos);

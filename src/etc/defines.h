@@ -1,3 +1,5 @@
+#ifndef PEDIDOS_DEFINES
+#define PEDIDOS_DEFINES
 #define APP_DIRNAME "pedidos"
 
 #ifdef WIN32
@@ -352,8 +354,8 @@
 #define MAX_SERVER_LEN 50
 #define MAX_COMPLMNTO_LEN 20
 
-#define SESSAO_MAX_INATIVIDADE 2
-#define SESSAO_EXP_MIN 60
+#define SESSAO_MAX_INATIVIDADE 10
+#define SESSAO_EXP_MIN 120
 
 #define MAX_QUERY_LEN 3000
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)
@@ -405,3 +407,4 @@ enum ID_OPERACOES{
 };
 
 #define NIVEL_TECNICO_THEME "Adwaita"
+#endif
