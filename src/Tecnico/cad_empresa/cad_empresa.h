@@ -1,4 +1,5 @@
 enum CAD_EMP_ENUM{
+  EMP_CODE_COL,
   EMP_CNPJ_COL,
   EMP_NOME_COL,
   EMP_IE_COL,
@@ -38,7 +39,8 @@ enum REGISSQN_ENUM{
   REGISSQN_QNT
 };
 
-GtkWidget *cad_emp_nome_entry,
+GtkWidget *cad_emp_code_entry,
+*cad_emp_nome_entry,
 *cad_emp_cpnj_entry,
 *cad_emp_ie_entry,
 *cad_emp_im_entry,
@@ -117,6 +119,10 @@ int cadastro_empresa();
 int cad_emp_recebe();
 GtkWidget *cad_emp_notebook;
 static int cad_emp_prim=0,person_tecn_prim=0;
-
+int cad_emp_alterando=0, cad_emp_cancelando=0, cad_emp_concluindo=0;
 
 int cad_emp_exists_emails();
+
+int cad_emp_alterar();
+
+int cad_emp_concluir();

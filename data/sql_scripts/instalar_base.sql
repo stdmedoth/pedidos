@@ -38,7 +38,9 @@ create table if not exists niveis_gerenciais( code int primary key auto_incremen
 
 create table logs( descricao varchar (2000), data datetime);
 
-create table if not exists empresa( cnpj varchar(20) primary key default 'cnpj',
+create table if not exists empresa(
+  code int primary key auto_increment,
+  cnpj varchar(20) default '',
   razao varchar(150) default 'Empresa Sem Nome',
   ie varchar(20) default '',
   im varchar(20) default '',

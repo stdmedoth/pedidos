@@ -73,6 +73,7 @@ int altera_prod()
 		}else{
 			row = strdup(mrow[0]);
 			gtk_entry_set_text(GTK_ENTRY(prod_ncm_entry),row);
+			gtk_widget_activate(prod_ncm_entry);
 		}
 	}
 

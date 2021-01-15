@@ -38,7 +38,11 @@ gboolean atualizar_inatividade_label(){
 //  tracelogger_set_func_name("atualizar_inatividade_label");
   carregar_interface();
   gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
-  GTimeSpan inatividade = g_date_time_difference ( g_date_time_new_now_local (), sessao_oper.ult_ativ);;
+  GDateTime *atual = g_date_time_new_now_local ();
+  GTimeSpan inatividade=0;
+  if(sessao_oper.ult_ativ){
+    inatividade = g_date_time_difference (atual , sessao_oper.ult_ativ);;
+  }
   gint64 faltante =  -(inatividade - G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND;
 
   sprintf(sessao_inatividade_gchar,"Limite Inatividade: %li segundos", faltante);
@@ -129,6 +133,15 @@ int validar_sessao_criada(){
 	}
 
   GDateTime *atual = g_date_time_new_now_local();
+  if(!atual){
+    file_logger("Erro ao consultar datetime atual em validar_sessao_criada()-> g_date_time_new_now_local()");
+    return 1;
+  }
+
+  if(!sessao_oper.ult_ativ){
+    file_logger("Erro ao consultar datetime de ultima atividade em validar_sessao_criada() -> ult_ativ -> struct sessao");
+    return 1;
+  }
 
   if(g_date_time_difference(atual, sessao_oper.ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
     gchar *msg = malloc(100);
@@ -255,7 +268,7 @@ gchar *get_full_ender_from_cep(gchar *cep, int num){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
   gchar *ender = NULL;
-  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",cep);
+  sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",cep);
   if(!(res = consultar(query))){
     popup(NULL,"Erro ao consultar endereços");
     return NULL;

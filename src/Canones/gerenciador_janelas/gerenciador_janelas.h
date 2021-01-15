@@ -141,6 +141,7 @@ typedef struct _janelas_info{
   int criada;
   int sys_close_wnd;
   int (*fun) ();
+  int ready;
   GtkWidget *janela_pointer;
 }janelas_info;
 

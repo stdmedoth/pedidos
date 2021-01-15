@@ -8,12 +8,20 @@ int cad_emp_exists_emails(){
   return 1;
 }
 
-int cad_emp_consulta(){
+int cad_emp_alterar(){
   MYSQL_RES*res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
-  sprintf(query,"select * from empresa");
+
+  cad_emp_alterando = 1;
+
+  gchar *code = (gchar*)gtk_entry_get_text(GTK_ENTRY(cad_emp_code_entry));
+  if(!strlen(code)){
+    popup(NULL,"Código deve ser inserido");
+    return 1;
+  }
+  sprintf(query,"select * from empresa where code = %s", code);
   if(!(res = consultar(query))){
     cad_emp_prim=1;
     popup(NULL,"Erro ao receber informações da empresa");
@@ -21,7 +29,7 @@ int cad_emp_consulta(){
   }
   if(!(row = mysql_fetch_row(res))){
     cad_emp_prim=1;
-    popup(NULL,"Empresa sem informações");
+    popup(NULL,"Empresa não existente");
     return 1;
   }
 
@@ -97,7 +105,6 @@ int cad_emp_consulta(){
 
   strcpy(cad_emp_strc.script_bin_path,row[2]);
   gtk_entry_set_text(GTK_ENTRY(cad_emp_script_path_entry),row[2]);
-
 
   return 0;
 }

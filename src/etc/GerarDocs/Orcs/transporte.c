@@ -40,7 +40,7 @@ int gerar_orc_transporte(FILE *file, struct _orc *orc){
       fprintf(file,"</tr>\n");
 
       fprintf(file,"<tr>\n");
-      sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade where CEP = '%s'",row[1]);
+      sprintf(query,"select l.descricao, l.descricao_bairro, c.descricao, l.UF  from logradouro as l inner join cidade as c on l.id_cidade = c.code where CEP = '%s'",row[1]);
 
       if((res = consultar(query))){
 
