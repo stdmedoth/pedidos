@@ -1,5 +1,7 @@
 int tirar_linha(int id_ponteiro)
 {
+
+	file_logger("Removendo linha do Orçamento tirar_linha()...");
 	if(ativos[id_ponteiro].id == 1){
 			gtk_grid_remove_row(GTK_GRID(orc_prods_grid),id_ponteiro);
 	}

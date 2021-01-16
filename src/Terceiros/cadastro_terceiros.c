@@ -4,6 +4,7 @@
 #include "altera.c"
 #include "exclui.c"
 #include "conclui.c"
+#include "get.c"
 
 int inicializar_ter()
 {
@@ -16,7 +17,10 @@ int inicializar_ter()
 		cntt_exists[cont] = 0;
 		cntts[cont].ativo = 0;
 	}
+	alterando_ter=0;
+	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 
+	/*
 	//char *
 	codigos_ter = malloc(MAX_CODE_LEN);
 	prods_ter = malloc(MAX_CODE_LEN);
@@ -30,7 +34,6 @@ int inicializar_ter()
 	memset(tipo_ter,0x0,strlen(tipo_ter));
 	observacoes_ter = malloc(MAX_OBS_LEN);
 	prazo_ter = malloc(MAX_DATE_LEN);
-	alterando_ter=0;
 	//GtkWidget *
 	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
 	codigo_preco = malloc(sizeof(int*)*MAX_PROD);
@@ -43,119 +46,10 @@ int inicializar_ter()
 	imagem_dinheiro = malloc(sizeof(GtkImage*)*MAX_PROD);
 	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
 	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
+	*/
 	return 0;
 }
 
-struct _terc_infos *terceiros_get_simp_terceiro(int code){
-
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char query[MAX_QUERY_LEN];
-	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos));
-	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
-
-	sprintf(query,"select * from terceiros where code = %i", code);
-	if(!(res = consultar(query))){
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> consultar()");
-		return NULL;
-	}
-
-	if((row = mysql_fetch_row(res))){
-		terceiros->code = atoi(row[COD_TER_COL]);
-		terceiros->razao = strdup(row[RAZ_TER_COL]);
-		terceiros->ie = strdup(row[IE_TER_COL]);
-		terceiros->doc = strdup(row[IE_TER_COL]);
-		terceiros->tipo_terc = atoi(row[TIPI_TER_COL]);
-		terceiros->cep = strdup(row[CEP_TER_COL]);
-		terceiros->i_nro = atoi(row[REND_TER_COL]);
-		terceiros->c_nro = strdup(row[REND_TER_COL]);
-	}else{
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> mysql_fetch_row() -> Infos Básicas");
-		return NULL;
-	}
-
-	int contatos_qnt = 0;
-	sprintf(query,"select * from contatos where terceiro = %i", code);
-	if(!(res = consultar(query))){
-		popup(NULL,"Não foi possível consultar contatos do terceiro");
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_simp_terceiro() -> consultar() -> Contatos");
-		return NULL;
-	}
-	while((row = mysql_fetch_row(res))){
-		terceiros->contatos[contatos_qnt].id = atoi(row[CTTO_ID_COL]);
-		terceiros->contatos[contatos_qnt].nome = strdup(row[CTTO_NOME_COL]);
-		terceiros->contatos[contatos_qnt].celular = strdup(row[CTTO_CEL_COL]);
-		terceiros->contatos[contatos_qnt].telefone = strdup(row[CTTO_TEL_COL]);
-		terceiros->contatos[contatos_qnt].email = strdup(row[CTTO_EMAIL_COL]);
-		contatos_qnt++;
-	}
-	terceiros->contatos_qnt = contatos_qnt;
-	return terceiros;
-}
-
-struct _terc_infos *terceiros_get_terceiro(int code){
-
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-	char query[MAX_QUERY_LEN];
-	struct _terc_infos *terceiros = malloc(sizeof(struct _terc_infos));
-	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
-
-	sprintf(query,"select * from terceiros where code = %i", code);
-	  if(!(res = consultar(query))){
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Infos Básicas");
-		return NULL;
-	  }
-
-	if((row = mysql_fetch_row(res))){
-		terceiros->code = atoi(row[COD_TER_COL]);
-		terceiros->razao = strdup(row[RAZ_TER_COL]);
-		terceiros->ie = strdup(row[IE_TER_COL]);
-		terceiros->doc = strdup(row[IE_TER_COL]);
-		terceiros->tipo_terc = atoi(row[TIPI_TER_COL]);
-		terceiros->cep = strdup(row[CEP_TER_COL]);
-		terceiros->i_nro = atoi(row[REND_TER_COL]);
-		terceiros->c_nro = strdup(row[REND_TER_COL]);
-	}else{
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> mysql_fetch_row() -> Infos Básicas");
-		return NULL;
-	}
-
-	sprintf(query,"select * from logradouro where CEP = '%s'", terceiros->cep);
-	if(!(res = consultar(query))){
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Endereço");
-		return NULL;
-  }
-
-	if((row = mysql_fetch_row(res))){
-		terceiros->xLgr = strdup(row[CEP_DESCR_COL]);
-		terceiros->xCpl = strdup(row[CEP_COMPLEM_COL]);
-		terceiros->xBairro = strdup(row[CEP_DESCR_BAIRRO]);
-		terceiros->xMun = strdup(row[CEP_DESCRCID_COL]);
-		terceiros->UF = strdup(row[CEP_UF_COL]);
-	}else{
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> mysql_fetch_row() -> Endereço");
-		return NULL;
-	}
-
-	int contatos_qnt = 0;
-	sprintf(query,"select * from contatos where terceiro = %i", code);
-	if(!(res = consultar(query))){
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Contatos");
-		return NULL;
-	}
-	while((row = mysql_fetch_row(res))){
-		terceiros->contatos[contatos_qnt].id = atoi(row[CTTO_ID_COL]);
-		terceiros->contatos[contatos_qnt].nome = strdup(row[CTTO_NOME_COL]);
-		terceiros->contatos[contatos_qnt].celular = strdup(row[CTTO_CEL_COL]);
-		terceiros->contatos[contatos_qnt].telefone = strdup(row[CTTO_TEL_COL]);
-		terceiros->contatos[contatos_qnt].email = strdup(row[CTTO_EMAIL_COL]);
-		contatos_qnt++;
-	}
-	terceiros->contatos_qnt = contatos_qnt;
-	return terceiros;
-}
 
 int  cad_terc()
 {

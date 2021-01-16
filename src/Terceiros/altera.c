@@ -37,18 +37,8 @@ int altera_ter()
 	if(campo[DOC_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[DOC_TER_COL]);
 
-	if(atoi(campo[TDOC_TER_COL])==1)
-	{
-		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),1);
-	}
-	if(atoi(campo[TDOC_TER_COL])==2)
-	{
-		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),2);
-	}
-	if(atoi(campo[TDOC_TER_COL])==3)
-	{
-		gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),3);
-	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX(doc_combo),atoi(campo[TDOC_TER_COL]));
+
 	if(campo[IE_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(inscr_ter_field),campo[IE_TER_COL]);
 	//campo[4] = tipoter string
@@ -169,9 +159,9 @@ int altera_ter()
 	}
 
 	if(campo[OBS_TER_COL])
-		strcpy(observacoes_ter,campo[OBS_TER_COL]);
+		observacoes_ter = strdup(campo[OBS_TER_COL]);
 	else
-		strcpy(observacoes_ter,"");
+		observacoes_ter = strdup("");
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));

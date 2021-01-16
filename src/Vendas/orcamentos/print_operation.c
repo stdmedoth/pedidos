@@ -14,6 +14,7 @@ int orc_begin_print(GtkPrintOperation *operation, GtkPrintContext   *context, st
 
 int orc_draw_page(GtkPrintOperation *operation, GtkPrintContext *context, gint page_nr, struct _orc *orc){
 
+  //exportando arquivo de configuração da impressao
   if(!fopen(PRINT_SETTING_FILE, "r")){
     GError *error = NULL;
     if(!gtk_print_settings_to_file (print_settings, PRINT_SETTING_FILE, &error)){
@@ -23,6 +24,7 @@ int orc_draw_page(GtkPrintOperation *operation, GtkPrintContext *context, gint p
     }
   }
 
+  //exportando arquivo de configuração das paginas
   if(!fopen(PRINT_SETUP_FILE, "r")){
     GError *error = NULL;
     if(!gtk_page_setup_to_file (print_pagesetup, PRINT_SETUP_FILE, &error)){
@@ -54,6 +56,7 @@ int orc_print_operation_fun(struct _orc *orc){
     return 1;
   }
 
+  //lendo arquivo de configuração da impressao
   if(!(print_settings = gtk_print_settings_new_from_file(PRINT_SETTING_FILE, &error))){
     gchar *msg = malloc(strlen(error->message) + 40);
     sprintf(msg,"Erro em gtk_print_settings_load_file() : %s", error->message);
@@ -61,6 +64,7 @@ int orc_print_operation_fun(struct _orc *orc){
     print_settings = gtk_print_settings_new();
   }
 
+  //exportando arquivo de configuração das paginas
   error=NULL;
   if(!(print_pagesetup = gtk_page_setup_new_from_file(PRINT_SETUP_FILE, &error))){
     gchar *msg = malloc(strlen(error->message) + 40);
@@ -74,9 +78,6 @@ int orc_print_operation_fun(struct _orc *orc){
 
   gtk_print_operation_set_embed_page_setup (operation, TRUE);
   gtk_print_operation_set_default_page_setup (operation, print_pagesetup);
-
-
-  gtk_print_operation_set_export_filename(operation, "Orcamentos.pdf");
 
   g_signal_connect (operation, "begin_print", G_CALLBACK (orc_begin_print), orc);
 

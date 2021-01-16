@@ -10,6 +10,7 @@ struct _condpag *cond_pag_get(int condpag_code){
     file_logger("Erro em consultar() para cond_pag_get()");
 	  return NULL;
 	}
+
 	if(!(row = mysql_fetch_row(res))){
     file_logger("Erro em mysql_fetch_row(res) para cond_pag_get()");
 		return NULL;

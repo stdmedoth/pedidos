@@ -2,6 +2,7 @@ static int gerar_total_geral(){
 
 	tracelogger_set_func_name("gerar_total_geral");
 	char *muda_label;
+	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*3);
 	total_geral_orc = 0;
 	desconto_geral_orc = 0;
 
@@ -12,7 +13,6 @@ static int gerar_total_geral(){
 	orc_valores.valor_prds_liquido = 0;
 	orc_valores.valor_frete_liquido = 0;
 
-	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*2);
 	for(cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id == 1)
@@ -43,17 +43,11 @@ static int gerar_total_geral(){
 	orc_valores.valor_total = orc_valores.valor_prds + orc_valores.valor_frete - (orc_valores.valor_prds_desc + orc_valores.desconto_frete);
 	orc_valores.desconto_total = orc_valores.valor_prds_desc +  orc_valores.desconto_frete;
 
-	if(!orc_transp_frete_pago_mudado && orc_transp_frete_pago_int){
+	if(!orc_transp_frete_pago_mudado && orc_transp_frete_pago_int && !alterando_orc &&!concluindo_orc){
 		if( orc_valores.valor_prds_liquido >= orc_transp_frete_pago_vlr ){
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button),TRUE);
-			gtk_widget_set_sensitive(orc_transp_valor_frete_entry,FALSE);
-	    gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,FALSE);
-	    gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),"0.0");
-	    gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),"0.0");
+			orc_transp_frete_gratis();
 		}else{
-			gtk_widget_set_sensitive(orc_transp_valor_frete_entry,TRUE);
-	    gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,TRUE);
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button),FALSE);
+			orc_transp_frete_ngratis();
 		}
 	}
 

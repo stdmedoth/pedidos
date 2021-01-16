@@ -138,7 +138,7 @@ static int altera_orc()
 		}
 
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRANSP_TRSP_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRANSP_CEP2_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRSP_CEPFIM_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRANSP_NUM_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRANP_VLR_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRANP_VLR_DESC_COL]);
@@ -162,12 +162,11 @@ static int altera_orc()
 
 	while((row = mysql_fetch_row(res))){
 
-		while (g_main_context_pending(NULL))
-			g_main_context_iteration(NULL,FALSE);
+		carregar_interface();
 
 		if(!row[ORC_PROD_ITM_COL]){
-			popup(NULL,"Erro na identificação em um dos itens, verifique");
-			continue;
+			popup(NULL,"Erro na identificaçã do item!");
+			return 1;
 		}
 
 		itens_qnt = atoi(row[ORC_PROD_ITM_COL]);

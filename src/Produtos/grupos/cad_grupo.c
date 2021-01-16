@@ -255,6 +255,8 @@ int cad_grupo()
 	g_signal_connect(exclui_grp_button,"clicked",G_CALLBACK(exclui_grupo),NULL);
 	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]);
 
+	g_signal_connect(cad_grp_treeview,"row-activated",G_CALLBACK(enter_code_from_treeview),cod_grp_entry);
+
 	gtk_widget_show_all(janela_grupo);
 	return 0;
 }

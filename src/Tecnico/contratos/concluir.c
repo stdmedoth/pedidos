@@ -1,5 +1,6 @@
 int cntrats_concluir_fun(){
 
+  tracelogger_set_func_name("cntrats_concluir_fun");
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
@@ -60,7 +61,6 @@ int cntrats_concluir_fun(){
       popup(NULL,"Erro ao atualizar contrato");
       return 1;
     }
-
   }
 
   popup(NULL,"Contrato atualizado com sucesso");

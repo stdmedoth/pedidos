@@ -113,6 +113,12 @@ int oper_passa_nome()
 		popup(NULL,"Insira o nome!");
 		return 1;
 	}
+	for(int cont=0;cont<LOGIN_BIND_QNT;cont++){
+		if(!strcmp(oper_nome_gchar, login_bindings[cont])){
+			popup(NULL,"Nome de usuário não permitido");
+			return 1;
+		}
+	}
 
 	if(oper_alterando==0){
 		query = malloc(MAX_QUERY_LEN);

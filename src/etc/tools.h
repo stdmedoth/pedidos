@@ -87,3 +87,5 @@ void carregar_interface();
 char *camel_case(char *text);
 
 void *NOT_NULL(void *pointer);
+
+void enter_code_from_treeview(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *entry);

@@ -212,7 +212,9 @@ GtkWidget *orc_entrega_campos()
 	gtk_container_add(GTK_CONTAINER(obs_orc_transp_frame),orc_transp_obs);
 
 	orc_transp_frete_pago_button = gtk_check_button_new_with_label("Frete pago?");
+	orc_transp_frete_pago_label = gtk_label_new("Do cliente : (-)");
 	gtk_fixed_put(GTK_FIXED(orc_transp_frete_pago_fixed),orc_transp_frete_pago_button,20,20);
+	gtk_fixed_put(GTK_FIXED(orc_transp_frete_pago_fixed),orc_transp_frete_pago_label,130,23);
 
 	valor_orc_transp_frame = gtk_frame_new("Valor Frete");
 	orc_transp_valor_frete_entry = gtk_entry_new();

@@ -9,8 +9,6 @@ GtkWidget *concluir_ter_buttom,
 int inicializar_ter();
 int  cad_terc();
 
-struct _terc_infos *terceiros_get_simp_terceiro(int code);
-struct _terc_infos *terceiros_get_terceiro(int code);
 void ter_consulta_contrib();
 
 struct _terc_infos{

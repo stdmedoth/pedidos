@@ -372,7 +372,7 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 
 	if(sessao_oper.nivel >= NIVEL_GERENCIAL)
-		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,100,400);
+		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,400,200);
 
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 

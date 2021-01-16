@@ -1,4 +1,15 @@
 enum{
+	LOGIN_BIND_ENTRAR,
+	LOGIN_BIND_SAIR,
+	LOGIN_BIND_QNT
+};
+
+gchar *login_bindings[] = {
+	"anon",
+	"sair"
+};
+
+enum{
 	NIVEL_OPERACIONAL,
 	NIVEL_TATICO,
 	NIVEL_GERENCIAL,
@@ -42,3 +53,5 @@ void sessao_set_allmodules();
 void sessao_set_nonemodules();
 
 void criar_sessao_default();
+
+void criar_sessao_anon();

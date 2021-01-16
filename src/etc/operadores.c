@@ -1,3 +1,18 @@
+void criar_sessao_anon(){
+
+	ativar.ativo = 0;
+	sessao_oper.code = default_user_code;
+	sessao_oper.nivel = 1;
+	sessao_oper.status_sessao = SESSAO_TESTE;
+	strcpy(sessao_oper.nome, login_bindings[LOGIN_BIND_ENTRAR]);
+
+	sessao_oper.criacao = g_date_time_new_now_local();
+	sessao_oper.ult_ativ = g_date_time_new_now_local();
+	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * S_ANON_EXP_MIN);
+	sessao_set_nonemodules();
+
+	return ;
+}
 void criar_sessao_default(){
 
 	sessao_oper.code = default_user_code;
@@ -44,8 +59,7 @@ void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry){
 }
 
 void passa_nome(){
-	#define ENTRAR_BIND_TEXT "anon"
-	#define SAIR_BIND_TEXT "sair"
+
 	oper_nome_login = malloc(MAX_OPER_LEN);
 	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
 	if(!strlen(oper_nome_login)){
@@ -54,25 +68,21 @@ void passa_nome(){
 		return ;
 	}
 
-	if(!strcmp(oper_nome_login, ENTRAR_BIND_TEXT)){
+	if(!strcmp(oper_nome_login, login_bindings[LOGIN_BIND_ENTRAR])){
 
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);
 
-		sessao_oper.code = default_user_code;
-		sessao_oper.nivel = 1;
-		ativar.ativo = 0;
-		sessao_oper.status_sessao = SESSAO_TESTE;
-		strcpy(sessao_oper.nome,ENTRAR_BIND_TEXT);
+		criar_sessao_anon();
 
 		if(desktop()!=0)
 			encerrando();
 		return ;
 	}
 
-	if(!strcmp(oper_nome_login, SAIR_BIND_TEXT)){
+	if(!strcmp(oper_nome_login, login_bindings[LOGIN_BIND_SAIR])){
 		encerrando();
 		return ;
 	}

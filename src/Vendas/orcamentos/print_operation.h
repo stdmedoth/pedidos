@@ -1,4 +1,5 @@
 static GtkPrintSettings *print_settings = NULL;
+
 static GtkPageSetup *	print_pagesetup = NULL;
 
 int orc_begin_print(GtkPrintOperation *operation, GtkPrintContext   *context, struct _orc *orc);

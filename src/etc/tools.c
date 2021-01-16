@@ -626,6 +626,24 @@ char *formatar_data(char *data){
 	return NULL;
 }
 
+void enter_code_from_treeview(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *entry){
+  GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *codigo;
+	codigo = malloc(MAX_CODE_LEN);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	if(!gtk_tree_selection_get_selected(selection, &model, &iter))
+		return ;
+	gtk_tree_model_get (model, &iter, 0, &codigo, -1);
+
+	if(entry){
+		gtk_entry_set_text(GTK_ENTRY(entry),codigo);
+		gtk_widget_activate(GTK_WIDGET(entry));
+	}
+}
+
 void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *window)
 {
 	GtkTreeSelection *selection;
