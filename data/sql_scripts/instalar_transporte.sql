@@ -8,6 +8,7 @@ create table servico_transporte(
   orcamento int not null default 1,
   vlr_frete float not null default '0.0',
   valor_desconto_frete float not null default '0.0',
+  frete_pago tinyint not null default 0,
   observacoes_entrega varchar(500) not null default '');
 
 create table frete_vlrs(

@@ -77,7 +77,7 @@ int ped_enviar(){
 		if( PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")
 		//&& !gerar_orcs_html( pedidoPtr->infos->ped_code )
 		&& !desenhar_pdf(orc_path) )
-			if(enviar_email_orcamento(nome_cliente,email_cliente,orc_path))
+			if(enviar_email_orcamento(nome_cliente, email_cliente, orc_path))
 				return 1;
 	}else{
 		if(enviar_email_orcamento(nome_cliente,email_cliente,orc_path))

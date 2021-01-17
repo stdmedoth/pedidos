@@ -67,12 +67,12 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
 
   tracelog_ultima_janela = janela;
 
-  if(janela){
-    gtk_widget_add_events(janela, GDK_KEY_PRESS_MASK);
-    gtk_widget_add_events(janela, GDK_FOCUS_CHANGE_MASK);
-    g_signal_connect(janela, "focus-in-event", G_CALLBACK(atualizar_inatividade), NULL);
-    g_signal_connect(janela, "key-press-event", G_CALLBACK(atualizar_inatividade), NULL);
-  }
+  //if(janela){
+  //  gtk_widget_add_events(janela, GDK_KEY_PRESS_MASK);
+  //  gtk_widget_add_events(janela, GDK_FOCUS_CHANGE_MASK);
+  //  g_signal_connect(janela, "focus-in-event", G_CALLBACK(atualizar_inatividade), NULL);
+  //  g_signal_connect(janela, "key-press-event", G_CALLBACK(atualizar_inatividade), NULL);
+  //}
 
   if(validar_sessao_criada())
     return 1;

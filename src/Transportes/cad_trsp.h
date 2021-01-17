@@ -10,6 +10,7 @@ enum TRSP_COLS{
   TRSP_ORC_COL,
   TRSP_VLR_COL,
   TRSP_DESC_COL,
+  TRSP_FRTPAG_COL,
   TRSP_OBS_COL
 };
 
@@ -36,6 +37,7 @@ GtkWidget *trsp_cad_nument_entry;
 GtkWidget *trsp_cad_orc_entry,*trsp_cad_orc_button;
 GtkWidget *trsp_cad_vlrfrt_entry;
 GtkWidget *trsp_cad_descfrt_entry;
+GtkWidget *trsp_cad_frtpag_check;
 GtkWidget *trsp_cad_obs_entry;
 
 GtkWidget *trsp_cad_endini_entry, *trsp_cad_endentr_entry;
@@ -50,6 +52,7 @@ gchar *trsp_cad_orc_gchar;
 gchar *trsp_cad_vlrfrt_gchar;
 gchar *trsp_cad_descfrt_gchar;
 gchar *trsp_cad_obs_gchar;
+gint trsp_cad_frtpag_gint=0;
 
 GtkWidget *trsp_cad_concluir_button, *trsp_cad_alterar_button,
 *trsp_cad_excluir_button, *trsp_cad_cancelar_button;
@@ -60,19 +63,3 @@ int trsp_cad_cancelar_fun();
 int trsp_cad_alterar_fun();
 int trsp_cad_concluir_fun();
 int trsp_cad_excluir_fun();
-
-#include "campos/cep_destino.c"
-#include "campos/cep_inicio.c"
-#include "campos/cliente.c"
-#include "campos/codigo.c"
-#include "campos/numero.c"
-#include "campos/transportador.c"
-#include "campos/desconto.c"
-#include "campos/observacoes.c"
-#include "campos/orcamento.c"
-#include "campos/valor.c"
-
-#include "concluir.c"
-#include "alterar.c"
-#include "cancelar.c"
-#include "excluir.c"

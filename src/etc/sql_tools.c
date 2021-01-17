@@ -7,6 +7,7 @@ int conectar_mysql(){
 		popup(NULL,"Não foi possivel iniciar conector");
 		autologger((char*)mysql_error(&conectar));
 		gtk_widget_destroy(loading_wnd);
+		encerrando();
 		return 1;
 	}
 	unsigned long int timeout = SESSAO_EXP_MIN * G_TIME_SPAN_MINUTE* 2;
@@ -16,6 +17,7 @@ int conectar_mysql(){
 	if(!mysql_real_connect(&conectar,server_confs.server_endereco,server_confs.server_user,server_confs.server_senha,server_confs.server_database,0,NULL,0)){
 		popup(NULL,"Não foi possível conectar ao servidor");
 		gtk_widget_destroy(loading_wnd);
+		encerrando();
 		return 1;
 	}
 	gchar *character = strdup("utf8");
@@ -39,7 +41,8 @@ MYSQL_RES *consultar(char *query){
 	backup_query = fopen(BACKUP_QUERY_FILE,"+a");
 
 	if(!primeira_conexao){
-		conectar_mysql();
+		if(conectar_mysql())
+			return NULL;
 	}
 
 	#ifdef QUERY_DEBUG
@@ -78,7 +81,8 @@ int enviar_query(char *query){
 
 	int err=1;
 	if(!primeira_conexao){
-		conectar_mysql();
+		if(conectar_mysql())
+			return 1;
 	}
 
 	#ifdef QUERY_DEBUG

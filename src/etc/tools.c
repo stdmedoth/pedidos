@@ -1,4 +1,20 @@
- #include "sql_tools.c"
+#include "sql_tools.c"
+
+gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
+
+  if(event->keyval == GDK_KEY_BackSpace)
+    return FALSE;
+
+  if(event->keyval == ',' || event->keyval == '.'){
+    event->keyval = '.';
+    return FALSE;
+  }
+
+  if(isdigit(event->keyval))
+    return FALSE;
+
+  return TRUE;
+}
 
 void *NOT_NULL(void *pointer){
   if(!pointer){
@@ -62,11 +78,11 @@ gboolean atualizar_inatividade_label(){
   }
   else
     return FALSE;
-
 }
 
+
 gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   user_data){
-//  tracelogger_set_func_name("atualizar_inatividade");
+  //  tracelogger_set_func_name("atualizar_inatividade");
 
   if(validar_sessao_criada())
     return 1;
@@ -218,27 +234,6 @@ int comparar_datas(gchar *primeira, gchar *segunda){
     return DEFAULT_ERROR_CODE;
 
   return g_date_time_compare(gdt1, gdt2);
-}
-
-xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
-  tracelogger_set_func_name("get_tag_by_namepath");
-  xmlNodePtr root = xmlDocGetRootElement(doc);
-  xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
-  xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
-
-  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "CadConsultaCadastro4", BAD_CAST "http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro4");
-  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "nfe", BAD_CAST "http://www.portalfiscal.inf.br/nfe");
-
-  xmlNodePtr node=NULL;
-  if(node_contxt &&
-    node_contxt->nodesetval &&
-    node_contxt->nodesetval->nodeNr &&
-    node_contxt->nodesetval->nodeTab){
-
-    node = node_contxt->nodesetval->nodeTab[0];
-  }
-
-  return node;
 }
 
 size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp){
@@ -735,65 +730,6 @@ char *randomizar_string(){
 
     res[i] = '\0';
     return res;
-}
-
-
-int file_logger(char *string){
-	FILE *logger;
-
-	logger = fopen(LOGGER,"w+");
-
-	if(logger)
-		fprintf(logger,"%s\n",string);
-	else{
-    if(erro_logger>=2)
-      exit(1);
-
-    erro_logger++;
-		popup(NULL,"Não foi possivel atualizar logs, verifique com suporte");
-		return 1;
-	}
-  erro_logger=0;
-	fclose(logger);
-	return 0;
-}
-
-int autologger(char *string)
-{
-	char *string1, *string2,*unvulned_query;
-  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
-	logging = 1;
-	string1 = malloc(MAX_QUERY_LEN+strlen(string) + strlen(g_date_time_format(data,"%F %T")));
-	string2 = malloc(MAX_QUERY_LEN+strlen(string));
-
-	sprintf(string1,"%s - %s",g_date_time_format(data,"%F %T"), string);
-  //ainda um pouco pesado, vou melhorar...
-
-/*
-	for(int cont=0;cont<strlen(string1);cont++){
-		if(string1[cont] == '\n')
-			string1[cont] = ' ';
-		if(string1[cont] == '\0' || string1[cont] == -1)
-			break;
-	}
-	unvulned_query = malloc(strlen(string1)*2);
-
-	if(primeira_conexao!=0)
-		mysql_real_escape_string(&conectar,unvulned_query,string1,strlen(string1));
-
-	sprintf(string2,"insert into logs(descricao,data) values('%s',CURRENT_TIMESTAMP());",unvulned_query);
-
-	if(strlen(string2)>MAX_LOG_DESC)
-		string2[MAX_LOG_DESC] = '\0';
-
-	if(enviar_query(string2)!=0)
-		g_print("Log não pode ser enviado\n%s\n",string2);
-*/
-  file_logger(string1);
-//	file_logger(string2);
-
-	logging = 0;
-	return 0;
 }
 
 

@@ -96,6 +96,7 @@ static int altera_orc()
 		cancela_orc();
 		return 1;
 	}
+
 	//buscando informações basicas de transporte
 	sprintf(query,"select * from servico_transporte where orcamento = %s",tmp_cod_orc);
 	if(!(res = consultar(query))){
@@ -108,8 +109,8 @@ static int altera_orc()
 		orc_com_entrega = 0;
 	}else{
 
-		if(row[TRANSP_TRSP_COL]!=NULL)
-			if(!atoi(row[TRANSP_TRSP_COL])){
+		if(row[TRSP_CODE_COL]!=NULL)
+			if(!atoi(row[TRSP_CODE_COL])){
 				alterando_transp = 0;
 				orc_com_entrega = 0;
 				return 1;
@@ -123,7 +124,7 @@ static int altera_orc()
 			IE
 		};
 
-		sprintf(query,"select razao,doc,ie from terceiros where code = %s", row[TRANSP_TRSP_COL]);
+		sprintf(query,"select razao,doc,ie from terceiros where code = %s", row[TRSP_TRANSP_COL]);
 		if(!(res2 = consultar(query))){
 			popup(NULL,"Erro ao buscar serviço de transporte");
 			cancela_orc();
@@ -137,14 +138,20 @@ static int altera_orc()
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row2[IE]);
 		}
 
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRANSP_TRSP_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRSP_CODE_COL]);
 		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRSP_CEPFIM_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRANSP_NUM_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRANP_VLR_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRANP_VLR_DESC_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRSP_NUM_COL]);
 
-		gtk_widget_activate(orc_transp_valor_frete_entry);
-		gtk_widget_activate(orc_transp_desconto_frete_entry);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRSP_VLR_COL]);
+		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRSP_DESC_COL]);
+		if(atoi(row[TRSP_FRTPAG_COL])){
+			orc_transp_frete_gratis();
+		}else{
+			orc_transp_frete_ngratis();
+			gtk_widget_activate(orc_transp_valor_frete_entry);
+			gtk_widget_activate(orc_transp_desconto_frete_entry);
+		}
+
 	}
 
 	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));

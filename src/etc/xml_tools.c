@@ -58,3 +58,24 @@ xmlNodePtr getContentByTagName( xmlNodePtr nodes,char *TagName ){
 xmlNodePtr getElementByTagName( xmlNodePtr nodes,char *TagName ){
     return search_elem_tag(nodes,TagName);
 }
+
+xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
+  tracelogger_set_func_name("get_tag_by_namepath");
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+  xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
+  xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
+
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "CadConsultaCadastro4", BAD_CAST "http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro4");
+  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "nfe", BAD_CAST "http://www.portalfiscal.inf.br/nfe");
+
+  xmlNodePtr node=NULL;
+  if(node_contxt &&
+    node_contxt->nodesetval &&
+    node_contxt->nodesetval->nodeNr &&
+    node_contxt->nodesetval->nodeTab){
+
+    node = node_contxt->nodesetval->nodeTab[0];
+  }
+
+  return node;
+}

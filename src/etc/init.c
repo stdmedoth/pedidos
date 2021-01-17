@@ -7,6 +7,11 @@ int init(){
 
 	query = malloc(MAX_QUERY_LEN);
 
+	enum{
+		CODE,
+		PATH_IMG_INIT,
+		SCRIPT_BIN_PATH
+	};
 	sprintf(query,"select * from tecn_pers_elem");
 
 	if(!(res = consultar(query))){
@@ -21,7 +26,7 @@ int init(){
 	}
 	else{
 		person_tecn_prim = 0;
-		strcpy(cad_emp_strc.init_image_path,row[1]);
+		strcpy(cad_emp_strc.init_image_path,row[PATH_IMG_INIT]);
 	}
 
 	imagem_inicializacao = gtk_image_new_from_file(cad_emp_strc.init_image_path);
@@ -34,19 +39,22 @@ int init(){
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
-	//gtk_window_set_keep_above(GTK_WINDOW(janela_inicializacao),TRUE);
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
-	sprintf(query,"select janela_init,tema from perfil_desktop");
-	if((res = consultar(query))==NULL){
+	enum{
+		JANELA_INIT,
+		TEMA
+	};
+
+	sprintf(query,"select janela_init, tema from perfil_desktop");
+	if(!(res = consultar(query))){
 		file_logger("init() -> consultar() -> tabela perfil_desktop");
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
-
-	if((row = mysql_fetch_row(res))==NULL){
+	if(!(row = mysql_fetch_row(res))){
 		file_logger("init() -> mysql_fetch_row() -> tabela perfil_desktop");
 		popup(NULL,"Sem dados para personalizar o sistema");
 		return 1;
@@ -57,23 +65,16 @@ int init(){
 	int n_elements;
 
 	icone = gtk_icon_theme_get_default();
+	gtk_icon_theme_append_search_path(icone, ICON_PATH);
 	g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
-
-	gtk_icon_theme_get_search_path(icone,&path,&n_elements);
-
-	if(path && n_elements){
-		path[n_elements-1] = malloc(strlen(ICON_PATH));
-		strcpy((char*)path[n_elements-1],ICON_PATH);
-		gtk_icon_theme_set_search_path(icone, (const gchar**)path, n_elements);
-	}
 
 	carregar_interface();
 
-	personalizacao.tema = atoi(row[1]);
+	personalizacao.tema = atoi(row[TEMA]);
 
 	ler_theme_dir();
 
-	if( !atoi(row[0]) ){
+	if( !atoi(row[JANELA_INIT]) ){
 		criar_sessao_default();
 		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()){
@@ -84,7 +85,8 @@ int init(){
 		}
 	}
 	else{
-		login();
+		if(login())
+			return 1;
 		gtk_widget_show_all(janela_login);
 	}
 	carregar_interface();

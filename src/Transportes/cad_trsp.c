@@ -1,3 +1,20 @@
+#include "campos/cep_destino.c"
+#include "campos/cep_inicio.c"
+#include "campos/cliente.c"
+#include "campos/codigo.c"
+#include "campos/numero.c"
+#include "campos/transportador.c"
+#include "campos/valor.c"
+#include "campos/desconto.c"
+#include "campos/frete_pago.c"
+#include "campos/observacoes.c"
+#include "campos/orcamento.c"
+
+#include "concluir.c"
+#include "alterar.c"
+#include "cancelar.c"
+#include "excluir.c"
+
 int trsp_cad_fun(){
 
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -118,6 +135,8 @@ int trsp_cad_fun(){
 	trsp_cad_orc_entry = gtk_entry_new();
 	gtk_entry_set_width_chars(GTK_ENTRY(trsp_cad_orc_entry),5);
 
+	trsp_cad_frtpag_check = gtk_check_button_new_with_label("Frete Pago?");
+
 	trsp_cad_vlrfrt_entry = gtk_entry_new();
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(trsp_cad_vlrfrt_entry),GTK_ENTRY_ICON_PRIMARY,"money");
 	gtk_entry_set_width_chars(GTK_ENTRY(trsp_cad_vlrfrt_entry),15);
@@ -177,8 +196,9 @@ int trsp_cad_fun(){
 	gtk_box_pack_start(GTK_BOX(trsp_cad_orc_box),trsp_cad_orc_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(trsp_cad_orc_box),trsp_cad_orc_button,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(trsp_cad_vlrfrt_box),trsp_cad_vlrfrt_entry,0,0,0);
-	gtk_box_pack_start(GTK_BOX(trsp_cad_descfrt_box),trsp_cad_descfrt_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(trsp_cad_vlrfrt_box),trsp_cad_frtpag_check,0,0,5);
+	gtk_box_pack_start(GTK_BOX(trsp_cad_vlrfrt_box),trsp_cad_vlrfrt_entry,0,0,5);
+	gtk_box_pack_start(GTK_BOX(trsp_cad_descfrt_box),trsp_cad_descfrt_entry,0,0,5);
 	gtk_box_pack_start(GTK_BOX(trsp_cad_obs_box),trsp_cad_obs_entry,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(trsp_cad_code_frame),trsp_cad_code_box);
@@ -262,6 +282,8 @@ int trsp_cad_fun(){
 	g_signal_connect(trsp_cad_orc_entry,"activate",G_CALLBACK(trsp_cad_orc_fun),NULL);
 	g_signal_connect(trsp_cad_vlrfrt_entry,"activate",G_CALLBACK(trsp_cad_vlrfrt_fun),NULL);
 	g_signal_connect(trsp_cad_descfrt_entry,"activate",G_CALLBACK(trsp_cad_descfrt_fun),NULL);
+	g_signal_connect(trsp_cad_frtpag_check,"toggled",G_CALLBACK(trsp_cad_frtpag_fun),NULL);
+
 
 	g_signal_connect(trsp_cad_code_button,"clicked",G_CALLBACK(psq_srv_trsp),trsp_cad_code_entry);
 	g_signal_connect(trsp_cad_orc_button,"clicked",G_CALLBACK(psq_orc),trsp_cad_orc_entry);

@@ -30,7 +30,8 @@ void popup(GtkWidget *widget,gchar *string){
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
 
-	gtk_widget_destroy(popup);
+	if(popup)
+		gtk_widget_destroy(popup);
 	return ;
 }
 

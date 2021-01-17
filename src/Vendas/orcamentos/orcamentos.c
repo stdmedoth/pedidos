@@ -27,10 +27,7 @@ int vnd_orc(){
 
 	orc_notebook = gtk_notebook_new();
 
-	if(orc_estoque.produtos)
-		orc_estoque.produtos = realloc(orc_estoque.produtos, sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
-	else
-		orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
+	orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
 
 	item_frame_char = malloc(strlen("Item ")+10);
 
@@ -342,6 +339,7 @@ int vnd_orc(){
 
 	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);
 	g_signal_connect(orc_bnc_psq_button,"clicked",G_CALLBACK(psq_bnc),orc_bnc_code_entry);
+
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
 	g_signal_connect(orc_prods_grid,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);

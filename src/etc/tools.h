@@ -28,7 +28,6 @@ char *text_to_html(char *texto);
 
 char *formatar_data(char *data);
 
-int file_logger(char *string);
 
 char  *format_only_num(char *text);
 
@@ -51,8 +50,6 @@ void get_filename_to_entry(GtkFileChooserButton *fchooser, GtkEntry *entry);
 int close_window_callback(GtkWidget *widget,gpointer *ponteiro);
 
 char *randomizar_string();
-
-int autologger(char *string);
 
 int tasker(char *table);
 
@@ -89,3 +86,5 @@ char *camel_case(char *text);
 void *NOT_NULL(void *pointer);
 
 void enter_code_from_treeview(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *entry);
+
+gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data);

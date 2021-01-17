@@ -13,7 +13,7 @@ int gerar_orc(){
 		return 1;
 	}
 
-	orc_print_operation_fun(orc);
+	orc_print_operation_fun(orc, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	return 0;
 }

@@ -31,9 +31,8 @@
 #include "../etc/libs.h"
 #include "../etc/libs.c"
 
-int main(int argc,char *argv[])
+int main()
 {
-
 	gtk_disable_setlocale();
 	//setlocale(LC_ALL,"");
 	setlocale(LC_COLLATE,"pt_BR");
@@ -41,10 +40,10 @@ int main(int argc,char *argv[])
 	setlocale(LC_MONETARY,"en_US");
 	setlocale(LC_NUMERIC,"en_US");
 
-	gtk_init(&argc, &argv);
+	gtk_init(NULL, NULL);
 
 	init_logger();
-	
+
 	if(rec_vars_from_file())
 		return 1;
 
@@ -56,7 +55,7 @@ int main(int argc,char *argv[])
 	if(init())
 		return 1;
 
-	//carregar_interface();
+	carregar_interface();
 
 	gtk_main();
 	return 0;

@@ -2,10 +2,6 @@ xmlDocPtr consulta_contrib_cria_xml(gchar *cnpj, gchar *uf){
 
   xmlDocPtr doc = xmlNewDoc( (xmlChar*)"1.0");
 
-  xmlValidCtxtPtr	valid = xmlNewValidCtxt();
-  xmlDocPtr xsdDoc = xmlReadFile("/home/calistu/Downloads/PL_009/consCad_v2.00.xsd", NULL, XML_PARSE_DTDLOAD);
-  xmlDtdPtr dtd = xmlNewDtd(xsdDoc,  (xmlChar*)"consCad", (xmlChar*)"consCad_v2.00",  (xmlChar*)"consCad_v2.00.xsd");
-
   xmlNodePtr ConsCad = xmlNewNode(NULL,(xmlChar*)"ConsCad");
   xmlNewProp(ConsCad, (xmlChar*)"xmlns", (xmlChar*)"http://www.portalfiscal.inf.br/nfe");
   xmlNewProp(ConsCad, (xmlChar*)"versao", (xmlChar*)"2.00");

@@ -9,7 +9,7 @@ int trsp_cad_alterar_fun(){
 	if(trsp_cad_code_fun())
 		return 1;
 
-	sprintf(query,"select transportador,cliente,cep_inicio,cep_entrega,num_entrega,orcamento,vlr_frete,valor_desconto_frete,observacoes_entrega from servico_transporte where code = %s",trsp_cad_code_gchar);
+	sprintf(query,"select * from servico_transporte where code = %s",trsp_cad_code_gchar);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível alterar");
 		return 1;
@@ -19,22 +19,26 @@ int trsp_cad_alterar_fun(){
 		return 1;
 	}
 
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_trspcode_entry),row[0]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_trspcode_entry),row[TRSP_TRANSP_COL]);
 	gtk_widget_activate(trsp_cad_trspcode_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_clicode_entry),row[1]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_clicode_entry),row[TRSP_CLI_COL]);
 	gtk_widget_activate(trsp_cad_clicode_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_cepini_entry),row[2]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_cepini_entry),row[TRSP_CEPINI_COL]);
 	gtk_widget_activate(trsp_cad_cepini_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_cepentr_entry),row[3]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_cepentr_entry),row[TRSP_CEPFIM_COL]);
 	gtk_widget_activate(trsp_cad_cepentr_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_nument_entry),row[4]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_nument_entry),row[TRSP_NUM_COL]);
 	gtk_widget_activate(trsp_cad_nument_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_orc_entry),row[5]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_orc_entry),row[TRSP_ORC_COL]);
 	gtk_widget_activate(trsp_cad_orc_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_vlrfrt_entry),row[6]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_vlrfrt_entry),row[TRSP_VLR_COL]);
 	gtk_widget_activate(trsp_cad_vlrfrt_entry);
-	gtk_entry_set_text(GTK_ENTRY(trsp_cad_descfrt_entry),row[7]);
+	gtk_entry_set_text(GTK_ENTRY(trsp_cad_descfrt_entry),row[TRSP_DESC_COL]);
 	gtk_widget_activate(trsp_cad_descfrt_entry);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(trsp_cad_frtpag_check), atoi(row[TRSP_FRTPAG_COL]));
+
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(trsp_cad_obs_entry));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), row[TRSP_OBS_COL], strlen(row[TRSP_OBS_COL]));
 
 	trsp_cad_rec_alteracao = 0;
 

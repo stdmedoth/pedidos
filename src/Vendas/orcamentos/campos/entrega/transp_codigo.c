@@ -23,32 +23,16 @@ int orc_transp_codigo_fun()
 
 		orc_com_entrega = 0;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+		gtk_widget_grab_focus(orc_bnc_code_entry);
 		return 0;
 	}
 
-	/*if( alterando_orc == 1 && alterando_transp == 0 ){
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
-		gtk_widget_grab_focus(GTK_WIDGET(orc_transp_codigo_entry));
-
-		orc_com_entrega = 0;
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
-		return 0;
-	}*/
-
-	if(concluindo_orc == 0){
+	if(!concluindo_orc){
 		sprintf(query,"select * from terceiros where code = %s",orc_transp_codigo);
 		if(!(res = consultar(query))){
 			popup(NULL,"Verifique query de transportador com suporte");
 			return 1;
 		}
-
 		if(!(row = mysql_fetch_row(res))){
 			popup(NULL,"Nenhum transportador para o código indicado");
 			return 1;
@@ -56,10 +40,8 @@ int orc_transp_codigo_fun()
 
 		if(row[RAZ_TER_COL])
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),row[RAZ_TER_COL]);
-
 		if(row[DOC_TER_COL])
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),row[DOC_TER_COL]);
-
 		if(row[IE_TER_COL])
 			gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row[IE_TER_COL]);
 	}

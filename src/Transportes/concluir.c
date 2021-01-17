@@ -33,7 +33,7 @@ int trsp_cad_concluir_fun(){
 		return 1;
 
 	if(!trsp_cad_alterando){
-		sprintf(query,"insert into servico_transporte(code,transportador,cliente,cep_inicio,cep_entrega,num_entrega,orcamento,vlr_frete,valor_desconto_frete,observacoes_entrega) values(%s,%s,%s,'%s','%s',%s,%s,%s,%s,'%s')",
+		sprintf(query,"insert into servico_transporte(code,transportador,cliente,cep_inicio,cep_entrega,num_entrega,orcamento,vlr_frete,valor_desconto_frete,frete_pago,observacoes_entrega) values(%s,%s,%s,'%s','%s',%s,%s,%s,%s, %i,'%s')",
 		trsp_cad_code_gchar,
 		trsp_cad_trspcode_gchar,
 		trsp_cad_clicode_gchar,
@@ -43,9 +43,10 @@ int trsp_cad_concluir_fun(){
 		trsp_cad_orc_gchar,
 		trsp_cad_vlrfrt_gchar,
 		trsp_cad_descfrt_gchar,
+		trsp_cad_frtpag_gint,
 		trsp_cad_obs_gchar);
 	}else{
-		sprintf(query,"update servico_transporte set transportador = %s, cliente = %s, cep_inicio = '%s', cep_entrega = '%s', num_entrega = %s, orcamento = %s, vlr_frete = %s, valor_desconto_frete = %s, observacoes_entrega = '%s' where code = %s",
+		sprintf(query,"update servico_transporte set transportador = %s, cliente = %s, cep_inicio = '%s', cep_entrega = '%s', num_entrega = %s, orcamento = %s, vlr_frete = %s, valor_desconto_frete = %s, frete_pago = %i, observacoes_entrega = '%s' where code = %s",
 		trsp_cad_trspcode_gchar,
 		trsp_cad_clicode_gchar,
 		trsp_cad_cepini_gchar,
@@ -54,6 +55,7 @@ int trsp_cad_concluir_fun(){
 		trsp_cad_orc_gchar,
 		trsp_cad_vlrfrt_gchar,
 		trsp_cad_descfrt_gchar,
+		trsp_cad_frtpag_gint,
 		trsp_cad_obs_gchar,
 		trsp_cad_code_gchar);
 	}

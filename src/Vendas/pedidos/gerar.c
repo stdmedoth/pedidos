@@ -11,6 +11,6 @@ int ped_gerar()
 		popup(NULL,"Não foi possível criar estrutura do orçamento");
 		return 1;
 	}
-	orc_print_operation_fun(orc);
+	orc_print_operation_fun(orc, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 	return 0;
 }

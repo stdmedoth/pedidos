@@ -122,8 +122,7 @@ int desktop(){
 		return 1;
 	}
 	g_object_unref (app);
-	while (g_main_context_pending(NULL))
-		g_main_context_iteration(NULL,FALSE);
+	carregar_interface();
 
 
 	if(sessao_oper.status_sessao == SESSAO_LOGADA){
@@ -166,7 +165,13 @@ int desktop(){
 	pegar_data();
 
 	layout = gtk_layout_new(NULL,NULL);
-
+	enum{
+		CODE,
+		DESKTOP_IMG,
+		TEMA,
+		JANELA_INIT,
+		JANELAS_KEEP_ABOVE
+	};
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
@@ -179,46 +184,26 @@ int desktop(){
 		return 1;
 	}
 
-	personalizacao.tema = atoi(row[2]);
-	personalizacao.janela_init = atoi(row[3]);
-	personalizacao.janela_keep_above = atoi(row[4]);
+	personalizacao.tema = atoi(row[TEMA]);
+	personalizacao.janela_init = atoi(row[JANELA_INIT]);
+	personalizacao.janela_keep_above = atoi(row[JANELAS_KEEP_ABOVE]);
+
+	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
+	imagem_desktop = gtk_image_new_from_file(DESKTOP);
+	sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.nome);
+	nome_usuario_label = gtk_label_new(nome_usuario_gchar);
+	gtk_widget_set_name(nome_usuario_label,"nome_operador");
+	trocar_desktop(NULL,NULL,atoi(row[DESKTOP_IMG]));
+
 
 	GtkSettings *settings;
 	settings = gtk_settings_get_default();
 
 	if(personalizacao.tema>=0)
 		if(nomes_temas[personalizacao.tema])
-		g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
+			g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	sprintf(query,"select desktop_img from perfil_desktop where code = %i",sessao_oper.code);
-	res = consultar(query);
-	if(!res){
-		file_logger("desktop() -> consultar() -> tabela perfil_desktop");
-		popup(NULL,"Não foi possível receber dados do perfil");
-		encerrando();
-		return 1;
-	}
-
-	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
-	if((row = mysql_fetch_row(res))){
-		imagem_desktop = gtk_image_new_from_file(DESKTOP);
-		sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.nome);
-		nome_usuario_label = gtk_label_new(nome_usuario_gchar);
-		gtk_widget_set_name(nome_usuario_label,"nome_operador");
-		trocar_desktop(NULL,NULL,atoi(row[1]));
-	}
-	else{
-		file_logger("desktop() -> mysql_fetch_row() -> tabela perfil_desktop");
-		popup(NULL,"Login sem dados de perfil");
-		encerrando();
-		return 1;
-	}
-
-	while (g_main_context_pending(NULL))
-		g_main_context_iteration(NULL,FALSE);
-
-	if(sessao_oper.nivel>=NIVEL_TECNICO)
-	{
+	if(sessao_oper.nivel>=NIVEL_TECNICO){
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();

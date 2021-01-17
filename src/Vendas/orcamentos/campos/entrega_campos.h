@@ -1,14 +1,3 @@
-#define TRANSP_CODE_COL 0
-#define TRANSP_TRSP_COL 1
-#define TRANSP_CLI_COL 2
-#define TRANSP_CEP1_COL 3
-#define TRANSP_CEP2_COL 4
-#define TRANSP_NUM_COL 5
-#define TRANSP_ORC_COL 6
-#define TRANP_VLR_COL 7
-#define TRANP_VLR_DESC_COL 8
-#define TRANP_OBS_COL 9
-
 static int orc_com_entrega=0, alterando_transp=0;
 int orc_transp_frete_pago_int=0;
 float orc_transp_frete_pago_vlr=0;

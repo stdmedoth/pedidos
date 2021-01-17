@@ -16,3 +16,7 @@ void tracelogger_set_widget_name(gchar *widget_name);
 void tracelogger_set_obj_name(gchar *obj_name);
 
 void tracelogger_set_wnd_name(gchar *wnd_name);
+
+int file_logger(char *string);
+
+int autologger(char *string);
