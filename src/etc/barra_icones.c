@@ -81,6 +81,8 @@ GtkWidget *barra_icones_wnd(){
 	  gtk_layout_put(GTK_LAYOUT(layout_barra),suport_button,0,ULT_BARRA_POS);
 		if(sessao_oper.nivel >= NIVEL_TATICO)
 			gtk_layout_put(GTK_LAYOUT(layout_barra),param_button,0,ULT_BARRA_POS);
+
+		//Kanban previsto para lançamento na v2.0
 		gtk_layout_put(GTK_LAYOUT(layout_barra),kanban_button,0,ULT_BARRA_POS);
 
 	}

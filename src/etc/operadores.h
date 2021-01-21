@@ -16,25 +16,15 @@ enum{
 	NIVEL_TECNICO,
 };
 
-enum{
-	SESSAO_NULA,
-	SESSAO_TESTE,
-	SESSAO_LOGADA
+enum OPER_COLS{
+	OPER_CODE,
+	OPER_NOME,
+	OPER_SENHA,
+	OPER_NIVEL
 };
 
 #define OPER_MAX_NIVEL 10
 #define NIVEL_CRIADOR OPER_MAX_NIVEL
-
-struct{
-	int code;
-	char nome[MAX_NAME_LEN];
-	int nivel;
-	GDateTime *criacao;
-	GDateTime *ult_ativ;
-	GDateTime *expiracao;
-
-	int status_sessao;
-}sessao_oper;
 
 gchar *oper_nome_login,*oper_senha_login;
 static GtkWidget *nome_entry,*senha_entry;
@@ -48,10 +38,11 @@ void passa_senha();
 void verifica_senha();
 int login();
 
-void sessao_set_allmodules();
+struct _operador{
+	int code;
+	gchar *nome;
+	gchar *senha;
+	int nivel;
+};
 
-void sessao_set_nonemodules();
-
-void criar_sessao_default();
-
-void criar_sessao_anon();
+struct _operador *get_operador(int oper_code);

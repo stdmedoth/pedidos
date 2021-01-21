@@ -20,8 +20,10 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_fill(cairo);
 
   cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(582), MM_TO_POINTS(362));
-  cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
-  cairo_set_source_surface(cairo, logo_surface ,10,10);
+  if(fopen(LOGO_MEDIA, "r")){
+    cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
+    cairo_set_source_surface(cairo, logo_surface ,10,10);
+  }
   cairo_fill(cairo);
 
   cairo_move_to(cairo, ORC_EMP_INFOS_HPOS, ORC_EMP_INFOS_VPOS );
@@ -129,7 +131,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+100);
+  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+50);
   cairo_set_font_size(cairo, DESCR_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
   cairo_show_text(cairo, "Preecher no recebimento dos materiais:");
@@ -137,27 +139,27 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
 
   cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+140);
+  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+100);
   cairo_show_text(cairo, "NF Nº: __________");
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS+300, ASS_ORC_VPOS+140);
+  cairo_move_to(cairo, ASS_ORC_HPOS+300, ASS_ORC_VPOS+100);
   cairo_show_text(cairo, "Data Entrada: __/__/____");
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS+700, ASS_ORC_VPOS+140);
+  cairo_move_to(cairo, ASS_ORC_HPOS+700, ASS_ORC_VPOS+100);
   cairo_show_text(cairo, "Data Vencimento: __/__/____");
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+200);
+  cairo_move_to(cairo, ASS_ORC_HPOS, ASS_ORC_VPOS+170);
   cairo_show_text(cairo, "NF Nº: __________");
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS+300, ASS_ORC_VPOS+200);
+  cairo_move_to(cairo, ASS_ORC_HPOS+300, ASS_ORC_VPOS+170);
   cairo_show_text(cairo, "Data Entrada: __/__/____");
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, ASS_ORC_HPOS+700, ASS_ORC_VPOS+200);
+  cairo_move_to(cairo, ASS_ORC_HPOS+700, ASS_ORC_VPOS+170);
   cairo_show_text(cairo, "Data Vencimento: __/__/____");
   cairo_fill(cairo);
 

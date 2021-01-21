@@ -45,6 +45,7 @@ int orc_draw_page(GtkPrintOperation *operation, GtkPrintContext *context, gint p
 
 }
 
+
 int orc_print_operation_fun(struct _orc *orc, int tipo ){
 
   GtkPrintOperation *operation = gtk_print_operation_new();

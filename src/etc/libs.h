@@ -26,14 +26,14 @@
 #include "./mp_popup.h"
 #include "./debugger.h"
 #include "./sobre.h"
+#include "./sessao.h"
+#include "./operadores.h"
 #include "./fechar.h"
 #include "./pega_data.h"
 
 #include "../Menu/iconview.h"
 #include "../Menu/abas.h"
 
-
-#include "./operadores.h"
 #include "../Canones/cad_oper/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas/gerenciador_janelas.h"
 #include "../Canones/cad_ceps/cadastro_ceps.h"

@@ -1,0 +1,10 @@
+[Print Settings]
+number-up=1
+reverse=false
+print-pages=all
+output-uri=file:///home/Documents/saida.pdf
+output-file-format=pdf
+collate=false
+printer=Print to File
+page-set=all
+scale=100

@@ -49,15 +49,15 @@ int entry_cep_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	switch(tipo_psq)
 	{
 		case CEP:
-			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro ,c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where l.CEP like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro ,c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.code where l.CEP like '%c%s%c' limit 50",37,entrada,37);
 			break;
 
 		case CIDADE:
-			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where c.descricao like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.code where c.descricao like '%c%s%c' limit 50",37,entrada,37);
 			break;
 
 		case LOGRADOURO:
-			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.id_cidade where l.descricao like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c  on l.id_cidade = c.code where l.descricao like '%c%s%c' limit 50",37,entrada,37);
 			break;
 	}
 	res = consultar(query);
@@ -185,7 +185,7 @@ int psq_cep(GtkWidget *button, GtkEntry *cod_cep_entry)
 		G_TYPE_STRING
 	);
 
-	sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.id_cidade limit 20");
+	sprintf(query,"select l.CEP, l.descricao, l.descricao_bairro, c.descricao, l.UF from logradouro as l inner join cidade as c on l.id_cidade = c.code limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

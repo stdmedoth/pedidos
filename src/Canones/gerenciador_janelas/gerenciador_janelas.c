@@ -160,12 +160,14 @@ int iniciar_gerenciador_janela(){
       else{
         gtk_widget_destroy(janelas_gerenciadas.vetor_janelas[cont].janela_pointer);
       }
+
     }
 
     janelas_gerenciadas.vetor_janelas[cont].qnt_aberta = 0;
     janelas_gerenciadas.vetor_janelas[cont].qnt_fechada = 0;
     janelas_gerenciadas.vetor_janelas[cont].aberta = 0;
     janelas_gerenciadas.vetor_janelas[cont].janela_pointer = NULL;
+
   }
 
   janelas_gerenciadas.principal.aberta = 1;
@@ -266,6 +268,5 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].fun = cadastro_empresa;
   janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].fun = cad_contratos;
   janelas_gerenciadas.vetor_janelas[REG_TNCLOG_WND].fun = tecn_logger_wnd;
-
 
 }

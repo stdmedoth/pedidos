@@ -8,7 +8,7 @@
 #define ORC_EMP_INFOS_HPOS 400.0
 
 #define ASS_ORC_HPOS 50.0
-#define ASS_ORC_VPOS 526.0
+#define ASS_ORC_VPOS 576.0
 
 #define ORC_ENTRGA_HPOS 50.0
 #define ORC_ENTRGA_VPOS 806.0

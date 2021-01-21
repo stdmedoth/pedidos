@@ -19,6 +19,7 @@
 #include "./mp_popup.c"
 #include "./debugger.c"
 #include "./sobre.c"
+#include "./sessao.c"
 #include "./operadores.c"
 #include "./fechar.c"
 #include "./pega_data.c"

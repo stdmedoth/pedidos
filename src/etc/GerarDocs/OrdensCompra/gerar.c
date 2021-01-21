@@ -37,6 +37,7 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   cairo_surface_t *surface = cairo_pdf_surface_create(ORD_CMP_PDF_FILE, MM_TO_POINTS(594), MM_TO_POINTS(841));
   cairo_t *cairo = cairo_create(surface);
 
+
   cairo_rectangle(cairo, MM_TO_POINTS(5), MM_TO_POINTS(5), MM_TO_POINTS(584), MM_TO_POINTS(831));
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
   cairo_fill(cairo);
@@ -45,9 +46,13 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
   cairo_fill(cairo);
 
+
   cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(582), MM_TO_POINTS(362));
-  cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
-  cairo_set_source_surface(cairo, logo_surface ,10,10);
+  if(fopen(LOGO_MEDIA, "r")){
+    cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
+    cairo_set_source_surface(cairo, logo_surface ,10,10);
+  }
+
   cairo_fill(cairo);
 
   cairo_move_to(cairo, ORD_CMP_EMP_INFOS_HPOS, ORD_CMP_EMP_INFOS_VPOS );
@@ -314,11 +319,11 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
     }
   }
 
+  cairo_surface_flush(surface);
+  cairo_surface_destroy(surface);
+
   cairo_show_page(cairo);
   cairo_destroy(cairo);
 
-
-  cairo_surface_flush(surface);
-  cairo_surface_destroy(surface);
   return 0;
 }

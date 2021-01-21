@@ -20,10 +20,14 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		return 1;
 	}
 
-  GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
+  GtkTreeStore *treestore = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 
-  gtk_tree_store_clear(modelo);
+	g_object_ref(G_OBJECT(treestore));
+	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);
+	gtk_tree_store_clear(treestore);
+	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
+	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
   gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),"");
 
@@ -38,12 +42,11 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	GtkTreeIter campos;
 
 	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
-	res = consultar(query);
-	if(res == NULL){
+	if(!(res = consultar(query))){
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL){
-		popup(NULL,"Pedido não existe");
+	if(!(row = mysql_fetch_row(res))){
+		popup(NULL,"Pedido não existente");
 		return 1;
 	}
 
@@ -68,11 +71,11 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 
 	sprintf(query,"select * from pag_cond where code = %s",row[2]);
 
-	if((res = consultar(query))==NULL){
+	if(!(res = consultar(query))){
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL){
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"O modelo de datas para o orcamento não existe mais");
 		return 1;
 	}
@@ -102,7 +105,6 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	while((row = mysql_fetch_row(res))!=NULL)
 	{
 		if(strlen(row[NOME_PRODUTO])>15){
-			row[NOME_PRODUTO][15] = '.';
 			row[NOME_PRODUTO][15] = '\0';
 		}
 
@@ -166,24 +168,26 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	gtk_tree_store_append(modelo,&campos,NULL);
 
 	gtk_tree_store_set(modelo,&campos,
-	COLUMN0,"Frete: ",
-	COLUMN1,row[0],
-	COLUMN2,formata_preco1,
-	COLUMN3,formata_preco2,
-	COLUMN4,formata_preco3,
-	-1);
+		COLUMN0,"Frete: ",
+		COLUMN1,row[0],
+		COLUMN2,formata_preco1,
+		COLUMN3,formata_preco2,
+		COLUMN4,formata_preco3,
+		-1);
 
 	return 0;
 }
 
 GtkWidget *campos_produto_ped()
 {
-	enum {N_COLUMNS=5,
-		COLUMN0=0,
-		COLUMN1=1,
-		COLUMN2=2,
-		COLUMN3=3,
-		COLUMN4=4};
+	enum{
+		COLUMN0,
+		COLUMN1,
+		COLUMN2,
+		COLUMN3,
+		COLUMN4,
+		N_COLUMNS
+	};
 
 	GtkWidget *treeview;
 	GtkTreeStore *modelo;
@@ -247,10 +251,6 @@ GtkWidget *campos_produto_ped()
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
 
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
-	gtk_tree_store_append(modelo,&iter,NULL);
-	gtk_tree_store_set(modelo,&iter,COLUMN0,"",COLUMN1,"",COLUMN2,"",COLUMN3,"",COLUMN4,"",-1);
-
-
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
 
 	gtk_widget_show_all(treeview);

@@ -89,7 +89,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 					sessao_oper.nivel = 1;
 					ativar.ativo = 0;
 					sessao_oper.status_sessao = SESSAO_TESTE;
-					strcpy(sessao_oper.nome,ENTRAR_BIND_TEXT);
+					sessao_oper.nome = strdup(ENTRAR_BIND_TEXT);
 
 					if(desktop()){
 							popup(NULL,"Erro na reinicialização");
@@ -113,49 +113,6 @@ void botao_encerrar(){
 	encerrar(NULL,GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
 }
 
-gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer   user_data){
-	switch(event->keyval){
-		case LOGOUT_ATALHO_KEY:
-			fechar_sessao();
-			return FALSE;
-		case FECHAR_ATALHO_KEY:
-			encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
-			return FALSE;
-
-	}
-	return FALSE;
-}
-
-int fechar_sessao(){
-	char query[MAX_QUERY_LEN];
-	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  	REG_CORRECT_FINAL,
-  	"Fazendo Logoff...",
-  	0,0,
-  	sessao_oper.code);
-	if(mysql_query(&conectar,query)){
-		file_logger("Não foi possivel salvar status da sessão\n");
-		file_logger(query);
-		file_logger((char*)mysql_error(&conectar));
-	}
-
-	limpar_sessao();
-	limpar_applicacao();
-
-	//variavel de encerramento ocorrida pelo proprio sistema (logoff)
-	janelas_gerenciadas.principal.sys_close_wnd = 1;
-
-	if(janelas_gerenciadas.principal.janela_pointer)
-		gtk_widget_destroy(janelas_gerenciadas.principal.janela_pointer);
-
-	if(init())
-		return 1;
-
-	janelas_gerenciadas.principal.sys_close_wnd = 0;
-
-	return 0;
-}
-
 int aplicacao_inicializada(){
 	if(janelas_gerenciadas.principal.aberta && janelas_gerenciadas.aplicacao.criada)
 		return 1;
@@ -165,22 +122,6 @@ int aplicacao_inicializada(){
 
 int app_is_ativo(){
 	return ativar.ativo;
-}
-
-int limpar_sessao(){
-
-	sessao_oper.code = 0;
-	sessao_oper.nivel = 0;
-	sessao_oper.criacao = NULL;
-	sessao_oper.ult_ativ = NULL;
-	sessao_oper.expiracao = NULL;
-	strcpy(sessao_oper.nome,"");
-	sessao_oper.status_sessao = SESSAO_NULA;
-	ativar.ativo = 0;
-
-	sessao_set_nonemodules();
-
-	return 0;
 }
 
 void limpar_applicacao(){
