@@ -9,7 +9,7 @@ int ordem_cmp_cancelar_fun(){
   gtk_entry_set_text(GTK_ENTRY(ordem_cmp_dtentrega_entry), "");
   gtk_entry_set_text(GTK_ENTRY(ordem_cmp_condpag_entry), "");
   gtk_entry_set_text(GTK_ENTRY(ordem_cmp_condpagnome_entry), "");
-  gtk_combo_box_set_active(GTK_COMBO_BOX(ordem_cmp_status_combo),0);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(ordem_cmp_status_combo), 0);
 
   //gtk_widget_set_sensitive(ordem_cmp_status_combo, FALSE);
   gtk_combo_box_set_button_sensitivity(GTK_COMBO_BOX(ordem_cmp_status_combo), GTK_SENSITIVITY_OFF);

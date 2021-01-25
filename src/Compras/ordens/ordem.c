@@ -117,6 +117,8 @@ int ordem_cmp(){
 		return 1;
 	janelas_gerenciadas.vetor_janelas[REG_ORDCMP_WND].janela_pointer = janela;
 
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ORDCMP_WND]);
+
 	GtkWidget *ordem_cmp_code_frame,
 		*ordem_cmp_dtemissao_frame,
 		*ordem_cmp_dtentrega_frame,
@@ -344,8 +346,6 @@ int ordem_cmp(){
 
 	g_signal_connect(ordem_cmp_req_treeview,"row-activated",G_CALLBACK(ordem_cmp_selecionar_req),NULL);
 	g_signal_connect(ordem_cmp_ordreq_treeview,"row-activated",G_CALLBACK(ordem_cmp_deselecionar_req),NULL);
-
-	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ORDCMP_WND]);
 
 	return 0;
 }

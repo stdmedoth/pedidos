@@ -135,7 +135,7 @@ int suporte_princ_wnd(){
     return 1;
   janelas_gerenciadas.vetor_janelas[REG_SUP_WIN].janela_pointer = janela;
 
-  gtk_box_pack_start(GTK_BOX(caixa_postlist),suport_grid,0,0,10);
+  gtk_box_pack_start(GTK_BOX(caixa_postlist),suport_grid,0,0,0);
 
   gtk_widget_set_size_request(scroll_postlist,600,500);
   gtk_widget_set_size_request(caixa_postlist,600,500);

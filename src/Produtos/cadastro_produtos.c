@@ -467,14 +467,17 @@ int  cad_prod(){
 	observacoes = gtk_box_new(1,0);
 	observacao_prod_fixed = gtk_fixed_new();
 	gtk_widget_set_name(observacoes,"caixa_frame");
+
 	gtk_container_add(GTK_CONTAINER(observacao_prod_frame), observacao_prod_field);
-	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_frame,0,0,20);
+	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_frame,0,0,0);
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
+
+	gtk_widget_set_size_request(observacao_prod_field,550,350);
+	gtk_widget_set_size_request(observacoes_scroll,550,350);
+	gtk_widget_set_size_request(observacoes,550,350);
+
 	gtk_fixed_put(GTK_FIXED(observacao_prod_fixed), observacoes_scroll, 20,20);
 
-	gtk_widget_set_size_request(observacao_prod_field,500,350);
-	gtk_widget_set_size_request(observacoes_scroll,500,350);
-	gtk_widget_set_size_request(observacoes,500,350);
 	gtk_box_pack_start(GTK_BOX(prod_outros_box1),observacao_prod_fixed,0,0,10);
 
 	prod_concluir_button = gtk_button_new_with_label("Concluir");

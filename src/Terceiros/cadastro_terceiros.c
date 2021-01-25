@@ -389,19 +389,20 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(type),type_label,0,0,0);
 
 	observacoes = gtk_box_new(1,0);
-	observacoes_label = gtk_label_new("Observações");
+	observacoes_frame = gtk_frame_new("Observações");
 	observacoes_ter_field = gtk_text_view_new();
 	observacoes_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_widget_set_name(observacoes,"caixa");
-	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_label,0,0,10);
-	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_ter_field,0,0,10);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(observacoes_scroll),GTK_POLICY_ALWAYS,GTK_POLICY_ALWAYS);
+	gtk_container_add(GTK_CONTAINER(observacoes_frame), observacoes_ter_field);
+	gtk_box_pack_start(GTK_BOX(observacoes),observacoes_frame,0,0,0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(observacoes_scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
 
-	gtk_widget_set_size_request(observacoes_ter_field,500,150);
-	gtk_widget_set_size_request(observacoes_scroll,500,150);
-	gtk_widget_set_size_request(observacoes,500,150);
+	//gtk_widget_set_size_request(observacoes_ter_field,500,100);
+	gtk_widget_set_size_request(observacoes_frame,500,100);
+	gtk_widget_set_size_request(observacoes_scroll,500,100);
+	gtk_widget_set_size_request(observacoes,500,100);
 
 	prazo = gtk_box_new(1,0);
 	gtk_widget_set_name(prazo,"caixa");
@@ -480,7 +481,7 @@ int  cad_terc()
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),ter_endereco_frame,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes_scroll,0,0,20);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes_scroll,0,0,10);
 
 	contatos_qnt=0;
 	contatos_box = do_editable_cells();

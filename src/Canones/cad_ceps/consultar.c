@@ -24,12 +24,12 @@ struct _cad_cep *get_cep_from_consulta(gchar *cep){
   sprintf(consulta_url,"%s%s/xml", ws_url, cep);
 
   curl_easy_setopt(curl, CURLOPT_URL, consulta_url);
-
+  curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_NONE);
+  curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
+  
   //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
   //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
-  //curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_NONE);
 
-  //curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
   //curl_easy_setopt(curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_SSLv3);
   //curl_easy_setopt(curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_DEFAULT);
 

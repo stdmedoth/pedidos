@@ -79,10 +79,10 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   GtkTreeIter iter;
   char query[MAX_QUERY_LEN];
 
-  GtkTreeViewColumn *col_code = gtk_tree_view_column_new_with_attributes("Título", gtk_cell_renderer_text_new(),"text", TIT_CODE_COL, NULL);
+  GtkTreeViewColumn *col_code = gtk_tree_view_column_new_with_attributes("Cód. Título", gtk_cell_renderer_text_new(),"text", TIT_CODE_COL, NULL);
   GtkTreeViewColumn *col_nome = gtk_tree_view_column_new_with_attributes("Cliente", gtk_cell_renderer_text_new(),"text", TIT_NOME_COL, NULL);
-  GtkTreeViewColumn *col_ped = gtk_tree_view_column_new_with_attributes("Pedido", gtk_cell_renderer_text_new(),"text", TIT_PED_COL, NULL);
-  GtkTreeViewColumn *col_posicao = gtk_tree_view_column_new_with_attributes("Parcela", gtk_cell_renderer_text_new(),"text", TIT_POS_COL, NULL);
+  GtkTreeViewColumn *col_ped = gtk_tree_view_column_new_with_attributes("Nº Pedido", gtk_cell_renderer_text_new(),"text", TIT_PED_COL, NULL);
+  GtkTreeViewColumn *col_posicao = gtk_tree_view_column_new_with_attributes("Parcela Nº", gtk_cell_renderer_text_new(),"text", TIT_POS_COL, NULL);
   GtkTreeViewColumn *col_banco = gtk_tree_view_column_new_with_attributes("Banco", gtk_cell_renderer_text_new(),"text", TIT_BANC_COL, NULL);
   GtkTreeViewColumn *col_tipo = gtk_tree_view_column_new_with_attributes("Tipo", gtk_cell_renderer_text_new(),"text", TIT_TIPO_COL, NULL);
   GtkTreeViewColumn *col_valor = gtk_tree_view_column_new_with_attributes("Valor", gtk_cell_renderer_text_new(),"text", TIT_VLR_COL, NULL);
@@ -90,7 +90,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
   GtkTreeViewColumn *col_vencimento = gtk_tree_view_column_new_with_attributes("Data Vencimento", gtk_cell_renderer_text_new(),"text", TIT_VENCI_COL, NULL);
   GtkTreeViewColumn *col_baixa = gtk_tree_view_column_new_with_attributes("Data Baixa", gtk_cell_renderer_text_new(),"text", TIT_BAIXA_COL, NULL);
   GtkTreeViewColumn *col_vlrbaixa = gtk_tree_view_column_new_with_attributes("Vlr Baixado", gtk_cell_renderer_text_new(),"text", TIT_VLRBAIXA_COL, NULL);
-  GtkTreeViewColumn *col_vlrabaixar = gtk_tree_view_column_new_with_attributes("À Baixar", gtk_cell_renderer_text_new(),"text", TIT_VLRABAIXAR_COL, NULL);
+  GtkTreeViewColumn *col_vlrabaixar = gtk_tree_view_column_new_with_attributes("Vlr. a Baixar", gtk_cell_renderer_text_new(),"text", TIT_VLRABAIXAR_COL, NULL);
 
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_code,TIT_CODE_COL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(treeview),col_nome,TIT_NOME_COL);
@@ -203,6 +203,7 @@ GtkWidget *titulos_get_widget(struct _titulo *titulos){
 
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
   gtk_container_add(GTK_CONTAINER(scrollwnd),treeview);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwnd), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request(scrollwnd,600,300);
   gtk_box_pack_start(GTK_BOX(box_titulos),scrollwnd,0,0,0);
   gtk_widget_set_size_request(box_titulos,600,300);

@@ -50,11 +50,12 @@ int carrega_posts(MYSQL_RES *res){
         sprintf(post_name,"Post: %i",atoi(row[SUP_CODE]));
         sup_posts_frame[sup_posts_pos] = gtk_frame_new(post_name);
 
-        gtk_widget_set_size_request(descr_scrolls[sup_posts_pos],0,100);
 
         gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(descr_list[sup_posts_pos]),GTK_WRAP_WORD);
 
         gtk_entry_set_width_chars(GTK_ENTRY(titulo_list[sup_posts_pos]),70);
+
+        gtk_widget_set_size_request(descr_scrolls[sup_posts_pos],0,100);
         gtk_widget_set_size_request(descr_list[sup_posts_pos],0,100);
 
         gtk_widget_set_name(descr_list[sup_posts_pos],"textview");
@@ -174,8 +175,10 @@ int suporte_princ_add(){
   gtk_combo_box_set_active(GTK_COMBO_BOX(sup_status_combo[sup_posts_pos]),0);
 
   gtk_entry_set_width_chars(GTK_ENTRY(titulo_list[sup_posts_pos]),70);
+
   gtk_widget_set_size_request(descr_list[sup_posts_pos],0,100);
   gtk_widget_set_size_request(descr_scrolls,0,100);
+
   gtk_widget_set_name(descr_list[sup_posts_pos],"textview");
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(descr_list[sup_posts_pos]),GTK_WRAP_WORD);
 
@@ -235,16 +238,16 @@ int post_recarregar_posts(){
 
   gtk_grid_remove_column(GTK_GRID(suport_grid),0);
 
-  postlist = malloc(MAX_POST_QNT*sizeof(GtkBox*));
-  titulo_list = malloc(MAX_POST_QNT*sizeof(GtkEntry*));
-  titulo_list_frame = malloc(MAX_POST_QNT*sizeof(GtkFrame*));
-  descr_list = malloc(MAX_POST_QNT*sizeof(GtkTextView*));
-  sup_atualiza_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));
-  sup_deleta_button = malloc(MAX_POST_QNT*sizeof(GtkButton*));
-  sup_opcoes_box = malloc(MAX_POST_QNT*sizeof(GtkBox*));
-  sup_status_combo = malloc(MAX_POST_QNT*sizeof(GtkComboBoxText*));
-  sup_posts_frame = malloc(MAX_POST_QNT*sizeof(GtkFrame*));
-  sup_status_nomes = malloc(MAX_POST_QNT*sizeof(char*)*MAX_SUP_STATUS_LEN);
+  postlist = malloc(MAX_POST_QNT * sizeof(GtkBox*));
+  titulo_list = malloc(MAX_POST_QNT * sizeof(GtkEntry*));
+  titulo_list_frame = malloc(MAX_POST_QNT * sizeof(GtkFrame*));
+  descr_list = malloc(MAX_POST_QNT * sizeof(GtkTextView*));
+  sup_atualiza_button = malloc(MAX_POST_QNT * sizeof(GtkButton*));
+  sup_deleta_button = malloc(MAX_POST_QNT * sizeof(GtkButton*));
+  sup_opcoes_box = malloc(MAX_POST_QNT * sizeof(GtkBox*));
+  sup_status_combo = malloc(MAX_POST_QNT * sizeof(GtkComboBoxText*));
+  sup_posts_frame = malloc(MAX_POST_QNT * sizeof(GtkFrame*));
+  sup_status_nomes = malloc(MAX_POST_QNT * sizeof(char*) * MAX_SUP_STATUS_LEN);
 
   sup_status = gtk_combo_box_get_active(GTK_COMBO_BOX(sup_psq_status_combo));
 

@@ -3,9 +3,11 @@
 #include "campos/sigla.c"
 #include "campos/multiplo.c"
 #include "campos/medida.c"
+
 #include "altera.c"
 #include "exclui.c"
 #include "conclui.c"
+#include "cancelar.c"
 
 struct _und *cad_und_get_und(int und_code){
 	char query[MAX_QUERY_LEN];
@@ -107,11 +109,12 @@ int  cad_und()
 
 	und_concluir_button = gtk_button_new_with_label("Concluir");
 	und_alterar_button = gtk_button_new_with_label("Alterar");
+	und_cancelar_button = gtk_button_new_with_label("Cancelar");
 	und_excluir_button = gtk_button_new_with_label("Excluir");
 
-	gtk_widget_set_size_request(GTK_WIDGET(und_concluir_button),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(und_alterar_button),100,50);
-	gtk_widget_set_size_request(GTK_WIDGET(und_excluir_button),100,50);
+	//gtk_widget_set_size_request(GTK_WIDGET(und_concluir_button),100,50);
+	//gtk_widget_set_size_request(GTK_WIDGET(und_alterar_button),100,50);
+	//gtk_widget_set_size_request(GTK_WIDGET(und_excluir_button),100,50);
 
 	code = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(code),code_und_label,0,0,0);
@@ -143,10 +146,10 @@ int  cad_und()
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),mult,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),medida_und_combo_box,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_concluir_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_alterar_button,0,0,0);
-	//gtk_box_pack_start(GTK_BOX(horizontal_box_four),listar,0,0,0);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_excluir_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_concluir_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_alterar_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_cancelar_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_four),und_excluir_button,0,0,5);
 
 	g_signal_connect(GTK_WIDGET(code_und_field),"activate",G_CALLBACK(code_und),NULL);
 	g_signal_connect(GTK_WIDGET(name_und_field),"activate",G_CALLBACK(name_und),NULL);
@@ -160,6 +163,7 @@ int  cad_und()
 
 	g_signal_connect(GTK_WIDGET(und_concluir_button),"clicked",G_CALLBACK(concluido_und),NULL);
 	g_signal_connect(GTK_WIDGET(und_excluir_button),"clicked",G_CALLBACK(deleta_und),NULL);
+	g_signal_connect(GTK_WIDGET(und_cancelar_button),"clicked",G_CALLBACK(und_cancelar_fun),NULL);
 	g_signal_connect(GTK_WIDGET(und_alterar_button),"clicked",G_CALLBACK(altera_und),NULL);
 
 	g_signal_connect(GTK_WIDGET(psq_cad_und_button),"clicked",G_CALLBACK(pesquisa_und),code_und_field);
@@ -169,18 +173,19 @@ int  cad_und()
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,30,5);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),separator2,0,0,10);
 
-	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_two,20,10);
-	gtk_fixed_put(GTK_FIXED(fixed3),horizontal_box_three,20,10);
-	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_four,40,20);
+	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_two,20,20);
+	gtk_fixed_put(GTK_FIXED(fixed3),horizontal_box_three,20,20);
+	//gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_four,20,20);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box),fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(vertical_box),separator1,0,0,10);
 	gtk_box_pack_start(GTK_BOX(vertical_box),fixed2,0,0,0);
 	gtk_box_pack_start(GTK_BOX(vertical_box),fixed3,0,0,30);
-	gtk_box_pack_end(GTK_BOX(vertical_box),fixed4,0,0,30);
+	gtk_box_pack_start(GTK_BOX(vertical_box),horizontal_box_four,0,0,30);
 
 	gtk_container_add(GTK_CONTAINER(janela),vertical_box);
 
+	und_cancelar_fun();
 	gtk_widget_grab_focus (GTK_WIDGET(name_und_field));
 	gtk_widget_show_all(janela);
 

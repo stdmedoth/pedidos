@@ -34,7 +34,7 @@ static GtkWidget *code_label,
 *uf_label,
 *cep_label,
 *type_label,
-*observacoes_label,
+*observacoes_frame,
 *prazo_ter_label;
 
 static GtkWidget *code_ter_field,

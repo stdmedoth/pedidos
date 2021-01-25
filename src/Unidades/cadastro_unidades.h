@@ -1,22 +1,22 @@
-static gchar *codigos_und;
-static gchar *nomes_und;
-static gchar *sigla_und;
-static gchar *mult_und;
+gchar *codigos_und;
+gchar *nomes_und;
+gchar *sigla_und;
+gchar *mult_und;
 
-static GtkWidget *code_und_label,   *code_und_field, *code_und_frame;
-static GtkWidget *name_und_label,   *name_und_field, *name_und_frame;
-static GtkWidget *sigla_und_label,  *sigla_und_field, *sigla_und_frame;
-static GtkWidget *mult_und_label,   *mult_und_field, *mult_und_frame;
-static GtkWidget *medida_und_combo_box;
-static int medidas_und=0;
+GtkWidget *code_und_label,   *code_und_field, *code_und_frame;
+GtkWidget *name_und_label,   *name_und_field, *name_und_frame;
+GtkWidget *sigla_und_label,  *sigla_und_field, *sigla_und_frame;
+GtkWidget *mult_und_label,   *mult_und_field, *mult_und_frame;
+GtkWidget *medida_und_combo_box;
+int medidas_und=0;
 
-static GtkWidget *psq_cad_und_button, *psq_cad_und_img, *psq_cad_und_box;
+GtkWidget *psq_cad_und_button, *psq_cad_und_img, *psq_cad_und_box;
 
-static int altera_und();
-static int alterando_und=0;
-static int concluindo_und=0;
+int altera_und();
+int alterando_und=0;
+int concluindo_und=0;
 
-static GtkWidget *und_concluir_button, *und_alterar_button, *und_excluir_button;
+GtkWidget *und_concluir_button, *und_alterar_button, *und_excluir_button, *und_cancelar_button;
 
 int  cad_und();
 
@@ -25,6 +25,8 @@ int multiplo_und();
 int deleta_und();
 
 int concluido_und();
+
+int und_cancelar_fun();
 
 struct _und *cad_und_get_und(int und_code);
 

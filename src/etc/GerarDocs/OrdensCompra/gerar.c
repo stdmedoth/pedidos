@@ -51,6 +51,7 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
   if(fopen(LOGO_MEDIA, "r")){
     cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
     cairo_set_source_surface(cairo, logo_surface ,10,10);
+    file_logger("Não foi possível ler imagem de logo gera_doc_ordcmp() -> cairo_image_surface_create_from_png()");
   }
 
   cairo_fill(cairo);
