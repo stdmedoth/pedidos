@@ -1,5 +1,6 @@
 #include "campos/code.c"
 #include "campos/nome.c"
+#include "campos/pai.c"
 
 #include "concluir.c"
 #include "excluir.c"
@@ -16,11 +17,12 @@ struct _grupo *grp_get_grupo(int code_grp){
 		GRP_NOME,
 		PAI_CODE,
 		PAI_NOME,
+		NIVEL,
 		COLS_QNT
 	};
 
 	struct _grupo *grupo = malloc(sizeof(struct _grupo));
-	sprintf(query,"select b.code, b.nome, a.code, a.nome from grupos as a inner join grupos as b on a.code = b.pai where b.code = %i", code_grp);
+	sprintf(query,"select b.code, b.nome, a.code, a.nome, b.nivel from grupos as a inner join grupos as b on a.code = b.pai where b.code = %i", code_grp);
 	if(!(res = consultar(query))){
 		return NULL;
 	}
@@ -29,7 +31,8 @@ struct _grupo *grp_get_grupo(int code_grp){
 		grupo->code = atoi(row[GRP_CODE]);
 		grupo->nome = strdup(row[GRP_NOME]);
 		grupo->pai = atoi(row[PAI_CODE]);
-		grupo->pai_nome = strdup(row[GRP_NOME]);
+		grupo->pai_nome = strdup(row[PAI_NOME]);
+		grupo->nivel = atoi(row[NIVEL]);
 	}
 
 	return grupo;
@@ -87,7 +90,7 @@ int cad_grupo()
 	GtkWidget *caixa_grande;
 	GtkWidget *cod_grupo_frame, *cod_grupo_box, *cod_grupo_fixed;
 	GtkWidget *nome_grupo_frame, *nome_grupo_box, *nome_grupo_fixed;
-	GtkWidget *add_subgrp_fixed;
+	GtkWidget *pai_grupo_frame, *pai_grupo_box, *pai_grupo_fixed;
 	GtkWidget *opcoes_grp_box, *opcoes_grp_frame, *opcoes_grp_fixed;
 	GtkWidget *layout_janela_grupo;
 	GtkWidget *psq_grp_img;
@@ -169,7 +172,7 @@ int cad_grupo()
 	gtk_box_pack_start(GTK_BOX(cod_grupo_box),cod_grp_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cod_grupo_box),psq_grp_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(cod_grupo_frame),cod_grupo_box);
-	gtk_fixed_put(GTK_FIXED(cod_grupo_fixed),cod_grupo_frame,50,20);
+	gtk_fixed_put(GTK_FIXED(cod_grupo_fixed),cod_grupo_frame,20,20);
 
 	nome_grupo_frame = gtk_frame_new("Nome do Grupo");
 	nome_grupo_box = gtk_box_new(0,0);
@@ -179,7 +182,23 @@ int cad_grupo()
 	gtk_entry_set_width_chars(GTK_ENTRY(nome_grp_entry),20);
 	gtk_container_add(GTK_CONTAINER(nome_grupo_frame),nome_grp_entry);
 	gtk_box_pack_start(GTK_BOX(nome_grupo_box),nome_grupo_frame,0,0,0);
-	gtk_fixed_put(GTK_FIXED(nome_grupo_fixed),nome_grupo_box,50,40);
+	gtk_fixed_put(GTK_FIXED(nome_grupo_fixed),nome_grupo_box,20,20);
+
+	pai_grupo_frame = gtk_frame_new("Grupo Pai");
+	pai_grupo_box = gtk_box_new(0,0);
+	pai_grupo_fixed = gtk_fixed_new();
+	pai_grp_entry = gtk_entry_new();
+	painome_grp_entry = gtk_entry_new();
+	gtk_editable_set_editable(GTK_EDITABLE(painome_grp_entry), FALSE);
+	paipsq_grp_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(paipsq_grp_button), gtk_image_new_from_file(IMG_PESQ));
+
+	gtk_entry_set_width_chars(GTK_ENTRY(pai_grp_entry),3);
+	gtk_box_pack_start(GTK_BOX(pai_grupo_box),pai_grp_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(pai_grupo_box),paipsq_grp_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(pai_grupo_box),painome_grp_entry,0,0,0);
+	gtk_container_add(GTK_CONTAINER(pai_grupo_frame),pai_grupo_box);
+	gtk_fixed_put(GTK_FIXED(pai_grupo_fixed),pai_grupo_frame,20,20);
 
 	visao_geral_grp_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(visao_geral_grp_scroll),GTK_SHADOW_ETCHED_IN);
@@ -196,10 +215,6 @@ int cad_grupo()
 	gtk_widget_set_size_request(visao_geral_grp_scroll,450,225);
 	gtk_container_add(GTK_CONTAINER(visao_geral_grp_frame),visao_geral_grp_scroll);
 	gtk_fixed_put(GTK_FIXED(visao_geral_grp_fixed),visao_geral_grp_frame,400,20);
-
-	add_subgrp_button = gtk_button_new_with_label("Subgrupos");
-	add_subgrp_fixed = gtk_fixed_new();
-	gtk_fixed_put(GTK_FIXED(add_subgrp_fixed),add_subgrp_button,50,30);
 
 	opcoes_grp_box = gtk_box_new(0,0);
 	opcoes_grp_frame = gtk_frame_new("Opções");
@@ -226,18 +241,18 @@ int cad_grupo()
 	gtk_box_pack_start(GTK_BOX(opcoes_grp_box),cancela_grp_button,0,0,5);
 	gtk_box_pack_start(GTK_BOX(opcoes_grp_box),exclui_grp_button,0,0,5);
 	gtk_container_add(GTK_CONTAINER(opcoes_grp_frame),opcoes_grp_box);
-	gtk_fixed_put(GTK_FIXED(opcoes_grp_fixed),opcoes_grp_frame,100,330);
+	gtk_fixed_put(GTK_FIXED(opcoes_grp_fixed),opcoes_grp_frame,20,20);
 
 	layout_janela_grupo = gtk_layout_new(NULL,NULL);
 	caixa_grande = gtk_box_new(1,0);
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),cod_grupo_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),nome_grupo_fixed,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_grande),add_subgrp_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(caixa_grande),pai_grupo_fixed,0,0,0);
 
 	gtk_layout_put(GTK_LAYOUT(layout_janela_grupo),caixa_grande,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout_janela_grupo),visao_geral_grp_fixed,0,0);
-	gtk_layout_put(GTK_LAYOUT(layout_janela_grupo),opcoes_grp_fixed,0,0);
+	gtk_layout_put(GTK_LAYOUT(layout_janela_grupo),opcoes_grp_fixed,0,300);
 
 	gtk_container_add(GTK_CONTAINER(janela_grupo),layout_janela_grupo);
 
@@ -245,10 +260,14 @@ int cad_grupo()
 
 	gtk_entry_set_text(GTK_ENTRY(cod_grp_entry),code);
 
-	g_signal_connect(add_subgrp_button,"clicked",G_CALLBACK(cad_subgrupo),NULL);
 	g_signal_connect(psq_grp_button,"clicked",G_CALLBACK(pesquisa_grp),cod_grp_entry);
+	g_signal_connect(paipsq_grp_button,"clicked",G_CALLBACK(pesquisa_grp),pai_grp_entry);
 
 	g_signal_connect(cod_grp_entry,"activate",G_CALLBACK(cod_grp),NULL);
+	g_signal_connect(nome_grp_entry,"activate",G_CALLBACK(nome_grp),NULL);
+	g_signal_connect(pai_grp_entry,"activate",G_CALLBACK(codpai_grp),NULL);
+
+
 	g_signal_connect(confirma_grp_button,"clicked",G_CALLBACK(conclui_grupo),NULL);
 	g_signal_connect(altera_grp_button,"clicked",G_CALLBACK(altera_grupo),NULL);
 	g_signal_connect(cancela_grp_button,"clicked",G_CALLBACK(cancela_grupo),NULL);
@@ -257,6 +276,7 @@ int cad_grupo()
 
 	g_signal_connect(cad_grp_treeview,"row-activated",G_CALLBACK(enter_code_from_treeview),cod_grp_entry);
 
+	cancela_grupo();
 	gtk_widget_show_all(janela_grupo);
 	return 0;
 }

@@ -6,11 +6,6 @@ int nome_grp(){
 		return 1;
 	}
 
-	if(strlen(grpnome)>MAX_GRP_LEN){
-		popup(NULL,"Nome muito grande para o grupo");
-		gtk_widget_grab_focus(nome_grp_entry);
-		return 1;
-	}
-	gtk_widget_grab_focus(confirma_grp_button);
+	gtk_widget_grab_focus(pai_grp_entry);
 	return 0;
 }

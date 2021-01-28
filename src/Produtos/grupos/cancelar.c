@@ -4,6 +4,8 @@ int cancela_grupo()
 	sprintf(code,"%i",tasker("grupos"));
 	gtk_entry_set_text(GTK_ENTRY(cod_grp_entry),code);
 	gtk_entry_set_text(GTK_ENTRY(nome_grp_entry),"");
+	gtk_entry_set_text(GTK_ENTRY(pai_grp_entry), "" );
+	gtk_entry_set_text(GTK_ENTRY(painome_grp_entry), "");
 	gtk_widget_grab_focus(nome_grp_entry);
 	gtk_widget_set_sensitive(cod_grp_entry,TRUE);
 	gtk_widget_set_sensitive(psq_grp_button,TRUE);
@@ -20,5 +22,6 @@ int cancela_grupo()
 	if(!grp_get_tree(modelo, 1, NULL))
 		return 1;
 
+	gtk_widget_grab_focus(nome_grp_entry);
 	return 0;
 }
