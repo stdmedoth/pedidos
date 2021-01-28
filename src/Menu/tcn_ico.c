@@ -29,12 +29,12 @@ GtkWidget *tcn_menu_get_icon_view(){
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
 
 	gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),3);
-	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
-	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
-	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_SINGLE);
-	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),20);
-	gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
-
+  gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
+  gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
+	gtk_icon_view_set_selection_mode(GTK_ICON_VIEW(icon_view),GTK_SELECTION_BROWSE);
+	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),10);
+	//gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
+	
   g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
 	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 

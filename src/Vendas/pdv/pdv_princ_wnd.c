@@ -46,7 +46,7 @@ int pdv_princ_wnd(){
     }
   }
 
-  if(caixa->operador != sessao_oper.code){
+  if(caixa->operador != sessao_oper.operador->code){
     gchar *msg = malloc(100);
     sprintf(msg,"Caixa já aberto para operador %s", nome_oper);
     popup(NULL,msg);

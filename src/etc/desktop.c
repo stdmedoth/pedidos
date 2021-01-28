@@ -60,7 +60,7 @@ int desktop(){
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
-		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.code,REG_CORRECT_FINAL);
+		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper.operador->code,REG_CORRECT_FINAL);
 		if(!(res = consultar(query))){
 			popup(NULL,"Falha ao verificar dados da sessão anterior");
 			return 1;
@@ -80,7 +80,7 @@ int desktop(){
 		"Encerrando...",
 		1,
 		0,
-		sessao_oper.code);
+		sessao_oper.operador->code);
 		err = mysql_query(&conectar,query);
 		if(err){
 
@@ -156,7 +156,7 @@ int desktop(){
 		ativar.relatorios = atoi( row[CONTRATOS_REL_COL] );
 	}
 
-	if(sessao_oper.nivel>=NIVEL_TECNICO){
+	if(sessao_oper.operador->nivel>=NIVEL_TECNICO){
 		sessao_set_allmodules();
 	}
 
@@ -172,7 +172,7 @@ int desktop(){
 		JANELA_INIT,
 		JANELAS_KEEP_ABOVE
 	};
-	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.code);
+	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.operador->code);
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		gtk_main_quit();
@@ -190,7 +190,7 @@ int desktop(){
 
 	nome_usuario_gchar = malloc(MAX_OPER_LEN+10);
 	imagem_desktop = gtk_image_new_from_file(DESKTOP);
-	sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.nome);
+	sprintf(nome_usuario_gchar,"Operador: %s",sessao_oper.operador->nome);
 	nome_usuario_label = gtk_label_new(nome_usuario_gchar);
 	gtk_widget_set_name(nome_usuario_label,"nome_operador");
 	trocar_desktop(NULL,NULL,atoi(row[DESKTOP_IMG]));
@@ -203,7 +203,7 @@ int desktop(){
 		if(nomes_temas[personalizacao.tema])
 			g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
 
-	if(sessao_oper.nivel>=NIVEL_TECNICO){
+	if(sessao_oper.operador->nivel>=NIVEL_TECNICO){
 		GtkSettings *settings;
 		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
 		settings = gtk_settings_get_default();
@@ -277,13 +277,13 @@ int desktop(){
 
 	nivel_usuario_fixed = gtk_fixed_new();
 
-	if(sessao_oper.nivel<oper_perm_qnt_niveis)
-		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), niveis_gerenciais[sessao_oper.nivel]);
+	if(sessao_oper.operador->nivel<oper_perm_qnt_niveis)
+		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), niveis_gerenciais[sessao_oper.operador->nivel]);
 
-	if(sessao_oper.nivel >= NIVEL_TECNICO && sessao_oper.nivel < OPER_MAX_NIVEL )
+	if(sessao_oper.operador->nivel >= NIVEL_TECNICO && sessao_oper.operador->nivel < OPER_MAX_NIVEL )
 		gtk_label_set_text(GTK_LABEL(nivel_usuario_label), "Nível Técnico");
 
-	if(sessao_oper.nivel >= OPER_MAX_NIVEL)
+	if(sessao_oper.operador->nivel >= OPER_MAX_NIVEL)
 		gtk_label_set_text(GTK_LABEL(nivel_usuario_label),"O Criador");
 
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
@@ -356,7 +356,7 @@ int desktop(){
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
 
-	if(sessao_oper.nivel >= NIVEL_GERENCIAL)
+	if(sessao_oper.operador->nivel >= NIVEL_GERENCIAL)
 		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,400,200);
 
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);

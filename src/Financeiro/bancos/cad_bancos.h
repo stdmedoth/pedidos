@@ -39,3 +39,28 @@ int cad_bancos_excluir_fun();
 #include "concluir.c"
 #include "alterar.c"
 #include "excluir.c"
+
+enum BANCO_COLS{
+  BNC_CODE_COL,
+  BNC_NOME_COL,
+  BNC_CONTA_COL,
+  BNC_TTIPO_COL,
+  BNC_AGNC_COL,
+  BNC_USER_COL,
+  BNC_DOC_COL,
+  BNC_SLD_COL
+};
+
+struct _banco{
+  int code;
+  gchar *nome;
+  gchar *conta;
+  int tipo_conta;
+  gchar *agencia;
+  gchar *nome_usuario;
+  gchar *documento;
+  float saldo;
+};
+
+
+struct _banco *get_banco(int bnc_code);

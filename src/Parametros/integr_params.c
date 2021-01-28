@@ -7,7 +7,13 @@ int intgr_params_testar(){
 		return 1;
 	}
 
-	if(!mysql_real_connect(&intgr_con,integracoes.config.server, integracoes.config.user,integracoes.config.pass,integracoes.config.banco,0,NULL,0))
+	gchar *user =  (char*)gtk_entry_get_text(GTK_ENTRY(integr_usuario_wdt));
+	gchar *pass =  (char*)gtk_entry_get_text(GTK_ENTRY(integr_senha_wdt));
+	gchar *banco =  (char*)gtk_entry_get_text(GTK_ENTRY(integr_bd_wdt));
+	gchar *server = (char*)gtk_entry_get_text(GTK_ENTRY(integr_server_wdt));
+	gchar *prefix_tab =  (char*)gtk_entry_get_text(GTK_ENTRY(integr_tabprefix_wdt));
+
+	if(!mysql_real_connect(&intgr_con, server, user, pass, banco,0,NULL,0))
 	{
 		popup(NULL,"Não foi possível conectar");
 		return 1;

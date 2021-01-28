@@ -1,3 +1,29 @@
+struct _banco *get_banco(int bnc_code){
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  char query[MAX_QUERY_LEN];
+
+  struct _banco *banco = malloc(sizeof(struct _banco));
+  sprintf(query, "select * from bancos");
+  if(!(res = consultar(query))){
+    return NULL;
+  }
+  if(!(row = mysql_fetch_row(res))){
+    return NULL;
+  }
+
+  banco->code = atoi(row[BNC_CODE_COL]);
+  banco->nome = strdup(row[BNC_NOME_COL]);
+  banco->conta = strdup(row[BNC_CONTA_COL]);
+  banco->tipo_conta = atoi(row[BNC_TTIPO_COL]);
+  banco->agencia = strdup(row[BNC_AGNC_COL]);
+  banco->nome_usuario = strdup(row[BNC_USER_COL]);
+  banco->documento = strdup(row[BNC_DOC_COL]);
+  banco->saldo = atof(row[BNC_SLD_COL]);
+
+  return banco;
+}
+
 int cad_bancos_fun(){
   GtkWidget *cad_bancos_code_frame,
   *cad_bancos_nome_frame,

@@ -54,7 +54,7 @@ int suporte_princ_atualiza(GtkWidget *entry, int posicao){
     return 1;
 
   if((row = mysql_fetch_row(res))==NULL){
-    sprintf(query,"insert into suporte_posts(code,operador,titulo,descricao,data,status,tipo,prioridade) values (%i,%i,'%s','%s',NOW(),%i,%i,%i)",posicao,sessao_oper.code,title, text,status,tipo,prioridade);
+    sprintf(query,"insert into suporte_posts(code,operador,titulo,descricao,data,status,tipo,prioridade) values (%i,%i,'%s','%s',NOW(),%i,%i,%i)",posicao,sessao_oper.operador->code,title, text,status,tipo,prioridade);
     if(enviar_query(query)!=0){
       popup(NULL,"Não foi possivel escrever post");
       g_print("%s\n",query);

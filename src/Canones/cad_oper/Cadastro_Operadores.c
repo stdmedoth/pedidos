@@ -29,7 +29,7 @@ int oper_excluir(){
 	}
 	 strcpy(oper_codigo_tmp,row[0]);
 
-	if(sessao_oper.nivel<=atoi(row[3])){
+	if(sessao_oper.operador->nivel<=atoi(row[3])){
 		popup(NULL,"Sem permissao para excluir operador");
 		oper_cancelar();
 		return 1;
@@ -83,7 +83,7 @@ int oper_alterar()
 		return 1;
 	}
 
-	if(sessao_oper.nivel<atoi(row[3])){
+	if(sessao_oper.operador->nivel<atoi(row[3])){
 		popup(NULL,"Sem permissao para alterar operador");
 		oper_cancelar();
 		return 1;
@@ -291,17 +291,17 @@ int cad_oper()
 	oper_senha_entry = gtk_entry_new();
 	gtk_entry_set_visibility(GTK_ENTRY(oper_senha_entry),FALSE);
 
-	if(sessao_oper.nivel>=1 && sessao_oper.nivel<NIVEL_TECNICO){
-		oper_perm_entry = gtk_spin_button_new_with_range(0,sessao_oper.nivel,1);
+	if(sessao_oper.operador->nivel>=1 && sessao_oper.operador->nivel<NIVEL_TECNICO){
+		oper_perm_entry = gtk_spin_button_new_with_range(0,sessao_oper.operador->nivel,1);
 	}else{
 		oper_perm_entry = gtk_spin_button_new_with_range(0,1,1);
 		gtk_widget_set_sensitive(oper_perm_entry,FALSE);
 	}
 
-	if(sessao_oper.nivel>=NIVEL_TECNICO && sessao_oper.nivel < OPER_MAX_NIVEL)
+	if(sessao_oper.operador->nivel>=NIVEL_TECNICO && sessao_oper.operador->nivel < OPER_MAX_NIVEL)
 		oper_perm_entry = gtk_spin_button_new_with_range(0, OPER_MAX_NIVEL - 1 ,1);
 
-	if(sessao_oper.nivel>=OPER_MAX_NIVEL)
+	if(sessao_oper.operador->nivel>=OPER_MAX_NIVEL)
 		oper_perm_entry = gtk_spin_button_new_with_range(0, OPER_MAX_NIVEL * 10 ,1);
 
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(oper_perm_entry),1);

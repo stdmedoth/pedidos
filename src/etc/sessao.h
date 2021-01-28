@@ -6,16 +6,16 @@ enum{
 
 struct _sessao{
 
-	int code;
-	char *nome;
-	int nivel;
+	//int code;
+	//char *nome;
+	//int nivel;
 	struct _operador *operador;
 	GDateTime *criacao;
 	GDateTime *ult_ativ;
 	GDateTime *expiracao;
 	int status_sessao;
 
-}sessao_oper;
+}*sessao_oper;
 
 
 void sessao_set_allmodules();

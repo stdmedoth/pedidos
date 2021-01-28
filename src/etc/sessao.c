@@ -1,18 +1,10 @@
 struct _sessao *get_new_sessao_from_oper(int oper_code){
   struct _sessao *sessao = malloc(sizeof(struct _sessao));
-  sessao->code = oper_code;
-  MYSQL_RES *res;
-  MYSQL_ROW row;
-  char query[MAX_QUERY_LEN];
-  sprintf(query, "select * from operadores where code = %i", oper_code);
-  if(!(res = consultar(query))){
+
+  sessao->operador = get_operador(oper_code);
+  if(!sessao->operador)
     return NULL;
-  }
-  if(!(row = mysql_fetch_row(res))){
-    return NULL;
-  }
-  sessao->nome = strdup(row[OPER_NOME]);
-  sessao->nivel = atoi(row[OPER_NIVEL]);
+
   sessao->ult_ativ = g_date_time_new_now_local();
   sessao->expiracao = g_date_time_add (sessao->ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
   sessao->status_sessao = SESSAO_LOGADA;
@@ -21,12 +13,18 @@ struct _sessao *get_new_sessao_from_oper(int oper_code){
 
 int limpar_sessao(){
 
-	sessao_oper.code = 0;
-	sessao_oper.nivel = 0;
-	sessao_oper.criacao = NULL;
+  if(sessao_oper.operador)
+    free(sessao_oper.operador);
+
+  sessao_oper.operador = malloc(sizeof(struct _operador));
+  sessao_oper.operador->code = 0;
+  sessao_oper.operador->nivel = 0;
+  sessao_oper.operador->nome = strdup("");
+
+
+  sessao_oper.criacao = NULL;
 	sessao_oper.ult_ativ = NULL;
 	sessao_oper.expiracao = NULL;
-	sessao_oper.nome = strdup("");
 	sessao_oper.status_sessao = SESSAO_NULA;
 	ativar.ativo = 0;
 
@@ -41,7 +39,7 @@ int fechar_sessao(){
   	REG_CORRECT_FINAL,
   	"Fazendo Logoff...",
   	0,0,
-  	sessao_oper.code);
+  	sessao_oper.operador->code);
 	if(mysql_query(&conectar,query)){
 		file_logger("Não foi possivel salvar status da sessão\n");
 		file_logger(query);
@@ -81,11 +79,11 @@ gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer 
 void criar_sessao_anon(){
 
 	ativar.ativo = 0;
-	sessao_oper.code = default_user_code;
-	sessao_oper.nivel = 1;
-	sessao_oper.status_sessao = SESSAO_TESTE;
-	sessao_oper.nome = strdup(login_bindings[LOGIN_BIND_ENTRAR]);
+	sessao_oper.operador->code = default_user_code;
+  sessao_oper.operador->nome = strdup(login_bindings[LOGIN_BIND_ENTRAR]);
+	sessao_oper.operador->nivel = 1;
 
+  sessao_oper.status_sessao = SESSAO_TESTE;
 	sessao_oper.criacao = g_date_time_new_now_local();
 	sessao_oper.ult_ativ = g_date_time_new_now_local();
 	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * S_ANON_EXP_MIN);
@@ -95,9 +93,11 @@ void criar_sessao_anon(){
 }
 void criar_sessao_default(){
 
-	sessao_oper.code = default_user_code;
-	sessao_oper.nivel = NIVEL_GERENCIAL;
-	sessao_oper.status_sessao = SESSAO_LOGADA;
+	sessao_oper.operador->code = default_user_code;
+  sessao_oper.operador->nome = strdup("Default");
+	sessao_oper.operador->nivel = NIVEL_GERENCIAL;
+
+  sessao_oper.status_sessao = SESSAO_LOGADA;
 	sessao_oper.criacao = g_date_time_new_now_local();
 	sessao_oper.ult_ativ = g_date_time_new_now_local();
 	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);

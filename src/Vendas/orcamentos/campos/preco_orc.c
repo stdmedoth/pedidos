@@ -6,8 +6,10 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 	if(strlen(preco_prod_orc_gchar)<=0){
 		preco_alterado[posicao] = 0;
 		valor_orig[posicao] = 0;
-		popup(NULL,"O preco deve ser inserido");
-		gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+		//popup(NULL,"O preco deve ser inserido");
+		//gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+		preco_prod_orc_gchar = strdup("0.00");
+		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]), preco_prod_orc_gchar);
 		return 1;
 	}
 

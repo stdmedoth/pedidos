@@ -92,14 +92,19 @@ void verifica_senha()
 	if((row = mysql_fetch_row(res))){
 		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 
-		sessao_oper.code = atoi(row[0]);
-		sessao_oper.nome = strdup(row[1]);
-		sessao_oper.nivel = atoi(row[2]);
+		sessao_oper = get_new_sessao_from_oper(atoi(row[0]));
+		if(!sessao_oper){
+			popup(NULL,"Não foi possível carregar operador");
+			return ;
+		}
+		//sessao_oper.operador->code = atoi(row[0]);
+		//sessao_oper.operador->nome = strdup(row[1]);
+		//sessao_oper.operador->nivel = atoi(row[2]);
 
-		sessao_oper.criacao = g_date_time_new_now_local();
-		sessao_oper.ult_ativ = g_date_time_new_now_local();
-		sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
-		sessao_oper.status_sessao = SESSAO_LOGADA;
+		//sessao_oper.criacao = g_date_time_new_now_local();
+		//sessao_oper.ult_ativ = g_date_time_new_now_local();
+		//sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
+		//sessao_oper.status_sessao = SESSAO_LOGADA;
 
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);

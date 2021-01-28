@@ -186,7 +186,7 @@ int cad_emp_recebe(){
     person_tecn_prim=1;
     if(person_tecn_prim){
 			if(PopupBinario("Não há personalização, Deseja Criar?", "Sim! adiante meu serviço", "Não! prefiro fazer eu mesmo")){
-				sprintf(query,"insert into tecn_pers_elem(code, path_img_init, script_bin_path) values(%i, '%s' , '')",sessao_oper.code, INI_LOGO);
+				sprintf(query,"insert into tecn_pers_elem(code, path_img_init, script_bin_path) values(%i, '%s' , '')",sessao_oper.operador->code, INI_LOGO);
 				if(enviar_query(query)){
 					popup(NULL,"Não foi possível criar dados técnicos");
 				}else{

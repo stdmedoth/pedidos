@@ -47,7 +47,7 @@ int wnd_logger(janelas_info *struct_wnd)
   janela_nome,
   struct_wnd->aberta,
   struct_wnd->qnt_aberta,
-  sessao_oper.code);
+  sessao_oper.operador->code);
 
   err = mysql_query(&conectar,query);
 	if(err!=0)

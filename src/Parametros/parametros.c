@@ -16,7 +16,7 @@ int configurar_parametros()
 	receber_prod_params();
 	receber_intgr_params();
 
-	sprintf(query,"select * from confs where code = %i",sessao_oper.code);
+	sprintf(query,"select * from confs where code = %i",sessao_oper.operador->code);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -430,7 +430,7 @@ int parametrizar()
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),tecnico_box,gtk_label_new("Técnico"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),outros_box,gtk_label_new("Outros"));
 
-	if(sessao_oper.nivel < NIVEL_GERENCIAL)
+	if(sessao_oper.operador->nivel < NIVEL_GERENCIAL)
 		gtk_widget_set_sensitive(outros_box,FALSE);
 
 	gtk_box_pack_start(GTK_BOX(caixona),notebook,0,0,0);
