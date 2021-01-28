@@ -53,7 +53,7 @@ static int receber_personalizacao()
 
 	char *query;
 	query = malloc(MAX_QUERY_LEN);
-	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper.operador->code);
+	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper->operador->code);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -90,7 +90,7 @@ static int receber_personalizacao()
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(est_orc_padrao),atoi(row[0]));
 	orc_params.est_orc_padrao = atoi(row[0]);
 
-	sprintf(query,"select * from confs where code = %i",sessao_oper.operador->code);
+	sprintf(query,"select * from confs where code = %i",sessao_oper->operador->code);
 
 	if((res = consultar(query))==NULL)
 	{
@@ -150,7 +150,7 @@ int atualizar_personalizacao()
 	{
 		popup(NULL,"Erro ao configurar janela login");
 	}
-		sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema, personalizacao.janela_keep_above, sessao_oper.operador->code);
+		sprintf(query,"update perfil_desktop set tema = %i,janelas_keep_above = %i where code = %i",personalizacao.tema, personalizacao.janela_keep_above, sessao_oper->operador->code);
 	if((erro = enviar_query(query))!=0)
 	{
 		popup(NULL,"Erro ao enviar dados para personalizacao do sistema");
@@ -164,7 +164,7 @@ int atualizar_personalizacao()
 	mysql_real_escape_string(&conectar,imp_path2,impressoras.imp_path2,strlen(impressoras.imp_path2));
 	mysql_real_escape_string(&conectar,imp_path3,impressoras.imp_path3,strlen(impressoras.imp_path3));
 
-	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegador_path1,navegador_path2,navegadores.navegador_pdr,imp_path1,imp_path2,imp_path3,sessao_oper.operador->code);
+	sprintf(query,"update confs set navegador_path1 = '%s',navegador_path2 = '%s', navegador_pdr = %i, imp_path1 = '%s', imp_path2 = '%s', imp_path3 = '%s'  where code = %i",navegador_path1,navegador_path2,navegadores.navegador_pdr,imp_path1,imp_path2,imp_path3,sessao_oper->operador->code);
 
 	if((erro = enviar_query(query))!=0)
 	{
@@ -191,7 +191,7 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 	query = malloc(MAX_QUERY_LEN);
 
 	if(inicializando == 0){
-		sprintf(query,"update perfil_desktop set desktop_img = %i where code = %i",numero,sessao_oper.operador->code);
+		sprintf(query,"update perfil_desktop set desktop_img = %i where code = %i",numero,sessao_oper->operador->code);
 		erro = enviar_query(query);
 		if(erro!=0)
 		{

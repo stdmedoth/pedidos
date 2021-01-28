@@ -97,14 +97,6 @@ void verifica_senha()
 			popup(NULL,"Não foi possível carregar operador");
 			return ;
 		}
-		//sessao_oper.operador->code = atoi(row[0]);
-		//sessao_oper.operador->nome = strdup(row[1]);
-		//sessao_oper.operador->nivel = atoi(row[2]);
-
-		//sessao_oper.criacao = g_date_time_new_now_local();
-		//sessao_oper.ult_ativ = g_date_time_new_now_local();
-		//sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
-		//sessao_oper.status_sessao = SESSAO_LOGADA;
 
 		if(GTK_IS_WIDGET(janela_login))
 			gtk_widget_destroy(janela_login);
@@ -132,7 +124,7 @@ int login()
 	GtkWidget *caixa_senha_visubutton, *senha_visubutton;
 
 	GtkWidget *nome_fixed, *senha_fixed;
-	sessao_oper.status_sessao = SESSAO_NULA;
+
 	janela_login = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request(janela_login,230,200);
 	gtk_window_set_decorated(GTK_WINDOW(janela_login),FALSE);

@@ -103,7 +103,7 @@ struct _maquina *maquinas_get_atual(){
   }
   if(!(row = mysql_fetch_row(res))){
     popup(NULL,"Máquina ainda não identificada no sistema");
-    if(sessao_oper.operador->nivel >= NIVEL_GERENCIAL){
+    if(sessao_oper->operador->nivel >= NIVEL_GERENCIAL){
       MaquinaPtr = maquinas_criar_nova();
       if(MaquinaPtr)
         return MaquinaPtr;

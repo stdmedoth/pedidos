@@ -40,12 +40,12 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
   cont=0;
   while((row = mysql_fetch_row(res))){
     gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(operador_combo),cont,row[0],row[1]);
-    if(atoi(row[0]) == sessao_oper.operador->code){
+    if(atoi(row[0]) == sessao_oper->operador->code){
       gtk_combo_box_set_active(GTK_COMBO_BOX(operador_combo),cont);
     }
     cont++;
   }
-	if(sessao_oper.operador->nivel < NIVEL_GERENCIAL)
+	if(sessao_oper->operador->nivel < NIVEL_GERENCIAL)
   	gtk_widget_set_sensitive (operador_combo, FALSE);
 
   GtkWidget *operador_frame = gtk_frame_new("Operador");
@@ -65,7 +65,7 @@ int janela_abrir_caixa(struct _maquina *maquina, struct _caixa *caixa){
     }
     cont++;
   }
-	if(sessao_oper.operador->nivel < NIVEL_GERENCIAL)
+	if(sessao_oper->operador->nivel < NIVEL_GERENCIAL)
   	gtk_widget_set_sensitive (maquina_combo, FALSE);
 
   GtkWidget *maquina_frame = gtk_frame_new("Máquina");
@@ -200,7 +200,7 @@ int janela_caixa_encerrar(struct _caixa *caixa){
 	char query[MAX_QUERY_LEN];
 	struct _maquina *maquina = maquinas_get_atual();
 
-	sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%i, %i, %i, now(), %i)",caixa->id, sessao_oper.operador->code, maquina->id,CX_FECHAMENTO);
+	sprintf(query,"insert into eventos_caixa(caixa,operador,maquina,data,tipo) values(%i, %i, %i, now(), %i)",caixa->id, sessao_oper->operador->code, maquina->id,CX_FECHAMENTO);
 	if(enviar_query(query)){
 		popup(NULL,"Não foi possível encerrar caixa");
 		return 1;

@@ -42,15 +42,15 @@ int main()
 
 	gtk_init(NULL, NULL);
 
+	limpar_sessao();
+	limpar_applicacao();
+	
 	init_logger();
 
 	if(rec_vars_from_file())
 		return 1;
 
 	load_styles();
-
-  limpar_sessao();
-	limpar_applicacao();
 
 	if(init())
 		return 1;

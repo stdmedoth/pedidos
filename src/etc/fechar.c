@@ -11,7 +11,7 @@ void encerrando()
   "Encerrando...",
   0,
   0,
-  sessao_oper.operador->code);
+  sessao_oper->operador->code);
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{
@@ -77,19 +77,19 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 				encerrar_manualmente = 0;
 			}
 			else{
-				if(sessao_oper.status_sessao == SESSAO_LOGADA){
+				if(sessao_oper->status_sessao == SESSAO_LOGADA){
 					if(desktop()){
 							popup(NULL,"Erro na reinicialização");
 							encerrando();
 					}
 				}
 
-				if(sessao_oper.status_sessao == SESSAO_TESTE){
-					sessao_oper.code = default_user_code;
-					sessao_oper.nivel = 1;
+				if(sessao_oper->status_sessao == SESSAO_TESTE){
+					sessao_oper->code = default_user_code;
+					sessao_oper->nivel = 1;
 					ativar.ativo = 0;
-					sessao_oper.status_sessao = SESSAO_TESTE;
-					sessao_oper.nome = strdup(ENTRAR_BIND_TEXT);
+					sessao_oper->status_sessao = SESSAO_TESTE;
+					sessao_oper->nome = strdup(ENTRAR_BIND_TEXT);
 
 					if(desktop()){
 							popup(NULL,"Erro na reinicialização");

@@ -276,7 +276,7 @@ int post_recarregar_posts(){
   else
     sprintf(prioridade_end_query,"prioridade = %i",sup_prior);
 
-  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s",sessao_oper.operador->code,status_end_query,prioridade_end_query);
+  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s",sessao_oper->operador->code,status_end_query,prioridade_end_query);
 
   g_print("%s\n",query);
 

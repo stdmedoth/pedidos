@@ -1,5 +1,6 @@
 int wnd_logger(janelas_info *struct_wnd)
 {
+
   char query[MAX_QUERY_LEN];
   char janela_nome[200];
 	int err=1;
@@ -42,23 +43,32 @@ int wnd_logger(janelas_info *struct_wnd)
         break;
     }
   }
-  sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  struct_wnd->reg_id,
-  janela_nome,
-  struct_wnd->aberta,
-  struct_wnd->qnt_aberta,
-  sessao_oper.operador->code);
 
-  err = mysql_query(&conectar,query);
-	if(err!=0)
-	{
-		popup(NULL,"Erro de formato\n");
-		if(logging == 0){
-			file_logger(query);
-			file_logger((char*)mysql_error(&conectar));
-		}
-		return err;
-	}
+  if(sessao_oper && sessao_oper->operador){
+    sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
+    struct_wnd->reg_id,
+    janela_nome,
+    struct_wnd->aberta,
+    struct_wnd->qnt_aberta,
+    sessao_oper->operador->code);
+
+    err = mysql_query(&conectar,query);
+  	if(err!=0)
+  	{
+  		popup(NULL,"Erro de formato\n");
+  		if(logging == 0){
+  			file_logger(query);
+  			file_logger((char*)mysql_error(&conectar));
+  		}
+  		return err;
+  	}
+  }else{
+    file_logger("----------------------");
+    file_logger("Janela aberta");
+    file_logger(janela_nome);
+    file_logger("----------------------");
+  }
+
 	return 0;
 }
 
@@ -110,7 +120,7 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   if(validar_sessao_criada())
     return 1;
 
-  sessao_oper.ult_ativ = g_date_time_new_now_local();
+  sessao_oper->ult_ativ = g_date_time_new_now_local();
   struct_wnd->aberta = 0;
   struct_wnd->qnt_aberta--;
 

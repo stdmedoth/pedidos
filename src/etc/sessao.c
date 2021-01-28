@@ -6,6 +6,8 @@ struct _sessao *get_new_sessao_from_oper(int oper_code){
     return NULL;
 
   sessao->ult_ativ = g_date_time_new_now_local();
+
+  sessao->criacao = g_date_time_new_now_local();
   sessao->expiracao = g_date_time_add (sessao->ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
   sessao->status_sessao = SESSAO_LOGADA;
   return sessao;
@@ -13,20 +15,7 @@ struct _sessao *get_new_sessao_from_oper(int oper_code){
 
 int limpar_sessao(){
 
-  if(sessao_oper.operador)
-    free(sessao_oper.operador);
-
-  sessao_oper.operador = malloc(sizeof(struct _operador));
-  sessao_oper.operador->code = 0;
-  sessao_oper.operador->nivel = 0;
-  sessao_oper.operador->nome = strdup("");
-
-
-  sessao_oper.criacao = NULL;
-	sessao_oper.ult_ativ = NULL;
-	sessao_oper.expiracao = NULL;
-	sessao_oper.status_sessao = SESSAO_NULA;
-	ativar.ativo = 0;
+  criar_sessao_anon();
 
 	sessao_set_nonemodules();
 
@@ -39,7 +28,7 @@ int fechar_sessao(){
   	REG_CORRECT_FINAL,
   	"Fazendo Logoff...",
   	0,0,
-  	sessao_oper.operador->code);
+  	sessao_oper->operador->code);
 	if(mysql_query(&conectar,query)){
 		file_logger("Não foi possivel salvar status da sessão\n");
 		file_logger(query);
@@ -78,29 +67,35 @@ gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer 
 
 void criar_sessao_anon(){
 
-	ativar.ativo = 0;
-	sessao_oper.operador->code = default_user_code;
-  sessao_oper.operador->nome = strdup(login_bindings[LOGIN_BIND_ENTRAR]);
-	sessao_oper.operador->nivel = 1;
+  struct _sessao *sessao_oper = malloc(sizeof(struct _sessao));
+  sessao_oper->operador = malloc(sizeof(struct _operador));
 
-  sessao_oper.status_sessao = SESSAO_TESTE;
-	sessao_oper.criacao = g_date_time_new_now_local();
-	sessao_oper.ult_ativ = g_date_time_new_now_local();
-	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * S_ANON_EXP_MIN);
+  ativar.ativo = 0;
+	sessao_oper->operador->code = default_user_code;
+  sessao_oper->operador->nome = strdup(login_bindings[LOGIN_BIND_ENTRAR]);
+	sessao_oper->operador->nivel = 1;
+
+  sessao_oper->status_sessao = SESSAO_TESTE;
+	sessao_oper->criacao = g_date_time_new_now_local();
+	sessao_oper->ult_ativ = g_date_time_new_now_local();
+	sessao_oper->expiracao = g_date_time_add (sessao_oper->ult_ativ, G_TIME_SPAN_MINUTE * S_ANON_EXP_MIN);
 	sessao_set_nonemodules();
 
 	return ;
 }
 void criar_sessao_default(){
 
-	sessao_oper.operador->code = default_user_code;
-  sessao_oper.operador->nome = strdup("Default");
-	sessao_oper.operador->nivel = NIVEL_GERENCIAL;
+  struct _sessao *sessao_oper = malloc(sizeof(struct _sessao));
+  sessao_oper->operador = malloc(sizeof(struct _operador));
 
-  sessao_oper.status_sessao = SESSAO_LOGADA;
-	sessao_oper.criacao = g_date_time_new_now_local();
-	sessao_oper.ult_ativ = g_date_time_new_now_local();
-	sessao_oper.expiracao = g_date_time_add (sessao_oper.ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
+	sessao_oper->operador->code = default_user_code;
+  sessao_oper->operador->nome = strdup("Default");
+	sessao_oper->operador->nivel = NIVEL_GERENCIAL;
+
+  sessao_oper->status_sessao = SESSAO_LOGADA;
+	sessao_oper->criacao = g_date_time_new_now_local();
+	sessao_oper->ult_ativ = g_date_time_new_now_local();
+	sessao_oper->expiracao = g_date_time_add (sessao_oper->ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
 	return ;
 }
 

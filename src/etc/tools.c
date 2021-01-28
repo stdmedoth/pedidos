@@ -56,8 +56,8 @@ gboolean atualizar_inatividade_label(){
   gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
   GDateTime *atual = g_date_time_new_now_local ();
   GTimeSpan inatividade=0;
-  if(sessao_oper.ult_ativ){
-    inatividade = g_date_time_difference (atual , sessao_oper.ult_ativ);;
+  if(sessao_oper->ult_ativ){
+    inatividade = g_date_time_difference (atual , sessao_oper->ult_ativ);;
   }
   gint64 faltante =  -(inatividade - G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND;
 
@@ -87,7 +87,7 @@ gboolean atualizar_inatividade(GtkWidget *widget, GdkEvent  *event, gpointer   u
   if(validar_sessao_criada())
     return 1;
 
-  sessao_oper.ult_ativ = g_date_time_new_now_local();
+  sessao_oper->ult_ativ = g_date_time_new_now_local();
 
   return FALSE;
 
@@ -141,7 +141,7 @@ int validar_sessao_criada(){
   if(janelas_gerenciadas.principal.sys_close_wnd)
     return 0;
 
-  if(sessao_oper.status_sessao == SESSAO_NULA){
+  if(sessao_oper->status_sessao == SESSAO_NULA){
     popup(get_pop_parents_wnd(),"Sessão com erro, o incidente será reportado");
 		autologger("!!!!!!!!!!!!!!!\nSistema utilizado sem uma sessao ativa\n!!!!!!!!!!!!!!!");
 		encerrando();
@@ -154,27 +154,27 @@ int validar_sessao_criada(){
     return 1;
   }
 
-  if(!sessao_oper.ult_ativ){
+  if(!sessao_oper->ult_ativ){
     file_logger("Erro ao consultar datetime de ultima atividade em validar_sessao_criada() -> ult_ativ -> struct sessao");
     return 1;
   }
 
-  if(g_date_time_difference(atual, sessao_oper.ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
+  if(g_date_time_difference(atual, sessao_oper->ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
     gchar *msg = malloc(100);
     sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
     file_logger(msg);
-    sprintf(msg, "data da ultima atividade = %s\n", g_date_time_format (sessao_oper.ult_ativ, "%F %T"));
+    sprintf(msg, "data da ultima atividade = %s\n", g_date_time_format (sessao_oper->ult_ativ, "%F %T"));
     fechar_sessao();
 		popup(janelas_gerenciadas.login.janela_pointer,"Sessão reiniciada por ausência de atividade!");
     autologger("Sessão reiniciada por ausência de atividade");
 		return 1;
   }
 
-  if(g_date_time_compare(atual, sessao_oper.expiracao) >=0 ){
+  if(g_date_time_compare(atual, sessao_oper->expiracao) >=0 ){
     gchar *msg = malloc(100);
     sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
     file_logger(msg);
-    sprintf(msg, "data expiracao = %s\n", g_date_time_format (sessao_oper.expiracao, "%F %T"));
+    sprintf(msg, "data expiracao = %s\n", g_date_time_format (sessao_oper->expiracao, "%F %T"));
     file_logger(msg);
     fechar_sessao();
 		popup(janelas_gerenciadas.login.janela_pointer,"Sessão expirada!");

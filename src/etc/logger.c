@@ -7,6 +7,9 @@ int init_logger(){
 int app_tracelog(){
   FILE *tracelog_file = fopen(APP_TRACELOG, "a+");
   GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+  if(!data){
+    file_logger("app_tracelog() -> datetime nulo, não foi possível carregar data");
+  }
   if(!tracelog_file){
     popup(NULL,"Não foi possível abrir o arquivo de tracelog");
     encerrando();
@@ -54,8 +57,11 @@ int file_logger(char *string){
 	logger = fopen(LOGGER,"a+");
 	if(logger){
     GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
-    string1 = malloc( strlen(string) + strlen(g_date_time_format(data,"%F %T")) + 20 );
-    sprintf(string1,"%s - %s",g_date_time_format(data,"%F %T"), string);
+    if(!data){
+      file_logger("app_tracelog() -> datetime nulo, não foi possível carregar data");
+    }
+    string1 = malloc( strlen(string) + strlen( g_date_time_format(data,"%F %T") ) + 20 );
+    sprintf(string1,"%s - %s", g_date_time_format(data,"%F %T"), string);
     fprintf(logger, "%s\n", string1);
   }else{
 		popup(NULL,"Não foi possivel atualizar logs, verifique com suporte");
