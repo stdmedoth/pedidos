@@ -1,6 +1,8 @@
 #include "campos/codigo.c"
 #include "campos/query.c"
+#include "campos/print.c"
 #include "gerar.c"
+#include "grafico.c"
 
 int relat_prod_fun()
 {

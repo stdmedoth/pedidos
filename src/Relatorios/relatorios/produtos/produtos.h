@@ -24,4 +24,10 @@ int relat_prod_fun();
 
 int relat_prod_codigo_fun();
 int relat_prod_query_fun();
+
+void relat_prod_begin_print(GtkPrintOperation *operation, GtkPrintContext *context, gpointer nul);
+void relat_prod_draw_page(GtkPrintOperation *operation, GtkPrintContext *context, gint page_nr, gpointer nul);
+
+int relat_prod_grafico_fun();
+
 int relat_prod_gerar_fun();

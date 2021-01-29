@@ -1,5 +1,8 @@
 int relat_prod_gerar_fun()
 {
+
+	relat_prod_grafico_fun();
+	return 0;
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
 	char *gerando_file = malloc(strlen(PROD_RELAT_FILE) + 100);

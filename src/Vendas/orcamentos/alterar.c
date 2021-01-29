@@ -24,6 +24,8 @@ static int altera_orc()
 
 	cancela_orc();
 
+	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
+
 	sprintf(query,"select status from pedidos where code = %s",tmp_cod_orc);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar vinculos de pedidos");
