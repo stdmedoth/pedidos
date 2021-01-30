@@ -303,6 +303,8 @@ int vnd_orc(){
 	g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(psq_ter),cliente_orc_entry);
 
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
+	gtk_widget_set_size_request(prod_scroll_box,1100,400);
+	gtk_widget_set_size_request(orc_prods_grid,1100,400);
 
 	gtk_container_add(GTK_CONTAINER(prod_scroll_window),prod_scroll_box);
 	gtk_box_pack_start(GTK_BOX(prod_scroll_box),orc_prods_grid,0,0,0);
@@ -341,7 +343,7 @@ int vnd_orc(){
 
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
-	g_signal_connect(orc_prods_grid,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	g_signal_connect(caixa_grande,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		ativos[cont].id = 0;

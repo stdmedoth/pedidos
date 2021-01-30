@@ -33,9 +33,11 @@ int est_said_qnt_fun(){
 		if(row[0])
 			saldo = atof(row[0]);
 
-		if(saldo < 0){
-			popup(NULL,"Produto ficará com saldo negativo");
-			return 1;
+		if(!rec_alterando_mov_said_est){
+			if(saldo < 0){
+				popup(NULL,"Produto ficará com saldo negativo");
+				return 1;
+			}
 		}
 	}
 
@@ -49,9 +51,11 @@ int est_said_qnt_fun(){
 	if(!concluindo_mov_said_est && !alterando_mov_said_est && !mov_said_est_limit){
 		float saldo_min=0;
 		if((row = mysql_fetch_row(res))){
-			saldo_min = atof(row[0]);
-			if(saldo < saldo_min){
-				popup(NULL,"O produto atingirá o saldo mínimo");
+			if(!rec_alterando_mov_said_est){
+				saldo_min = atof(row[0]);
+				if(saldo < saldo_min){
+					popup(NULL,"O produto atingirá o saldo mínimo");
+				}
 			}
 		}
 		mov_said_est_limit=1;

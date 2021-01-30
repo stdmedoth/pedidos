@@ -1,4 +1,5 @@
-create table if not exists pedidos( code int primary key auto_increment,
+create table if not exists pedidos( [
+  code int primary key auto_increment,
   tipo_mov int default 1,
   vendedor int default 1,
   cliente int default 1,
@@ -9,7 +10,8 @@ create table if not exists pedidos( code int primary key auto_increment,
   status int default 0,
   foreign key(cliente) references terceiros(code));
 
-create table if not exists orcamentos( code int primary key auto_increment,
+create table if not exists orcamentos(
+  code int primary key auto_increment,
   tipo_mov int default 1,
   vendedor int default 0,
   cliente int default 0,

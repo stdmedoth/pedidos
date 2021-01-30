@@ -666,23 +666,22 @@ void receber_psq_code_space(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeVi
 }
 
 void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-	GtkAdjustment *ajuste = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll_window));
+  carregar_interface();
+  GtkAdjustment *ajuste = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
 	return ;
 }
 
 void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
+  carregar_interface();
+  GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
 	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
 	return ;
 }
 
-void button_mover_scroll(GtkButton *button, GtkWidget *scroll_window){
-
-	GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
-	gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+void adjustment_mover_scroll(GtkAdjustment *adjustment){
+	gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
 	return ;
-
 }
 
 char *get_elem_from_path(char *path){
@@ -843,4 +842,129 @@ char **get_csv_line(char *line){
   }
   return vetor;
 
+}
+
+
+GtkWidget *get_relat_treeview(gchar *query1, gchar *query2){
+
+  MYSQL_RES *res1,*res2;
+  MYSQL_ROW row1,row2;
+  int *tipos_colunas = NULL, list_qnt=0;
+
+  enum{
+    ROW_NAME,
+    ROW_TIPO
+  };
+  if( !(res1 = consultar(query1)) ){
+    popup(NULL,"Não foi possivel receber colunas do relatorio");
+    return NULL;
+  }
+  int num_rows = mysql_num_rows(res1);
+  if(!num_rows){
+    popup(NULL,"Não há colunas para o relatório");
+    return NULL;
+  }
+
+  GtkTreeViewColumn *coluna[num_rows];
+  GtkCellRenderer *celula[num_rows];
+  GtkTreeIter colunas, campos;
+  GtkTreeStore *model;
+  GtkWidget *treeview = gtk_tree_view_new();
+
+  tipos_colunas = malloc( num_rows * sizeof(int) );
+
+  enum{
+    NONE,
+    TEXTO,
+    NUM_INT,
+    NUM_REAL,
+    REAIS,
+    DATA
+  };
+
+  GType gtipos[num_rows];
+  int cont =0;
+  while((row1 = mysql_fetch_row(res1))){
+
+    if( cont >= num_rows )
+      break;
+
+    coluna[cont] = gtk_tree_view_column_new();
+    celula[cont] = gtk_cell_renderer_text_new();
+    gtk_tree_view_column_pack_start(coluna[cont],celula[cont],TRUE);
+    gtk_tree_view_column_set_title(coluna[cont],row1[ROW_NAME]);
+    gtk_tree_view_column_add_attribute(coluna[cont],celula[cont],"text",cont);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna[cont]);
+
+    /*switch (atoi(row1[1])) {
+      case TEXTO:
+        tipos[cont] = G_TYPE_STRING;
+        break;
+      case NUM_INT:
+
+        break;
+      case NUM_REAL:
+
+        break;
+      case REAIS:
+
+        break;
+      case DATA:
+
+        break;
+    }*/
+    gtipos[cont] = G_TYPE_STRING;
+    tipos_colunas[cont] = atoi(row1[ROW_TIPO]);
+    g_print("valor tipo coluna row: %i\n",tipos_colunas[cont]);
+
+    cont++;
+
+  }
+  model = (GtkTreeStore *) gtk_tree_store_newv(num_rows, gtipos);
+
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview), (GtkTreeModel *) model);
+
+  if( !(res2 = consultar(query2)) ){
+    popup(NULL,"Erro ao receber dados do relatorio");
+    relat_prod_gerando=0;
+    return NULL;
+  }
+  while((row2 = mysql_fetch_row(res2))){
+    cont = 0;
+    gtk_tree_store_append(model,&campos,NULL);
+    while(cont < num_rows){
+      gchar msg[strlen(row2[cont]) + 10];
+
+      if(tipos_colunas[cont] == TEXTO)//texto
+        sprintf(msg,"%s",row2[cont]);
+      else
+      if(tipos_colunas[cont] == NUM_INT)//inteiro - corrigir para TEXTO
+        sprintf(msg,"%i",atoi(row2[cont]));
+      else
+      if(tipos_colunas[cont] == NUM_REAL)//float
+        sprintf(msg,"%.2f",atof(row2[cont]));
+      else
+      if(tipos_colunas[cont] == REAIS)//dinheiro
+        sprintf(msg,"R$ %.2f",atof(row2[cont]));
+      else
+      if(tipos_colunas[cont] == DATA)//data
+        sprintf(msg,"%s",row2[cont]);
+      else{
+        g_print("valor tipo coluna: %i\n", tipos_colunas[cont]);
+        popup(NULL,"Não foi possivel receber tipo de dados! verifique!");
+        return NULL;
+      }
+
+      gtk_tree_store_set(model,&campos,
+      cont,msg,
+      -1);
+      cont++;
+      list_qnt++;
+    }
+  }
+  if(!list_qnt){
+    popup(NULL,"Nenhum listagem gerada");
+    return NULL;
+  }
+  return treeview;
 }

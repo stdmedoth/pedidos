@@ -141,6 +141,7 @@ int  cad_terc()
 	frete_pago_frame = gtk_frame_new("Valor mínimo para frete Pago");
 	frete_pago_entry = gtk_entry_new();
 	gtk_entry_set_placeholder_text(GTK_ENTRY(frete_pago_entry),"R$ 0.0");
+	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(frete_pago_entry),GTK_ENTRY_ICON_PRIMARY,"money");
 	gtk_container_add(GTK_CONTAINER(frete_pago_frame),frete_pago_entry);
 	gtk_box_pack_start(GTK_BOX(frete_pago_box),frete_pago_flag,0,0,0);
 	gtk_box_pack_start(GTK_BOX(frete_pago_box),frete_pago_frame,0,0,0);

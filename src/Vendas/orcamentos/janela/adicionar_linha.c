@@ -246,7 +246,7 @@ static int adicionar_linha_orc()
 
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
 
-	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"popup",G_CALLBACK(orig_preco_prod_orc),id_vetor[itens_qnt]);
+	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(calcula_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
 
@@ -265,8 +265,6 @@ static int adicionar_linha_orc()
 	#pragma GCC diagnostic warning "-Wint-conversion"
 
 	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(adicionar_linha_orc),NULL);
-
-	g_signal_connect(botao_orc_mais,"clicked",G_CALLBACK(button_mover_scroll),prod_scroll_window);
 
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 

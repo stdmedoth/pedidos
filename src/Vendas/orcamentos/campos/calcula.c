@@ -8,6 +8,11 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   ativos[posicao].qnt_f = 0;
 
+  if(!produto_inserido[posicao]){
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
+		return 1;
+	}
+
   if(codigo_prod_orc(NULL,posicao)){
     g_print("Erro ao passar pelo código do produto\n");
     return 1;
@@ -225,7 +230,7 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
   if(ativos[posicao+1].id && codigo_prod_orc_entry[posicao+1])
     gtk_widget_grab_focus(codigo_prod_orc_entry[posicao+1]);
   else
-    gtk_widget_grab_focus(qnt_prod_orc_entry[posicao]);
+    gtk_widget_grab_focus(botao_orc_mais);
 
   preco_alterado[posicao] = 1;
 

@@ -1,5 +1,10 @@
 int orig_preco_prod_orc(GtkWidget *widget,int posicao){
 
+	if(!produto_inserido[posicao]){
+		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
+		return 1;
+	}
+
 	orig_preco_prod_orc_gchar = (gchar*) gtk_combo_box_get_active_id(GTK_COMBO_BOX(orig_preco_prod_orc_combo[posicao]));
 
 	if(!orig_preco_prod_orc_gchar || !strlen(orig_preco_prod_orc_gchar)){
@@ -26,8 +31,8 @@ int orig_preco_prod_orc(GtkWidget *widget,int posicao){
 		valor_orig[posicao] = VLR_ORIG_OPER;
 	}
 
-
-	g_print("id char: %s\n id int: %i\n", orig_preco_prod_orc_gchar, valor_orig[posicao]);
+	g_print("id char: %s\nid int: %i\n", orig_preco_prod_orc_gchar, valor_orig[posicao]);
 	gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
+
 	return 0;
 }

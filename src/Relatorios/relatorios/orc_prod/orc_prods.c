@@ -1,10 +1,10 @@
-
 #include "campos/codigo.c"
 #include "campos/query.c"
 #include "campos/orc_prod.c"
 #include "campos/prod.c"
 #include "campos/terceiro.c"
 #include "gerar.c"
+#include "grafico.c"
 
 int relat_orc_prod_fun()
 {
@@ -24,9 +24,16 @@ int relat_orc_prod_fun()
 	GtkWidget *relat_orc_prod_code_box;
 
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	if(personalizacao.janela_keep_above==1)
-		gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela),3);
+
+	janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT].reg_id = REG_ORCPROD_RELAT;
+	janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT].aberta = 1;
+	if(ger_janela_aberta(janela, &janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT]))
+		return 1;
+	janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT].janela_pointer = janela;
+
+	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT]);
 
 	linha1 = gtk_box_new(0,0);
 	linha2 = gtk_box_new(0,0);

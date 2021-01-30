@@ -88,3 +88,7 @@ void *NOT_NULL(void *pointer);
 void enter_code_from_treeview(GtkTreeView *treeview, GtkTreePath *path,  GtkTreeViewColumn *column, GtkWidget *entry);
 
 gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data);
+
+GtkWidget *get_relat_treeview(gchar *query1, gchar *query2);
+
+void adjustment_mover_scroll(GtkAdjustment *adjustment);

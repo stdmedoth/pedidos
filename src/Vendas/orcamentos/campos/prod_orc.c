@@ -90,6 +90,17 @@ int ha_prods(){
 	return 0;
 }
 
+void orc_limpar_produto(int posicao){
+	if(ativos[posicao].id){
+		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]), "");
+		gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]), "");
+		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]), "");
+		gtk_entry_set_text(GTK_ENTRY(qnt_prod_orc_entry[posicao]), "");
+		gtk_entry_set_text(GTK_ENTRY(desconto_prod_orc_entry[posicao]), "");
+		gtk_entry_set_text(GTK_ENTRY(total_prod_orc_entry[posicao]), "");
+	}
+}
+
 int codigo_prod_orc(GtkWidget *widget,int posicao)
 {
 	char query[MAX_QUERY_LEN];
@@ -108,10 +119,18 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	}
 
 	if(strlen(codigo_prod_orc_gchar)<=0){
-		produto_inserido[posicao] = 0;
+
+		orc_limpar_produto(posicao);
 		if(posicao>1){
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
-			gtk_widget_grab_focus(orc_transp_codigo_entry);
+			for(int cont=MAX_PROD_ORC;cont>=0;cont--){
+				if(ativos[cont].id){
+					if(produto_inserido[cont] == 0){
+						gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
+						gtk_widget_grab_focus(orc_transp_codigo_entry);
+						break;
+					}
+				}
+			}
 			return 0;
 		}
 

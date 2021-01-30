@@ -11,6 +11,7 @@
 #include "cancelar.c"
 #include "confirmar.c"
 #include "alterar.c"
+#include "excluir.c"
 
 int est_entradas()
 {
@@ -238,13 +239,9 @@ int est_entradas()
 
 	g_signal_connect(est_ent_psqcod_button,"clicked",G_CALLBACK(psq_est_ent_mov),est_ent_cod_entry);
 
-	g_signal_connect(est_ent_confirma_button,"activate",G_CALLBACK(est_ent_confirmar_fun),NULL);
 	g_signal_connect(est_ent_confirma_button,"clicked",G_CALLBACK(est_ent_confirmar_fun),NULL);
-
-	g_signal_connect(est_ent_altera_button,"activate",G_CALLBACK(est_ent_alterar_fun),NULL);
+	g_signal_connect(est_ent_exclui_button,"clicked",G_CALLBACK(est_ent_excluir_fun),NULL);
 	g_signal_connect(est_ent_altera_button,"clicked",G_CALLBACK(est_ent_alterar_fun),NULL);
-
-	g_signal_connect(est_ent_cancela_button,"activate",G_CALLBACK(est_ent_cancelar_fun),NULL);
 	g_signal_connect(est_ent_cancela_button,"clicked",G_CALLBACK(est_ent_cancelar_fun),NULL);
 
 	est_ent_cancelar_fun();

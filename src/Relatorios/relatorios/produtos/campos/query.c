@@ -68,6 +68,8 @@ int relat_prod_query_fun()
 	campos_qnt=0;
 	int qnt = mysql_num_rows(res);
 	end_query = malloc(MAX_QUERY_LEN);
+
+	strcpy(orc_prod_query.campos, "");
 	while((row = mysql_fetch_row(res))){
 
 		if( campos_qnt >= MAX_RELAT_CAMPOS ){

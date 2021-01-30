@@ -263,7 +263,7 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_MOV_RELAT].fun = relat_mov_fun;
   janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = relat_orc_prod_fun;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINREC_WIN].fun = relat_icon_view_wnd;
-
+  janelas_gerenciadas.vetor_janelas[REG_ORCPROD_RELAT].fun = relat_orc_prod_fun;
   //relatorios fixos
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_ICONS_WIN].fun = relat_icon_view_wnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_PROD_WIN].fun = relat_fix_prod;

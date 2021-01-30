@@ -53,3 +53,5 @@ int relat_orc_prod_codigo_fun();
 int relat_orc_prod_query_fun();
 int relat_orc_prod_gerar_fun();
 int relat_orc_prod_fun();
+
+int relat_orc_prod_grafico_fun();

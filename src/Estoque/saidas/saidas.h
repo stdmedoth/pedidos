@@ -29,12 +29,13 @@ gchar *est_said_cod_gchar,
 *est_said_ped_gchar,
 *est_said_obs_gchar;
 
-static int alterando_mov_said_est=0, concluindo_mov_said_est=0, cancelando_mov_said_est =0;
+int alterando_mov_said_est=0, concluindo_mov_said_est=0, cancelando_mov_said_est =0;
+int rec_alterando_mov_said_est=0;
 
 void est_said_confirmar_fun();
 void est_said_cancelar_fun();
 void est_said_alterar_fun();
-
+int est_said_excluir_fun();
 
 int est_said_produto_fun();
 int est_said_qnt_fun();

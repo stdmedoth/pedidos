@@ -9,8 +9,8 @@ int preco_prod_orc(GtkWidget *widget,int posicao)
 		//popup(NULL,"O preco deve ser inserido");
 		//gtk_widget_grab_focus(preco_prod_orc_entry[posicao]);
 		preco_prod_orc_gchar = strdup("0.00");
-		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]), preco_prod_orc_gchar);
-		return 1;
+		//gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]), preco_prod_orc_gchar);
+		//return 1;
 	}
 
 	ativos[posicao].preco_f = atof(preco_prod_orc_gchar);

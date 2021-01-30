@@ -155,7 +155,6 @@ int suporte_princ_wnd(){
   gtk_container_add(GTK_CONTAINER(frame),box);
 
   g_signal_connect(sup_adiciona_button,"clicked",G_CALLBACK(suporte_princ_add),NULL);
-  g_signal_connect(sup_adiciona_button,"clicked",G_CALLBACK(button_mover_scroll),scroll_postlist);
   g_signal_connect(sup_prior_combo,"changed",G_CALLBACK(post_recarregar_posts),scroll_postlist);
   g_signal_connect(sup_psq_status_combo,"changed",G_CALLBACK(post_recarregar_posts),scroll_postlist);
   g_signal_connect(envio_email_button,"clicked",G_CALLBACK(suporte_envia_email),scroll_postlist);

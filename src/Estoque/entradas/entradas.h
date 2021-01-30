@@ -41,3 +41,4 @@ int est_entradas();
 void est_ent_confirmar_fun();
 void est_ent_cancelar_fun();
 void est_ent_alterar_fun();
+int est_ent_excluir_fun();

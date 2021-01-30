@@ -108,6 +108,7 @@ int orc_pag_dl_dts_vlrs_fun(GtkEntry *entry, int pos){
 
 int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
 
+  carregar_interface();
   float valor;
   gchar *val = (gchar*)gtk_entry_get_text(entry);
 
@@ -187,35 +188,20 @@ int orc_pag_dl_vlrs_fun(GtkEntry *entry,int pos){
 
 int orc_pag_datas_livres(){
 
-  GtkWidget *orc_pag_datas_label1,
-  *orc_pag_datas_label2;
+  carregar_interface();
   float parcela=0;
   char valor[MAX_PRECO_LEN];
-  GtkWidget *orc_pag_datas_label2_fixed,
-  *orc_pag_datas_label1_fixed;
 
   char *parcqnt_gchar;
 
-  gtk_widget_set_sensitive(orc_pag_datas_parcqnt,TRUE);
+  gtk_editable_set_editable(GTK_EDITABLE(orc_pag_datas_parcqnt),TRUE);
   gtk_widget_set_name(orc_pag_datas_parcqnt,"");
-
-  orc_pag_datas_label1 = gtk_label_new("Datas");
-  orc_pag_datas_label2 = gtk_label_new("Valor");
-
-  orc_pag_datas_label1_fixed = gtk_fixed_new();
-  orc_pag_datas_label2_fixed = gtk_fixed_new();
-
-  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label1_fixed),orc_pag_datas_label1,20,20);
-  gtk_fixed_put(GTK_FIXED(orc_pag_datas_label2_fixed),orc_pag_datas_label2,20,20);
 
   gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
   gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);
 
   gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),0);
   gtk_grid_insert_column(GTK_GRID(orc_pag_datas_grid),1);
-
-  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label1_fixed,0,0,1,1);
-  gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_label2_fixed,1,0,1,1);
 
   if(recebendo_prod_orc == 0){
 
@@ -273,6 +259,10 @@ int orc_pag_datas_livres(){
 
   for(int cont=0;cont<orc_parc_lvr_qnt_int;cont++){
 
+    GtkWidget *orc_pag_datas_frame1, *orc_pag_datas_frame2;
+    orc_pag_datas_frame1 = gtk_frame_new("Data");
+    orc_pag_datas_frame2 = gtk_frame_new("Valor");
+
     if(cont==0){
       parcela = (orc_valores.valor_prds_liquido/orc_parc_lvr_qnt_int) + orc_valores.valor_frete_liquido;
     }else{
@@ -308,8 +298,16 @@ int orc_pag_datas_livres(){
     g_signal_connect(orc_pag_datas_entry2[cont],"activate",G_CALLBACK(orc_pag_dl_vlrs_fun),orc_pag_vetor[cont]);
     #pragma GCC diagnostic warning "-Wint-conversion"
 
-    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);
-    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry2[cont],1,cont+1,1,1);
+    GtkWidget *entrys_box = gtk_box_new(0,0);
+    gtk_container_add(GTK_CONTAINER(orc_pag_datas_frame1), orc_pag_datas_entry1[cont]);
+    gtk_container_add(GTK_CONTAINER(orc_pag_datas_frame2), orc_pag_datas_entry2[cont]);
+    gtk_box_pack_start(GTK_BOX(entrys_box),orc_pag_datas_frame1,0,0,5);
+    gtk_box_pack_start(GTK_BOX(entrys_box),orc_pag_datas_frame2,0,0,5);
+
+
+    gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),entrys_box,0,cont+1,1,1);
+    //gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry1[cont],0,cont+1,1,1);
+    //gtk_grid_attach(GTK_GRID(orc_pag_datas_grid),orc_pag_datas_entry2[cont],1,cont+1,1,1);
   }
 
   gtk_widget_show_all(orc_pag_datas_livres_fixed);

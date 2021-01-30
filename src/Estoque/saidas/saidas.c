@@ -1,4 +1,3 @@
-
 #include "campos/codigo.c"
 #include "campos/produto.c"
 #include "campos/tipo.c"
@@ -12,6 +11,7 @@
 
 #include "cancelar.c"
 #include "confirmar.c"
+#include "excluir.c"
 #include "alterar.c"
 
 void inicializar_saidas()
@@ -245,13 +245,9 @@ int est_saidas(){
 
 	g_signal_connect(est_said_psqcod_button,"clicked",G_CALLBACK(psq_est_said_mov),est_said_cod_entry);
 
-	g_signal_connect(est_said_confirma_button,"activate",G_CALLBACK(est_said_confirmar_fun),NULL);
 	g_signal_connect(est_said_confirma_button,"clicked",G_CALLBACK(est_said_confirmar_fun),NULL);
-
-	g_signal_connect(est_said_altera_button,"activate",G_CALLBACK(est_said_alterar_fun),NULL);
+	g_signal_connect(est_said_exclui_button,"clicked",G_CALLBACK(est_said_excluir_fun),NULL);
 	g_signal_connect(est_said_altera_button,"clicked",G_CALLBACK(est_said_alterar_fun),NULL);
-
-	g_signal_connect(est_said_cancela_button,"activate",G_CALLBACK(est_said_cancelar_fun),NULL);
 	g_signal_connect(est_said_cancela_button,"clicked",G_CALLBACK(est_said_cancelar_fun),NULL);
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),grid,0,0,10);
