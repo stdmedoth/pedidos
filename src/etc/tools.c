@@ -2,8 +2,16 @@
 
 gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
 
-  if(event->keyval == GDK_KEY_BackSpace)
-    return FALSE;
+  int perms[] = {
+    GDK_KEY_BackSpace,
+    GDK_KEY_KP_Enter,
+    -1
+  };
+  for(int cont=0;perms[cont]!=-1;cont++){
+    if(event->keyval == perms[cont]){
+      return FALSE;
+    }
+  }
 
   if(event->keyval == ',' || event->keyval == '.'){
     event->keyval = '.';

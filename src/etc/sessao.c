@@ -10,12 +10,13 @@ struct _sessao *get_new_sessao_from_oper(int oper_code){
   sessao->criacao = g_date_time_new_now_local();
   sessao->expiracao = g_date_time_add (sessao->ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
   sessao->status_sessao = SESSAO_LOGADA;
+
   return sessao;
 }
 
 int limpar_sessao(){
 
-  criar_sessao_anon();
+  sessao_oper = criar_sessao_anon();
 
 	sessao_set_nonemodules();
 
@@ -65,14 +66,16 @@ gboolean atalho_fechar_sessao(GtkWidget *widget,  GdkEventKey  *event, gpointer 
 	return FALSE;
 }
 
-void criar_sessao_anon(){
+struct _sessao *criar_sessao_anon(){
 
   struct _sessao *sessao_oper = malloc(sizeof(struct _sessao));
+  sessao_oper = malloc(sizeof(struct _sessao));
   sessao_oper->operador = malloc(sizeof(struct _operador));
 
   ativar.ativo = 0;
 	sessao_oper->operador->code = default_user_code;
   sessao_oper->operador->nome = strdup(login_bindings[LOGIN_BIND_ENTRAR]);
+  sessao_oper->operador->senha = strdup("");
 	sessao_oper->operador->nivel = 1;
 
   sessao_oper->status_sessao = SESSAO_TESTE;
@@ -81,9 +84,9 @@ void criar_sessao_anon(){
 	sessao_oper->expiracao = g_date_time_add (sessao_oper->ult_ativ, G_TIME_SPAN_MINUTE * S_ANON_EXP_MIN);
 	sessao_set_nonemodules();
 
-	return ;
+	return sessao_oper;
 }
-void criar_sessao_default(){
+struct _sessao *criar_sessao_default(){
 
   struct _sessao *sessao_oper = malloc(sizeof(struct _sessao));
   sessao_oper->operador = malloc(sizeof(struct _operador));
@@ -96,7 +99,8 @@ void criar_sessao_default(){
 	sessao_oper->criacao = g_date_time_new_now_local();
 	sessao_oper->ult_ativ = g_date_time_new_now_local();
 	sessao_oper->expiracao = g_date_time_add (sessao_oper->ult_ativ, G_TIME_SPAN_MINUTE * SESSAO_EXP_MIN);
-	return ;
+	return sessao_oper;
+  
 }
 
 void sessao_set_allmodules(){

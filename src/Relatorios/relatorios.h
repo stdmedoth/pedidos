@@ -22,6 +22,12 @@ static struct{
 	int status[MAX_RELAT_CAMPOS+1];
 }relat_struct;
 
+struct _relat_query{
+	char *campos;
+	char **campo_query;
+	int campos_qnt;
+};
+
 static int relat_campo_atual=1;
 
 static int tabelas_bd_id=0;

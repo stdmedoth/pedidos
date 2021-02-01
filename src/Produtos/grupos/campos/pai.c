@@ -4,7 +4,8 @@ int codpai_grp(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 	paigrpcode = (gchar*) gtk_entry_get_text(GTK_ENTRY(pai_grp_entry));
-	if(!strlen(paigrpcode)){
+
+  if(!strlen(paigrpcode)){
     paigrpcode = strdup("1");
     gtk_entry_set_text(GTK_ENTRY(pai_grp_entry), paigrpcode);
 	//	popup(NULL,"Insira o código do grupo pai");

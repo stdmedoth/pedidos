@@ -5,11 +5,13 @@ int relat_orc_prod_query_fun()
 	int campos_qnt=0;
 	char ini_query[] = "select ";
 	char *end_query;
-	char query[MAX_QUERY_LEN];
-	char campo_query_cp[MAX_ROW_LEN*2];
-	char tipo_orc_prod_query[MAX_ROW_LEN];
-	char filtros_query_gchar[MAX_ROW_LEN*4];
-	char filtros_order_by[MAX_ROW_LEN*2];
+	char *query = malloc(MAX_QUERY_LEN*3);
+	char *campo_query_cp;
+	char *tipo_orc_prod_query = malloc(MAX_QUERY_LEN);
+	char *filtros_query_gchar = malloc(MAX_QUERY_LEN*2), *filtros_order_by = malloc(MAX_QUERY_LEN);
+
+	struct _relat_query *orc_prod_query = malloc(sizeof(struct _relat_query));
+	orc_prod_query->campo_query = malloc( MAX_QUERY_LEN * MAX_RELAT_CAMPOS );
 
 	relat_orc_prod_gerando=1;
 	if(relat_orc_prod_codigo_fun()){
@@ -36,11 +38,11 @@ int relat_orc_prod_query_fun()
 		return 1;
 	}
 
-	if(campos_query[relat_orc_prod_ordem_int-1]){
-		sprintf(filtros_order_by,"order by o.code asc, %s",campos_query[relat_orc_prod_ordem_int-1]);
-	}else{
-		popup(NULL,"Não foi possivel encontrar query para ordenação");
-	}
+	if( !relat_orc_prod_ordem_int || !campos_query[relat_orc_prod_ordem_int-1] )
+		return 1;
+
+	sprintf(filtros_order_by,"order by %s",campos_query[relat_orc_prod_ordem_int-1]);
+
 
 	if(relat_orc_prod_tipo_int == 0){
 		sprintf(tipo_orc_prod_query," and o.tipo_mov = 0");
@@ -69,35 +71,39 @@ int relat_orc_prod_query_fun()
 		return 1;
 	}
 
-	strcpy(orc_prod_query.campos, "");
 	while((row = mysql_fetch_row(res))){
 
 		if(campos_qnt==0){
-			sprintf(orc_prod_query.campos,"%s, ",row[0]);
+			orc_prod_query->campos = malloc( strlen(row[0]) + 4 );
+			sprintf(orc_prod_query->campos,"%s, ",row[0]);
 		}
 		else{
-			sprintf(orc_prod_query.campos," %s %s,",campo_query_cp,row[0]);//backup + campo novo
+			orc_prod_query->campos = malloc( strlen(campo_query_cp) + strlen(row[0]) + 4 );
+			sprintf(orc_prod_query->campos," %s %s,",campo_query_cp,row[0]);//backup + campo novo
 		}
 
-		strcpy(campo_query_cp, orc_prod_query.campos); //pega backup query
+		campo_query_cp = malloc( strlen(orc_prod_query->campos) );
+		orc_prod_query->campo_query[campos_qnt] = malloc( strlen(row[0]) );
 
-		strcpy(orc_prod_query.campo_query[campos_qnt],row[0]);
+		strcpy(campo_query_cp, orc_prod_query->campos); //pega backup query
+		strcpy(orc_prod_query->campo_query[campos_qnt],row[0]);
 
-		g_print("campo %i: %s\n",campos_qnt, orc_prod_query.campo_query[campos_qnt]);
+		g_print("campo %i: %s\n",campos_qnt, orc_prod_query->campo_query[campos_qnt]);
 
 		end_query = malloc(strlen(row[1]));
 		sprintf(end_query,"%s",row[1]);
 		campos_qnt++;
 	}
-	orc_prod_query.campos_qnt = campos_qnt;
+	orc_prod_query->campos_qnt = campos_qnt;
 
 
-	orc_prod_query.campos[strlen(orc_prod_query.campos)-1] = '\0';
-	relat_orc_prod_query_gchar = malloc(strlen(ini_query)+strlen(orc_prod_query.campos)+strlen(end_query)+strlen(filtros_query_gchar)+1);
+	orc_prod_query->campos[strlen(orc_prod_query->campos)-1] = '\0';
+	relat_orc_prod_query_gchar = malloc(strlen(ini_query)+strlen(orc_prod_query->campos)+strlen(end_query)+strlen(filtros_query_gchar)+1);
 
-	sprintf(relat_orc_prod_query_gchar,"%s%s%s %s",ini_query,orc_prod_query.campos,end_query,filtros_query_gchar);
+	sprintf(relat_orc_prod_query_gchar,"%s%s%s %s",ini_query,orc_prod_query->campos,end_query,filtros_query_gchar);
 	gtk_entry_set_text(GTK_ENTRY(relat_orc_prod_query_entry),relat_orc_prod_query_gchar);
 	//relat_orc_prod_gerar_fun();
+
 	relat_orc_prod_grafico_fun();
 	relat_orc_prod_gerando = 0;
 	return 0;

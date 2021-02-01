@@ -1,8 +1,10 @@
 struct _operador *get_operador(int oper_code){
 	struct _operador *operador = malloc(sizeof(struct _operador));
+
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+
 	sprintf(query, "select * from operadores where code = %i", oper_code);
 	if(!(res = consultar(query))){
 		return NULL;
@@ -10,6 +12,7 @@ struct _operador *get_operador(int oper_code){
 	if(!(row = mysql_fetch_row(res))){
 		return NULL;
 	}
+
 	operador->code = atoi(row[OPER_CODE]);
 	operador->nome = strdup(row[OPER_NOME]);
 	operador->senha = strdup(row[OPER_SENHA]);
@@ -63,8 +66,7 @@ void passa_senha(){
 	gtk_widget_grab_focus(enviar_login);
 }
 
-void verifica_senha()
-{
+void verifica_senha(){
 
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *res;
@@ -74,14 +76,20 @@ void verifica_senha()
 	oper_nome_login = malloc(MAX_OPER_LEN);
 	oper_senha_login = malloc(MAX_SEN_LEN);
 
-	oper_nome_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
-	oper_senha_login =(gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
+	oper_nome_login = (gchar*) gtk_entry_get_text(GTK_ENTRY(nome_entry));
+	oper_senha_login = (gchar*) gtk_entry_get_text(GTK_ENTRY(senha_entry));
+
+	if(!strlen(oper_nome_login)){
+		oper_nome_login = strdup("");
+	}
+	if(!strlen(oper_senha_login)){
+		oper_senha_login = strdup("");
+	}
 
 	mysql_real_escape_string(&conectar,unvulned_nome,oper_nome_login,strlen(oper_nome_login));
 	mysql_real_escape_string(&conectar,unvulned_senha,oper_senha_login,strlen(oper_senha_login));
 
-	sprintf(query,"select code,nome,nivel from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
-
+	sprintf(query,"select * from operadores where nome = '%s' and senha = MD5('%s');",unvulned_nome,unvulned_senha);
 	if(!(res = consultar(query))){
 		file_logger("verifica_senha() -> consultar() -> tabela operadores");
 		popup(janela_login,"Erro de comunicacao com banco");
@@ -90,11 +98,13 @@ void verifica_senha()
 	}
 
 	if((row = mysql_fetch_row(res))){
-		g_signal_handler_disconnect(janela_login,g_handle_janela_login);
 
-		sessao_oper = get_new_sessao_from_oper(atoi(row[0]));
+		g_signal_handler_disconnect(janela_login, g_handle_janela_login);
+
+		sessao_oper = get_new_sessao_from_oper( atoi(row[OPER_CODE]) );
 		if(!sessao_oper){
-			popup(NULL,"Não foi possível carregar operador");
+			file_logger("verifica_senha() -> get_new_sessao_from_oper()");
+			popup(NULL,"Não foi possível carregar sessão pelo operador");
 			return ;
 		}
 
@@ -104,13 +114,15 @@ void verifica_senha()
 		if(desktop()!=0){
 			file_logger("verifica_senha() -> desktop()");
 			encerrando();
+			return ;
 		}
-		return ;
-	}
-	else{
+
+	}else{
+
 		popup(janela_login,"Usuário ou Senha incorretos");
 		gtk_widget_grab_focus(senha_entry);
 		return;
+
 	}
 
 	return;
@@ -210,8 +222,8 @@ int login()
 	g_signal_connect(oper_psq_button,"clicked",G_CALLBACK(psq_oper),nome_entry);
 
 	g_handle_janela_login = g_signal_connect(janela_login,"destroy",G_CALLBACK(encerrando),NULL);
-
 	//g_signal_connect(janela_login,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.login.janela_pointer);
+
 	gtk_widget_grab_focus(nome_entry);
 	return 0;
 }

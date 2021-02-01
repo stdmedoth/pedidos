@@ -1,8 +1,5 @@
-int relat_prod_gerar_fun()
+int relat_prod_gerar_fun(struct _relat_query *prod_query)
 {
-
-	relat_prod_grafico_fun();
-	return 0;
 	MYSQL_RES *res1,*res2;
 	MYSQL_ROW row1,row2;
 	char *gerando_file = malloc(strlen(PROD_RELAT_FILE) + 100);
@@ -82,7 +79,7 @@ int relat_prod_gerar_fun()
 		cont = 0;
 		fprintf(relatorio_file,"<tr class='tr-estilo'>");
 		list_qnt++;
-		while(cont < prod_query.campos_qnt){
+		while(cont < prod_query->campos_qnt){
 			if(tipos_colunas[cont] == 1)//texto
 					fprintf(relatorio_file,"<td>%s</td>",row2[cont]);
 			else

@@ -80,10 +80,10 @@ int relat_mov_query_fun()
 
 	while((row = mysql_fetch_row(res))!=NULL){
 
-		if(campos_qnt==0)
+		if(campos_qnt==0){
 			sprintf(mov_query.campos,"%s, ",row[0]);
-		else
-		{
+		}
+		else{
 			sprintf(mov_query.campos," %s %s,",campo_query_cp,row[0]);//backup + campo novo
 		}
 

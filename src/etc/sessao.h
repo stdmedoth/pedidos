@@ -22,9 +22,9 @@ void sessao_set_allmodules();
 
 void sessao_set_nonemodules();
 
-void criar_sessao_default();
+struct _sessao * criar_sessao_default();
 
-void criar_sessao_anon();
+struct _sessao *criar_sessao_anon();
 
 int fechar_sessao();
 

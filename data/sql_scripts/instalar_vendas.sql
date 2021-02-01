@@ -1,4 +1,4 @@
-create table if not exists pedidos( [
+create table if not exists pedidos( 
   code int primary key auto_increment,
   tipo_mov int default 1,
   vendedor int default 1,

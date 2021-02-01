@@ -1,9 +1,9 @@
-struct
+/*struct
 {
 	char *campos;
 	char **campo_query;
 	int campos_qnt;
-}prod_query;
+}prod_query;*/
 
 static int relat_prod_gerando=0;
 static GtkWidget *relat_prod_code_entry,
@@ -30,4 +30,4 @@ void relat_prod_draw_page(GtkPrintOperation *operation, GtkPrintContext *context
 
 int relat_prod_grafico_fun();
 
-int relat_prod_gerar_fun();
+int relat_prod_gerar_fun(struct _relat_query *prod_query);

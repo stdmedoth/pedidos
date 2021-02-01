@@ -58,14 +58,16 @@ int configurar_parametros()
 
 int atualizar_paramentros()
 {
-	if(atualizar_orc_params()!=0)
+	if(atualizar_orc_params())
 		return 1;
-	if(atualizar_prod_params()!=0)
+	if(atualizar_prod_params())
 		return 1;
-	if(atualizar_intgr_params()!=0)
+	if(atualizar_intgr_params())
 		return 1;
-	if(atualizar_personalizacao()!=0)
+
+	if(atualizar_personalizacao())
 		return 1;
+
 	popup(NULL,"Parametros Atualizados");
 	return 0;
 }

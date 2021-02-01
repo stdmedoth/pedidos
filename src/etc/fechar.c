@@ -11,7 +11,8 @@ void encerrando()
   "Encerrando...",
   0,
   0,
-  sessao_oper->operador->code);
+  1);
+	//sessao_oper->operador->code);
 	err = mysql_query(&conectar,query);
 	if(err!=0)
 	{

@@ -1,12 +1,3 @@
-/*
-codigo
-tipo movimento
-intervalo cliente/fornecedor
-intervalo produtos
-grupos
-intervalo pedidos
-*/
-
 struct
 {
 	char campos[MAX_RELAT_CAMPOS*MAX_ROW_LEN];

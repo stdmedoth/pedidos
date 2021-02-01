@@ -75,7 +75,7 @@ int init(){
 	ler_theme_dir();
 
 	if( !atoi(row[JANELA_INIT]) ){
-		criar_sessao_default();
+		sessao_oper = criar_sessao_default();
 		gtk_widget_destroy(janela_inicializacao);
 		if(desktop()){
 			file_logger("init() -> desktop()");

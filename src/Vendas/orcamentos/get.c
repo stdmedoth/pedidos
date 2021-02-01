@@ -192,9 +192,10 @@ struct _orc *orc_get_orc(int orc_code){
 	orc->infos = malloc(sizeof(struct _orc_infos));
 	orc->infos->code = atoi(row[ORC_COD_COL]);
 	orc->infos->tipo_mov = atoi(row[ORC_TIPMOV_COL]);
-	orc->infos->vendedor = terceiros_get_terceiro(atoi(row[ORC_VENDD_COL]));
-	if(!orc->infos->vendedor)
-		return NULL;
+	//orc->infos->vendedor = terceiros_get_terceiro(atoi(row[ORC_VENDD_COL]));
+	//if(!orc->infos->vendedor)
+	//	return NULL;
+
 	orc->infos->cliente = terceiros_get_terceiro(atoi(row[ORC_CLI_COL]));
 	if(!orc->infos->cliente)
 		return NULL;

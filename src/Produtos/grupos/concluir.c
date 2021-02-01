@@ -5,8 +5,10 @@ int conclui_grupo(){
 	concluindo_grp=1;
 	char query[MAX_QUERY_LEN];
 	char mensagem[30];
+
 	if(cod_grp())
 		return 1;
+
 	if(nome_grp())
 		return 1;
 
@@ -22,8 +24,7 @@ int conclui_grupo(){
 		strcpy(mensagem,"Grupo alterado com sucesso");
 		sprintf(query,"update grupos set nome = '%s', pai = %s, nivel = %i where code = %s",grpnome,paigrpcode, grpnivel, grpcode);
 	}
-	if(enviar_query(query)!=0)
-	{
+	if(enviar_query(query)!=0){
 		return 1;
 	}
 	cancela_grupo();

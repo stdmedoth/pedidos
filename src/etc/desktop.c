@@ -60,19 +60,17 @@ int desktop(){
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
 	if(!janelas_gerenciadas.aplicacao.criada){
-		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1",sessao_oper->operador->code,REG_CORRECT_FINAL);
+		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1", sessao_oper->operador->code, REG_CORRECT_FINAL);
 		if(!(res = consultar(query))){
 			popup(NULL,"Falha ao verificar dados da sessão anterior");
 			return 1;
 		}
-
 		if((row = mysql_fetch_row(res))){
 			if(atoi(row[2])!=0){
 				encerramento_brusco = 1;
 			}
-
 		}else{
-				encerramento_brusco = 0;
+			encerramento_brusco = 0;
 		}
 
 		sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
@@ -81,18 +79,16 @@ int desktop(){
 		1,
 		0,
 		sessao_oper->operador->code);
-		err = mysql_query(&conectar,query);
-		if(err){
-
+		if(enviar_query(query)){
 			popup(NULL,"Não foi possivel salvar status da sessão\n");
 			file_logger(query);
 			file_logger((char*)mysql_error(&conectar));
 		}
 	}
 
-	gchar *sessao_criacao_gchar = malloc(MAX_DATE_LEN + 30);
-	gchar *sessao_expiracao_gchar = malloc(MAX_DATE_LEN + 30);
-	gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
+	gchar *sessao_criacao_gchar = malloc(MAX_DATE_LEN + 40);
+	gchar *sessao_expiracao_gchar = malloc(MAX_DATE_LEN + 40);
+	gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 40);
 
 	GtkWidget *sessao_criacao_fixed = gtk_fixed_new();
 	GtkWidget *sessao_expiracao_fixed = gtk_fixed_new();

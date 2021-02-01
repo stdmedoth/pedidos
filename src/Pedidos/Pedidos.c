@@ -44,7 +44,7 @@ int main()
 
 	limpar_sessao();
 	limpar_applicacao();
-	
+
 	init_logger();
 
 	if(rec_vars_from_file())

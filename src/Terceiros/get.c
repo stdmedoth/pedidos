@@ -54,10 +54,10 @@ struct _terc_infos *terceiros_get_terceiro(int code){
 	terceiros->contatos = malloc(sizeof(struct _Contato)*MAX_CNTTS_QNT);
 
 	sprintf(query,"select * from terceiros where code = %i", code);
-	  if(!(res = consultar(query))){
-		file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Infos Básicas");
-		return NULL;
-	  }
+	if(!(res = consultar(query))){
+	 file_logger("Estrutura de Cliente/Fornecedor não criada! terceiros_get_terceiro() -> consultar() -> Infos Básicas");
+	 return NULL;
+	}
 
 	if((row = mysql_fetch_row(res))){
 		terceiros->code = atoi(row[COD_TER_COL]);

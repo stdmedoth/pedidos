@@ -20,7 +20,8 @@ enum OPER_COLS{
 	OPER_CODE,
 	OPER_NOME,
 	OPER_SENHA,
-	OPER_NIVEL
+	OPER_NIVEL,
+	OPER_COLS_QNT
 };
 
 #define OPER_MAX_NIVEL 10
@@ -33,6 +34,7 @@ static GtkWidget *enviar_login,*fechar_login;
 static int g_handle_janela_login;
 
 void oper_ver_senha(GtkWidget *button, GtkWidget *senha_entry);
+
 void passa_nome();
 void passa_senha();
 void verifica_senha();

@@ -202,19 +202,16 @@ GtkWidget *campos_produto_ped()
 	coluna5 = gtk_tree_view_column_new();
 
 	celula1 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula1),1,1);
-
 	celula2 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula2),1,1);
-
 	celula3 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula3),1,1);
-
 	celula4 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula4),1,1);
-
 	celula5 = gtk_cell_renderer_accel_new();
-	gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula5),1,1);
+
+	//gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula1),1,1);
+	//gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula2),1,1);
+	//gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula3),1,1);
+	//gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula4),1,1);
+	//gtk_cell_renderer_set_alignment(GTK_CELL_RENDERER(celula5),1,1);
 
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna1),celula1,TRUE);
 	gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(coluna2),celula2,TRUE);
@@ -224,23 +221,20 @@ GtkWidget *campos_produto_ped()
 
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna1),celula1,"text",0);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna1),"Produto");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna1),0.5);
-
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna2),celula2,"text",1);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna2),"Quantidade");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna2),0.5);
-
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna3),celula3,"text",2);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna3),"Vlr. Unitário");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna3),0.5);
-
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna4),celula4,"text",3);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna4),"Desc.");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna4),0.5);
-
 	gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(coluna5),celula5,"text",4);
 	gtk_tree_view_column_set_title(GTK_TREE_VIEW_COLUMN(coluna5),"Total");
-	gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna5),0.5);
+
+	//gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna1),0.5);
+	//gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna2),0.5);
+	//gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna3),0.5);
+	//gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna4),0.5);
+	//gtk_tree_view_column_set_alignment(GTK_TREE_VIEW_COLUMN(coluna5),0.5);
 
 	treeview = gtk_tree_view_new();
 
@@ -249,9 +243,6 @@ GtkWidget *campos_produto_ped()
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna3);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna4);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna5);
-
-	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING);
-	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
 
 	gtk_widget_show_all(treeview);
 	return treeview;
