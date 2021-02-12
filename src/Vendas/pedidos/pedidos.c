@@ -1,11 +1,13 @@
 int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 {
-	enum {N_COLUMNS=5,
-		COLUMN0=0,
-		COLUMN1=1,
-		COLUMN2=2,
-		COLUMN3=3,
-		COLUMN4=4};
+	enum{
+		COLUMN0,
+		COLUMN1,
+		COLUMN2,
+		COLUMN3,
+		COLUMN4,
+		N_COLUMNS
+	};
 	gchar *entrada = malloc(MAX_CODE_LEN);
 
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
@@ -21,6 +23,9 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	}
 
   GtkTreeStore *treestore = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
+	if(!treestore){
+		treestore = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	}
 
 	g_object_ref(G_OBJECT(treestore));
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),NULL);

@@ -1,6 +1,5 @@
 struct
 {
-
 	char campos[MAX_RELAT_CAMPOS*MAX_QUERY_LEN+MAX_QUERY_LEN];
 	char campo_query[MAX_RELAT_CAMPOS][MAX_QUERY_LEN];
 	int campos_qnt;
@@ -32,3 +31,4 @@ int relat_ter_fun();
 int relat_ter_codigo_fun();
 int relat_ter_query_fun();
 int relat_ter_gerar_fun();
+int relat_ter_grafico_fun();

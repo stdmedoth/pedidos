@@ -904,7 +904,8 @@ GtkWidget *get_relat_treeview(gchar *query1, gchar *query2){
     gtk_tree_view_column_add_attribute(coluna[cont],celula[cont],"text",cont);
     gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna[cont]);
 
-    /*switch (atoi(row1[1])) {
+    /*
+    switch (atoi(row1[1])) {
       case TEXTO:
         tipos[cont] = G_TYPE_STRING;
         break;
@@ -934,13 +935,26 @@ GtkWidget *get_relat_treeview(gchar *query1, gchar *query2){
 
   if( !(res2 = consultar(query2)) ){
     popup(NULL,"Erro ao receber dados do relatorio");
-    relat_prod_gerando=0;
+    return NULL;
+  }
+  if(!mysql_num_rows(res2)){
+    popup(NULL,"Nenhum listagem gerada");
     return NULL;
   }
   while((row2 = mysql_fetch_row(res2))){
-    cont = 0;
+    int cont = 0;
     gtk_tree_store_append(model,&campos,NULL);
     while(cont < num_rows){
+
+      if(!row2[cont]){
+        gchar *msg = malloc(200);
+        sprintf(msg, "Coluna %i do relatório com valor nullo", cont);
+        row2[cont] = strdup("vazio");
+        autologger(msg);
+        //popup(NULL, msg);
+        //return NULL;
+      }
+
       gchar msg[strlen(row2[cont]) + 10];
 
       if(tipos_colunas[cont] == TEXTO)//texto
@@ -971,7 +985,7 @@ GtkWidget *get_relat_treeview(gchar *query1, gchar *query2){
     }
   }
   if(!list_qnt){
-    popup(NULL,"Nenhum listagem gerada");
+    popup(NULL,"Não foi possível buscar informações");
     return NULL;
   }
   return treeview;

@@ -17,24 +17,14 @@ int relat_ter_gerar_fun()
 	char query[MAX_QUERY_LEN];
 	FILE *relatorio_file;
 	int cont=0,list_qnt=0;
-	gerando_file = malloc(500);
-
-	do{
-		sprintf(gerando_file,"%srelat%i.html",TER_RELAT_FILE,cont);
-		cont++;
-		if(cont>100)
-			return 1;
-	}
-	while(!(relatorio_file = fopen(gerando_file,"w")));
-
-	if(relatorio_file == NULL)
-	{
+	gerando_file = malloc(strlen(TER_RELAT_FILE) + 12);
+	sprintf(gerando_file,"%srelat%i.html",TER_RELAT_FILE,cont);
+	if(!(relatorio_file = fopen(gerando_file,"w"))){
 		popup(NULL,"Não foi possivel abrir o arquivo de relatorio");
 		return 1;
 	}
 
-	sprintf(query,"select b.nome from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_ter_codigo_gchar);
-
+	sprintf(query,"select b.nome from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s", relat_ter_codigo_gchar);
 	fprintf(relatorio_file,html_header);
 	fprintf(relatorio_file,"<body>");
 	fprintf(relatorio_file,"<div id=\"div-titulo\">");

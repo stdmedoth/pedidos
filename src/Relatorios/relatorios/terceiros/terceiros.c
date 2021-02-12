@@ -4,6 +4,7 @@
 #include "campos/cep.c"
 #include "campos/query_man.c"
 #include "gerar.c"
+#include "grafico.c"
 
 int relat_ter_fun()
 {

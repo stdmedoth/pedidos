@@ -5,21 +5,18 @@ int relat_ter_codigo_fun()
 	char query[MAX_QUERY_LEN];
 
 	relat_ter_codigo_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(relat_ter_code_entry));
-	if(strlen(relat_ter_codigo_gchar)<=0)
-	{
+	if(strlen(relat_ter_codigo_gchar)<=0){
 		popup(NULL,"Insira o código do relatório");
 		return 1;
 	}
 
 	sprintf(query,"select nome from criador_relat where code = %s",relat_ter_codigo_gchar);
-	if((res = consultar(query))==NULL)
-	{
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar nome do relatorio");
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL)
-	{
+	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Relatório não existente");
 		return 1;
 	}
@@ -41,7 +38,7 @@ int relat_ter_codigo_fun()
 		gtk_combo_box_set_active(GTK_COMBO_BOX(relat_ter_ordem_combo),0);
 		while((row = mysql_fetch_row(res))!=NULL){
 
-			if(cont>MAX_RELAT_CAMPOS)
+			if(cont>=MAX_RELAT_CAMPOS)
 				break;
 
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_ter_ordem_combo),row[0]);
