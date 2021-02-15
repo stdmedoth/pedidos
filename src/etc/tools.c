@@ -948,7 +948,7 @@ GtkWidget *get_relat_treeview(gchar *query1, gchar *query2){
 
       if(!row2[cont]){
         gchar *msg = malloc(200);
-        sprintf(msg, "Coluna %i do relatório com valor nullo", cont);
+        sprintf(msg, "Coluna %i do relatório com valor nulo", cont);
         row2[cont] = strdup("vazio");
         autologger(msg);
         //popup(NULL, msg);

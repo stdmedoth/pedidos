@@ -7,15 +7,9 @@ void encerrando()
 
 	//enviar aqui todas informacoes importantes para o banco
 	sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-  REG_CORRECT_FINAL,
-  "Encerrando...",
-  0,
-  0,
-  1);
+  REG_CORRECT_FINAL, "Encerrando...", 0, 0, 1);
 	//sessao_oper->operador->code);
-	err = mysql_query(&conectar,query);
-	if(err!=0)
-	{
+	if(mysql_query(&conectar,query)){
 		popup(NULL,"Não foi possivel salvar status da sessão\n");
 		file_logger(query);
 		file_logger((char*)mysql_error(&conectar));

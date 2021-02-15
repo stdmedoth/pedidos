@@ -65,9 +65,6 @@ xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
   xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
   xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
 
-  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "CadConsultaCadastro4", BAD_CAST "http://www.portalfiscal.inf.br/nfe/wsdl/CadConsultaCadastro4");
-  //xmlXPathRegisterNs(node_contxt,  BAD_CAST "nfe", BAD_CAST "http://www.portalfiscal.inf.br/nfe");
-
   xmlNodePtr node=NULL;
   if(node_contxt &&
     node_contxt->nodesetval &&

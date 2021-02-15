@@ -33,12 +33,6 @@ int rec_vars_from_file(){
     return 1;
   }
 
-  //xmlNodePtr server_conf = getContentByTagName(root,"server_conf");
-  //xmlNodePtr endereco_tag = getContentByTagName(root,"endereco");
-  //xmlNodePtr user_tag = getContentByTagName(root,"usuario");
-  //xmlNodePtr senha_tag = getContentByTagName(root,"senha");
-  //xmlNodePtr database_tag = getContentByTagName(root,"banco");
-
   server_confs.server_endereco = strdup((char*)xmlNodeGetContent(endereco_tag));
   server_confs.server_user = strdup((char*)xmlNodeGetContent(user_tag));
   server_confs.server_senha = strdup((char*)xmlNodeGetContent(senha_tag));

@@ -26,8 +26,9 @@ int wnd_logger(janelas_info *struct_wnd)
 	}
   strcpy(janela_nome,"");
 
-  if(struct_wnd->reg_id <= REG_WIN_QNT)
+  if(struct_wnd->reg_id <= REG_WIN_QNT){
     strcpy(janela_nome,janelas_nomes[struct_wnd->reg_id]);
+  }
   else{
     switch (struct_wnd->reg_id) {
       case REG_PRINC_WIN:
@@ -46,21 +47,18 @@ int wnd_logger(janelas_info *struct_wnd)
 
   if(sessao_oper && sessao_oper->operador){
     sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
+
     struct_wnd->reg_id,
     janela_nome,
     struct_wnd->aberta,
     struct_wnd->qnt_aberta,
     sessao_oper->operador->code);
 
-    err = mysql_query(&conectar,query);
-  	if(err!=0)
-  	{
+    if(mysql_query(&conectar,query)){
   		popup(NULL,"Erro de formato\n");
-  		if(logging == 0){
-  			file_logger(query);
-  			file_logger((char*)mysql_error(&conectar));
-  		}
-  		return err;
+			file_logger(query);
+			file_logger((char*)mysql_error(&conectar));
+  		return 1;
   	}
   }else{
     file_logger("----------------------");
@@ -120,7 +118,9 @@ int ger_janela_fechada(GtkWidget *janela, janelas_info *struct_wnd){
   if(validar_sessao_criada())
     return 1;
 
-  sessao_oper->ult_ativ = g_date_time_new_now_local();
+  if(sessao_oper){
+    sessao_oper->ult_ativ = g_date_time_new_now_local();
+  }
   struct_wnd->aberta = 0;
   struct_wnd->qnt_aberta--;
 
