@@ -1,7 +1,7 @@
 CC=gcc
 
 GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
-BDFLAGS=`pkg-config --libs --cflags mariadb`
+BDFLAGS=`pkg-config --libs --cflags mysqlclient`
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 CURLFLAGS=`pkg-config --libs --cflags  libcurl`

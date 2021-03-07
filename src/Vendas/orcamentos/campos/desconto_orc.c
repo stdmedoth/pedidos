@@ -1,6 +1,5 @@
 int desconto_prod_orc(GtkWidget *widget,int posicao)
 {
-	tracelogger_set_func_name("desconto_prod_orc");
 	ativos[posicao].desconto_f = 0;
 	strcpy(ativos[posicao].desconto_c,"");
 

@@ -1,6 +1,5 @@
 static int gerar_total_geral(){
 
-	tracelogger_set_func_name("gerar_total_geral");
 	char *muda_label;
 	muda_label = malloc(sizeof(char*)*MAX_PRECO_LEN*3);
 	total_geral_orc = 0;

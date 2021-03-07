@@ -20,7 +20,7 @@
 #include <time.h>
 
 #ifdef __linux__
-#include <mariadb/mysql.h>
+#include <mysql/mysql.h>
 #endif
 
 #ifdef WIN32
@@ -44,8 +44,6 @@ int main()
 
 	limpar_sessao();
 	limpar_applicacao();
-
-	init_logger();
 
 	if(rec_vars_from_file())
 		return 1;

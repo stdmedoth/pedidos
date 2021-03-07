@@ -1,6 +1,5 @@
 static int cancela_orc()
 {
-	tracelogger_set_func_name("cancela_orc");
 	char code[MAX_CODE_LEN];
 	GtkTextBuffer *buffer;
 

@@ -1,6 +1,5 @@
 int finalizacao_orc(){
 
-  tracelogger_set_func_name("finalizacao_orc");
   int len;
 	GtkWidget *finalizacao, *fields, *fixed, *box;
   GtkWidget *gerar_ask,*ped_ask;

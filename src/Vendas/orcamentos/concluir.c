@@ -1,6 +1,5 @@
 static int concluir_orc(){
 
-	tracelogger_set_func_name("concluir_orc");
 	int cont=0,erro=0;
 	int inseridos_na_alteracao=1;
 	char valor[MAX_PRECO_LEN];

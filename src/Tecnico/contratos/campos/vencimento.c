@@ -1,6 +1,5 @@
 int cntrats_vencimento_fun(){
 
-  tracelogger_set_func_name("cntrats_vencimento_fun");
   cntrats_vencimento_gchar =(gchar*) gtk_entry_get_text(GTK_ENTRY(cntrats_vencimento_entry));
   if(!strlen(cntrats_vencimento_gchar)){
     cntrats_vencimento_gchar = strdup("");

@@ -111,7 +111,8 @@ int cad_emp_concluir(){
   digcertpass = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_digcert_pass_entry));
 
   //informativos
-  if(cad_emp_prim){
+
+  if(!row_exists("empresa", atoi(code))){
     sprintf(query,
       "insert into empresa(code, cnpj,razao, ie, im, regime_tributario, regime_issqn, digcert_path, digcert_pass, cep, endereco, bairro, cidade, uf, numrua, tiporua, telefone, celular, smtp, porta, email, senhaemail, sobre ) \
       values('%s', '%s','%s', '%s', '%s', '%s','%i', '%s', '%s', '%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
@@ -139,7 +140,7 @@ int cad_emp_concluir(){
   mysql_real_escape_string(&conectar, query_path_script, path_script,strlen(path_script));
 
   //personalizacao
-  if(person_tecn_prim){
+  if(!row_exists("empresa", atoi(code))){
     sprintf(query,"insert into tecn_pers_elem(code,path_img_init,script_bin_path) values(1,'%s','%s')",
     query_path_img_init, query_path_script);
   }else{

@@ -16,7 +16,7 @@
 #include <time.h>
 
 #ifdef __linux__
-#include <mariadb/mysql.h>
+#include <mysql/mysql.h>
 #endif
 
 #ifdef WIN32

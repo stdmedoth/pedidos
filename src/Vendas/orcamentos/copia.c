@@ -1,6 +1,5 @@
 static int copia_orc_fun(){
 
-  tracelogger_set_func_name("copia_orc_fun");
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN*2];

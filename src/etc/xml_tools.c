@@ -60,7 +60,6 @@ xmlNodePtr getElementByTagName( xmlNodePtr nodes,char *TagName ){
 }
 
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
-  tracelogger_set_func_name("get_tag_by_namepath");
   xmlNodePtr root = xmlDocGetRootElement(doc);
   xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
   xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);

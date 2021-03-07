@@ -9,8 +9,6 @@ int init_logger();
 
 int app_tracelog();
 
-void tracelogger_set_func_name(gchar *func_name);
-
 void tracelogger_set_widget_name(gchar *widget_name);
 
 void tracelogger_set_obj_name(gchar *obj_name);

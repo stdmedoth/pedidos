@@ -9,7 +9,6 @@
 
 int contratos_get_modulos_qnt(){
 
-  tracelogger_set_func_name("contratos_get_modulos_qnt");
   int qnt=0;
   if(ativar.cadastro)
     qnt++;
@@ -32,8 +31,6 @@ int contratos_get_modulos_qnt(){
 }
 
 int cad_contratos(){
-
-  tracelogger_set_func_name("cad_contratos");
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
   janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].reg_id = REG_CAD_CNTRATS;

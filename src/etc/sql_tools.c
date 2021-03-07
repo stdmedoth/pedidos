@@ -1,3 +1,18 @@
+int row_exists(char *table, int id){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	sprintf(query, "select * from %s where code = %i", table ,id);
+
+	if(!(res = consultar(query))){
+		return 0;
+	}
+	if(mysql_num_rows(res)){
+		return 1;
+	}
+	return 0;
+}
+
 int conectar_mysql(){
 	GtkWidget *loading_wnd = carregando_wnd();
 

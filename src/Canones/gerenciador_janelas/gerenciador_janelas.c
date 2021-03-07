@@ -103,8 +103,6 @@ int ger_janela_aberta(GtkWidget *janela, janelas_info *struct_wnd){
     sprintf(msg,"Nome Janela aberta: %s",janelas_nomes[struct_wnd->reg_id]);
     autologger(msg);
 
-    gchar *wnd_name = strdup(janelas_nomes[struct_wnd->reg_id]);
-    tracelogger_set_wnd_name(wnd_name);
   }
 
   wnd_logger(struct_wnd);
@@ -158,10 +156,6 @@ int iniciar_gerenciador_janela(){
       janelas_gerenciadas.vetor_janelas[cont].reg_id,
       cont);
 
-      gchar *wnd_name = strdup(janelas_nomes[janelas_gerenciadas.vetor_janelas[cont].reg_id]);
-      if(wnd_name){
-          tracelogger_set_wnd_name(wnd_name);
-      }
 
       if(!GTK_IS_WIDGET(janelas_gerenciadas.vetor_janelas[cont].janela_pointer)){
         g_print("Janela '%s' já estava fechada\n",

@@ -3,7 +3,6 @@ static gchar *orc_ter_obs_char;
 
 void ter_alert_obs()
 {
-	tracelogger_set_func_name("ter_alert_obs");
 	GtkWidget *janela,*obs_label,*box,*fixed_fecha,*botao_fecha,*obs_caixa;
 	janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(janela,"caixa_frame");
@@ -30,7 +29,6 @@ void ter_alert_obs()
 
 int codigo_cli_orc()
 {
-	tracelogger_set_func_name("codigo_cli_orc");
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;

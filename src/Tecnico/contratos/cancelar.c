@@ -1,6 +1,5 @@
 int cntrats_cancelar_fun(){
 
-  tracelogger_set_func_name("cntrats_cancelar_fun");
   char task[12];
   sprintf(task, "%i", tasker("contratos"));
   gtk_entry_set_text(GTK_ENTRY(cntrats_code_entry), task);

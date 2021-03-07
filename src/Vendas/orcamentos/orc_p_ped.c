@@ -1,6 +1,5 @@
 int orc_has_ped(){
 
-	tracelogger_set_func_name("orc_has_ped");
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
@@ -22,7 +21,6 @@ int orc_has_ped(){
 
 void gera_orc_ped()
 {
-	tracelogger_set_func_name("gera_orc_ped");
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
