@@ -28,7 +28,7 @@ int init(){
 	}
 
 	imagem_inicializacao = gtk_image_new_from_file(cad_emp_strc.init_image_path);
-	gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1366,768);
+	//gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1266,568);
 
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
@@ -37,6 +37,7 @@ int init(){
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
+	//gtk_window_maximize(GTK_WINDOW(janela_inicializacao));
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
