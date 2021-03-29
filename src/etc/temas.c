@@ -1,8 +1,8 @@
 int ler_theme_dir()
 {
-	GDir *temas_dir;
-	GError *erro;
-	gchar *temas_dir_char,*tema_name;
+	GDir *temas_dir=NULL;
+	GError *erro=NULL;
+	gchar *temas_dir_char=NULL,*tema_name=NULL;
 	temas_dir_char = malloc(strlen(TEMA_PATH));
 	nomes_temas = malloc(MAX_TEMA_LEN*MAX_TEMA_QNT);
 	tema_name = malloc(MAX_TEMA_LEN);

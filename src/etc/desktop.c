@@ -195,9 +195,12 @@ int desktop(){
 	GtkSettings *settings;
 	settings = gtk_settings_get_default();
 
-	if(personalizacao.tema>=0)
+	if(personalizacao.tema>=0){
 		if(nomes_temas[personalizacao.tema])
 			g_object_set(settings, "gtk-theme-name",nomes_temas[personalizacao.tema],NULL);
+	}else{
+		g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
+	}
 
 	if(sessao_oper->operador->nivel>=NIVEL_TECNICO){
 		GtkSettings *settings;
