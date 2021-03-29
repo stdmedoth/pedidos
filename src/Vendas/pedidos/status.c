@@ -1,3 +1,13 @@
+int mudar_status(int ped_code, int status){
+  char query[MAX_QUERY_LEN];
+  sprintf(query,"update pedidos set status = %i where code = %i", status, ped_code);
+  if(enviar_query(query)!=0){
+    popup(NULL,"Erro ao inserir dados para fechar o pedido");
+    return 0;
+  }
+  return 1;
+}
+
 int ped_get_status(){
 
   gchar *ped_code = (gchar*)gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));

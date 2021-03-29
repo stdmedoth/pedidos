@@ -37,6 +37,9 @@ int atualizar_orc_params(){
 		orcamentos.criticar.prod_saldo_limite = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_prod_sld_lmt_wdt));
 		orcamentos.criticar.orc_ped_cancelado = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(orc_ped_canc_wdt));
 
+		orcamentos.tipo_faturamento = ORC_FAT_INATIVO;
+		orcamentos.envia_email = 0;
+		
 		xmlNodePtr orc_prod_mov = getContentByTagName(root,"orc_prod_mov");
 		if(orcamentos.criticar.prod_movimento)
 			xmlNodeSetContent(orc_prod_mov,(xmlChar *)"1");

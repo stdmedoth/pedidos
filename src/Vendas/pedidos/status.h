@@ -1,3 +1,4 @@
+int mudar_status(int ped_code, int status);
 int ped_get_status();
 
 enum{

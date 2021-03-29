@@ -40,8 +40,11 @@ int codigo_cli_orc()
 	}
 
 	orc_infos.cliente = terceiros_get_terceiro(atoi(cliente_orc_gchar));
-	if(!orc_infos.cliente)
+	if(!orc_infos.cliente){
+		popup(NULL,"Não foi possível buscar informações do terceiro");
+		gtk_widget_grab_focus(cliente_orc_entry);
 		return 1;
+	}
 
 	enum CLIENTE_INFOS{
 		RAZAO,
@@ -73,14 +76,14 @@ int codigo_cli_orc()
 
 		if(atoi(campos[FRETE_PAGO])){
 			orc_transp_frete_pago_int = 1;
-			gchar *msg = malloc(200);
+			gchar msg[200];
 			orc_transp_frete_pago_vlr = atof(campos[VLR_FRETE_PAGO]);
 			sprintf(msg, "Frete gratuito apartir de R$ %.2f (Cadastro Vinculado)", atof(campos[VLR_FRETE_PAGO]));
 			gtk_label_set_text(GTK_LABEL(orc_transp_frete_pago_label), msg);
 		}else{
 			orc_transp_frete_pago_int = 0;
 			orc_transp_frete_pago_vlr = 0;
-			gchar *msg = malloc(200);
+			gchar msg[200];
 			sprintf(msg, "Frete pago (Sem Vínculos)");
 			gtk_label_set_text(GTK_LABEL(orc_transp_frete_pago_label), msg);
 		}

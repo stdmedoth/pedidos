@@ -59,12 +59,12 @@ void cancelar_ter(){
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 
 	GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
-  if(contatos_model){
-    g_object_ref(G_OBJECT(contatos_model));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
-    gtk_list_store_clear(contatos_model);
-    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
-  }
+	if(contatos_model){
+		g_object_ref(G_OBJECT(contatos_model));
+		gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
+		gtk_list_store_clear(contatos_model);
+		gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
+	}
 
 	gtk_widget_grab_focus(name_ter_field);
 }

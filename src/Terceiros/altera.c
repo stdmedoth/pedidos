@@ -143,6 +143,9 @@ int altera_ter()
 			gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
 			gtk_widget_activate(prazo_ter_field);
 		}
+	}else{
+		campo[PRAZ_TER_COL] = strdup("");
+		gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),"");
 	}
 
 	if(campo[FLAG_MIN_FRT_PAG_COL])

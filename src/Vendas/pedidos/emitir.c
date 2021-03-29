@@ -383,58 +383,62 @@ int ped_emitir()
 		popup(NULL,"Estoque sem nenhuma movimentação");
 	}
 
-	struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
+	if(orcamentos.tipo_faturamento == ORC_FAT_CUPOM){
 
-	if(!cfe){
-		if(PopupBinario("O pedido não pode teve o cupom gerado, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
-			ped_cancelar();
-			return 0;
-		}
-	}else{
-		autologger("xml de cupom recebido\n");
-		char *cupom_path = malloc( sizeof(char) * strlen(CUPONS_XMLS_DIR) + 30);
-		sprintf(cupom_path,"%spedido_%i.xml",CUPONS_XMLS_DIR,pedidoPtr->infos->ped_code);
+		struct _CFe *cfe = get_cupons_from_ped(pedidoPtr);
+		if(!cfe){
+			if(PopupBinario("O pedido não pode teve o cupom gerado, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
+				ped_cancelar();
+				return 0;
+			}
+		}else{
+			autologger("xml de cupom recebido\n");
+			char *cupom_path = malloc( sizeof(char) * strlen(CUPONS_XMLS_DIR) + 30);
+			sprintf(cupom_path,"%spedido_%i.xml",CUPONS_XMLS_DIR,pedidoPtr->infos->ped_code);
 
-		FILE *xml = fopen(cupom_path,"w");
-		if(xml){
-			if(cfe->xml){
-				autologger("Exportando\n");
-				if(xmlDocDump(xml,	cfe->xml) == -1){
-					if(PopupBinario("O pedido não pode teve o cupom emitido, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
-						ped_cancelar();
-						return 0;
-					}else{
-						sprintf(query,"update pedidos set status = %i where code = %i", STATUS_PED_EMIT,pedidoPtr->infos->ped_code);
-						if(enviar_query(query)!=0){
-							popup(NULL,"Erro ao inserir dados para fechar o pedido");
-							return 1;
+			FILE *xml = fopen(cupom_path,"w");
+			if(xml){
+				if(cfe->xml){
+					autologger("Exportando\n");
+					if(xmlDocDump(xml,	cfe->xml) == -1){
+						if(PopupBinario("O pedido não pode teve o cupom emitido, Cancelar pedido?", "Sim! cancele o pedido", "Não! mantenha pedido sem cupom")){
+							ped_cancelar();
+							return 0;
+						}else{
+							if(!mudar_status(pedidoPtr->infos->ped_code, STATUS_PED_EMIT)){
+								popup(NULL,"Erro ao inserir dados para fechar o pedido");
+								return 1;
+							}
 						}
 					}
 				}
+				xmlFreeDoc(cfe->xml);
+				fclose (xml);
+			}else{
+				popup(NULL,"Erro ao abrir arquivo para Cupom, Cancele!");
+				return 1;
 			}
-			xmlFreeDoc(cfe->xml);
-			fclose (xml);
-		}else{
-			popup(NULL,"Erro ao abrir arquivo para Cupom, Cancele!");
-			return 1;
 		}
+
 	}
-
-	g_print("tamanho do orc_path %li\n",strlen(ORC_PATH));
-	char *orc_path = malloc(sizeof(char) * strlen(ORC_PATH) + 30);
-	sprintf(orc_path,"%simp%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
-
-	if(!fopen(orc_path,"rb")){
-		if(PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")){
-			//if(!gerar_orcs_html( pedidoPtr->infos->ped_code )){
-				sprintf(orc_path,"%simp%i.html",ORC_PATH,pedidoPtr->infos->ped_code);
-				if(!desenhar_pdf(orc_path))
-					enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
-			//}
+	
+	if(orcamentos.envia_email){
+		g_print("tamanho do orc_path %li\n",strlen(ORC_PATH));
+		char *orc_path = malloc(sizeof(char) * strlen(ORC_PATH) + 30);
+		sprintf(orc_path,"%simp%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
+	
+			if(!fopen(orc_path,"rb")){
+				if(PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")){
+					//if(!gerar_orcs_html( pedidoPtr->infos->ped_code )){
+						sprintf(orc_path,"%simp%i.html",ORC_PATH,pedidoPtr->infos->ped_code);
+						if(!desenhar_pdf(orc_path))
+							enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
+					//}
+				}
+			}else{
+				sprintf(orc_path,"%ped%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
+				enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
 		}
-	}else{
-		sprintf(orc_path,"%ped%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
-		enviar_email_orcamento(nome_cliente,email_cliente,orc_path);
 	}
 
 	emitindo_ped = 0;
