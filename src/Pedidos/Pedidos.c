@@ -31,7 +31,7 @@
 #include "../etc/libs.h"
 #include "../etc/libs.c"
 
-int main()
+int main(int argc, char *argv[])
 {
 	gtk_disable_setlocale();
 	//setlocale(LC_ALL,"");

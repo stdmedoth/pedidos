@@ -28,7 +28,7 @@ static void criar_janela_princ(){
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
 
-	g_timeout_add (1000, atualizar_inatividade_label, NULL);
+	//g_timeout_add (1000, atualizar_inatividade_label, NULL);
 
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal); //works only on gtk_window_set_deletable = TRUE
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal); //works only on gtk_window_set_deletable = TRUE

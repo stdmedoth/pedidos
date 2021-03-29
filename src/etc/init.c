@@ -59,9 +59,6 @@ int init(){
 	}
 
 	GtkSettings *settings = gtk_settings_get_default();
-	gchar **path;
-	int n_elements;
-
 	icone = gtk_icon_theme_get_default();
 	gtk_icon_theme_append_search_path(icone, ICON_PATH);
 	g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
@@ -81,19 +78,18 @@ int init(){
 			inicializando=0;
 			return 1;
 		}
-	}
-	else{
+	}else{
+		janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
+		if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao)){
+			file_logger("init() -> ger_janela_aberta() -> janela_inicializacao");
+			return 1;
+		}
+
 		if(login())
 			return 1;
 		gtk_widget_show_all(janela_login);
 	}
 	carregar_interface();
-
-	janelas_gerenciadas.fundo_inicializacao.reg_id = REG_INIT_FUN_WIN;
-	if(ger_janela_aberta(janela_inicializacao, &janelas_gerenciadas.fundo_inicializacao)){
-		file_logger("init() -> ger_janela_aberta() -> janela_inicializacao");
-		return 1;
-	}
 
 	inicializando=0;
 	return 0;

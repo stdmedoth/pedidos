@@ -4,10 +4,11 @@ gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   us
 
   int perms[] = {
     GDK_KEY_BackSpace,
+    GDK_KEY_Tab,
     GDK_KEY_KP_Enter,
     -1
   };
-  for(int cont=0;perms[cont]!=-1;cont++){
+  for(int cont=0; perms[cont]!=-1; cont++){
     if(event->keyval == perms[cont]){
       return FALSE;
     }
