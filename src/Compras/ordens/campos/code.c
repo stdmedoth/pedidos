@@ -2,7 +2,7 @@ int ordem_cmp_code_fun(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
 
   ordem_cmp_code_gchar =  (gchar*) gtk_entry_get_text(GTK_ENTRY(ordem_cmp_code_entry));
   if(!strlen(ordem_cmp_code_gchar)){

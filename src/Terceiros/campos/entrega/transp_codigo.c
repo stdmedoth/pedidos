@@ -1,10 +1,9 @@
 int transp_codigo_fun()
 {
 	char code[10];
-	char *query;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
 	transp_codigo = (gchar *) gtk_entry_get_text(GTK_ENTRY(transp_codigo_entry));
 
 	vinc_transp();

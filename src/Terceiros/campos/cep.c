@@ -1,12 +1,12 @@
 int msg_cep=0;
 int cep_terc()
 {
-	char *query;
+	char query[MAX_QUERY_LEN];
 	int cont=0,cont2=0;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	char ddd[10];
-	query = malloc(MAX_QUERY_LEN);
+	
 	cep_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(cep_ter_field));
 	if(strlen(cep_ter)>=MAX_CEP_LEN){
 		popup(NULL,"CEP muito grande\nPor favor verifique");

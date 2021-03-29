@@ -6,7 +6,7 @@ int ordem_cmp_gerar(){
   gchar *codebackup = strdup(ordem_cmp_code_gchar);
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
 
   sprintf(query, "select * from ordens_compra where code = %s",ordem_cmp_code_gchar);
   if(!(res = consultar(query))){

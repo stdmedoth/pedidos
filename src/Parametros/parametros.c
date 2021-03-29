@@ -7,8 +7,7 @@
 int configurar_parametros()
 {
 	int cont;
-	char *query;
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
 	MYSQL_RES *res;
 	MYSQL_ROW  row;
 

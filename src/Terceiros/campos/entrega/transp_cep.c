@@ -1,10 +1,9 @@
 int transp_msg_cep=0;
 int transp_cepc()
 {
-	char *query;
+	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	query = malloc(MAX_QUERY_LEN);
 	transp_cep = (gchar *) gtk_entry_get_text(GTK_ENTRY(transp_cep_entry));
 	if(strlen(transp_cep)>=MAX_CEP_LEN)
 	{

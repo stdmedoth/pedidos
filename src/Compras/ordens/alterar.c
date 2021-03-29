@@ -3,7 +3,7 @@ int ordem_cmp_alterar_fun(){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
   sprintf(query, "select code, fornecedor, DATE_FORMAT(dtemissao, '%%d/%%m/%%Y'), DATE_FORMAT(dtentrega, '%%d/%%m/%%Y'), condpag, status from ordens_compra where code = %s", ordem_cmp_code_gchar);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar existencia da ordem de compra");

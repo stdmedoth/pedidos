@@ -51,8 +51,7 @@ static int receber_personalizacao()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
-	char *query;
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper->operador->code);
 
 	if((res = consultar(query))==NULL)
@@ -131,16 +130,13 @@ static int receber_personalizacao()
 int atualizar_personalizacao()
 {
 	int erro;
-	char *query;
-	char *navegador_path1,*navegador_path2,*imp_path1,*imp_path2,*imp_path3;
-
-	query = malloc(MAX_QUERY_LEN);
-
-	navegador_path1 = malloc(MAX_PATH_LEN);
-	navegador_path2 = malloc(MAX_PATH_LEN);
-	imp_path1 = malloc(MAX_PATH_LEN);
-	imp_path2 = malloc(MAX_PATH_LEN);
-	imp_path3 = malloc(MAX_PATH_LEN);
+	char query[MAX_QUERY_LEN + MAX_PATH_LEN * 4];
+	char navegador_path1[MAX_PATH_LEN],
+		 navegador_path2[MAX_PATH_LEN],
+		 
+		 imp_path1[MAX_PATH_LEN],
+		 imp_path2[MAX_PATH_LEN],
+		 imp_path3[MAX_PATH_LEN];
 
 	if(ler_personalizacao())
 		return 1;

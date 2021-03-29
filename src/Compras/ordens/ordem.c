@@ -18,9 +18,10 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
 	MYSQL_ROW row;
 	GDateTime  *gdate;
 	GTimeZone *timezone;
-	char *query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
+	
 	struct _ord_cmp *ordem_cmp = malloc(sizeof(struct _ord_cmp));
-  ordem_cmp->itens = malloc(sizeof(struct _ord_cmp_item) * MAX_PROD);
+  	ordem_cmp->itens = malloc(sizeof(struct _ord_cmp_item) * MAX_PROD);
 
 	sprintf(query, "select * from ordens_compra where code = %i", ordcmp_code);
 	if(!(res = consultar(query))){

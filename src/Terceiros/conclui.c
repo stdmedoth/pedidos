@@ -1,8 +1,7 @@
 int conclui_ter(GtkWidget* nome, gpointer *botao)
 {
 	int err;
-
-	char *query;
+	char query[MAX_QUERY_LEN+INSERT_QUERY];
 	concluindo_ter = 1;
 	if(code_terc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
@@ -142,14 +141,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
-	g_print("alocando memoria para query %i\n",(int)(MAX_QUERY_LEN+INSERT_QUERY));
-	query = malloc((int)(MAX_QUERY_LEN+INSERT_QUERY));
-	if(query==NULL)
-	{
-			popup(NULL,"Erro de memoria");
-			autologger("Erro de memoria");
-			return 1;
-	}
+	
 	g_print("iniciando concluir_ter()\n");
 
 	if(alterando_ter==0)

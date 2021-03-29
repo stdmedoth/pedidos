@@ -1,11 +1,10 @@
 int init(){
+
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	char *query;
+	char query[MAX_QUERY_LEN];
 	inicializando=1;
 	GtkWidget *imagem_inicializacao;
-
-	query = malloc(MAX_QUERY_LEN);
 
 	enum{
 		CODE,
@@ -13,7 +12,6 @@ int init(){
 		SCRIPT_BIN_PATH
 	};
 	sprintf(query,"select * from tecn_pers_elem");
-
 	if(!(res = consultar(query))){
 		person_tecn_prim = 1;
 		popup(NULL,"Falha ao receber dados técnicos personalizados");
@@ -98,6 +96,5 @@ int init(){
 	}
 
 	inicializando=0;
-
 	return 0;
 }

@@ -59,7 +59,7 @@ char *camel_case(char *text){
 }
 gboolean atualizar_inatividade_label(){
   carregar_interface();
-  gchar *sessao_inatividade_gchar = malloc(MAX_DATE_LEN + 30);
+  gchar sessao_inatividade_gchar[MAX_DATE_LEN + 30];
   GDateTime *atual = g_date_time_new_now_local ();
   GTimeSpan inatividade=0;
   if(sessao_oper->ult_ativ){
@@ -160,7 +160,7 @@ int validar_sessao_criada(){
   }
 
   if(g_date_time_difference(atual, sessao_oper->ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
-    gchar *msg = malloc(100);
+    gchar msg[100];
     sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
     file_logger(msg);
     sprintf(msg, "data da ultima atividade = %s\n", g_date_time_format (sessao_oper->ult_ativ, "%F %T"));
@@ -171,7 +171,7 @@ int validar_sessao_criada(){
   }
 
   if(g_date_time_compare(atual, sessao_oper->expiracao) >=0 ){
-    gchar *msg = malloc(100);
+    gchar msg[100];
     sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
     file_logger(msg);
     sprintf(msg, "data expiracao = %s\n", g_date_time_format (sessao_oper->expiracao, "%F %T"));
@@ -309,6 +309,11 @@ gchar *get_full_ender_from_cep(gchar *cep, int num){
     }
     ender = malloc(strlen(logr) + strlen(cnum) + strlen(bairro) + strlen(cidade) + strlen(uf) + 10);
     sprintf(ender, "%s,%s,%s,%s,%s", logr, cnum, bairro, cidade, uf);
+    free(logr);
+    free(cnum);
+    free(bairro);
+    free(cidade);
+    free(uf);
   }
 
   return ender;

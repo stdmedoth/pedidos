@@ -1,24 +1,23 @@
 int file_logger(char *string){
 	FILE *logger;
-  char *string1;
-
-  if(!string)
-    return 1;
+  	char *string1;
+	if(!string)
+		return 1;
 
 	logger = fopen(LOGGER,"a+");
 	if(logger){
-    GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
-    if(!data){
-      file_logger("app_tracelog() -> datetime nulo, não foi possível carregar data");
-    }
-    string1 = malloc( strlen(string) + strlen( g_date_time_format(data,"%F %T") ) + 20 );
-    sprintf(string1,"%s - %s", g_date_time_format(data,"%F %T"), string);
-    fprintf(logger, "%s\n", string1);
-  }else{
+	    GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+	    if(!data){
+	      file_logger("app_tracelog() -> datetime nulo, não foi possível carregar data");
+	    }
+	    string1 = malloc( strlen(string) + strlen( g_date_time_format(data,"%F %T") ) + 20 );
+	    sprintf(string1,"%s - %s", g_date_time_format(data,"%F %T"), string);
+	    fprintf(logger, "%s\n", string1);
+	}else{
 		popup(NULL,"Não foi possivel atualizar logs, verifique com suporte");
 		encerrando();
-    exit(1);
-  }
+	    exit(1);
+	}
 	fclose(logger);
 	return 0;
 }
@@ -26,11 +25,11 @@ int file_logger(char *string){
 
 int autologger(char *string)
 {
-	char *string1, *string2,*unvulned_query;
-  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+	GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	logging = 1;
-	string1 = malloc(MAX_QUERY_LEN+strlen(string) + strlen(g_date_time_format(data,"%F %T")));
-	//string2 = malloc(MAX_QUERY_LEN+strlen(string));
+	char string1[MAX_QUERY_LEN + strlen(string) + strlen(g_date_time_format(data,"%F %T"))];
+	//char string2[MAX_QUERY_LEN+strlen(string)*2];
+	//char *unvulned_query[MAX_QUERY_LEN+strlen(string)*2];
 
 	sprintf(string1,"%s - %s",g_date_time_format(data,"%F %T"), string);
 
@@ -43,7 +42,6 @@ int autologger(char *string)
 		if(string1[cont] == '\0' || string1[cont] == -1)
 			break;
 	}
-	unvulned_query = malloc(strlen(string1)*2);
 
 	if(primeira_conexao!=0)
 		mysql_real_escape_string(&conectar,unvulned_query,string1,strlen(string1));
@@ -56,10 +54,8 @@ int autologger(char *string)
 	if(enviar_query(string2)!=0)
 		g_print("Log não pode ser enviado\n%s\n",string2);
 */
-  file_logger(string1);
-  //	file_logger(string2);
-  free(string1);
-  //free(string2);
+	file_logger(string1);
+ 	//file_logger(string2);
 
 	logging = 0;
 	return 0;

@@ -1,6 +1,6 @@
 int ordem_cmp_concluir_fun(){
 
-  gchar *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
   MYSQL_RES *res;
   MYSQL_ROW row;
   enum {

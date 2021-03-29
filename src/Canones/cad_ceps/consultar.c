@@ -2,7 +2,8 @@ struct _cad_cep *get_cep_from_consulta(gchar *cep){
 
   MYSQL_RES *res;
   MYSQL_ROW row;
-  char query[MAX_QUERY_LEN],code_task[MAX_CODE_LEN];
+  char query[MAX_QUERY_LEN],
+  code_task[MAX_CODE_LEN];
 
   CURL *curl = curl_easy_init();
   struct upload_status upload_ctx;
@@ -179,10 +180,9 @@ struct _cad_cep *get_cep_from_consulta(gchar *cep){
 
 int cad_ceps_consultar_fun(){
 
-  char *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
   cad_ceps_consultando = 1;
   gtk_widget_set_sensitive(cad_cep_consulta_button, FALSE);
-
 
   g_main_context_iteration(NULL,FALSE);
 
