@@ -3,9 +3,12 @@
 gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
 
   int perms[] = {
+    GDK_KEY_Escape,
     GDK_KEY_BackSpace,
     GDK_KEY_Tab,
+    GDK_KEY_Return,
     GDK_KEY_KP_Enter,
+    GDK_KEY_3270_Enter,
     -1
   };
   for(int cont=0; perms[cont]!=-1; cont++){
