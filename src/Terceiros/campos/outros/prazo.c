@@ -7,7 +7,7 @@ int prazo_fun()
 	prazo_ter = (gchar*) gtk_entry_get_text(GTK_ENTRY(prazo_ter_field));
 
 	if(strlen(prazo_ter)<=0){
-		prazo_ter = strdup("0");
+		prazo_ter = strdup("NULL");
 		gtk_entry_set_text(GTK_ENTRY(campo_nome_cond_ter),"");
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(frete_pago_flag)))
 			gtk_widget_grab_focus(frete_pago_entry);
