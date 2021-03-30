@@ -1,6 +1,6 @@
 <server_conf>
 	<endereco>localhost</endereco>
-	<usuario>cake_user</usuario>
-	<senha>cake_pass</senha>
+	<usuario>calistu</usuario>
+	<senha>bash9835</senha>
 	<banco>contas</banco>
 </server_conf>

@@ -2,14 +2,27 @@ static void criar_janela_princ(){
 
 	janela_principal = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
-	gtk_window_maximize(GTK_WINDOW(janela_principal));
 	gtk_window_set_position(GTK_WINDOW(janela_principal),0);
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
-	//gtk_window_set_default_size(GTK_WINDOW(janela_principal),1166,568);
-	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
+	
+	gtk_window_maximize(GTK_WINDOW(janela_principal));	
 
+	GdkRectangle workarea = {0};
+	GdkDisplay *display = gdk_display_get_default();
+	GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
+	gdk_monitor_get_workarea(monitor, &workarea);
+
+	monitor_width = workarea.width;
+	monitor_heigth = workarea.height;
+	
+	desktop_width = monitor_width - 78;
+	desktop_heigth = monitor_heigth - 32;
+
+	gtk_window_set_default_size(GTK_WINDOW(janela_principal), desktop_width, desktop_heigth);
+
+	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");
 	gtk_window_set_deletable (GTK_WINDOW(janela_principal), FALSE);
 
 	janelas_gerenciadas.principal.reg_id = REG_PRINC_WIN;
@@ -326,38 +339,35 @@ int desktop(){
 	gtk_box_pack_start(GTK_BOX(inferior),inferior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(inferior),inferior_2,0,0,0);
 
-	gtk_widget_set_size_request(GTK_WIDGET(superior),1291,0);
-	gtk_widget_set_size_request(GTK_WIDGET(inferior),1291,0);
+	gtk_widget_set_size_request(GTK_WIDGET(superior),desktop_width,0);
+	gtk_widget_set_size_request(GTK_WIDGET(inferior),desktop_width,0);
 
-	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),1290,750);
-	gtk_widget_set_size_request(GTK_WIDGET(juncao),1290,750);
+	gtk_widget_set_size_request(GTK_WIDGET(area_de_trabalho),desktop_width,desktop_heigth);
+	gtk_widget_set_size_request(GTK_WIDGET(juncao),desktop_width,desktop_heigth);
 	gtk_box_pack_start(GTK_BOX(juncao),superior,0,0,0);
 	gtk_box_pack_start(GTK_BOX(juncao),inferior,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(area_de_trabalho),juncao,0,0,0);
 
-	gtk_widget_set_size_request(barra,80,750);
+	gtk_widget_set_size_request(barra,80, desktop_heigth);
 
 	notificacoes_receber();
 
 	GtkWidget *barra_icones = barra_icones_wnd();
-	gtk_widget_set_size_request(barra_icones,80,750);
+	gtk_widget_set_size_request(barra_icones,80,desktop_heigth);
 	gtk_container_add(GTK_CONTAINER(barra),barra_icones);
 
 	GtkWidget *caixa_calendario = get_desktop_calendario();
-
 	gtk_box_pack_end(GTK_BOX(area_de_trabalho),barra,0,0,0);
+	gtk_widget_set_size_request(imagem_desktop, desktop_width, desktop_heigth);
 
-	gtk_widget_set_size_request(imagem_desktop,1290,750);
 	gtk_layout_put(GTK_LAYOUT(layout), imagem_desktop, 0, 0);
 	gtk_layout_put(GTK_LAYOUT(layout),nome_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),nivel_usuario_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),hostname_fixed,0,0);
 	gtk_layout_put(GTK_LAYOUT(layout),caixa_infos,0,0);
-
 	if(sessao_oper->operador->nivel >= NIVEL_GERENCIAL)
 		gtk_layout_put(GTK_LAYOUT(layout),caixa_calendario,400,200);
-
 	gtk_layout_put(GTK_LAYOUT(layout),area_de_trabalho,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela_principal),layout);

@@ -3,10 +3,12 @@ int ler_theme_dir()
 	GDir *temas_dir=NULL;
 	GError *erro=NULL;
 	gchar *temas_dir_char=NULL,*tema_name=NULL;
-	temas_dir_char = malloc(strlen(TEMA_PATH));
+	temas_dir_char = malloc(strlen(TEMA_PATH)+1);
+	strcpy(temas_dir_char,TEMA_PATH);
+	
 	nomes_temas = malloc(MAX_TEMA_LEN*MAX_TEMA_QNT);
 	tema_name = malloc(MAX_TEMA_LEN);
-	strcpy(temas_dir_char,TEMA_PATH);
+	
 
 	temas_qnt=0;
 	temas_dir = g_dir_open(temas_dir_char,0,&erro);

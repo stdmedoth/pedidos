@@ -11,6 +11,10 @@ static GtkWidget *barra;
 
 GtkWidget *imagem_barra,*layout_barra;
 
+
+static int monitor_width=0, monitor_heigth=0;
+static int desktop_width=0, desktop_heigth=0;
+
 int desktop();
 
 GtkApplication *app;

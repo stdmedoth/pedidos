@@ -245,8 +245,8 @@ xmlNodePtr confirmar_envio_email(gchar *destino, gchar *conteudo){
 
     email_copia = (gchar*)  gtk_entry_get_text(GTK_ENTRY(copia_entry));
     if(!strlen(email_copia)){
-      email_copia = malloc(strlen(SEM_EMAIL));
-      strcpy(email_copia,SEM_EMAIL);
+      email_copia = malloc(strlen(SEM_EMAIL)+1);
+      strcpy(email_copia, SEM_EMAIL);
     }else
     if(strlen(email_copia)>MAX_EMAIL_LEN){
       popup(NULL,"Email muito grande");
