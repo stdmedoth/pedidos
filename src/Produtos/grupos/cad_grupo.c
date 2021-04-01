@@ -27,14 +27,14 @@ struct _grupo *grp_get_grupo(int code_grp){
 		return NULL;
 	}
 
-	if((row = mysql_fetch_row(res))){
-		grupo->code = atoi(row[GRP_CODE]);
-		grupo->nome = strdup(row[GRP_NOME]);
-		grupo->pai = atoi(row[PAI_CODE]);
-		grupo->pai_nome = strdup(row[PAI_NOME]);
-		grupo->nivel = atoi(row[NIVEL]);
+	if(!(row = mysql_fetch_row(res))){
+		return NULL;	
 	}
-
+	grupo->code = atoi(row[GRP_CODE]);
+	grupo->nome = strdup(row[GRP_NOME]);
+	grupo->pai = atoi(row[PAI_CODE]);
+	grupo->pai_nome = strdup(row[PAI_NOME]);
+	grupo->nivel = atoi(row[NIVEL]);
 	return grupo;
 }
 
@@ -112,7 +112,9 @@ int cad_grupo()
 	janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].aberta = 1;
 	if(ger_janela_aberta(janela_grupo, &janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]))
 		return 1;
+
 	janelas_gerenciadas.vetor_janelas[REG_CAD_GRP].janela_pointer = janela_grupo;
+	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]);
 
 	cad_grp_treeview = gtk_tree_view_new();
 	coluna1 = gtk_tree_view_column_new();
@@ -193,6 +195,7 @@ int cad_grupo()
 	paipsq_grp_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(paipsq_grp_button), gtk_image_new_from_file(IMG_PESQ));
 
+
 	gtk_entry_set_width_chars(GTK_ENTRY(pai_grp_entry),3);
 	gtk_box_pack_start(GTK_BOX(pai_grupo_box),pai_grp_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(pai_grupo_box),paipsq_grp_button,0,0,0);
@@ -257,7 +260,16 @@ int cad_grupo()
 	gtk_container_add(GTK_CONTAINER(janela_grupo),layout_janela_grupo);
 
 	sprintf(code,"%i",tasker("grupos"));
-
+	
+	if( atoi(code) == 1){
+		char query[MAX_QUERY_LEN];
+		sprintf(query,"insert into grupos(code, nome, pai, nivel) values(1, 'RAIZ', 1, 0)");
+		if(enviar_query(query)){
+			popup(NULL,"Não foi possível criar grupo RAIZ");
+			return 1;
+		}
+		sprintf(code,"%i",tasker("grupos"));
+	}
 	gtk_entry_set_text(GTK_ENTRY(cod_grp_entry),code);
 
 	g_signal_connect(psq_grp_button,"clicked",G_CALLBACK(pesquisa_grp),cod_grp_entry);
@@ -272,11 +284,11 @@ int cad_grupo()
 	g_signal_connect(altera_grp_button,"clicked",G_CALLBACK(altera_grupo),NULL);
 	g_signal_connect(cancela_grp_button,"clicked",G_CALLBACK(cancela_grupo),NULL);
 	g_signal_connect(exclui_grp_button,"clicked",G_CALLBACK(exclui_grupo),NULL);
-	g_signal_connect(janela_grupo,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_GRP]);
 
 	g_signal_connect(cad_grp_treeview,"row-activated",G_CALLBACK(enter_code_from_treeview),cod_grp_entry);
 
 	cancela_grupo();
+
 	gtk_widget_show_all(janela_grupo);
 	return 0;
 }

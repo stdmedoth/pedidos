@@ -3,8 +3,14 @@ int exclui_grupo(){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 
-	if(strlen(grpcode)<=0)
-	{
+	char *foreign_keys[] = {"produtos"};
+	int foreign_keys_qnt = 1;
+
+	if(atoi(grpcode) == 1){
+		popup(NULL,"Não é possivel excluir grupo RAIZ");
+		return 1;
+	}
+	if(strlen(grpcode)<=0){
 		popup(NULL,"Insira um código para o grupo");
 		return 1;
 	}
@@ -18,6 +24,26 @@ int exclui_grupo(){
 		return 1;
 	}
 	
+	for(int cont=0; cont<foreign_keys_qnt; cont++ ){
+		char msg[200];
+		sprintf(query, "select code from %s where grupo = %s", foreign_keys[cont], grpcode);
+		if(!(res = consultar(query))){
+			popup(NULL,"Erro ao verificar vínculos");
+			return 1;
+		}
+		if((row = mysql_fetch_row(res))){
+			sprintf(msg, "Há vinculos com tabela %s, Deseja excluir?", foreign_keys[cont]);
+			if(PopupBinario(msg, "Sim, Exclua as vinculos!", "Não, Cancele o procedimento")){
+				sprintf(query,"delete from %s where grupo = %s", foreign_keys[cont], grpcode);
+				if(enviar_query(query)!=0){
+					char msg[300];
+					sprintf(msg, "Não foi possivel excluir %s (Provavel vínculo em %s)", foreign_keys[cont], foreign_keys[cont]);
+					popup(NULL, msg);
+					return 1;
+				}
+			}	
+		}
+	}
 	if((row = mysql_fetch_row(res))){
 		if(PopupBinario("O grupo possui ramificações, Deseja excluir?", "Sim, Exclua as ramificações e o grupo!", "Não, Cancele o procedimento")){
 			sprintf(query,"delete from grupos where pai = %s",grpcode);
@@ -30,25 +56,8 @@ int exclui_grupo(){
 		}
 	}
 
-	sprintf(query,"select * from produtos where grupo = %s",grpcode);
-	if(!(res = consultar(query))){
-		popup(NULL, "Não foi possível consultar produtos vinculados ao grupo");
-		return 1;
-	}
-	if((row = mysql_fetch_row(res))){
-		if(PopupBinario("O grupo possui produtos vinculados, Deseja excluir?", "Sim, Exclua os produtos e o grupo!", "Não, Cancele o procedimento agora")){
-			sprintf(query,"delete from grupos where pai = %s",grpcode);
-			if(enviar_query(query)!=0){
-				popup(NULL,"Não foi possivel excluir produto (provavelmente possui vínculos com outros componentes)");
-				return 1;
-			}
-		}else{
-			return 1;
-		}
-	}
-
 	//deleta o grupo e os filhos do grupo
-	sprintf(query,"delete from grupos where code = %s and pai = %s",grpcode,grpcode);
+	sprintf(query,"delete from grupos where code = %s",grpcode);
 	if(enviar_query(query)!=0){
 		popup(NULL,"Não foi possivel excluir grupo");
 		return 1;

@@ -16,6 +16,20 @@ int conclui_grupo(){
 		return 1;
 	}
 
+	
+	sprintf(query,"select * from grupos where code = 1 and nome = 'RAIZ'");
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao consultar RAIZ");
+		return 1;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		sprintf(query,"insert into grupos(code, nome, pai, nivel) values(1, 'RAIZ', 1, 0)");
+		if(enviar_query(query)){
+			popup(NULL,"Não foi possível criar grupo RAIZ");
+			return 1;
+		}
+	}
+
 	if(alterando_grp==0){
 		strcpy(mensagem,"Grupo criado com sucesso");
 		sprintf(query,"insert into grupos(code,nome,pai,nivel) values('%s','%s','%s',%i)",grpcode, grpnome, paigrpcode, grpnivel);

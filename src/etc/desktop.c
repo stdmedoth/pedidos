@@ -17,7 +17,7 @@ static void criar_janela_princ(){
 	monitor_width = workarea.width;
 	monitor_heigth = workarea.height;
 	
-	desktop_width = monitor_width - 78;
+	desktop_width = monitor_width - 80;
 	desktop_heigth = monitor_heigth - 32;
 
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal), desktop_width, desktop_heigth);

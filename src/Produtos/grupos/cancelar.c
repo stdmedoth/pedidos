@@ -13,11 +13,16 @@ int cancela_grupo()
 	alterando_grp = 0;
 	concluindo_grp = 0;
 
+	if( atoi(code) == 2){
+		gtk_entry_set_text(GTK_ENTRY(pai_grp_entry), "1");
+		gtk_widget_activate(pai_grp_entry);
+	}
+
 	GtkTreeStore *modelo = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(cad_grp_treeview)));
 	g_object_ref(G_OBJECT(modelo));
-  gtk_tree_view_set_model(GTK_TREE_VIEW(cad_grp_treeview),NULL);
-  gtk_tree_store_clear(modelo);
-  gtk_tree_view_set_model(GTK_TREE_VIEW(cad_grp_treeview),GTK_TREE_MODEL(modelo));
+  	gtk_tree_view_set_model(GTK_TREE_VIEW(cad_grp_treeview),NULL);
+  	gtk_tree_store_clear(modelo);
+  	gtk_tree_view_set_model(GTK_TREE_VIEW(cad_grp_treeview),GTK_TREE_MODEL(modelo));
 
 	if(!grp_get_tree(modelo, 1, NULL))
 		return 1;
