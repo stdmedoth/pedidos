@@ -1,6 +1,9 @@
 #ifndef PEDIDOS_INCLUDES_HEADER
 #define PEDIDOS_INCLUDES_HEADER
 
+// comentar na compilação da versão oficial !!
+#include "debug_version.h"
+
 #include "./basic_headers.h"
 #include "./Pedidos.h"
 #include "./init.h"

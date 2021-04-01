@@ -11,6 +11,8 @@ int init(){
 		PATH_IMG_INIT,
 		SCRIPT_BIN_PATH
 	};
+
+	param_dev_defs();
 	sprintf(query,"select * from tecn_pers_elem");
 	if(!(res = consultar(query))){
 		person_tecn_prim = 1;

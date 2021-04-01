@@ -2,6 +2,7 @@
 #include "prod_params.c"
 #include "ter_params.c"
 #include "integr_params.c"
+#include "param_dev.c"
 #include "personalizacao.c"
 
 int configurar_parametros()

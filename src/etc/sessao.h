@@ -26,6 +26,8 @@ struct _sessao * criar_sessao_default();
 
 struct _sessao *criar_sessao_anon();
 
+int validar_sessao_criada();
+
 int fechar_sessao();
 
 int limpar_sessao();

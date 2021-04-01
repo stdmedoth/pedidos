@@ -55,7 +55,6 @@ int  cad_terc()
 {
 	char task[20];
 	sprintf(task,"%i",tasker("terceiros"));
-	g_print("task %s\n",task);
 	//linhas
 	GError *gerro;
 	GtkWidget *janela;

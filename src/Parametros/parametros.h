@@ -23,7 +23,6 @@ static GtkWidget *janela_init,
 #define CAMPOS_QNT 25
 int vet_erro[CAMPOS_QNT+1];
 
-
 static struct {
 	int navegador_pdr;
 	gchar navegador_path1[MAX_PATH_LEN];
@@ -41,6 +40,7 @@ static struct {
 }orc_params;
 
 #include "integr_params.h"
+#include "param_dev.h"
 #include "orc_params.h"
 #include "personalizacao.h"
 #include "prod_params.h"

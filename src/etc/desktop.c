@@ -41,7 +41,8 @@ static void criar_janela_princ(){
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
 
-	g_timeout_add (1000, atualizar_inatividade_label, NULL);
+	if(param_funcionalidades.inatividade_fecha)
+		g_timeout_add (1000, atualizar_inatividade_label, NULL);
 
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal); //works only on gtk_window_set_deletable = TRUE
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal); //works only on gtk_window_set_deletable = TRUE
@@ -329,9 +330,15 @@ int desktop(){
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_endereco,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_infos),fixed_cnpj,0,0,0);
 
-	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_criacao_fixed,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_expiracao_fixed,0,0,0);
-	gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_inatividade_fixed,0,0,0);
+	if(param_funcionalidades.expirar_sessao){
+		gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_criacao_fixed,0,0,0);
+		gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_expiracao_fixed,0,0,0);
+	}
+
+	if(param_funcionalidades.inatividade_fecha){
+		gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_inatividade_fixed,0,0,0);		
+	}
+
 
 	gtk_box_pack_start(GTK_BOX(superior),superior_1,0,0,0);
 	gtk_box_pack_end(GTK_BOX(superior),superior_2,0,0,0);
@@ -377,7 +384,7 @@ int desktop(){
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
 	gtk_widget_show_all(janela_principal);
-
+	
 	configurar_parametros();
 
 	iniciar_gerenciador_janela();

@@ -5,8 +5,10 @@ BDFLAGS=`pkg-config --libs --cflags mysqlclient`
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 CURLFLAGS=`pkg-config --libs --cflags  libcurl`
-CCFLAGS=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type  -Wpedantic -O0 -Woverflow #-fprofile-generate #-Wno-write-strings #-Wfatal-errors
-ALLFLAGS=$(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS)
+CCFLAGS1=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type  
+CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wfatal-errors -Wformat-overflow  
+CCFLAGS3=-Wunused-variable  
+ALLFLAGS=$(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3)
 
 TARGET_FILE=src/Pedidos/Pedidos.c
 RESULT_FILE=pedidos

@@ -138,64 +138,11 @@ GtkWidget *get_pop_parents_wnd(){
   return parent;
 }
 
-int validar_sessao_criada(){
-  if(!aplicacao_inicializada())
-    return 0;
-
-  if(janelas_gerenciadas.principal.sys_close_wnd)
-    return 0;
-
-  if(sessao_oper->status_sessao == SESSAO_NULA){
-    popup(get_pop_parents_wnd(),"Sessão com erro, o incidente será reportado");
-		autologger("!!!!!!!!!!!!!!!\nSistema utilizado sem uma sessao ativa\n!!!!!!!!!!!!!!!");
-		encerrando();
-		return 1;
-	}
-
-  GDateTime *atual = g_date_time_new_now_local();
-  if(!atual){
-    file_logger("Erro ao consultar datetime atual em validar_sessao_criada()-> g_date_time_new_now_local()");
-    return 1;
-  }
-
-  if(!sessao_oper->ult_ativ){
-    file_logger("Erro ao consultar datetime de ultima atividade em validar_sessao_criada() -> ult_ativ -> struct sessao");
-    return 1;
-  }
-
-  if(g_date_time_difference(atual, sessao_oper->ult_ativ) > G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE){
-    gchar msg[100];
-    sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
-    file_logger(msg);
-    sprintf(msg, "data da ultima atividade = %s\n", g_date_time_format (sessao_oper->ult_ativ, "%F %T"));
-    fechar_sessao();
-		popup(janelas_gerenciadas.login.janela_pointer,"Sessão reiniciada por ausência de atividade!");
-    autologger("Sessão reiniciada por ausência de atividade");
-		return 1;
-  }
-
-  if(g_date_time_compare(atual, sessao_oper->expiracao) >=0 ){
-    gchar msg[100];
-    sprintf(msg, "data atual = %s\n", g_date_time_format (atual, "%F %T"));
-    file_logger(msg);
-    sprintf(msg, "data expiracao = %s\n", g_date_time_format (sessao_oper->expiracao, "%F %T"));
-    file_logger(msg);
-    fechar_sessao();
-		popup(janelas_gerenciadas.login.janela_pointer,"Sessão expirada!");
-    autologger("Sessão expirada");
-		return 1;
-	}
-
-  return 0;
-}
-
-
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
   GtkTreeIter iter;
   char *posicao;
   GdkPixbuf *pixbuf;
   int identificacao=0;
-  g_print("recebendo valor do treeicon\n");
 
   if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path)){
     gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,
@@ -205,13 +152,13 @@ void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
       -1);
   }
   else{
-    g_print("Não foi possivel encontrar iter\n");
+    popup(NULL,"Não foi possivel encontrar iter");
+    return ;
   }
 
   if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
     janelas_gerenciadas.vetor_janelas[identificacao].fun();
 
-  g_print("IconView posicao: %s\n",posicao);
 }
 
 
@@ -245,7 +192,7 @@ size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *user
   mem->memory = realloc(mem->memory, mem->size + realsize + 1);
   if(mem->memory == NULL) {
     /* out of memory! */
-    printf("not enough memory (realloc returned NULL)\n");
+    popup(NULL, "Falta de memória (realloc retornou NULL)");
     return 0;
   }
 

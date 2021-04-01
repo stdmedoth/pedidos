@@ -7,8 +7,6 @@ gboolean atualizar_inatividade_label();
 
 gboolean atualizar_inatividade();
 
-int validar_sessao_criada();
-
 void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 GtkWidget *print_janela;
