@@ -1,7 +1,7 @@
 struct _condpag *cond_pag_get(int condpag_code){
   MYSQL_RES *res;
 	MYSQL_ROW row;
-  char *query = malloc(MAX_QUERY_LEN);
+  char query[MAX_QUERY_LEN];
 
 	struct _condpag *condpag = malloc(sizeof(struct _condpag));
 

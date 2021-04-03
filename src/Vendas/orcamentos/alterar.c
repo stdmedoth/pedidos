@@ -356,6 +356,7 @@ static int altera_orc()
 		cont=0;
 
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
+		
 		sprintf(query,"delete from orcamentos where code = %s",tmp_cod_orc);
 		if( enviar_query(query) ){
 			popup(NULL,"Erro ao tentar excluir orçamento vazio");

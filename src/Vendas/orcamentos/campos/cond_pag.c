@@ -1,8 +1,7 @@
 int rec_fat_vist()
 {
 	int cont=0,notepage=0;
-	MYSQL_RES *res;
-	MYSQL_ROW row;
+	
 	char query[MAX_QUERY_LEN];
 	char data_atual[42];
 	strcpy(data_atual,data_sys);
@@ -15,23 +14,19 @@ int rec_fat_vist()
 		return 1;
 	}
 
-	sprintf(query,"select * from pag_cond where code = %s",orc_pag_cond_gchar);
-	if((res = consultar(query))==NULL){
+	struct _condpag * condpag = cond_pag_get(atoi(orc_pag_cond_gchar));
+	if(!condpag){
+		popup(NULL,"Não foi possível receber condição de pagamento");
 		return 1;
 	}
 
-	if((row = mysql_fetch_row(res))==NULL){
-		popup(NULL,"O modelo de datas escolhido não existe");
-		return 1;
-	}
+	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),condpag->nome);
 
-	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),row[1]);
-
-	orc_pag_tipo_int = atoi(row[2]);
+	orc_pag_tipo_int = condpag->tipo_parc;
 
 	if(orc_pag_tipo_int != CONDPAG_DT_LVR){
 
-		if(atoi(row[PAGCOND_QNT_COL])>1)
+		if(condpag->parcelas_qnt>1)
 			tipo_pag = PAG_FAT;
 		else
 			tipo_pag = PAG_VIST;
@@ -41,15 +36,15 @@ int rec_fat_vist()
 		orc_pag_datas_livres();
 	}
 
-	orc_pag_dia_fixo_int = atoi(row[3]);
+	orc_pag_dia_fixo_int = condpag->dia_inicial_flag;
 	if(orc_pag_dia_fixo_int==1)
-		orc_pag_init_int = atoi(row[4]);
+		orc_pag_init_int = condpag->dia_inicial;
 	else
 		orc_pag_init_int = atoi(dia_sys);
 
-	orc_pag_parc_int = atoi(row[PAGCND_INT_COL]);
+	orc_pag_parc_int = condpag->intervalos;
 
-	orc_pag_parc_qnt_int = atoi(row[PAGCOND_QNT_COL]);
+	orc_pag_parc_qnt_int = condpag->parcelas_qnt;
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{

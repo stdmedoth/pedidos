@@ -125,7 +125,7 @@ int est_saidas(){
 	gtk_box_pack_start(GTK_BOX(produto_box),est_said_campo_nome_prod,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_prod_frame),produto_box);
 	gtk_fixed_put(GTK_FIXED(est_said_prod_fixed),est_said_prod_frame,20,5);
-	gtk_entry_set_width_chars(GTK_ENTRY(est_said_prod_entry),8);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_said_prod_entry),5);
 
 	est_said_est_frame = gtk_frame_new("Estoque");
 	est_said_est_fixed = gtk_fixed_new();
@@ -188,7 +188,7 @@ int est_saidas(){
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_said_client_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),psq_client_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(cliente_box),est_said_campo_nome_client,0,0,0);
-	gtk_entry_set_width_chars(GTK_ENTRY(est_said_client_entry),8);
+	gtk_entry_set_width_chars(GTK_ENTRY(est_said_client_entry),5);
 	gtk_container_add(GTK_CONTAINER(est_said_client_frame),cliente_box);
 	gtk_fixed_put(GTK_FIXED(est_said_client_fixed),est_said_client_frame,20,20);
 
