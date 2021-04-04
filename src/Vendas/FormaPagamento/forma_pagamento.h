@@ -9,3 +9,5 @@ struct _forma_pagamento{
 };
 
 struct _forma_pagamento *get_forma_pagamento(int code_forma_pagamento);
+
+struct _forma_pagamento **get_formas_pags();

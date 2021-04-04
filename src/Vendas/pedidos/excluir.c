@@ -17,7 +17,7 @@ int ped_excluir(){
   if((res = consultar(query))==NULL){
     return 1;
   }
-
+  
   if((row = mysql_fetch_row(res))==NULL){
     popup(NULL,"O pedido não existe");
     return 1;

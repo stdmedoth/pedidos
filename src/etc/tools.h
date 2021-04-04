@@ -1,7 +1,6 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 static int logging = 0;
-static int erro_logger=0;
 
 gboolean atualizar_inatividade_label();
 

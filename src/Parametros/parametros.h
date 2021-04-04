@@ -12,7 +12,7 @@ const int orc_critic_campos_qnt=3;
 int parametrizar();
 
 int temas();
-static int orc_prod_saldo_limite=0;
+//static int orc_prod_saldo_limite=0;
 
 static GtkWidget *janela_init,
 *janela_keep_above,

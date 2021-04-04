@@ -90,28 +90,33 @@ int notificacoes_button_update(){
   if(!notificacao_pendencias)
     gtk_button_set_label(GTK_BUTTON(penden_button),"");
   else{
-    gchar *qnt = malloc(30);
+    gchar qnt[30];
     sprintf(qnt,"%i",notificacao_pendencias);
 
     GtkWidget *child = gtk_bin_get_child(GTK_BIN(penden_button));
-    if(child)
-      gtk_widget_destroy(child);
+    if(child){
+      g_object_ref(child);
+      gtk_container_remove(GTK_CONTAINER(penden_button), child);
+    }
 
     GtkWidget *circle = gtk_layout_new(NULL,NULL);
     GtkWidget *label = gtk_label_new(qnt);
     GtkWidget *box = gtk_box_new(0,0);
-
-    gtk_box_pack_start(GTK_BOX(box), label,0,0,0);
-    gtk_widget_set_name(box,"bar_buttons_notif");
     GtkWidget *image = gtk_image_new_from_file(EMBLEM_GENERIC);
     GtkWidget *evento = gtk_event_box_new();
 
-    gtk_widget_set_size_request(GTK_WIDGET(box),20,20);
-    gtk_layout_set_size(GTK_LAYOUT(circle),40,40);
+    gtk_box_pack_start(GTK_BOX(box), label,0,0,0);
+    gtk_widget_set_name(box,"bar_buttons_notif");
+    
     gtk_layout_put(GTK_LAYOUT(circle),box,20,20);
     gtk_layout_put(GTK_LAYOUT(circle),image,0,0);
+    
     gtk_container_add(GTK_CONTAINER(evento),circle);
     gtk_widget_set_events(evento,GDK_BUTTON_PRESS_MASK);
+
+    gtk_widget_set_size_request(GTK_WIDGET(box),20,20);
+    gtk_layout_set_size(GTK_LAYOUT(circle),40,40);
+
     g_signal_connect(evento,"button_press_event",G_CALLBACK(notificacoes_wnd),NULL);
 
     gtk_container_add(GTK_CONTAINER(GTK_BIN(penden_button)),evento);

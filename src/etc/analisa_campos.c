@@ -15,12 +15,10 @@ int analisa_ender(char *endereco){
     if(virgula){
       int num = 0;
       int pos=0;
-      g_print("Iniciando interprete do numero no endereco\n");
 
       for(int cont2=cont;cont2<strlen(endereco);cont2++){
         if( isdigit(endereco[cont2]) || isspace(endereco[cont2]) ){
           num = 1;
-          g_print("%c",endereco[cont2]);
           numero[pos] = endereco[cont2];
           pos++;
           if(pos>=num_len){

@@ -29,7 +29,6 @@ GtkWidget * barra_icones_wnd() {
     ult_barra_pos = 0;
 
     penden_button = gtk_button_new();
-
     notificacoes_button_update();
 
     param_button = gtk_button_new();

@@ -19,34 +19,6 @@ int inicializar_ter()
 	}
 	alterando_ter=0;
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
-
-	/*
-	//char *
-	codigos_ter = malloc(MAX_CODE_LEN);
-	prods_ter = malloc(MAX_CODE_LEN);
-	codigos_ter_nfe = malloc(MAX_CODE_LEN*2);
-	doc_ter = malloc(CNPJ_S_LEN);
-	nomes_ter = malloc(MAX_RAZ_LEN);
-	endereco_ter = malloc(MAX_ADR_LEN);
-	bairro_ter = malloc(MAX_CID_LEN);
-	cep_ter = malloc(MAX_CEP_LEN);
-	tipo_ter = malloc(MAX_TIPO_LEN);
-	memset(tipo_ter,0x0,strlen(tipo_ter));
-	observacoes_ter = malloc(MAX_OBS_LEN);
-	prazo_ter = malloc(MAX_DATE_LEN);
-	//GtkWidget *
-	produto_label = malloc(sizeof(GtkLabel*)*MAX_PROD);
-	codigo_preco = malloc(sizeof(int*)*MAX_PROD);
-	preco_entry = malloc(sizeof(GtkEntry*)*MAX_PROD);
-	precos_caixas = malloc(sizeof(GtkBox*)*MAX_PROD);
-	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	imagem_ok = malloc(sizeof(GtkImage*)*MAX_PROD);
-	imagem_cancel = malloc(sizeof(GtkImage*)*MAX_PROD);
-	imagem_dinheiro = malloc(sizeof(GtkImage*)*MAX_PROD);
-	atualizar_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	remover_preco = malloc(sizeof(GtkButton*)*MAX_PROD);
-	*/
 	return 0;
 }
 

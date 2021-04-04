@@ -1,0 +1,1 @@
+int pag_fpg_fun();

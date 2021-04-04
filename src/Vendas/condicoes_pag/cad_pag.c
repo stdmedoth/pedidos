@@ -1,3 +1,13 @@
+#include "campos/pag_cod.c"
+#include "campos/pag_nome.c"
+#include "campos/pag_init.c"
+#include "campos/pag_tipo.c"
+#include "campos/pag_parc_qnt.c"
+#include "campos/pag_parc.c"
+#include "campos/pag_datas.c"
+#include "campos/forma_pag.c"
+#include "campos/pag_dia_fixo.c"
+
 struct _condpag *cond_pag_get(int condpag_code){
   MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -91,6 +101,7 @@ int cad_pag(){
   GtkWidget *pag_psq_cod_box;
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   char code[MAX_CODE_LEN];
+
   gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janela_principal));
   gtk_window_set_position(GTK_WINDOW(janela),3);
   gtk_window_set_title(GTK_WINDOW(janela),"Condições de pagamento");
@@ -163,6 +174,7 @@ int cad_pag(){
   pag_tipo_fixed = gtk_fixed_new();
   pag_parc_fixed = gtk_fixed_new();
   pag_init_fixed = gtk_fixed_new();
+  pag_fpg_fixed = gtk_fixed_new();
   pag_parc_qnt_fixed = gtk_fixed_new();
 
   pag_cod_frame = gtk_frame_new("Código");
@@ -170,6 +182,7 @@ int cad_pag(){
   pag_tipo_frame = gtk_frame_new("Tipo");
   pag_parc_frame = gtk_frame_new("Intervalos");
   pag_init_frame = gtk_frame_new("Dia Inicial");
+  pag_fpg_frame = gtk_frame_new("Forma de Pagamento");
   pag_parc_qnt_frame = gtk_frame_new("Qnt. Parcelas");
 
   pag_cod_entry = gtk_entry_new();
@@ -202,6 +215,18 @@ int cad_pag(){
   gtk_entry_set_icon_from_icon_name(GTK_ENTRY(pag_parc_qnt_spin),GTK_ENTRY_ICON_PRIMARY,"view-list");
   gtk_entry_set_width_chars(GTK_ENTRY(pag_parc_qnt_spin),10);
 
+  pag_fpg_combo = gtk_combo_box_text_new();
+  struct _forma_pagamento **formas_pag = get_formas_pags();
+  if(formas_pag){
+    int pos=0;
+    while(formas_pag[pos]){
+      gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(pag_fpg_combo), pos, inttochar(formas_pag[pos]->code), formas_pag[pos]->nome);
+      pos++;
+    }
+  }
+  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(pag_fpg_combo), 0, "NULL", "Nenhuma");
+  gtk_combo_box_set_active(GTK_COMBO_BOX(pag_fpg_combo), 0);
+
   pag_psq_cod_button = gtk_button_new();
   gtk_button_set_image(GTK_BUTTON(pag_psq_cod_button),gtk_image_new_from_file(IMG_PESQ));
 
@@ -227,6 +252,9 @@ int cad_pag(){
   gtk_container_add(GTK_CONTAINER(pag_parc_qnt_frame),pag_parc_qnt_spin);
   gtk_fixed_put(GTK_FIXED(pag_parc_qnt_fixed),pag_parc_qnt_frame,20,20);
 
+  gtk_container_add(GTK_CONTAINER(pag_fpg_frame),pag_fpg_combo);
+  gtk_fixed_put(GTK_FIXED(pag_fpg_fixed),pag_fpg_frame,40,20);
+
   gtk_box_pack_start(GTK_BOX(pag_datas_box),pag_psq_datas_box,0,0,5);
   gtk_box_pack_start(GTK_BOX(pag_datas_box),pag_datas_tree,0,0,5);
 
@@ -247,7 +275,8 @@ int cad_pag(){
   gtk_grid_attach(GTK_GRID(pag_grid),pag_init_fixed,0,3,1,1);
   gtk_grid_attach(GTK_GRID(pag_grid),pag_parc_fixed,0,4,1,1);
   gtk_grid_attach(GTK_GRID(pag_grid),pag_parc_qnt_fixed,0,5,1,1);
-
+  gtk_grid_attach(GTK_GRID(pag_grid),pag_fpg_fixed,1,5,1,1);
+  
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_confirmar_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_alterar_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_cancelar_button,0,0,5);

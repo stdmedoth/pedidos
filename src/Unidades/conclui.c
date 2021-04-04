@@ -3,7 +3,7 @@ int concluido_und()
 	MYSQL_RES *res;
 	MYSQL_ROW campo;
 	g_print("Iniciando concluido_und()\n");
-	char query[MAX_QUERY_LEN], code[MAX_CODE_LEN];
+	char query[MAX_QUERY_LEN];
 	char task[MAX_CODE_LEN];
 
 	concluindo_und=1;

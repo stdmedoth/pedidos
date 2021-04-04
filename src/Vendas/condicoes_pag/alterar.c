@@ -20,6 +20,11 @@ int pag_alterar_fun(){
   gtk_entry_set_text(GTK_ENTRY(pag_nome_entry),row[PAGCND_NOM_COL]);
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_tipo_combo),atoi(row[PAGCND_TIP_COL]));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pag_dia_fixo_check),atoi(row[PAGCND_DIAFLAG_COL]));
+  if(row[PAGCND_FORMA_COL]){
+    gtk_combo_box_set_active_id(GTK_COMBO_BOX(pag_fpg_combo), row[PAGCND_FORMA_COL]);
+  }else{
+    gtk_combo_box_set_active_id(GTK_COMBO_BOX(pag_fpg_combo), "NULL");
+  }
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_init_spin),atoi(row[PAGCND_DIA_COL]));
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_spin),atoi(row[PAGCND_INT_COL]));
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_qnt_spin),atoi(row[PAGCOND_QNT_COL]));

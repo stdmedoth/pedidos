@@ -1,8 +1,6 @@
 int ordem_cmp_excluir_fun(){
 
   char query[MAX_QUERY_LEN];
-  MYSQL_RES *res;
-  MYSQL_ROW row;
   if(ordem_cmp_code_fun()){
     return 1;
   }

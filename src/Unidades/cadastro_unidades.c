@@ -36,9 +36,8 @@ int  cad_und()
 	char task[20];
 	GtkWidget *janela;
 	sprintf(task,"%i",tasker("unidades"));
-	GtkWidget *fixed, *fixed2, *fixed3, *fixed4;
+	GtkWidget *fixed, *fixed2, *fixed3;
 	GtkWidget *horizontal_box_one, *horizontal_box_two, *horizontal_box_three, *horizontal_box_four, *vertical_box;
-	GtkWidget *medida_und_fixed;
 	GtkWidget *separator1,*separator2;
 	GtkWidget *code, *name, *sigla, *mult;
 
@@ -66,8 +65,7 @@ int  cad_und()
 	fixed = gtk_fixed_new();
 	fixed2 = gtk_fixed_new();
 	fixed3 = gtk_fixed_new();
-	fixed4 = gtk_fixed_new();
-
+	
 	horizontal_box_one = gtk_box_new(0,3);
 	horizontal_box_two = gtk_box_new(0,3);
 	horizontal_box_three = gtk_box_new(0,5);

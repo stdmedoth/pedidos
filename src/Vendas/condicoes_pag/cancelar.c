@@ -5,6 +5,7 @@ int pag_cancelar_fun(){
   gtk_entry_set_text(GTK_ENTRY(pag_nome_entry),"");
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_tipo_combo),0);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pag_dia_fixo_check),0);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(pag_fpg_combo), 0);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_init_spin),1);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_spin),1);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(pag_parc_qnt_spin),1);

@@ -21,15 +21,13 @@ int prazo_fun()
 		return 0;
 	}
 
-	sprintf(query,"select * from pag_cond where code = %i",atoi(prazo_ter));
-	if((res = consultar(query))==NULL){
+	struct _condpag *condpag = cond_pag_get(atoi(prazo_ter));
+	if(!condpag){
+		popup(NULL,"Não foi possível encontrar pagamento escolhido");
 		return 1;
 	}
-	if((row = mysql_fetch_row(res))==NULL){
-		popup(NULL,"O modelo de datas escolhido não existe");
-		return 1;
-	}
-	gtk_entry_set_text(GTK_ENTRY(campo_nome_cond_ter),row[1]);
+	
+	gtk_entry_set_text(GTK_ENTRY(campo_nome_cond_ter),condpag->nome);
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(frete_pago_flag)))
 		gtk_widget_grab_focus(frete_pago_entry);
