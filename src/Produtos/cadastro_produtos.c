@@ -61,9 +61,9 @@ int  cad_prod(){
 	char query[MAX_QUERY_LEN];
 
 	GtkWidget *code_prod_label,  *nome_prod_label,
-	*preco_prod_frame, *peso_prod_label , *unidade_prod_label,
-	*fornecedor_prod_frame, *grupo_prod_label,
-	*observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_label;
+	*preco_prod_frame, *peso_prod_label , *unidade_prod_frame,
+	*fornecedor_prod_frame, *grupo_prod_frame,
+	*observacao_prod_frame, *observacao_prod_fixed, *qnt_atacado_frame;
 	GtkWidget *intgr1_prod_button, *intgr2_prod_button, *intgr_prod_box;
 
 	if(integracoes.config.intgr_id){
@@ -197,11 +197,11 @@ int  cad_prod(){
 	nome_prod_label = gtk_label_new("Nome: ");
 	preco_prod_frame = gtk_frame_new("Preco simples: ");
 	peso_prod_label = gtk_label_new("Peso: ");
-	unidade_prod_label =  gtk_label_new("Quantidade Unitária: ");
+	unidade_prod_frame =  gtk_frame_new("Quantidade Unitária: ");
 	fornecedor_prod_frame =  gtk_frame_new("Fornecedor: ");
-	grupo_prod_label =  gtk_label_new("Grupo: ");
+	grupo_prod_frame =  gtk_frame_new("Grupo: ");
 	observacao_prod_frame =  gtk_frame_new("Observacoes: ");
-	qnt_atacado_label = gtk_label_new("Quantidade Varejo");
+	qnt_atacado_frame = gtk_frame_new("Quantidade Varejo");
 
 	campo_nome_fornecedor = gtk_entry_new();
 	campo_nome_grupo = gtk_entry_new();
@@ -263,27 +263,27 @@ int  cad_prod(){
 	gtk_fixed_put(GTK_FIXED(preco_fixed), preco, 0,0);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(preco_prod_field),GTK_ENTRY_ICON_PRIMARY,"money");
 
-	unidade = gtk_box_new(1,0);
+	unidade = gtk_box_new(0,0);
 	gtk_widget_set_name(unidade,"caixa");
-	gtk_box_pack_start(GTK_BOX(unidade),unidade_prod_label,0,0,0);
+
+	gtk_box_pack_start(GTK_BOX(unidade),unidade_prod_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(unidade),psq_und_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(unidade),campo_nome_unidade,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_und),unidade_prod_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_und),psq_und_button,0,0,0);
-	gtk_box_pack_end(GTK_BOX(unidade),psq_und,0,0,0);
+	gtk_container_add(GTK_CONTAINER(unidade_prod_frame), unidade);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(unidade_prod_field),GTK_ENTRY_ICON_PRIMARY,"system-software-install");
 	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_unidade),20);
-	gtk_entry_set_width_chars(GTK_ENTRY(unidade_prod_field),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(unidade_prod_field),8);
 
-	qnt_atacado = gtk_box_new(1,0);
+	qnt_atacado = gtk_box_new(0,0);
 	gtk_widget_set_name(qnt_atacado,"caixa");
-	gtk_box_pack_start(GTK_BOX(qnt_atacado),qnt_atacado_label,0,0,0);
+	
+	gtk_box_pack_start(GTK_BOX(qnt_atacado),qnt_atacado_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(qnt_atacado),psq_qnt_atacado_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(qnt_atacado),campo_nome_qnt_atacado,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_qnt_atacado),qnt_atacado_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_qnt_atacado),psq_qnt_atacado_button,0,0,0);
-	gtk_box_pack_end(GTK_BOX(qnt_atacado),psq_qnt_atacado,0,0,0);
+	gtk_container_add(GTK_CONTAINER(qnt_atacado_frame), qnt_atacado);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(qnt_atacado_field),GTK_ENTRY_ICON_PRIMARY,"system-software-install");
 	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_qnt_atacado),20);
-	gtk_entry_set_width_chars(GTK_ENTRY(qnt_atacado_field),20);
+	gtk_entry_set_width_chars(GTK_ENTRY(qnt_atacado_field),8);
 
 	//psq_forn
 	fornecedor = gtk_box_new(0,0);
@@ -295,13 +295,14 @@ int  cad_prod(){
 	gtk_container_add(GTK_CONTAINER(fornecedor_prod_frame), fornecedor);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(fornecedor_prod_field),GTK_ENTRY_ICON_PRIMARY,"x-package-repository");
 
-	grupo = gtk_box_new(1,0);
+	grupo = gtk_box_new(0,0);
 	gtk_widget_set_name(grupo,"caixa");
-	gtk_box_pack_start(GTK_BOX(grupo),grupo_prod_label,0,0,0);
+	gtk_box_pack_start(GTK_BOX(grupo),grupo_prod_field,0,0,0);
+	gtk_box_pack_start(GTK_BOX(grupo),psq_grp_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(grupo),campo_nome_grupo,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_subgrp),grupo_prod_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(psq_subgrp),psq_grp_button,0,0,0);
-	gtk_box_pack_start(GTK_BOX(grupo),psq_subgrp,0,0,0);
+	gtk_container_add(GTK_CONTAINER(grupo_prod_frame), grupo);
+	gtk_entry_set_width_chars(GTK_ENTRY(grupo_prod_field),8);
+	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_grupo),20);
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(grupo_prod_field),GTK_ENTRY_ICON_PRIMARY,"emblem-package");
 
 	prod_barra_box = gtk_box_new(1,0);
@@ -319,8 +320,6 @@ int  cad_prod(){
 	gtk_entry_set_width_chars(GTK_ENTRY(campo_nome_ncm),30);
 	prod_ncm_psq_button = gtk_button_new();
 	prod_icmscst_combo = gtk_combo_box_text_new();
-
-
 
 	sprintf(query, "SELECT * FROM cst_cson where regime = %i", cad_emp_strc.RegTribInt);
 	if(!(res = consultar(query))){
@@ -452,9 +451,9 @@ int  cad_prod(){
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),peso,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_three),fornecedor_prod_frame,0,0,10);
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_five),unidade_prod_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_five),qnt_atacado_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_six),grupo_prod_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_six),preco_fixed,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box3), prod_fiscal_box1,0,0,5);
@@ -469,15 +468,16 @@ int  cad_prod(){
 	observacao_prod_fixed = gtk_fixed_new();
 	gtk_widget_set_name(observacoes,"caixa_frame");
 
-	gtk_container_add(GTK_CONTAINER(observacao_prod_frame), observacao_prod_field);
-	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_frame,0,0,0);
-	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
 
-	gtk_widget_set_size_request(observacao_prod_field,550,350);
+	gtk_box_pack_start(GTK_BOX(observacoes),observacao_prod_field,0,0,0);
+	gtk_container_add(GTK_CONTAINER(observacoes_scroll),observacoes);
+	gtk_container_add(GTK_CONTAINER(observacao_prod_frame), observacoes_scroll);
+
+	gtk_widget_set_size_request(observacao_prod_field,540,340);
 	gtk_widget_set_size_request(observacoes_scroll,550,350);
 	gtk_widget_set_size_request(observacoes,550,350);
 
-	gtk_fixed_put(GTK_FIXED(observacao_prod_fixed), observacoes_scroll, 20,20);
+	gtk_fixed_put(GTK_FIXED(observacao_prod_fixed), observacao_prod_frame, 20,20);
 
 	gtk_box_pack_start(GTK_BOX(prod_outros_box1),observacao_prod_fixed,0,0,10);
 
@@ -550,7 +550,10 @@ int  cad_prod(){
 	notebook_cad_prod = gtk_notebook_new();
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box,gtk_label_new("Informações do Produto"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box2,gtk_label_new("Faturamento"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box3,gtk_label_new("Fiscal"));
+	
+	if(param_funcionalidades.produtos_fiscal)
+		gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box3,gtk_label_new("Fiscal"));
+	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box4,gtk_label_new("Complemento"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),notebook_cad_prod,0,0,10);

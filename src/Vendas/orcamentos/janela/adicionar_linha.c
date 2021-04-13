@@ -96,11 +96,7 @@ static int adicionar_linha_orc()
 	preco_prod_orc_entry[itens_qnt] = gtk_entry_new();
 
 	orig_preco_prod_orc_combo[itens_qnt] = gtk_combo_box_text_new();
-	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_NUL,ORC_ORIGPRC_NUL,"Origem");
-	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_PROD,ORC_ORIGPRC_PROD,"Produto");
-	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_CLI,ORC_ORIGPRC_CLI,"Cliente");
-	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[itens_qnt]),ORIGPRC_OPER,ORC_ORIGPRC_OPER,"Operador");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[itens_qnt]),0);
+	resetar_orig_preco(itens_qnt);
 
 	tipodesconto_prod_orc_combo[itens_qnt] = gtk_combo_box_text_new();
 	desconto_prod_orc_label[itens_qnt] = gtk_label_new("Desconto");

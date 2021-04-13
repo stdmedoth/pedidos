@@ -42,11 +42,6 @@ insert into confs(navegador_path1,navegador_path2,navegador_pdr,imp_path1,imp_pa
 values ('','',1,'','',''),
 ('','',1,'','','');
 
-
-insert into tipo_pagamento(nome) values
-('Faturado'),
-('Á Vista');
-
 insert into bancos values
   (1, 'Sem Banco', '', 0, '', '', '', 0);
 
@@ -85,7 +80,7 @@ insert into estados(sigla,nome)
   ('TO','Tocantins'),
   ('SP','São Paulo');
 
-insert into meios_pagamento (code, nome)
+insert into forma_pagamento (code, nome)
   values
   (1 , 'Dinheiro'),
   (2 , 'Cheque'),

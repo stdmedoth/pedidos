@@ -87,3 +87,12 @@ create table credenciadoras(
     nome varchar(300),
     cnpj varchar(20)
 );
+
+
+/* CREATE TABLE */
+CREATE TABLE cfops(
+_GRUPO_CFOP_ VARCHAR(2000),
+CFOP DOUBLE,
+DESCRIO_CFOP VARCHAR(2000),
+Incio_Vigncia datetime default now()
+);

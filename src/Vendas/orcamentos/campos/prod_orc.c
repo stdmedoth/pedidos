@@ -184,11 +184,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 
 	if(!produto_inserido[posicao] && !recebendo_prod_orc){
 
-		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]));
-		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_NUL, ORC_ORIGPRC_NUL,"Origem");
-		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_CLI, ORC_ORIGPRC_CLI,"Cliente");
-		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_PROD, ORC_ORIGPRC_PROD,"Produto");
-		gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_OPER, ORC_ORIGPRC_OPER,"Operador");
+		resetar_orig_preco(posicao);
 		sprintf(query,"select * from precos where produto = %s", codigo_prod_orc_gchar);
 		if(!(vetor = consultar(query))){
 			popup(NULL,"Não foi possível consultar precos para o produto");

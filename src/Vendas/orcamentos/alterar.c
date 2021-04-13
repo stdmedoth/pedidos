@@ -355,6 +355,8 @@ static int altera_orc()
 	if(rec_altera_qnt==1){
 		cont=0;
 
+		popup(NULL,"Não há produtos no orçamento, Consulte Técnico!");
+		/*
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
 		
 		sprintf(query,"delete from orcamentos where code = %s",tmp_cod_orc);
@@ -363,6 +365,7 @@ static int altera_orc()
 			cancela_orc();
 			return 1;
 		}
+		*/
 		cancela_orc();
 		return 0;
 	}

@@ -9,17 +9,6 @@ static void criar_janela_princ(){
 	
 	gtk_window_maximize(GTK_WINDOW(janela_principal));	
 
-	GdkRectangle workarea = {0};
-	GdkDisplay *display = gdk_display_get_default();
-	GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
-	gdk_monitor_get_workarea(monitor, &workarea);
-
-	monitor_width = workarea.width;
-	monitor_heigth = workarea.height;
-	
-	desktop_width = monitor_width - 80;
-	desktop_heigth = monitor_heigth - 32;
-
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal), desktop_width, desktop_heigth);
 
 	gtk_window_set_icon_name(GTK_WINDOW(janela_principal),"accessories-dictionary");

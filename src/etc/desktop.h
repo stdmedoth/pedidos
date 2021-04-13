@@ -1,25 +1,25 @@
 static void criar_janela_princ();
 
-const int default_user_code = 1;
-static GtkWidget  *janela_principal;
-static GtkWidget *imagem_desktop;
+int default_user_code = 1;
+GtkWidget  *janela_principal;
+GtkWidget *imagem_desktop;
 
-static GtkWidget *superior, *superior_1, *superior_2;
-static GtkWidget *inferior, *inferior_1, *inferior_2;
-static GtkWidget *area_de_trabalho;
-static GtkWidget *barra;
+GtkWidget *superior, *superior_1, *superior_2;
+GtkWidget *inferior, *inferior_1, *inferior_2;
+GtkWidget *area_de_trabalho;
+GtkWidget *barra;
 
 GtkWidget *imagem_barra,*layout_barra;
 
 
-static int monitor_width=0, monitor_heigth=0;
-static int desktop_width=0, desktop_heigth=0;
+int monitor_width=0, monitor_heigth=0;
+int desktop_width=0, desktop_heigth=0;
 
 int desktop();
 
 GtkApplication *app;
 
-static GtkWidget  *sessao_criacao_label, *sessao_expiracao_label, *sessao_inatividade_label;
-static GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
-static GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
-static GtkWidget *janela_inicializacao;
+GtkWidget  *sessao_criacao_label, *sessao_expiracao_label, *sessao_inatividade_label;
+GtkWidget  *fixed_razao, *fixed_endereco, *fixed_cnpj;
+GtkWidget  *razao,*endereco,*cnpj, *caixa_infos;
+GtkWidget *janela_inicializacao;

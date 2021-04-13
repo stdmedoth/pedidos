@@ -1,3 +1,11 @@
+void resetar_orig_preco(int posicao){
+	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]));
+	//gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_NUL, ORC_ORIGPRC_NUL,"Origem");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_CLI, ORC_ORIGPRC_CLI,"Cliente");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_PROD, ORC_ORIGPRC_PROD,"Produto");
+	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(orig_preco_prod_orc_combo[posicao]),ORIGPRC_OPER, ORC_ORIGPRC_OPER,"Operador");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(orig_preco_prod_orc_combo[itens_qnt]),0);
+}
 int orig_preco_prod_orc(GtkWidget *widget,int posicao){
 
 	if(!produto_inserido[posicao]){

@@ -5,6 +5,7 @@ int init(){
 	char query[MAX_QUERY_LEN];
 	inicializando=1;
 	GtkWidget *imagem_inicializacao;
+	GtkWidget *layout = gtk_layout_new(NULL,NULL);
 
 	enum{
 		CODE,
@@ -13,6 +14,8 @@ int init(){
 	};
 
 	param_dev_defs();
+	get_monitor_sizes();
+
 	sprintf(query,"select * from tecn_pers_elem");
 	if(!(res = consultar(query))){
 		person_tecn_prim = 1;
@@ -30,16 +33,20 @@ int init(){
 	}
 
 	imagem_inicializacao = gtk_image_new_from_file(cad_emp_strc.init_image_path);
-	//gtk_widget_set_size_request(GTK_WIDGET(imagem_inicializacao),1266,568);
+	gtk_widget_set_size_request(imagem_inicializacao, desktop_width, desktop_heigth);
 
 	janela_inicializacao = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_container_add(GTK_CONTAINER(janela_inicializacao),imagem_inicializacao);
+	gtk_layout_put(GTK_LAYOUT(layout),imagem_inicializacao,0,0);
+	gtk_container_add(GTK_CONTAINER(janela_inicializacao),layout);
+
 	gtk_window_set_icon_name(GTK_WINDOW(janela_inicializacao),"preferences-desktop-screensaver");
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_resizable(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_decorated(GTK_WINDOW(janela_inicializacao),FALSE);
 	gtk_window_set_deletable(GTK_WINDOW(janela_inicializacao),FALSE);
-	//gtk_window_maximize(GTK_WINDOW(janela_inicializacao));
+	gtk_window_maximize(GTK_WINDOW(janela_inicializacao));
+
+	gtk_window_set_default_size(GTK_WINDOW(janela_inicializacao), monitor_width, monitor_heigth);
 
 	janelas_gerenciadas.fundo_inicializacao.janela_pointer = janela_inicializacao;
 	gtk_widget_show_all(janelas_gerenciadas.fundo_inicializacao.janela_pointer);

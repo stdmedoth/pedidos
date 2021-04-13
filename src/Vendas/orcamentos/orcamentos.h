@@ -262,5 +262,4 @@ static gchar **obs_prod_orc_gchar;
 #include "campos.h"
 #include "get.h"
 
-int orig_preco_prod_orc(GtkWidget *widget,int posicao);
 static int vnd_orc();

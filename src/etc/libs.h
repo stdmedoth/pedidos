@@ -25,6 +25,7 @@
 #include "./http.h"
 #include "./criticas.h"
 #include "./barra_icones.h"
+#include "./monitor_size.h"
 #include "./analisa_campos.h"
 #include "./mp_popup.h"
 #include "./debugger.h"

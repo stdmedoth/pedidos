@@ -15,6 +15,7 @@
 #include "./impressao.c"
 #include "./temas.c"
 #include "./barra_icones.c"
+#include "./monitor_size.c"
 #include "./analisa_campos.c"
 #include "./mp_popup.c"
 #include "./debugger.c"

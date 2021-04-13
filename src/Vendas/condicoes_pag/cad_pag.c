@@ -216,15 +216,15 @@ int cad_pag(){
   gtk_entry_set_width_chars(GTK_ENTRY(pag_parc_qnt_spin),10);
 
   pag_fpg_combo = gtk_combo_box_text_new();
-  struct _forma_pagamento **formas_pag = get_formas_pags();
-  if(formas_pag){
-    int pos=0;
-    while(formas_pag[pos]){
-      gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(pag_fpg_combo), pos, inttochar(formas_pag[pos]->code), formas_pag[pos]->nome);
-      pos++;
+  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(pag_fpg_combo), "NULL", "Nenhuma");
+  struct _forma_pagamento_list *fpg_list = get_formas_pags_list();
+  if(fpg_list){
+    for (int i = 0; i < fpg_list->qnt_fpags; ++i)
+    {
+      gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(pag_fpg_combo), inttochar(fpg_list->fpags[i]->code), fpg_list->fpags[i]->nome);
     }
   }
-  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(pag_fpg_combo), 0, "NULL", "Nenhuma");
+  
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_fpg_combo), 0);
 
   pag_psq_cod_button = gtk_button_new();

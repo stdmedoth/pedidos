@@ -8,6 +8,11 @@ struct _forma_pagamento{
 	char *nome;
 };
 
+struct _forma_pagamento_list{
+	struct _forma_pagamento **fpags; 
+	int qnt_fpags;
+};
+
 struct _forma_pagamento *get_forma_pagamento(int code_forma_pagamento);
 
 struct _forma_pagamento **get_formas_pags();

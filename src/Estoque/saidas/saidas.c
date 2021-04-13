@@ -108,6 +108,7 @@ int est_saidas(){
 	est_said_cod_fixed = gtk_fixed_new();
 	est_said_cod_box = gtk_box_new(0,0);
 	est_said_cod_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(est_said_cod_entry),5);
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),est_said_cod_entry,0,0,0);
 	gtk_box_pack_start(GTK_BOX(est_said_cod_box),est_said_psqcod_button,0,0,0);
 	gtk_container_add(GTK_CONTAINER(est_said_cod_frame),est_said_cod_box);
