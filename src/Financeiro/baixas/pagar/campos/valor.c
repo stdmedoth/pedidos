@@ -14,6 +14,23 @@ int cad_bxs_pag_vlr_fun(){
 
   valor = atof(cad_bxs_pag_valor_gchar);
 
+  if(!param_funcionalidades.vlr_bx_dif_tit){
+    sprintf(query,"select valor from parcelas_tab where parcelas_id = %i and posicao = %i", pag_baixas.titulo_code, pag_baixas.id);
+    if(!(res = consultar(query))){
+      popup(NULL,"Erro ao consultar valor da parcela");
+      return 1;
+    }  
+    if(!(row = mysql_fetch_row(res))){
+      popup(NULL,"Parcela não existente");
+      return 1;
+    }
+    float vlr_parc = atof(row[0]);
+    if(valor > vlr_parc){
+      popup(NULL, "Valor da Baixa supera valor da parcela");
+      return 1;
+    }
+  }
+    
   sprintf(query,"select SUM(valor) from parcelas_tab where parcelas_id = %i",
   pag_baixas.titulo_code);
 
@@ -60,6 +77,7 @@ int cad_bxs_pag_vlr_fun(){
       return 1;
     }
   }
+  
 
   gtk_widget_grab_focus(cad_bxs_pag_concluir_button);
   return 0;

@@ -6,9 +6,11 @@ int orc_bnc_code_fun(){
   orc_bnc_code_gchar = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_bnc_code_entry));
 
   if(!strlen(orc_bnc_code_gchar)){
-    popup(NULL,"Insira o Banco");
-    gtk_widget_grab_focus(orc_bnc_code_entry);
-    return 1;
+    orc_bnc_code_gchar = strdup("NULL");
+    //popup(NULL,"Insira o Banco");
+    //gtk_widget_grab_focus(orc_bnc_code_entry);
+    gtk_entry_set_text(GTK_ENTRY(orc_bnc_nome_entry),"Sem Banco");
+    return 0;
   }
   sprintf(query,"select nome from bancos where code = %s",orc_bnc_code_gchar);
   if(!(res = consultar(query))){

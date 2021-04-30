@@ -1,6 +1,10 @@
 int tirar_linha(int id_ponteiro)
 {
 
+	if(orc_contem_ped){
+		return 1;
+	}
+
 	file_logger("Removendo linha do Orçamento tirar_linha()...");
 	if(ativos[id_ponteiro].id == 1){
 			gtk_grid_remove_row(GTK_GRID(orc_prods_grid),id_ponteiro);
@@ -27,10 +31,13 @@ int tirar_linha(int id_ponteiro)
 static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 {
 	int erro;
-	char *query;
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
+
+	if(orc_contem_ped){
+		return 1;
+	}
 
 	sprintf(query,"select * from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
 

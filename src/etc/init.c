@@ -13,6 +13,7 @@ int init(){
 		SCRIPT_BIN_PATH
 	};
 
+	load_styles();
 	param_dev_defs();
 	get_monitor_sizes();
 

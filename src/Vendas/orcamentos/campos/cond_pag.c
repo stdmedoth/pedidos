@@ -1,3 +1,14 @@
+int orc_fields_from_condpag(struct _condpag *condpag){
+
+	if( !condpag->forma_pag || (condpag->forma_pag->tipo != FP_TIPO_TRASNF) ){
+		gtk_widget_hide(orc_bnc_frame);
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), "");
+	}else{
+		gtk_widget_show_all(orc_bnc_frame);
+	}
+	return 0;
+}
+
 int rec_fat_vist()
 {
 	int cont=0,notepage=0;
@@ -10,17 +21,20 @@ int rec_fat_vist()
 
 	orc_pag_cond_gchar = (gchar *)gtk_entry_get_text (GTK_ENTRY(orc_pag_cond_entry));
 	if(strlen(orc_pag_cond_gchar)<=0){
-		popup(NULL,"Insira o código do modelo de datas");
+		popup(NULL,"Insira o código da condição de pagamento");
+		gtk_widget_grab_focus(orc_pag_cond_entry);
 		return 1;
 	}
 
-	struct _condpag * condpag = cond_pag_get(atoi(orc_pag_cond_gchar));
+	struct _condpag *condpag = cond_pag_get(atoi(orc_pag_cond_gchar));
 	if(!condpag){
 		popup(NULL,"Não foi possível receber condição de pagamento");
 		return 1;
 	}
 
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),condpag->nome);
+
+	orc_fields_from_condpag(condpag);
 
 	orc_pag_tipo_int = condpag->tipo_parc;
 
@@ -46,13 +60,16 @@ int rec_fat_vist()
 
 	orc_pag_parc_qnt_int = condpag->parcelas_qnt;
 
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
-	{
-		if(ativos[cont].id==1)
+	if(ha_prods()){
+		for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		{
-			if(ha_prods()){
-				codigo_prod_orc(NULL,cont);
-				qnt_prod_orc(NULL,cont);
+			if(ativos[cont].id==1)
+			{
+				if(codigo_prod_orc(NULL,cont))
+					return 1;
+				if(produto_inserido[cont])
+					if(qnt_prod_orc(NULL,cont))
+						return 1;
 			}
 		}
 	}

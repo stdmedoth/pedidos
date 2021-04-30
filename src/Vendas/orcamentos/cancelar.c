@@ -64,6 +64,7 @@ static int cancela_orc()
 	itens_qnt = 1;
 	alerta_obs = 0;
 	ativos_qnt = 1;
+	orc_contem_ped = 0;
 	rec_altera_qnt = 1;
 	transp_verified = 0;
 	orc_com_entrega = 0;
@@ -93,6 +94,8 @@ static int cancela_orc()
 	adicionar_linha_orc();
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
+	
+
 	gtk_widget_set_sensitive(concluir_orc_button,TRUE);
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
 	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
@@ -100,6 +103,10 @@ static int cancela_orc()
 	gtk_widget_set_sensitive(concluir_orc_button, TRUE);
 	gtk_widget_set_sensitive(pedido_orc_button, TRUE);
 	gtk_widget_set_sensitive(copia_orc_button,TRUE);
+	gtk_widget_set_sensitive(gerar_orc_button,FALSE);
+	
+	//gtk_widget_set_sensitive(orc_prods_grid, TRUE);
 	gtk_widget_grab_focus(pesquisa_ter);
+	
 	return 0;
 }

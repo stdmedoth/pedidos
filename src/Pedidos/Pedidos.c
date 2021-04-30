@@ -57,8 +57,6 @@ int main(int argc, char *argv[])
 	if(rec_vars_from_file())
 		return 1;
 
-	load_styles();
-
 	if(init())
 		return 1;
 

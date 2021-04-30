@@ -1,11 +1,14 @@
 void notf_consultar_fun(GtkWidget *botao, struct _notf_strct *notf){
 
-  gchar *id = malloc(12);
+  gchar id[12], parcela[12];
   sprintf(id, "%i", notf->id);
+  sprintf(parcela, "%i", notf->id2);
+  
   if(notf->tipo == TP_TIT_PAG){
     if(janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].fun())
       return ;
     gtk_entry_set_text(GTK_ENTRY(cad_pag_code_entry), id);
+    gtk_entry_set_text(GTK_ENTRY(cad_pag_parcela_spin), parcela);
     gtk_widget_activate(cad_pag_code_entry);
   }
 
@@ -13,7 +16,9 @@ void notf_consultar_fun(GtkWidget *botao, struct _notf_strct *notf){
     if(janelas_gerenciadas.vetor_janelas[CAD_TIT_REC_WND].fun())
       return ;
     gtk_entry_set_text(GTK_ENTRY(cad_rec_code_entry), id);
+    gtk_entry_set_text(GTK_ENTRY(cad_rec_parcela_spin), parcela);
     gtk_widget_activate(cad_rec_code_entry);
+    gtk_widget_activate(cad_rec_parcela_spin);
   }
 }
 
@@ -24,14 +29,23 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
-  gchar *id = malloc(12);
+  gchar *id = malloc(12), *parcela = malloc(12);
 
+  enum{
+    ID_COL,
+    PARC_COL,
+    NOME_COL,
+    DESCR_COL,
+    STAT_COL,
+    N_COLUMNS
+  };
+  
   GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW(tree_view));
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
   if(!gtk_tree_selection_get_selected(selection, &model, &iter))
     return ;
 
-  gtk_tree_model_get(model, &iter, 0, &id, -1);
+  gtk_tree_model_get(model, &iter, ID_COL, &id, PARC_COL, &parcela, -1);
 
   sprintf(query, "select tipo_titulo from titulos where code = %s", id);
   if(!(res = consultar(query))){
@@ -45,6 +59,7 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
 
   struct _notf_strct *notf = malloc(sizeof(struct _notf_strct));
   notf->id = atoi(id);
+  notf->id2 = atoi(parcela);
   notf->tipo = atoi(row[0]);
 
   GtkWidget *botao = gtk_button_new_with_label("Consultar");
@@ -74,8 +89,8 @@ int notificacoes_receber(){
   notificacao_pendencias = 0;
 
   sprintf(query,
-    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY"
-    ,NOTF_DIAS,NOTF_DIAS);
+    "select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY and status != %i"
+    ,NOTF_DIAS,NOTF_DIAS,STAT_QUITADO);
 
   if((res = consultar(query))){
     notificacao_pendencias += mysql_num_rows(res);
@@ -131,13 +146,6 @@ void notificacoes_wnd(){
   if(!app_is_ativo())
     return ;
 
-  enum {
-    COLUMN0,
-    COLUMN1,
-    COLUMN2,
-    COLUMN3,
-    N_COLUMNS
-  };
   GtkWidget *notf_wnd = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   /*registrando a janela para o reg_win*/
 	janelas_gerenciadas.vetor_janelas[REG_NOTIF].reg_id = REG_NOTIF;
@@ -171,9 +179,11 @@ void notificacoes_wnd(){
   char query[MAX_QUERY_LEN];
   enum{
     ID_COL,
+    PARC_COL,
     NOME_COL,
     DESCR_COL,
     STAT_COL,
+    N_COLUMNS
   };
 
   GtkTreeViewColumn *coluna_id = gtk_tree_view_column_new_with_attributes(
@@ -182,6 +192,13 @@ void notificacoes_wnd(){
     "text",
     ID_COL,
     NULL);
+
+  GtkTreeViewColumn *coluna_parc = gtk_tree_view_column_new_with_attributes(
+    "Parcela",
+  gtk_cell_renderer_text_new (),
+    "text",
+    PARC_COL,
+    NULL );
 
   GtkTreeViewColumn *coluna_nome = gtk_tree_view_column_new_with_attributes(
     "Nome",
@@ -205,25 +222,28 @@ void notificacoes_wnd(){
     NULL );
 
   gtk_tree_view_append_column(GTK_TREE_VIEW(notf_tree_view), coluna_id);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(notf_tree_view), coluna_parc);
   gtk_tree_view_append_column(GTK_TREE_VIEW(notf_tree_view), coluna_nome);
   gtk_tree_view_append_column(GTK_TREE_VIEW(notf_tree_view), coluna_descr);
   gtk_tree_view_append_column(GTK_TREE_VIEW(notf_tree_view), coluna_status);
 
-  GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+  GtkTreeStore *modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo  from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY",
-  NOTF_DIAS, NOTF_DIAS
+  sprintf(query,"select p.parcelas_id, p.posicao, DATE_FORMAT(p.data_vencimento,'%%d/%%m/%%Y'), t.razao, tit.status, tit.tipo_titulo from parcelas_tab as p inner join titulos as tit inner join terceiros as t on p.parcelas_id = tit.code  and tit.cliente = t.code where p.data_vencimento >= CURDATE() - INTERVAL %i DAY and p.data_vencimento <= CURDATE() + INTERVAL %i DAY  and status != %i",
+  NOTF_DIAS, NOTF_DIAS, STAT_QUITADO
   );
 	if((res = consultar(query))){
     int notif_qnt=0;
   	while((row = mysql_fetch_row(res))!=NULL){
       char id[12];
+      char parcela[12];
       char nome[20];
       char descr[100];
       char status[30];
       char terceiro[15];
 
       strcpy(id , row[0]);
+      strcpy(parcela , row[1]);
 
       switch (atoi(row[5])) {
         case TP_TIT_REC:
@@ -239,7 +259,7 @@ void notificacoes_wnd(){
           break;
       }
 
-      sprintf(descr,"Parcela %s do Título %s - %s '%s'com vencimento em %s", row[1], row[0], terceiro, row[3], row[2]);
+      sprintf(descr,"Parcela %s do Título %s - %s '%s'com vencimento em %s", parcela, id, terceiro, row[3], row[2]);
       switch (atoi(row[4])) {
         case STAT_QUITADO:
           sprintf(status,"Título já Quitado");
@@ -257,13 +277,15 @@ void notificacoes_wnd(){
       gtk_tree_store_append(modelo,&campos,NULL);
       g_print("Inserindo codigo: %s nome: %s\n",row[0],row[1]);
       gtk_tree_store_set(modelo,&campos,
-      ID_COL,id,
-      NOME_COL,nome,
-      DESCR_COL,descr,
-      STAT_COL,status
+      ID_COL, id,
+      PARC_COL, parcela,
+      NOME_COL, nome,
+      DESCR_COL, descr,
+      STAT_COL, status
       ,-1);
       notif_qnt++;
   	}
+
     if(!notif_qnt){
       gtk_tree_store_append(modelo,&campos,NULL);
       gtk_tree_store_set(modelo,&campos,

@@ -1,6 +1,6 @@
 #include "campos/codigo.c"
 #include "campos/parcela.c"
-#include "campos/cliente.c"
+#include "campos/fornecedor.c"
 #include "campos/pedido.c"
 #include "campos/status.c"
 #include "campos/datacriacao.c"
@@ -29,7 +29,7 @@ int cad_titulos_pagar(){
     janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].janela_pointer = janela;
 
     GtkWidget *cad_pag_code_frame, *cad_pag_code_box, *cad_pag_code_fixed;
-    GtkWidget *cad_pag_cli_frame, *cad_pag_cli_box, *cad_pag_cli_fixed;
+    GtkWidget *cad_pag_forn_frame, *cad_pag_forn_box, *cad_pag_forn_fixed;
     GtkWidget *cad_pag_ped_frame, *cad_pag_ped_box, *cad_pag_ped_fixed;
     GtkWidget *cad_pag_status_frame, *cad_pag_status_box, *cad_pag_status_fixed;
     GtkWidget *cad_pag_parcela_frame, *cad_pag_parcela_box, *cad_pag_parcela_fixed;
@@ -58,7 +58,7 @@ int cad_titulos_pagar(){
     linha4 = gtk_box_new(0,0);
 
     cad_pag_code_fixed = gtk_fixed_new();
-    cad_pag_cli_fixed = gtk_fixed_new();
+    cad_pag_forn_fixed = gtk_fixed_new();
     cad_pag_ped_fixed = gtk_fixed_new();
     cad_pag_status_fixed = gtk_fixed_new();
     cad_pag_parcela_fixed = gtk_fixed_new();
@@ -67,16 +67,16 @@ int cad_titulos_pagar(){
     cad_pag_valor_fixed = gtk_fixed_new();
 
     cad_pag_code_frame = gtk_frame_new("Código:");
-    cad_pag_cli_frame = gtk_frame_new("Cliente:");
+    cad_pag_forn_frame = gtk_frame_new("Fornecedor:");
     cad_pag_ped_frame = gtk_frame_new("Pedido:");
-    cad_pag_status_frame = gtk_frame_new("Status");
+    cad_pag_status_frame = gtk_frame_new("Status (Geral)");
     cad_pag_parcela_frame = gtk_frame_new("Parcela:");
     cad_pag_datacriacao_frame = gtk_frame_new("Criação:");
     cad_pag_datavencimento_frame = gtk_frame_new("Vencimento:");
     cad_pag_valor_frame = gtk_frame_new("Valor:");
 
     cad_pag_code_box = gtk_box_new(0,0);
-    cad_pag_cli_box = gtk_box_new(0,0);
+    cad_pag_forn_box = gtk_box_new(0,0);
     cad_pag_ped_box = gtk_box_new(0,0);
     cad_pag_status_box = gtk_box_new(0,0);
     cad_pag_parcela_box = gtk_box_new(0,0);
@@ -84,8 +84,8 @@ int cad_titulos_pagar(){
     cad_pag_datavencimento_box = gtk_box_new(0,0);
     cad_pag_valor_box = gtk_box_new(0,0);
 
-    cad_pag_cli_psq_button = gtk_button_new();
-    gtk_button_set_image(GTK_BUTTON(cad_pag_cli_psq_button),gtk_image_new_from_file(IMG_PESQ));
+    cad_pag_forn_psq_button = gtk_button_new();
+    gtk_button_set_image(GTK_BUTTON(cad_pag_forn_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
     cad_pag_tit_psq_button = gtk_button_new();
     gtk_button_set_image(GTK_BUTTON(cad_pag_tit_psq_button),gtk_image_new_from_file(IMG_PESQ));
@@ -101,12 +101,12 @@ int cad_titulos_pagar(){
 
     cad_pag_code_entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_code_entry),5);
-    cad_pag_cli_entry = gtk_entry_new();
-    cad_pag_cli_nome_entry = gtk_entry_new();
-    gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_cli_entry),5);
-    gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_cli_nome_entry),20);
-    gtk_widget_set_sensitive(cad_pag_cli_nome_entry,FALSE);
-  	gtk_widget_set_name(cad_pag_cli_nome_entry,"entry_unsensetivate");
+    cad_pag_forn_entry = gtk_entry_new();
+    cad_pag_forn_nome_entry = gtk_entry_new();
+    gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_forn_entry),5);
+    gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_forn_nome_entry),20);
+    gtk_widget_set_sensitive(cad_pag_forn_nome_entry,FALSE);
+  	gtk_widget_set_name(cad_pag_forn_nome_entry,"entry_unsensetivate");
     cad_pag_ped_entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(cad_pag_ped_entry),5);
     cad_pag_status_combo = gtk_combo_box_text_new();
@@ -127,9 +127,9 @@ int cad_titulos_pagar(){
     gtk_box_pack_start(GTK_BOX(cad_pag_code_box),cad_pag_code_entry,0,0,0);
     gtk_box_pack_start(GTK_BOX(cad_pag_code_box),cad_pag_tit_psq_button,0,0,5);
 
-    gtk_box_pack_start(GTK_BOX(cad_pag_cli_box),cad_pag_cli_entry,0,0,0);
-    gtk_box_pack_start(GTK_BOX(cad_pag_cli_box),cad_pag_cli_psq_button,0,0,0);
-    gtk_box_pack_start(GTK_BOX(cad_pag_cli_box),cad_pag_cli_nome_entry,0,0,0);
+    gtk_box_pack_start(GTK_BOX(cad_pag_forn_box),cad_pag_forn_entry,0,0,0);
+    gtk_box_pack_start(GTK_BOX(cad_pag_forn_box),cad_pag_forn_psq_button,0,0,0);
+    gtk_box_pack_start(GTK_BOX(cad_pag_forn_box),cad_pag_forn_nome_entry,0,0,0);
 
     gtk_box_pack_start(GTK_BOX(cad_pag_ped_box),cad_pag_ped_entry,0,0,0);
     gtk_box_pack_start(GTK_BOX(cad_pag_ped_box),cad_pag_ped_psq_button,0,0,0);
@@ -146,7 +146,7 @@ int cad_titulos_pagar(){
     gtk_box_pack_start(GTK_BOX(cad_pag_valor_box),cad_pag_valor_entry,0,0,0);
 
     gtk_container_add(GTK_CONTAINER(cad_pag_code_frame),cad_pag_code_box);
-    gtk_container_add(GTK_CONTAINER(cad_pag_cli_frame),cad_pag_cli_box);
+    gtk_container_add(GTK_CONTAINER(cad_pag_forn_frame),cad_pag_forn_box);
     gtk_container_add(GTK_CONTAINER(cad_pag_ped_frame),cad_pag_ped_box);
     gtk_container_add(GTK_CONTAINER(cad_pag_status_frame),cad_pag_status_box);
     gtk_container_add(GTK_CONTAINER(cad_pag_parcela_frame),cad_pag_parcela_box);
@@ -155,7 +155,7 @@ int cad_titulos_pagar(){
     gtk_container_add(GTK_CONTAINER(cad_pag_valor_frame),cad_pag_valor_box);
 
     gtk_fixed_put(GTK_FIXED(cad_pag_code_fixed),cad_pag_code_frame,20,20);
-    gtk_fixed_put(GTK_FIXED(cad_pag_cli_fixed),cad_pag_cli_frame,20,20);
+    gtk_fixed_put(GTK_FIXED(cad_pag_forn_fixed),cad_pag_forn_frame,20,20);
     gtk_fixed_put(GTK_FIXED(cad_pag_ped_fixed),cad_pag_ped_frame,20,20);
     gtk_fixed_put(GTK_FIXED(cad_pag_status_fixed),cad_pag_status_frame,20,20);
     gtk_fixed_put(GTK_FIXED(cad_pag_parcela_fixed),cad_pag_parcela_frame,20,20);
@@ -165,7 +165,7 @@ int cad_titulos_pagar(){
 
     gtk_box_pack_start(GTK_BOX(linha1),cad_pag_code_fixed,0,0,0);
     gtk_box_pack_start(GTK_BOX(linha1),cad_pag_parcela_fixed,0,0,0);
-    gtk_box_pack_start(GTK_BOX(linha2),cad_pag_cli_fixed,0,0,0);
+    gtk_box_pack_start(GTK_BOX(linha2),cad_pag_forn_fixed,0,0,0);
     gtk_box_pack_start(GTK_BOX(linha2),cad_pag_ped_fixed,0,0,0);
     gtk_box_pack_start(GTK_BOX(linha3),cad_pag_datacriacao_fixed,0,0,0);
     gtk_box_pack_start(GTK_BOX(linha3),cad_pag_datavencimento_fixed,0,0,0);
@@ -182,10 +182,10 @@ int cad_titulos_pagar(){
     cad_pag_concluindo=0;
     sprintf(task_code,"%i",tasker("titulos"));
     gtk_entry_set_text(GTK_ENTRY(cad_pag_code_entry),task_code);
-    gtk_widget_grab_focus(cad_pag_cli_entry);
+    gtk_widget_grab_focus(cad_pag_forn_entry);
 
     g_signal_connect(cad_pag_tit_psq_button,"clicked",G_CALLBACK(psq_fin_pag),cad_pag_code_entry);
-    g_signal_connect(cad_pag_cli_psq_button,"clicked",G_CALLBACK(psq_ter),cad_pag_cli_entry);
+    g_signal_connect(cad_pag_forn_psq_button,"clicked",G_CALLBACK(psq_ter),cad_pag_forn_entry);
     g_signal_connect(cad_pag_ped_psq_button,"clicked",G_CALLBACK(psq_ped),cad_pag_ped_entry);
     g_signal_connect(cad_pag_datacri_psq_button,"clicked",G_CALLBACK(psq_data),cad_pag_datacriacao_entry);
     g_signal_connect(cad_pag_datavenc_psq_button,"clicked",G_CALLBACK(psq_data),cad_pag_datavencimento_entry);
@@ -193,7 +193,7 @@ int cad_titulos_pagar(){
     g_signal_connect(cad_pag_code_entry,"activate",G_CALLBACK(cad_pag_code_fun),NULL);
     g_signal_connect(cad_pag_parcela_spin,"activate",G_CALLBACK(cad_pag_parcela_fun),NULL);
     g_signal_connect(cad_pag_parcela_spin,"value-changed",G_CALLBACK(cad_pag_parcela_fun),NULL);
-    g_signal_connect(cad_pag_cli_entry,"activate",G_CALLBACK(cad_pag_cli_fun),NULL);
+    g_signal_connect(cad_pag_forn_entry,"activate",G_CALLBACK(cad_pag_forn_fun),NULL);
     g_signal_connect(cad_pag_ped_entry,"activate",G_CALLBACK(cad_pag_ped_fun),NULL);
     g_signal_connect(cad_pag_datacriacao_entry,"activate",G_CALLBACK(cad_pag_datacriacao_fun),NULL);
     g_signal_connect(cad_pag_datavencimento_entry,"activate",G_CALLBACK(cad_pag_datavencimento_fun),NULL);

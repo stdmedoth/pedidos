@@ -34,6 +34,7 @@ static int altera_orc()
 
 	if((row = mysql_fetch_row(res))){
 		popup(NULL,"Existe um pedido para este orçamento");
+		orc_contem_ped = 1;
 		gtk_widget_set_sensitive(concluir_orc_button, FALSE);
 		gtk_widget_set_sensitive(pedido_orc_button, FALSE);
 		gtk_widget_set_sensitive(excluir_orc_button, FALSE);
@@ -43,7 +44,7 @@ static int altera_orc()
 	rec_altera_qnt=1;
 	recebendo_prod_orc=1;
 
-	if(observacoes_orc_get()!=0){
+	if(observacoes_orc_get()){
 		cancela_orc();
 		return 1;
 	}
@@ -91,12 +92,20 @@ static int altera_orc()
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[OBS],strlen(row[OBS]));
 	}
-	gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),row[BANCO]);
-	if(codigo_cli_orc()!=0){
-		autologger("Erro no código do cliente durante alteracao");
-		cancela_orc();
-		return 1;
+
+
+	if(row[BANCO]){
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),row[BANCO]);
+		if(codigo_cli_orc()!=0){
+			autologger("Erro no código do cliente durante alteracao");
+			cancela_orc();
+			return 1;
+		}	
+	}else{
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),"");
+		gtk_widget_activate(orc_bnc_code_entry);
 	}
+	
 
 	//buscando informações basicas de transporte
 	sprintf(query,"select * from servico_transporte where orcamento = %s",tmp_cod_orc);
@@ -179,9 +188,10 @@ static int altera_orc()
 
 		itens_qnt = atoi(row[ORC_PROD_ITM_COL]);
 
-		adicionar_linha_orc();
+		if(adicionar_linha_orc())
+			return 1;
 
-		if(GTK_IS_ENTRY(codigo_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])])){
+		if(codigo_prod_orc_entry[atoi(row[ORC_PROD_ITM_COL])]){
 
 			orc_loging_alteracao(row);
 
@@ -374,12 +384,13 @@ static int altera_orc()
 	ativos_qnt=1;
 
 	orc_transp_alterar_fun();
-	recebendo_prod_orc=0;
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
+	recebendo_prod_orc=0;
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 	gtk_widget_set_sensitive(alterar_orc_button,FALSE);
 	gtk_widget_set_sensitive(codigo_orc_entry,FALSE);
+	gtk_widget_set_sensitive(gerar_orc_button,TRUE);
 	gtk_widget_set_sensitive(pesquisa_orc,FALSE);
 	return 0;
 }

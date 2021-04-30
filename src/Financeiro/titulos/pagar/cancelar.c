@@ -3,8 +3,8 @@ int cad_pag_cancelar_fun(){
 
   cad_pag_alterando=0;
   cad_pag_concluindo=0;
-  gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_entry),"");
-  gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_nome_entry),"");
+  gtk_entry_set_text(GTK_ENTRY(cad_pag_forn_entry),"");
+  gtk_entry_set_text(GTK_ENTRY(cad_pag_forn_nome_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_pag_ped_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_pag_valor_entry),"");
   gtk_entry_set_text(GTK_ENTRY(cad_pag_datacriacao_entry),"");
@@ -14,6 +14,6 @@ int cad_pag_cancelar_fun(){
 
   sprintf(task_code,"%i",tasker("titulos"));
   gtk_entry_set_text(GTK_ENTRY(cad_pag_code_entry),task_code);
-  gtk_widget_grab_focus(cad_pag_cli_entry);
+  gtk_widget_grab_focus(cad_pag_forn_entry);
   return 0;
 }

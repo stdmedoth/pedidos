@@ -24,8 +24,8 @@ int cad_pag_parcela_fun(){
   }else{
     if( cad_pag_concluindo == 0 ){
       cad_pag_alterando=0;
-      gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_entry),"");
-      gtk_entry_set_text(GTK_ENTRY(cad_pag_cli_nome_entry),"");
+      gtk_entry_set_text(GTK_ENTRY(cad_pag_forn_entry),"");
+      gtk_entry_set_text(GTK_ENTRY(cad_pag_forn_nome_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_pag_ped_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_pag_valor_entry),"");
       gtk_entry_set_text(GTK_ENTRY(cad_pag_datacriacao_entry),"");
@@ -34,6 +34,6 @@ int cad_pag_parcela_fun(){
     }
   }
 
-  gtk_widget_grab_focus(cad_pag_cli_entry);
+  gtk_widget_grab_focus(cad_pag_forn_entry);
   return 0;
 }

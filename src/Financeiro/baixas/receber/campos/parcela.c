@@ -32,10 +32,12 @@ int cad_bxs_rec_parc_fun(){
   }
 
   if((row2 = mysql_fetch_row(res2))){
-    if(row2[0])
+    if(row2[0]){
       rec_baixas.valor_baixas = atof(row2[0]);
-    else
+    }
+    else{
       rec_baixas.valor_baixas = 0;
+    }
   }else
     rec_baixas.valor_baixas = 0;
 

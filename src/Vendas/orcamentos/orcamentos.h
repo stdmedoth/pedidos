@@ -146,6 +146,8 @@ static int ativos_qnt=1;
 static float total_geral_orc =0 ;
 static float desconto_geral_orc =0 ;
 
+int orc_contem_ped=0;
+
 //COMBO
 GtkWidget **tipodesconto_prod_orc_combo;
 GtkWidget *orc_pag_cond_entry, *orc_pag_cond_nome, *orc_pag_cond_frame, *orc_pag_cond_fixed, *orc_pag_cond_box, *orc_pag_cond_psq_button;

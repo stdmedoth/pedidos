@@ -6,7 +6,7 @@ int vnd_orc(){
 	char code[10];
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
-	GtkWidget *orc_bnc_box, *orc_bnc_fixed, *orc_bnc_frame;
+	GtkWidget *orc_bnc_fixed, *orc_bnc_box;
 	GtkWidget *financeiro_box, *orc_box_datas;
 	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 0)
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);

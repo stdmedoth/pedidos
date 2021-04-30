@@ -20,6 +20,11 @@ static int adicionar_linha_orc()
 
 	}
 
+	if(!recebendo_prod_orc && orc_contem_ped){
+		popup(NULL,"Não é possível alterar orçamento processado");
+		return 1;
+	}
+
 	if(ativos[itens_qnt-1].id == 1){
 
 		int cont=0;

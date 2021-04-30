@@ -84,8 +84,8 @@ create table if not exists criticas(
 
 create table if not exists forma_pagamento(
   code int primary key auto_increment, 
-  nome varchar(50)
-);
+  nome varchar(50),
+  tipo int default 1);
 
 create table if not exists pag_cond(
   code int primary key auto_increment,

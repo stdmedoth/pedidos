@@ -3,7 +3,7 @@ struct _forma_pagamento *get_forma_pagamento(int code_fp){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 
-	sprintf(query, "select * from forma_pagamento where id = %i", code_fp);
+	sprintf(query, "select * from forma_pagamento where code = %i", code_fp);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível consultar forma pagamento");
 		return NULL;
@@ -17,6 +17,7 @@ struct _forma_pagamento *get_forma_pagamento(int code_fp){
 	struct _forma_pagamento *forma_pagamento = malloc(sizeof(struct _forma_pagamento));
 	forma_pagamento->code = atoi(row[FORMA_PAG_CODE]);
 	forma_pagamento->nome = strdup(row[FORMA_PAG_NOME]);
+	forma_pagamento->tipo = atoi(row[FORMA_PAG_TIPO]);
 
 	return forma_pagamento;
 }
@@ -50,6 +51,7 @@ struct _forma_pagamento_list *get_formas_pags_list(){
 		fpg_list->fpags[fpg_list->qnt_fpags] = malloc(sizeof(struct _forma_pagamento));
 		fpg_list->fpags[fpg_list->qnt_fpags]->code = atoi(row[FORMA_PAG_CODE]);
 		fpg_list->fpags[fpg_list->qnt_fpags]->nome = strdup(row[FORMA_PAG_NOME]);		
+		fpg_list->fpags[fpg_list->qnt_fpags]->tipo = atoi(row[FORMA_PAG_TIPO]);		
 		fpg_list->qnt_fpags++;
 	}
 

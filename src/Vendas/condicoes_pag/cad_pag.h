@@ -69,6 +69,6 @@ struct _condpag{
 	int dia_inicial_flag;
 	int dia_inicial;
 	int intervalos;
-	int forma_pag;
 	int parcelas_qnt;
+	struct _forma_pagamento *forma_pag;
 };

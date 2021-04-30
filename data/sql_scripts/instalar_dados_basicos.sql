@@ -80,12 +80,10 @@ insert into estados(sigla,nome)
   ('TO','Tocantins'),
   ('SP','São Paulo');
 
-insert into forma_pagamento (code, nome)
-  values
-  (1 , 'Dinheiro'),
-  (2 , 'Cheque'),
-  (3 , 'Cartão Crédito'),
-  (4 , 'Cartão Débito'),
-  (5 , 'Cartão Aliment.'),
-  (6 , 'Vale Aliment.(em papel)'),
-  (7 , 'Outros');
+INSERT INTO forma_pagamento (nome,tipo) VALUES
+   ('Dinheiro',1),
+   ('Cheque',2),
+   ('Cartão Crédito',3),
+   ('Cartão Débito',3),
+   ('Transferencia',4),
+   ('Outros',1);

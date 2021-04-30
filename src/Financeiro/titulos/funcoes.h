@@ -21,6 +21,4 @@ MYSQL_RES *titulos_por_cliente(struct _titulo *titulos);
 
 MYSQL_RES *titulos_por_cliente_status(struct _titulo *titulos);
 
-GtkWidget *titulos_get_widget(struct _titulo *titulos);
 
-int titulos_update_widget(struct _titulo *titulos);

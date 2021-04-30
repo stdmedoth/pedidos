@@ -74,7 +74,7 @@ int cad_titulos_receber(){
     cad_rec_cli_frame = gtk_frame_new("Cliente:");
     cad_rec_ped_frame = gtk_frame_new("Pedido:");
     cad_rec_bnc_frame = gtk_frame_new("Banco:");
-    cad_rec_status_frame = gtk_frame_new("Status");
+    cad_rec_status_frame = gtk_frame_new("Status (Geral)");
     cad_rec_parcela_frame = gtk_frame_new("Parcela:");
     cad_rec_datacriacao_frame = gtk_frame_new("Criação:");
     cad_rec_datavencimento_frame = gtk_frame_new("Vencimento:");

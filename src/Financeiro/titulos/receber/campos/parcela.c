@@ -11,7 +11,6 @@ int cad_rec_parcela_fun(){
   cad_rec_parcela_int = atoi(gtk_entry_get_text(GTK_ENTRY(cad_rec_parcela_spin)));
 
   sprintf(query,"select tl.cliente, tl.pedido, tl.status, p.data_criacao, p.data_vencimento, p.valor from titulos as tl inner join terceiros as t inner join parcelas_tab as p on tl.code = p.parcelas_id and t.code = tl.cliente where tl.code = %i and p.posicao = %i and tl.tipo_titulo = %i",atoi(cad_rec_code_gchar), cad_rec_parcela_int, TP_TIT_REC);
-
   if(!(res=consultar(query))){
     popup(NULL,"Não foi possível pesquisar o título");
     return 1;

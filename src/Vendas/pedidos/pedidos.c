@@ -64,6 +64,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		popup(NULL,"Não foi possível consultar Banco");
 		return 1;
 	}
+	
 	if((row2 = mysql_fetch_row(res2))){
 		gtk_entry_set_text(GTK_ENTRY(ped_bancocod_entry),row2[0]);
 		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[1]);

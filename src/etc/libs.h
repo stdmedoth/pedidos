@@ -142,6 +142,8 @@
 
 #include "../Financeiro/geral.h"
 #include "../Financeiro/titulos/funcoes.h"
+#include "../Financeiro/titulos/get_widget.h"
+#include "../Financeiro/titulos/update_widget.h"
 #include "../Financeiro/bancos/cad_bancos.h"
 #include "../Financeiro/titulos/receber/cadastro_titulos.h"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.h"

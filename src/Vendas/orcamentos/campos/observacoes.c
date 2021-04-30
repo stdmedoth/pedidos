@@ -11,5 +11,6 @@ int observacoes_orc_get()
 
 	if(strlen(observacoes_orc_gchar))
 		orc_infos.observacoes = strdup(observacoes_orc_gchar);
+	
 	return 0;
 }

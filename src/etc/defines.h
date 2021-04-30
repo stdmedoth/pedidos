@@ -58,6 +58,7 @@
 #define THUMBDESKTOP6      APP_DIRNAME "/files/thumbs/thumbdesktop6.png"
 #define OPER_DESKTOP       APP_DIRNAME "/files/desktop/oper.png"
 #define DESKTOP_STYLE      APP_DIRNAME "/files/desktop/style.css"
+#define MAIN_STYLE         APP_DIRNAME "/files/assets/main.css"
 #define KANBAN_STYLE       APP_DIRNAME "/files/assets/kanban.css"
 #define PDV_SHORTCUTS      APP_DIRNAME "/files/pdv/atalhos.css"
 #define PDV_STYLE          APP_DIRNAME "/files/assets/pdv.css"

@@ -10,7 +10,7 @@ int cad_pag_concluir_fun(){
   if(cad_pag_parcela_fun()){
     return 1;
   }
-  if(cad_pag_cli_fun()){
+  if(cad_pag_forn_fun()){
     return 1;
   }
   if(cad_pag_ped_fun()){
@@ -29,7 +29,7 @@ int cad_pag_concluir_fun(){
     return 1;
   }
 
-  if(cad_pag_alterando == 0){
+  if(!cad_pag_alterando){
     if(cad_pag_parcela_int==0){
 
       sprintf(query,"select * from titulos where code = %i",atoi(cad_pag_code_gchar));
@@ -40,7 +40,7 @@ int cad_pag_concluir_fun(){
       if(!(row=mysql_fetch_row(res))){
         sprintf(query,"insert into titulos(code,cliente,pedido,status, qnt_parcelas, tipo_titulo) values(%i,%i,%i,%i,0,%i)",
         atoi(cad_pag_code_gchar),
-        atoi(cad_pag_cli_gchar),
+        atoi(cad_pag_forn_gchar),
         atoi(cad_pag_ped_gchar),
         cad_pag_status_int,
         TP_TIT_PAG);
@@ -61,16 +61,16 @@ int cad_pag_concluir_fun(){
       return 1;
     }
 
-    sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, data_criacao, data_vencimento, valor, banco) values(%i, %i, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s', 99)",
+    sprintf(query,"insert into parcelas_tab(code, parcelas_id, posicao, data_criacao, data_vencimento, valor, banco) values(%i, %i, STR_TO_DATE('%s','%%d/%%m/%%Y'), STR_TO_DATE('%s','%%d/%%m/%%Y'), '%s', 99)",
     atoi(cad_pag_code_gchar),
     cad_pag_parcela_int,
     cad_pag_datacriacao_gchar,
     cad_pag_datavencimento_gchar,
     cad_pag_valor_gchar);
-  }
-  else{
+
+  }else{
     sprintf(query,"update titulos set cliente = %i, pedido = %i, status = %i, qnt_parcelas = 0, tipo_titulo = %i where code = %i",
-    atoi(cad_pag_cli_gchar),
+    atoi(cad_pag_forn_gchar),
     atoi(cad_pag_ped_gchar),
     cad_pag_status_int,
     TP_TIT_PAG,
@@ -90,6 +90,7 @@ int cad_pag_concluir_fun(){
   }
 
   if(enviar_query(query)){
+
     if(cad_pag_alterando)
       popup(NULL,"Não foi possível atualizar parcela");
     else
