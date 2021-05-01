@@ -1,0 +1,69 @@
+<orc>
+	<orc_code>
+		<x>930</x>	
+		<y>60</y>	
+	</orc_code>	
+	
+	<email>
+		<x>100</x>	
+		<y>100</y>	
+	</email>
+
+	<data_emissao>
+		<x>980</x>	
+		<y>100</y>	
+	</data_emissao>
+		
+	<nome_cliente>
+		<x>200</x>	
+		<y>500</y>	
+	</nome_cliente>
+
+	<ender_cliente>
+		<x>100</x>	
+		<y>100</y>	
+	</ender_cliente>
+
+	<cidade_cliente>
+		<x>100</x>	
+		<y>100</y>	
+	</cidade_cliente>
+
+	<telefone_cliente>
+		<x>100</x>	
+		<y>100</y>	
+	</telefone_cliente>
+
+
+	<contato_cliente>
+		<x>100</x>	
+		<y>100</y>			
+	</contato_cliente>
+
+	<itens>
+		<codigo>
+			<x>100</x>	
+			<y>100</y>
+		</codigo>
+		<descricao>
+			<x>100</x>	
+			<y>100</y>
+		</descricao>
+		<und>
+			<x>100</x>	
+			<y>100</y>
+		</und>
+		<quantidade>
+			<x>100</x>	
+			<y>100</y>
+		</quantidade>
+		<valor_unit>
+			<x>100</x>	
+			<y>100</y>
+		</valor_unit>
+		<subtotal>
+			<x>100</x>	
+			<y>100</y>
+		</subtotal>
+	</itens>
+</orc>

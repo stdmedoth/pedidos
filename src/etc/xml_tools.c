@@ -1,3 +1,27 @@
+int validar_coord_xml(xmlDocPtr doc, char **paths){
+  
+  for(int cont=0; paths[cont]!=NULL; cont++){
+    
+    gchar full_path[ strlen(paths[cont])+10 ];
+    sprintf(full_path, "/%s/x", paths[cont]);
+    if(!get_tag_by_namepath(doc, full_path)){
+      gchar msg[50 + strlen(full_path)];
+      sprintf(msg, "Não foi possível encontrar coordenada %s no xml", full_path);
+      file_logger(msg);
+      return 1;
+    }
+    sprintf(full_path, "/%s/y", paths[cont]);
+    if(!get_tag_by_namepath(doc, full_path)){
+      gchar msg[50 + strlen(full_path)];
+      sprintf(msg, "Não foi possível encontrar coordenada %s no xml", full_path);
+      file_logger(msg);
+      return 1;
+    }
+  
+  }
+  return 0;
+}
+
 xmlNodePtr search_content_tag(xmlNode * a_node, char *TagName){
   xmlNode *cur_node = NULL;
   if(a_node==NULL)

@@ -2,7 +2,7 @@
 number-up=1
 reverse=false
 print-pages=all
-output-uri=file:///home/Documents/saida.pdf
+output-uri=file:///home/Documentos/saida.pdf
 output-file-format=pdf
 collate=false
 printer=Print to File

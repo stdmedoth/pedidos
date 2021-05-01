@@ -7,15 +7,48 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     return 1;
   }
 
+  xmlDocPtr doc = xmlParseFile(ORC_TXTPOS);
+  if(!doc){
+    popup(NULL,"Não foi possível ler posicões do orçamento");
+    return 1;
+  }
+
+  gchar *paths[] = {
+    "orc/orc_code", 
+    "orc/email", 
+    "orc/nome_cliente", 
+    "orc/cidade_cliente", 
+    "orc/ender_cliente", 
+    "orc/telefone_cliente", 
+    "orc/contato_cliente",
+    NULL
+  };
+
+  if(validar_coord_xml(doc, paths)){
+    popup(NULL, "Faltam posições de campos para o PDF");
+    return 1;
+  }
+
+  //xmlNodePtr root = xmlDocGetRootElement(doc);
+
   //cairo_surface_t *surface = cairo_pdf_surface_create(ORC_PDF_FILE, MM_TO_POINTS(594), MM_TO_POINTS(841));
   //cairo_t *cairo = cairo_create(surface);
   cairo_t *cairo = gtk_print_context_get_cairo_context(context);
 
 
-  cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(582), MM_TO_POINTS(362));
+  cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(1582), MM_TO_POINTS(1362));
+  if(fopen(ORC_MODEL, "r")){
+    cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(ORC_MODEL);
+    cairo_set_source_surface(cairo, logo_surface ,0,0);
+  }else{
+    file_logger("Não foi possível ler imagem de fundo gera_doc_orc() -> cairo_image_surface_create_from_png()");
+  }
+  cairo_fill(cairo);
+
+  cairo_rectangle(cairo, MM_TO_POINTS(40), MM_TO_POINTS(10), MM_TO_POINTS(300), MM_TO_POINTS(50));
   if(fopen(LOGO_MEDIA, "r")){
-    cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_MEDIA);
-    cairo_set_source_surface(cairo, logo_surface ,10,10);
+    cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_PDF);
+    cairo_set_source_surface(cairo, logo_surface ,0,0);
   }else{
     file_logger("Não foi possível ler imagem de logo gera_doc_orc() -> cairo_image_surface_create_from_png()");
   }
@@ -29,36 +62,43 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, nome_empresa);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0,0 );
+  int orc_code_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/orc_code/x")));
+  int orc_code_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/orc_code/y")));
+  cairo_move_to(cairo, orc_code_x, orc_code_y);
   gchar num_orc[30];
-  sprintf(num_orc, "Orçamento Nº: %i",orc->infos->code );
+
+  sprintf(num_orc, "%i",orc->infos->code );
   cairo_show_text(cairo, num_orc);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+  int email_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/email/x")));
+  int email_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/email/y")));
+  cairo_move_to(cairo, email_x, email_y);
   gchar *email = malloc( strlen(cad_emp_strc.email) + 20);
-  sprintf(email, "Email: %s", cad_emp_strc.email);
+  sprintf(email, "%s", cad_emp_strc.email);
   cairo_show_text(cairo, email);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0,0);
+  int data_emissao_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/data_emissao/x")));
+  int data_emissao_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/data_emissao/y")));
+  cairo_move_to(cairo, data_emissao_x, data_emissao_y);
   gchar *data_emissao = malloc( strlen(orc->infos->data) + 20);
-  sprintf(data_emissao, "Data: %s", orc->infos->data);
+  sprintf(data_emissao, "%s", orc->infos->data);
   cairo_show_text(cairo, data_emissao);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
-  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
-  cairo_show_text(cairo, "Orçamento");
-  cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+  int nome_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/nome_cliente/x"));
+  int nome_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/nome_cliente/y"));
+  cairo_move_to(cairo, nome_cliente_x, nome_cliente_y);
   gchar *nome_cliente = malloc( strlen(orc->infos->cliente->razao) + 20);
-  sprintf(nome_cliente, "Cliente: %s", orc->infos->cliente->razao);
+  sprintf(nome_cliente, "%s", orc->infos->cliente->razao);
   cairo_show_text(cairo, nome_cliente);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+  int ender_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/ender_cliente/x")));
+  int ender_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/ender_cliente/y")));
+  cairo_move_to(cairo, ender_cliente_x, ender_cliente_y);
   gchar *ender_cliente = malloc(20+strlen(orc->infos->cliente->xLgr)+strlen(orc->infos->cliente->xBairro)+strlen(orc->infos->cliente->xCpl)+2);
   gchar *cmplt_cliente;
   if(strlen(orc->infos->cliente->xCpl)){
@@ -67,17 +107,23 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   }else{
     cmplt_cliente = strdup("");
   }
-  sprintf(ender_cliente, "Endereço: %s, %s - %s %s", orc->infos->cliente->xLgr, orc->infos->cliente->c_nro ,orc->infos->cliente->xBairro, cmplt_cliente);
+  sprintf(ender_cliente, "%s, %s - %s %s", orc->infos->cliente->xLgr, orc->infos->cliente->c_nro ,orc->infos->cliente->xBairro, cmplt_cliente);
   cairo_show_text(cairo, ender_cliente);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+
+  int  cidade_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/cidade_cliente/x"));
+  int  cidade_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/cidade_cliente/y"));
+  cairo_move_to(cairo, cidade_cliente_x, cidade_cliente_y);
   gchar *cidade_cliente = malloc(20+strlen(orc->infos->cliente->xMun)+strlen(orc->infos->cliente->UF));
   sprintf(cidade_cliente, "Cidade: %s/%s", orc->infos->cliente->xMun, orc->infos->cliente->UF);
   cairo_show_text(cairo, cidade_cliente);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+
+  int  telefone_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/telefone_cliente/x"));
+  int  telefone_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/telefone_cliente/y"));
+  cairo_move_to(cairo, telefone_cliente_x, telefone_cliente_y);
   gchar *telefone_cliente;
   if(orc->infos->cliente->contatos_qnt){
     telefone_cliente = malloc(20+strlen(orc->infos->cliente->contatos[0].telefone));
@@ -88,7 +134,9 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, telefone_cliente);
   cairo_fill(cairo);
 
-  cairo_move_to(cairo, 0, 0);
+  int  contato_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/contato_cliente/x"));
+  int  contato_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/contato_cliente/y"));
+  cairo_move_to(cairo, contato_cliente_x, contato_cliente_y);
   gchar *contato_cliente;
   if(orc->infos->cliente->contatos_qnt){
     contato_cliente = malloc(20+strlen(orc->infos->cliente->contatos[0].nome));
@@ -97,12 +145,6 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     contato_cliente = strdup("Contato: Não possui");
   }
   cairo_show_text(cairo, contato_cliente);
-  cairo_fill(cairo);
-
-  cairo_move_to(cairo, 0, 0);
-  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
-  cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
-  cairo_show_text(cairo, "Condições de Entrega:");
   cairo_fill(cairo);
 
   cairo_set_font_size(cairo, ITENS_TEXT_FONT_SIZE);
