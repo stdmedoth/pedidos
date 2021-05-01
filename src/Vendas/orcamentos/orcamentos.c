@@ -7,7 +7,7 @@ int vnd_orc(){
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
 	GtkWidget *orc_bnc_fixed, *orc_bnc_box;
-	GtkWidget *financeiro_box, *orc_box_datas;
+	GtkWidget *financeiro_box;
 	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 0)
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -342,7 +342,7 @@ int vnd_orc(){
 
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
-	g_signal_connect(caixa_grande,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	//g_signal_connect(caixa_grande,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
 
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		ativos[cont].id = 0;

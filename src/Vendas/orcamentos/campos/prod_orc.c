@@ -19,9 +19,13 @@ int orc_prod_calc_saldo(int posicao){
 		return 1;
 	}
 
-	if(!orc_estoque.produtos[prod_code])
+	if(!orc_estoque.produtos[prod_code]){
 		orc_estoque.produtos[prod_code] = malloc(sizeof(struct _orc_estoque));
-
+	}
+	else{
+		free(orc_estoque.produtos[prod_code]);
+		orc_estoque.produtos[prod_code] = malloc(sizeof(struct _orc_estoque));
+	}
 	operacao_orc_orc();
 
 	sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and estoque = %i",
@@ -70,12 +74,14 @@ int orc_prod_calc_saldo(int posicao){
 
 		if((campos = mysql_fetch_row(vetor))){
 			orc_estoque.produtos[prod_code]->saldo_min = atof(campos[0]);
+		}else{
+			orc_estoque.produtos[prod_code]->saldo_min = 0.0;
 		}
 	}
 
 	char saldo[MAX_PRECO_LEN];
-	g_print("valor a ser inserido : %.2f\n",orc_estoque.produtos[prod_code]->saldo_liquido);
-	sprintf(saldo,"%.2f",orc_estoque.produtos[prod_code]->saldo_liquido);
+	g_print("valor a ser inserido : %.2f\n", orc_estoque.produtos[prod_code]->saldo_liquido);
+	sprintf(saldo,"%.2f", orc_estoque.produtos[prod_code]->saldo_liquido);
 	gtk_entry_set_text(GTK_ENTRY(saldo_prod_orc_entry[posicao]),saldo);
 
 	return 0;

@@ -1,14 +1,19 @@
 <orc>
+	<img_logo>
+		<x>60</x>	
+		<y>40</y>	
+	</img_logo>	
+
 	<orc_code>
 		<x>930</x>	
 		<y>60</y>	
 	</orc_code>	
-	
-	<email>
-		<x>100</x>	
-		<y>100</y>	
-	</email>
 
+	<empresa_email>
+	 	<x>0</x>	
+	 	<y>0</y>
+	</empresa_email>
+	
 	<data_emissao>
 		<x>980</x>	
 		<y>100</y>	
@@ -16,54 +21,87 @@
 		
 	<nome_cliente>
 		<x>200</x>	
-		<y>500</y>	
+		<y>190</y>	
 	</nome_cliente>
 
 	<ender_cliente>
-		<x>100</x>	
-		<y>100</y>	
+		<x>80</x>	
+		<y>220</y>	
 	</ender_cliente>
 
 	<cidade_cliente>
-		<x>100</x>	
-		<y>100</y>	
+		<x>80</x>	
+		<y>255</y>		
 	</cidade_cliente>
 
-	<telefone_cliente>
-		<x>100</x>	
-		<y>100</y>	
-	</telefone_cliente>
-
-
 	<contato_cliente>
-		<x>100</x>	
-		<y>100</y>			
+		<x>80</x>	
+		<y>290</y>			
 	</contato_cliente>
 
+	<telefone_cliente>
+		<x>520</x>	
+		<y>290</y>	
+	</telefone_cliente>
+	
+	<email>
+		<x>820</x>	
+		<y>290</y>	
+	</email>
+
 	<itens>
+		
+		<distancia>20</distancia>
+
 		<codigo>
-			<x>100</x>	
-			<y>100</y>
+			<x>120</x>	
+			<y>560</y>
 		</codigo>
 		<descricao>
-			<x>100</x>	
-			<y>100</y>
+			<x>230</x>	
+			<y>560</y>
 		</descricao>
-		<und>
-			<x>100</x>	
-			<y>100</y>
-		</und>
+		<unidade>
+			<x>585</x>	
+			<y>560</y>
+		</unidade>
 		<quantidade>
-			<x>100</x>	
-			<y>100</y>
+			<x>710</x>	
+			<y>560</y>
 		</quantidade>
 		<valor_unit>
-			<x>100</x>	
-			<y>100</y>
+			<x>810</x>	
+			<y>560</y>
 		</valor_unit>
 		<subtotal>
-			<x>100</x>	
-			<y>100</y>
+			<x>980</x>	
+			<y>560</y>
 		</subtotal>
 	</itens>
+
+	<subtotal>
+		<x>700</x>	
+		<y>950</y>
+	</subtotal>
+
+	<desconto>
+		<x>710</x>	
+		<y>996</y>
+	</desconto>
+
+	<total>
+		<x>720</x>	
+		<y>1190</y>
+	</total>
+
+	<transporte>
+		<valor>
+			<x>730</x>	
+			<y>1075</y>
+		</valor>
+		<desconto>
+			<x>730</x>	
+			<y>1105</y>
+		</desconto>
+	</transporte>
 </orc>

@@ -92,9 +92,8 @@ static int cancela_orc()
 	orc_valores.valor_total = 0;
 
 	adicionar_linha_orc();
-
+	orc_pag_sem_finan();
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
-	
 
 	gtk_widget_set_sensitive(concluir_orc_button,TRUE);
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);

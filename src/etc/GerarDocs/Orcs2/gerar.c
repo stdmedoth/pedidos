@@ -21,6 +21,19 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     "orc/ender_cliente", 
     "orc/telefone_cliente", 
     "orc/contato_cliente",
+    "orc/img_logo",
+    "orc/itens/codigo",
+    "orc/itens/descricao",
+    "orc/itens/unidade",
+    "orc/itens/quantidade",
+    "orc/itens/valor_unit",
+    "orc/itens/subtotal",
+    "orc/subtotal",
+    "orc/desconto",
+    "orc/total",
+    "orc/transporte/valor",
+    "orc/transporte/desconto",
+
     NULL
   };
 
@@ -45,10 +58,13 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   }
   cairo_fill(cairo);
 
-  cairo_rectangle(cairo, MM_TO_POINTS(40), MM_TO_POINTS(10), MM_TO_POINTS(300), MM_TO_POINTS(50));
+  int img_logo_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/x")));
+  int img_logo_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/y")));
+  
+  cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(300), MM_TO_POINTS(80));
   if(fopen(LOGO_MEDIA, "r")){
     cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_PDF);
-    cairo_set_source_surface(cairo, logo_surface ,0,0);
+    cairo_set_source_surface(cairo, logo_surface ,img_logo_x, img_logo_y);
   }else{
     file_logger("Não foi possível ler imagem de logo gera_doc_orc() -> cairo_image_surface_create_from_png()");
   }
@@ -71,8 +87,8 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, num_orc);
   cairo_fill(cairo);
 
-  int email_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/email/x")));
-  int email_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/email/y")));
+  int email_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/empresa_email/x")));
+  int email_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/empresa_email/y")));
   cairo_move_to(cairo, email_x, email_y);
   gchar *email = malloc( strlen(cad_emp_strc.email) + 20);
   sprintf(email, "%s", cad_emp_strc.email);
@@ -88,8 +104,8 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_fill(cairo);
 
 
-  int nome_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/nome_cliente/x"));
-  int nome_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/nome_cliente/y"));
+  int nome_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/x")));
+  int nome_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/y")));
   cairo_move_to(cairo, nome_cliente_x, nome_cliente_y);
   gchar *nome_cliente = malloc( strlen(orc->infos->cliente->razao) + 20);
   sprintf(nome_cliente, "%s", orc->infos->cliente->razao);
@@ -108,21 +124,25 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     cmplt_cliente = strdup("");
   }
   sprintf(ender_cliente, "%s, %s - %s %s", orc->infos->cliente->xLgr, orc->infos->cliente->c_nro ,orc->infos->cliente->xBairro, cmplt_cliente);
+  const int MAX_ENDER_LEN = 80;
+  if(strlen(ender_cliente) >= MAX_ENDER_LEN ){
+    ender_cliente[MAX_ENDER_LEN] = '\0';
+  }
   cairo_show_text(cairo, ender_cliente);
   cairo_fill(cairo);
 
 
-  int  cidade_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/cidade_cliente/x"));
-  int  cidade_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/cidade_cliente/y"));
+  int  cidade_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/cidade_cliente/x")));
+  int  cidade_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/cidade_cliente/y")));
   cairo_move_to(cairo, cidade_cliente_x, cidade_cliente_y);
   gchar *cidade_cliente = malloc(20+strlen(orc->infos->cliente->xMun)+strlen(orc->infos->cliente->UF));
-  sprintf(cidade_cliente, "Cidade: %s/%s", orc->infos->cliente->xMun, orc->infos->cliente->UF);
+  sprintf(cidade_cliente, "%s/%s", orc->infos->cliente->xMun, orc->infos->cliente->UF);
   cairo_show_text(cairo, cidade_cliente);
   cairo_fill(cairo);
 
 
-  int  telefone_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/telefone_cliente/x"));
-  int  telefone_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/telefone_cliente/y"));
+  int  telefone_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/telefone_cliente/x")));
+  int  telefone_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/telefone_cliente/y")));
   cairo_move_to(cairo, telefone_cliente_x, telefone_cliente_y);
   gchar *telefone_cliente;
   if(orc->infos->cliente->contatos_qnt){
@@ -134,8 +154,8 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, telefone_cliente);
   cairo_fill(cairo);
 
-  int  contato_cliente_x = atoi((const char *)get_tag_by_namepath(doc,"/orc/contato_cliente/x"));
-  int  contato_cliente_y = atoi((const char *)get_tag_by_namepath(doc,"/orc/contato_cliente/y"));
+  int  contato_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/contato_cliente/x")));
+  int  contato_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/contato_cliente/y")));
   cairo_move_to(cairo, contato_cliente_x, contato_cliente_y);
   gchar *contato_cliente;
   if(orc->infos->cliente->contatos_qnt){
@@ -149,28 +169,124 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
 
   cairo_set_font_size(cairo, ITENS_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  int interval_pos = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/distancia")));
+  
+  int code_pos_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/codigo/x")));
+  int code_pos_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/codigo/y")));
+  
+  int descricao_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/descricao/x")));
+  int descricao_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/descricao/y")));
+
+  int und_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/unidade/x")));
+  int und_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/unidade/y")));
+
+  int qtde_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/quantidade/x")));
+  int qtde_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/quantidade/y")));
+
+  int vlr_unit_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/valor_unit/x")));
+  int vlr_unit_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/valor_unit/y")));
+
+  int itens_subtotal_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/subtotal/x")));
+  int itens_subtotal_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/subtotal/y")));
+
   for(int cont=0;cont<orc->itens_qnt;cont++){
 
     char *format = malloc(strlen(orc->itens[cont]->_produto->xNome));
-    cairo_move_to(cairo, 0, 0);
-    cairo_show_text(cairo, orc->itens[cont]->_produto->xNome);
+    sprintf(format, "%i", orc->itens[cont]->_produto->code);
+    cairo_move_to(cairo, code_pos_x, code_pos_y);
+    cairo_show_text(cairo, format);
+    cairo_fill(cairo);
+    free(format);
+
+    cairo_move_to(cairo, descricao_x, descricao_y);
+    int prod_name_len = strlen(orc->itens[cont]->_produto->xNome);
+    gchar prod_name[prod_name_len];
+    const int PDF_MAX_PROD_LEN = 30;
+    strcpy(prod_name, orc->itens[cont]->_produto->xNome);
+    if(prod_name_len > PDF_MAX_PROD_LEN){
+      prod_name[PDF_MAX_PROD_LEN] = '\0';
+    }
+    cairo_show_text(cairo, prod_name);
     cairo_fill(cairo);
 
-    cairo_move_to(cairo, 0, 0);
-    sprintf(format, "%.2f %s", orc->itens[cont]->qnt_f, orc->itens[cont]->_produto->und->nome);
+    cairo_move_to(cairo, und_x, und_y);
+    format = malloc(strlen(orc->itens[cont]->_produto->und->nome));
+    sprintf(format, "%s", orc->itens[cont]->_produto->und->nome);
+    cairo_show_text(cairo, format);
+    cairo_fill(cairo);
+    free(format);
+
+    cairo_move_to(cairo, qtde_x, qtde_y);
+    format = malloc(20);
+    sprintf(format, "%.2f", orc->itens[cont]->qnt_f);
     cairo_show_text(cairo, format);
     cairo_fill(cairo);
 
-    cairo_move_to(cairo, 0, 0);
+    cairo_move_to(cairo, vlr_unit_x, vlr_unit_y);
+    format = malloc(20);
     sprintf(format, "R$ %.2f", orc->itens[cont]->preco_f);
     cairo_show_text(cairo, format);
     cairo_fill(cairo);
+    free(format);
+
+    float subtotal = 0.00;
+    subtotal = orc->itens[cont]->preco_f * orc->itens[cont]->qnt_f;
+    cairo_move_to(cairo, itens_subtotal_x, itens_subtotal_y);
+    format = malloc(20);
+    sprintf(format, "R$ %.2f", subtotal);
+    cairo_show_text(cairo, format);
+    cairo_fill(cairo);
+    free(format);
+
+    code_pos_y += interval_pos;
+    und_y += interval_pos;
+    descricao_y += interval_pos;
+    vlr_unit_y += interval_pos;
+    qtde_y += interval_pos;
+    itens_subtotal_y += interval_pos;
 
   }
 
+  gchar *format = malloc(20);
+  int subtotal_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/subtotal/x")));
+  int subtotal_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/subtotal/y")));
+  cairo_move_to(cairo, subtotal_x, subtotal_y);
+  sprintf(format, "R$ %.2f", orc->valores->valor_prds);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+
+  int desconto_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/desconto/x")));
+  int desconto_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/desconto/y")));
+  cairo_move_to(cairo, desconto_x, desconto_y);
+  sprintf(format, "R$ %.2f", orc->valores->valor_prds_desc);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+
+  int transp_vlr_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/valor/x")));
+  int transp_vlr_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/valor/y")));
+  cairo_move_to(cairo, transp_vlr_x, transp_vlr_y);
+  sprintf(format, "R$ %.2f", orc->valores->valor_frete);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+
+  int transp_descvlr_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/desconto/x")));
+  int transp_descvlr_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/desconto/y")));
+  cairo_move_to(cairo, transp_descvlr_x, transp_descvlr_y);
+  sprintf(format, "R$ %.2f", orc->valores->desconto_frete);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+
+  int total_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/x")));
+  int total_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/y")));  
+  cairo_move_to(cairo, total_x, total_y);
+  sprintf(format, "R$ %.2f", orc->valores->valor_total);
+  cairo_show_text(cairo, format);
+  cairo_fill(cairo);
+  free(format);
+
   cairo_move_to(cairo, 0, 0);
   cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));
-  char *format = malloc(strlen(orc->parcelas->condpag->nome) + 30);
+  format = malloc(strlen(orc->parcelas->condpag->nome) + 30);
   sprintf(format, " %s | %i x R$ %.2f", orc->parcelas->condpag->nome, orc->parcelas->condpag->parcelas_qnt, orc->valores->valor_total);
   cairo_show_text(cairo, format);
   cairo_fill(cairo);

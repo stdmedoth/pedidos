@@ -95,7 +95,9 @@ int rec_fat_vist()
 
 	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES || orc_pag_tipo_int == CONDPAG_DADATA){
 		orc_pag_datas_fun();
+		
 	}
+	gtk_widget_show(orc_box_datas);
 
 	if(orc_pag_tipo_int == CONDPAG_S_FIN){
 		 orc_pag_sem_finan();

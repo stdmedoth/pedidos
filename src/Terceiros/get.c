@@ -45,6 +45,8 @@ struct _terc_infos *terceiros_get_simp_terceiro(int code){
 	return terceiros;
 }
 
+
+
 struct _terc_infos *terceiros_get_terceiro(int code){
 
 	MYSQL_RES *res;
