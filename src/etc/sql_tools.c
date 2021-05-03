@@ -19,9 +19,9 @@ int conectar_mysql(){
 	carregar_interface();
 
 	if(!mysql_init(&conectar)){
+		gtk_widget_destroy(loading_wnd);
 		popup(NULL,"Não foi possivel iniciar conector");
 		autologger((char*)mysql_error(&conectar));
-		gtk_widget_destroy(loading_wnd);
 		encerrando();
 		return 1;
 	}
@@ -30,8 +30,8 @@ int conectar_mysql(){
 
 	carregar_interface();
 	if(!mysql_real_connect(&conectar, server_confs.server_endereco, server_confs.server_user, server_confs.server_senha, server_confs.server_database, 0,NULL,0)){
-		popup(NULL,"Não foi possível conectar ao servidor");
 		gtk_widget_destroy(loading_wnd);
+		popup(NULL,"Não foi possível conectar ao servidor");
 		encerrando();
 		return 1;
 	}

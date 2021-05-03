@@ -38,6 +38,7 @@ create table if not exists Produto_Orcamento(
   foreign key(produto) references produtos(code)
 );
 
+
 create table if not exists faturamento ( code int primary key auto_increment,
   pedido int default 0,
   cliente int default 0,

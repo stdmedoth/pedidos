@@ -79,6 +79,7 @@ static int cancela_orc()
 	alterando_orc = 0;
 	excluindo_orc = 0;
 	concluindo_orc = 0;
+	orc_pag_cond_fp = 0;
 	recebendo_prod_orc=0;
 	orc_pag_cond_activated=0;
 	orc_transp_frete_pago_int=0;
@@ -92,6 +93,7 @@ static int cancela_orc()
 	orc_valores.valor_total = 0;
 
 	adicionar_linha_orc();
+	orc_prod_saldos_clean();
 	orc_pag_sem_finan();
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 

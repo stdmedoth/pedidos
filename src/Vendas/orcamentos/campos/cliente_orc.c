@@ -100,9 +100,9 @@ int codigo_cli_orc()
 		alerta_obs = 1;
 	}
 
-	if( alterando_orc == 0 && concluindo_orc == 0 ){
+	if( !alterando_orc && !concluindo_orc ){
 
-		if( campos[PRAZO] && atoi(campos[PRAZO]) && orc_pag_cond_activated==0){
+		if( campos[PRAZO] && atoi(campos[PRAZO]) && !orc_pag_cond_activated){
 			gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),campos[PRAZO]);
 			gtk_widget_activate(orc_pag_cond_entry);
 		}

@@ -95,7 +95,7 @@ static int concluir_orc(){
 		}
 	}
 
-	if(alterando_orc==0)
+	if(!alterando_orc)
 	{
 		sprintf(query,"select * from orcamentos where code = %s",codigo_orc_gchar);
 		vetor = consultar(query);
@@ -231,6 +231,13 @@ static int concluir_orc(){
 	orc_valores.desconto_total = orc_valores.valor_prds_desc + orc_valores.desconto_frete;
 
 	sprintf(valor,"%.2f",orc_valores.valor_total);
+	orc_cheque_valor_gchar = strdup(valor);
+
+	if(orc_pag_cond_fp == FP_TIPO_CHEQUE){
+		if(orc_concluir_cheque())
+			return 1;
+	}
+
 	sprintf(query,"update orcamentos set banco = %s, tipo_mov = %i, cliente = %i, dia = STR_TO_DATE('%s','%%d/%%m/%%Y'), pag_cond = %i, total = %s, observacoes = '%s' where code = %s",
 	orc_bnc_code_gchar,
 	operacao_orc_int,

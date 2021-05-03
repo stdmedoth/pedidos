@@ -20,3 +20,10 @@ create table agencia(
 alter table pedidos change banco banco int default NULL;
 alter table parcelas_tab change banco banco int default NULL;
 alter table forma_pagamento add tipo int default 1;
+
+create table orcs_cheques(
+  code int primary key auto_increment,
+  orcamento int not null,
+  cheque int not null,
+  foreign key(orcamento) references orcamentos(code),
+  foreign key(cheque) references cheque(code));

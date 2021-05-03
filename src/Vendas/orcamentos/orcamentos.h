@@ -31,7 +31,7 @@ enum ORC_PROD_COLS{
 };
 
 struct _orc_estoque_prods{
-	int id;
+	int code;
 	float saldo;
 	float saldo_min;
 	float saldo_usado;
@@ -41,6 +41,7 @@ struct _orc_estoque_prods{
 
 struct _orc_estoque{
 	struct _orc_estoque_prods **produtos;
+	int length;
 }static orc_estoque;
 
 
@@ -131,6 +132,7 @@ static int excluindo_orc=0;
 
 static int aviso_estoque[MAX_PROD_ORC];
 static int orc_pag_cond_activated=0;
+static int orc_pag_cond_fp=0;
 
 static int adicionando_linha_ignore=0;
 
@@ -214,7 +216,6 @@ GtkWidget **codigo_prod_orc_label,
 **desconto_prod_orc_label;
 
 //  ENTRYs
-
 GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
 
 GtkWidget **codigo_orc_prod_box;

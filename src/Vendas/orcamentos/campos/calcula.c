@@ -22,7 +22,7 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
     return 1;
   }
 
-  int prod_code = atoi(codigo_prod_orc_gchar);
+  int prod_pos = orc_prod_saldos_get_pos(atoi(codigo_prod_orc_gchar));
 
   if(!tipo_pag){
     if(preco_prod_orc_calc){
@@ -147,22 +147,23 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
 
   if(!recebendo_prod_orc){
 
-    if(orc_estoque.produtos[prod_code]->mov_qnt){
-      if(orc_estoque.produtos[prod_code]->saldo_liquido < 0){
+    if(orc_estoque.produtos[prod_pos]->mov_qnt){
+    
+      if(orc_estoque.produtos[prod_pos]->saldo_liquido < 0){
         if(orcamentos.criticar.prod_saldo){
           popup(NULL,"Produto com saldo insuficiente");
           return 1;
         }
       }
 
-      if(orc_estoque.produtos[prod_code]->saldo_liquido <= orc_estoque.produtos[prod_code]->saldo_min && aviso_estoque[posicao] == 0){
+      if(orc_estoque.produtos[prod_pos]->saldo_liquido <= orc_estoque.produtos[prod_pos]->saldo_min && aviso_estoque[posicao] == 0){
         if(orcamentos.criticar.prod_saldo_limite){
           popup(NULL,"Aviso de saldo mínimo");
           aviso_estoque[posicao] = 1;
         }
       }
-    }
-    else{
+    
+    }else{
       if(orcamentos.criticar.prod_movimento){
         popup(NULL,"Sem nenhum movimento");
           return 1;

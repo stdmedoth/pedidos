@@ -1,13 +1,41 @@
+void orc_prod_saldos_clean(){
+	for(int pos=0; cont<orc_estoque.length; pos++){
+		if(orc_estoque.produtos[pos]){
+			orc_estoque.produtos[pos] = NULL;
+			orc_estoque.length--;
+		}
+	}
+}
+
+int orc_prod_saldos_get_pos(int produto){
+
+	int pos=0;
+	
+	for(pos=0; cont<orc_estoque.length; pos++){
+		if(orc_estoque.produtos[cont] && orc_estoque.produtos[cont]->code == produto){
+			return pos;
+		}
+	}
+
+	if(!pos){
+		orc_estoque.produtos[pos]->code = produto;
+		return pos;
+	}
+
+	return pos;
+}
+
 int orc_prod_calc_saldo(int posicao){
 
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 
-	int prod_code=0;
+	int prod_pos=0;
 	if(strlen(codigo_prod_orc_gchar)){
-		prod_code = atoi(codigo_prod_orc_gchar);
+		prod_pos = orc_prod_saldos_get_pos(atoi(codigo_prod_orc_gchar));
 	}else{
+		
 		produto_inserido[posicao] = 0;
 		if(posicao>1){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -17,19 +45,18 @@ int orc_prod_calc_saldo(int posicao){
 		popup(NULL,"Insira o produto");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
+	
 	}
 
-	if(!orc_estoque.produtos[prod_code]){
-		orc_estoque.produtos[prod_code] = malloc(sizeof(struct _orc_estoque));
+	if(!orc_estoque.produtos[prod_pos]){
+		orc_estoque.produtos[prod_pos] = malloc(sizeof(struct _orc_estoque));
+		orc_estoque.length++;
 	}
-	else{
-		free(orc_estoque.produtos[prod_code]);
-		orc_estoque.produtos[prod_code] = malloc(sizeof(struct _orc_estoque));
-	}
+
 	operacao_orc_orc();
 
-	sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %i and estoque = %i",
-	prod_code,
+	sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and estoque = %i",
+	codigo_prod_orc_gchar,
 	orc_params.est_orc_padrao);
 
 	if(!(vetor = consultar(query))){
@@ -37,34 +64,34 @@ int orc_prod_calc_saldo(int posicao){
 		return 1;
 	}
 
-	orc_estoque.produtos[prod_code]->mov_qnt = mysql_num_rows(vetor);
+	orc_estoque.produtos[prod_pos]->mov_qnt = mysql_num_rows(vetor);
 
 	if((campos = mysql_fetch_row(vetor))){
 
 		if(campos[0])
-			orc_estoque.produtos[prod_code]->saldo = atof(campos[0]);
+			orc_estoque.produtos[prod_pos]->saldo = atof(campos[0]);
 		else{
-			orc_estoque.produtos[prod_code]->mov_qnt = 0;
-			orc_estoque.produtos[prod_code]->saldo = 0;
+			orc_estoque.produtos[prod_pos]->mov_qnt = 0;
+			orc_estoque.produtos[prod_pos]->saldo = 0;
 		}
 
-		orc_estoque.produtos[prod_code]->saldo_usado = 0;
+		orc_estoque.produtos[prod_pos]->saldo_usado = 0;
 
 		for(int cont=1;cont<MAX_PROD_ORC;cont++){
 			if(ativos[cont].id)
 				if(produto_inserido[cont])
-					if(ativos[cont].produto == prod_code)
-						orc_estoque.produtos[prod_code]->saldo_usado += ativos[cont].qnt_f;
+					if(ativos[cont].produto == atoi(codigo_prod_orc_gchar))
+						orc_estoque.produtos[prod_pos]->saldo_usado += ativos[cont].qnt_f;
 		}
 
 		if(operacao_orc_int == VENDA || operacao_orc_int == DEV_COMPRA)
-			orc_estoque.produtos[prod_code]->saldo_liquido = orc_estoque.produtos[prod_code]->saldo - orc_estoque.produtos[prod_code]->saldo_usado;
+			orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo - orc_estoque.produtos[prod_pos]->saldo_usado;
 
 		if(operacao_orc_int == DEV_VENDA || operacao_orc_int == COMPRA)
-			orc_estoque.produtos[prod_code]->saldo_liquido = orc_estoque.produtos[prod_code]->saldo + orc_estoque.produtos[prod_code]->saldo_usado;
+			orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo + orc_estoque.produtos[prod_pos]->saldo_usado;
 
-		sprintf(query,"select saldo_min from saldo_min where produto = %i and estoque = %i",
-		prod_code,
+		sprintf(query,"select saldo_min from saldo_min where produto = %s and estoque = %i",
+		codigo_prod_orc_gchar,
 		orc_params.est_orc_padrao);
 
 		if(!(vetor = consultar(query))){
@@ -73,15 +100,15 @@ int orc_prod_calc_saldo(int posicao){
 		}
 
 		if((campos = mysql_fetch_row(vetor))){
-			orc_estoque.produtos[prod_code]->saldo_min = atof(campos[0]);
+			orc_estoque.produtos[prod_pos]->saldo_min = atof(campos[0]);
 		}else{
-			orc_estoque.produtos[prod_code]->saldo_min = 0.0;
+			orc_estoque.produtos[prod_pos]->saldo_min = 0.0;
 		}
 	}
 
 	char saldo[MAX_PRECO_LEN];
-	g_print("valor a ser inserido : %.2f\n", orc_estoque.produtos[prod_code]->saldo_liquido);
-	sprintf(saldo,"%.2f", orc_estoque.produtos[prod_code]->saldo_liquido);
+	g_print("valor a ser inserido : %.2f\n", orc_estoque.produtos[prod_pos]->saldo_liquido);
+	sprintf(saldo,"%.2f", orc_estoque.produtos[prod_pos]->saldo_liquido);
 	gtk_entry_set_text(GTK_ENTRY(saldo_prod_orc_entry[posicao]),saldo);
 
 	return 0;

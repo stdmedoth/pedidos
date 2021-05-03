@@ -6,7 +6,7 @@ int vnd_orc(){
 	char code[10];
 	//campos gerais
 	//GtkWidget *qnt_volumes_label,*valor_total_label;
-	GtkWidget *orc_bnc_fixed, *orc_bnc_box;
+	GtkWidget *orc_bnc_frame, *orc_bnc_box;
 	GtkWidget *financeiro_box;
 	if(janelas_gerenciadas.vetor_janelas[REG_CAD_ORC].aberta == 0)
 		janela_orcamento = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -25,7 +25,7 @@ int vnd_orc(){
 
 	orc_notebook = gtk_notebook_new();
 
-	orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods* ) * MAX_PROD_ORC);
+	orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods *) * MAX_PROD_ORC);
 
 	item_frame_char = malloc(strlen("Item ")+10);
 
@@ -104,6 +104,11 @@ int vnd_orc(){
 	gtk_box_pack_start(GTK_BOX(orc_bnc_box),orc_bnc_nome_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(orc_bnc_frame),orc_bnc_box);
 	gtk_fixed_put(GTK_FIXED(orc_bnc_fixed),orc_bnc_frame,20,20);
+
+
+	orc_cheque_fixed = gtk_fixed_new();
+	GtkWidget *cheque_widget = orc_cheque_get_widget(); 
+	gtk_fixed_put(GTK_FIXED(orc_cheque_fixed), cheque_widget, 20 ,20);
 
 	orc_pag_cond_psq_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(orc_pag_cond_psq_button),gtk_image_new_from_file(IMG_PESQ));
@@ -298,6 +303,7 @@ int vnd_orc(){
 
 	gtk_box_pack_start(GTK_BOX(financeiro_box),orc_box_datas,0,0,0);
 	gtk_box_pack_start(GTK_BOX(financeiro_box),orc_bnc_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(financeiro_box),orc_cheque_fixed,0,0,0);
 
 	g_signal_connect(pesquisa_ter,"clicked",G_CALLBACK(psq_ter),cliente_orc_entry);
 
@@ -347,9 +353,8 @@ int vnd_orc(){
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 		ativos[cont].id = 0;
 
-	cancela_orc();
-
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
+	cancela_orc();
 	return 0;
 }

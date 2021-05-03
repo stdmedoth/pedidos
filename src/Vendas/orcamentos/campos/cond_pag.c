@@ -1,10 +1,30 @@
 int orc_fields_from_condpag(struct _condpag *condpag){
 
-	if( !condpag->forma_pag || (condpag->forma_pag->tipo != FP_TIPO_TRASNF) ){
-		gtk_widget_hide(orc_bnc_frame);
+	if( !condpag->forma_pag ) {
+		//esconder banco
+		gtk_widget_hide(orc_bnc_fixed);
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), "");
+
+		//esconder cheque
+		gtk_widget_hide(orc_cheque_fixed);
+		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), "");
+		popup(NULL,"Forma de pagamento não especificada na condição");
+		return 1;
+	}
+
+	orc_pag_cond_fp = condpag->forma_pag->tipo;
+	if( condpag->forma_pag->tipo != FP_TIPO_TRASNF ){
+		gtk_widget_hide(orc_bnc_fixed);
 		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), "");
 	}else{
-		gtk_widget_show_all(orc_bnc_frame);
+		gtk_widget_show_all(orc_bnc_fixed);
+	}
+
+	if( !condpag->forma_pag || (condpag->forma_pag->tipo != FP_TIPO_CHEQUE) ){
+		gtk_widget_hide(orc_cheque_fixed);
+		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), "");
+	}else{
+		gtk_widget_show_all(orc_cheque_fixed);
 	}
 	return 0;
 }
@@ -34,7 +54,9 @@ int rec_fat_vist()
 
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),condpag->nome);
 
-	orc_fields_from_condpag(condpag);
+	if(orc_fields_from_condpag(condpag)){
+		return 1;
+	}
 
 	orc_pag_tipo_int = condpag->tipo_parc;
 
@@ -73,12 +95,10 @@ int rec_fat_vist()
 			}
 		}
 	}
-
-	if(!orc_parcelas.condpag){
-		orc_parcelas.condpag = cond_pag_get(atoi(orc_pag_cond_gchar));
-		if(!orc_parcelas.condpag)
-			return 1;
-	}
+	
+	//condição de pagamento global para o orçamento
+	orc_parcelas.condpag = condpag;
+	
 	pag_cond = atoi(orc_pag_cond_gchar);
 	orc_pag_cond_activated=1;
 

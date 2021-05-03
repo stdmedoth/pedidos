@@ -7,6 +7,7 @@ int calcula_prod_orc(GtkWidget *widget, int posicao);
 
 #include "campos/orig_preco_orc.h"
 #include "campos/cond_pag.h"
+#include "campos/outros/cheque.h"
 #include "campos/outros/banco.h"
 #include "campos/outros/data_parc.h"
 #include "campos/outros/campos_de_datas.h"

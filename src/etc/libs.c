@@ -140,6 +140,7 @@
 #include "../Financeiro/titulos/funcoes.c"
 #include "../Financeiro/titulos/get_widget.c"
 #include "../Financeiro/titulos/update_widget.c"
+#include "../Financeiro/cheques/cheque.c"
 #include "../Financeiro/bancos/cad_bancos.c"
 #include "../Financeiro/titulos/receber/cadastro_titulos.c"
 #include "../Financeiro/titulos/pagar/cadastro_titulos.c"

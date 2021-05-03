@@ -105,7 +105,6 @@ static int altera_orc()
 		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),"");
 		gtk_widget_activate(orc_bnc_code_entry);
 	}
-	
 
 	//buscando informações basicas de transporte
 	sprintf(query,"select * from servico_transporte where orcamento = %s",tmp_cod_orc);
@@ -162,6 +161,27 @@ static int altera_orc()
 			gtk_widget_activate(orc_transp_desconto_frete_entry);
 		}
 
+	}
+
+	sprintf(query,"select * from orcs_cheques where orcamento = %s",tmp_cod_orc);
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao buscar cheques");
+		cancela_orc();
+		return 1;
+	}
+	if((row = mysql_fetch_row(res))){
+
+		struct _cheque *cheque = cheque_get_simple_cheque( atoi( row[ORC_CHEQUE_CHQ_COL] ) );
+		if(cheque){
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_code_entry), inttochar(cheque->code));
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_banco_entry), inttochar(cheque->banco->code));
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_conta_entry), cheque->conta);
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_serie_entry), cheque->serie);
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_numero_entry), cheque->numero);
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_pagante_entry), inttochar(cheque->pagante->code));
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_emissao_entry), cheque->data_emissao);	
+		}
+		
 	}
 
 	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
@@ -318,7 +338,7 @@ static int altera_orc()
 	enum{
 		TIPO
 	};
-	sprintf(query,"select tipo from pag_cond where code = %i",orc_parcelas.condpag->code);
+	sprintf(query,"select tipo from pag_cond where code = %i", orc_parcelas.condpag->code);
 	if(!(res2 = consultar(query))){
 		popup(NULL,"Erro ao buscar condição de pagamentos parcelas");
 		cancela_orc();

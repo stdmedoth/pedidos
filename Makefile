@@ -1,5 +1,6 @@
 CC=gcc
 
+PEDFLAGS=-I src/etc/
 GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
 BDFLAGS=`pkg-config --libs --cflags mysqlclient`
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
@@ -9,7 +10,7 @@ CCFLAGS1=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type
 CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wfatal-errors -Wformat-overflow  
 CCFLAGS3=-Wunused-variable 
 DEBUG=-g
-ALLFLAGS=$(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG)
+ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG)
 
 TARGET_FILE=src/Pedidos/Pedidos.c
 RESULT_FILE=pedidos

@@ -37,8 +37,8 @@
 #include <mysql/mysql.h>
 #endif
 
-#include "../etc/libs.h"
-#include "../etc/libs.c"
+#include <libs.h>
+#include <libs.c>
 
 int main(int argc, char *argv[])
 {

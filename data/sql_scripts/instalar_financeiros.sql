@@ -56,3 +56,10 @@ create table bancos(
   nome_usuario  varchar(200) not null,
   documento  varchar(30) not null,
   saldo_inicial float not null);
+
+create table orcs_cheques(
+  code int primary key auto_increment,
+  orcamento int not null,
+  cheque int not null
+  foreign key(orcamento) references orcamentos(code),
+  foreign key(cheque) references cheque(code));
