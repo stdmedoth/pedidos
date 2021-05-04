@@ -88,7 +88,10 @@ int orc_cheque_finan(){
 GtkWidget *orc_cheque_get_widget(){
 	GtkWidget *box, *fixed, *frame;
 
-	box = gtk_box_new(0,0);
+	GtkWidget *box1 = gtk_box_new(0,0);
+	GtkWidget *box2 = gtk_box_new(0,0);
+	GtkWidget *box3 = gtk_box_new(0,0);
+	box = gtk_box_new(1,0);
 	fixed = gtk_fixed_new();
 	frame = gtk_frame_new("Cheque para pagamento");
 
@@ -100,30 +103,79 @@ GtkWidget *orc_cheque_get_widget(){
 	GtkWidget *orc_cheque_pagante_frame = gtk_frame_new("Pagante");
 	GtkWidget *orc_cheque_emissao_frame = gtk_frame_new("Emitido Em");
 
-	orc_cheque_code_entry = gtk_entry_new();
-	orc_cheque_banco_entry = gtk_entry_new();
-	orc_cheque_serie_entry = gtk_entry_new();
-	orc_cheque_conta_entry = gtk_entry_new();
-	orc_cheque_numero_entry = gtk_entry_new();
-	orc_cheque_pagante_entry = gtk_entry_new();
-	orc_cheque_emissao_entry = gtk_entry_new();
+	GtkWidget *orc_cheque_cheque_box = gtk_box_new(0,0);
+	GtkWidget *orc_cheque_banco_box = gtk_box_new(0,0);
+	GtkWidget *orc_cheque_pagante_box = gtk_box_new(0,0);
 
-	gtk_container_add(GTK_CONTAINER(orc_cheque_code_frame), orc_cheque_code_entry);
-	gtk_container_add(GTK_CONTAINER(orc_cheque_banco_frame), orc_cheque_banco_entry);
+	orc_cheque_nomebanco_entry = gtk_entry_new();
+	orc_cheque_nomepagante_entry = gtk_entry_new();
+
+	orc_cheque_psqcheque_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(orc_cheque_psqcheque_button), gtk_image_new_from_file(IMG_PESQ));
+	orc_cheque_psqbanco_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(orc_cheque_psqbanco_button), gtk_image_new_from_file(IMG_PESQ));
+	orc_cheque_psqnomepagante_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(orc_cheque_psqnomepagante_button), gtk_image_new_from_file(IMG_PESQ));
+
+	orc_cheque_code_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_code_entry), 5);
+	orc_cheque_banco_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_banco_entry), 5);
+	orc_cheque_serie_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_serie_entry), 15);
+	orc_cheque_conta_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_conta_entry), 15);
+	orc_cheque_numero_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_numero_entry), 15);
+	orc_cheque_pagante_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_pagante_entry), 5);
+	orc_cheque_emissao_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(orc_cheque_emissao_entry), 15);
+
+	gtk_box_pack_start(GTK_BOX(orc_cheque_cheque_box), orc_cheque_code_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_cheque_cheque_box), orc_cheque_psqcheque_button,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(orc_cheque_banco_box), orc_cheque_banco_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_cheque_banco_box), orc_cheque_psqbanco_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(orc_cheque_banco_box), orc_cheque_nomebanco_entry,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(orc_cheque_pagante_box), orc_cheque_pagante_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(orc_cheque_pagante_box), orc_cheque_psqnomepagante_button,0,0,5);
+	gtk_box_pack_start(GTK_BOX(orc_cheque_pagante_box), orc_cheque_nomepagante_entry,0,0,5);
+
+	gtk_container_add(GTK_CONTAINER(orc_cheque_code_frame), orc_cheque_cheque_box);
+	gtk_container_add(GTK_CONTAINER(orc_cheque_banco_frame), orc_cheque_banco_box);
 	gtk_container_add(GTK_CONTAINER(orc_cheque_serie_frame), orc_cheque_serie_entry);
 	gtk_container_add(GTK_CONTAINER(orc_cheque_conta_frame), orc_cheque_conta_entry);
 	gtk_container_add(GTK_CONTAINER(orc_cheque_numero_frame), orc_cheque_numero_entry);
-	gtk_container_add(GTK_CONTAINER(orc_cheque_pagante_frame), orc_cheque_pagante_entry);
+	gtk_container_add(GTK_CONTAINER(orc_cheque_pagante_frame), orc_cheque_pagante_box);
 	gtk_container_add(GTK_CONTAINER(orc_cheque_emissao_frame), orc_cheque_emissao_entry);
 
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_code_frame ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_banco_frame ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_serie_frame ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_numero_frame ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_pagante_frame ,0,0,5);
-	gtk_box_pack_start(GTK_BOX(box), orc_cheque_emissao_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box1), orc_cheque_code_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box1), orc_cheque_banco_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box2), orc_cheque_serie_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box2), orc_cheque_conta_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box2), orc_cheque_numero_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box3), orc_cheque_pagante_frame ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box3), orc_cheque_emissao_frame ,0,0,5);
+
+	gtk_box_pack_start(GTK_BOX(box), box1 ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box), box2 ,0,0,5);
+	gtk_box_pack_start(GTK_BOX(box), box3 ,0,0,5);
 	
-	gtk_fixed_put(GTK_FIXED(fixed), box, 5, 5);
+	gtk_fixed_put(GTK_FIXED(fixed), box, 0, 0);
 	gtk_container_add(GTK_CONTAINER(frame), fixed);
+
+	g_signal_connect(orc_cheque_psqbanco_button, "clicked", G_CALLBACK(psq_bnc), orc_cheque_banco_entry);
+	g_signal_connect(orc_cheque_psqnomepagante_button, "clicked", G_CALLBACK(psq_ter), orc_cheque_pagante_entry);
+
+	g_signal_connect(orc_cheque_code_entry, "activate", G_CALLBACK(orc_cheque_finan_code), NULL);
+	g_signal_connect(orc_cheque_banco_entry, "activate", G_CALLBACK(orc_cheque_finan_banco), NULL);
+	g_signal_connect(orc_cheque_serie_entry, "activate", G_CALLBACK(orc_cheque_finan_serie), NULL);
+	g_signal_connect(orc_cheque_conta_entry, "activate", G_CALLBACK(orc_cheque_finan_conta), NULL);
+	g_signal_connect(orc_cheque_numero_entry, "activate", G_CALLBACK(orc_cheque_finan_numero), NULL);
+	g_signal_connect(orc_cheque_pagante_entry, "activate", G_CALLBACK(orc_cheque_finan_pagante), NULL);
+	g_signal_connect(orc_cheque_emissao_entry, "activate", G_CALLBACK(orc_cheque_finan_emissao), NULL);
+
 	return frame;
 }

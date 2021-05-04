@@ -1,4 +1,5 @@
 int orc_pag_sem_finan(){
+
 	gtk_widget_hide(orc_box_datas);
 
 	gtk_widget_hide(orc_bnc_fixed);
