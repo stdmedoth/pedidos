@@ -237,6 +237,7 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[CAD_BX_REC_WND].fun = cad_baixas_receber;
   janelas_gerenciadas.vetor_janelas[CAD_BX_PAG_WND].fun = cad_baixas_pagar;
   janelas_gerenciadas.vetor_janelas[CAD_CONT_FIX_WND].fun = cad_conta_fixa;
+  janelas_gerenciadas.vetor_janelas[CAD_CHEQUES_WND].fun = cheque_wnd_fun;
   janelas_gerenciadas.vetor_janelas[IMPORT_TITS_WND].fun = import_tits;
 
   //materiais

@@ -91,6 +91,7 @@
 #define LMB_IMG            APP_DIRNAME "/files/icones_opc/lembrete.png"
 #define UND_IMG            APP_DIRNAME "/files/icones_opc/unidade.png"
 #define PAG_IMG            APP_DIRNAME "/files/icones_opc/datas.png"
+#define CHEQ_IMG           APP_DIRNAME "/files/icones_opc/cheque.png"
 #define ANLS_MKT_IMG       APP_DIRNAME "/files/icones_opc/analise_marketing.png"
 #define MODELMAIL_IMG      APP_DIRNAME "/files/icones_opc/modelos_email.png"
 #define MAILILIST_IMG      APP_DIRNAME "/files/icones_opc/mailing_list.png"
