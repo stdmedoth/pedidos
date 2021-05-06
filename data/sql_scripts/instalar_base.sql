@@ -134,7 +134,7 @@ create table if not exists terceiros (
   foreign key(prazo) references pag_cond(code));
 
 create table if not exists contatos (
-  code int,
+  code int primary key auto_increment,
   terceiro int not null,
   nome varchar(30) default '' not null,
   telefone varchar(15) default '' not null,

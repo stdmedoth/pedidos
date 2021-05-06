@@ -20,8 +20,7 @@ int altera_ter()
 	g_print("verificando estado da alteracao\n");
 	campo = mysql_fetch_row(estado);
 
-	if(campo==NULL)
-	{
+	if(!campo){
 		g_print("terceiro não existe para ser alterado\n");
 		popup(NULL,"Terceiro não existe");
 		cancelar_ter();
@@ -97,7 +96,16 @@ int altera_ter()
 		gtk_tree_view_remove_column(GTK_TREE_VIEW (contatos_treeview),GTK_TREE_VIEW_COLUMN(coluna->data));
 	}
 	GtkTreeModel *items_model = create_items_model ();
+	if(!items_model){
+		popup(NULL,"Não foi possível criar listagem de contatos");
+		return 1;
+	}
 	GtkTreeModel *numbers_model = create_numbers_model ();
+	if(!numbers_model){
+		popup(NULL,"Não foi possível criar listagem de contatos");
+		return 1;
+	}
+	
 	gtk_tree_view_set_model (GTK_TREE_VIEW (contatos_treeview),items_model);
 	add_columns (GTK_TREE_VIEW (contatos_treeview), items_model, numbers_model);
 

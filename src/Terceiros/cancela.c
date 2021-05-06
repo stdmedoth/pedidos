@@ -65,6 +65,11 @@ void cancelar_ter(){
 		gtk_list_store_clear(contatos_model);
 		gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
 	}
+	for (int i = 0; i < MAX_CNTTS_QNT; ++i){
+    	cntts[i].ativo = 0;
+    	cntt_exists[i] = 0;
+	}
+    
 
 	gtk_widget_grab_focus(name_ter_field);
 }

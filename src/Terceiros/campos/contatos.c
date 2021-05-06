@@ -1,36 +1,57 @@
-static void
-add_items (int terceiro)
+int ter_contatos_get_last(){
+  for (int i = 0; i < MAX_CNTTS_QNT; ++i){
+      if(!cntts[i].ativo)
+        return i;
+  }
+  return 0;
+}
+
+static int add_items (int terceiro)
 {
   MYSQL_RES *res;
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
   sprintf(query,"select * from contatos where terceiro = %i",terceiro);
+  
   contatos_ter = terceiro;
   Contato contato;
-  g_return_if_fail (cont_lis != NULL);
+  
+  //g_return_if_fail (cont_lis != NULL);
 
-  if(!(res = consultar(query))){
+  if(! (res = consultar(query)) ){
     popup(NULL,"Não foi possível buscar contatos");
-    return ;
+    return 1;
   }
+  
   while((row=mysql_fetch_row(res))){
+
+    int cntts_free_pos = ter_contatos_get_last();
+
+    contato.pos = cntts_free_pos;
+    contato.ativo = 1;
     contato.id = atoi(row[CTTO_ID_COL]);;
     contato.nome = g_strdup (row[CTTO_NOME_COL]);
     contato.telefone = g_strdup (row[CTTO_TEL_COL]);
     contato.celular = g_strdup (row[CTTO_CEL_COL]);
     contato.email = g_strdup (row[CTTO_EMAIL_COL]);
 
-
-    cntts[contato.id].id = atoi(row[CTTO_ID_COL]);
-    cntts[contato.id].ativo = 1;
-    cntts[contato.id].nome = g_strdup (row[CTTO_NOME_COL]);
-    cntts[contato.id].telefone = g_strdup (row[CTTO_TEL_COL]);
-    cntts[contato.id].celular = g_strdup (row[CTTO_CEL_COL]);
-    cntts[contato.id].email = g_strdup (row[CTTO_EMAIL_COL]);
-    contatos_qnt = contato.id+1;
-    cntt_exists[contato.id] = 1;
+    cntts[cntts_free_pos].ativo = 1;
+    cntts[cntts_free_pos].pos = cntts_free_pos;
+    cntts[cntts_free_pos].id = atoi(row[CTTO_ID_COL]);
+    cntts[cntts_free_pos].nome = g_strdup (row[CTTO_NOME_COL]);
+    cntts[cntts_free_pos].telefone = g_strdup (row[CTTO_TEL_COL]);
+    cntts[cntts_free_pos].celular = g_strdup (row[CTTO_CEL_COL]);
+    cntts[cntts_free_pos].email = g_strdup (row[CTTO_EMAIL_COL]);
+    contatos_qnt++;
+    
     g_array_append_vals (cont_lis, &contato, 1);
+    if(contatos_qnt > MAX_CNTTS_QNT){
+      popup(NULL,"Limite de contatos");
+      return 0;
+    }
+
   }
+  return 0;
 }
 
 static GtkTreeModel *
@@ -46,7 +67,8 @@ create_items_model ()
   /* create list store */
   model = gtk_list_store_new (NUM_ITEM_COLUMNS, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING,  G_TYPE_STRING, G_TYPE_STRING);
 
-  add_items(contatos_ter);
+  if(add_items(contatos_ter))
+    return NULL;
 
   /* add items */
   for (i = 0; i < cont_lis->len; i++)
@@ -113,11 +135,19 @@ add_item (GtkWidget *button, gpointer data)
 
   g_return_if_fail (cont_lis != NULL);
 
-  contato.id = contatos_qnt;
+  int cntts_free_pos = ter_contatos_get_last();
+
+  contato.ativo = 1;
+  contato.pos = cntts_free_pos;
   contato.nome = g_strdup ("Nome");
   contato.telefone = g_strdup ("Telefone");
   contato.celular = g_strdup ("Celular");
   contato.email = g_strdup ("Email");
+
+  
+  cntts[cntts_free_pos].ativo = 1;
+  cntts[cntts_free_pos].pos = cntts_free_pos;
+  
   g_array_append_vals (cont_lis, &contato, 1);
 
   /* Insert a new row below the current one */
@@ -165,26 +195,30 @@ remove_item (GtkWidget *widget, gpointer data)
   GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
   char query[MAX_QUERY_LEN];
   if (gtk_tree_selection_get_selected (selection, NULL, &iter))
-    {
+  {
       gint i;
       GtkTreePath *path;
 
       path = gtk_tree_model_get_path (model, &iter);
       i = gtk_tree_path_get_indices (path)[0];
-      sprintf(query,"delete from contatos where code = %i and terceiro = %i",cntts[i].id,contatos_ter);
+      
+      int contato_id = g_array_index (cont_lis, Contato, i).id;
+      int contato_pos = g_array_index (cont_lis, Contato, i).pos;
+      
+      sprintf(query,"delete from contatos where code = %i and terceiro = %i",
+        contato_id,contatos_ter);
       if(enviar_query(query)){
         popup(NULL,"Não foi possível deletar contato");
         return ;
       }
 
-      cntts[i].ativo = 0;
+      cntts[contato_pos].ativo = 0;
+
       contatos_qnt--;
       gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-
       g_array_remove_index (cont_lis, i);
-
       gtk_tree_path_free (path);
-    }
+  }
 }
 
 static gboolean
@@ -473,18 +507,14 @@ int contatos_update(){
     return 1;
 
   contatos_ter = atoi(codigos_ter);
-  for(int cont=0;cont<=contatos_qnt;cont++){
+  for(int cont=0;cont<contatos_qnt;cont++){
+    
     if(cntts[cont].ativo){
 
       if(!cntts[cont].nome) cntts[cont].nome = "Nome";
-
       if(!cntts[cont].telefone) cntts[cont].telefone = "Telefone";
-
       if(!cntts[cont].celular) cntts[cont].celular = "Celular";
-
       if(!cntts[cont].email) cntts[cont].email = "Email";
-
-      cntts[cont].id = cont;
 
       if(cntt_exists[cont]){
         sprintf(query,"update contatos set nome = '%s', telefone = '%s', celular = '%s', email = '%s' where terceiro = %i and code = %i",
@@ -495,8 +525,7 @@ int contatos_update(){
         contatos_ter,
         cntts[cont].id);
       }else{
-        sprintf(query,"insert into contatos(code,terceiro,nome, telefone, celular, email) values(%i, %i, '%s', '%s', '%s', '%s')",
-        cntts[cont].id,
+        sprintf(query,"insert into contatos(terceiro,nome, telefone, celular, email) values( %i, '%s', '%s', '%s', '%s')",
         contatos_ter,
         cntts[cont].nome,
         cntts[cont].telefone,

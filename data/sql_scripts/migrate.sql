@@ -27,3 +27,5 @@ create table orcs_cheques(
   cheque int not null,
   foreign key(orcamento) references orcamentos(code),
   foreign key(cheque) references cheque(code));
+
+alter table contatos change code code int primary key auto_increment;
