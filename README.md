@@ -1,9 +1,9 @@
-# Pedidos (EM DESENVOLVIMENTO - beta)
-> Sistema gerencial para pedidos.
+# Pedidos (EM DESENVOLVIMENTO - beta) [Pages](https://stdmedoth.github.io/pedidos/)
+> Sistema gerencial.
 
 <p>Software gerencial para controle de vendas, compras, financeiro, estoque e marketing</p>
 <ul>
-<li>Faturamento</li>
+<li>Vendas</li>
 <li>Compras</li>
 <li>Estoque</li>
 <li>Financeiro</li>
