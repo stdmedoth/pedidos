@@ -1,3 +1,18 @@
+#include "acoes/concluir.c"
+#include "acoes/cancelar.c"
+#include "acoes/excluir.c"
+#include "acoes/alterar.c"
+
+#include "campos/cheque_code.c"
+#include "campos/cheque_bnc.c"
+#include "campos/cheque_conta.c"
+#include "campos/cheque_serie.c"
+#include "campos/cheque_numero.c"
+#include "campos/cheque_pgnt.c"
+#include "campos/cheque_dtemissao.c"
+#include "campos/cheque_valor.c"
+
+
 struct _cheque *cheque_get_simple_cheque(int cheque_code){
 
 	MYSQL_ROW row;
@@ -67,9 +82,6 @@ struct _cheque *cheque_get_cheque(int cheque_code){
 
 int cheque_wnd_fun(){
 
-	char task[MAX_CODE_LEN];
-	sprintf(task,"%i",tasker("cheque"));
-
 	GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(janela),3);
 	gtk_window_set_resizable(GTK_WINDOW(janela),FALSE);
@@ -106,7 +118,6 @@ int cheque_wnd_fun(){
 
 	cheque_code_entry = gtk_entry_new();
 	gtk_entry_set_width_chars(GTK_ENTRY(cheque_code_entry), 5);
-	gtk_entry_set_text(GTK_ENTRY(cheque_code_entry), task);
 	cheque_psqcode_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(cheque_psqcode_button), gtk_image_new_from_file(IMG_PESQ));
 	GtkWidget *cheque_code_frame = gtk_frame_new("Código");
@@ -216,6 +227,30 @@ int cheque_wnd_fun(){
 	janelas_gerenciadas.vetor_janelas[CAD_CHEQUES_WND].janela_pointer = janela;
 
 	gtk_widget_show_all(janela);
+ 	
+	g_signal_connect(cheque_concluir_button, "clicked", G_CALLBACK(cheque_concluir_fun), NULL);
+	g_signal_connect(cheque_alterar_button, "clicked", G_CALLBACK(cheque_alterar_fun), NULL);
+	g_signal_connect(cheque_cancelar_button, "clicked", G_CALLBACK(cheque_cancelar_fun), NULL);
+	g_signal_connect(cheque_excluir_button, "clicked", G_CALLBACK(cheque_excluir_fun), NULL);
+
+ 	g_signal_connect(cheque_psqcode_button ,"clicked", G_CALLBACK(psq_cheq), cheque_code_entry);
+ 	g_signal_connect(cheque_pgntpsqcode_button, "clicked", G_CALLBACK(psq_ter), cheque_pgntcode_entry);
+ 	g_signal_connect(cheque_bncpsqcode_button, "clicked", G_CALLBACK(psq_bnc), cheque_bnccode_entry);
+
+ 	g_signal_connect(cheque_code_entry, "activate", G_CALLBACK(cheque_code_fun), NULL);
+ 	g_signal_connect(cheque_bnccode_entry, "activate", G_CALLBACK(cheque_bnc_fun), NULL);
+ 	
+ 	g_signal_connect(cheque_conta_entry, "activate", G_CALLBACK(cheque_conta_fun), NULL);
+ 	g_signal_connect(cheque_serie_entry, "activate", G_CALLBACK(cheque_serie_fun), NULL);
+ 	g_signal_connect(cheque_numero_entry, "activate", G_CALLBACK(cheque_numero_fun), NULL);
+
+ 	g_signal_connect(cheque_pgntcode_entry, "activate", G_CALLBACK(cheque_pgnt_fun), NULL);
+ 	g_signal_connect(cheque_dtemissao_entry, "activate", G_CALLBACK(cheque_dtemissao_fun), NULL);
+ 	g_signal_connect(cheque_valor_entry, "activate", G_CALLBACK(cheque_valor_fun), NULL);
+ 	
   	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[CAD_CHEQUES_WND]);
+ 
+
+  	cheque_cancelar_fun();
   	return 0;
 }

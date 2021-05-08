@@ -4,7 +4,7 @@ struct _banco *get_banco(int bnc_code){
   char query[MAX_QUERY_LEN];
 
   struct _banco *banco = malloc(sizeof(struct _banco));
-  sprintf(query, "select * from bancos");
+  sprintf(query, "select * from bancos where code = %i", bnc_code);
   if(!(res = consultar(query))){
     return NULL;
   }

@@ -1,0 +1,1 @@
+int cheque_numero_fun();

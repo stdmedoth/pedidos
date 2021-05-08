@@ -30,6 +30,7 @@
 
 #include "../Parametros/parametros.c"
 
+#include "../pesquisadores/pesquisadores.c"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"
@@ -59,6 +60,7 @@
 #include "../pesquisadores/precos.c"
 #include "../pesquisadores/mail_distribuicoes.c"
 #include "../pesquisadores/modelos_email.c"
+#include "../pesquisadores/cheques.c"
 
 #include "../Canones/cad_oper/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"

@@ -51,6 +51,7 @@
 
 #include "../Produtos/grupos/cad_grupo.h"
 
+#include "../pesquisadores/pesquisadores.h"
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/datas.h"
 #include "../pesquisadores/subgrupos.h"
@@ -80,6 +81,7 @@
 #include "../pesquisadores/mail_distribuicoes.h"
 #include "../pesquisadores/precos.h"
 #include "../pesquisadores/modelos_email.h"
+#include "../pesquisadores/cheques.h"
 
 
 #include "../Compras/cadastro_compras.h"

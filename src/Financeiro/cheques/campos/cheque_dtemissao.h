@@ -1,0 +1,1 @@
+int cheque_dtemissao_fun();
