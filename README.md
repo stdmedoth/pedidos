@@ -12,16 +12,16 @@
 </ul>
 
 ## Cadastros básicos
-<p>Armazene dados como  cadastros de produtos, clientes, fornecedores de forma rápida, fácil contando com a segurança de um banco de dados com alta criptografia</p>
+<p>Armazene dados como cadastros de produtos, clientes, fornecedores de forma rápida, fácil contando com a segurança de um banco de dados com alta criptografia</p>
 
 ![Terceiros](data/screenshots/terceiros_screen.png)
 
 ## Controle estoque
-<p>Controle o saldo cada produto, tenha estoques ilimitados</p>
+<p>Controle o saldo de cada produto, tenha estoques ilimitados</p>
 
 ![Controle Estoque](data/screenshots/controle_saldo.png)
 
-<p>Seja notificado quando o saldo de um produto estiver no limite definido ou acabando</p>
+<p>Seja notificado quando o saldo de um produto estiver no saldo limite definido</p>
 <p>Movimentação de estoque automática, no fechamento de pedidos</p>
 
 ![Saldo Mínimo](data/screenshots/aviso_saldo_minimo.png)
