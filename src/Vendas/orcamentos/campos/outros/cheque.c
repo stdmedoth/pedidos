@@ -166,6 +166,7 @@ GtkWidget *orc_cheque_get_widget(){
 	gtk_fixed_put(GTK_FIXED(fixed), box, 0, 0);
 	gtk_container_add(GTK_CONTAINER(frame), fixed);
 
+	g_signal_connect(orc_cheque_psqcheque_button, "clicked", G_CALLBACK(psq_cheq), orc_cheque_code_entry);
 	g_signal_connect(orc_cheque_psqbanco_button, "clicked", G_CALLBACK(psq_bnc), orc_cheque_banco_entry);
 	g_signal_connect(orc_cheque_psqnomepagante_button, "clicked", G_CALLBACK(psq_ter), orc_cheque_pagante_entry);
 

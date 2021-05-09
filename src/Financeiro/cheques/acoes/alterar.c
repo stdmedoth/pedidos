@@ -19,6 +19,9 @@ int cheque_alterar_fun(){
 	gtk_entry_set_text(GTK_ENTRY(cheque_pgntcode_entry), inttochar(cheque->pagante->code));
 	gtk_widget_activate(cheque_pgntcode_entry);
 
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(cheque_tipo_combo), inttochar(cheque->tipo));
+	gtk_combo_box_set_active_id(GTK_COMBO_BOX(cheque_status_combo), inttochar(cheque->status));
+
 	gtk_entry_set_text(GTK_ENTRY(cheque_dtemissao_entry), cheque->data_emissao);
 	gtk_entry_set_text(GTK_ENTRY(cheque_valor_entry), floattochar(cheque->valor));
 

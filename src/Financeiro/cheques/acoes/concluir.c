@@ -20,25 +20,35 @@ int cheque_concluir_fun(){
 	if(cheque_pgnt_fun()){
 		return 1;
 	}
+	if(cheque_status_fun()){
+		return 1;
+	}
+	if(cheque_tipo_fun()){
+		return 1;
+	}
 	if(cheque_valor_fun()){
 		return 1;
 	}
 	if(cheque_dtemissao_fun()){
 		return 1;
 	}
+
 	if(cheque_alterando){
-		sprintf(query, "update cheque set conta = '%s', numero = '%s', serie = '%s', banco = %s, pagante = %s, data_emissao = STR_TO_DATE('%s', '%%d/%%m/%%Y'), valor = %s where code = %s",
+		sprintf(query, "update cheque set conta = '%s', numero = '%s', serie = '%s', banco = %s, pagante = %s, data_emissao = STR_TO_DATE('%s', '%%d/%%m/%%Y'), tipo = %i, status = %i, valor = %s where code = %s",
 			cheque_conta_gchar,
 			cheque_numero_gchar,
 			cheque_serie_gchar,
 			cheque_bnccode_gchar,
 			cheque_pgntcode_gchar,
 			cheque_dtemissao_gchar,
+			cheque_tipo_int,
+			cheque_status_int,
 			cheque_valor_gchar,
 			cheque_code_gchar);	
 	}else{
 
-		sprintf(query, "insert into cheque values(%s, '%s', '%s', '%s', %s, %s, STR_TO_DATE('%s', '%%d/%%m/%%Y'), %s)",
+		sprintf(query, 
+			"insert into cheque(code, conta, numero, serie, banco, pagante, data_emissao, tipo, status, valor) values(%s, '%s', '%s', '%s', %s, %s, STR_TO_DATE('%s', '%%d/%%m/%%Y'), %i, %i, %s)",
 			cheque_code_gchar,
 			cheque_conta_gchar,
 			cheque_numero_gchar,
@@ -46,6 +56,8 @@ int cheque_concluir_fun(){
 			cheque_bnccode_gchar,
 			cheque_pgntcode_gchar,
 			cheque_dtemissao_gchar,
+			cheque_tipo_int,
+			cheque_status_int,
 			cheque_valor_gchar);
 	}
 

@@ -39,7 +39,7 @@ int codigo_cli_orc()
 		return 1;
 	}
 
-	orc_infos.cliente = terceiros_get_terceiro(atoi(cliente_orc_gchar));
+	orc_infos.cliente = terceiros_get_simp_terceiro(atoi(cliente_orc_gchar));
 	if(!orc_infos.cliente){
 		popup(NULL,"Não foi possível buscar informações do terceiro");
 		gtk_widget_grab_focus(cliente_orc_entry);

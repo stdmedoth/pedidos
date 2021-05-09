@@ -10,8 +10,9 @@
 #include "campos/cheque_numero.c"
 #include "campos/cheque_pgnt.c"
 #include "campos/cheque_dtemissao.c"
+#include "campos/cheque_tipo.c"
+#include "campos/cheque_status.c"
 #include "campos/cheque_valor.c"
-
 
 struct _cheque *cheque_get_simple_cheque(int cheque_code){
 
@@ -39,6 +40,9 @@ struct _cheque *cheque_get_simple_cheque(int cheque_code){
 	cheque->conta = strdup(row[CHEQUE_CONTA_COL]);
 	cheque->serie = strdup(row[CHEQUE_SERIE_COL]);
 	cheque->numero = strdup(row[CHEQUE_NUM_COL]);
+
+	cheque->tipo = atoi(row[CHEQUE_TIPO_COL]);
+	cheque->status = atoi(row[CHEQUE_STAT_COL]);
 	
 	struct _terc_infos *pagante = malloc(sizeof(struct _terc_infos));
 	pagante->code = atoi(row[CHEQUE_PAGNT_COL]);
@@ -46,7 +50,9 @@ struct _cheque *cheque_get_simple_cheque(int cheque_code){
 	
 	cheque->data_emissao = strdup(row[CHEQUE_NUM_ROWS]);
 	cheque->valor = atof(row[CHEQUE_VLR_COL]);
+	
 	return cheque;
+
 }
 
 struct _cheque *cheque_get_cheque(int cheque_code){
@@ -98,8 +104,9 @@ int cheque_wnd_fun(){
 	*linha1 = gtk_box_new(0,0), 
 	*linha2 = gtk_box_new(0,0), 
 	*linha3 = gtk_box_new(0,0),
-	*linha4 = gtk_box_new(0,0), 
-	*linha5 = gtk_box_new(0,0);
+	*linha4 = gtk_box_new(0,0),
+	*linha5 = gtk_box_new(0,0),
+	*linha6 = gtk_box_new(0,0);
 	
 	GtkWidget *box_opcoes = gtk_box_new(0,0);
 	cheque_concluir_button = gtk_button_new_with_label("Concluir");
@@ -166,6 +173,28 @@ int cheque_wnd_fun(){
 	gtk_container_add(GTK_CONTAINER(cheque_numero_frame), cheque_numero_box);
 	gtk_fixed_put(GTK_FIXED(cheque_numero_fixed), cheque_numero_frame, 10, 10);
 
+	cheque_status_combo = gtk_combo_box_text_new();
+	GtkWidget *cheque_status_frame = gtk_frame_new("Status");
+	GtkWidget *cheque_status_box = gtk_box_new(0,0);
+	GtkWidget *cheque_status_fixed = gtk_fixed_new();
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_status_combo), inttochar(CHEQUE_STAT_APRESENTADO), "Apresentado");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_status_combo), inttochar(CHEQUE_STAT_CANCELADO), "Cancelado");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_status_combo), inttochar(CHEQUE_STAT_ENDOSSADO), "Endossado");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_status_combo), inttochar(CHEQUE_STAT_COMPENSADO), "Compenssado");
+	gtk_box_pack_start(GTK_BOX(cheque_status_box), cheque_status_combo,0,0,0);
+	gtk_container_add(GTK_CONTAINER(cheque_status_frame), cheque_status_box);
+	gtk_fixed_put(GTK_FIXED(cheque_status_fixed), cheque_status_frame, 10, 10);
+
+	cheque_tipo_combo = gtk_combo_box_text_new();
+	GtkWidget *cheque_tipo_frame = gtk_frame_new("Tipo");
+	GtkWidget *cheque_tipo_box = gtk_box_new(0,0);
+	GtkWidget *cheque_tipo_fixed = gtk_fixed_new();
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_tipo_combo), inttochar(CHEQUE_TIPO_PAGAR), "Pagar");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(cheque_tipo_combo), inttochar(CHEQUE_TIPO_RECEBER), "Receber");
+	gtk_box_pack_start(GTK_BOX(cheque_tipo_box), cheque_tipo_combo,0,0,0);
+	gtk_container_add(GTK_CONTAINER(cheque_tipo_frame), cheque_tipo_box);
+	gtk_fixed_put(GTK_FIXED(cheque_tipo_fixed), cheque_tipo_frame, 10, 10);
+
 	cheque_pgntcode_entry = gtk_entry_new();
 	gtk_entry_set_width_chars(GTK_ENTRY(cheque_pgntcode_entry), 5);
 	cheque_pgntpsqcode_button = gtk_button_new();
@@ -204,8 +233,10 @@ int cheque_wnd_fun(){
 	gtk_box_pack_start(GTK_BOX(linha3), cheque_serie_fixed, 0,0, 5);
 	gtk_box_pack_start(GTK_BOX(linha3), cheque_numero_fixed, 0,0, 5);
 	gtk_box_pack_start(GTK_BOX(linha4), cheque_pgntcode_fixed, 0,0, 5);
-	gtk_box_pack_start(GTK_BOX(linha5), cheque_dtemissao_fixed, 0,0, 5);
-	gtk_box_pack_start(GTK_BOX(linha5), cheque_valor_fixed, 0,0, 5);
+	gtk_box_pack_start(GTK_BOX(linha5), cheque_status_fixed, 0,0, 5);
+	gtk_box_pack_start(GTK_BOX(linha5), cheque_tipo_fixed, 0,0, 5);
+	gtk_box_pack_start(GTK_BOX(linha6), cheque_dtemissao_fixed, 0,0, 5);
+	gtk_box_pack_start(GTK_BOX(linha6), cheque_valor_fixed, 0,0, 5);
 
 	gtk_box_pack_start(GTK_BOX(box), linha1, 0, 0, 5);
 	gtk_box_pack_start(GTK_BOX(box), linha2, 0, 0, 5);

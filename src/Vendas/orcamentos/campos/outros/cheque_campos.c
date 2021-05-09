@@ -4,6 +4,18 @@ int orc_cheque_finan_code(){
 		popup(NULL,"Código cheque não inserido");
 		return 1;
 	}
+	
+	struct _cheque *cheque = cheque_get_simple_cheque(atoi(orc_cheque_code_gchar)); 
+	if(cheque){
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_conta_entry), cheque->conta);
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_banco_entry), inttochar(cheque->banco->code));
+		gtk_widget_activate(orc_cheque_banco_entry);
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_serie_entry), cheque->serie);
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_numero_entry), cheque->numero);
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_pagante_entry), inttochar(cheque->pagante->code));
+		gtk_widget_activate(orc_cheque_pagante_entry);
+		gtk_entry_set_text(GTK_ENTRY(orc_cheque_emissao_entry), cheque->data_emissao);
+	}
 	gtk_widget_grab_focus(orc_cheque_banco_entry);
 	return 0;
 }

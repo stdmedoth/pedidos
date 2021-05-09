@@ -10,6 +10,8 @@
 #include "campos/cheque_numero.h"
 #include "campos/cheque_pgnt.h"
 #include "campos/cheque_dtemissao.h"
+#include "campos/cheque_status.h"
+#include "campos/cheque_tipo.h"
 #include "campos/cheque_valor.h"
 
 struct _cheque *cheque_get_cheque(int cheque_code);
@@ -27,6 +29,10 @@ gchar
 *cheque_dtemissao_gchar,
 *cheque_valor_gchar;
 
+gint 
+cheque_status_int,
+cheque_tipo_int;
+
 GtkWidget 
 *cheque_code_entry,
 *cheque_psqcode_button,
@@ -43,6 +49,9 @@ GtkWidget
 *cheque_pgntpsqcode_button,
 *cheque_pgntnome_entry,
 
+*cheque_status_combo,
+*cheque_tipo_combo,
+
 *cheque_dtemissao_entry,
 *cheque_valor_entry;
 
@@ -54,6 +63,11 @@ GtkWidget
 
 int cheque_wnd_fun();
 
+enum CHEQUE_TIPOS{
+	CHEQUE_TIPO_PAGAR,
+	CHEQUE_TIPO_RECEBER
+};
+
 enum CHEQUE_COLS{
 	CHEQUE_CODE_COL,
 	CHEQUE_BNC_COL,
@@ -61,9 +75,18 @@ enum CHEQUE_COLS{
 	CHEQUE_SERIE_COL,
 	CHEQUE_NUM_COL,
 	CHEQUE_PAGNT_COL,
+	CHEQUE_STAT_COL,
+	CHEQUE_TIPO_COL,
 	CHEQUE_DT_EMSSAO_COL,
 	CHEQUE_VLR_COL,
 	CHEQUE_NUM_ROWS
+};
+
+enum CHEQUE_STATUS{
+	CHEQUE_STAT_APRESENTADO,
+	CHEQUE_STAT_CANCELADO,
+	CHEQUE_STAT_ENDOSSADO,
+	CHEQUE_STAT_COMPENSADO
 };
 
 struct _cheque {
@@ -72,6 +95,8 @@ struct _cheque {
 	char *conta;
 	char *serie;
 	char *numero;
+	int status;
+	int tipo;
 	char *data_emissao;
 	struct _terc_infos *pagante;
 	float valor;

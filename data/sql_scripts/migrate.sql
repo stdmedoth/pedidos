@@ -29,3 +29,14 @@ create table orcs_cheques(
   foreign key(cheque) references cheque(code));
 
 alter table contatos change code code int primary key auto_increment;
+
+alter table cheque add status int not null after pagante;
+
+alter table cheque add tipo int not null after status;
+
+create table cheque_finan(
+  code int primary key auto_increment,
+  cheque int not null,
+  titulo int not null,
+  foreign key(cheque) references cheque(code),
+  foreign key(titulo) references titulos(code));

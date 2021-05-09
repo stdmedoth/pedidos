@@ -18,8 +18,6 @@ GtkWidget
 *orc_cheque_psqbanco_button,
 *orc_cheque_psqnomepagante_button;
 
-
-
 gchar 
 *orc_cheque_code_gchar,
 *orc_cheque_banco_gchar,

@@ -44,6 +44,8 @@ create table cheque(
   serie varchar(20) not null,
   numero varchar(20) not null,
   pagante int not null, 
+  status int not null,
+  tipo int not null,
   data_emissao datetime not null,
   valor float not null);
 

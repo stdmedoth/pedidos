@@ -13,6 +13,8 @@ int cheque_cancelar_fun(){
 	gtk_entry_set_text(GTK_ENTRY(cheque_pgntcode_entry), "");
 	gtk_entry_set_text(GTK_ENTRY(cheque_pgntnome_entry), "");
 	gtk_entry_set_text(GTK_ENTRY(cheque_dtemissao_entry), "");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cheque_status_combo), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cheque_tipo_combo), 0);
 	gtk_entry_set_text(GTK_ENTRY(cheque_valor_entry), "");
 	gtk_entry_set_text(GTK_ENTRY(cheque_code_entry), task);	
 
