@@ -25,8 +25,10 @@ int conectar_mysql(){
 		encerrando();
 		return 1;
 	}
-	unsigned long int timeout = SESSAO_EXP_MIN * G_TIME_SPAN_MINUTE* 2;
+	unsigned int timeout = 60 * 60 * 24;
+	bool reconnect = 1;
 	mysql_options(&conectar, MYSQL_OPT_CONNECT_TIMEOUT, &timeout);
+	mysql_options(&conectar, MYSQL_OPT_RECONNECT, &reconnect);
 
 	carregar_interface();
 	if(!mysql_real_connect(&conectar, server_confs.server_endereco, server_confs.server_user, server_confs.server_senha, server_confs.server_database, 0,NULL,0)){
