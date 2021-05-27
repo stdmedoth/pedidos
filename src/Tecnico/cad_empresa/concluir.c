@@ -110,13 +110,15 @@ int cad_emp_concluir(){
   digcertpath = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_digcert_path_entry));
   digcertpass = (gchar *)gtk_entry_get_text(GTK_ENTRY(cad_emp_digcert_pass_entry));
 
+  char *query_digcertpath = malloc( strlen(digcertpath) *2);
+  mysql_real_escape_string(&conectar, query_digcertpath, digcertpath, strlen(digcertpath));
   //informativos
 
   if(!row_exists("empresa", atoi(code))){
     sprintf(query,
       "insert into empresa(code, cnpj,razao, ie, im, regime_tributario, regime_issqn, digcert_path, digcert_pass, cep, endereco, bairro, cidade, uf, numrua, tiporua, telefone, celular, smtp, porta, email, senhaemail, sobre ) \
       values('%s', '%s','%s', '%s', '%s', '%s','%i', '%s', '%s', '%s','%s','%s','%s','%s','%i','%i','%s','%s','%s','%i','%s','%s','%s')",
-      code, char_cnpj, nome, ie, im, regime_trib, regime_issq, digcertpath, digcertpass, cep, logr, bairro,
+      code, char_cnpj, nome, ie, im, regime_trib, regime_issq, query_digcertpath, digcertpass, cep, logr, bairro,
       cidade,uf, numrua,tiporua, telefone,
       celular,smtp_server, atoi(smtp_port), email, senhaemail,sobre);
   }else{

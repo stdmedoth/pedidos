@@ -18,6 +18,9 @@ int orc_prod_saldos_get_pos(int produto){
 	}
 
 	if(!pos){
+		if(!orc_estoque.produtos[pos])
+			orc_estoque.produtos[pos] = malloc(sizeof(struct _orc_estoque_prods));
+
 		orc_estoque.produtos[pos]->code = produto;
 		return pos;
 	}
