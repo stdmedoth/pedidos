@@ -51,19 +51,6 @@ int fechar_sessao() {
     return 0;
 }
 
-gboolean atalho_fechar_sessao(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
-    switch (event -> keyval) {
-    case LOGOUT_ATALHO_KEY:
-        fechar_sessao();
-        return FALSE;
-    case FECHAR_ATALHO_KEY:
-        encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
-        return FALSE;
-
-    }
-    return FALSE;
-}
-
 struct _sessao * criar_sessao_anon() {
 
     struct _sessao * sessao_oper = malloc(sizeof(struct _sessao));

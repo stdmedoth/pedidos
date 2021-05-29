@@ -1,5 +1,24 @@
 #include "sql_tools.c"
 
+
+gboolean atalho_fechar_sessao(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
+    switch (event -> keyval) {
+    case LOGOUT_ATALHO_KEY:
+        fechar_sessao();
+        return FALSE;
+
+    case ALTF4_ATALHO_KEY:
+        encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+        return FALSE;
+
+    case FECHAR_ATALHO_KEY:
+        encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+        return FALSE;
+
+    }
+    return FALSE;
+}
+
 gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
 
   int perms[] = {
@@ -9,9 +28,20 @@ gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   us
     GDK_KEY_Return,
     GDK_KEY_KP_Enter,
     GDK_KEY_3270_Enter,
+    GDK_KEY_0,
+    GDK_KEY_1,
+    GDK_KEY_2,
+    GDK_KEY_3,
+    GDK_KEY_4,
+    GDK_KEY_5,
+    GDK_KEY_6,
+    GDK_KEY_7,
+    GDK_KEY_8,
+    GDK_KEY_9,
     -1
   };
-  for(int cont=0; perms[cont]!=-1; cont++){
+
+  for(int cont=0; perms[cont] != -1; cont++){
     if(event->keyval == perms[cont]){
       return FALSE;
     }

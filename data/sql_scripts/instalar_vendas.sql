@@ -91,7 +91,6 @@ create table credenciadoras(
 );
 
 
-/* CREATE TABLE */
 CREATE TABLE cfops(
 _GRUPO_CFOP_ VARCHAR(2000),
 CFOP DOUBLE,

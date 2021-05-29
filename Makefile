@@ -31,6 +31,9 @@ Pedidos.o:
 clear:
 	rm *.o *.gcda $(RESULT_FILE)
 
+migrate:
+	./migrate.sh migrate
+
 install:
 	mkdir -p $(DIR_FILES)
 	cp -r $(COPY_FILES)/* $(DIR_FILES)

@@ -87,3 +87,6 @@ INSERT INTO forma_pagamento (nome,tipo) VALUES
    ('Cartão Débito',3),
    ('Transferencia',4),
    ('Outros',1);
+
+insert into versao values('1.1', '2021-05-28');
+insert into migrate values(1, 'Versao Base', 'migrate_01.sql', '1.1', '2021-05-28');

@@ -1,0 +1,43 @@
+#!/bin/sh
+MYSQL_USER="calistu" 
+MYSQL_PASSWORD="bash9835"
+
+case $1 in 
+	'migrate')
+		echo "iniciando migrate..."
+		for filename in data/sql_scripts/migrates/migrate*.sql; 
+		do
+			file=${filename##*/}
+			query="select arquivo from migrate where arquivo = '$file'"
+			MYSQL_PWD="$MYSQL_PASSWORD"
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | sed -n 2p)
+			#echo $saida
+			
+			if [ "$saida" = "" ]; then 
+				echo "Arquivo $filename não foi atualizado ainda"
+				query="source $PWD/$filename"
+				saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" )
+				if [ "$saida" = "" ]; then 
+					echo "O migrate $filename foi atualizado"
+				else
+					echo $saida;
+				fi
+			else
+				echo "$file já atualizado..."
+			fi
+		done
+		;;
+
+	'lista')
+		echo 'listando migrates atualizados'
+		query="select arquivo from migrate"
+		saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | tail -n +2 | sed 's/^/# /')
+		echo "$saida"
+		;;
+	*)
+		echo "Opção desconhecida, lista:";
+		echo " - migrate";
+		echo " - lista";
+		;;
+		
+esac

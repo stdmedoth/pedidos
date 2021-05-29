@@ -4,7 +4,8 @@ create table titulos(
   pedido int not null,
   status int not null,
   qnt_parcelas int not null,
-  tipo_titulo int not null);
+  tipo_titulo int not null,
+  foreign key (cliente) references terceiros(code));
 
 create table parcelas_tab(
   parcelas_id int not null,
@@ -13,7 +14,8 @@ create table parcelas_tab(
   data_criacao datetime,
   data_vencimento datetime,
   valor float default 0 not null,
-  foreign key(parcelas_id) references titulos(code));
+  foreign key(parcelas_id) references titulos(code), 
+  foreign key (banco) references bancos(code));
 
 create table baixas_titulos(
   code int primary key auto_increment,
@@ -48,6 +50,14 @@ create table cheque(
   tipo int not null,
   data_emissao datetime not null,
   valor float not null);
+
+create table cheque_finan(
+  code int primary key auto_increment,
+  cheque int not null,
+  titulo int not null,
+  foreign key(cheque) references cheque(code),
+  foreign key(titulo) references titulos(code));
+
 
 create table bancos(
   code int primary key auto_increment,

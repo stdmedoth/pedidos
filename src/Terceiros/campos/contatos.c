@@ -139,10 +139,10 @@ add_item (GtkWidget *button, gpointer data)
 
   contato.ativo = 1;
   contato.pos = cntts_free_pos;
-  contato.nome = g_strdup ("Nome");
-  contato.telefone = g_strdup ("Telefone");
-  contato.celular = g_strdup ("Celular");
-  contato.email = g_strdup ("Email");
+  contato.nome = g_strdup ("-");
+  contato.telefone = g_strdup ("-");
+  contato.celular = g_strdup ("-");
+  contato.email = g_strdup ("-");
 
   
   cntts[cntts_free_pos].ativo = 1;
@@ -170,9 +170,9 @@ add_item (GtkWidget *button, gpointer data)
                       contato.id,
                       COLUMN_CTTO_NOME,
                       contato.nome,
-                      COLUMN_CTTO_CEL,
-                      contato.telefone,
                       COLUMN_CTTO_TEL,
+                      contato.telefone,
+                      COLUMN_CTTO_CEL,
                       contato.celular,
                       COLUMN_CTTO_EMAIL,
                       contato.email,
