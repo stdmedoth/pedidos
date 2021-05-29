@@ -26,7 +26,7 @@ int conectar_mysql(){
 		return 1;
 	}
 	unsigned int timeout = 60 * 60 * 24;
-	bool reconnect = 1;
+	int reconnect = 1;
 	mysql_options(&conectar, MYSQL_OPT_CONNECT_TIMEOUT, &timeout);
 	mysql_options(&conectar, MYSQL_OPT_RECONNECT, &reconnect);
 

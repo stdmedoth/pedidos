@@ -142,7 +142,6 @@ int desktop(){
 		}
 	}
 
-
 	sessao_set_nonemodules();
 
 	if( ativar.ativo && sessao_oper->status_sessao == SESSAO_LOGADA ){

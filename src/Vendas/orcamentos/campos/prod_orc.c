@@ -52,7 +52,7 @@ int orc_prod_calc_saldo(int posicao){
 	}
 
 	if(!orc_estoque.produtos[prod_pos]){
-		orc_estoque.produtos[prod_pos] = malloc(sizeof(struct _orc_estoque));
+		orc_estoque.produtos[prod_pos] = malloc(sizeof(struct _orc_estoque_prods));
 		orc_estoque.length++;
 	}
 

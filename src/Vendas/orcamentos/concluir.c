@@ -106,8 +106,7 @@ static int concluir_orc(){
 			return 1;
 		}
 
-		campos = mysql_fetch_row(vetor);
-		if(!campos){
+		if((campos = mysql_fetch_row(vetor))){
 			popup(NULL,"Orçamento já existente! verifique o código");
 			autologger("Erro na query de codigo no orcamento\nTentou usar código de orcamento já usado\n");
 			gtk_widget_grab_focus(codigo_orc_entry);
