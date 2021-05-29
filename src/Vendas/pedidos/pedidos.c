@@ -9,7 +9,9 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		N_COLUMNS
 	};
 	gchar *entrada = malloc(MAX_CODE_LEN);
-
+	MYSQL_RES *res, *res2;
+	MYSQL_ROW row, row2;
+	char query[MAX_QUERY_LEN];
 	entrada = (gchar*) gtk_entry_get_text(GTK_ENTRY(ped_cod_entry));
 
 	if(strlen(entrada)<=0){
@@ -49,10 +51,8 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
   	gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
   	gchar *formata_preco3 = malloc(MAX_PRECO_LEN);
 
-	MYSQL_RES *res, *res2;
-	MYSQL_ROW row, row2;
 	char origem_preco[50],tipo_pag[50];
-	char query[MAX_QUERY_LEN];
+	
 	GtkTreeIter campos;
 
 
