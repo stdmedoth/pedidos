@@ -22,7 +22,16 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		return 1;
 	}
 
-  GtkTreeStore *treestore = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
+	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
+	if(!(res = consultar(query))){
+		return 1;
+	}
+	if(!(row = mysql_fetch_row(res))){
+		popup(NULL,"Pedido não existente");
+		return 1;
+	}
+
+  	GtkTreeStore *treestore = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 	if(!treestore){
 		treestore = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	}
@@ -33,12 +42,12 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(treestore));
 
 	GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
-  gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),"");
+  	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),"");
 
-  gchar *formata_preco1 = malloc(MAX_PRECO_LEN);
-  gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
-  gchar *formata_preco3 = malloc(MAX_PRECO_LEN);
+  	gchar *formata_preco1 = malloc(MAX_PRECO_LEN);
+  	gchar *formata_preco2 = malloc(MAX_PRECO_LEN);
+  	gchar *formata_preco3 = malloc(MAX_PRECO_LEN);
 
 	MYSQL_RES *res, *res2;
 	MYSQL_ROW row, row2;
@@ -46,14 +55,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 	char query[MAX_QUERY_LEN];
 	GtkTreeIter campos;
 
-	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
-	if(!(res = consultar(query))){
-		return 1;
-	}
-	if(!(row = mysql_fetch_row(res))){
-		popup(NULL,"Pedido não existente");
-		return 1;
-	}
+
 
 	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[0]);
 	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
