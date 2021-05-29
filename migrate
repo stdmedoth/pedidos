@@ -3,9 +3,9 @@ MYSQL_USER="calistu"
 MYSQL_PASSWORD="bash9835"
 
 case $1 in 
-	'migrate')
+	'update')
 		echo "iniciando migrate..."
-		for filename in data/sql_scripts/migrates/migrate*.sql; 
+		for filename in `ls data/sql_scripts/migrates/migrate*.sql | sort -g`; #data/sql_scripts/migrates/migrate*.sql; 
 		do
 			file=${filename##*/}
 			query="select arquivo from migrate where arquivo = '$file'"
@@ -27,17 +27,47 @@ case $1 in
 			fi
 		done
 		;;
+	'remove')
+		if [ -z "$2" ]; then 
+			echo "# Faltando argumento"
+			echo "./migrate remove nome_arquivo"
+			exit;
 
-	'lista')
+		else
+			echo "removendo migrate $2 ... "
+			query="select arquivo from migrate where arquivo = '$2'"
+			MYSQL_PWD="$MYSQL_PASSWORD"
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | sed -n 2p)
+			if [ "$saida" = "" ]; then 
+				echo "O migrate '$2' não existe"
+				exit;
+			fi
+
+			query="delete from migrate where arquivo = \"$2\""
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | tail -n +2 | sed 's/^/# /')
+			if [ "$saida" = "" ]; then 
+				echo "O migrate $filename foi removido"
+			else
+				echo $saida;
+			fi
+		fi
+		;;
+	'list')
 		echo 'listando migrates atualizados'
-		query="select arquivo from migrate"
+		query="select descricao,arquivo from migrate"
 		saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | tail -n +2 | sed 's/^/# /')
+		if [ "$saida" = "" ]; then 
+			echo "Não há migrates atualizados"
+			exit;
+		fi 
 		echo "$saida"
+
 		;;
 	*)
 		echo "Opção desconhecida, lista:";
-		echo " - migrate";
-		echo " - lista";
+		echo " - update";
+		echo " - remove";
+		echo " - list";
 		;;
 		
 esac
