@@ -12,7 +12,9 @@ int info_sobre_wnd(){
   gtk_window_set_position(GTK_WINDOW(janela), 3);
   char *versao = get_db_version();
   if(versao){
-    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), versao);
+    char edited_version[200];
+    sprintf(edited_version, "Aplicação: " GET_APP_VERSION() " | Banco de dados: %s", versao);
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), edited_version);
   }
   else{
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), "Não especificada");

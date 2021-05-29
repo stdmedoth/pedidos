@@ -5,6 +5,13 @@ int check_compat_version(){
     return 1;
   }
   if(strcmp(GET_APP_VERSION(), db_version)){
+      int cont=0;
+      while(compat_db_versions[cont]){
+        if(! strcmp( compat_db_versions[cont], db_version) ){
+          return 0;
+        }
+        cont++;
+      }
       return 1;
   }
 

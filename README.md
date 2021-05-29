@@ -1,4 +1,6 @@
-# Pedidos (EM DESENVOLVIMENTO - beta) [Pages](https://stdmedoth.github.io/pedidos/)
+# Pedidos (EM DESENVOLVIMENTO - beta) 
+[Pages](https://stdmedoth.github.io/pedidos/)
+[Trello - Desenvolvimento](https://trello.com/b/kX1scIYM/pedidos-software-v1)
 > Sistema gerencial.
 
 <p>Software gerencial para controle de vendas, compras, financeiro, estoque e marketing</p>

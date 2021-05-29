@@ -65,7 +65,15 @@ int ped_emitir()
 		return 1;
 	}
 
-	sprintf(query,"select cliente,banco,data_mov,tipo_mov,pag_cond from pedidos where code = %i",pedidoPtr->infos->ped_code);
+	enum{
+		PED_CLIENTE,
+		PED_BNC,
+		PED_DT_MOV,
+		PED_TP_MOV,
+		PED_PG
+	};
+
+	sprintf(query,"select cliente, banco, data_mov, tipo_mov, pag_cond from pedidos where code = %i",pedidoPtr->infos->ped_code);
 
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar infos do pedido");
@@ -77,16 +85,21 @@ int ped_emitir()
 		return 1;
 	}
 
-	if(row[0])
-		pedidoPtr->infos->cliente_code = atoi(row[0]);
-	if(row[1])
-		pedidoPtr->infos->banco = atoi(row[1]);
-	if(row[2])
-		strcpy(pedidoPtr->infos->data_mov,row[2]);
-	if(row[3])
-		pedidoPtr->infos->tipo_mov = atoi(row[3]);
-	if(row[4])
-		pedidoPtr->parcelas->condpag.code = atoi(row[4]);
+	if(row[PED_CLIENTE])
+		pedidoPtr->infos->cliente_code = atoi(row[PED_CLIENTE]);
+	
+	if(row[PED_BNC]){
+		pedidoPtr->infos->banco = atoi(row[PED_BNC]);
+	}else{
+		pedidoPtr->infos->banco = 0;
+	}
+
+	if(row[PED_DT_MOV])
+		strcpy(pedidoPtr->infos->data_mov,row[PED_DT_MOV]);
+	if(row[PED_TP_MOV])
+		pedidoPtr->infos->tipo_mov = atoi(row[PED_TP_MOV]);
+	if(row[PED_PG])
+		pedidoPtr->parcelas->condpag.code = atoi(row[PED_PG]);
 
 	sprintf(query,"select nome, email from contatos where terceiro = %i",pedidoPtr->infos->cliente_code);
 	if(!(res = consultar(query))){
@@ -212,6 +225,13 @@ int ped_emitir()
 		}
 
 		pedidoPtr->parcelas->total_geral = 0;
+		char bnc_finan[12];
+		if(pedidoPtr->infos->banco){
+			sprintf(bnc_finan, "%i", pedidoPtr->infos->banco);	
+		}else{
+			sprintf(bnc_finan,"NULL");
+		}
+
 		if( pedidoPtr->parcelas->condpag.tipo_parc != CONDPAG_DT_LVR){
 
 				for(int cont=0;cont<pedidoPtr->parcelas->condpag.parcelas_qnt;cont++){
@@ -242,12 +262,12 @@ int ped_emitir()
 
 					pedidoPtr->parcelas->parcelas_vlr[cont] = parcela;
 					pedidoPtr->parcelas->total_geral += pedidoPtr->parcelas->parcelas_vlr[cont];
-
+					
 					sprintf(valor,"%.2f",pedidoPtr->parcelas->parcelas_vlr[cont]);
-					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %i, '%s', '%s', '%s')",
+					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %s, '%s', '%s', '%s')",
 					titulo_code,
 					cont,
-					pedidoPtr->infos->banco,
+					bnc_finan,
 					pedidoPtr->infos->data_mov,
 					pedidoPtr->parcelas->parcelas_data[cont],
 					valor);
@@ -297,10 +317,10 @@ int ped_emitir()
 
 					sprintf( valor,"%.2f",pedidoPtr->parcelas->parcelas_vlr[cont] );
 
-					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %i, '%s', '%s', '%s')",
+					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %s, '%s', '%s', '%s')",
 					titulo_code,
 					cont,
-					pedidoPtr->infos->banco,
+					bnc_finan,
 					pedidoPtr->infos->data_mov,
 					pedidoPtr->parcelas->parcelas_data[cont],
 					valor);

@@ -223,7 +223,6 @@ int calcula_prod_orc(GtkWidget *widget, int posicao){
   strcpy(ativos[posicao].total_c,total_prod_orc_gchar);
 
   if(gerar_total_geral()){
-
     return 1;
   }
 
