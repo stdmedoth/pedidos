@@ -9,7 +9,14 @@ gboolean sobre_infos_keyfun(GtkWidget *widget, GdkEventKey  *event, gpointer   u
 
 int info_sobre_wnd(){
   GtkWidget *janela = gtk_about_dialog_new ();
-  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), "v1.0.0");
+  gtk_window_set_position(GTK_WINDOW(janela), 3);
+  char *versao = get_db_version();
+  if(versao){
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), versao);
+  }
+  else{
+    gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), "Não especificada");
+  }
   gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(janela), "Calisto Pedidos");
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(janela), "Software gerencial para controle de vendas, compras, financeiro, estoque e marketing.");
   gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(janela), "GPL v2");

@@ -16,6 +16,12 @@ int init(){
 	load_styles();
 	param_dev_defs();
 	get_monitor_sizes();
+	if(check_compat_version()){
+		char msg[300];
+		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )", GET_APP_VERSION());
+		popup(NULL,msg);
+		return 1;
+	}
 
 	sprintf(query,"select * from tecn_pers_elem");
 	if(!(res = consultar(query))){

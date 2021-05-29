@@ -223,16 +223,3 @@ create table if not exists contratos(
   relatorios int default 0,
   ativo int default 1,
   data_vencimento datetime default '2049-12-31');
-
-create table versao(
-  versao varchar(30) not null,
-  lancamento datetime not null 
-);
-
-create table migrate(
-  code int primary key auto_increment,
-  descricao varchar(300) not null,
-  arquivo varchar(150) not null,
-  versao varchar(30) not null,
-  lancamento datetime not null 
-);

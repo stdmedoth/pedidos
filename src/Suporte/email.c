@@ -10,7 +10,8 @@ int suporte_envia_email(){
 
   for(int cont=0;cont<MAX_POST_QNT;cont++){
 
-    if(sup_vet_posts_ativos[cont]){
+    if((sup_vet_posts_ativos[cont])){
+      
       xmlNodePtr id = xmlNewNode (NULL, (const xmlChar *)"id");
       xmlNodePtr titulo = xmlNewNode (NULL, (const xmlChar *)"titulo");
       xmlNodePtr descricao = xmlNewNode (NULL, (const xmlChar *)"descricao");

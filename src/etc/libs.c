@@ -2,6 +2,7 @@
 
 #include "./init.c"
 #include "./desktop.c"
+#include "./version.c"
 #include "./receber_confs.c"
 #include "./xml_tools.c"
 #include "./tools.c"

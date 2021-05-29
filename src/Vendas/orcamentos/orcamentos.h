@@ -126,6 +126,7 @@ static float saldo_limite = 3;
 
 static int recebendo_prod_orc=0;
 static int alterando_orc=0;
+static int cancelando_orc=0;
 static int concluindo_orc=0;
 static int copiando_orc=0;
 static int excluindo_orc=0;

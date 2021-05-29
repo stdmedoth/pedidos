@@ -6,7 +6,8 @@ int orc_transp_valor_frete(){
     strcpy(orc_transp_valor,"0");
     orc_valores.valor_frete = atof(orc_transp_valor);
     if(gerar_total_geral())
-    return 1;
+      return 1;
+    return 0;
   }
 
   orc_transp_valor = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_transp_valor_frete_entry));

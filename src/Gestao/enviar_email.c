@@ -392,85 +392,85 @@ int enviar_email_suporte( char *arquivo_suporte ){
   sprintf(headers_text[1],"Subject: Suporte %s",cad_emp_strc.xNome);
   headers_text[2] = NULL;
 
-    curl = curl_easy_init();
-    if(curl_global_init(CURL_GLOBAL_ALL)){
-      popup(NULL,"Não foi iniciar criar conexão");
+  curl = curl_easy_init();
+  if(curl_global_init(CURL_GLOBAL_ALL)){
+    popup(NULL,"Não foi iniciar criar conexão");
+    return 1;
+  }
+  if(curl) {
+    struct curl_slist *headers = NULL;
+    struct curl_slist *recipients = NULL;
+    struct curl_slist *slist = NULL;
+    curl_mime *mime;
+    curl_mime *alt;
+    curl_mimepart *part;
+    char **cpp;
+
+    if(!strlen(cad_emp_strc.email)){
+      popup(NULL,"Não há email cadastrado para envio de emails");
       return 1;
     }
-    if(curl) {
-      struct curl_slist *headers = NULL;
-      struct curl_slist *recipients = NULL;
-      struct curl_slist *slist = NULL;
-      curl_mime *mime;
-      curl_mime *alt;
-      curl_mimepart *part;
-      char **cpp;
 
-      if(!strlen(cad_emp_strc.email)){
-        popup(NULL,"Não há email cadastrado para envio de emails");
-        return 1;
-      }
-
-      if(!strlen(cad_emp_strc.email_senha)){
-        popup(NULL,"Não há senha cadastrado para o envio de emails");
-        return 1;
-      }
-
-      curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
-      curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
-      curl_easy_setopt(curl, CURLOPT_URL,  cad_emp_strc.url_smtp);
-      curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
-      curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
-      curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
-
-      curl_easy_setopt(curl, CURLOPT_MAIL_FROM,  cad_emp_strc.email);
-
-      recipients = curl_slist_append(recipients, sup_email);
-      curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
-
-      //curl_easy_setopt(curl, CURLOPT_MAIL_RCPT_ALLLOWFAILS, 1L);
-
-      for(cpp = headers_text; *cpp; cpp++)
-        headers = curl_slist_append(headers, *cpp);
-
-      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-      mime = curl_mime_init(curl);
-
-      alt = curl_mime_init(curl);
-
-      part = curl_mime_addpart(mime);
-      curl_mime_subparts(part, alt);
-      curl_mime_type(part, "multipart/alternative");
-      slist = curl_slist_append(NULL, "Content-Disposition: inline");
-      curl_mime_headers(part, slist, 1);
-
-      part = curl_mime_addpart(alt);
-      curl_mime_data(part, "Segue arquivo xml com dados do suporte", CURL_ZERO_TERMINATED);
-
-      part = curl_mime_addpart(mime);
-      curl_mime_filedata(part, arquivo_suporte);
-      curl_mime_type(part, "pdf");
-      curl_mime_encoder(part, "base64");
-      curl_mime_name(part,cad_emp_strc.xNome);
-      curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
-
-      res = curl_easy_perform(curl);
-      curl_slist_free_all(recipients);
-      curl_slist_free_all(headers);
-
-      curl_easy_cleanup(curl);
-
-      curl_mime_free(mime);
-
-      if(res != CURLE_OK){
-        sprintf(mensagem, "Envio do email falhou: %s\n",curl_easy_strerror(res));
-        popup(NULL,mensagem);
-        return 1;
-      }
-
+    if(!strlen(cad_emp_strc.email_senha)){
+      popup(NULL,"Não há senha cadastrado para o envio de emails");
+      return 1;
     }
-    enviando_email=0;
-    popup(NULL,"O email foi enviado com sucesso");
-    return 0;
+
+    curl_easy_setopt(curl, CURLOPT_USERNAME, cad_emp_strc.email);
+    curl_easy_setopt(curl, CURLOPT_PASSWORD, cad_emp_strc.email_senha);
+    curl_easy_setopt(curl, CURLOPT_URL,  cad_emp_strc.url_smtp);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1);
+    curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+    curl_easy_setopt(curl, CURLOPT_CAINFO, MOZ_CERT);
+
+    curl_easy_setopt(curl, CURLOPT_MAIL_FROM,  cad_emp_strc.email);
+
+    recipients = curl_slist_append(recipients, sup_email);
+    curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+
+    //curl_easy_setopt(curl, CURLOPT_MAIL_RCPT_ALLLOWFAILS, 1L);
+
+    for(cpp = headers_text; *cpp; cpp++)
+      headers = curl_slist_append(headers, *cpp);
+
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    mime = curl_mime_init(curl);
+
+    alt = curl_mime_init(curl);
+
+    part = curl_mime_addpart(mime);
+    curl_mime_subparts(part, alt);
+    curl_mime_type(part, "multipart/alternative");
+    slist = curl_slist_append(NULL, "Content-Disposition: inline");
+    curl_mime_headers(part, slist, 1);
+
+    part = curl_mime_addpart(alt);
+    curl_mime_data(part, "Segue arquivo xml com dados do suporte", CURL_ZERO_TERMINATED);
+
+    part = curl_mime_addpart(mime);
+    curl_mime_filedata(part, arquivo_suporte);
+    curl_mime_type(part, "pdf");
+    curl_mime_encoder(part, "base64");
+    curl_mime_name(part,cad_emp_strc.xNome);
+    curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+
+    res = curl_easy_perform(curl);
+    curl_slist_free_all(recipients);
+    curl_slist_free_all(headers);
+
+    curl_easy_cleanup(curl);
+
+    curl_mime_free(mime);
+
+    if(res != CURLE_OK){
+      sprintf(mensagem, "Envio do email falhou: %s\n",curl_easy_strerror(res));
+      popup(NULL,mensagem);
+      return 1;
+    }
+
+  }
+  enviando_email=0;
+  popup(NULL,"O email foi enviado com sucesso");
+  return 0;
 }

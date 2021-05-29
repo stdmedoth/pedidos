@@ -243,6 +243,7 @@ int cheque_wnd_fun(){
 	gtk_box_pack_start(GTK_BOX(box), linha3, 0, 0, 5);
 	gtk_box_pack_start(GTK_BOX(box), linha4, 0, 0, 5);
 	gtk_box_pack_start(GTK_BOX(box), linha5, 0, 0, 5);
+	gtk_box_pack_start(GTK_BOX(box), linha6, 0, 0, 5);
 	gtk_box_pack_start(GTK_BOX(box), box_opcoes, 0, 0, 5);
 	
 

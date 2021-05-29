@@ -7,6 +7,7 @@
 #include "./basic_headers.h"
 #include "./Pedidos.h"
 #include "./init.h"
+#include "./version.h"
 #include "./desktop.h"
 #include "./defines.h"
 #include "./receber_confs.h"

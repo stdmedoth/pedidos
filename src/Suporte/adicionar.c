@@ -135,6 +135,9 @@ int suporte_get_livre_pos(){
 }
 
 int suporte_princ_add(){
+
+  
+
   char post_name[30];
   GtkWidget *descr_scrolls = gtk_scrolled_window_new(NULL,NULL);;
 
@@ -276,7 +279,7 @@ int post_recarregar_posts(){
   else
     sprintf(prioridade_end_query,"prioridade = %i",sup_prior);
 
-  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s",sessao_oper->operador->code,status_end_query,prioridade_end_query);
+  sprintf(query,"select * from suporte_posts where operador = %i and %s and %s order by prioridade limit 20",sessao_oper->operador->code,status_end_query,prioridade_end_query);
 
   g_print("%s\n",query);
 

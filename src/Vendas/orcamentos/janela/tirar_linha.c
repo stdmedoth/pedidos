@@ -1,7 +1,8 @@
 int tirar_linha(int id_ponteiro)
 {
 
-	if(orc_contem_ped){
+	if(!cancelando_orc && !recebendo_prod_orc && orc_contem_ped){
+		popup(NULL,"Não é possível alterar orçamento processado");
 		return 1;
 	}
 
@@ -16,12 +17,10 @@ int tirar_linha(int id_ponteiro)
 
 	ativos_qnt--;
 
-	if(ativos_qnt>1)
-	{
+	if(ativos_qnt>1){
 		gtk_widget_set_sensitive(cliente_orc_entry,FALSE);
 	}
-	else
-	{
+	else{
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
 
@@ -35,7 +34,8 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 	MYSQL_ROW campos;
 	char query[MAX_QUERY_LEN];
 
-	if(orc_contem_ped){
+	if(!cancelando_orc && !recebendo_prod_orc && orc_contem_ped){
+		popup(NULL,"Não é possível alterar orçamento processado");
 		return 1;
 	}
 

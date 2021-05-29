@@ -18,8 +18,8 @@ void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer d
 }
 
 gboolean desfocar_menu(GtkWidget *widget, GdkEventCrossing  *event, gpointer   user_data){
-
-  if(event->mode == GDK_CROSSING_UNGRAB){
+  
+  if((event->mode == GDK_CROSSING_UNGRAB) || (event->mode == GDK_CROSSING_GTK_UNGRAB) ){
     if(widget && GTK_IS_WIDGET(widget)){
       gtk_widget_destroy(widget);
     }
@@ -106,6 +106,8 @@ int menu_icon_views_wnd(){
 
   gtk_widget_add_events(janela, GDK_FOCUS_CHANGE_MASK );
   gtk_widget_add_events(janela, GDK_LEAVE_NOTIFY_MASK );
+  gtk_widget_set_can_focus (janela, TRUE);
+
   g_signal_connect(GTK_WIDGET(janela),"leave-notify-event",G_CALLBACK(desfocar_menu),NULL);
 
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MENU_WND]);

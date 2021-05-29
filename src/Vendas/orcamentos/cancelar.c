@@ -2,7 +2,7 @@ static int cancela_orc()
 {
 	char code[MAX_CODE_LEN];
 	GtkTextBuffer *buffer;
-
+	cancelando_orc = 1;
 	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id){
@@ -42,8 +42,8 @@ static int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(orc_transp_telefone_entry),"");
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button), FALSE);
-	gtk_widget_set_sensitive(orc_transp_valor_frete_entry,FALSE);
-	gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,FALSE);
+	gtk_widget_set_sensitive(orc_transp_valor_frete_entry,TRUE);
+	gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,TRUE);
 
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(	orc_transp_obs_entry));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),"",-1);
@@ -97,6 +97,7 @@ static int cancela_orc()
 	orc_pag_sem_finan();
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 
+
 	gtk_widget_set_sensitive(concluir_orc_button,TRUE);
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
 	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
@@ -108,6 +109,7 @@ static int cancela_orc()
 	
 	//gtk_widget_set_sensitive(orc_prods_grid, TRUE);
 	gtk_widget_grab_focus(pesquisa_ter);
+	cancelando_orc = 0;
 	
 	return 0;
 }

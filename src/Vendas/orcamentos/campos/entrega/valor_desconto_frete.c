@@ -3,9 +3,10 @@ int orc_transp_desconto_frete(){
 
   if(orc_transp_frete_pago_int){
     orc_transp_desconto = strdup("0");
-    orc_valores.valor_frete = atof(orc_transp_desconto);
+    orc_valores.desconto_frete = atof(orc_transp_desconto);
     if(gerar_total_geral())
       return 1;
+    return 0;
   }
 
   orc_transp_desconto = (gchar*)gtk_entry_get_text(GTK_ENTRY(orc_transp_desconto_frete_entry));

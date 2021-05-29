@@ -1,22 +1,29 @@
 #include "sql_tools.c"
 
-
 gboolean atalho_fechar_sessao(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
+
+  if(event->type == GDK_KEY_PRESS){
     switch (event -> keyval) {
-    case LOGOUT_ATALHO_KEY:
+      
+      case LOGOUT_ATALHO_KEY:
         fechar_sessao();
         return FALSE;
 
-    case ALTF4_ATALHO_KEY:
+      case GDK_KEY_F4:
+        //if( event->state == GDK_MOD1_MASK ){ // event->state não está funcionando
+          encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+          return FALSE;
+        //}
+        //break;
+
+      case FECHAR_ATALHO_KEY:
         encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
         return FALSE;
-
-    case FECHAR_ATALHO_KEY:
-        encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
-        return FALSE;
-
-    }
-    return FALSE;
+    
+    }  
+  }
+  
+  return FALSE;
 }
 
 gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
