@@ -1,22 +1,42 @@
 #!/bin/sh
-MYSQL_USER="calistu" 
-MYSQL_PASSWORD="bash9835"
+MYSQL_USER=$(sed -n -e 's/.*<usuario>\(.*\)<\/usuario>.*/\1/p' < /usr/share/pedidos/files/server.xml)
+MYSQL_PASSWORD=$(sed -n -e 's/.*<senha>\(.*\)<\/senha>.*/\1/p' < /usr/share/pedidos/files/server.xml)
+MYSQL_DATABASE=$(sed -n -e 's/.*<banco>\(.*\)<\/banco>.*/\1/p' < /usr/share/pedidos/files/server.xml)
+MIGRATE_FOLDER=data/sql_scripts/migrates
 
 case $1 in 
+	'new')
+		echo "criando migrate..."
+		number=1
+		filename=migrate_0
+		
+		while [ -e $MIGRATE_FOLDER/"$filename$number.sql" ]; do
+			echo "Migrate $MIGRATE_FOLDER/"$filename$number.sql" já criado"
+			number=$((number+1))
+		done
+
+		echo " [!] Gerando $filename$number.sql..."
+		dt_lancamento=$(echo $(date +'%Y-%m-%d'))
+		template="update versao set versao = 'x.x', lancamento = '$dt_lancamento';\n"
+		template="${template}insert into migrate values($number, 'Versao x.x', '$filename$number.sql', 'x.x', '$dt_lancamento');"
+		#echo $template
+		echo "$template" >> "$MIGRATE_FOLDER/$filename$number.sql"
+		echo "Migrate $MIGRATE_FOLDER/"$filename$number.sql" criado com sucesso!"
+		;;
 	'update')
 		echo "iniciando migrate..."
-		for filename in `ls data/sql_scripts/migrates/migrate*.sql | sort -g`; #data/sql_scripts/migrates/migrate*.sql; 
+		for filename in `ls $MIGRATE_FOLDER/migrate*.sql | sort -g`; #data/sql_scripts/migrates/migrate*.sql; 
 		do
 			file=${filename##*/}
 			query="select arquivo from migrate where arquivo = '$file'"
 			MYSQL_PWD="$MYSQL_PASSWORD"
-			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | sed -n 2p)
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER $MYSQL_DATABASE -e "$query" | sed -n 2p)
 			#echo $saida
 			
 			if [ "$saida" = "" ]; then 
 				echo "Arquivo $filename não foi atualizado ainda"
 				query="source $PWD/$filename"
-				saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" )
+				saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER $MYSQL_DATABASE -e "$query" )
 				if [ "$saida" = "" ]; then 
 					echo "O migrate $filename foi atualizado"
 				else
@@ -37,14 +57,14 @@ case $1 in
 			echo "removendo migrate $2 ... "
 			query="select arquivo from migrate where arquivo = '$2'"
 			MYSQL_PWD="$MYSQL_PASSWORD"
-			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | sed -n 2p)
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER $MYSQL_DATABASE -e "$query" | sed -n 2p)
 			if [ "$saida" = "" ]; then 
 				echo "O migrate '$2' não existe"
 				exit;
 			fi
 
 			query="delete from migrate where arquivo = \"$2\""
-			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | tail -n +2 | sed 's/^/# /')
+			saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER $MYSQL_DATABASE -e "$query" | tail -n +2 | sed 's/^/# /')
 			if [ "$saida" = "" ]; then 
 				echo "O migrate $filename foi removido"
 			else
@@ -55,7 +75,7 @@ case $1 in
 	'list')
 		echo 'listando migrates atualizados'
 		query="select descricao,arquivo from migrate"
-		saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER contas -e "$query" | tail -n +2 | sed 's/^/# /')
+		saida=$(MYSQL_PWD="$MYSQL_PASSWORD" mysql -u $MYSQL_USER $MYSQL_DATABASE -e "$query" | tail -n +2 | sed 's/^/# /')
 		if [ "$saida" = "" ]; then 
 			echo "Não há migrates atualizados"
 			exit;
