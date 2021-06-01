@@ -188,3 +188,4 @@
 #include "../Tecnico/cad_empresa/cad_empresa.c"
 #include "../Tecnico/debugger/logs.c"
 #include "../Tecnico/contratos/contratos.c"
+#include "../Tecnico/Backup/Backup.c"

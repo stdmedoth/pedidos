@@ -63,6 +63,8 @@ REG_ENVMAIL_WND,
 REG_CAD_EMPRESA,
 REG_CAD_CNTRATS,
 REG_TNCLOG_WND,
+REG_BACKUP_WND,
+
 REG_WIN_QNT,
 };
 
@@ -132,7 +134,8 @@ static const char *janelas_nomes[] = {
   "Envio de Emails",
   "Cadastro da Empresa",
   "Cadastro de Contratos",
-  "Visualizador de Logs"
+  "Visualizador de Logs",
+  "Gerador de Backups"
 };
 
 typedef struct _janelas_info{

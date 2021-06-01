@@ -188,6 +188,7 @@
 #include "../Tecnico/cad_empresa/cad_empresa.h"
 #include "../Tecnico/debugger/logs.h"
 #include "../Tecnico/contratos/contratos.h"
+#include "../Tecnico/Backup/Backup.h"
 
 #include "../Estoque/cadastro/conclui.h"
 #include "../Estoque/cadastro/cancela.h"

@@ -273,5 +273,6 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].fun = cadastro_empresa;
   janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].fun = cad_contratos;
   janelas_gerenciadas.vetor_janelas[REG_TNCLOG_WND].fun = tecn_logger_wnd;
+  janelas_gerenciadas.vetor_janelas[REG_BACKUP_WND].fun = backup_fun;
 
 }

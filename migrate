@@ -90,6 +90,7 @@ case $1 in
 		;;
 	*)
 		echo "Opção desconhecida, lista:";
+		echo " - new";
 		echo " - update";
 		echo " - remove";
 		echo " - list";
