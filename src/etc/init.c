@@ -13,6 +13,14 @@ int init(){
 		SCRIPT_BIN_PATH
 	};
 
+	if(!primeira_conexao){
+		if( conectar_mysql() ){
+			popup(NULL,"Não foi possível conectar ao servidor de banco de dados");
+			return 1;
+		}	
+	}
+	
+
 	load_styles();
 	param_dev_defs();
 	get_monitor_sizes();
