@@ -10,6 +10,7 @@ int notebook_preco_ter();
 int altera_ter();
 
 #include "campos/vars/campos_ter.h"
+#include "campos/cep.h"
 #include "campos/contatos.h"
 #include "campos/vars/vinculo_precos.h"
 #include "campos/vars/listagem_ter.h"

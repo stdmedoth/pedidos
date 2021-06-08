@@ -36,7 +36,7 @@ int address_terc()
 		gtk_widget_grab_focus(address_ter_field);
 		return 1;
 	}
-
+	ter_cep_addr_alterado = 1;
 	gtk_widget_grab_focus(address_num_field);
 
 	g_print("endereco: %s\n",endereco_ter);

@@ -157,7 +157,7 @@ int psq_cidd(GtkWidget *button, GtkEntry *cod_cidd_entry)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(treeview),1);
 	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-	sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade limit 20");
+	sprintf(query,"select code, descricao, uf, codigo_ibge, ddd from cidade limit 20");
 	res = consultar(query);
 	if(res == NULL)
 	{

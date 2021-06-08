@@ -26,6 +26,8 @@ int bairro_terc()
 	{
 		gtk_widget_grab_focus(cidade_ter_field);
 	}
+
+	ter_cep_bairro_alterado = 1;
 	g_print("bairro: %s\n",bairro_ter);
 	return 0;
 }

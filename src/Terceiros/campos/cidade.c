@@ -1,5 +1,6 @@
 int cidade_terc()
 {
+
 	cidade_ter = (gchar *)gtk_entry_get_text(GTK_ENTRY(cidade_ter_field));
 	if(strlen(cidade_ter)<=0)
 	{
@@ -24,6 +25,7 @@ int cidade_terc()
 	{
 		gtk_widget_grab_focus(uf_ter_field);
 	}
+	ter_cep_cidade_alterado = 1;
 	g_print("cidade: %s\n",cidade_ter);
 	return 0;
 }

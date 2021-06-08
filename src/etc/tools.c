@@ -653,7 +653,9 @@ void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll
   carregar_interface();
   if(scroll_window && GTK_IS_SCROLLED_WINDOW(scroll_window)){
     GtkAdjustment *ajuste = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(scroll_window));
-    gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+    if(ajuste){
+      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+    }
   }
 
 	return ;
@@ -663,13 +665,17 @@ void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll
   carregar_interface();
   if(scroll_window && GTK_IS_SCROLLED_WINDOW(scroll_window)){
     GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
-    gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));    
+    if(ajuste){
+      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));    
+    }
   }
 	return ;
 }
 
 void adjustment_mover_scroll(GtkAdjustment *adjustment){
-	gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+  if(adjustment){
+    gtk_adjustment_set_value(adjustment, gtk_adjustment_get_upper(adjustment));
+  }
 	return ;
 }
 

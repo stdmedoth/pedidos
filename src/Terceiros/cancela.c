@@ -6,7 +6,11 @@ void cancelar_ter(){
 	alterando_ter=0;
 	contatos_qnt=0;
 	ter_com_entrega = 0;
-	ter_com_entrega = 0;
+	
+	ter_cep_addr_alterado=0;
+	ter_cep_cidade_alterado=0;
+	ter_cep_uf_alterado=0;
+	ter_cep_bairro_alterado=0;
 
 	char *code = malloc(12);
 	sprintf(code,"%i",tasker("terceiros"));

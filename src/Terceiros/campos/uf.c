@@ -42,6 +42,7 @@ int uf_terc()
 		return 1;
 	}
 
+	ter_cep_uf_alterado = 1;
 	if(escolha_tipo_ter()!=0)
 		return 1;
 
