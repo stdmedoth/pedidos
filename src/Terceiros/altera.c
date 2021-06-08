@@ -64,20 +64,28 @@ int altera_ter()
 	if(campo[CEP_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(cep_ter_field),campo[CEP_TER_COL]);
 
-	if(campo[END_TER_COL])
+	if(campo[END_TER_COL]){
+		ter_cep_addr_alterado=0;
 		gtk_entry_set_text(GTK_ENTRY(address_ter_field),campo[END_TER_COL]);
+	}
 
 	if(campo[CPLMNT_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(complmt_ter_field),campo[CPLMNT_TER_COL]);
 
-	if(campo[BAIR_TER_COL])
+	if(campo[BAIR_TER_COL]){
+		ter_cep_bairro_alterado=0;
 		gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),campo[BAIR_TER_COL]);
+	}
 
-	if(campo[CID_TER_COL])
+	if(campo[CID_TER_COL]){
+		ter_cep_cidade_alterado=0;
 		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field),campo[CID_TER_COL]);
+	}
 
-	if(campo[UF_TER_COL])
+	if(campo[UF_TER_COL]){
+		ter_cep_uf_alterado=0;
 		gtk_entry_set_text(GTK_ENTRY(uf_ter_field),campo[UF_TER_COL]);
+	}
 
 	if(campo[REND_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(address_num_field),campo[REND_TER_COL]);
