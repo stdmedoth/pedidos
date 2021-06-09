@@ -644,7 +644,7 @@ CREATE TABLE `grupos` (
   `nome` varchar(50) DEFAULT 'Grupo Sem Nome',
   `nivel` int DEFAULT '1',
   PRIMARY KEY (`code`)
-)
+);
 
 create table orc_param(
   est_orc_padrao int not null
