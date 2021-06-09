@@ -72,9 +72,14 @@
 <p>MSYS2</p>
 <p>instalar mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
 
+
+
+
 Calisto – jovictor210@gmail.com
 
 ## Contribuindo
+
+![contribuindo](data/screenshots/versao_view.png)
 
 1. Fork (<https://github.com/stdmedoth/pedidos/fork>)
 2. Crie seu branch (`git checkout -b feature/algo`)
