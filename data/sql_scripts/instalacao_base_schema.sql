@@ -46,7 +46,7 @@ create table if not exists setores(
 );
 
 create table if not exists niveis_gerenciais( code int primary key auto_increment,
-  nome varchar(50) default 'NivelGerencialSemNome',
+  nome varchar(50) default 'NívelGerencialSemNome',
   nivel int default 0);
 
 create table logs( descricao varchar (2000), data datetime);
