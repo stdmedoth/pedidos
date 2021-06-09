@@ -1,6 +1,7 @@
-#define GET_APP_VERSION() "1.1"
+#define GET_APP_VERSION() "1.1.1"
 
 const char *compat_db_versions[] = {
+	"1.1",
 	NULL
 };
 
