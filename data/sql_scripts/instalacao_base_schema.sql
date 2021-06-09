@@ -411,7 +411,7 @@ CREATE TABLE cfops(
 _GRUPO_CFOP_ VARCHAR(2000),
 CFOP DOUBLE,
 DESCRIO_CFOP VARCHAR(2000),
-Incio_Vigncia datetime default now()
+Incio_Vigncia datetime default '2021-01-01'
 );
 
 create table titulos(
@@ -422,6 +422,16 @@ create table titulos(
   qnt_parcelas int not null,
   tipo_titulo int not null,
   foreign key (cliente) references terceiros(code));
+
+create table bancos(
+  code int primary key auto_increment,
+  nome varchar(100) not null,
+  conta varchar(30) not null,
+  tipoconta int not null,
+  agencia varchar(10) not null,
+  nome_usuario  varchar(200) not null,
+  documento  varchar(30) not null,
+  saldo_inicial float not null);
 
 create table parcelas_tab(
   parcelas_id int not null,
@@ -458,7 +468,7 @@ create table agencia(
 create table cheque(
   code int primary key auto_increment,
   banco varchar(50) not null,
-  conta varchar(50) not null
+  conta varchar(50) not null,
   serie varchar(20) not null,
   numero varchar(20) not null,
   pagante int not null, 
@@ -474,21 +484,10 @@ create table cheque_finan(
   foreign key(cheque) references cheque(code),
   foreign key(titulo) references titulos(code));
 
-
-create table bancos(
-  code int primary key auto_increment,
-  nome varchar(100) not null,
-  conta varchar(30) not null,
-  tipoconta int not null,
-  agencia varchar(10) not null,
-  nome_usuario  varchar(200) not null,
-  documento  varchar(30) not null,
-  saldo_inicial float not null);
-
 create table orcs_cheques(
   code int primary key auto_increment,
   orcamento int not null,
-  cheque int not null
+  cheque int not null,
   foreign key(orcamento) references orcamentos(code),
   foreign key(cheque) references cheque(code));
 
