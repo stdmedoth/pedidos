@@ -11,6 +11,8 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
     "Cancelar", GTK_RESPONSE_REJECT,
     NULL);
 
+  gtk_window_set_position(GTK_WINDOW(janela), 3);
+
   GtkWidget *label = gtk_label_new("Insira o CNPJ e a UF");
   GtkWidget *cnpj_entry = gtk_entry_new();
   GtkWidget *uf_entry = gtk_entry_new();
