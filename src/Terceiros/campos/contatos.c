@@ -12,17 +12,17 @@ static int add_items (int terceiro)
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
   sprintf(query,"select * from contatos where terceiro = %i",terceiro);
-  
+
   contatos_ter = terceiro;
   Contato contato;
-  
+
   //g_return_if_fail (cont_lis != NULL);
 
   if(! (res = consultar(query)) ){
     popup(NULL,"Não foi possível buscar contatos");
     return 1;
   }
-  
+
   while((row=mysql_fetch_row(res))){
 
     int cntts_free_pos = ter_contatos_get_last();
@@ -42,8 +42,9 @@ static int add_items (int terceiro)
     cntts[cntts_free_pos].telefone = g_strdup (row[CTTO_TEL_COL]);
     cntts[cntts_free_pos].celular = g_strdup (row[CTTO_CEL_COL]);
     cntts[cntts_free_pos].email = g_strdup (row[CTTO_EMAIL_COL]);
+    cntt_exists[cntts_free_pos] = 1;
     contatos_qnt++;
-    
+
     g_array_append_vals (cont_lis, &contato, 1);
     if(contatos_qnt > MAX_CNTTS_QNT){
       popup(NULL,"Limite de contatos");
@@ -63,7 +64,6 @@ create_items_model ()
 
   /* create array */
   cont_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
-
   /* create list store */
   model = gtk_list_store_new (NUM_ITEM_COLUMNS, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING,  G_TYPE_STRING, G_TYPE_STRING);
 
@@ -72,10 +72,9 @@ create_items_model ()
 
   /* add items */
   for (i = 0; i < cont_lis->len; i++)
-    {
-      gtk_list_store_append (model, &iter);
-
-      gtk_list_store_set (model, &iter,
+  {
+    gtk_list_store_append (model, &iter);
+    gtk_list_store_set (model, &iter,
                           COLUMN_CTTO_ID,
                           g_array_index (cont_lis, Contato, i).id,
                           COLUMN_CTTO_NOME,
@@ -87,7 +86,7 @@ create_items_model ()
                           COLUMN_CTTO_EMAIL,
                           g_array_index (cont_lis, Contato, i).email,
                           -1);
-    }
+  }
 
   return GTK_TREE_MODEL (model);
 }
@@ -144,10 +143,10 @@ add_item (GtkWidget *button, gpointer data)
   contato.celular = g_strdup ("-");
   contato.email = g_strdup ("-");
 
-  
   cntts[cntts_free_pos].ativo = 1;
+  cntt_exists[cntts_free_pos] = 1;
   cntts[cntts_free_pos].pos = cntts_free_pos;
-  
+
   g_array_append_vals (cont_lis, &contato, 1);
 
   /* Insert a new row below the current one */
@@ -201,10 +200,10 @@ remove_item (GtkWidget *widget, gpointer data)
 
       path = gtk_tree_model_get_path (model, &iter);
       i = gtk_tree_path_get_indices (path)[0];
-      
+
       int contato_id = g_array_index (cont_lis, Contato, i).id;
       int contato_pos = g_array_index (cont_lis, Contato, i).pos;
-      
+
       sprintf(query,"delete from contatos where code = %i and terceiro = %i",
         contato_id,contatos_ter);
       if(enviar_query(query)){
@@ -508,29 +507,36 @@ int contatos_update(){
 
   contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<contatos_qnt;cont++){
-    
-    if(cntts[cont].ativo){
 
-      if(!cntts[cont].nome) cntts[cont].nome = "Nome";
-      if(!cntts[cont].telefone) cntts[cont].telefone = "Telefone";
-      if(!cntts[cont].celular) cntts[cont].celular = "Celular";
-      if(!cntts[cont].email) cntts[cont].email = "Email";
+    //g_array_index (cont_lis, Contato, cont).ativo
+    if(g_array_index (cont_lis, Contato, cont).ativo){
+
+      int id = g_array_index (cont_lis, Contato, cont).id;
+      gchar *nome = g_array_index (cont_lis, Contato, cont).nome;
+      gchar *telefone = g_array_index (cont_lis, Contato, cont).telefone;
+      gchar *celular = g_array_index (cont_lis, Contato, cont).celular;
+      gchar *email = g_array_index (cont_lis, Contato, cont).email;
+
+      if(!nome) nome = "Nome";
+      if(!telefone) telefone = "Telefone";
+      if(!celular) celular = "Celular";
+      if(!email) email = "Email";
 
       if(cntt_exists[cont]){
         sprintf(query,"update contatos set nome = '%s', telefone = '%s', celular = '%s', email = '%s' where terceiro = %i and code = %i",
-        cntts[cont].nome,
-        cntts[cont].telefone,
-        cntts[cont].celular,
-        cntts[cont].email,
+        nome,
+        telefone,
+        celular,
+        email,
         contatos_ter,
-        cntts[cont].id);
+        id);
       }else{
         sprintf(query,"insert into contatos(terceiro,nome, telefone, celular, email) values( %i, '%s', '%s', '%s', '%s')",
         contatos_ter,
-        cntts[cont].nome,
-        cntts[cont].telefone,
-        cntts[cont].celular,
-        cntts[cont].email);
+        nome,
+        telefone,
+        celular,
+        email);
       }
       if(enviar_query(query)){
         popup(NULL,"Não foi possível salvar contatos");

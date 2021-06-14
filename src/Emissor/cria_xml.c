@@ -55,7 +55,7 @@ int criar_xml(){
 
   GDateTime  *gdate;
   GTimeZone *timezone;
-  timezone = g_time_zone_new(NULL);
+  timezone = g_time_zone_new_identifier(NULL);
   gdate = g_date_time_new_now(timezone);
   formated_data = g_date_time_format(gdate,"%Y-%m-%dT%T%:z");
   if(!formated_data){

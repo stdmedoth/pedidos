@@ -83,7 +83,7 @@ int enviar_email_html(char *assunto, char *nome_destino, char *email_destino, ch
   };
 
   mail_payload_text = malloc(sizeof(char *) * MAIL_LINES);
-  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+  GDateTime *data = g_date_time_new_now(g_time_zone_new_identifier(NULL));
   mail_payload_text[MAIL_DATE] = malloc(40);
   sprintf(mail_payload_text[MAIL_DATE],"Date: %s\r\n",g_date_time_format(data,"%T"));
 
@@ -207,7 +207,7 @@ int enviar_email_orcamento(char *nome_destino,char *email_destino, char *arquivo
   sprintf(inline_text,"Olá! ' %s '\r\nSegue pedido impresso referente aos produtos comprados na ' %s '.\r\nCaso haja alguma dúvida, ligar em ' %s '.\r\n",
   nome_destino,cad_emp_strc.xNome,cad_emp_strc.telefone);
 
-  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+  GDateTime *data = g_date_time_new_now(g_time_zone_new_identifier(NULL));
   char mensagem[1000];
   char **headers_text = malloc(sizeof(char *) * 5);;
 
@@ -382,7 +382,7 @@ int enviar_email_suporte( char *arquivo_suporte ){
   char **headers_text;
   char mensagem[1000];
   char sup_email[] = "jovictor210@gmail.com";
-  GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
+  GDateTime *data = g_date_time_new_now(g_time_zone_new_identifier(NULL));
   enviando_email=1;
   headers_text = malloc(sizeof(char*) * 3);
 

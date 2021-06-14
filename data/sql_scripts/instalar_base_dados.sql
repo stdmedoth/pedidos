@@ -5451,7 +5451,7 @@ INSERT INTO cidade (code, descricao, uf, codigo_ibge, ddd)
  (4016,'Hidráulica (Capão do Leão)','RS',4304663,'53'),
  (4017,'Hidrelétrica Itaipu (Foz do Iguaçu)','PR',4125704,'54'),
  (4018,'Hidrelétrica Tucuruí (Tucuruí)','PA',1508100,'94');
-INSERT INTO cidade (id_cidade,descricao,uf,codigo_ibge,ddd) VALUES
+INSERT INTO cidade (code,descricao,uf,codigo_ibge,ddd) VALUES
  (4019,'Hidrolândia','CE',2305209,'88'),
  (4020,'Hidrolândia','GO',5209705,'62'),
  (4021,'Hidrolândia (Uibaí)','BA',2932408,'74'),
@@ -15128,7 +15128,7 @@ VALUES
 
 TRUNCATE TABLE `ncm`;
 
-INSERT INTO `ncm` VALUES 
+INSERT INTO `ncm` VALUES
 ('1', '99910000', 'ENCOMENDAS POSTAIS'),
 ('2', '99920000', 'AMOSTRAS'),
 ('3', '99970000', 'MERCADORIAS DOADAS'),
@@ -24527,7 +24527,7 @@ INSERT INTO `ncm` VALUES
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 
-insert into pis_cofins(code,cst,descricao) values 
+insert into pis_cofins(code,cst,descricao) values
 (1,"01",'Oper. Trib. com Alíquota Básica'),
 (2,"02",'Oper. Trib. com Alíquota Diferenciada'),
 (3,"03",'Oper. Trib. com Alíquota por Unidade de Medida de Produto'),

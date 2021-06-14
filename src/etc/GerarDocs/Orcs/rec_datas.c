@@ -22,7 +22,7 @@ int rec_orc_datas( struct _orc *orc ){
   if(orc->parcelas.condpag.dia_inicial<atoi(dia_sys))
     mes++;
 
-  timezone = g_time_zone_new(NULL);
+  timezone = g_time_zone_new_identifier(NULL);
   gdate = g_date_time_new(timezone,ano,mes,orc->parcelas.condpag.dia_inicial,0,0,0);
 
   if(orc->parcelas.condpag.tipo_parc == CONDPAG_DT_LVR){

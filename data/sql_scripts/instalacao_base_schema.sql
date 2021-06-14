@@ -2,19 +2,6 @@ create table tipo_terceiros(
   code int primary key,
   nome varchar(100) not null);
 
-create table versao(
-  versao varchar(30) not null,
-  lancamento datetime not null 
-);
-
-create table migrate(
-  code int primary key auto_increment,
-  descricao varchar(300) not null,
-  arquivo varchar(150) not null,
-  versao varchar(30) not null,
-  lancamento datetime not null 
-);
-
 create table if not exists confs(  code int primary key auto_increment,
   navegador_path1 varchar(1000) default '' not null,
   navegador_path2 varchar(1000) default '' not null,
@@ -96,7 +83,7 @@ create table if not exists criticas(
 
 
 create table if not exists forma_pagamento(
-  code int primary key auto_increment, 
+  code int primary key auto_increment,
   nome varchar(50),
   tipo int default 1);
 
@@ -104,7 +91,7 @@ create table if not exists pag_cond(
   code int primary key auto_increment,
   nome varchar(40) default 'Cond. Pag. sem Nome',
   tipo int default 1,
-  forma_pag int, 
+  forma_pag int,
   dia_fixo_flag int default 1,
   init_dia int default 1,
   intervalos int default 1,
@@ -314,7 +301,7 @@ create table if not exists precos(
   valor_vist float default 0.0,
   foreign key(produto) references produtos(code));
 
-create table if not exists pedidos( 
+create table if not exists pedidos(
   code int primary key auto_increment,
   tipo_mov int default 1,
   vendedor int default 1,
@@ -440,7 +427,7 @@ create table parcelas_tab(
   data_criacao datetime,
   data_vencimento datetime,
   valor float default 0 not null,
-  foreign key(parcelas_id) references titulos(code), 
+  foreign key(parcelas_id) references titulos(code),
   foreign key (banco) references bancos(code));
 
 create table baixas_titulos(
@@ -471,7 +458,7 @@ create table cheque(
   conta varchar(50) not null,
   serie varchar(20) not null,
   numero varchar(20) not null,
-  pagante int not null, 
+  pagante int not null,
   status int not null,
   tipo int not null,
   data_emissao datetime not null,

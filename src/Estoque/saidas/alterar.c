@@ -30,7 +30,7 @@ void est_said_alterar_fun()
     return ;
   }
 
-	timezone = g_time_zone_new(NULL);
+	timezone = g_time_zone_new_identifier(NULL);
 
 	gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
 	if(!g_date_time_format(gdate,"%d/%m/%Y")){

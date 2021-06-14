@@ -18,7 +18,7 @@ int gerar_orc_infosheader(FILE *file, struct _orc *orc){
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return 1;
   }
-  GTimeZone *timezone = g_time_zone_new(NULL);
+  GTimeZone *timezone = g_time_zone_new_identifier(NULL);
   GDateTime  *gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
   gchar *formated_date = g_date_time_format(gdate,"%d/%m/%Y");
   if(!formated_date){

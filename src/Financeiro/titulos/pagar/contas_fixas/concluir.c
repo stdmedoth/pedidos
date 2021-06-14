@@ -47,7 +47,7 @@ int cad_conta_fixa_concluir(){
     return 1;
   }
 
-  GTimeZone *timezone = g_time_zone_new(NULL);
+  GTimeZone *timezone = g_time_zone_new_identifier(NULL);
 
   GDateTime *gdate_ini = g_date_time_new(timezone,ano_ini,mes_ini,dia_ini,0,0,0);
   GDateTime *gdate_int = g_date_time_new(timezone,ano_ini,mes_ini,dia_ini,0,0,0);

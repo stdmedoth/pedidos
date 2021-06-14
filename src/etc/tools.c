@@ -150,7 +150,7 @@ gchar *get_db_formated_date(gchar *date_row){
 	if(sscanf(date_row, "%d-%d-%d", &ano, &mes, &dia)!=3){
 		return NULL;
 	}
-	GTimeZone *tz = g_time_zone_new(NULL);
+	GTimeZone *tz = g_time_zone_new_identifier(NULL);
 	GDateTime *datetime = g_date_time_new(tz, ano, mes, dia, 0, 0, 0);
 
 	return g_date_time_format(datetime, "%d/%m/%Y");
@@ -209,12 +209,12 @@ int comparar_datas(gchar *primeira, gchar *segunda){
   if(sscanf( segunda, "%d/%d/%d", &dia2, &mes2, &ano2)!=3)
     return DEFAULT_ERROR_CODE;
 
-  GTimeZone *tz1 = g_time_zone_new(NULL);
+  GTimeZone *tz1 = g_time_zone_new_identifier(NULL);
   GDateTime *gdt1 = g_date_time_new(tz1,ano1,mes1,dia1,0,0,0);
   if(!gdt1)
     return DEFAULT_ERROR_CODE;
 
-  GTimeZone *tz2 = g_time_zone_new(NULL);
+  GTimeZone *tz2 = g_time_zone_new_identifier(NULL);
   GDateTime *gdt2 = g_date_time_new(tz2,ano2,mes2,dia2,0,0,0);
   if(!gdt2)
     return DEFAULT_ERROR_CODE;
@@ -593,7 +593,7 @@ char *formatar_data(char *data){
 			if(sscanf(format,formats[cont],&dia,&mes,&ano)==3){
         if(ano<1900)
           ano += 2000;
-				GTimeZone *tz = g_time_zone_new(NULL);
+				GTimeZone *tz = g_time_zone_new_identifier(NULL);
 				GDateTime *gdatetime = g_date_time_new(tz,ano,mes,dia,0,0,0);
 				if(gdatetime){
 					return g_date_time_format(gdatetime,"%d/%m/%Y");

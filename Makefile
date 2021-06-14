@@ -2,7 +2,8 @@ CC=gcc
 
 PEDFLAGS=-I src/etc/
 GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
-BDFLAGS=`pkg-config --libs --cflags mysqlclient`
+#BDFLAGS=`pkg-config --libs --cflags mysqlclient`
+BDFLAGS=-I /usr/include/mysql -l mysqlclient
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 CURLFLAGS=`pkg-config --libs --cflags  libcurl`

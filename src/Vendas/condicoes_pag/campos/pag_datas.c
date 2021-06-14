@@ -26,7 +26,7 @@ int pag_datas_fun(void){
     return 1;
   }
 
-  timezone = g_time_zone_new(NULL);
+  timezone = g_time_zone_new_identifier(NULL);
 
   if(pag_dia_fixo_int == 0)
     pag_init_int = dia;

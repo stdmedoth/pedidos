@@ -74,7 +74,7 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
     return NULL;
   }
 
-  timezone = g_time_zone_new(NULL);
+  timezone = g_time_zone_new_identifier(NULL);
   gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
   for(int cont=0;cont<parc->parcelas_qnt;cont++){
 

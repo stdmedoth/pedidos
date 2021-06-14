@@ -1,4 +1,4 @@
-# Pedidos (EM DESENVOLVIMENTO - beta) 
+# Pedidos (EM DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
 [Pages](https://stdmedoth.github.io/pedidos/)
@@ -68,11 +68,22 @@
 <h3>Linux:</h3>
 <p>make</p>
 <p>sudo make install</p>
+
+
 <h3>Windows:</h3>
-<p>MSYS2</p>
 <p>instalar mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
 
+<p>MSYS2</p>
+https://www.msys2.org/
 
+Build de Apps Gtk para windows
+https://www.gtk.org/docs/installations/windows/
+
+Mysql C API para Windows
+https://dev.mysql.com/downloads/connector/cpp/
+
+Curl C para Windows
+https://curl.se/windows/
 
 
 Calisto – jovictor210@gmail.com

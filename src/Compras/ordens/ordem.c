@@ -47,7 +47,7 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return NULL;
   }
-	timezone = g_time_zone_new(NULL);
+	timezone = g_time_zone_new_identifier(NULL);
 	gdate = g_date_time_new(timezone,ano_emissao,mes_emissao,dia_emissao,0,0,0);
 	ordem_cmp->data_emissao = strdup(g_date_time_format(gdate,"%d/%m/%Y"));
 
@@ -57,7 +57,7 @@ struct _ord_cmp *ordem_cmp_get(int ordcmp_code){
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return NULL;
   }
-	timezone = g_time_zone_new(NULL);
+	timezone = g_time_zone_new_identifier(NULL);
 	gdate = g_date_time_new(timezone,ano_entrega,mes_entrega,dia_entrega,0,0,0);
 	ordem_cmp->data_entrega = strdup(g_date_time_format(gdate,"%d/%m/%Y"));
 	ordem_cmp->condpag = cond_pag_get(atoi(row[ORD_CMP_CONDPAG]));

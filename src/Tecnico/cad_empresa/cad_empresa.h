@@ -97,7 +97,7 @@ static struct _cad_emp{
 
   char smtp[MAX_EMAIL_LEN];
   int smtp_port;
-  char url_smtp[MAX_EMAIL_LEN];
+  char url_smtp[MAX_EMAIL_LEN + 32];
   char email[MAX_EMAIL_LEN];
   char email_senha[100];
 
