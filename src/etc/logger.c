@@ -6,7 +6,7 @@ int file_logger(char *string){
 
 	logger = fopen(LOGGER,"a+");
 	if(logger){
-	    GDateTime *data = g_date_time_new_now(g_time_zone_new_identifier(NULL));
+	    GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	    if(!data){
 	      file_logger("app_tracelog() -> datetime nulo, não foi possível carregar data");
 	    }
@@ -25,7 +25,7 @@ int file_logger(char *string){
 
 int autologger(char *string)
 {
-	GDateTime *data = g_date_time_new_now(g_time_zone_new_identifier(NULL));
+	GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	logging = 1;
 	char string1[MAX_QUERY_LEN + strlen(string) + strlen(g_date_time_format(data,"%F %T"))];
 	//char string2[MAX_QUERY_LEN+strlen(string)*2];

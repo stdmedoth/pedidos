@@ -198,7 +198,7 @@ int ped_emitir()
 
   pedidoPtr->parcelas->total_geral = 0;
 
-	timezone = g_time_zone_new_identifier(NULL);
+	timezone = g_time_zone_new(NULL);
 	gdate = g_date_time_new(timezone, ano, mes, pedidoPtr->parcelas->condpag.dia_inicial,0,0,0);
 
 	//em desenvolvimento para emissao de nfe

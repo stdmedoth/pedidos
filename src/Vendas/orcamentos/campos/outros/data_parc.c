@@ -29,7 +29,7 @@ int orc_pag_datas_fun(void){
     mes++;
   }
 
-  timezone = g_time_zone_new_identifier(NULL);
+  timezone = g_time_zone_new(NULL);
   gdate = g_date_time_new(timezone,ano,mes,orc_pag_init_int,0,0,0);
 
   gtk_grid_remove_column(GTK_GRID(orc_pag_datas_grid),0);

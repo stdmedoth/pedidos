@@ -17,7 +17,7 @@ void mkt_envmail_load(){
   char *log = malloc(100);
   double percent = max/value * 100;
   double faltante = max - value;
-  GTimeZone *tz = g_time_zone_new_identifier (NULL);
+  GTimeZone *tz = g_time_zone_new (NULL);
   GDateTime *data = g_date_time_new(tz, 1, 1, 1, 1, 1 , 1);
   GDateTime *datanew = NULL;
   gchar *tempo_restante = NULL;
