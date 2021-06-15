@@ -122,8 +122,7 @@ create_numbers_model (void)
 #undef N_NUMBERS
 }
 
-static void
-add_item (GtkWidget *button, gpointer data)
+static void add_item (GtkWidget *button, gpointer data)
 {
   Contato contato;
   GtkTreeIter current, iter;
@@ -144,7 +143,7 @@ add_item (GtkWidget *button, gpointer data)
   contato.email = g_strdup ("-");
 
   cntts[cntts_free_pos].ativo = 1;
-  cntt_exists[cntts_free_pos] = 1;
+  //cntt_exists[cntts_free_pos] = 1;
   cntts[cntts_free_pos].pos = cntts_free_pos;
 
   g_array_append_vals (cont_lis, &contato, 1);
@@ -153,15 +152,15 @@ add_item (GtkWidget *button, gpointer data)
   gtk_tree_view_get_cursor (treeview, &path, NULL);
   model = gtk_tree_view_get_model (treeview);
   if (path)
-    {
-      gtk_tree_model_get_iter (model, &current, path);
-      gtk_tree_path_free (path);
-      gtk_list_store_insert_after (GTK_LIST_STORE (model), &iter, &current);
-    }
+  {
+    gtk_tree_model_get_iter (model, &current, path);
+    gtk_tree_path_free (path);
+    gtk_list_store_insert_after (GTK_LIST_STORE (model), &iter, &current);
+  }
   else
-    {
-      gtk_list_store_insert (GTK_LIST_STORE (model), &iter, -1);
-    }
+  {
+    gtk_list_store_insert (GTK_LIST_STORE (model), &iter, -1);
+  }
 
   /* Set the data for the new row */
   gtk_list_store_set (GTK_LIST_STORE(model), &iter,
@@ -185,8 +184,7 @@ add_item (GtkWidget *button, gpointer data)
   gtk_tree_path_free (path);
 }
 
-static void
-remove_item (GtkWidget *widget, gpointer data)
+static void remove_item (GtkWidget *widget, gpointer data)
 {
   GtkTreeIter iter;
   GtkTreeView *treeview = (GtkTreeView *)data;
@@ -212,7 +210,6 @@ remove_item (GtkWidget *widget, gpointer data)
       }
 
       cntts[contato_pos].ativo = 0;
-
       contatos_qnt--;
       gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
       g_array_remove_index (cont_lis, i);
@@ -220,8 +217,7 @@ remove_item (GtkWidget *widget, gpointer data)
   }
 }
 
-static gboolean
-separator_row (GtkTreeModel *model,
+static gboolean separator_row (GtkTreeModel *model,
                GtkTreeIter  *iter,
                gpointer      data)
 {
@@ -236,8 +232,7 @@ separator_row (GtkTreeModel *model,
   return idx == 5;
 }
 
-static void
-editing_started (GtkCellRenderer *cell,
+static void editing_started (GtkCellRenderer *cell,
                  GtkCellEditable *editable,
                  const gchar     *path,
                  gpointer         data)
@@ -246,8 +241,7 @@ editing_started (GtkCellRenderer *cell,
                                         separator_row, NULL, NULL);
 }
 
-static void
-cell_edited (GtkCellRendererText *cell,
+static void cell_edited (GtkCellRendererText *cell,
              const gchar         *path_string,
              const gchar         *new_text,
              gpointer             data)
@@ -269,6 +263,7 @@ cell_edited (GtkCellRendererText *cell,
         g_array_index (cont_lis, Contato, i).id = atoi (new_text);
 
         cntts[i].id = atoi (new_text);
+        cntt_exists[i] = 1;
         cntts[i].ativo = 1;
 
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
@@ -435,8 +430,7 @@ add_columns (GtkTreeView  *treeview,
                                                NULL);
 }
 
-GtkWidget *
-do_editable_cells ()
+GtkWidget * do_editable_cells ()
 {
     GtkWidget *vbox;
     GtkWidget *hbox;
@@ -508,7 +502,8 @@ int contatos_update(){
   contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<contatos_qnt;cont++){
 
-    //g_array_index (cont_lis, Contato, cont).ativo
+    printf("cont: %i, ativo: %i\n",cont, g_array_index (cont_lis, Contato, cont).ativo);
+
     if(g_array_index (cont_lis, Contato, cont).ativo){
 
       int id = g_array_index (cont_lis, Contato, cont).id;
