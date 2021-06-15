@@ -201,13 +201,15 @@ static void remove_item (GtkWidget *widget, gpointer data)
 
       int contato_id = g_array_index (cont_lis, Contato, i).id;
       int contato_pos = g_array_index (cont_lis, Contato, i).pos;
-
-      sprintf(query,"delete from contatos where code = %i and terceiro = %i",
-        contato_id,contatos_ter);
-      if(enviar_query(query)){
-        popup(NULL,"Não foi possível deletar contato");
-        return ;
+      if(cntt_exists[contato_pos]){
+        sprintf(query,"delete from contatos where code = %i and terceiro = %i",
+          contato_id,contatos_ter);
+        if(enviar_query(query)){
+          popup(NULL,"Não foi possível deletar contato");
+          return ;
+        }
       }
+
 
       cntts[contato_pos].ativo = 0;
       contatos_qnt--;

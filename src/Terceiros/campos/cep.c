@@ -5,14 +5,19 @@ int cep_terc()
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
 	char ddd[10];
-	
+
 	gchar *cep_ter2 = (gchar *) gtk_entry_get_text(GTK_ENTRY(cep_ter_field));
 
 	if(strlen(cep_ter2)<=0){
 		popup(NULL,"Por favor insira um cep");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
-	}	
+	}
+
+	if(concluindo_ter){
+		return 0;
+	}
+	
 	if(cep_ter && strlen(cep_ter)){
 		if(strcmp(cep_ter,cep_ter2)){
 			g_print("diferencao entre cep anterior e atual: %s, %s\n", cep_ter, cep_ter2);
@@ -30,7 +35,7 @@ int cep_terc()
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
 	}
-	
+
 	g_print("CEP: %s\n",cep_ter);
 	autologger("CEP:");
 	autologger(cep_ter);
@@ -75,7 +80,7 @@ int cep_terc()
 
 	if(campos[3] && !ter_cep_uf_alterado)
 		gtk_entry_set_text(GTK_ENTRY(uf_ter_field),campos[3]);
-	
+
 	if(campos[4] && !ter_cep_bairro_alterado)
 		gtk_entry_set_text(GTK_ENTRY(bairro_ter_field),campos[4]);
 
