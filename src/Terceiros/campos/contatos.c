@@ -79,9 +79,9 @@ create_items_model ()
                           g_array_index (cont_lis, Contato, i).id,
                           COLUMN_CTTO_NOME,
                           g_array_index (cont_lis, Contato, i).nome,
-                          COLUMN_CTTO_CEL,
-                          g_array_index (cont_lis, Contato, i).telefone,
                           COLUMN_CTTO_TEL,
+                          g_array_index (cont_lis, Contato, i).telefone,
+                          COLUMN_CTTO_CEL,
                           g_array_index (cont_lis, Contato, i).celular,
                           COLUMN_CTTO_EMAIL,
                           g_array_index (cont_lis, Contato, i).email,
@@ -501,8 +501,6 @@ int contatos_update(){
 
   contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<contatos_qnt;cont++){
-
-    printf("cont: %i, ativo: %i\n",cont, g_array_index (cont_lis, Contato, cont).ativo);
 
     if(g_array_index (cont_lis, Contato, cont).ativo){
 
