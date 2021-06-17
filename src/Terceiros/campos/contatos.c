@@ -1,6 +1,6 @@
 int ter_contatos_get_last(){
   for (int i = 0; i < MAX_CNTTS_QNT; ++i){
-      if(!cntts[i].ativo)
+      if(g_array_index (cont_lis, Contato, i).ativo == 0)
         return i;
   }
   return 0;
@@ -10,11 +10,9 @@ static int add_items (int terceiro)
 {
   MYSQL_RES *res;
   MYSQL_ROW row;
+  Contato contato;
   char query[MAX_QUERY_LEN];
   sprintf(query,"select * from contatos where terceiro = %i",terceiro);
-
-  contatos_ter = terceiro;
-  Contato contato;
 
   //g_return_if_fail (cont_lis != NULL);
 
@@ -34,24 +32,17 @@ static int add_items (int terceiro)
     contato.telefone = g_strdup (row[CTTO_TEL_COL]);
     contato.celular = g_strdup (row[CTTO_CEL_COL]);
     contato.email = g_strdup (row[CTTO_EMAIL_COL]);
-
-    cntts[cntts_free_pos].ativo = 1;
-    cntts[cntts_free_pos].pos = cntts_free_pos;
-    cntts[cntts_free_pos].id = atoi(row[CTTO_ID_COL]);
-    cntts[cntts_free_pos].nome = g_strdup (row[CTTO_NOME_COL]);
-    cntts[cntts_free_pos].telefone = g_strdup (row[CTTO_TEL_COL]);
-    cntts[cntts_free_pos].celular = g_strdup (row[CTTO_CEL_COL]);
-    cntts[cntts_free_pos].email = g_strdup (row[CTTO_EMAIL_COL]);
     cntt_exists[cntts_free_pos] = 1;
     contatos_qnt++;
 
     g_array_append_vals (cont_lis, &contato, 1);
     if(contatos_qnt > MAX_CNTTS_QNT){
       popup(NULL,"Limite de contatos");
-      return 0;
+      return 1;
     }
 
   }
+
   return 0;
 }
 
@@ -63,7 +54,8 @@ create_items_model ()
   GtkTreeIter iter;
 
   /* create array */
-  cont_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
+	cont_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
+
   /* create list store */
   model = gtk_list_store_new (NUM_ITEM_COLUMNS, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING,  G_TYPE_STRING, G_TYPE_STRING);
 
@@ -141,12 +133,9 @@ static void add_item (GtkWidget *button, gpointer data)
   contato.telefone = g_strdup ("-");
   contato.celular = g_strdup ("-");
   contato.email = g_strdup ("-");
+  cntt_exists[cntts_free_pos] = 0;
 
-  cntts[cntts_free_pos].ativo = 1;
-  //cntt_exists[cntts_free_pos] = 1;
-  cntts[cntts_free_pos].pos = cntts_free_pos;
-
-  g_array_append_vals (cont_lis, &contato, 1);
+  g_array_insert_vals (cont_lis, cntts_free_pos, &contato, 1);
 
   /* Insert a new row below the current one */
   gtk_tree_view_get_cursor (treeview, &path, NULL);
@@ -155,7 +144,7 @@ static void add_item (GtkWidget *button, gpointer data)
   {
     gtk_tree_model_get_iter (model, &current, path);
     gtk_tree_path_free (path);
-    gtk_list_store_insert_after (GTK_LIST_STORE (model), &iter, &current);
+    gtk_list_store_append (GTK_LIST_STORE (model), &iter);
   }
   else
   {
@@ -211,10 +200,11 @@ static void remove_item (GtkWidget *widget, gpointer data)
       }
 
 
-      cntts[contato_pos].ativo = 0;
-      contatos_qnt--;
+      //cntts[contato_pos].ativo = 0;
+      g_array_index (cont_lis, Contato, i).ativo = 0;
+      //contatos_qnt--;
       gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-      g_array_remove_index (cont_lis, i);
+      //g_array_remove_index (cont_lis, i);
       gtk_tree_path_free (path);
   }
 }
@@ -262,11 +252,8 @@ static void cell_edited (GtkCellRendererText *cell,
         gint i;
 
         i = gtk_tree_path_get_indices (path)[0];
-        g_array_index (cont_lis, Contato, i).id = atoi (new_text);
-
-        cntts[i].id = atoi (new_text);
-        cntt_exists[i] = 1;
-        cntts[i].ativo = 1;
+        g_array_index(cont_lis, Contato, i).ativo = 1;
+        g_array_index(cont_lis, Contato, i).id = atoi(new_text);
 
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
                             g_array_index (cont_lis, Contato, i).id, -1);
@@ -283,10 +270,8 @@ static void cell_edited (GtkCellRendererText *cell,
 
         i = gtk_tree_path_get_indices (path)[0];
         g_free (g_array_index (cont_lis, Contato, i).nome);
-        g_array_index (cont_lis, Contato, i).nome = g_strdup (new_text);
-
-        cntts[i].nome = g_strdup (new_text);
-        cntts[i].ativo = 1;
+        g_array_index(cont_lis, Contato, i).ativo = 1;
+        g_array_index(cont_lis, Contato, i).nome = g_strdup (new_text);
 
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
                             g_array_index (cont_lis, Contato, i).nome, -1);
@@ -302,10 +287,8 @@ static void cell_edited (GtkCellRendererText *cell,
 
         i = gtk_tree_path_get_indices (path)[0];
         g_free (g_array_index (cont_lis, Contato, i).celular);
-        g_array_index (cont_lis, Contato, i).celular = g_strdup (new_text);
-
-        cntts[i].ativo = 1;
-        cntts[i].celular = g_strdup (new_text);
+        g_array_index(cont_lis, Contato, i).ativo = 1;
+        g_array_index(cont_lis, Contato, i).celular = g_strdup (new_text);
 
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
                             g_array_index (cont_lis, Contato, i).celular, -1);
@@ -321,10 +304,8 @@ static void cell_edited (GtkCellRendererText *cell,
 
         i = gtk_tree_path_get_indices (path)[0];
         g_free (g_array_index (cont_lis, Contato, i).telefone);
+        g_array_index (cont_lis, Contato, i).ativo = 1;
         g_array_index (cont_lis, Contato, i).telefone = g_strdup (new_text);
-
-        cntts[i].ativo = 1;
-        cntts[i].telefone = g_strdup (new_text);
 
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
                             g_array_index (cont_lis, Contato, i).telefone, -1);
@@ -340,10 +321,12 @@ static void cell_edited (GtkCellRendererText *cell,
 
         i = gtk_tree_path_get_indices (path)[0];
         g_free (g_array_index (cont_lis, Contato, i).email);
+
+        //cntts[i].ativo = 1;
+        //cntts[i].email = g_strdup (new_text);
+        g_array_index (cont_lis, Contato, i).ativo = 1;
         g_array_index (cont_lis, Contato, i).email = g_strdup (new_text);
 
-        cntts[i].ativo = 1;
-        cntts[i].email = g_strdup (new_text);
         gtk_list_store_set (GTK_LIST_STORE (model), &iter, column,
                             g_array_index (cont_lis, Contato, i).email, -1);
       }
@@ -540,12 +523,12 @@ int contatos_update(){
     }
   }
 
-  GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
-  if(contatos_model){
-    g_object_ref(G_OBJECT(contatos_model));
-    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
-    gtk_list_store_clear(contatos_model);
-    gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
-  }
+  //GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
+  //if(contatos_model){
+  //  g_object_ref(G_OBJECT(contatos_model));
+  //  gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
+  //  gtk_list_store_clear(contatos_model);
+  //  gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
+  //}
   return 0;
 }

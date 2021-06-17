@@ -14,10 +14,6 @@ int cep_terc()
 		return 1;
 	}
 
-	if(concluindo_ter){
-		return 0;
-	}
-	
 	if(cep_ter && strlen(cep_ter)){
 		if(strcmp(cep_ter,cep_ter2)){
 			g_print("diferencao entre cep anterior e atual: %s, %s\n", cep_ter, cep_ter2);
@@ -34,6 +30,10 @@ int cep_terc()
 		popup(NULL,"Insira o CEP com formato indicado");
 		gtk_widget_grab_focus(GTK_WIDGET(cep_ter_field));
 		return 1;
+	}
+
+	if(concluindo_ter){
+		return 0;
 	}
 
 	g_print("CEP: %s\n",cep_ter);

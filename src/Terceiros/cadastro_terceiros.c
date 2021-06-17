@@ -13,10 +13,6 @@ int inicializar_ter()
 	for(i=0;i<=CAMPOS_QNT;i++)
 		vet_erro[i] = 0;
 
-	for(int cont=0;cont<MAX_CNTTS_QNT;cont++){
-		cntt_exists[cont] = 0;
-		cntts[cont].ativo = 0;
-	}
 	alterando_ter=0;
 	find_subgrupos_restrict = malloc(sizeof(struct duo_widget));
 	return 0;

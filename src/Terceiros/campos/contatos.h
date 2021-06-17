@@ -24,7 +24,7 @@ typedef struct _Contato
 int contatos_ter=0;
 int contatos_qnt=0;
 int cntt_exists[MAX_CNTTS_QNT];
-struct _Contato cntts[MAX_CNTTS_QNT];
+//struct _Contato cntts[MAX_CNTTS_QNT];
 
 enum
 {
