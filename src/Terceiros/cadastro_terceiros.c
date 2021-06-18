@@ -76,6 +76,9 @@ int  cad_terc()
 	GtkWidget *addr_log_num_box,*addr_log_num_fixed, *logr_address;
 	GtkWidget *prazo_box;
 
+	GtkWidget *ter_nome_fantasia_box, *ter_nome_fantasia_frame;
+	GtkWidget *ter_nomes_box;
+
 	GtkWidget *ter_entrega_frame,*ter_endereco_frame;
 
 	GtkWidget *ter_img_box,
@@ -322,12 +325,25 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(inscr),inscr_ter_field,0,0,0);
 	gtk_entry_set_width_chars(GTK_ENTRY(inscr_ter_field),25);
 
-	name_ter_box = gtk_box_new(1,0);
+	name_ter_box = gtk_box_new(0,0);
 	name_ter_frame = gtk_frame_new("Nome");
 	gtk_widget_set_name(name_ter_box,"name_ter_box");
 	gtk_box_pack_start(GTK_BOX(name_ter_box),name_ter_field,0,0,0);
 	gtk_container_add(GTK_CONTAINER(name_ter_frame),name_ter_box);
 	gtk_entry_set_width_chars(GTK_ENTRY(name_ter_field),80);
+
+	ter_nome_fantasia_entry = gtk_entry_new();
+	ter_nome_fantasia_box = gtk_box_new(0,0);
+	ter_nome_fantasia_frame = gtk_frame_new("Nome Fantasia");
+	gtk_widget_set_name(ter_nome_fantasia_box,"ter_nome_fantasia_box");
+	gtk_box_pack_start(GTK_BOX(ter_nome_fantasia_box),ter_nome_fantasia_entry,0,0,0);
+	gtk_container_add(GTK_CONTAINER(ter_nome_fantasia_frame),ter_nome_fantasia_box);
+	gtk_entry_set_width_chars(GTK_ENTRY(ter_nome_fantasia_entry),80);
+
+	ter_nomes_box = gtk_box_new(1,0);
+	gtk_box_pack_start(GTK_BOX(ter_nomes_box),name_ter_frame,0,0,0);
+	gtk_box_pack_start(GTK_BOX(ter_nomes_box),ter_nome_fantasia_frame,0,0,0);
+
 
 	ter_endereco_frame = gtk_frame_new("Endereço Cliente");
 	ter_entrega_frame = gtk_frame_new("Endereço Entrega");
@@ -476,7 +492,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),code_ter_nfe_box,0,0,5);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),ter_cliente_desde_frame,0,0,5);
 
-	gtk_box_pack_start(GTK_BOX(horizontal_box_three),name_ter_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_three),ter_nomes_box,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_four),ter_endereco_frame,0,0,10);
 
@@ -523,6 +539,7 @@ int  cad_terc()
 	g_signal_connect(GTK_ENTRY(doc_ter_field),"activate",G_CALLBACK(escolha_doc),NULL);
 	g_signal_connect(GTK_ENTRY(inscr_ter_field),"activate",G_CALLBACK(inscr_terc),NULL);
 	g_signal_connect(GTK_ENTRY(name_ter_field),"activate",G_CALLBACK(name_terc),NULL);
+	g_signal_connect(GTK_ENTRY(ter_nome_fantasia_entry),"activate",G_CALLBACK(ter_nome_fantasia_fun),NULL);
 	g_signal_connect(GTK_ENTRY(ter_cliente_desde_entry),"activate",G_CALLBACK(ter_cliente_desde),NULL);
 
 	g_signal_connect(GTK_ENTRY(cep_ter_field),"activate",G_CALLBACK(cep_terc),NULL);
@@ -563,8 +580,8 @@ int  cad_terc()
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);    //inscricao
 	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //nome
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,200);  //cep/endereco tipo ter
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,400);  //observacoes
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,240);  //cep/endereco tipo ter
+	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,440);  //observacoes
 	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
 
 	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros

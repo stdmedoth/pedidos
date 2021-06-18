@@ -15,6 +15,7 @@ struct _terc_infos *terceiros_get_simp_terceiro(int code){
 	if((row = mysql_fetch_row(res))){
 		terceiros->code = atoi(row[COD_TER_COL]);
 		terceiros->razao = strdup(row[RAZ_TER_COL]);
+		terceiros->nomes_fantasia = strdup(row[RAZ_TER_COL]);
 		terceiros->ie = strdup(row[IE_TER_COL]);
 		terceiros->doc = strdup(row[IE_TER_COL]);
 		terceiros->tipo_terc = atoi(row[TIPI_TER_COL]);

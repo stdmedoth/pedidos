@@ -15,6 +15,7 @@ struct _terc_infos{
   int index;
   int code;
   char *razao;
+  char *nomes_fantasia;
   char *ie;
   char *doc;
   int tipo_terc;

@@ -33,6 +33,9 @@ int altera_ter()
 	if(campo[RAZ_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(name_ter_field),campo[RAZ_TER_COL]);
 
+	if(campo[NOMFAN_TER_COL])
+		gtk_entry_set_text(GTK_ENTRY(ter_nome_fantasia_entry),campo[NOMFAN_TER_COL]);
+
 	if(campo[DOC_TER_COL]!=NULL)
 		gtk_entry_set_text(GTK_ENTRY(doc_ter_field),campo[DOC_TER_COL]);
 

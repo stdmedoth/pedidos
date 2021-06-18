@@ -21,6 +21,12 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
+	if(ter_nome_fantasia_fun()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
+		gtk_widget_grab_focus(ter_nome_fantasia_entry);
+		return 1;
+	}
+
 	if(escolha_doc()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(doc_combo);
@@ -38,7 +44,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(type_ter_field);
 		return 1;
 	}
-	
+
 	if(ter_cliente_desde()){
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(ter_cliente_desde_entry);

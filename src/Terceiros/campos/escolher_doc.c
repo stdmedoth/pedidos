@@ -5,13 +5,13 @@ int mover_para_doc()
 	switch(opcao)
 	{
 		case 1:
-			gtk_frame_set_label(GTK_FRAME(code_frame),"Razão");
+			gtk_frame_set_label(GTK_FRAME(code_frame),(gchar*)"Razão");
 			break;
 		case 2:
-			gtk_frame_set_label(GTK_FRAME(code_frame),"Nome");
+			gtk_frame_set_label(GTK_FRAME(code_frame),(gchar*)"Nome");
 			break;
 		case 3:
-			gtk_frame_set_label(GTK_LABEL(code_frame),"Nome");
+			gtk_frame_set_label(GTK_FRAME(code_frame),(gchar*)"Nome");
 			break;
 	}
 	gtk_widget_grab_focus(doc_ter_field);

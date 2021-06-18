@@ -19,6 +19,7 @@ void cancelar_ter(){
 	//terceiros
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(ter_nome_fantasia_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(ter_cliente_desde_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(inscr_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
