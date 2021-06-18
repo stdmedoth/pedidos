@@ -60,6 +60,8 @@ int altera_ter()
 			gtk_combo_box_set_active (GTK_COMBO_BOX(type_ter_field),3);
 		}
 	}
+	if(campo[RELDSD_TER_COL])
+		gtk_entry_set_text(GTK_ENTRY(ter_cliente_desde_entry), get_db_formated_date(campo[RELDSD_TER_COL]));
 
 	if(campo[CEP_TER_COL])
 		gtk_entry_set_text(GTK_ENTRY(cep_ter_field),campo[CEP_TER_COL]);

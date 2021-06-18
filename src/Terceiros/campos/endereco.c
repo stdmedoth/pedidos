@@ -29,13 +29,7 @@ int address_terc()
 			}
 		}
 	}
-
-	if(strlen(endereco_ter)>MAX_ADR_LEN)
-	{
-		popup(NULL,"Endereco muito grande\nPor favor use abreviações");
-		gtk_widget_grab_focus(address_ter_field);
-		return 1;
-	}
+	
 	ter_cep_addr_alterado = 1;
 	gtk_widget_grab_focus(address_num_field);
 

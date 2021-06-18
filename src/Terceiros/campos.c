@@ -5,6 +5,7 @@
 #include "campos/cpf.c"
 #include "campos/escolher_doc.c"
 #include "campos/nome.c"
+#include "campos/cliente_desde.c"
 #include "campos/cep.c"
 #include "campos/bairro.c"
 #include "campos/endereco.c"

@@ -5,31 +5,39 @@ int mover_para_doc()
 	switch(opcao)
 	{
 		case 1:
-			gtk_label_set_text(GTK_LABEL(name_label),"Razão");
+			gtk_frame_set_label(GTK_FRAME(code_frame),"Razão");
 			break;
 		case 2:
-			gtk_label_set_text(GTK_LABEL(name_label),"Nome");
+			gtk_frame_set_label(GTK_FRAME(code_frame),"Nome");
 			break;
 		case 3:
-			gtk_label_set_text(GTK_LABEL(name_label),"Nome");
+			gtk_frame_set_label(GTK_LABEL(code_frame),"Nome");
 			break;
 	}
 	gtk_widget_grab_focus(doc_ter_field);
 	return 0;
 }
 
+static int ter_tipo_ter_ver_avisado = 0;
 int escolha_doc()
 {
 	int opcao;
 	opcao = gtk_combo_box_get_active(GTK_COMBO_BOX(doc_combo));
+	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
+	if(strlen(doc_ter) && !ter_tipo_ter_ver_avisado){
+		popup(NULL,"Está tentando inserir documento? verifique o tipo de Pessoa.");
+		ter_tipo_ter_ver_avisado = 1;
+		return 1;
+	}
+
 	switch(opcao)
 	{
 		case 0:
 			tipo_doc = 0;
 			if(terceiros.criticar.tipodoc==0)
 			{
-				doc_ter = malloc(MAX_CODE_LEN);
-				strcpy(doc_ter,"");
+				doc_ter = strdup("");
+				gtk_entry_set_text(GTK_ENTRY(doc_ter_field), "");
 				gtk_widget_grab_focus(inscr_ter_field);
 				return 0;
 			}

@@ -92,3 +92,5 @@ gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   us
 GtkWidget *get_relat_treeview(gchar *query1, gchar *query2);
 
 void adjustment_mover_scroll(GtkAdjustment *adjustment);
+
+gboolean desktop_window_delete_event(GtkWidget *widget, GdkEvent  *event, gpointer   user_data);

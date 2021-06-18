@@ -18,6 +18,7 @@ struct _terc_infos{
   char *ie;
   char *doc;
   int tipo_terc;
+  gchar *relacionamento_desde;
   char *cep;
   char *xLgr;
   int i_nro;
@@ -57,11 +58,13 @@ enum{
   COD_TER_COL,
   COD_TER_NFE_COL,
   RAZ_TER_COL,
+  NOMFAN_TER_COL,
   DOC_TER_COL,
   IE_TER_COL,
   TDOC_TER_COL,
   TIPC_TER_COL,
   TIPI_TER_COL,
+  RELDSD_TER_COL,
   CEP_TER_COL,
   END_TER_COL,
   CPLMNT_TER_COL,

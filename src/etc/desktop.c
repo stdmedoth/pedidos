@@ -6,8 +6,8 @@ static void criar_janela_princ(){
 	gtk_window_set_resizable(GTK_WINDOW(janela_principal),TRUE);
 	gtk_window_set_title(GTK_WINDOW(janela_principal),"Pedidos");
 	gtk_container_set_border_width(GTK_CONTAINER(janela_principal),0);
-	
-	gtk_window_maximize(GTK_WINDOW(janela_principal));	
+
+	gtk_window_maximize(GTK_WINDOW(janela_principal));
 
 	gtk_window_set_default_size(GTK_WINDOW(janela_principal), desktop_width, desktop_heigth);
 
@@ -29,6 +29,8 @@ static void criar_janela_princ(){
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(sobre_infos_keyfun),NULL);
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(tecla_menu),NULL);
 	g_signal_connect(GTK_WIDGET(janela_principal),"key_press_event",G_CALLBACK(atalho_fechar_sessao),NULL);
+	g_signal_connect(GTK_WIDGET(janela_principal),"delete-event",G_CALLBACK(desktop_window_delete_event),NULL);
+
 
 	if(param_funcionalidades.inatividade_fecha)
 		g_timeout_add (1000, atualizar_inatividade_label, NULL);
@@ -324,7 +326,7 @@ int desktop(){
 	}
 
 	if(param_funcionalidades.inatividade_fecha){
-		gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_inatividade_fixed,0,0,0);		
+		gtk_box_pack_start(GTK_BOX(caixa_infos),sessao_inatividade_fixed,0,0,0);
 	}
 
 
@@ -372,7 +374,7 @@ int desktop(){
 	gtk_box_pack_end(GTK_BOX(superior_2),fixed_menu,0,0,0);
 
 	gtk_widget_show_all(janela_principal);
-	
+
 	configurar_parametros();
 
 	iniciar_gerenciador_janela();

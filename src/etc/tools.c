@@ -1,28 +1,33 @@
 #include "sql_tools.c"
 
+gboolean desktop_window_delete_event(GtkWidget *widget, GdkEvent  *event, gpointer   user_data){
+  encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+  return TRUE;
+}
+
 gboolean atalho_fechar_sessao(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
 
   if(event->type == GDK_KEY_PRESS){
     switch (event -> keyval) {
-      
+
       case LOGOUT_ATALHO_KEY:
         fechar_sessao();
         return FALSE;
 
       case GDK_KEY_F4:
         //if( event->state == GDK_MOD1_MASK ){ // event->state não está funcionando
-          encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
-          return FALSE;
+        encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+        return FALSE;
         //}
         //break;
 
       case FECHAR_ATALHO_KEY:
         encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
         return FALSE;
-    
-    }  
+
+    }
   }
-  
+
   return FALSE;
 }
 
@@ -666,7 +671,7 @@ void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll
   if(scroll_window && GTK_IS_SCROLLED_WINDOW(scroll_window)){
     GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
     if(ajuste){
-      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));    
+      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
     }
   }
 	return ;

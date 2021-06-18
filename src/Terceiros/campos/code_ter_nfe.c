@@ -14,7 +14,7 @@ int code_ter_nfe()
 		gtk_widget_grab_focus(code_ter_nfe_field);
 	}
 
-	gtk_widget_grab_focus(name_ter_field);
+	gtk_widget_grab_focus(ter_cliente_desde_entry);
 
 	return 0;
 }

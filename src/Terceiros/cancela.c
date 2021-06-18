@@ -11,6 +11,7 @@ void cancelar_ter(){
 	ter_cep_cidade_alterado=0;
 	ter_cep_uf_alterado=0;
 	ter_cep_bairro_alterado=0;
+	ter_tipo_ter_ver_avisado = 0;
 
 	char *code = malloc(12);
 	sprintf(code,"%i",tasker("terceiros"));
@@ -18,6 +19,7 @@ void cancelar_ter(){
 	//terceiros
 	gtk_entry_set_text(GTK_ENTRY(code_ter_field),code);
 	gtk_entry_set_text(GTK_ENTRY(name_ter_field),"");
+	gtk_entry_set_text(GTK_ENTRY(ter_cliente_desde_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(inscr_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(code_ter_nfe_field),"");
 	gtk_entry_set_text(GTK_ENTRY(cep_ter_field),"");
@@ -73,7 +75,5 @@ void cancelar_ter(){
 	for (int i = 0; i < MAX_CNTTS_QNT; ++i){
 			cntt_exists[i] = 0;
 	}
-
-
-	gtk_widget_grab_focus(name_ter_field);
+	gtk_widget_grab_focus(doc_ter_field);
 }

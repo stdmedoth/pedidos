@@ -22,20 +22,7 @@ static GtkWidget *ter_notebook,
 *ter_financeiro_box,
 *ter_outros_box;
 
-static GtkWidget *code_label,
-*code_ter_nfe_label,
-*doc_label,
-*inscr_label,
-*name_label,
-*address_label,
-*bairro_label,
-*address_num_label,
-*cidade_label,
-*uf_label,
-*cep_label,
-*type_label,
-*observacoes_frame,
-*prazo_ter_label;
+GtkWidget *code_frame;
 
 static GtkWidget *code_ter_field,
 *code_ter_nfe_field,

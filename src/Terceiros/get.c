@@ -18,6 +18,8 @@ struct _terc_infos *terceiros_get_simp_terceiro(int code){
 		terceiros->ie = strdup(row[IE_TER_COL]);
 		terceiros->doc = strdup(row[IE_TER_COL]);
 		terceiros->tipo_terc = atoi(row[TIPI_TER_COL]);
+		if(row[RELDSD_TER_COL])
+			terceiros->relacionamento_desde = get_db_formated_date(row[RELDSD_TER_COL]);
 		terceiros->cep = strdup(row[CEP_TER_COL]);
 		terceiros->i_nro = atoi(row[REND_TER_COL]);
 		terceiros->c_nro = strdup(row[REND_TER_COL]);
