@@ -1,5 +1,5 @@
 #sessao_infos{
-  
+
   padding: 5px;
   border: solid 1px black;
   color: Gainsboro;
@@ -22,6 +22,13 @@
 
 #bar_buttons_tertiary:hover{
   background: Gainsboro;
+}
+
+#bar_buttons_notif_clean{
+  color: white;
+  padding: 5px;
+  background: green;
+  border-radius: 50%;
 }
 
 #bar_buttons_notif{

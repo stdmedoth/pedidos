@@ -3,7 +3,7 @@ void notf_consultar_fun(GtkWidget *botao, struct _notf_strct *notf){
   gchar id[12], parcela[12];
   sprintf(id, "%i", notf->id);
   sprintf(parcela, "%i", notf->id2);
-  
+
   if(notf->tipo == TP_TIT_PAG){
     if(janelas_gerenciadas.vetor_janelas[CAD_TIT_PAG_WND].fun())
       return ;
@@ -39,7 +39,7 @@ void notf_popupver_fun(GtkTreeView  *tree_view, GtkTreePath *path, GtkTreeViewCo
     STAT_COL,
     N_COLUMNS
   };
-  
+
   GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW(tree_view));
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
   if(!gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -119,11 +119,16 @@ int notificacoes_button_update(){
   GtkWidget *evento = gtk_event_box_new();
 
   gtk_box_pack_start(GTK_BOX(box), label,0,0,0);
-  gtk_widget_set_name(box,"bar_buttons_notif");
-  
+  if(notificacao_pendencias){
+      gtk_widget_set_name(box,"bar_buttons_notif");
+  }else{
+    gtk_widget_set_name(box,"bar_buttons_notif_clean");
+  }
+
+
   gtk_layout_put(GTK_LAYOUT(circle),box,20,20);
   gtk_layout_put(GTK_LAYOUT(circle),image,0,0);
-  
+
   gtk_container_add(GTK_CONTAINER(evento),circle);
   gtk_widget_set_events(evento,GDK_BUTTON_PRESS_MASK);
 

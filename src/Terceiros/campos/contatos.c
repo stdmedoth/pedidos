@@ -509,7 +509,7 @@ int contatos_update(){
         contatos_ter,
         id);
       }else{
-        sprintf(query,"insert into contatos(terceiro,nome, telefone, celular, email) values( %i, '%s', '%s', '%s', '%s')",
+        sprintf(query,"insert into contatos(terceiro, nome, telefone, celular, email) values( %i, '%s', '%s', '%s', '%s')",
         contatos_ter,
         nome,
         telefone,
@@ -523,12 +523,5 @@ int contatos_update(){
     }
   }
 
-  //GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
-  //if(contatos_model){
-  //  g_object_ref(G_OBJECT(contatos_model));
-  //  gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),NULL);
-  //  gtk_list_store_clear(contatos_model);
-  //  gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
-  //}
   return 0;
 }

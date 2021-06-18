@@ -154,8 +154,6 @@ int altera_ter()
 
 	gtk_widget_activate(transp_codigo_entry);
 
-
-
 	if(campo[PRAZ_TER_COL]){
 		if(atoi(campo[PRAZ_TER_COL])){
 			gtk_entry_set_text(GTK_ENTRY(prazo_ter_field),campo[PRAZ_TER_COL]);
