@@ -4,7 +4,6 @@ void cancelar_ter(){
 	gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 	concluindo_ter = 0;
 	alterando_ter=0;
-	contatos_qnt=0;
 	ter_com_entrega = 0;
 
 	ter_cep_addr_alterado=0;
@@ -73,8 +72,5 @@ void cancelar_ter(){
 		gtk_tree_view_set_model(GTK_TREE_VIEW(contatos_treeview),GTK_TREE_MODEL(contatos_model));
 	}
 
-	for (int i = 0; i < MAX_CNTTS_QNT; ++i){
-			cntt_exists[i] = 0;
-	}
 	gtk_widget_grab_focus(doc_ter_field);
 }

@@ -1,11 +1,3 @@
-int ter_contatos_get_last(){
-  for (int i = 0; i < MAX_CNTTS_QNT; ++i){
-      if(g_array_index (cont_lis, Contato, i).ativo == 0)
-        return i;
-  }
-  return 0;
-}
-
 static int add_items (int terceiro)
 {
   MYSQL_RES *res;
@@ -23,20 +15,16 @@ static int add_items (int terceiro)
 
   while((row=mysql_fetch_row(res))){
 
-    int cntts_free_pos = ter_contatos_get_last();
-
-    contato.pos = cntts_free_pos;
     contato.ativo = 1;
     contato.id = atoi(row[CTTO_ID_COL]);;
-    contato.nome = g_strdup (row[CTTO_NOME_COL]);
-    contato.telefone = g_strdup (row[CTTO_TEL_COL]);
-    contato.celular = g_strdup (row[CTTO_CEL_COL]);
-    contato.email = g_strdup (row[CTTO_EMAIL_COL]);
-    cntt_exists[cntts_free_pos] = 1;
-    contatos_qnt++;
+    contato.nome = g_strdup(row[CTTO_NOME_COL]);
+    contato.telefone = g_strdup(row[CTTO_TEL_COL]);
+    contato.celular = g_strdup(row[CTTO_CEL_COL]);
+    contato.email = g_strdup(row[CTTO_EMAIL_COL]);
+    contato.exists = 1;
 
     g_array_append_vals (cont_lis, &contato, 1);
-    if(contatos_qnt > MAX_CNTTS_QNT){
+    if(cont_lis->len > MAX_CNTTS_QNT){
       popup(NULL,"Limite de contatos");
       return 1;
     }
@@ -55,6 +43,7 @@ create_items_model ()
 
   /* create array */
 	cont_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
+  cont_rem_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
 
   /* create list store */
   model = gtk_list_store_new (NUM_ITEM_COLUMNS, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING,  G_TYPE_STRING, G_TYPE_STRING);
@@ -86,7 +75,7 @@ create_items_model ()
 static GtkTreeModel *
 create_numbers_model (void)
 {
-#define N_NUMBERS 10
+  const int N_NUMBERS = 10;
   gint i = 0;
   GtkListStore *model;
   GtkTreeIter iter;
@@ -125,29 +114,23 @@ static void add_item (GtkWidget *button, gpointer data)
 
   g_return_if_fail (cont_lis != NULL);
 
-  int cntts_free_pos = ter_contatos_get_last();
-
   contato.ativo = 1;
-  contato.pos = cntts_free_pos;
   contato.nome = g_strdup ("-");
   contato.telefone = g_strdup ("-");
   contato.celular = g_strdup ("-");
   contato.email = g_strdup ("-");
-  cntt_exists[cntts_free_pos] = 0;
+  contato.exists = 0;
 
-  g_array_insert_vals (cont_lis, cntts_free_pos, &contato, 1);
+  g_array_append_vals (cont_lis, &contato, 1);
 
   /* Insert a new row below the current one */
   gtk_tree_view_get_cursor (treeview, &path, NULL);
   model = gtk_tree_view_get_model (treeview);
-  if (path)
-  {
+  if (path){
     gtk_tree_model_get_iter (model, &current, path);
     gtk_tree_path_free (path);
     gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-  }
-  else
-  {
+  }else{
     gtk_list_store_insert (GTK_LIST_STORE (model), &iter, -1);
   }
 
@@ -164,7 +147,7 @@ static void add_item (GtkWidget *button, gpointer data)
                       COLUMN_CTTO_EMAIL,
                       contato.email,
                       -1);
-  contatos_qnt++;
+
   /* Move focus to the new row */
   path = gtk_tree_model_get_path (model, &iter);
   column = gtk_tree_view_get_column (treeview, 0);
@@ -178,34 +161,31 @@ static void remove_item (GtkWidget *widget, gpointer data)
   GtkTreeIter iter;
   GtkTreeView *treeview = (GtkTreeView *)data;
   GtkTreeModel *model = gtk_tree_view_get_model (treeview);
-  GtkTreeSelection *selection = gtk_tree_view_get_selection (treeview);
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(treeview);
   char query[MAX_QUERY_LEN];
-  if (gtk_tree_selection_get_selected (selection, NULL, &iter))
-  {
+  if (gtk_tree_selection_get_selected (selection, NULL, &iter)){
       gint i;
       GtkTreePath *path;
 
       path = gtk_tree_model_get_path (model, &iter);
       i = gtk_tree_path_get_indices (path)[0];
 
-      int contato_id = g_array_index (cont_lis, Contato, i).id;
-      int contato_pos = g_array_index (cont_lis, Contato, i).pos;
-      if(cntt_exists[contato_pos]){
-        sprintf(query,"delete from contatos where code = %i and terceiro = %i",
-          contato_id,contatos_ter);
-        if(enviar_query(query)){
-          popup(NULL,"Não foi possível deletar contato");
-          return ;
-        }
+      if( g_array_index(cont_lis, Contato, i).exists ){
+        Contato contato_removido;
+        contato_removido.ativo = 0;
+        contato_removido.id = g_array_index(cont_lis, Contato, i).id;
+        contato_removido.nome = g_strdup( g_array_index(cont_lis, Contato, i).nome );
+        contato_removido.telefone = g_strdup( g_array_index(cont_lis, Contato, i).telefone );
+        contato_removido.celular = g_strdup( g_array_index(cont_lis, Contato, i).celular );
+        contato_removido.email = g_strdup( g_array_index(cont_lis, Contato, i).email );
+        contato_removido.exists = 1;
+        g_array_append_vals (cont_rem_lis, &contato_removido, 1);
       }
-
-
-      //cntts[contato_pos].ativo = 0;
-      g_array_index (cont_lis, Contato, i).ativo = 0;
-      //contatos_qnt--;
-      gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-      //g_array_remove_index (cont_lis, i);
-      gtk_tree_path_free (path);
+      g_array_remove_index(cont_lis, i);
+      gtk_list_store_remove(GTK_LIST_STORE (model), &iter);
+      gtk_tree_path_free(path);
+  }else{
+    popup(NULL,"Selecione o contato a deletar");
   }
 }
 
@@ -269,7 +249,6 @@ static void cell_edited (GtkCellRendererText *cell,
         g_free (old_text);
 
         i = gtk_tree_path_get_indices (path)[0];
-        g_free (g_array_index (cont_lis, Contato, i).nome);
         g_array_index(cont_lis, Contato, i).ativo = 1;
         g_array_index(cont_lis, Contato, i).nome = g_strdup (new_text);
 
@@ -284,9 +263,7 @@ static void cell_edited (GtkCellRendererText *cell,
 
         gtk_tree_model_get (model, &iter, column, &old_text, -1);
         g_free (old_text);
-
         i = gtk_tree_path_get_indices (path)[0];
-        g_free (g_array_index (cont_lis, Contato, i).celular);
         g_array_index(cont_lis, Contato, i).ativo = 1;
         g_array_index(cont_lis, Contato, i).celular = g_strdup (new_text);
 
@@ -303,7 +280,6 @@ static void cell_edited (GtkCellRendererText *cell,
         g_free (old_text);
 
         i = gtk_tree_path_get_indices (path)[0];
-        g_free (g_array_index (cont_lis, Contato, i).telefone);
         g_array_index (cont_lis, Contato, i).ativo = 1;
         g_array_index (cont_lis, Contato, i).telefone = g_strdup (new_text);
 
@@ -322,8 +298,6 @@ static void cell_edited (GtkCellRendererText *cell,
         i = gtk_tree_path_get_indices (path)[0];
         g_free (g_array_index (cont_lis, Contato, i).email);
 
-        //cntts[i].ativo = 1;
-        //cntts[i].email = g_strdup (new_text);
         g_array_index (cont_lis, Contato, i).ativo = 1;
         g_array_index (cont_lis, Contato, i).email = g_strdup (new_text);
 
@@ -420,7 +394,7 @@ GtkWidget * do_editable_cells ()
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *sw;
-    GtkWidget *button;
+    GtkWidget *add_button, *rem_button;
     GtkWidget *treeview;
     GtkTreeModel *items_model;
     GtkTreeModel *numbers_model;
@@ -462,15 +436,15 @@ GtkWidget * do_editable_cells ()
     gtk_box_set_homogeneous (GTK_BOX (hbox), TRUE);
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
-    button = gtk_button_new_with_label ("Adicionar Contato");
-    g_signal_connect (button, "clicked",
+    add_button = gtk_button_new_with_label ("Adicionar Contato");
+    g_signal_connect (add_button, "clicked",
                       G_CALLBACK (add_item), treeview);
-    gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), add_button, TRUE, TRUE, 0);
 
-    button = gtk_button_new_with_label ("Remover Contato");
-    g_signal_connect (button, "clicked",
+    rem_button = gtk_button_new_with_label ("Remover Contato");
+    g_signal_connect (rem_button, "clicked",
                       G_CALLBACK (remove_item), treeview);
-    gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), rem_button, TRUE, TRUE, 0);
 
   return vbox;
 }
@@ -485,9 +459,8 @@ int contatos_update(){
     return 1;
 
   contatos_ter = atoi(codigos_ter);
-  for(int cont=0;cont<contatos_qnt;cont++){
-
-    if(g_array_index (cont_lis, Contato, cont).ativo){
+  for(int cont=0;cont<cont_lis->len;cont++){
+    if(g_array_index(cont_lis, Contato, cont).ativo){
 
       int id = g_array_index (cont_lis, Contato, cont).id;
       gchar *nome = g_array_index (cont_lis, Contato, cont).nome;
@@ -495,12 +468,12 @@ int contatos_update(){
       gchar *celular = g_array_index (cont_lis, Contato, cont).celular;
       gchar *email = g_array_index (cont_lis, Contato, cont).email;
 
-      if(!nome) nome = "Nome";
-      if(!telefone) telefone = "Telefone";
-      if(!celular) celular = "Celular";
-      if(!email) email = "Email";
+      if(!nome) nome = g_strdup("Nome");
+      if(!telefone) telefone = g_strdup("Telefone");
+      if(!celular) celular = g_strdup("Celular");
+      if(!email) email = g_strdup("Email");
 
-      if(cntt_exists[cont]){
+      if(g_array_index(cont_lis, Contato, cont).exists){
         sprintf(query,"update contatos set nome = '%s', telefone = '%s', celular = '%s', email = '%s' where terceiro = %i and code = %i",
         nome,
         telefone,
@@ -520,6 +493,21 @@ int contatos_update(){
         popup(NULL,"Não foi possível salvar contatos");
         return 1;
       }
+    }
+  }
+  for(int cont=0;cont<cont_rem_lis->len;cont++){
+
+    file_logger("removendo contato:");
+    file_logger(g_array_index(cont_rem_lis, Contato, cont).nome);
+    file_logger(g_array_index(cont_rem_lis, Contato, cont).celular);
+    file_logger(g_array_index(cont_rem_lis, Contato, cont).telefone);
+    file_logger(g_array_index(cont_rem_lis, Contato, cont).email);
+
+    sprintf(query,"delete from contatos where code = %i and terceiro = %i",
+      g_array_index(cont_rem_lis, Contato , cont).id, contatos_ter);
+    if(enviar_query(query)){
+      popup(NULL,"Não foi possível deletar contato");
+      return 1;
     }
   }
 

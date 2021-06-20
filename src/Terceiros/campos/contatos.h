@@ -2,17 +2,16 @@ enum{
   CTTO_ID_COL,
   CTTO_TER_COL,
   CTTO_NOME_COL,
-  CTTO_CEL_COL,
   CTTO_TEL_COL,
+  CTTO_CEL_COL,
   CTTO_EMAIL_COL
 };
 
 typedef struct _Contato
 {
   gint   id;
-  gint pos;
   gint ativo;
-  gint excluido;
+  gint exists;
   gchar *nome;
   gchar *celular;
   gchar *telefone;
@@ -22,16 +21,13 @@ typedef struct _Contato
 #define MAX_CNTTS_QNT 20
 
 int contatos_ter=0;
-int contatos_qnt=0;
-int cntt_exists[MAX_CNTTS_QNT];
-//struct _Contato cntts[MAX_CNTTS_QNT];
 
 enum
 {
   COLUMN_CTTO_ID,
   COLUMN_CTTO_NOME,
-  COLUMN_CTTO_CEL,
   COLUMN_CTTO_TEL,
+  COLUMN_CTTO_CEL,
   COLUMN_CTTO_EMAIL,
   NUM_ITEM_COLUMNS
 };
@@ -42,7 +38,7 @@ enum
   NUM_NUMBER_COLUMNS
 };
 
-static GArray *cont_lis = NULL;
+static GArray *cont_lis = NULL, *cont_rem_lis = NULL;
 
 static GtkTreeModel *create_items_model (void);
 

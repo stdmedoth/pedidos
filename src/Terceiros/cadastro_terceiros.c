@@ -498,7 +498,6 @@ int  cad_terc()
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_five),observacoes_scroll,0,0,10);
 
-	contatos_qnt=0;
 	contatos_box = do_editable_cells();
 
 	if(contatos_box){
