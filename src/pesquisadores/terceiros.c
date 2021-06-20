@@ -68,7 +68,7 @@ int entry_ter_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 	switch(tipo_psq)
 	{
 		case 0:
-			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.razao like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.razao like '%c%s%c' or t.nome_fantasia like '%c%s%c' limit 20",37,entrada,37, 37,entrada,37);
 			break;
 		case 1:
 			sprintf(query,"select t.code, t.razao, t.doc, t.cidade, tr.razao from terceiros as t left join terceiros as tr  on tr.code = t.transp_code where t.cidade like '%c%s%c' limit 20",37,entrada,37);
@@ -130,7 +130,7 @@ int psq_ter(GtkWidget *button, GtkEntry *cod_ter_entry)
 	celula5 = gtk_cell_renderer_text_new();
 
 	psq_ter_combo_box = gtk_combo_box_text_new();
-	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(psq_ter_combo_box),"0","Nome/Razao");
+	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(psq_ter_combo_box),"0","Nome/Razao ou Nome Fantasia");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(psq_ter_combo_box),"1","Cidade");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(psq_ter_combo_box),"2","CPF/CNPJ");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(psq_ter_combo_box),0);
