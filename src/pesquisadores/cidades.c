@@ -36,13 +36,13 @@ int entry_cidd_pesquisa(GtkEntry *widget, GtkTreeView *treeview)
 
 	switch(tipo_psq){
 		case 0:
-			sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade where descricao like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select code, descricao, uf, codigo_ibge, ddd from cidade where descricao like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 1:
-			sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade where UF like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select code, descricao, uf, codigo_ibge, ddd from cidade where UF like '%c%s%c' limit 20",37,entrada,37);
 			break;
 		case 2:
-			sprintf(query,"select id_cidade, descricao, uf, codigo_ibge, ddd from cidade where DDD like '%c%s%c' limit 20",37,entrada,37);
+			sprintf(query,"select code, descricao, uf, codigo_ibge, ddd from cidade where DDD like '%c%s%c' limit 20",37,entrada,37);
 			break;
 	}
 
