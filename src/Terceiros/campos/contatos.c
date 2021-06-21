@@ -112,8 +112,6 @@ static void add_item (GtkWidget *button, gpointer data)
   GtkTreeViewColumn *column;
   GtkTreeView *treeview = (GtkTreeView *)data;
 
-  g_return_if_fail (cont_lis != NULL);
-
   contato.ativo = 1;
   contato.nome = g_strdup ("-");
   contato.telefone = g_strdup ("-");

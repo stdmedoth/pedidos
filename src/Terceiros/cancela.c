@@ -64,6 +64,16 @@ void cancelar_ter(){
 	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),TRUE);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 
+	/* create array */
+	if(cont_lis){
+		g_array_free(cont_lis, FALSE);
+	}
+	cont_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
+	if(cont_rem_lis){
+		g_array_free(cont_rem_lis, FALSE);
+	}
+	cont_rem_lis = g_array_sized_new (FALSE, FALSE, sizeof (Contato), 1);
+
 	GtkListStore *contatos_model =(GtkListStore *) gtk_tree_view_get_model(GTK_TREE_VIEW(	contatos_treeview ));
 	if(contatos_model){
 		g_object_ref(G_OBJECT(contatos_model));
