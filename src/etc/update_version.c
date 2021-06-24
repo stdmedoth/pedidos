@@ -4,6 +4,7 @@ int download_new_version(void) {
     FILE *fp;
     CURLcode res;
     char *url = malloc(1000);
+    char errorbuf[ CURL_ERROR_SIZE ] = "";
 
     #ifdef WIN32
     int bins_qnt = 2;
@@ -11,7 +12,6 @@ int download_new_version(void) {
     char *outfilenames[] = {"PedidosComConsoleNew.exe", "PedidosSemConsoleNew.exe"};
     #endif
 
-    //char *next_name_version = "v1.1.1.1_Win32-x";
     #ifdef __linux__
     int bins_qnt = 1;
     char *bins[] = {"Pedidos.o"};
@@ -42,17 +42,23 @@ int download_new_version(void) {
             return 1;
           }
           curl_easy_setopt(curl, CURLOPT_URL, url);
-          curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_download_file);
+          //curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_download_file);
+          curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
   				curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+          curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
           curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
           curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
           carregar_interface();
           res = curl_easy_perform(curl);
           if(res == CURLE_HTTP_RETURNED_ERROR) {
+            file_logger("Erro na atualização:");
+            file_logger(errorbuf);
             gtk_widget_destroy(loading);
             curl_easy_cleanup(curl);
             fclose(fp);
-            popup(NULL,"Não foi possível baixar versão especificada");
+            char msg[CURL_ERROR_SIZE + 100];
+            sprintf(msg, "Não foi possível baixar versão especificada:\n%s", errorbuf);
+            popup(NULL, msg);
             return 1;
           }
           /* always cleanup */
