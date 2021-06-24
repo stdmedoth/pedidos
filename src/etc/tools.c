@@ -1,5 +1,10 @@
 #include "sql_tools.c"
 
+size_t write_download_file(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    size_t written = fwrite(ptr, size, nmemb, stream);
+    return written;
+}
+
 gboolean desktop_window_delete_event(GtkWidget *widget, GdkEvent  *event, gpointer   user_data){
   encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
   return TRUE;
@@ -473,6 +478,13 @@ void passar_campo(GtkWidget *widget,gpointer widget2)
 {
 	gtk_widget_grab_focus(widget2);
 }
+
+void click_button_callback(GtkWidget *widget,gpointer button)
+{
+  gtk_button_clicked(button);
+}
+
+
 
 int is_texto(char *texto){
   for(int cont=0;cont<strlen(texto);cont++){

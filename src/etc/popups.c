@@ -304,6 +304,51 @@ gpointer carregando_wnd(){
 	return janela;
 }
 
+char *get_text_from_input(char *text, GtkWidget *parent_wnd){
+	GtkWidget *janela, *fields, *fixed, *box;
+	gchar *answer1, *answer2;
+	int resultado;
+	GtkWidget *answer_entry = gtk_entry_new();
+	GtkWidget *answer_frame = gtk_frame_new("Preencha");
+
+	janela = gtk_dialog_new_with_buttons(text,NULL,4,"Confirmar",GTK_RESPONSE_ACCEPT,NULL);
+	if(parent_wnd)
+		gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(parent_wnd));
+	else
+		gtk_window_set_transient_for(GTK_WINDOW(janela),GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
+	gtk_window_set_keep_above(GTK_WINDOW(janela),TRUE);
+	gtk_window_set_position(GTK_WINDOW(janela),3);
+
+	GtkWidget *confirma_button = gtk_dialog_get_widget_for_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT);
+
+	fields = gtk_bin_get_child(GTK_BIN(janela));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+
+	gtk_container_add(GTK_CONTAINER(answer_frame), answer_entry);
+	gtk_box_pack_start(GTK_BOX(box),answer_frame,0,0,10);
+	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+
+	gtk_dialog_set_default_response(GTK_DIALOG(janela),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(janela);
+
+	g_signal_connect(answer_entry, "activate", G_CALLBACK(click_button_callback), confirma_button );
+
+	resultado = gtk_dialog_run(GTK_DIALOG(janela));
+	switch (resultado) {
+		case GTK_RESPONSE_ACCEPT:
+			answer1 = (gchar *)gtk_entry_get_text(GTK_ENTRY(answer_entry));
+			if(!strlen(answer1)){
+				gtk_widget_destroy(janela);
+				return NULL;
+			}
+			answer2 = strdup(answer1);
+	}
+	gtk_widget_destroy(janela);
+	return answer2;
+}
+
 gboolean get_gestor_perm(GtkWidget *button, GtkWidget *parent_wnd){
 
 	int len;

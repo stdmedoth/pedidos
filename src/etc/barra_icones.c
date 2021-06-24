@@ -22,7 +22,14 @@ int * barra_icones_rem() {
     return 0;
 }
 
-GtkWidget * penden_button, * param_button, * sair_button, * debug_button, * logoff_button, * suport_button, * kanban_button;
+GtkWidget
+  *penden_button,
+  *param_button,
+  *sair_button,
+  *debug_button,
+  *logoff_button,
+  *suport_button,
+  *kanban_button;
 
 GtkWidget * barra_icones_wnd() {
 
@@ -93,6 +100,7 @@ GtkWidget * barra_icones_wnd() {
     }
 
     barra_icones_add("help-about", info_sobre_wnd);
+    barra_icones_add("system-software-update", download_new_version);
 
     /*sessao*/
     gtk_layout_put(GTK_LAYOUT(layout_barra), logoff_button, 0, 590);

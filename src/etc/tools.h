@@ -5,6 +5,8 @@ static int alt_pressionado = 0;
 
 static int logging = 0;
 
+size_t write_download_file(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
 gboolean atualizar_inatividade_label();
 
 gboolean atualizar_inatividade();
@@ -94,3 +96,5 @@ GtkWidget *get_relat_treeview(gchar *query1, gchar *query2);
 void adjustment_mover_scroll(GtkAdjustment *adjustment);
 
 gboolean desktop_window_delete_event(GtkWidget *widget, GdkEvent  *event, gpointer   user_data);
+
+void click_button_callback(GtkWidget *widget,gpointer button);

@@ -35,6 +35,7 @@
 #include "./operadores.h"
 #include "./fechar.h"
 #include "./pega_data.h"
+#include "./update_version.h"
 
 #include "../Menu/iconview.h"
 #include "../Menu/abas.h"

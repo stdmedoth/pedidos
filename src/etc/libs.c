@@ -25,6 +25,7 @@
 #include "./operadores.c"
 #include "./fechar.c"
 #include "./pega_data.c"
+#include "./update_version.c"
 
 #include "../Menu/iconview.c"
 #include "../Menu/abas.c"
