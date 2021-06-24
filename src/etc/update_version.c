@@ -4,9 +4,20 @@ int download_new_version(void) {
     FILE *fp;
     CURLcode res;
     char *url = malloc(1000);
+
+    #ifdef WIN32
+    int bins_qnt = 2;
     char *bins[] = {"PedidosComConsole.exe", "PedidosSemConsole.exe"};
     char *outfilenames[] = {"PedidosComConsoleNew.exe", "PedidosSemConsoleNew.exe"};
+    #endif
+
     //char *next_name_version = "v1.1.1.1_Win32-x";
+    #ifdef __linux__
+    int bins_qnt = 1;
+    char *bins[] = {"Pedidos.o"};
+    char *outfilenames[] = {"PedidosNew.o"};
+    #endif
+
 
     char *next_name_version = get_text_from_input("Insira o nome da versão a ser baixada:", NULL);
     if(!next_name_version){
@@ -17,7 +28,7 @@ int download_new_version(void) {
     gpointer loading = carregando_wnd();
     carregar_interface();
 
-    for(int pos=0;pos<2;pos++){
+    for(int pos=0;pos<bins_qnt;pos++){
       carregar_interface();
       sprintf(url, "https://github.com/stdmedoth/pedidos/releases/download/%s/%s", next_name_version, bins[pos]);
       curl = curl_easy_init();
