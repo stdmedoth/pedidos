@@ -23,17 +23,17 @@ int escolha_doc()
 {
 	int opcao;
 	opcao = gtk_combo_box_get_active(GTK_COMBO_BOX(doc_combo));
-	doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
-	if(strlen(doc_ter) && !ter_tipo_ter_ver_avisado){
-		popup(NULL,"Está tentando inserir documento? verifique o tipo de Pessoa.");
-		ter_tipo_ter_ver_avisado = 1;
-		return 1;
-	}
 
 	switch(opcao)
 	{
 		case 0:
 			tipo_doc = 0;
+			doc_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
+			if(strlen(doc_ter) && !ter_tipo_ter_ver_avisado){
+				popup(NULL,"Está tentando inserir documento? verifique o tipo de Pessoa.");
+				ter_tipo_ter_ver_avisado = 1;
+				return 1;
+			}
 			if(terceiros.criticar.tipodoc==0)
 			{
 				doc_ter = strdup("");
