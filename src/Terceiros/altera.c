@@ -138,7 +138,7 @@ int altera_ter()
 				gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),campo[TER_TRSP_CID_COL]);
 
 			if(campo[TER_TRSP_BAIR_COL])
-				gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TER_TRSP_BAIR_COL]);
+				gtk_entry_set_text(GTK_ENTRY(transp_bairro_entry),campo[TER_TRSP_BAIR_COL]);
 
 			if(campo[TER_TRSP_UF_COL])
 				gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),campo[TER_TRSP_UF_COL]);
