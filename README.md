@@ -1,6 +1,8 @@
 # Pedidos (EM DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
+[Pedidos Wiki - Saiba mais sobre o desenvolvimento do Projeto](https://github.com/stdmedoth/pedidos/wiki)
+
 [Pages](https://stdmedoth.github.io/pedidos/)
 
 [Trello - Desenvolvimento](https://trello.com/b/kX1scIYM/pedidos-software-v1)
