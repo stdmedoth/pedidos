@@ -47,6 +47,8 @@ int download_new_version(void) {
   				curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
           curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
           curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+          curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+          curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
           curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
           carregar_interface();
           res = curl_easy_perform(curl);
