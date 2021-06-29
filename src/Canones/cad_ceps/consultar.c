@@ -86,7 +86,7 @@ struct _cad_cep *get_cep_from_consulta(gchar *cep){
         return NULL;
 
       case CURLE_HTTP_RETURNED_ERROR:
-        popup(NULL, "Erro de retorno da SEFAZ!");
+        popup(NULL, "Erro de retorno do webservice!");
         return NULL;
 
       default:

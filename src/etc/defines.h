@@ -290,5 +290,7 @@ enum ID_OPERACOES{
   OUTRAS_OPERACOES
 };
 
+#define LAST_VERSION_INFO_URL "https://calistupedidos.000webhostapp.com/last_version.php"
+
 #define NIVEL_TECNICO_THEME "Adwaita"
 #endif
