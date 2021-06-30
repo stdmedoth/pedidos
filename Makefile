@@ -13,6 +13,11 @@ CCFLAGS3=-Wunused-variable
 DEBUG=-g
 ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG)
 
+
+BUILD_MGRT_FLAGS=-I build_migrate
+BUILD_MGRT_TARGET=build_migrate/migrate.c
+BUILD_MGRT_RESULT=migrate
+
 TARGET_FILE=src/Pedidos/Pedidos.c
 RESULT_FILE=pedidos
 
@@ -37,3 +42,6 @@ install:
 	cp -r $(COPY_FILES)/* $(DIR_FILES)
 	cp -r $(RESULT_FILE) $(DIR_BIN)
 	chmod -R 777 $(DIR_FILES)
+
+build_migrate: $(BUILD_MGRT_RESULT)
+	$(CC) $(BUILD_MGRT_TARGET) -o $(BUILD_MGRT_RESULT) $(ALLFLAGS) $(BUILD_MGRT_FLAGS)

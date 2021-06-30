@@ -2,6 +2,9 @@
 #define PEDIDOS_DEFINES
 #define APP_NAME "pedidos"
 
+#define PEDIDOS_DEVELOP_ENV
+//#define PEDIDOS_PRODUCTION_ENV
+
 #ifdef WIN32
 #define TEMA_PATH	   "../share/themes/"
 #define PDF_GEN            APP_DIRNAME "/files/impressao/wkhtmltopdf.exe"
@@ -17,6 +20,15 @@
 //#define APP_BINS_DIR  "/usr/bin" //real
 #define APP_BINS_DIR  APP_DIRNAME "/bin"   //tests
 #define APP_DIRNAME   "/usr/share/" APP_NAME
+#endif
+
+
+#ifdef PEDIDOS_DEVELOP_ENV
+#define MIGRATE_FOLDER     "data/sql_scripts/migrates"
+#endif
+
+#ifdef PEDIDOS_PRODUCTION_ENV
+#define MIGRATE_FOLDER     APP_DIRNAME "/files/sql_scripts/migrates"
 #endif
 
 
@@ -169,6 +181,7 @@
 
 #define SEM_EMAIL "email_vazio"
 
+#define MAX_DATE_LEN 15
 #define MAX_TEMA_LEN 50
 #define MAX_TEMA_QNT 50
 #define MAX_PATH_LEN 1000

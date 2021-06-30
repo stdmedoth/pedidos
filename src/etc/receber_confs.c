@@ -1,5 +1,3 @@
-#include "libs.h"
-
 int rec_vars_from_file(){
 
   xmlDocPtr doc = xmlParseFile(SERVER_CONF);

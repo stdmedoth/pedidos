@@ -1,9 +1,8 @@
 int conclui_prod(GtkWidget* nome, gpointer *botao)
 {
 	int err;
-	char *code;
-	code = malloc(10);
-	char *query;
+	char code[MAX_CODE_LEN];
+	char query[MAX_QUERY_LEN+INSERT_QUERY];
 	GtkTextBuffer *buffer;
 	GtkTextIter inicio,fim;
 
@@ -87,57 +86,27 @@ int conclui_prod(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
-	g_print("alocando memoria para query %i\n",(int)(MAX_QUERY_LEN+INSERT_QUERY));
-	query = malloc((int)(MAX_QUERY_LEN+INSERT_QUERY));
-	if(query==NULL)
-	{
-			popup(NULL,"Erro de memoria");
-			autologger("Erro de memoria");
-			return 1;
-	}
-	g_print("iniciando concluir_ter()\n");
-
-	if(alterando_prod==0)
-	{
+	file_logger("iniciando conclui_prod()\n");
+	if(alterando_prod==0){
 		sprintf(query,PROD_CAD_QUERY,ARGS_PROD_CAD_QUERY);
-	}
-	else
-	{
+	}else{
 		sprintf(query,PROD_UPD_QUERY,ARGS_PROD_UPD_QUERY);
 	}
 
-	if(stoi(codigos_prod)==-1)
-	{
-		if(strlen(codigos_prod)>8)
-		{
-			autologger("Codigo produto chegou ao limite\n");
-			popup(NULL,"O código do produto deve ser menor\n");
-			return -1;
-		}
-	}
-	g_print("%s\n",query);
-	autologger(query);
-	err = enviar_query(query);
-	if(err!=0)
-	{
-		g_print("Query para tabela produtos\n");
-		autologger("Query para tabela produtos");
-		g_print("codigo do erro %i\n",err);
-		g_print("%s\n\n",query);
-		autologger(query);
+
+	if(enviar_query(query)){
+	
+		file_logger("Erro Query para tabela produtos");
+		file_logger(query);
 		return 1;
-	}
-	else
-	{
-		autologger(query);
-		g_print("Query para tabela produtos\n");
-		g_print("Query envida com sucesso\n");
+	
+	}else{
+		file_logger(query);
 		popup(NULL,"Concluido");
-		gtk_label_set_text(GTK_LABEL(acao_atual2),"Cadastrando");
 		cancelar_prod();
 	}
 
-	printf("finalizando conclui_ter()\n");
+	file_logger("finalizando conclui_prod()");
 	gtk_widget_grab_focus(GTK_WIDGET(nome_prod_field));
 	return 0;
 }

@@ -6,66 +6,36 @@ int verifica_ter_chaves(){
 	char query[MAX_QUERY_LEN];
 	cod_delel = (gchar *)gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 
-	//fornecedor - cotacoes
-	sprintf(query,"select * from itens_cotacoes where participante_id = %s;",cod_delel);
-	vetor = consultar(query);
-	if(!vetor){
-		popup(NULL,"Erro ao tentar verificar cotacoes para o fornecedor");
-		return 1;
-	}
-	if((campos = mysql_fetch_row(vetor))){
-		popup(NULL,"Existem cotações para esse fornecedor");
-		return 1;
-	}
+	int vinculos_pos = 0;
+	char *vinculos[][2] = {
+		{"itens_cotacoes", "participante_id"},
+		{"PessoasDistribuicao", "pessoa"},
+		{"produtos", "fornecedor"},
+		{"pedidos", "cliente"},
+		{"pedidos", "vendedor"},
+		{"contatos", "terceiro"},
+		{NULL, NULL}
+	};
 
-	//fornecedor - lista distribuição
-	sprintf(query,"select * from PessoasDistribuicao where pessoa = %s",cod_delel);
-	vetor = consultar(query);
-	if(!vetor){
-		popup(NULL,"Erro ao tentar verificar lista de distribuicao para a pessoa");
-		return 1;
+	while(vinculos[vinculos_pos][0] && vinculos[vinculos_pos][1]){
+		sprintf(query,"select * from %s where %s = %s;",vinculos[vinculos_pos][0], vinculos[vinculos_pos][1], cod_delel);
+		vetor = consultar(query);
+		if(!vetor){
+			int len = strlen(vinculos[vinculos_pos][0]) + strlen(vinculos[vinculos_pos][1] + 60);
+			char msg[len];
+			sprintf(msg, "Erro ao tentar verificar %s para o %s", vinculos[vinculos_pos][0], vinculos[vinculos_pos][1]);
+			popup(NULL,msg);
+			return 1;
+		}
+		if((campos = mysql_fetch_row(vetor))){
+			int len = strlen(vinculos[vinculos_pos][0]) + strlen(vinculos[vinculos_pos][1] + 60);
+			char msg[len];
+			sprintf(msg, "Existem %s para esse %s", vinculos[vinculos_pos][0], vinculos[vinculos_pos][1]);
+			popup(NULL,msg);
+			return 1;
+		}	
+		vinculos_pos++;
 	}
-	if((campos = mysql_fetch_row(vetor))){
-		popup(NULL,"Esta pessoa está vinculada à uma lista de distribuição");
-		return 1;
-	}
-
-	//fornecedor - produtos
-	sprintf(query,"select * from produtos where fornecedor = %s",cod_delel);
-	vetor = consultar(query);
-	if(!vetor){
-		popup(NULL,"Erro ao tentar verificar produtos para o fornecedor");
-		return 1;
-	}
-	if((campos = mysql_fetch_row(vetor))){
-		popup(NULL,"Existem Produtos para esse Fornecedor");
-		return 1;
-	}
-
-	//cliente - pedidos
-	sprintf(query,"select * from pedidos where cliente = %s",cod_delel);
-	vetor = consultar(query);
-	if(!vetor){
-		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
-		return 1;
-	}
-	if((campos = mysql_fetch_row(vetor))){
-		popup(NULL,"Existem Pedidos para esse cliente");
-		return 1;
-	}
-
-	//pedidos - vendedor
-	sprintf(query,"select * from pedidos where vendedor = %s",cod_delel);
-	vetor = consultar(query);
-	if(!vetor){
-		popup(NULL,"Erro ao tentar verificar pedidos para o terceiro");
-		return 1;
-	}
-	if((campos = mysql_fetch_row(vetor))){
-		popup(NULL,"Existem Pedidos para esse vendedor");
-		return 1;
-	}
-
 	return 0;
 }
 int exclui_ter(GtkWidget *botao,gpointer *ponteiro)

@@ -99,17 +99,18 @@ int download_new_version(void) {
             return 1;
           }
           curl_easy_setopt(curl, CURLOPT_URL, url);
-          //curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_download_file);
           curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
   				curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
           curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
           //curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+          //curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_download_file);
           curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
           curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
           curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
           carregar_interface();
           res = curl_easy_perform(curl);
-          if(res  != CURLE_OK){
+          if(res != CURLE_OK){
+
             file_logger("Erro na atualização:");
             file_logger(errorbuf);
             gtk_widget_destroy(loading);
