@@ -1,6 +1,6 @@
 ---
 nome: Solicitação de recurso
-sobre: ​​Sugira uma ideia para este projeto
+sobre: Sugira uma ideia para este projeto
 título: ''
 rótulos: ''
 designados: ''

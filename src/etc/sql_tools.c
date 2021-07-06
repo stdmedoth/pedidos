@@ -1,3 +1,30 @@
+int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
+	MYSQL_ROW row;
+	MYSQL_FIELD *field;
+	FILE *fp = fopen(filename, "w");
+	if(!fp){
+		popup(NULL,"Não foi possível abrir arquivo");
+		file_logger("Erro no arquivo:");
+		file_logger(filename);
+		return 1;
+	}
+	int rows_qnt = mysql_num_rows(res);
+	int fields_qnt = mysql_num_fields(res);
+	while((field = mysql_fetch_field(res))){
+		fprintf(fp,"%s;", field->name);
+	}
+	fprintf(fp,"\n");
+
+	while((row = mysql_fetch_row(res))){
+		for (int i = 0; i < fields_qnt; ++i){
+			fprintf(fp,"%s;", row[i]);
+		}
+		fprintf(fp,"\n");
+	}
+	fclose(fp);
+	return 0;
+}
+
 int row_exists(char *table, int id){
 	MYSQL_RES *res;
 	MYSQL_ROW row;

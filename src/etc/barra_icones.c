@@ -101,6 +101,7 @@ GtkWidget * barra_icones_wnd() {
 
     barra_icones_add("help-about", info_sobre_wnd);
     barra_icones_add("system-software-update", download_new_version);
+    barra_icones_add("downloads", backup_fun);
 
     /*sessao*/
     gtk_layout_put(GTK_LAYOUT(layout_barra), logoff_button, 0, 590);

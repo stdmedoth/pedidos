@@ -12,7 +12,7 @@ const char *options [] = {
   "empty",
   "new",
   "update",
-  "remove",
+  "downgrade",
   "reset",
   "list",
   "version",
