@@ -1,3 +1,5 @@
+int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res);
+
 int row_exists(char *table, int id);
 
 int conectar_mysql();

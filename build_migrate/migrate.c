@@ -146,7 +146,7 @@ void help_message(){
 	printf("Opção desconhecida, lista:\n");
 	printf(" - new\n");
 	printf(" - update\n");
-	printf(" - remove arquivo_migrate\n");
+	printf(" - downgrade arquivo_migrate\n");
 	printf(" - reset\n");
 	printf(" - list\n");
 	printf(" - version\n");
@@ -188,7 +188,7 @@ int remove_migrate(int migrate_id){
 	
 	const int path_len = strlen(MIGRATE_FOLDER) + 2 + 12;
 	char path[path_len];
-	printf("Atualizando %s\n", row[DESCRICAO]);
+	printf("Downgrade da %s\n", row[DESCRICAO]);
 	sprintf(path, "%s/migrate_down_0%i.sql", MIGRATE_FOLDER, migrate_id);
 	if(rodar_migrate(path)){
 		printf("Não foi possível rodar down do migrate %s\n", row[ARQUIVO]);
@@ -258,7 +258,7 @@ int reset_migrates(){
 	};
 
 	char query[50];
-	sprintf(query, "SELECT * FROM migrate order by lancamento asc;");
+	sprintf(query, "SELECT * FROM migrate order by code desc;");
 	if((mysql_query(&conectar,query))){
 		printf("Não foi possível listar migrate\n");
 		printf("Erro Mysql %s\n", mysql_error(&conectar));

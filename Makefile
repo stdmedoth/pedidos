@@ -15,6 +15,7 @@ ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS
 
 
 BUILD_MGRT_FLAGS=-I build_migrate
+BUILD_MGRT_OBJ=migrate.o
 BUILD_MGRT_TARGET=build_migrate/migrate.c
 BUILD_MGRT_RESULT=migrate
 
@@ -43,5 +44,8 @@ install:
 	cp -r $(RESULT_FILE) $(DIR_BIN)
 	chmod -R 777 $(DIR_FILES)
 
-build_migrate: $(BUILD_MGRT_RESULT)
+migrate.o:
+	$(CC) $(BUILD_MGRT_TARGET) -c  $(ALLFLAGS) $(BUILD_MGRT_FLAGS)
+
+build_migrate: migrate.o
 	$(CC) $(BUILD_MGRT_TARGET) -o $(BUILD_MGRT_RESULT) $(ALLFLAGS) $(BUILD_MGRT_FLAGS)

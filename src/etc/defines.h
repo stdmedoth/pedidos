@@ -32,6 +32,7 @@
 #endif
 
 
+#define BACKUP_PATH_FILE   APP_DIRNAME "/files/backup_path"
 #define APP_TRACELOG       APP_DIRNAME "/files/trace_log.log"
 #define LOADING_GIF        APP_DIRNAME "/files/gen_imgs/carregando.gif"
 #define SERVER_CONF        APP_DIRNAME "/files/server.xml"

@@ -1,6 +1,6 @@
 ---
 nome: Relatório de bug
-sobre: ​​Crie um relatório para nos ajudar a melhorar
+sobre: Crie um relatório para nos ajudar a melhorar
 título: ''
 rótulos: ''
 designados: ''

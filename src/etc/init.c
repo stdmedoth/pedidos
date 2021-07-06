@@ -77,6 +77,7 @@ int init(){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
+	
 	if(!(row = mysql_fetch_row(res))){
 		file_logger("init() -> mysql_fetch_row() -> tabela perfil_desktop");
 		popup(NULL,"Sem dados para personalizar o sistema");
