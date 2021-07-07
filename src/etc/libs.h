@@ -21,6 +21,7 @@
 #include "./impressao.h"
 #include "./vars.h"
 #include "./check_db.h"
+#include "./check_dirs.h"
 
 #include "./stoi.h"
 #include "./css.h"
@@ -173,6 +174,11 @@
 #include "../Relatorios/fixados/estoques/principal.h"
 #include "../Relatorios/fixados/financeiro/receber/principal.h"
 #include "../Relatorios/fixados/financeiro/pagar/principal.h"
+
+#include "../Relatorios/planilhas/iconview.h"
+#include "../Relatorios/planilhas/init_export.h"
+#include "../Relatorios/planilhas/gerar.h"
+
 
 #include "../Marketing/analises/analisar.h"
 #include "../Marketing/emails/enviar/envio_emails.h"

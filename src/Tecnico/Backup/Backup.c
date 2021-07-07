@@ -74,7 +74,7 @@ int backup_fun(){
 	g_signal_connect(init_buttom,"clicked",G_CALLBACK(backup_iniciar_exportacao),NULL);
 	g_signal_connect(backup_file_chooser_button,"file-set",G_CALLBACK(get_filename_to_entry),backup_file_chooser_entry);
 
-	FILE *pathcache = fopen(BACKUP_PATH_FILE, "r");
+	FILE *pathcache = fopen(BKP_PTH_CACHE, "r");
 	if(pathcache){
 		char path[MAX_PATH_LEN];
 		fgets(path,MAX_PATH_LEN,pathcache);

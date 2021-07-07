@@ -1,17 +1,23 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 
+#define ENUM_NAME(x) #x
+#define ENUM_TO_STR(x) ENUM_NAME(x)
+
 static int alt_pressionado = 0;
 
 static int logging = 0;
+
+void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
+
+void icon_view_select_caller(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
+void icon_view_select_caller_with_intarg(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 size_t write_download_file(void *ptr, size_t size, size_t nmemb, FILE *stream);
 
 gboolean atualizar_inatividade_label();
 
 gboolean atualizar_inatividade();
-
-void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 GtkWidget *print_janela;
 
@@ -25,6 +31,8 @@ static char **tipo_ter_list;
 void passar_campo(GtkWidget *widget,gpointer widget2);
 
 int is_texto(char *texto);
+
+char *inttochar(int intnum);
 
 char *text_to_html(char *texto);
 

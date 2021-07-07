@@ -32,7 +32,9 @@
 #endif
 
 
-#define BACKUP_PATH_FILE   APP_DIRNAME "/files/backup_path"
+#define BKP_PTH_CACHE      APP_DIRNAME "/files/cache/backup_path"
+#define EXP_PTH_CACHE      APP_DIRNAME "/files/cache/backup_path"
+
 #define APP_TRACELOG       APP_DIRNAME "/files/trace_log.log"
 #define LOADING_GIF        APP_DIRNAME "/files/gen_imgs/carregando.gif"
 #define SERVER_CONF        APP_DIRNAME "/files/server.xml"
@@ -125,12 +127,16 @@
 #define TRSP_IMG           APP_DIRNAME "/files/icones_opc/transportes.png"
 #define CAD_CEP_IMG        APP_DIRNAME "/files/icones_opc/search_cep.png"
 #define CAD_LOGS_IMG       APP_DIRNAME "/files/icones_opc/logs.png"
+#define REL_PLANL_IMG      APP_DIRNAME "/files/icones_opc/planilhas.png"
 #define REL_PROD_IMG       APP_DIRNAME "/files/icones_opc/relatorio_prod.png"
+#define REL_PLANL_PROD_IMG APP_DIRNAME "/files/icones_opc/planilha_prods.png"
 #define REL_FIX_PROD_IMG   APP_DIRNAME "/files/icones_opc/relatorio_fixos_produtos.png"
 #define REL_FIX_TER_IMG    APP_DIRNAME "/files/icones_opc/relatorio_fixos_terceiros.png"
 #define REL_FIX_VND_IMG    APP_DIRNAME "/files/icones_opc/relatorio_fixos_vendas.png"
 #define REL_FIX_EST_IMG    APP_DIRNAME "/files/icones_opc/relatorio_fixos_movestoque.png"
+#define REL_PLANL_MOV_IMG  APP_DIRNAME "/files/icones_opc/planilha_movimentos.png"
 #define REL_TER_IMG        APP_DIRNAME "/files/icones_opc/relatorio_ter.png"
+#define REL_PLANL_TER_IMG  APP_DIRNAME "/files/icones_opc/planilha_terceiros.png"
 #define REL_SLD_IMG        APP_DIRNAME "/files/icones_opc/relatorio_est.png"
 #define REL_ORC_PROD_IMG   APP_DIRNAME "/files/icones_opc/relatorio_orc_prod.png"
 #define REL_FIX_VND_PATH   APP_DIRNAME "/files/impressao/relatorios/fixos/vendas"
@@ -146,6 +152,7 @@
 #define IMPRT_TIT_IMG      APP_DIRNAME "/files/icones_opc/import_tits.png"
 #define EXIT_IMG           APP_DIRNAME "/files/icones_opc/sair.png"
 #define CUPONS_XMLS_DIR    APP_DIRNAME "/files/xmls/cupom/"
+#define CACHE_DIR          APP_DIRNAME "/files/cache/"
 #define TMPFILE_PATH       APP_DIRNAME "/files/tmp/tempfile.tmp"
 
 #define IMG_ENVIA           APP_DIRNAME "/files/opcoes_padrao/enviar.png"

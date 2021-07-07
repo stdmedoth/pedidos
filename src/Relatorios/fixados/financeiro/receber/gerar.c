@@ -17,7 +17,7 @@ int rel_fix_fin_rec_gerar(){
 
   GDir *teste;
   if(!(teste = g_dir_open(REL_FIX_FIN_PATH,0,NULL))){
-    if(g_mkdir_with_parents(REL_FIX_FIN_PATH, 777)){
+    if(g_mkdir_with_parents(REL_FIX_FIN_PATH, 777) == -1){
       popup(NULL,"Não foi possível abrir/criar diretório do arquivo");
       return 1;
     }

@@ -46,13 +46,14 @@ int relat_icon_view_wnd(){
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
   //gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 
-  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+  
 
   gtk_icon_view_set_columns (GTK_ICON_VIEW(icon_view),2);
   gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view),0);
   gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view),1);
 
   gtk_container_add(GTK_CONTAINER(fixed_relats_wnd),icon_view);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select_caller), modelo);
   g_signal_connect(fixed_relats_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_REL_FIX_ICONS_WIN]);
 
 

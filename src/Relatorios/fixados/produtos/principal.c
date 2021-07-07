@@ -53,7 +53,6 @@ int relat_fix_prod(){
   GTK_WINDOW(janelas_gerenciadas.vetor_janelas[REG_REL_FIX_ICONS_WIN].janela_pointer));
 
   gtk_container_set_border_width (GTK_CONTAINER (janela), 10);
-  g_signal_connect(GTK_WINDOW(janela),"delete-event",G_CALLBACK(gtk_widget_destroy),&janela);
 
   relat_fix_prod_ordem_combo = gtk_combo_box_text_new();
   gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_fix_prod_ordem_combo),"Código");

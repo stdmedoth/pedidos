@@ -42,7 +42,7 @@ GtkWidget *vnd_menu_get_icon_view(){
 	gtk_icon_view_set_margin(GTK_ICON_VIEW(icon_view),10);
 	//gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 	
-  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select), modelo);
+  g_signal_connect(icon_view,"item-activated",G_CALLBACK(icon_view_select_caller), modelo);
 	g_signal_connect(icon_view,"item-activated",G_CALLBACK(menu_icon_view_select), janelas_gerenciadas.vetor_janelas[REG_MENU_WND].janela_pointer);
 
 	return icon_view;

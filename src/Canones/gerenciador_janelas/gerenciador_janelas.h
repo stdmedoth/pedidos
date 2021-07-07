@@ -65,6 +65,12 @@ REG_CAD_CNTRATS,
 REG_TNCLOG_WND,
 REG_BACKUP_WND,
 
+REG_REL_PLANL_ICONS_WIN,
+REG_PLANL_CONF_ICONS_WIN,
+REG_REL_PLANL_TER_WIN,
+REG_REL_PLANL_PRODS_WIN,
+REG_REL_PLANL_MOV_WIN,
+
 REG_WIN_QNT,
 };
 
@@ -135,7 +141,16 @@ static const char *janelas_nomes[] = {
   "Cadastro da Empresa",
   "Cadastro de Contratos",
   "Visualizador de Logs",
-  "Gerador de Backups"
+  "Gerador de Backups",
+
+  //planilhas
+  "Relatório de Planilhas",
+  "Gerador de Planilhas",
+  "Planilha de Clientes",
+  "Planilha de Produtos",
+  "Planilha de Movimentos",
+
+
 };
 
 typedef struct _janelas_info{
