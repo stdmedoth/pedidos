@@ -170,6 +170,7 @@
 #define INTEGR_PARAMS       APP_DIRNAME "/files/integr_params.xml"
 #define PRINT_SETTING_FILE  APP_DIRNAME "/files/impressao/print.settings"
 #define PRINT_SETUP_FILE    APP_DIRNAME "/files/impressao/page_setup.settings"
+#define DB_TABLES_LIST_FILE APP_DIRNAME "/files/db_tables_list"
 
 #define CSS_ORC       "orcamento.css"
 #define IMG_IMP_CLI   "imgs/cliente.png"
@@ -264,6 +265,9 @@
 #define MAX_SUP_DESC_LEN 1000
 #define MAX_SUP_STATUS_LEN 50
 #define MAX_SUP_TIPO_LEN 50
+
+#define MAX_TABLE_LEN 20
+#define MAX_TABLE_QNT 100
 
 #define MAX_DIF_VLR 0.4
 

@@ -1,5 +1,13 @@
 #include "sql_tools.c"
 
+void remover_barra_n(char *string){
+  for(int cont=0;cont<strlen(string);cont++){
+    if(string[cont] == '\n'){
+      string[cont] = '\0';
+    }
+  }
+}
+
 size_t write_download_file(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     size_t written = fwrite(ptr, size, nmemb, stream);
     return written;

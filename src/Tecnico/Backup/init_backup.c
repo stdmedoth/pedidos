@@ -93,7 +93,8 @@ int backup_iniciar_exportacao(){
 		char open_path[MAX_PATH_LEN];
 		sprintf(open_path, "file://%s",dir_filename);
 		if (!g_app_info_launch_default_for_uri (open_path , NULL, &error)) {
-		    g_warning ("Failed to open uri: %s", error->message);
+		    popup(NULL, "Não foi possível abrir diretório do backup");
+		    file_logger(error->message);
 		}	
 	}
 	

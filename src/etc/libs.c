@@ -26,6 +26,7 @@
 #include "./fechar.c"
 #include "./pega_data.c"
 #include "./update_version.c"
+#include "./check_db.c"
 
 #include "../Menu/iconview.c"
 #include "../Menu/abas.c"

@@ -31,12 +31,17 @@ int init(){
 		return 1;
 	}
 
+	if(check_tables()){
+		return 1;
+	}
+	
 	sprintf(query,"select * from tecn_pers_elem");
 	if(!(res = consultar(query))){
 		person_tecn_prim = 1;
 		popup(NULL,"Falha ao receber dados técnicos personalizados");
 		return 1;
 	}
+
 
 	if(!(row = mysql_fetch_row(res))){
 		person_tecn_prim = 1;
