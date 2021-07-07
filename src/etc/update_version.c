@@ -13,7 +13,6 @@ char *search_last_version(){
   body_chunk.memory = malloc(1);
   body_chunk.size = 0;
 
-  gpointer loading = carregando_wnd();
   carregar_interface();
 
   curl = curl_easy_init();
@@ -37,7 +36,6 @@ char *search_last_version(){
   if(res  != CURLE_OK){
     file_logger("Erro na atualização:");
     file_logger(errorbuf);
-    gtk_widget_destroy(loading);
     curl_easy_cleanup(curl);
     popup(NULL,"Não foi possível buscar ultima versão");
     return NULL;
@@ -46,7 +44,6 @@ char *search_last_version(){
   if(body_chunk.memory){
     last_version = strdup(body_chunk.memory);  
   }
-  gtk_widget_destroy(loading);
   curl_easy_cleanup(curl);
 
   return last_version;
@@ -62,30 +59,47 @@ int download_new_version(void) {
     char *next_name_version;
 
     #ifdef WIN32
-    int bins_qnt = 2;
-    char *bins[] = {"PedidosComConsole.exe", "PedidosSemConsole.exe"};
-    char *outfilenames[] = {"PedidosComConsoleNew.exe", "PedidosSemConsoleNew.exe"};
+    int bins_qnt = 3;
+    char *bins[] = {
+      "PedidosComConsole.exe", 
+      "PedidosSemConsole.exe", 
+      "migrate.exe", 
+      NULL
+    };
+    char *outfilenames[] = {
+      "PedidosComConsoleNew.exe", 
+      "PedidosSemConsoleNew.exe", 
+      "migrate.exe", 
+      NULL};
     #endif
 
     #ifdef __linux__
     int bins_qnt = 1;
-    char *bins[] = {"Pedidos.o"};
-    char *outfilenames[] = {"PedidosNew.o"};
+    char *bins[] = {
+      "Pedidos.o", 
+      "migrate.exe", 
+      NULL
+    };
+    char *outfilenames[] = {
+      "PedidosNew.o", 
+      "migrate.exe", 
+      NULL
+    };
     #endif
 
+    global_progress_bar_active = 1;
     next_name_version = search_last_version();
     if(!next_name_version){
       next_name_version = get_text_from_input("Insira o nome da versão a ser baixada:", NULL);
       if(!next_name_version){
+        global_progress_bar_active = 0;
         popup(NULL,"Nome da versão não inserida");
         return 1;
       }  
     } 
-
-    gpointer loading = carregando_wnd();
     carregar_interface();
 
-    for(int pos=0;pos<bins_qnt;pos++){
+    for(int pos=0; bins[pos] != NULL ;pos++){
       carregar_interface();
       sprintf(url, "https://github.com/stdmedoth/pedidos/releases/download/%s/%s", next_name_version, bins[pos]);
       curl = curl_easy_init();
@@ -94,7 +108,7 @@ int download_new_version(void) {
           sprintf(path,"%s/%s", APP_BINS_DIR, outfilenames[pos]);
           fp = fopen(path,"wb");
           if(!fp){
-            gtk_widget_destroy(loading);
+            global_progress_bar_active = 0;
             popup(NULL,"Não foi possível armazenar versão atual");
             return 1;
           }
@@ -102,18 +116,18 @@ int download_new_version(void) {
           curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
   				curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
           curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
-          //curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
-          //curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_download_file);
+          curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+          
           curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
           curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
           curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
           carregar_interface();
           res = curl_easy_perform(curl);
-          if(res != CURLE_OK){
-
+          if(res == CURLE_HTTP_RETURNED_ERROR){
             file_logger("Erro na atualização:");
+            file_logger(url);
             file_logger(errorbuf);
-            gtk_widget_destroy(loading);
+            global_progress_bar_active = 0;
             curl_easy_cleanup(curl);
             fclose(fp);
             char msg[CURL_ERROR_SIZE + 100];
@@ -126,10 +140,24 @@ int download_new_version(void) {
           fclose(fp);
       }
     }
-    gtk_widget_destroy(loading);
+    
+    for(int cont=0; files_remove_on_update[cont]; cont++){
+      remove(files_remove_on_update[cont]);  
+    }
+
+    FILE *tmp_updt_fp = fopen(ATUALIZA_VERTMP,"wb");
+    if(!tmp_updt_fp){
+      global_progress_bar_active = 0;
+      popup(NULL,"Não foi possível criar arquivo update warn");
+      return 1;
+    }
+    fprintf(tmp_updt_fp,"1");
+    fclose(tmp_updt_fp);
+
 
     char msg[2000];
     sprintf(msg,"A versão %s foi transferida com sucesso!\nDeseja fechar o sistema para efetuar a atualização?", next_name_version);
+    global_progress_bar_active = 0;
     if(PopupBinario(msg, "Fechar sistema e atualizar", "Deixar para depois")){
       encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
     }

@@ -27,6 +27,9 @@
 #include "./pega_data.c"
 #include "./update_version.c"
 #include "./check_db.c"
+#include "./check_dirs.c"
+#include "./curl_tools.c"
+#include "./check_updated.c"
 
 #include "../Menu/iconview.c"
 #include "../Menu/abas.c"
@@ -169,6 +172,10 @@
 #include "../Relatorios/fixados/estoques/principal.c"
 #include "../Relatorios/fixados/financeiro/receber/principal.c"
 #include "../Relatorios/fixados/financeiro/pagar/principal.c"
+
+#include "../Relatorios/planilhas/iconview.c"
+#include "../Relatorios/planilhas/init_export.c"
+#include "../Relatorios/planilhas/gerar.c"
 
 #include "../Marketing/analises/analisar.c"
 #include "../Marketing/emails/enviar/envio_emails.c"

@@ -4,9 +4,18 @@ int check_tables(){
 	char query[MAX_QUERY_LEN];
 	FILE *fp = fopen(DB_TABLES_LIST_FILE, "r");
 	if(!fp){
-		popup(NULL,"Não foi possível verificar tabelas");
-		return 1;
+		char url[strlen(PEDIDOS_APP_URL_FILES) + 200];
+		sprintf(url, "%s/data/db_tables_list", PEDIDOS_APP_URL_FILES);
+		if(download_from_to(url, DB_TABLES_LIST_FILE)){
+			popup(NULL,"Não foi possível efetuar download da verificação de tabelas");
+			return 1;
+		}
+		if(!(fp = fopen(DB_TABLES_LIST_FILE, "r"))){
+			popup(NULL,"Ainda não foi possível abrir arquivo de verificação das tabelas");
+			return 1;
+		}
 	}
+
 	int pos_line = 0;
 	size_t line_buf_size = 0;
 	pedidos_db_tables = malloc(MAX_TABLE_LEN * MAX_TABLE_QNT);

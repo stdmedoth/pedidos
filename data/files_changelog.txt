@@ -1,0 +1,15 @@
+data/sql_scripts/migrates/migrate_01.sql:files/sql_scripts/migrates/migrate_01.sql
+data/sql_scripts/migrates/migrate_02.sql:files/sql_scripts/migrates/migrate_02.sql
+data/sql_scripts/migrates/migrate_03.sql:files/sql_scripts/migrates/migrate_03.sql
+data/sql_scripts/migrates/migrate_04.sql:files/sql_scripts/migrates/migrate_04.sql
+data/sql_scripts/migrates/migrate_down_01.sql:files/sql_scripts/migrates/migrate_down_01.sql
+data/sql_scripts/migrates/migrate_down_02.sql:files/sql_scripts/migrates/migrate_down_02.sql
+data/sql_scripts/migrates/migrate_down_03.sql:files/sql_scripts/migrates/migrate_down_03.sql
+data/sql_scripts/migrates/migrate_down_04.sql:files/sql_scripts/migrates/migrate_down_04.sql
+data/icones_opc/planilha_movimentos.png:files/icones_opc/planilha_movimentos.png
+data/icones_opc/planilha_movimentos.png:files/icones_opc/planilha_movimentos.png
+data/icones_opc/planilha.png:files/icones_opc/planilha.png
+data/icones_opc/planilha_prods.png:files/icones_opc/planilha_prods.png
+data/icones_opc/planilhas.png:files/icones_opc/planilhas.png
+data/icones_opc/planilha_terceiros.png:files/icones_opc/planilha_terceiros.png
+data/icones_opc/planilha_terceiros.png:files/icones_opc/planilha_terceiros.png

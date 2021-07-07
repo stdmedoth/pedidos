@@ -24,6 +24,6 @@ static char *tip_logds[] = {"Rua",
 	"Alameda",
 	"Travessia",
 	"Rodovia"};
-
+	
 static int tipo_ter_load = 0;
 static int encerramento_brusco=0;

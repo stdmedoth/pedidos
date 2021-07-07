@@ -1,3 +1,55 @@
+gboolean progress_bar_check(){
+	if(!global_progress_bar_active){
+		if(global_progress_bar_active_changed){
+			carregar_interface();
+		}
+		global_progress_bar_active_changed = global_progress_bar_active;
+		gtk_widget_hide(global_progress_bar_window);
+		return G_SOURCE_CONTINUE;
+	}
+
+	
+	double progress = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget));
+	if( progress >= 1){
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget), 0);
+	}else{
+		progress += 0.3;
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget), progress);	
+	}
+	
+	if(!global_progress_bar_active_changed){
+		carregar_interface();
+	}
+	
+	global_progress_bar_active_changed = global_progress_bar_active;
+	gtk_widget_show_all(global_progress_bar_window);
+	
+	return G_SOURCE_CONTINUE;
+}
+
+void progress_bar_init(){
+	GtkWidget *box, *frame;
+	global_progress_bar_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_deletable(GTK_WINDOW(global_progress_bar_window),FALSE);
+	gtk_window_set_keep_above(GTK_WINDOW(global_progress_bar_window),TRUE);
+	gtk_window_set_decorated(GTK_WINDOW(global_progress_bar_window),FALSE);
+	gtk_window_set_position(GTK_WINDOW(global_progress_bar_window),3);
+
+	global_progress_bar_widget = gtk_progress_bar_new ();
+	box = gtk_box_new(0,0);
+	frame = gtk_frame_new("Carregando! aguarde");
+
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(global_progress_bar_widget), "...");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(global_progress_bar_widget), TRUE);
+
+	g_timeout_add (250, progress_bar_check, NULL);
+
+	gtk_box_pack_start(GTK_BOX(box),global_progress_bar_widget,0,0,0);
+	gtk_container_add(GTK_CONTAINER(frame), box);
+	gtk_container_add(GTK_CONTAINER(global_progress_bar_window), frame);
+	gtk_widget_show_all(global_progress_bar_window);
+}
+
 void popup(GtkWidget *widget,gchar *string){
 	int len;
 	GtkWidget *popup, *fields, *fixed, *box;

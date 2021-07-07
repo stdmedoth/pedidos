@@ -17,7 +17,7 @@ int relat_fix_vnd_gerar_fun(){
   GDir *dir;
   if(!(dir = g_dir_open(REL_FIX_VND_PATH,0,NULL))){
       popup(NULL,"Diretorio sendo criado");
-      if(g_mkdir_with_parents(REL_FIX_VND_PATH, 777)){
+      if(g_mkdir_with_parents(REL_FIX_FIN_PATH, 777) == -1){
         popup(NULL,"Não foi possível criar diretorio de relatorios");
         return 1;
       }
