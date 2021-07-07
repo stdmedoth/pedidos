@@ -8,6 +8,7 @@ int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
 		file_logger(filename);
 		return 1;
 	}
+	
 	int rows_qnt = mysql_num_rows(res);
 	int fields_qnt = mysql_num_fields(res);
 	while((field = mysql_fetch_field(res))){

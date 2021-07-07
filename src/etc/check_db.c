@@ -1,0 +1,41 @@
+int check_tables(){
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	char query[MAX_QUERY_LEN];
+	FILE *fp = fopen(DB_TABLES_LIST_FILE, "r");
+	if(!fp){
+		popup(NULL,"Não foi possível verificar tabelas");
+		return 1;
+	}
+	int pos_line = 0;
+	size_t line_buf_size = 0;
+	pedidos_db_tables = malloc(MAX_TABLE_LEN * MAX_TABLE_QNT);
+	pedidos_db_tables[pos_line] = malloc(MAX_TABLE_LEN);
+	sprintf(query, "SHOW TABLES");
+	if(!(res = consultar(query))){
+		popup(NULL,"Não foi possível verificar tabelas");
+		return 1;	
+	}
+	
+	while((getline(&pedidos_db_tables[pos_line], &line_buf_size, fp))>0){
+		remover_barra_n(pedidos_db_tables[pos_line]);
+		int table_exists = 0;
+
+		while((row = mysql_fetch_row(res))){
+			if( !strcmp(row[0], pedidos_db_tables[pos_line]) ){
+				table_exists = 1;
+			}
+		}
+		mysql_data_seek(res, 0); 
+		if(!table_exists){
+			char msg[27 + strlen(pedidos_db_tables[pos_line])];
+			sprintf(msg, "Tabela %s ausente no sistema!", pedidos_db_tables[pos_line]);
+			popup(NULL,msg);
+			return 1;
+		}
+		pos_line++;
+		pedidos_db_tables[pos_line] = malloc(MAX_TABLE_LEN);
+	}
+	
+	return 0;
+}

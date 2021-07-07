@@ -20,6 +20,7 @@
 #include "./temas.h"
 #include "./impressao.h"
 #include "./vars.h"
+#include "./check_db.h"
 
 #include "./stoi.h"
 #include "./css.h"
