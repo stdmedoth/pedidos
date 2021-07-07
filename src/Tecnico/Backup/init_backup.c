@@ -5,7 +5,7 @@ int backup_iniciar_exportacao(){
 		popup(NULL,"Insira o caminho para o Backup");
 		return 1;	
 	}
-	FILE *pathcache = fopen(BACKUP_PATH_FILE, "w");
+	FILE *pathcache = fopen(BKP_PTH_CACHE, "w");
 	if(pathcache){
 		fprintf(pathcache,"%s",dir_filename);
 		fclose(pathcache);

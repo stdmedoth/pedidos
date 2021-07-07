@@ -7,16 +7,6 @@
 #include "rel_ico.c"
 #include "tcn_ico.c"
 
-void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
-
-  if(menu_notebook && GTK_IS_WIDGET(menu_notebook))
-    menu_notebook_atual_pos = gtk_notebook_get_current_page(GTK_NOTEBOOK(menu_notebook));
-  if(data && GTK_IS_WIDGET(data)){
-    gtk_widget_destroy(data);
-  }
-
-}
-
 gboolean desfocar_menu(GtkWidget *widget, GdkEventCrossing  *event, gpointer   user_data){
   
   if((event->mode == GDK_CROSSING_UNGRAB) || (event->mode == GDK_CROSSING_GTK_UNGRAB) ){

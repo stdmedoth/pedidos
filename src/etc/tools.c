@@ -1,5 +1,16 @@
 #include "sql_tools.c"
 
+void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+
+  if(menu_notebook && GTK_IS_WIDGET(menu_notebook))
+    menu_notebook_atual_pos = gtk_notebook_get_current_page(GTK_NOTEBOOK(menu_notebook));
+  if(data && GTK_IS_WIDGET(data)){
+    gtk_widget_destroy(data);
+  }
+
+}
+
+
 void remover_barra_n(char *string){
   for(int cont=0;cont<strlen(string);cont++){
     if(string[cont] == '\n'){
@@ -100,7 +111,7 @@ char *camel_case(char *text){
   char *cased_text = malloc(strlen(text));
 
   for(int cont=0;cont<strlen(text);cont++){
-    if(text[pos] == ' '){
+    if(text[pos] == ' ' || text[pos] == '_'){
       cased = 1;
       pos++;
     }
@@ -193,7 +204,7 @@ GtkWidget *get_pop_parents_wnd(){
   return parent;
 }
 
-void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+void icon_view_select_caller(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
   GtkTreeIter iter;
   char *posicao;
   GdkPixbuf *pixbuf;
@@ -205,15 +216,47 @@ void icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
       1,&pixbuf,
       2,&identificacao,
       -1);
-  }
-  else{
-    popup(NULL,"Não foi possivel encontrar iter");
+  }else{
+    popup(NULL,"Não foi possivel encontrar ID da janela");
     return ;
   }
 
-  if(janelas_gerenciadas.vetor_janelas[identificacao].fun)
+  if(janelas_gerenciadas.vetor_janelas[identificacao].fun){
     janelas_gerenciadas.vetor_janelas[identificacao].fun();
+  }else{
+    popup(NULL,"Não foi possivel encontrar ID da janela");
+    return ;
+  }
 
+  return ;
+}
+
+void icon_view_select_caller_with_intarg(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
+  GtkTreeIter iter;
+  char *posicao;
+  GdkPixbuf *pixbuf;
+  int identificacao=0, arg=0;
+
+  if(gtk_tree_model_get_iter(GTK_TREE_MODEL(data),&iter,path)){
+    gtk_tree_model_get(GTK_TREE_MODEL(data),&iter,
+      0,&posicao,
+      1,&pixbuf,
+      2,&identificacao,
+      3,&arg,
+      -1);
+  }else{
+    popup(NULL,"Não foi possivel encontrar ID da janela");
+    return ;
+  }
+
+  if(janelas_gerenciadas.vetor_janelas[identificacao].fun){
+    janelas_gerenciadas.vetor_janelas[identificacao].fun(arg);
+  }else{
+    popup(NULL,"Não foi possivel encontrar ID da janela");
+    return ;
+  }
+
+  return ;
 }
 
 
