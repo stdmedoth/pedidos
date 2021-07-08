@@ -31,7 +31,7 @@ int init(){
 	if(check_directorys()){
 		return 1;
 	}
-	
+
 	if( check_updated() ){
 		if(PopupBinario("Para o funcionamento correto, Seu sistema será atualizado agora, ok?", "Ok atualiza agora", "Eu assumo o risco")){
 			
@@ -50,10 +50,21 @@ int init(){
 				popup(NULL, "Não foi possível abrir arquivo de changelogs");
 				return 1;
 			}
+			file_logger("Iniciando download dos arquivos da versão:");
 			while((getline(&from_to_string, &line_buf_size, changelog_file))>0){
 				remover_barra_n(from_to_string);
 				char *from = strtok(from_to_string, ":");
+				if(!from){
+					file_logger("Não foi possível dar parser na linha abaixo:");
+					file_logger(from_to_string);
+					continue;
+				}
 				char *to = strtok(NULL, ":");
+				if(!to){
+					file_logger("Não foi possível dar parser na linha abaixo:");
+					file_logger(from_to_string);
+					continue;
+				}
 				char path[MAX_PATH_LEN];
 
 				sprintf(url, "%s/%s", PEDIDOS_APP_URL_FILES, from);
@@ -65,6 +76,7 @@ int init(){
 					popup(NULL,"Erro ao baixar arquivos da atualização");
 					return 1;
 				}
+				/*
 				char *migrate_argv[] = {
 					MIGRATE_BIN,
 					"update"
@@ -83,7 +95,9 @@ int init(){
 					&out,
 					&err,
 					NULL);
+				*/
 			}
+			file_logger("Arquivos da atualização foram baixados");
 			remove(ATUALIZA_VERTMP);
 		}
 
