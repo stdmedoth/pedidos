@@ -12,7 +12,7 @@ const char *check_directorys_list[] = {
 	APP_DIRNAME "/files/impressao/",
 	APP_DIRNAME "/files/cache/",
 	APP_DIRNAME "/files/sql_scripts/",
-	MIGRATE_FOLDER,
+	APP_DIRNAME "/files/sql_scripts/migrates",
 
 	NULL
 };

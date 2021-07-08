@@ -83,12 +83,15 @@ install:
 
 # build do migrate wrapper
 BUILD_MGRT_FLAGS=-I build_migrate
-BUILD_MGRT_OBJ=migrate.o
+BUILD_MGRT_OBJ=migrate.o portable.o
 BUILD_MGRT_TARGET=build_migrate/migrate.c
 BUILD_MGRT_RESULT=migrate
 
 migrate.o:
 	$(CC) $(BUILD_MGRT_TARGET) -c  $(ALLFLAGS) $(BUILD_MGRT_FLAGS)
 
-build_migrate: migrate.o
-	$(CC) $(BUILD_MGRT_TARGET) -o $(BUILD_MGRT_RESULT) $(ALLFLAGS) $(BUILD_MGRT_FLAGS)
+portable.o: 
+	$(CC) src/etc/portable.c -c  $(ALLFLAGS) $(BUILD_MGRT_FLAGS)
+
+build_migrate: $(BUILD_MGRT_OBJ)
+	$(CC) $(BUILD_MGRT_OBJ) -o $(BUILD_MGRT_RESULT) $(ALLFLAGS) $(BUILD_MGRT_FLAGS)

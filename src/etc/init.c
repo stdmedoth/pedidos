@@ -27,6 +27,11 @@ int init(){
 	param_dev_defs();
 	get_monitor_sizes();
 
+
+	if(check_directorys()){
+		return 1;
+	}
+	
 	if( check_updated() ){
 		if(PopupBinario("Para o funcionamento correto, Seu sistema será atualizado agora, ok?", "Ok atualiza agora", "Eu assumo o risco")){
 			
@@ -82,10 +87,6 @@ int init(){
 			remove(ATUALIZA_VERTMP);
 		}
 
-	}
-
-	if(check_directorys()){
-		return 1;
 	}
 
 	if(check_compat_version()){

@@ -18,6 +18,7 @@
 #include <migrate.h>
 
 #include <defines.h>
+#include <portable.h>
 
 
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
