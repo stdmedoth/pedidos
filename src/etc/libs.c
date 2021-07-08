@@ -30,6 +30,7 @@
 #include "./check_dirs.c"
 #include "./curl_tools.c"
 #include "./check_updated.c"
+#include "./portable.c"
 
 #include "../Menu/iconview.c"
 #include "../Menu/abas.c"

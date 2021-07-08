@@ -34,7 +34,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <mysql/mysql.h>
+#include <mysql.h>
 #endif
 
 #include <libs.h>
