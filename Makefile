@@ -13,7 +13,7 @@ BDFLAGS=-llibmysql
 SOFLAGS=-lws2_32
 endif
 
-ifeq ($(detected_OS),Linux)
+ifeq ($(detected_OS),Linux  )
 CC=gcc
 CURLFLAGS=`pkg-config --libs --cflags  libcurl`
 BDFLAGS=-I /usr/include/mysql -l mysqlclient
@@ -40,32 +40,36 @@ ifeq ($(detected_OS),Windows)
 RESULT_FILE=PedidosSemConsole
 RESULT_FILE_CONSOLE=PedidosComConsole
 endif
-ifeq ($(detected_OS),Linux)
+
+ifeq ($(detected_OS),Linux  )
 RESULT_FILE=pedidos
 RESULT_FILE_CONSOLE=pedidos
 endif
 
 OBJS=Pedidos.o
 
+COMPILE_ENV=$(detected_OS)
+
+
 COPY_FILES=data
 DIR_ROOT=/usr/share/pedidos/
 DIR_FILES=/usr/share/pedidos/files
 DIR_BIN=/bin/
 
-ifeq ($(detected_OS),Linux)
-all: $(OBJS)
-	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS)
-endif
 
-ifeq ($(detected_OS),Windows)
-all: $(OBJS)
+all: $(OBJS) $(COMPILE_ENV)
+
+
+Linux:
+	echo $(detected_OS);
+	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS)
+
+Windows:
 	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS) -mwindows
 	$(CC) $(OBJS) -o $(RESULT_FILE_CONSOLE) $(ALLFLAGS)
-endif
-
 
 Pedidos.o:
-	$(CC) $(TARGET_FILE) -c  $(ALLFLAGS)
+	$(CC) $(TARGET_FILE) -c $(ALLFLAGS)
 
 clear:
 	rm *.o *.gcda $(RESULT_FILE) $(RESULT_FILE_CONSOLE)
