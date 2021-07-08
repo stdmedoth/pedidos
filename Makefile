@@ -1,4 +1,18 @@
+ifeq ($(OS),Windows_NT)     # is Windows_NT on XP, 2000, 7, Vista, 10...
+    detected_OS := Windows
+else
+    detected_OS := $(shell uname)  # same as "uname -s"
+endif
+
+MINGWCC=x86_64-mingw32-gcc
+
+ifeq ($(detected_OS),Windows)
+CC=$(MINGWCC)
+endif
+
+ifeq ($(detected_OS),Linux)
 CC=gcc
+endif
 
 PEDFLAGS=-I src/etc/
 GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
