@@ -118,7 +118,7 @@ int parametrizar()
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 
-	gpointer loading = carregando_wnd();
+	global_progress_bar_active = 1;
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 
@@ -452,6 +452,6 @@ int parametrizar()
 
 	gtk_widget_show_all(janela_parametros);
 
-	gtk_widget_destroy(loading);
+	global_progress_bar_active = 0;
 	return 0;
 }

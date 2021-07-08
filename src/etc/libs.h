@@ -22,6 +22,7 @@
 #include "./vars.h"
 #include "./check_db.h"
 #include "./check_dirs.h"
+#include "./curl_tools.h"
 
 #include "./stoi.h"
 #include "./css.h"
@@ -38,6 +39,7 @@
 #include "./fechar.h"
 #include "./pega_data.h"
 #include "./update_version.h"
+#include "./check_updated.h"
 
 #include "../Menu/iconview.h"
 #include "../Menu/abas.h"

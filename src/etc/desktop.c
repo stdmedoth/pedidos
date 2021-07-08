@@ -33,7 +33,7 @@ static void criar_janela_princ(){
 
 
 	if(param_funcionalidades.inatividade_fecha)
-		g_timeout_add (1000, atualizar_inatividade_label, NULL);
+		g_timeout_add (100, atualizar_inatividade_label, NULL);
 
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.principal); //works only on gtk_window_set_deletable = TRUE
 	//g_signal_connect(janela_principal,"destroy",G_CALLBACK(encerrar),janela_principal); //works only on gtk_window_set_deletable = TRUE
@@ -305,6 +305,7 @@ int desktop(){
 
 	hostname_label = gtk_label_new(endereco_maquina);
 	gtk_label_set_selectable(GTK_LABEL(hostname_label),TRUE);
+	
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 

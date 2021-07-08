@@ -7,6 +7,8 @@ int init(){
 	GtkWidget *imagem_inicializacao;
 	GtkWidget *layout = gtk_layout_new(NULL,NULL);
 
+	progress_bar_init();
+
 	enum{
 		CODE,
 		PATH_IMG_INIT,
@@ -25,6 +27,62 @@ int init(){
 	param_dev_defs();
 	get_monitor_sizes();
 
+	if( check_updated() ){
+		if(PopupBinario("Para o funcionamento correto, Seu sistema será atualizado agora, ok?", "Ok atualiza agora", "Eu assumo o risco")){
+			
+			global_progress_bar_active = 1;
+			char url[strlen(PEDIDOS_APP_URL_FILES) + 200];
+			sprintf(url, "%s/data/files_changelog.txt", PEDIDOS_APP_URL_FILES);
+
+			if(download_from_to(url, CHANGELOG_FILES)){
+				popup(NULL,"Não foi possível receber arquivo com atualização");
+				return 1;
+			}
+			char *from_to_string = malloc(MAX_PATH_LEN * 2);
+			size_t line_buf_size = 0;
+			FILE *changelog_file = fopen(CHANGELOG_FILES, "r");
+			if(!changelog_file){
+				popup(NULL, "Não foi possível abrir arquivo de changelogs");
+				return 1;
+			}
+			while((getline(&from_to_string, &line_buf_size, changelog_file))>0){
+				remover_barra_n(from_to_string);
+				char *from = strtok(from_to_string, ":");
+				char *to = strtok(NULL, ":");
+				char path[MAX_PATH_LEN];
+
+				sprintf(url, "%s/%s", PEDIDOS_APP_URL_FILES, from);
+				sprintf(path,"%s/%s", APP_DIRNAME, to);
+				if(download_from_to(url, path)){
+					file_logger("Não foi possível baixar arquivo na atualização");
+					file_logger(url);
+					file_logger(path);
+					popup(NULL,"Erro ao baixar arquivos da atualização");
+					return 1;
+				}
+				char *migrate_argv[] = {
+					MIGRATE_BIN,
+					"update"
+				};
+				GPid pid;
+				gint in, out, err;
+				g_spawn_async_with_pipes(
+					NULL,
+					migrate_argv, 
+					NULL, 
+					G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
+					NULL, 
+					NULL,
+					&pid, 
+					&in,
+					&out,
+					&err,
+					NULL);
+			}
+			remove(ATUALIZA_VERTMP);
+		}
+
+	}
 
 	if(check_directorys()){
 		return 1;

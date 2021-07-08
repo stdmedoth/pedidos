@@ -42,12 +42,12 @@ int row_exists(char *table, int id){
 }
 
 int conectar_mysql(){
-	GtkWidget *loading_wnd = carregando_wnd();
+	global_progress_bar_active = 1;
 
 	carregar_interface();
 
 	if(!mysql_init(&conectar)){
-		gtk_widget_destroy(loading_wnd);
+		global_progress_bar_active = 0;
 		popup(NULL,"Não foi possivel iniciar conector");
 		autologger((char*)mysql_error(&conectar));
 		encerrando();
@@ -60,7 +60,7 @@ int conectar_mysql(){
 
 	carregar_interface();
 	if(!mysql_real_connect(&conectar, server_confs.server_endereco, server_confs.server_user, server_confs.server_senha, server_confs.server_database, 0,NULL,0)){
-		gtk_widget_destroy(loading_wnd);
+		global_progress_bar_active = 0;
 		popup(NULL,"Não foi possível conectar ao servidor");
 		encerrando();
 		return 1;
@@ -74,7 +74,7 @@ int conectar_mysql(){
 		autologger("Não foi possivel setar novo caracter");
 	}
 
-	gtk_widget_destroy(loading_wnd);
+	global_progress_bar_active = 0;
 	primeira_conexao=1;
 	return 0;
 }

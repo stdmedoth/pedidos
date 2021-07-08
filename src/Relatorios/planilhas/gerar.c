@@ -18,7 +18,7 @@ int planilhas_gerar(){
 		file_logger("Nâo foi possível salvar caminho no cache");
 		file_logger(strerror(errno));
 	}
-	for(int cont=0;cont<PLANL_MOD_QNT;cont++){
+	for(int cont=0; planilhas_gerar_querys[cont][0] != NULL ;cont++){
 		if( planilhas_gerar_querys[cont][0] && ( atoi(planilhas_gerar_querys[cont][0]) == module ) ) {
 			planilha_gerada = 1;
 			strcpy(query, planilhas_gerar_querys[cont][1]);

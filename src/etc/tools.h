@@ -8,6 +8,8 @@ static int alt_pressionado = 0;
 
 static int logging = 0;
 
+void remover_barra_n(char *string);
+
 void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
 
 void icon_view_select_caller(GtkIconView *icon_view, GtkTreePath *path, gpointer data);
