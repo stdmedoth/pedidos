@@ -7,7 +7,7 @@ int barra_icones_add(gchar * Nome, int( * funcao)()) {
         img = gtk_image_new_from_file(Nome);
     }
     gtk_button_set_image(GTK_BUTTON(novo_icone), img);
-    gtk_widget_set_size_request(GTK_WIDGET(novo_icone), 75, 60);
+    gtk_widget_set_size_request(GTK_WIDGET(novo_icone), icon_button_width, icon_button_height);
     gtk_widget_set_name(novo_icone, "bar_buttons_tertiary");
     g_signal_connect(GTK_BUTTON(novo_icone), "clicked", G_CALLBACK(funcao), NULL);
 
@@ -101,7 +101,7 @@ GtkWidget * barra_icones_wnd() {
 
     barra_icones_add("help-about", info_sobre_wnd);
     barra_icones_add("system-software-update", download_new_version);
-    barra_icones_add("downloads", backup_fun);
+    barra_icones_add("folder-download", backup_fun);
 
     int button_height = 60;
 

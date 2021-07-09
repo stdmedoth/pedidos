@@ -44,11 +44,24 @@ int planilhas_gerar(){
 	
 	GError *error = NULL;
 	char open_path[MAX_PATH_LEN];
-	sprintf(open_path, "file://%s",filename);
+	
+	#ifdef WIN32
+		sprintf(open_path, "%s",filename);
+		HINSTANCE result = ShellExecuteA(NULL, "open", open_path, NULL, NULL, SW_HIDE);
+		if(result <= 32){
+			popup(NULL, "Não foi possível abrir arquivo exportado");
+		    file_logger(open_path);
+		}
+	#endif
+	#ifdef __linux__
+		sprintf(open_path, "file://%s",filename);
 	if (!g_app_info_launch_default_for_uri (open_path , NULL, &error)) {
 	    popup(NULL, "Não foi possível abrir arquivo exportado");
+	    file_logger(open_path);
 	    file_logger(error->message);
 	}
+	#endif
+
 
 	return 0;
 }
