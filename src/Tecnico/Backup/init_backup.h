@@ -12,9 +12,9 @@ backup_titulos_pag_gint,
 backup_baixas_pag_gint;
 
 enum BACKUP_OBJ_COL{
-	BACKUP_OBJ_MODULE,
-	BACKUP_OBJ_TABLE,
-	BACKUP_OBJ_QUERY,
+	BACKUP_OBJ_MODULE, // modulo do backup
+	BACKUP_OBJ_TABLE,  // tabela do backup
+	BACKUP_OBJ_QUERY,  // query do backup
 };
 
 char *backup_objs[][3] = {

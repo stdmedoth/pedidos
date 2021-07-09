@@ -1,5 +1,6 @@
 int backup_iniciar_exportacao(){
 
+	int dados_gerados = 0;
 	const char *dir_filename = gtk_entry_get_text(GTK_ENTRY(backup_file_chooser_entry));
 	if(!strlen(dir_filename)){
 		popup(NULL,"Insira o caminho para o Backup");
@@ -83,9 +84,14 @@ int backup_iniciar_exportacao(){
 			sprintf(msg,"Não foi possível criar backup para %s", backup_objs[i][BACKUP_OBJ_TABLE]);
 			popup(NULL, msg);
 			return 1;
-		}		
+		}
+		dados_gerados = 1;
 	}
 
+	if(!dados_gerados){
+		popup(NULL,"Não houve dados a gerar!");
+		return 0;
+	}
 
 	popup(NULL,"Backup feito com sucesso!");
 	if(PopupBinario("Deseja abrir diretório do backup?", "Sim", "Mais tarde eu vejo")){

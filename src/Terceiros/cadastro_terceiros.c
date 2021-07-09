@@ -61,11 +61,11 @@ int  cad_terc()
 	GtkWidget *atualiza_ter_prc_button;
 	GtkWidget *caixa_grande;
 	//container/visual
-	GtkWidget *fixed, *fixed2, *box,*vertical_box1, *vertical_box2, *separator;
-	GtkWidget *fixed3, *box2,*vertical_box3;
-	GtkWidget *fixed4 , *box3, *vertical_box4;
-	GtkWidget *fixed5 ,*box4, *vertical_box5;
-	GtkWidget *fixed6 ,*box5, *vertical_box6;
+	GtkWidget *box,*vertical_box1, *vertical_box2, *separator;
+	GtkWidget *box2,*vertical_box3;
+	GtkWidget *box3, *vertical_box4;
+	GtkWidget *box4, *vertical_box5;
+	GtkWidget *box5, *vertical_box6;
 	GtkWidget *opcoes;
 	GtkWidget *code, *code_ter_nfe_box, *doc, *inscr, *name_ter_box, *address, *cep,*type, *address_num;
 	GtkWidget *ter_cliente_desde_box;
@@ -169,11 +169,6 @@ int  cad_terc()
 
 	gtk_widget_set_size_request(precos_scroll_window,200,500);
 
-	fixed = gtk_fixed_new();
-	fixed2 = gtk_fixed_new();
-	fixed3 = gtk_fixed_new();
-	fixed4 = gtk_fixed_new();
-	fixed5 = gtk_fixed_new();
 
 	horizontal_box_one = gtk_box_new(0,0);
 	horizontal_box_two = gtk_box_new(0,0);
@@ -574,36 +569,26 @@ int  cad_terc()
 	g_signal_connect(GTK_BUTTON(psq_ter_prod_button),"clicked",G_CALLBACK(psq_prod),prod_ter_field);
 	g_signal_connect(GTK_BUTTON(atualiza_ter_prc_button),"clicked",G_CALLBACK(insere_preco_ter),NULL);
 
-	//page 0
-	gtk_widget_set_name(vertical_box1,"vertical_box1");
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_one,MARGEM_D,20);    //codigo cnpj
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_two,MARGEM_D,80);    //inscricao
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_three,MARGEM_D,140); //nome
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_four,MARGEM_D,240);  //cep/endereco tipo ter
-	gtk_fixed_put(GTK_FIXED(fixed),horizontal_box_five,MARGEM_D,440);  //observacoes
-	gtk_fixed_put(GTK_FIXED(fixed2),horizontal_box_six,MARGEM_D,20);   //contatos
-
-	gtk_fixed_put(GTK_FIXED(fixed4),horizontal_box_seven,MARGEM_D,20); //outros
-	if(lista_titulos)
-		gtk_fixed_put(GTK_FIXED(fixed4),lista_titulos,MARGEM_D,200);
-	gtk_fixed_put(GTK_FIXED(fixed5),vinculo_prod_frame,MARGEM_D,20); //produto e grupo vinculo
-
 	gtk_box_pack_start(GTK_BOX(vertical_box1),acao,0,0,0);//campo dos dados em clientes
-	gtk_box_pack_start(GTK_BOX(vertical_box1),fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),horizontal_box_one, 0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),horizontal_box_two, 0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),horizontal_box_three, 0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),horizontal_box_four, 0,0,0);
+	gtk_box_pack_start(GTK_BOX(vertical_box1),horizontal_box_five, 0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(box),vertical_box1,0,0,0);
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
 
-
-	gtk_box_pack_start(GTK_BOX(vertical_box2),fixed2,0,0,10);
-
+	gtk_box_pack_start(GTK_BOX(vertical_box2),horizontal_box_six,0,0,10);
+	
 	gtk_box_pack_start(GTK_BOX(box2),vertical_box2,0,0,0);
 
 	box3 = entrega_campos();
 
-	gtk_box_pack_start(GTK_BOX(vertical_box4),fixed4,0,0,10);
-
-	gtk_box_pack_start(GTK_BOX(vertical_box5),fixed5,0,0,10);
+	gtk_box_pack_start(GTK_BOX(vertical_box4),horizontal_box_seven,0,0,10);
+	if(lista_titulos)
+		gtk_box_pack_start(GTK_BOX(vertical_box4),lista_titulos,0,0,10);
+	gtk_box_pack_start(GTK_BOX(vertical_box5),vinculo_prod_frame,0,0,10);
 
 
 	gtk_box_pack_start(GTK_BOX(box4),vertical_box4,0,0,0);

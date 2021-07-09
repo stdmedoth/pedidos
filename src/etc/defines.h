@@ -327,6 +327,7 @@ enum ID_OPERACOES{
 #define LAST_VERSION_INFO_URL PEDIDOS_APP_URL_FILES"/last_version.php"
 #define VERSIONS_INFO_URL     PEDIDOS_APP_URL_FILES"/list_all_version.php"
 #define MAX_VERSION_QNT 20
+#define MAX_VERSION_ASSETS 10
 
 #define NIVEL_TECNICO_THEME "Adwaita"
 #endif
