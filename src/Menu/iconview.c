@@ -22,6 +22,14 @@ gboolean desfocar_menu(GtkWidget *widget, GdkEventCrossing  *event, gpointer   u
 int menu_icon_views_wnd(){
 
   GtkWidget *janela = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  GtkWidget *button_pesquisar = gtk_button_new_with_label("Pesquisar");
+  GtkWidget *button_fechar = gtk_button_new_with_label("Fechar menu");
+  GtkWidget *button_box = gtk_box_new(0,0);
+  GtkWidget *button_fixed = gtk_fixed_new();
+  GtkWidget *box = gtk_box_new(1,0);
+
+  gtk_button_set_image(GTK_BUTTON(button_pesquisar), gtk_image_new_from_file(IMG_PESQ));
+  gtk_button_set_image(GTK_BUTTON(button_fechar), gtk_image_new_from_file(IMG_CANCEL));
 
   gtk_container_set_border_width(GTK_CONTAINER(janela), 20);
 
@@ -90,7 +98,15 @@ int menu_icon_views_wnd(){
   gtk_notebook_set_current_page (GTK_NOTEBOOK(menu_notebook), menu_notebook_atual_pos);
   gtk_notebook_set_group_name (GTK_NOTEBOOK(menu_notebook), "menu_principal");
 
-  gtk_container_add(GTK_CONTAINER(janela),menu_notebook);
+  gtk_box_pack_start(GTK_BOX(button_box), button_pesquisar,0,0,5);
+  gtk_box_pack_start(GTK_BOX(button_box), button_fechar,0,0,5);  
+  gtk_fixed_put(GTK_FIXED(button_fixed), button_box, 20,20);
+  
+
+  gtk_box_pack_start(GTK_BOX(box), menu_notebook,0,0,5);
+  gtk_box_pack_start(GTK_BOX(box), button_fixed,0,0,0);
+  
+  gtk_container_add(GTK_CONTAINER(janela),box);
 
   gtk_widget_grab_focus(menu_notebook);
 
@@ -99,9 +115,10 @@ int menu_icon_views_wnd(){
   gtk_widget_set_can_focus (janela, TRUE);
 
   g_signal_connect(GTK_WIDGET(janela),"leave-notify-event",G_CALLBACK(desfocar_menu),NULL);
-
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MENU_WND]);
   g_signal_connect(GTK_WIDGET(janela),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+  g_signal_connect(button_fechar,"clicked",G_CALLBACK(chama_menu),NULL);
+
   g_signal_connect(janela,"destroy",G_CALLBACK(chama_menu),NULL);
   gtk_widget_show_all(janela);
   return 0;

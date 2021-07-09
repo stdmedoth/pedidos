@@ -1,5 +1,5 @@
 char *search_last_version(){
-  
+
   CURL *curl;
   FILE *fp;
   CURLcode res;
@@ -51,26 +51,30 @@ char *search_last_version(){
 
 int download_new_version(void) {
 
-    CURL *curl;
-    FILE *fp;
-    CURLcode res;
-    char *url = malloc(1000);
-    char errorbuf[ CURL_ERROR_SIZE ] = "";
-    char *next_name_version;
+  if(!PopupBinario("O sistema pesquisará por uma versão e iniciará a atualização", "Sim! continuar.", "Mais tarde")){
+    return 1;
+  }
+
+  CURL *curl;
+  FILE *fp;
+  CURLcode res;
+  char *url = malloc(1000);
+  char errorbuf[ CURL_ERROR_SIZE ] = "";
+  char *next_name_version;
 
     #ifdef WIN32
-    int bins_qnt = 3;
-    char *bins[] = {
-      "PedidosComConsole.exe", 
-      "PedidosSemConsole.exe", 
-      "migrate.exe", 
-      NULL
-    };
-    char *outfilenames[] = {
-      "PedidosComConsoleNew.exe", 
-      "PedidosSemConsoleNew.exe", 
-      "migrate.exe", 
-      NULL};
+  int bins_qnt = 3;
+  char *bins[] = {
+    "PedidosComConsole.exe", 
+    "PedidosSemConsole.exe", 
+    "migrate.exe", 
+    NULL
+  };
+  char *outfilenames[] = {
+    "PedidosComConsoleNew.exe", 
+    "PedidosSemConsoleNew.exe", 
+    "migrate.exe", 
+    NULL};
     #endif
 
     #ifdef __linux__
@@ -104,40 +108,40 @@ int download_new_version(void) {
       sprintf(url, "https://github.com/stdmedoth/pedidos/releases/download/%s/%s", next_name_version, bins[pos]);
       curl = curl_easy_init();
       if (curl) {
-          char path[MAX_PATH_LEN];
-          sprintf(path,"%s/%s", APP_BINS_DIR, outfilenames[pos]);
-          fp = fopen(path,"wb");
-          if(!fp){
-            global_progress_bar_active = 0;
-            popup(NULL,"Não foi possível armazenar versão atual");
-            return 1;
-          }
-          curl_easy_setopt(curl, CURLOPT_URL, url);
-          curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-  				curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
-          curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
-          curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
-          
-          curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
-          curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
-          curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-          carregar_interface();
-          res = curl_easy_perform(curl);
-          if(res == CURLE_HTTP_RETURNED_ERROR){
-            file_logger("Erro na atualização:");
-            file_logger(url);
-            file_logger(errorbuf);
-            global_progress_bar_active = 0;
-            curl_easy_cleanup(curl);
-            fclose(fp);
-            char msg[CURL_ERROR_SIZE + 100];
-            sprintf(msg, "Não foi possível baixar versão especificada:\n%s", errorbuf);
-            popup(NULL, msg);
-            return 1;
-          }
-          /* always cleanup */
+        char path[MAX_PATH_LEN];
+        sprintf(path,"%s/%s", APP_BINS_DIR, outfilenames[pos]);
+        fp = fopen(path,"wb");
+        if(!fp){
+          global_progress_bar_active = 0;
+          popup(NULL,"Não foi possível armazenar versão atual");
+          return 1;
+        }
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorbuf);
+        curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        carregar_interface();
+        res = curl_easy_perform(curl);
+        if(res == CURLE_HTTP_RETURNED_ERROR){
+          file_logger("Erro na atualização:");
+          file_logger(url);
+          file_logger(errorbuf);
+          global_progress_bar_active = 0;
           curl_easy_cleanup(curl);
           fclose(fp);
+          char msg[CURL_ERROR_SIZE + 100];
+          sprintf(msg, "Não foi possível baixar versão especificada:\n%s", errorbuf);
+          popup(NULL, msg);
+          return 1;
+        }
+          /* always cleanup */
+        curl_easy_cleanup(curl);
+        fclose(fp);
       }
     }
     
@@ -162,4 +166,4 @@ int download_new_version(void) {
       encerrar(NULL, GTK_WINDOW(janelas_gerenciadas.principal.janela_pointer));
     }
     return 0;
-}
+  }

@@ -56,6 +56,14 @@ int desktop(){
 	char query[MAX_QUERY_LEN];
 	char markup[500];
 
+	if(!janelas_gerenciadas.aplicacao.criada){
+		
+		check_encerramento_file();
+		create_encerramento_file();
+
+	}
+
+
 	if(validar_sessao_criada()){
 		file_logger("desktop() -> validar_sessao_criada()");
 		return 1;
@@ -64,32 +72,6 @@ int desktop(){
 	if(janelas_gerenciadas.fundo_inicializacao.aberta)
 		gtk_widget_destroy(janelas_gerenciadas.fundo_inicializacao.janela_pointer);
 
-	if(!janelas_gerenciadas.aplicacao.criada){
-		sprintf(query,"select * from wnd_logger where operador = %i and id_janela = %i order by tempo desc limit 1", sessao_oper->operador->code, REG_CORRECT_FINAL);
-		if(!(res = consultar(query))){
-			popup(NULL,"Falha ao verificar dados da sessão anterior");
-			return 1;
-		}
-		if((row = mysql_fetch_row(res))){
-			if(atoi(row[2])!=0){
-				encerramento_brusco = 1;
-			}
-		}else{
-			encerramento_brusco = 0;
-		}
-
-		sprintf(query,"insert into wnd_logger(id_janela,nome_janela,estado,qnt_aberta,operador,tempo) values(%i,'%s',%i,%i,%i,NOW())",
-		REG_CORRECT_FINAL,
-		"Encerrando...",
-		1,
-		0,
-		sessao_oper->operador->code);
-		if(enviar_query(query)){
-			popup(NULL,"Não foi possivel salvar status da sessão\n");
-			file_logger(query);
-			file_logger((char*)mysql_error(&conectar));
-		}
-	}
 
 	gchar *sessao_criacao_gchar = malloc(MAX_DATE_LEN + 40);
 	gchar *sessao_expiracao_gchar = malloc(MAX_DATE_LEN + 40);
@@ -292,16 +274,19 @@ int desktop(){
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
 	hostname_fixed = gtk_fixed_new();
-	struct _maquina *maquina = maquinas_get_atual();
+	if(maquina_atual){
+		free(maquina_atual);
+	}
+	maquina_atual = maquinas_get_atual();
 	char *endereco_maquina;
-	if(maquina)
-		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina->hostname) + 2);
-	else{
+	if(maquina_atual){
+		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina_atual->hostname) + 2);
+	}else{
 		file_logger("desktop() -> maquinas_get_atual()");
 		return 1;
 	}
 
-	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina->hostname);
+	sprintf(endereco_maquina,"%s@%s", server_confs.server_endereco, maquina_atual->hostname);
 
 	hostname_label = gtk_label_new(endereco_maquina);
 	gtk_label_set_selectable(GTK_LABEL(hostname_label),TRUE);

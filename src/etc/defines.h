@@ -158,6 +158,7 @@
 #define CACHE_DIR          APP_DIRNAME "/files/cache/"
 #define ATUALIZA_VERTMP    APP_DIRNAME "/files/tmp/update_pend"
 #define TMPFILE_PATH       APP_DIRNAME "/files/tmp/tempfile.tmp"
+#define ENCER_FINE_PATH    APP_DIRNAME "/files/tmp/encerr_fine"
 #define CHANGELOG_FILES    APP_DIRNAME "/files/files_changelog.txt"
 
 #define IMG_ENVIA           APP_DIRNAME "/files/opcoes_padrao/enviar.png"

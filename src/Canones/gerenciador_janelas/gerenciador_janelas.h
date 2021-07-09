@@ -78,7 +78,6 @@ REG_WIN_QNT,
 #define REG_INIT_FUN_WIN 9991
 #define REG_WIN_ENCERRA 9992
 #define REG_WIN_LOGIN 9993
-
 #define REG_CORRECT_FINAL 99999
 
 static const char *janelas_nomes[] = {

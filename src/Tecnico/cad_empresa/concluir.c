@@ -124,7 +124,7 @@ int cad_emp_concluir(){
   }else{
 
     sprintf(query,"update empresa set cnpj = '%s', ie = '%s', im = '%s', regime_tributario = '%s', regime_issqn = '%i', digcert_path = '%s', digcert_pass = '%s', razao = '%s', cep = '%s', endereco = '%s', bairro = '%s', cidade  = '%s', uf = '%s', numrua = '%i', tiporua = '%i', telefone = '%s', celular = '%s',smtp = '%s', porta = '%i', email = '%s', senhaemail = '%s', sobre = '%s' where code = %s",
-      char_cnpj,ie, im, regime_trib, regime_issq, digcertpath,
+      char_cnpj,ie, im, regime_trib, regime_issq, query_digcertpath,
       digcertpass, nome  ,cep, logr, bairro,
       cidade,uf, numrua,tiporua, telefone,
       celular, smtp_server, atoi(smtp_port), email, senhaemail, sobre, code);

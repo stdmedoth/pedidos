@@ -40,6 +40,7 @@
 #include "./pega_data.h"
 #include "./update_version.h"
 #include "./check_updated.h"
+#include "./check_encerramento.h"
 #include "./portable.h"
 
 #include "../Menu/iconview.h"

@@ -20,6 +20,7 @@ void encerrando()
 	iniciar_gerenciador_janela();
 	//sprintf(enc_infos,"Finalizando aplicacao");
 
+	remove_encerramento_file();
 	//autologger(enc_infos);
 	if(janelas_gerenciadas.aplicacao.criada || janelas_gerenciadas.login.aberta)
 		gtk_main_quit();
@@ -64,6 +65,7 @@ int encerrar(GtkWidget *buttton,GtkWindow *parent)
 	switch(resultado)
 	{
 		case GTK_RESPONSE_ACCEPT:
+			g_signal_handler_disconnect(mensagem,handler_id);
 			encerrando();
 			break;
 

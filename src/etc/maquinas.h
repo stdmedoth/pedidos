@@ -11,6 +11,8 @@ struct _maquina{
   int ativa;
 };
 
+struct _maquina *maquina_atual=NULL;
+
 struct _maquina *maquinas_criar_nova();
 
 struct _maquina *maquinas_get_atual();
