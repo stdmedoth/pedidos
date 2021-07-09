@@ -103,21 +103,25 @@ GtkWidget * barra_icones_wnd() {
     barra_icones_add("system-software-update", download_new_version);
     barra_icones_add("downloads", backup_fun);
 
+    int button_height = 60;
+
     /*sessao*/
-    gtk_layout_put(GTK_LAYOUT(layout_barra), logoff_button, 0, 590);
-    gtk_layout_put(GTK_LAYOUT(layout_barra), sair_button, 0, 650);
+    int logoff_button_ypos = desktop_heigth-icon_button_height*2;
+    gtk_layout_put(GTK_LAYOUT(layout_barra), logoff_button, 0, logoff_button_ypos);
 
-    gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar), 75, 60);
+    int sair_button_ypos = desktop_heigth-button_height*1;
+    gtk_layout_put(GTK_LAYOUT(layout_barra), sair_button, 0, sair_button_ypos);
 
-    gtk_widget_set_size_request(GTK_WIDGET(penden_button), 75, 60);
+    gtk_widget_set_size_request(GTK_WIDGET(botao_iniciar), icon_button_width, icon_button_height);
+    gtk_widget_set_size_request(GTK_WIDGET(penden_button), icon_button_width, icon_button_height);
 
-    gtk_widget_set_size_request(GTK_WIDGET(debug_button), 75, 60);
-    gtk_widget_set_size_request(GTK_WIDGET(suport_button), 75, 60);
-    gtk_widget_set_size_request(GTK_WIDGET(param_button), 75, 60);
-    gtk_widget_set_size_request(GTK_WIDGET(kanban_button), 75, 60);
+    gtk_widget_set_size_request(GTK_WIDGET(debug_button), icon_button_width, icon_button_height);
+    gtk_widget_set_size_request(GTK_WIDGET(suport_button), icon_button_width, icon_button_height);
+    gtk_widget_set_size_request(GTK_WIDGET(param_button), icon_button_width, icon_button_height);
+    gtk_widget_set_size_request(GTK_WIDGET(kanban_button), icon_button_width, icon_button_height);
 
-    gtk_widget_set_size_request(GTK_WIDGET(logoff_button), 75, 60);
-    gtk_widget_set_size_request(GTK_WIDGET(sair_button), 75, 60);
+    gtk_widget_set_size_request(GTK_WIDGET(logoff_button), icon_button_width, icon_button_height);
+    gtk_widget_set_size_request(GTK_WIDGET(sair_button), icon_button_width, icon_button_height);
 
     g_signal_connect(GTK_WIDGET(botao_iniciar), "clicked", G_CALLBACK(chama_menu), NULL);
 
