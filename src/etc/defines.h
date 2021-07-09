@@ -157,6 +157,7 @@
 #define CUPONS_XMLS_DIR    APP_DIRNAME "/files/xmls/cupom/"
 #define CACHE_DIR          APP_DIRNAME "/files/cache/"
 #define ATUALIZA_VERTMP    APP_DIRNAME "/files/tmp/update_pend"
+#define TMPDIR_PATH        APP_DIRNAME "/files/tmp/"
 #define TMPFILE_PATH       APP_DIRNAME "/files/tmp/tempfile.tmp"
 #define ENCER_FINE_PATH    APP_DIRNAME "/files/tmp/encerr_fine"
 #define CHANGELOG_FILES    APP_DIRNAME "/files/files_changelog.txt"
@@ -262,6 +263,7 @@
 #define MAX_UF_LEN 3
 #define MAX_SERVER_LEN 50
 #define MAX_COMPLMNTO_LEN 20
+#define MAX_URL_LEN 400
 
 #define MAX_FORMPG_CAD 100
 
@@ -323,6 +325,8 @@ enum ID_OPERACOES{
 
 #define PEDIDOS_APP_URL_FILES "https://calistupedidos.000webhostapp.com"
 #define LAST_VERSION_INFO_URL PEDIDOS_APP_URL_FILES"/last_version.php"
+#define VERSIONS_INFO_URL     PEDIDOS_APP_URL_FILES"/list_all_version.php"
+#define MAX_VERSION_QNT 20
 
 #define NIVEL_TECNICO_THEME "Adwaita"
 #endif

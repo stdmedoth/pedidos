@@ -20,7 +20,9 @@ void encerrando()
 	iniciar_gerenciador_janela();
 	//sprintf(enc_infos,"Finalizando aplicacao");
 
-	remove_encerramento_file();
+	if(janelas_gerenciadas.aplicacao.criada){
+		remove_encerramento_file();
+	}
 	//autologger(enc_infos);
 	if(janelas_gerenciadas.aplicacao.criada || janelas_gerenciadas.login.aberta)
 		gtk_main_quit();

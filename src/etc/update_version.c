@@ -1,3 +1,125 @@
+void choose_version_change_previous(GtkWidget *button, GtkWidget *about_dialog){
+
+  if(update_choosed_version > 0){
+    update_choosed_version--;
+  }
+  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].name);
+  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);  
+}
+
+void choose_version_change_next(GtkWidget *button, GtkWidget *about_dialog){
+
+  if(update_choosed_version < choose_versions_qnt-1){
+    update_choosed_version++;
+  }
+  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].name);
+  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);
+}
+const char *choose_version_for_download(){
+
+  GtkWidget *janela = gtk_about_dialog_new ();
+  gtk_window_set_position(GTK_WINDOW(janela), 3);
+  
+  gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(janela), "Calisto Pedidos");
+  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), versions[update_choosed_version].name);
+  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(janela), versions[update_choosed_version].about);
+  gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(janela), gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(LOGO_PEQUENA))));
+  char *autores[] = {"João Calisto", NULL};
+  gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(janela), (const char**)autores);
+  
+  enum{
+    ESCOLHER_VERSAO,
+    CANCELAR_DOWNLOAD,
+  };
+
+  GList *childrens = gtk_container_get_children(GTK_CONTAINER(janela)); 
+  GtkWidget *about_container = childrens->data;
+  if(about_container){
+    GtkWidget *versoes_button_box = gtk_box_new(0,0);
+    GtkWidget *versao_anterior = gtk_button_new_with_label("Anterior");
+    GtkWidget *versao_posterior = gtk_button_new_with_label("Próxima");
+    gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_anterior,0,0,5);
+    gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_posterior,0,0,5);
+    gtk_box_pack_start(GTK_BOX(about_container), versoes_button_box,0,0,5);
+    g_signal_connect(versao_anterior, "clicked", G_CALLBACK(choose_version_change_previous), janela);
+    g_signal_connect(versao_posterior, "clicked", G_CALLBACK(choose_version_change_next), janela);
+  }
+
+  GtkWidget *escolher_versao = gtk_button_new_with_label("Iniciar download da Versão");
+  GtkWidget *cancelar_download = gtk_button_new_with_label("Cancelar");
+  
+  gtk_dialog_add_action_widget(GTK_DIALOG(janela), escolher_versao, ESCOLHER_VERSAO);
+  gtk_dialog_add_action_widget(GTK_DIALOG(janela), cancelar_download, CANCELAR_DOWNLOAD);
+
+  gtk_widget_show_all(janela);
+  int response = gtk_dialog_run(GTK_DIALOG(janela));
+  const char *version = NULL;
+  switch(response){
+    case ESCOLHER_VERSAO:
+
+      
+      version = strdup(gtk_about_dialog_get_version(GTK_ABOUT_DIALOG(janela)));
+      gtk_widget_destroy(janela);
+      return version;
+
+    case CANCELAR_DOWNLOAD:
+      
+      break;
+      
+    default: 
+
+      break;
+  }
+  gtk_widget_destroy(janela);
+
+  return NULL; // apenas para simulação! corrigir isso depois
+}
+
+struct _versions *search_all_versions(){
+
+  char url[strlen(VERSIONS_INFO_URL)];
+  sprintf(url, "%s", VERSIONS_INFO_URL);
+  char *tmp_fileresponse = get_response(url);
+  if(!tmp_fileresponse){
+    popup(NULL,"Não foi possível receber informações com as versões");
+    return NULL;
+  }
+  xmlDocPtr doc = xmlParseFile(tmp_fileresponse);
+  if(!doc){
+    popup(NULL,"Não foi possível receber informações com as versões");
+    return NULL; 
+  }
+
+  xmlNodeSet *name_versoes = get_tags_by_namepath(doc,"/version_list/version/name");
+  if(!name_versoes){
+    popup(NULL,"Não foi possível receber nome das versões");
+    return NULL;
+  }
+  xmlNodeSet *about_versoes = get_tags_by_namepath(doc,"/version_list/version/about");
+  if(!about_versoes){
+    popup(NULL,"Não foi possível receber nome das versões");
+    return NULL;
+  }
+
+  if(versions){
+    free(versions);  
+  }
+  versions = malloc(sizeof(struct _versions) * MAX_VERSION_QNT);
+  update_choosed_version = 0;
+  choose_versions_qnt = 0;
+
+  for(int cont=0; cont < name_versoes->nodeNr && cont < MAX_VERSION_QNT; cont++){
+
+    if(name_versoes->nodeTab[cont])
+      versions[cont].name = strdup((char*)xmlNodeGetContent(name_versoes->nodeTab[cont]));
+    if(about_versoes->nodeTab[cont])
+      versions[cont].about = strdup((char*)xmlNodeGetContent(about_versoes->nodeTab[cont]));
+    choose_versions_qnt++;
+  }
+
+  return versions;
+}
+
 char *search_last_version(){
 
   CURL *curl;
@@ -60,7 +182,9 @@ int download_new_version(void) {
   CURLcode res;
   char *url = malloc(1000);
   char errorbuf[ CURL_ERROR_SIZE ] = "";
-  char *next_name_version;
+  const char *next_name_version=NULL;
+  global_progress_bar_active = 1;
+
 
     #ifdef WIN32
   int bins_qnt = 3;
@@ -91,8 +215,13 @@ int download_new_version(void) {
     };
     #endif
 
-    global_progress_bar_active = 1;
-    next_name_version = search_last_version();
+    if(search_all_versions()){
+      next_name_version = choose_version_for_download();
+      if(!next_name_version){
+        return 1;
+      }
+    }
+
     if(!next_name_version){
       next_name_version = get_text_from_input("Insira o nome da versão a ser baixada:", NULL);
       if(!next_name_version){

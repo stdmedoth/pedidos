@@ -9,3 +9,5 @@ xmlNodePtr getElementByTagName( xmlNodePtr nodes,char *TagName );
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath);
 
 int validar_coord_xml(xmlDocPtr doc, char **paths);
+
+xmlNodeSet *get_tags_by_namepath(xmlDoc *doc, char *namepath);

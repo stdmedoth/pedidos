@@ -6,10 +6,10 @@
 
 #include "./basic_headers.h"
 #include "./Pedidos.h"
+#include "./defines.h"
 #include "./init.h"
 #include "./version.h"
 #include "./desktop.h"
-#include "./defines.h"
 #include "./receber_confs.h"
 #include "./xml_tools.h"
 #include "./sql_tools.h"

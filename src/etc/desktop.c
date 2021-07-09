@@ -274,10 +274,8 @@ int desktop(){
 	gtk_widget_set_name(nivel_usuario_label,"nivel_operador");
 
 	hostname_fixed = gtk_fixed_new();
-	if(maquina_atual){
-		free(maquina_atual);
-	}
 	maquina_atual = maquinas_get_atual();
+	printf("%p\n", (void* )maquina_atual);
 	char *endereco_maquina;
 	if(maquina_atual){
 		endereco_maquina = malloc(strlen(server_confs.server_endereco) + strlen(maquina_atual->hostname) + 2);

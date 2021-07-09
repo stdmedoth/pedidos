@@ -27,6 +27,13 @@ int init(){
 	param_dev_defs();
 	get_monitor_sizes();
 
+	#ifdef WIN32
+	RemoveDirectoryA(TMPDIR_PATH);
+	#endif
+
+	#ifdef __linux__
+	remove_directory(TMPDIR_PATH);
+	#endif
 
 	if(check_directorys()){
 		return 1;

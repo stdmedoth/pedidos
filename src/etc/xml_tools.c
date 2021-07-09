@@ -83,6 +83,24 @@ xmlNodePtr getElementByTagName( xmlNodePtr nodes,char *TagName ){
     return search_elem_tag(nodes,TagName);
 }
 
+xmlNodeSet *get_tags_by_namepath(xmlDoc *doc, char *namepath){
+  xmlNodePtr root = xmlDocGetRootElement(doc);
+  xmlXPathContextPtr contxt = xmlXPathNewContext(doc);
+  xmlXPathObjectPtr node_contxt= xmlXPathEval((xmlChar*)namepath,contxt);
+
+  xmlNodeSet *node=NULL;
+  if(node_contxt &&
+    node_contxt->nodesetval &&
+    node_contxt->nodesetval->nodeNr &&
+    node_contxt->nodesetval->nodeTab){
+
+    node = node_contxt->nodesetval;
+  }
+
+  return node;
+}
+
+
 xmlNodePtr get_tag_by_namepath(xmlDoc *doc, char *namepath){
   xmlNodePtr root = xmlDocGetRootElement(doc);
   xmlXPathContextPtr contxt = xmlXPathNewContext(doc);

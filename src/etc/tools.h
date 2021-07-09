@@ -1,6 +1,9 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 
+
+GtkWidget*find_child(GtkWidget* parent, const gchar* name);
+
 #define ENUM_NAME(x) #x
 #define ENUM_TO_STR(x) ENUM_NAME(x)
 
