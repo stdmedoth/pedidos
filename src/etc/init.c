@@ -53,6 +53,9 @@ int init(){
 			file_logger("Iniciando download dos arquivos da versão:");
 			while((getline(&from_to_string, &line_buf_size, changelog_file))>0){
 				remover_barra_n(from_to_string);
+				file_logger("Baixando...");
+				file_logger(from_to_string);
+
 				char *from = strtok(from_to_string, ":");
 				if(!from){
 					file_logger("Não foi possível dar parser na linha abaixo:");
@@ -79,7 +82,8 @@ int init(){
 				/*
 				char *migrate_argv[] = {
 					MIGRATE_BIN,
-					"update"
+					"update",
+					NULL
 				};
 				GPid pid;
 				gint in, out, err;
@@ -98,7 +102,10 @@ int init(){
 				*/
 			}
 			file_logger("Arquivos da atualização foram baixados");
-			remove(ATUALIZA_VERTMP);
+			if(remove(ATUALIZA_VERTMP) == -1){
+				file_logger("Erro ao tentar remover gatilho de atualização");
+				file_logger(strerror(errno));
+			}
 		}
 
 	}
