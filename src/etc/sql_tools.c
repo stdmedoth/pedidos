@@ -8,20 +8,42 @@ int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
 		file_logger(filename);
 		return 1;
 	}
+
 	
 	int rows_qnt = mysql_num_rows(res);
 	int fields_qnt = mysql_num_fields(res);
+	int types[fields_qnt];
+	int field_pos=0;
 	while((field = mysql_fetch_field(res))){
 		fprintf(fp,"%s;", field->name);
+		types[field_pos] = field->type;
+		field_pos++;
 	}
 	fprintf(fp,"\n");
-
+	char *oldLocale = setlocale(LC_NUMERIC, NULL);
+	setlocale(LC_NUMERIC, "pt_BR");
 	while((row = mysql_fetch_row(res))){
 		for (int i = 0; i < fields_qnt; ++i){
-			fprintf(fp,"%s;", row[i]);
+			if(!row[i]){
+				fprintf(fp,";");	
+			}else{
+				char value[strlen(row[i]) + 12];
+				switch(types[i]){
+					case MYSQL_TYPE_DECIMAL:
+					case MYSQL_TYPE_FLOAT: 
+						sprintf(value, "%.2f", atof(row[i])); 		
+						break;
+					default:
+						sprintf(value, "%s", row[i]); 		
+					break;
+				}
+				fprintf(fp,"%s;", row[i]);	
+			}
+			
 		}
 		fprintf(fp,"\n");
 	}
+	setlocale(LC_NUMERIC, oldLocale);
 	fclose(fp);
 	return 0;
 }

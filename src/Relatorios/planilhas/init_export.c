@@ -80,15 +80,15 @@ int planilha_init_export(int module){
 	
 	planilhas_gerar_querys[PLANL_MOD_FINAN_REC] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_FINAN_REC], 
-		"SELECT * FROM titulos t INNER JOIN parcelas_tab pt ON t.code = pt.parcelas_id where t.tipo_titulo = 0");
+		"SELECT  t.code as 'Código Título',pt.posicao as 'Parcela',t2.razao as 'Cliente/Fornecedor',CASE WHEN status = 0 THEN 'Baixado'WHEN status = 1 THEN 'Parciamente Baixado'WHEN status = 2 THEN 'Pendente'END as 'Situação do Título',t.qnt_parcelas as 'Qnt. Parcelas',CASE WHEN t.tipo_titulo = 0 THEN 'Receber'WHEN t.tipo_titulo = 1 THEN 'Pagar'END  as 'Tipo Título',b.nome ,DATE_FORMAT(pt.data_criacao, '%%d/%%m/%%Y') as 'Criado em',DATE_FORMAT(pt.data_vencimento , '%%d/%%m/%%Y') as 'Vence em',  REPLACE(valor, '.', ',') as 'Valor' FROM titulos t INNER JOIN terceiros t2 ON t2.code = t.cliente INNER JOIN parcelas_tab pt ON t.code = pt.parcelas_id LEFT JOIN bancos b ON b.code = pt.banco WHERE t.tipo_titulo = 0");
 	
 	planilhas_gerar_querys[PLANL_MOD_FINAN_PAG] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_FINAN_PAG], 
-		"SELECT * FROM titulos t INNER JOIN parcelas_tab pt ON t.code = pt.parcelas_id where t.tipo_titulo = 1");
+		"SELECT  t.code as 'Código Título',pt.posicao as 'Parcela',t2.razao as 'Cliente/Fornecedor',CASE WHEN status = 0 THEN 'Baixado'WHEN status = 1 THEN 'Parciamente Baixado'WHEN status = 2 THEN 'Pendente'END as 'Situação do Título',t.qnt_parcelas as 'Qnt. Parcelas',CASE WHEN t.tipo_titulo = 0 THEN 'Receber'WHEN t.tipo_titulo = 1 THEN 'Pagar'END as 'Tipo Título' ,b.nome ,DATE_FORMAT(pt.data_criacao, '%%d/%%m/%%Y') as 'Criado em',DATE_FORMAT(pt.data_vencimento , '%%d/%%m/%%Y') as 'Vence em',  REPLACE(valor, '.', ',') as 'Valor' FROM titulos t INNER JOIN terceiros t2 ON t2.code = t.cliente INNER JOIN parcelas_tab pt ON t.code = pt.parcelas_id LEFT JOIN bancos b ON b.code = pt.banco WHERE t.tipo_titulo = 1");
 
 	planilhas_gerar_querys[PLANL_MOD_FINAN_FLUXO] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_FINAN_FLUXO], 
-		"SELECT * FROM titulos t INNER JOIN parcelas_tab pt ON t.code = pt.parcelas_id");
+		"SELECT   t.code as 'Código Título', pt.posicao as 'Parcela', t2.razao as 'Cliente/Fornecedor', CASE  WHEN status = 0 THEN 'Baixado' WHEN status = 1 THEN 'Parciamente Baixado' WHEN status = 2 THEN 'Pendente' END as 'Situação do Título', t.qnt_parcelas as 'Qnt. Parcelas', CASE  WHEN t.tipo_titulo = 0 THEN 'Receber' WHEN t.tipo_titulo = 1 THEN 'Pagar' END as 'Tipo Título' , b.nome , DATE_FORMAT(pt.data_criacao, '%%d/%%m/%%Y') as 'Criado em', DATE_FORMAT(pt.data_vencimento , '%%d/%%m/%%Y') as 'Vence em', CASE  WHEN t.tipo_titulo = 0 THEN REPLACE(valor, '.', ',') WHEN t.tipo_titulo = 1 THEN REPLACE(concat('-',valor), '.', ',') END as 'Valor' FROM titulos t  INNER JOIN terceiros t2  ON t2.code = t.cliente  INNER JOIN parcelas_tab pt  ON t.code = pt.parcelas_id  LEFT JOIN bancos b  ON b.code = pt.banco;");
 
 	g_signal_connect(planilha_export_path_button,"file-set",G_CALLBACK(get_filename_to_entry),planilha_export_path_entry);
 	g_signal_connect(planilha_export_conf_wnd,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_PLANL_CONF_ICONS_WIN]);
