@@ -63,7 +63,7 @@ int backup_iniciar_exportacao(){
 
 
 		char file_path[strlen(dir_filename) + 2 +  strlen(backup_objs[i][BACKUP_OBJ_TABLE])];
-		sprintf(file_path,"%s/%s.csv", dir_filename, backup_objs[i][BACKUP_OBJ_TABLE]);
+		sprintf(file_path,"%s/%s_db-%s-%s.csv", dir_filename, backup_objs[i][BACKUP_OBJ_TABLE], db_version, set_db_formated_date(data_sys));
 		if(!(res = consultar(backup_objs[i][BACKUP_OBJ_QUERY]))){
 			int msglen = 40 + strlen(backup_objs[i][BACKUP_OBJ_TABLE]);
 			char msg[ msglen ];

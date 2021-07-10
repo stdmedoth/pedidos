@@ -1,5 +1,5 @@
 int check_compat_version(){
-  char *db_version = get_db_version();
+  db_version = get_db_version();
   
   if(!db_version){
     return 1;

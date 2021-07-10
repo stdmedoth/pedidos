@@ -1,10 +1,21 @@
+void update_version_view(GtkWidget *about_dialog){
+  char version_name[strlen(versions[update_choosed_version].name) + 20];
+  if(! strcmp(GET_APP_VERSION_NAME(), versions[update_choosed_version].name) ){
+    sprintf(version_name, "%s (Versão atual)", versions[update_choosed_version].name);  
+  }else{
+    sprintf(version_name, "%s", versions[update_choosed_version].name);  
+  }
+  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), version_name);
+  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);  
+}
+
 void choose_version_change_previous(GtkWidget *button, GtkWidget *about_dialog){
 
   if(update_choosed_version > 0){
     update_choosed_version--;
   }
-  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].name);
-  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);  
+  update_version_view(about_dialog);
+  
 }
 
 void choose_version_change_next(GtkWidget *button, GtkWidget *about_dialog){
@@ -12,17 +23,17 @@ void choose_version_change_next(GtkWidget *button, GtkWidget *about_dialog){
   if(update_choosed_version < choose_versions_qnt-1){
     update_choosed_version++;
   }
-  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].name);
-  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);
+
+  update_version_view(about_dialog);
 }
+
 int choose_version_for_download(){
 
   GtkWidget *janela = gtk_about_dialog_new ();
   gtk_window_set_position(GTK_WINDOW(janela), 3);
   
   gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(janela), "Calisto Pedidos");
-  gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(janela), versions[update_choosed_version].name);
-  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(janela), versions[update_choosed_version].about);
+  update_version_view(janela);
   gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(janela), gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(LOGO_PEQUENA))));
   char *autores[] = {"João Calisto", NULL};
   gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(janela), (const char**)autores);
