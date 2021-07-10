@@ -36,7 +36,7 @@ int import_tits_iniciar(){
   "<html>"
     "<head>"
       "<meta charset=\"utf-8\"/>"
-      "<title>Relatório de Títulos à Pagar</title>"
+      "<title>Relatório de Títulos à Importar</title>"
       "<link href=\"../../styles/relatorios.css\" rel=\"stylesheet\">"
     "</head>";
 

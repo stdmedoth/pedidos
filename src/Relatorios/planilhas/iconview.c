@@ -47,6 +47,34 @@ int planilha_icon_view_wnd(){
     3,PLANL_MOD_MOVIMENTOS,
     -1);
 
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+    0,janelas_nomes[REG_REL_PLANL_FINR_WIN],
+    1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_FINR_IMG))),
+    2,REG_REL_PLANL_FINR_WIN,
+    3,PLANL_MOD_FINAN_REC,
+    -1);
+
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+    0,janelas_nomes[REG_REL_PLANL_FINP_WIN],
+    1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_FINP_IMG))),
+    2,REG_REL_PLANL_FINP_WIN,
+    3,PLANL_MOD_FINAN_PAG,
+    -1);
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+    0,janelas_nomes[REG_REL_PLANL_FLUXC_WIN],
+    1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_FLUX_IMG))),
+    2,REG_REL_PLANL_FLUXC_WIN,
+    3,PLANL_MOD_FINAN_FLUXO,
+    -1);
+
   gtk_icon_view_set_model(GTK_ICON_VIEW(icon_view),GTK_TREE_MODEL(modelo));
   //gtk_icon_view_set_activate_on_single_click(GTK_ICON_VIEW(icon_view),TRUE);
 

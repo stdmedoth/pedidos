@@ -163,6 +163,8 @@
 #include "../Financeiro/titulos/pagar/contas_fixas/contas_fixas.h"
 #include "../Financeiro/titulos/etc/importacao/importador.h"
 #include "../Financeiro/titulos/etc/importacao/iniciar.h"
+#include "../Financeiro/titulos/etc/importacao/importar.h"
+#include "../Financeiro/titulos/etc/importacao/criar_terceiro_importador.h"
 
 #include "../Relatorios/relatorios.h"
 #include "../Relatorios/relatorios/produtos/produtos.h"

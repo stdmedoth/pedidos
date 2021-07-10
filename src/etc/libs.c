@@ -159,6 +159,8 @@
 #include "../Financeiro/titulos/pagar/contas_fixas/contas_fixas.c"
 #include "../Financeiro/titulos/etc/importacao/importador.c"
 #include "../Financeiro/titulos/etc/importacao/iniciar.c"
+#include "../Financeiro/titulos/etc/importacao/importar.c"
+#include "../Financeiro/titulos/etc/importacao/criar_terceiro_importador.c"
 
 #include "../Vendas/faturamento.c"
 #include "../Relatorios/relatorios.c"

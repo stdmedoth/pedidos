@@ -70,6 +70,9 @@ REG_PLANL_CONF_ICONS_WIN,
 REG_REL_PLANL_TER_WIN,
 REG_REL_PLANL_PRODS_WIN,
 REG_REL_PLANL_MOV_WIN,
+REG_REL_PLANL_FINR_WIN,
+REG_REL_PLANL_FINP_WIN,
+REG_REL_PLANL_FLUXC_WIN,
 
 REG_WIN_QNT,
 };
@@ -148,6 +151,9 @@ static const char *janelas_nomes[] = {
   "Planilha de Clientes",
   "Planilha de Produtos",
   "Planilha de Movimentos",
+  "Planilha de Contas Receber",
+  "Planilha de Contas Pagar",
+  "Planilha de Fluxo de Caixa"
 
 
 };

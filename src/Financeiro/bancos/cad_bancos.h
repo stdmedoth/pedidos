@@ -53,6 +53,7 @@ enum BANCO_COLS{
 
 struct _banco{
   int code;
+  char *ccode;
   gchar *nome;
   gchar *conta;
   int tipo_conta;

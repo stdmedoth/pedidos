@@ -133,6 +133,9 @@
 #define REL_PLANL_IMG      APP_DIRNAME "/files/icones_opc/planilhas.png"
 #define REL_PROD_IMG       APP_DIRNAME "/files/icones_opc/relatorio_prod.png"
 #define REL_PLANL_PROD_IMG APP_DIRNAME "/files/icones_opc/planilha_prods.png"
+#define REL_PLANL_FINP_IMG APP_DIRNAME "/files/icones_opc/planilha_pagar.png"
+#define REL_PLANL_FLUX_IMG APP_DIRNAME "/files/icones_opc/planilha_fluxo.png"
+#define REL_PLANL_FINR_IMG APP_DIRNAME "/files/icones_opc/planilha_rec.png"
 #define REL_FIX_PROD_IMG   APP_DIRNAME "/files/icones_opc/relatorio_fixos_produtos.png"
 #define REL_FIX_TER_IMG    APP_DIRNAME "/files/icones_opc/relatorio_fixos_terceiros.png"
 #define REL_FIX_VND_IMG    APP_DIRNAME "/files/icones_opc/relatorio_fixos_vendas.png"
@@ -297,11 +300,7 @@ enum{
   VLR_ORIG_DEFAULT
 };
 
-
-#define STAT_QUITADO 0
-#define STAT_PARC_BAIXA 1
-#define STAT_PENDENTE 2
-
+ 
 enum TIPO_OPERACOES{
   OPER_ENTRADA,
   OPER_SAIDA

@@ -198,6 +198,7 @@ void carregar_interface(){
   return ;
 }
 
+
 gchar *get_db_formated_date(gchar *date_row){
   int dia, mes, ano;
 	if(sscanf(date_row, "%d-%d-%d", &ano, &mes, &dia)!=3){
@@ -207,8 +208,19 @@ gchar *get_db_formated_date(gchar *date_row){
 	GDateTime *datetime = g_date_time_new(tz, ano, mes, dia, 0, 0, 0);
 
 	return g_date_time_format(datetime, "%d/%m/%Y");
-
 }
+
+gchar *set_db_formated_date(gchar *date_row){
+  int dia, mes, ano;
+  if(sscanf(date_row, "%d/%d/%d", &dia, &mes, &ano)!=3){
+    return NULL;
+  }
+  GTimeZone *tz = g_time_zone_new(NULL);
+  GDateTime *datetime = g_date_time_new(tz, ano, mes, dia, 0, 0, 0);
+
+  return g_date_time_format(datetime, "%Y-%m-%d");
+}
+
 
 GtkWidget *get_pop_parents_wnd(){
   GtkWidget *parent=NULL;

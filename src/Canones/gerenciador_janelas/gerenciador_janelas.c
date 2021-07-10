@@ -274,6 +274,9 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_PRODS_WIN].fun = planilha_init_export; //module PLANL_MOD_PRODUTOS
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_TER_WIN].fun = planilha_init_export; //module PLANL_MOD_TERCEIROS
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_MOV_WIN].fun = planilha_init_export; //module PLANL_MOD_MOVIMENTOS
+  janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_FINR_WIN].fun = planilha_init_export; //module PLANL_MOD_FINAN_REC
+  janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_FINP_WIN].fun = planilha_init_export; //module PLANL_MOD_FINAN_PAG
+  janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_FLUXC_WIN].fun = planilha_init_export; //module PLANL_MOD_FINAN_FLUXO
 
   //opcoes tecnicas
   janelas_gerenciadas.vetor_janelas[REG_CAD_EMPRESA].fun = cadastro_empresa;
