@@ -44,7 +44,7 @@
 #include "./portable.h"
 
 #include "../Menu/iconview.h"
-#include "../Menu/abas.h"
+#include "../Menu/atalhos.h"
 
 #include "../Canones/cad_oper/Cadastro_Operadores.h"
 #include "../Canones/gerenciador_janelas/gerenciador_janelas.h"
@@ -90,6 +90,7 @@
 #include "../pesquisadores/precos.h"
 #include "../pesquisadores/modelos_email.h"
 #include "../pesquisadores/cheques.h"
+#include "../pesquisadores/opcoes.h"
 
 
 #include "../Compras/cadastro_compras.h"

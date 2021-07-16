@@ -8,7 +8,7 @@ int init(){
 	GtkWidget *layout = gtk_layout_new(NULL,NULL);
 
 	progress_bar_init();
-
+	
 	enum{
 		CODE,
 		PATH_IMG_INIT,
@@ -19,9 +19,9 @@ int init(){
 		if( conectar_mysql() ){
 			popup(NULL,"Não foi possível conectar ao servidor de banco de dados");
 			return 1;
-		}	
+		}
 	}
-	
+
 
 	load_styles();
 	param_dev_defs();
@@ -41,7 +41,7 @@ int init(){
 
 	if( check_updated() ){
 		if(PopupBinario("Para o funcionamento correto, Seu sistema será atualizado agora, ok?", "Ok atualiza agora", "Eu assumo o risco")){
-			
+
 			global_progress_bar_active = 1;
 			char url[strlen(PEDIDOS_APP_URL_FILES) + 200];
 			sprintf(url, "%s/data/files_changelog.txt", PEDIDOS_APP_URL_FILES);
@@ -96,12 +96,12 @@ int init(){
 				gint in, out, err;
 				g_spawn_async_with_pipes(
 					NULL,
-					migrate_argv, 
-					NULL, 
-					G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
-					NULL, 
+					migrate_argv,
 					NULL,
-					&pid, 
+					G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
+					NULL,
+					NULL,
+					&pid,
 					&in,
 					&out,
 					&err,
@@ -119,7 +119,7 @@ int init(){
 
 	if(check_compat_version()){
 		char msg[300];
-		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )", GET_APP_VERSION());
+		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )\nVerifique o migrate!", GET_APP_VERSION());
 		popup(NULL,msg);
 		return 1;
 	}
@@ -127,7 +127,7 @@ int init(){
 	if(check_tables()){
 		return 1;
 	}
-	
+
 	sprintf(query,"select * from tecn_pers_elem");
 	if(!(res = consultar(query))){
 		person_tecn_prim = 1;
@@ -175,7 +175,7 @@ int init(){
 		popup(NULL,"Erro ao receber dados para personalizacao do sistema");
 		return 1;
 	}
-	
+
 	if(!(row = mysql_fetch_row(res))){
 		file_logger("init() -> mysql_fetch_row() -> tabela perfil_desktop");
 		popup(NULL,"Sem dados para personalizar o sistema");

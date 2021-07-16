@@ -34,7 +34,7 @@
 #include "./portable.c"
 
 #include "../Menu/iconview.c"
-#include "../Menu/abas.c"
+#include "../Menu/atalhos.c"
 
 #include "../Parametros/parametros.c"
 
@@ -69,6 +69,7 @@
 #include "../pesquisadores/mail_distribuicoes.c"
 #include "../pesquisadores/modelos_email.c"
 #include "../pesquisadores/cheques.c"
+#include "../pesquisadores/opcoes.c"
 
 #include "../Canones/cad_oper/Cadastro_Operadores.c"
 #include "../Canones/cad_ceps/cadastro_ceps.c"

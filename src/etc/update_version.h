@@ -14,6 +14,7 @@ struct _versions {
 	char *about;
 	int assets_qnt;
 	char **assets;
+	char *created_time;
 };
 
 static struct _versions *versions=NULL;

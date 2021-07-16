@@ -1,6 +1,3 @@
-#define ABRIR_MENU_TECLA GDK_KEY_Control_L
-#define SAIR_MENU_TECLA GDK_KEY_Escape
-
 int menu_icon_views_wnd();
 
 GtkWidget *menu_notebook;

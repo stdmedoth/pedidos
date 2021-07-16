@@ -1,9 +1,9 @@
 void update_version_view(GtkWidget *about_dialog){
   char version_name[strlen(versions[update_choosed_version].name) + 20];
   if(! strcmp(GET_APP_VERSION_NAME(), versions[update_choosed_version].name) ){
-    sprintf(version_name, "%s (Versão atual)", versions[update_choosed_version].name);  
+    sprintf(version_name, "%s,  criado em %s (Versão atual)", versions[update_choosed_version].name, versions[update_choosed_version].created_time);  
   }else{
-    sprintf(version_name, "%s", versions[update_choosed_version].name);  
+    sprintf(version_name, "%s,  criado em %s", versions[update_choosed_version].name,versions[update_choosed_version].created_time);  
   }
   gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), version_name);
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);  
@@ -116,6 +116,12 @@ struct _versions *search_all_versions(){
     return NULL;
   }
 
+  xmlNodeSet *about_dates = get_tags_by_namepath(doc,"/version_list/version/created_at");
+  if(!anexos_versoes){
+    popup(NULL,"Não foi possível receber datas das versões");
+    return NULL;
+  }
+
   if(versions){
     free(versions);  
   }
@@ -142,6 +148,10 @@ struct _versions *search_all_versions(){
         versions[cont].assets_qnt++;
       }
     }
+
+    if(about_dates->nodeTab[cont])
+      versions[cont].created_time = strdup((char*)xmlNodeGetContent(about_dates->nodeTab[cont]));
+
     choose_versions_qnt++;
   }
 

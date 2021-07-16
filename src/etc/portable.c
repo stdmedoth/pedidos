@@ -1,4 +1,22 @@
+/*
+    functions reimplementation for
+    portable with Win and Linux/GNU
+*/
+
+
 #ifdef WIN32
+
+
+
+int scandir(char *folderpath, 
+            struct dirent **namelist, 
+            int (*filter)(const struct dirent *), 
+            int (*compar)(const struct dirent **,
+            const struct dirent **)){
+
+    
+
+}
 
 ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
     size_t pos;

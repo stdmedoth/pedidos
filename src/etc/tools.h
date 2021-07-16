@@ -2,6 +2,8 @@
 #define DEFAULT_ERROR_CODE 4321
 
 
+gboolean gtk_tree_model_append_from_model(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer store);
+
 GtkWidget*find_child(GtkWidget* parent, const gchar* name);
 
 #define ENUM_NAME(x) #x

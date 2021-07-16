@@ -57,7 +57,7 @@ int desktop(){
 	char markup[500];
 
 	if(!janelas_gerenciadas.aplicacao.criada){
-		
+
 		check_encerramento_file();
 		create_encerramento_file();
 
@@ -106,7 +106,6 @@ int desktop(){
 	}
 	g_object_unref (app);
 	carregar_interface();
-
 
 	if(sessao_oper->status_sessao == SESSAO_LOGADA){
 		sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");
@@ -288,7 +287,7 @@ int desktop(){
 
 	hostname_label = gtk_label_new(endereco_maquina);
 	gtk_label_set_selectable(GTK_LABEL(hostname_label),TRUE);
-	
+
 	while (g_main_context_pending(NULL))
 		g_main_context_iteration(NULL,FALSE);
 

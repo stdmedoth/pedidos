@@ -4,22 +4,6 @@
 #include "altera.c"
 #include "exclui.c"
 
-int inicializar_prod(){
-	int i,cont;
-
-	codigos_prod = malloc(MAX_CODE_LEN);
-	nomes_prod = malloc(MAX_NAME_LEN);
-	precos_prod = malloc(MAX_PRECO_LEN);
-	pesos_prod = malloc(MAX_PRECO_LEN);
-	unidades_prod = malloc(MAX_CODE_LEN);
-	unidades_atac_prod = malloc(MAX_CODE_LEN);
-	grupos_prod = malloc(MAX_GRP_LEN);
-	fornecedores_prod = malloc(MAX_FOR_LEN);
-	observacoes_prod = malloc(MAX_OBS_LEN);
-
-	return 0;
-}
-
 struct _cad_produtos *get_cad_prod(int prod_code){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -276,7 +260,7 @@ int  cad_prod(){
 
 	qnt_atacado = gtk_box_new(0,0);
 	gtk_widget_set_name(qnt_atacado,"caixa");
-	
+
 	gtk_box_pack_start(GTK_BOX(qnt_atacado),qnt_atacado_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(qnt_atacado),psq_qnt_atacado_button,0,0,0);
 	gtk_box_pack_start(GTK_BOX(qnt_atacado),campo_nome_qnt_atacado,0,0,0);
@@ -550,18 +534,16 @@ int  cad_prod(){
 	notebook_cad_prod = gtk_notebook_new();
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box,gtk_label_new("Informações do Produto"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box2,gtk_label_new("Faturamento"));
-	
+
 	if(param_funcionalidades.produtos_fiscal)
 		gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box3,gtk_label_new("Fiscal"));
-	
+
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook_cad_prod),box4,gtk_label_new("Complemento"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),notebook_cad_prod,0,0,10);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),horizontal_box_eight,0,0,0);
 
 	gtk_container_add(GTK_CONTAINER(janela),caixa_grande);
-
-	inicializar_prod();
 
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_fornecedor),FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(campo_nome_grupo),FALSE);

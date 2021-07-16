@@ -1,8 +1,32 @@
 #include "sql_tools.c"
 
+gboolean gtk_tree_model_append_from_model(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,  gpointer store){
+
+  int ncols = gtk_tree_model_get_n_columns(model);
+
+  GtkTreeIter iter_new;
+  GtkTreePath *path_new = NULL;
+  gint rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(store), NULL);
+  if(rows){
+    path_new = gtk_tree_path_new_from_indices(rows - 1, -1);
+  }else{
+    path_new = gtk_tree_path_new_from_indices(0, -1);
+  }
+
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &iter_new, path_new);
+
+  gtk_tree_store_append(GTK_TREE_STORE(store), &iter_new ,NULL);
+  for(int cont=0;cont<ncols;cont++){
+    GValue value=G_VALUE_INIT;
+    gtk_tree_model_get_value(model, iter, cont, &value);
+    gtk_tree_store_set_value(GTK_TREE_STORE(store), &iter_new, cont, &value);
+  }
+  return FALSE;
+}
+
 GtkWidget*find_child(GtkWidget* parent, const gchar* name){
   g_print("%s\n", gtk_widget_get_name((GtkWidget*)parent));
-  if (g_strcasecmp(gtk_widget_get_name((GtkWidget*)parent), (gchar*)name) == 0) { 
+  if (g_strcasecmp(gtk_widget_get_name((GtkWidget*)parent), (gchar*)name) == 0) {
     return parent;
   }
 
@@ -26,8 +50,10 @@ GtkWidget*find_child(GtkWidget* parent, const gchar* name){
 
 void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer data){
 
-  if(menu_notebook && GTK_IS_WIDGET(menu_notebook))
+  if(menu_notebook && GTK_IS_WIDGET(menu_notebook)){
     menu_notebook_atual_pos = gtk_notebook_get_current_page(GTK_NOTEBOOK(menu_notebook));
+  }
+
   if(data && GTK_IS_WIDGET(data)){
     gtk_widget_destroy(data);
   }

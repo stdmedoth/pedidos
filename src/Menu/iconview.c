@@ -8,7 +8,7 @@
 #include "tcn_ico.c"
 
 gboolean desfocar_menu(GtkWidget *widget, GdkEventCrossing  *event, gpointer   user_data){
-  
+
   if((event->mode == GDK_CROSSING_UNGRAB) || (event->mode == GDK_CROSSING_GTK_UNGRAB) ){
     if(widget && GTK_IS_WIDGET(widget)){
       gtk_widget_destroy(widget);
@@ -99,13 +99,12 @@ int menu_icon_views_wnd(){
   gtk_notebook_set_group_name (GTK_NOTEBOOK(menu_notebook), "menu_principal");
 
   gtk_box_pack_start(GTK_BOX(button_box), button_pesquisar,0,0,5);
-  gtk_box_pack_start(GTK_BOX(button_box), button_fechar,0,0,5);  
+  gtk_box_pack_start(GTK_BOX(button_box), button_fechar,0,0,5);
   gtk_fixed_put(GTK_FIXED(button_fixed), button_box, 20,20);
-  
 
   gtk_box_pack_start(GTK_BOX(box), menu_notebook,0,0,5);
   gtk_box_pack_start(GTK_BOX(box), button_fixed,0,0,0);
-  
+
   gtk_container_add(GTK_CONTAINER(janela),box);
 
   gtk_widget_grab_focus(menu_notebook);
@@ -114,10 +113,15 @@ int menu_icon_views_wnd(){
   gtk_widget_add_events(janela, GDK_LEAVE_NOTIFY_MASK );
   gtk_widget_set_can_focus (janela, TRUE);
 
+  pesquisador_opcoes_create();
+
   g_signal_connect(GTK_WIDGET(janela),"leave-notify-event",G_CALLBACK(desfocar_menu),NULL);
   g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_MENU_WND]);
   g_signal_connect(GTK_WIDGET(janela),"key_press_event",G_CALLBACK(tecla_menu),NULL);
+
   g_signal_connect(button_fechar,"clicked",G_CALLBACK(chama_menu),NULL);
+
+  g_signal_connect(button_pesquisar, "clicked", G_CALLBACK(pesquisador_opcoes_caller), NULL);
 
   g_signal_connect(janela,"destroy",G_CALLBACK(chama_menu),NULL);
   gtk_widget_show_all(janela);
