@@ -1,6 +1,7 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 
+int str_is_on_array(char *string, char **array, int arrlen);
 
 gboolean gtk_tree_model_append_from_model(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer store);
 

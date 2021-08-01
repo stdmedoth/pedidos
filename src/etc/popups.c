@@ -8,22 +8,27 @@ gboolean progress_bar_check(){
 		return G_SOURCE_CONTINUE;
 	}
 
-	
+	if(global_progress_bar_text){
+			gtk_progress_bar_set_text(GTK_PROGRESS_BAR(global_progress_bar_widget), global_progress_bar_text);
+	}else{
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(global_progress_bar_widget), GLOBAL_PROGRESS_BAR_DEFAULT_TXT);
+	}
+
 	double progress = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget));
 	if( progress >= 1){
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget), 0);
 	}else{
 		progress += 0.3;
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget), progress);	
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(global_progress_bar_widget), progress);
 	}
-	
+
 	if(!global_progress_bar_active_changed){
 		carregar_interface();
 	}
-	
+
 	global_progress_bar_active_changed = global_progress_bar_active;
 	gtk_widget_show_all(global_progress_bar_window);
-	
+
 	return G_SOURCE_CONTINUE;
 }
 
@@ -34,15 +39,16 @@ void progress_bar_init(){
 	gtk_window_set_keep_above(GTK_WINDOW(global_progress_bar_window),TRUE);
 	gtk_window_set_decorated(GTK_WINDOW(global_progress_bar_window),FALSE);
 	gtk_window_set_position(GTK_WINDOW(global_progress_bar_window),3);
+	gtk_widget_set_size_request(global_progress_bar_window, 50, 50);
 
 	global_progress_bar_widget = gtk_progress_bar_new ();
 	box = gtk_box_new(0,0);
 	frame = gtk_frame_new("Carregando! aguarde");
 
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(global_progress_bar_widget), "...");
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(global_progress_bar_widget), GLOBAL_PROGRESS_BAR_DEFAULT_TXT);
 	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(global_progress_bar_widget), TRUE);
 
-	g_timeout_add (250, progress_bar_check, NULL);
+	g_timeout_add (350, progress_bar_check, NULL);
 
 	gtk_box_pack_start(GTK_BOX(box),global_progress_bar_widget,0,0,0);
 	gtk_container_add(GTK_CONTAINER(frame), box);
@@ -71,7 +77,7 @@ void popup(GtkWidget *widget,gchar *string){
 	fields = gtk_bin_get_child(GTK_BIN(popup));
 	fixed = gtk_fixed_new();
 	box = gtk_box_new(0,0);
-	gtk_box_pack_start(GTK_BOX(box),gtk_label_new(string),0,0,10);
+	gtk_box_pack_start(GTK_BOX(box),gtk_label_new(string),0,0,30);
 	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
 
 	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);

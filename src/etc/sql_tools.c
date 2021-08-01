@@ -1,3 +1,98 @@
+int run_sql_from_file(char *sql_path){
+
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	FILE *fp;
+	fp = fopen(sql_path, "r");
+	if(!fp){
+		popup(NULL, "Nâo foi possível abrir arquivo migrate");
+    file_logger(sql_path);
+		return 1;
+	}
+
+	int line_pos = 0;
+	while(1) {
+		char line[2048];
+		int pos = -1;
+		char ascii;
+		int comment_flag[2], iscomment = 0;
+
+		comment_flag[0] = 0;
+		comment_flag[1] = 0;
+
+		do{
+			pos++;
+			ascii = fgetc(fp);
+			line[pos] = ascii;
+
+			switch(line[pos]){
+				case '-':
+					if(comment_flag[0] == 1){
+						comment_flag[1] = 1;
+					}
+					comment_flag[0] = 1;
+					break;
+				case ' ':
+					if( (comment_flag[0] == 1) && (comment_flag[1] == 1) ){
+						iscomment = 1;
+						break;
+					}
+
+				default:
+					comment_flag[0] = 0;
+					comment_flag[0] = 0;
+					break;
+			}
+			if(iscomment ==  1 && line[pos] == '\n'){
+				iscomment = 0;
+				continue;
+			}
+
+			if(line[pos] == EOF){
+				break;
+			}
+		}while( line[pos] != ';' );
+
+		if(line[pos] == EOF){
+			break;
+		}
+
+		pos++;
+		line[pos] = '\0';
+		if(iscomment){
+			continue;
+		}
+
+    file_logger("Executando migrate : ");
+		file_logger(line);
+    if(enviar_query(line)){
+      int error_code = mysql_errno(&conectar);
+			switch(error_code){
+				case 1050:
+				printf("Aviso: %s\n", mysql_error(&conectar));
+				break;
+				case 1062:
+				printf("Aviso: %s\n", mysql_error(&conectar));
+				break;
+				case 1065:
+				printf("Aviso: %s\n", mysql_error(&conectar));
+	    			//empty query
+				break;
+				case 1060:
+				printf("Aviso: %s\n", mysql_error(&conectar));
+				break;
+				default:
+				popup(NULL,"Erro ao efetuar migrate");
+        return 1;
+			}
+    }
+
+		line_pos++;
+	}
+
+	return 0;
+}
+
 int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
 	MYSQL_ROW row;
 	MYSQL_FIELD *field;
@@ -9,7 +104,7 @@ int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
 		return 1;
 	}
 
-	
+
 	int rows_qnt = mysql_num_rows(res);
 	int fields_qnt = mysql_num_fields(res);
 	int types[fields_qnt];
@@ -25,21 +120,21 @@ int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res){
 	while((row = mysql_fetch_row(res))){
 		for (int i = 0; i < fields_qnt; ++i){
 			if(!row[i]){
-				fprintf(fp,";");	
+				fprintf(fp,";");
 			}else{
 				char value[strlen(row[i]) + 12];
 				switch(types[i]){
 					case MYSQL_TYPE_DECIMAL:
-					case MYSQL_TYPE_FLOAT: 
-						sprintf(value, "%.2f", atof(row[i])); 		
+					case MYSQL_TYPE_FLOAT:
+						sprintf(value, "%.2f", atof(row[i]));
 						break;
 					default:
-						sprintf(value, "%s", row[i]); 		
+						sprintf(value, "%s", row[i]);
 					break;
 				}
-				fprintf(fp,"%s;", row[i]);	
+				fprintf(fp,"%s;", row[i]);
 			}
-			
+
 		}
 		fprintf(fp,"\n");
 	}

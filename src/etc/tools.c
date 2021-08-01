@@ -1,5 +1,23 @@
 #include "sql_tools.c"
 
+char **_3d_array_to_2d_array(char ***array1, int pos, int arrlen){
+  char **array2 = malloc(sizeof(char*)*arrlen);
+  for(int cont=0;cont<arrlen; cont++){
+    array2[cont] = malloc(strlen(array1[cont][pos]));
+    strcpy(array2[cont], array1[cont][pos]);
+  }
+  return array2;
+}
+
+int str_is_on_array(char *string, char **array, int arrlen){
+  for(int cont=0;cont<arrlen; cont++){
+    if(!strcmp(string, array[cont])){
+      return 1;
+    }
+  }
+  return 0;
+}
+
 gboolean gtk_tree_model_append_from_model(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,  gpointer store){
 
   int ncols = gtk_tree_model_get_n_columns(model);

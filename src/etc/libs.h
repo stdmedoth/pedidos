@@ -9,6 +9,7 @@
 #include "./defines.h"
 #include "./init.h"
 #include "./version.h"
+#include "./migrates.h"
 #include "./desktop.h"
 #include "./receber_confs.h"
 #include "./xml_tools.h"

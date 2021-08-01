@@ -5,6 +5,7 @@ int est_cad_nome()
 		popup(NULL,"Insira o nome para o estoque");
 		return 1;
 	}
+	gtk_widget_grab_focus(est_concluir_button);
 
 	return 0;
 }

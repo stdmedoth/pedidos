@@ -1,5 +1,5 @@
-gint 
-backup_clientes_gint, 
+gint
+backup_clientes_gint,
 backup_produtos_gint,
 backup_orcamentos_gint,
 backup_pedidos_gint,
@@ -18,11 +18,11 @@ enum BACKUP_OBJ_COL{
 };
 
 char *backup_objs[][3] = {
-	{"clientes", "clientes", "select * from terceiros"}, 
-	{"clientes", "contatos", "select * from contatos"}, 
-	
-	{"produtos", "produtos", "select * from produtos"}, 
-	{"produtos", "precos", "select * from precos"}, 
+	{"clientes", "clientes", "select * from terceiros"},
+	{"clientes", "contatos", "select * from contatos"},
+
+	{"produtos", "produtos", "select * from produtos"},
+	{"produtos", "precos", "select * from precos"},
 	{"produtos", "preco_cliente", "select * from preco_cliente"},
 
 	{"orcamentos", "orcamentos", "select * from orcamentos"},

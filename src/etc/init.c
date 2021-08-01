@@ -8,7 +8,7 @@ int init(){
 	GtkWidget *layout = gtk_layout_new(NULL,NULL);
 
 	progress_bar_init();
-	
+
 	enum{
 		CODE,
 		PATH_IMG_INIT,
@@ -86,27 +86,6 @@ int init(){
 					popup(NULL,"Erro ao baixar arquivos da atualização");
 					return 1;
 				}
-				/*
-				char *migrate_argv[] = {
-					MIGRATE_BIN,
-					"update",
-					NULL
-				};
-				GPid pid;
-				gint in, out, err;
-				g_spawn_async_with_pipes(
-					NULL,
-					migrate_argv,
-					NULL,
-					G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
-					NULL,
-					NULL,
-					&pid,
-					&in,
-					&out,
-					&err,
-					NULL);
-				*/
 			}
 			file_logger("Arquivos da atualização foram baixados");
 			if(remove(ATUALIZA_VERTMP) == -1){
@@ -121,6 +100,10 @@ int init(){
 		char msg[300];
 		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )\nVerifique o migrate!", GET_APP_VERSION());
 		popup(NULL,msg);
+		return 1;
+	}
+
+	if(check_migrates()){
 		return 1;
 	}
 

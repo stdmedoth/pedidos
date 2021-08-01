@@ -1,8 +1,3 @@
-void inicializar_est()
-{
-
-}
-
 int cad_est()
 {
 	GtkWidget *janela, *caixa_grande;
