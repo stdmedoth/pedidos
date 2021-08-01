@@ -1,0 +1,20 @@
+#button_primary {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+}
+
+#button_secondary {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+}
+
+#button_danger {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+}

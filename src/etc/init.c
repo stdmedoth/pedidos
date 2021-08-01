@@ -96,14 +96,14 @@ int init(){
 
 	}
 
+	if(check_migrates()){
+		return 1;
+	}
+
 	if(check_compat_version()){
 		char msg[300];
 		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )\nVerifique o migrate!", GET_APP_VERSION());
 		popup(NULL,msg);
-		return 1;
-	}
-
-	if(check_migrates()){
 		return 1;
 	}
 

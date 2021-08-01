@@ -11,5 +11,5 @@ ALTER TABLE titulos ADD CONSTRAINT titulos_ibfk_2 FOREIGN KEY (pedido) REFERENCE
 
 ALTER TABLE titulos MODIFY pedido INT NULL;
 
-update versao set versao = '1.1.1.4', lancamento = '2021-07-09';
-insert into migrate values(5, 'Versao 1.1.1.4', 'migrate_05.sql', '1.1.1.4', '2021-07-09');
+update versao set versao = '1.1.1.5', lancamento = '2021-07-09';
+insert into migrate values(5, 'Versao 1.1.1.5', 'migrate_05.sql', '1.1.1.5', '2021-07-09');

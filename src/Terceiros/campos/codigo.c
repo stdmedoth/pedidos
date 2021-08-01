@@ -2,7 +2,7 @@ int code_terc(){
 	char code[10];
 	char task[8];
 	MYSQL_RES *vetor;
-	MYSQL_ROW campos;
+	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	codigos_ter = (gchar *) gtk_entry_get_text(GTK_ENTRY(code_ter_field));
 
@@ -18,15 +18,12 @@ int code_terc(){
 		popup(NULL,"Erro ao consultar terceiro");
 		return 1;
 	}
-	if(alterando_ter==0)
-	{
-		if((campos = mysql_fetch_row(vetor)))
-		{
+	if(alterando_ter==0){
+		if((row = mysql_fetch_row(vetor))){
 			altera_ter();
 		}
 	}
 	gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 
-	g_print("codigo: %s\n",codigos_ter);
 	return 0;
 }

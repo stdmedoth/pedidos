@@ -25,4 +25,5 @@ int choose_versions_qnt = 0;
 
 const char *files_remove_on_update[] = {
 	DB_TABLES_LIST_FILE,
+	NULL
 };

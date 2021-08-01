@@ -1,12 +1,12 @@
 void update_version_view(GtkWidget *about_dialog){
   char version_name[strlen(versions[update_choosed_version].name) + 20];
   if(! strcmp(GET_APP_VERSION_NAME(), versions[update_choosed_version].name) ){
-    sprintf(version_name, "%s,  criado em %s (Versão atual)", versions[update_choosed_version].name, versions[update_choosed_version].created_time);  
+    sprintf(version_name, "%s,  criado em %s (Versão atual)", versions[update_choosed_version].name, versions[update_choosed_version].created_time);
   }else{
-    sprintf(version_name, "%s,  criado em %s", versions[update_choosed_version].name,versions[update_choosed_version].created_time);  
+    sprintf(version_name, "%s,  criado em %s", versions[update_choosed_version].name,versions[update_choosed_version].created_time);
   }
   gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), version_name);
-  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);  
+  gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog), versions[update_choosed_version].about);
 }
 
 void choose_version_change_previous(GtkWidget *button, GtkWidget *about_dialog){
@@ -15,7 +15,7 @@ void choose_version_change_previous(GtkWidget *button, GtkWidget *about_dialog){
     update_choosed_version--;
   }
   update_version_view(about_dialog);
-  
+
 }
 
 void choose_version_change_next(GtkWidget *button, GtkWidget *about_dialog){
@@ -31,34 +31,55 @@ int choose_version_for_download(){
 
   GtkWidget *janela = gtk_about_dialog_new ();
   gtk_window_set_position(GTK_WINDOW(janela), 3);
-  
+
   gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(janela), "Calisto Pedidos");
   update_version_view(janela);
   gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(janela), gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(LOGO_PEQUENA))));
   char *autores[] = {"João Calisto", NULL};
   gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(janela), (const char**)autores);
-  
+
   enum{
     ESCOLHER_VERSAO,
     CANCELAR_DOWNLOAD,
   };
 
-  GList *childrens = gtk_container_get_children(GTK_CONTAINER(janela)); 
+  GList *childrens = gtk_container_get_children(GTK_CONTAINER(janela));
   GtkWidget *about_container = childrens->data;
   if(about_container){
+
+    GtkWidget *migrateversion_button_frame = gtk_frame_new("Banco de Dados");
+    GtkWidget *migrateversion_button_box = gtk_box_new(0,0);
+    GtkWidget *migrateup_version_button = gtk_button_new_with_label("Up");
+    GtkWidget *migratedown_version_button = gtk_button_new_with_label("Down");
+
+    gtk_widget_set_name(migrateup_version_button, "button_primary");
+    gtk_widget_set_name(migratedown_version_button, "button_danger");
+    gtk_box_pack_start(GTK_BOX(migrateversion_button_box), migrateup_version_button, 0,0,5);
+    gtk_box_pack_start(GTK_BOX(migrateversion_button_box), migratedown_version_button, 0,0,5);
+    gtk_container_add(GTK_CONTAINER(migrateversion_button_frame), migrateversion_button_box);
+
     GtkWidget *versoes_button_box = gtk_box_new(0,0);
     GtkWidget *versao_anterior = gtk_button_new_with_label("Anterior");
     GtkWidget *versao_posterior = gtk_button_new_with_label("Próxima");
     gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_anterior,0,0,5);
     gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_posterior,0,0,5);
+    gtk_box_pack_start(GTK_BOX(versoes_button_box), migrateversion_button_frame,0,0,5);
+
     gtk_box_pack_start(GTK_BOX(about_container), versoes_button_box,0,0,5);
+
     g_signal_connect(versao_anterior, "clicked", G_CALLBACK(choose_version_change_previous), janela);
     g_signal_connect(versao_posterior, "clicked", G_CALLBACK(choose_version_change_next), janela);
+
+    g_signal_connect(migrateup_version_button, "clicked", G_CALLBACK(update_migrates), NULL);
+    g_signal_connect(migratedown_version_button, "clicked", G_CALLBACK(remove_migrates), NULL);
+
+
   }
 
   GtkWidget *escolher_versao = gtk_button_new_with_label("Iniciar download da Versão");
+  gtk_widget_set_name(escolher_versao, "button_secondary");
   GtkWidget *cancelar_download = gtk_button_new_with_label("Cancelar");
-  
+
   gtk_dialog_add_action_widget(GTK_DIALOG(janela), escolher_versao, ESCOLHER_VERSAO);
   gtk_dialog_add_action_widget(GTK_DIALOG(janela), cancelar_download, CANCELAR_DOWNLOAD);
 
@@ -75,7 +96,7 @@ int choose_version_for_download(){
 
     break;
 
-    default: 
+    default:
 
     break;
   }
@@ -96,7 +117,7 @@ struct _versions *search_all_versions(){
   xmlDocPtr doc = xmlParseFile(tmp_fileresponse);
   if(!doc){
     popup(NULL,"Não foi possível receber informações com as versões");
-    return NULL; 
+    return NULL;
   }
 
   xmlNodeSet *name_versoes = get_tags_by_namepath(doc,"/version_list/version/name");
@@ -123,7 +144,7 @@ struct _versions *search_all_versions(){
   }
 
   if(versions){
-    free(versions);  
+    free(versions);
   }
   versions = malloc(sizeof(struct _versions) * MAX_VERSION_QNT);
   update_choosed_version = 0;
@@ -138,7 +159,7 @@ struct _versions *search_all_versions(){
       versions[cont].about = strdup((char*)xmlNodeGetContent(about_versoes->nodeTab[cont]));
 
     if(anexos_versoes->nodeTab[cont]){
-      char *assets_stringname = strdup((char*)xmlNodeGetContent(anexos_versoes->nodeTab[cont])); 
+      char *assets_stringname = strdup((char*)xmlNodeGetContent(anexos_versoes->nodeTab[cont]));
       versions[cont].assets_qnt = 0;
       versions[cont].assets = malloc(sizeof(char *) * MAX_VERSION_ASSETS);
       char *token = strtok(assets_stringname, ",");
@@ -200,9 +221,9 @@ char *search_last_version(){
     popup(NULL,"Não foi possível buscar ultima versão");
     return NULL;
   }
-  
+
   if(body_chunk.memory){
-    last_version = strdup(body_chunk.memory);  
+    last_version = strdup(body_chunk.memory);
   }
   curl_easy_cleanup(curl);
 
@@ -211,7 +232,7 @@ char *search_last_version(){
 
 int download_new_version(void) {
 
-  if(!PopupBinario("O sistema pesquisará por uma versão e iniciará a atualização", "Sim! continuar.", "Mais tarde")){
+  if(!PopupBinario("O sistema pesquisará online pelas versões do sistema", "Ok! continuar.", "Tentar mais tarde")){
     return 1;
   }
 
@@ -222,8 +243,8 @@ int download_new_version(void) {
   char errorbuf[ CURL_ERROR_SIZE ] = "";
   const char *next_name_version=NULL;
   global_progress_bar_active = 1;
+  global_progress_bar_text = strdup("Buscando versões");
 
-  
   if(!search_all_versions()){
     return 1;
   }
@@ -235,20 +256,25 @@ int download_new_version(void) {
     next_name_version = strdup(versions[version_pos].name);
     if(!next_name_version){
       return 1;
-    }  
+    }
+  }
+
+  carregar_interface();
+  if(!versions[version_pos].assets_qnt){
+    if( !PopupBinario("Esta versão não possui anexos para download, ainda deseja continuar o processo?", "Sim! continuar", "Não! parar processo") ){
+      return 1;
+    }
   }
 
 
-  carregar_interface();
-
   for(int pos=0; pos < versions[version_pos].assets_qnt; pos++){
-    
     carregar_interface();
     sprintf(url, "https://github.com/stdmedoth/pedidos/releases/download/%s/%s", versions[version_pos].name, versions[version_pos].assets[pos]);
     curl = curl_easy_init();
     if (curl) {
       char path[MAX_PATH_LEN];
       sprintf(path,"%s/%s", APP_BINS_DIR, versions[version_pos].assets[pos]);
+      global_progress_bar_text = strdup(versions[version_pos].name);
       fp = fopen(path,"wb");
       if(!fp){
         global_progress_bar_active = 0;
@@ -262,7 +288,7 @@ int download_new_version(void) {
       curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
 
       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
-      curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0); 
+      curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
       curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
       carregar_interface();
       res = curl_easy_perform(curl);
@@ -285,7 +311,7 @@ int download_new_version(void) {
   }
 
   for(int cont=0; files_remove_on_update[cont]; cont++){
-    remove(files_remove_on_update[cont]);  
+    remove(files_remove_on_update[cont]);
   }
 
   FILE *tmp_updt_fp = fopen(ATUALIZA_VERTMP,"wb");

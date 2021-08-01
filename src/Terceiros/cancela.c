@@ -64,6 +64,13 @@ void cancelar_ter(){
 	gtk_widget_set_sensitive(GTK_WIDGET(alterar_ter_buttom),TRUE);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 
+
+	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(titulos_cadter.treeview)));
+  g_object_ref(G_OBJECT(treestore));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(titulos_cadter.treeview),NULL);
+  gtk_tree_store_clear(treestore);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(titulos_cadter.treeview),GTK_TREE_MODEL(treestore));
+
 	/* create array */
 	if(cont_lis){
 		g_array_free(cont_lis, FALSE);

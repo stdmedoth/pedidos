@@ -1,3 +1,4 @@
+int remove_migrates();
 int check_migrates();
 int get_migrate_loaded();
 
@@ -31,6 +32,6 @@ const char *version_migrates_list[][3] = {
 	{"v1.1.1.2" APP_VERSION_SUFIX APP_ENV_SO, "migrate_02.sql", "migrate_down_02.sql"},
 	{"v1.1.1.3" APP_VERSION_SUFIX APP_ENV_SO, "migrate_03.sql", "migrate_down_03.sql"},
 	{"v1.1.1.4" APP_VERSION_SUFIX APP_ENV_SO, "migrate_04.sql", "migrate_down_04.sql"},
-	{"v1.1.1.4" APP_VERSION_SUFIX APP_ENV_SO, "migrate_05.sql", "migrate_down_05.sql"},
+	{"v1.1.1.5" APP_VERSION_SUFIX APP_ENV_SO, "migrate_05.sql", "migrate_down_05.sql"},
 	{NULL,NULL, NULL}
 };

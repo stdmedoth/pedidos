@@ -187,9 +187,16 @@ int desktop(){
 		g_object_set(settings, "gtk-theme-name","Adwaita",NULL);
 	}
 
-	if(sessao_oper->operador->nivel>=NIVEL_TECNICO){
+	if(sessao_oper->operador->nivel==NIVEL_TECNICO){
 		GtkSettings *settings;
-		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP);
+		imagem_desktop = gtk_image_new_from_file(OPER_DESKTOP_IMG);
+		settings = gtk_settings_get_default();
+		g_object_set(settings, "gtk-theme-name",NIVEL_TECNICO_THEME,NULL);
+	}
+
+	if(sessao_oper->operador->nivel>=NIVEL_CRIADOR){
+		GtkSettings *settings;
+		imagem_desktop = gtk_image_new_from_file(GOD_DESKTOP_IMG);
 		settings = gtk_settings_get_default();
 		g_object_set(settings, "gtk-theme-name",NIVEL_TECNICO_THEME,NULL);
 	}

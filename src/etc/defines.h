@@ -77,7 +77,8 @@
 #define THUMBDESKTOP4      APP_DIRNAME "/files/thumbs/thumbdesktop4.png"
 #define THUMBDESKTOP5      APP_DIRNAME "/files/thumbs/thumbdesktop5.png"
 #define THUMBDESKTOP6      APP_DIRNAME "/files/thumbs/thumbdesktop6.png"
-#define OPER_DESKTOP       APP_DIRNAME "/files/desktop/oper.png"
+#define GOD_DESKTOP_IMG    APP_DIRNAME "/files/desktop/god.png"
+#define OPER_DESKTOP_IMG   APP_DIRNAME "/files/desktop/oper.png"
 #define DESKTOP_STYLE      APP_DIRNAME "/files/desktop/style.css"
 #define MAIN_STYLE         APP_DIRNAME "/files/assets/main.css"
 #define KANBAN_STYLE       APP_DIRNAME "/files/assets/kanban.css"
@@ -300,7 +301,7 @@ enum{
   VLR_ORIG_DEFAULT
 };
 
- 
+
 enum TIPO_OPERACOES{
   OPER_ENTRADA,
   OPER_SAIDA

@@ -217,6 +217,8 @@ int PopupBinario(char *mensagem, char *positivo, char *negativo){
 	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
 	gtk_window_set_modal(GTK_WINDOW(popup),TRUE);
 	gtk_window_set_position(GTK_WINDOW(popup),3);
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+	gtk_window_set_position(GTK_WINDOW(popup),3);
 
 	fields = gtk_bin_get_child(GTK_BIN(popup));
 	fixed = gtk_fixed_new();

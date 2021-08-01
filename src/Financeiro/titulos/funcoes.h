@@ -8,5 +8,4 @@ MYSQL_RES *titulos_por_cliente(struct _titulo *titulos);
 
 MYSQL_RES *titulos_por_cliente_status(struct _titulo *titulos);
 
-
 int criar_titulo(struct _titulo *titulo);
