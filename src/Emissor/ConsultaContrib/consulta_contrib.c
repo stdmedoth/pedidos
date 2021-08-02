@@ -22,7 +22,7 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
   gtk_entry_set_placeholder_text(GTK_ENTRY(cnpj_entry), "00.000.000/0001-00");
   gtk_entry_set_placeholder_text(GTK_ENTRY(uf_entry), "XX");
   gtk_box_pack_start(GTK_BOX(entry_boxs), cnpj_entry ,0,0,0);
-  gtk_box_pack_start(GTK_BOX(entry_boxs), uf_entry ,0,0,0);
+  //gtk_box_pack_start(GTK_BOX(entry_boxs), uf_entry ,0,0,0);
   g_signal_connect(cnpj_entry, "activate", G_CALLBACK(passar_campo), uf_entry );
   g_signal_connect(uf_entry, "activate", G_CALLBACK(passar_campo), gtk_dialog_get_widget_for_response(GTK_DIALOG(janela), GTK_RESPONSE_ACCEPT) );
 
@@ -49,16 +49,37 @@ int consulta_contrib_wnd(struct _terc_infos *contrib){
         gtk_widget_destroy(janela);
         return 1;
       }
+      /*
       if(!strlen(uf)){
         popup(NULL,"UF não inserida");
         gtk_widget_destroy(janela);
         return 1;
       }
+      */
 
+
+      struct _consulta_cnpj *consulta_receitaws = consulta_contrib_receitaws(formated_cnpj);
+      if(!consulta_receitaws){
+        popup(NULL,"Não foi possível efetuar a consulta");
+        return 1;
+      }
+      contrib->doc = strdup(consulta_receitaws->cnpj);
+      contrib->razao = strdup(consulta_receitaws->xNome);
+      contrib->nomes_fantasia = strdup(consulta_receitaws->NFantasia);
+      contrib->ie = strdup(consulta_receitaws->IE);
+
+      contrib->cep = strdup(consulta_receitaws->CEP);
+      contrib->xLgr = strdup(consulta_receitaws->xLgr);
+      contrib->c_nro = strdup(consulta_receitaws->nro);
+      contrib->xBairro = strdup(consulta_receitaws->xBairro);
+      contrib->xMun = strdup(consulta_receitaws->xMun);
+
+      /*
       if(consulta_contrib_consulta(formated_cnpj, formated_uf, contrib)){
         gtk_widget_destroy(janela);
         return 1;
       }
+      */
 
       gtk_widget_destroy(janela);
       return 0;

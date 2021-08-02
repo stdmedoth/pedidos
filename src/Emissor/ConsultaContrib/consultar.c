@@ -106,7 +106,7 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
   curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, strlen(soup_request));
 
   gchar *length = malloc(100);
-  sprintf(length,"Content-Length: %li", strlen(soup_request));
+  sprintf(length,"Content-Length: %li", (long unsigned int) strlen(soup_request));
   struct curl_slist *header=NULL;
   header = curl_slist_append(header, length);
   header = curl_slist_append(header, "Accept: application/soap+xml, multipart/related");

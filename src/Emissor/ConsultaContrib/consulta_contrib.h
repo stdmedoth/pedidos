@@ -5,12 +5,13 @@ int consulta_contrib_consulta(gchar *cnpj, gchar *uf, struct _terc_infos *contri
 xmlDocPtr consulta_contrib_cria_xml(gchar *cnpj, gchar *uf);
 
 
-struct {
+struct _consulta_cnpj{
   gchar *cnpj;
   gchar *uf;
   gchar *cStat;
   gchar *xMotivo;
   gchar *xNome;
+  gchar *NFantasia;
   gchar *IE;
   gchar *CEP;
   gchar *xLgr;

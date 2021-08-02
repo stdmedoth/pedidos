@@ -6,6 +6,11 @@ void ter_consulta_contrib(){
 	contrib.razao = NULL;
 	contrib.ie = NULL;
 	contrib.cep = NULL;
+	contrib.cep = NULL;
+	contrib.xLgr = NULL;
+	contrib.c_nro = NULL;
+	contrib.xBairro = NULL;
+	contrib.xMun = NULL;
 
 	gchar *cnpj = (gchar*)gtk_entry_get_text(GTK_ENTRY(doc_ter_field));
 	if(!strlen(cnpj)){
@@ -29,12 +34,18 @@ void ter_consulta_contrib(){
 		popup(NULL,"Não foi possível receber o nome");
 	}
 
-	if(contrib.doc){
-		gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
-		gtk_entry_set_text(GTK_ENTRY(doc_ter_field), contrib.doc);
-	}else{
-		popup(NULL,"Não foi possível receber o documento");
+	if(contrib.nomes_fantasia)
+		gtk_entry_set_text(GTK_ENTRY(ter_nome_fantasia_entry), contrib.nomes_fantasia);
+	else{
+		popup(NULL,"Não foi possível receber o nome fantasia");
 	}
+
+	//if(contrib.doc){
+	//	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
+	//	gtk_entry_set_text(GTK_ENTRY(doc_ter_field), contrib.doc);
+	//}else{
+	//	popup(NULL,"Não foi possível receber o documento");
+	//}
 
 	if(contrib.ie){
 		gtk_entry_set_text(GTK_ENTRY(inscr_ter_field), contrib.ie);
@@ -47,6 +58,33 @@ void ter_consulta_contrib(){
 		gtk_widget_activate(cep_ter_field);
 	}else{
 		popup(NULL,"Não foi possível receber o cep");
+	}
+
+	if(contrib.xLgr){
+		gtk_entry_set_text(GTK_ENTRY(address_ter_field), contrib.xLgr);
+		gtk_widget_activate(address_ter_field);
+	}else{
+		popup(NULL,"Não foi possível receber o logradouro");
+	}
+	if(contrib.c_nro){
+		gtk_entry_set_text(GTK_ENTRY(address_num_field), contrib.c_nro);
+		gtk_widget_activate(address_num_field);
+	}else{
+		popup(NULL,"Não foi possível receber o numero");
+	}
+
+	if(contrib.xBairro){
+		gtk_entry_set_text(GTK_ENTRY(bairro_ter_field), contrib.xBairro);
+		gtk_widget_activate(bairro_ter_field);
+	}else{
+		popup(NULL,"Não foi possível receber o bairro");
+	}
+
+	if(contrib.xMun){
+		gtk_entry_set_text(GTK_ENTRY(cidade_ter_field), contrib.xMun);
+		gtk_widget_activate(cidade_ter_field);
+	}else{
+		popup(NULL,"Não foi possível receber o Município");
 	}
 
 }

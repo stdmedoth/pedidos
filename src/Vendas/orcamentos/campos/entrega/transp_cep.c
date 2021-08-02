@@ -52,7 +52,18 @@ int orc_transp_cepc()
 	if(!(campos = mysql_fetch_row(vetor)))
 	{
 		if( orc_transp_msg_cep==0 && concluindo_orc == 0 && recebendo_prod_orc == 0){
-			cep_nao_existente_fun(orc_transp_cep);
+			const gchar *logradouro = NULL;
+			const gchar *bairro = NULL;
+			const gchar *cidade = NULL;
+
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(orc_transp_logradouro_entry))))
+				logradouro = gtk_entry_get_text(GTK_ENTRY(orc_transp_logradouro_entry));
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(orc_transp_bairro_entry))))
+				bairro = gtk_entry_get_text(GTK_ENTRY(orc_transp_bairro_entry));
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(orc_transp_cidade_entry))))
+				cidade = gtk_entry_get_text(GTK_ENTRY(orc_transp_cidade_entry));
+
+			cep_nao_existente_fun(orc_transp_cep, logradouro, bairro, cidade);
 		}
 
 		autologger("CEP não encontrado,\n\tpor favor insira o endereço manualmente");

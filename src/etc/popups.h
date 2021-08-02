@@ -12,6 +12,8 @@ char *get_text_from_input(char *text, GtkWidget *parent_wnd);
 
 void progress_bar_init();
 
+int cep_nao_existente_fun(gchar *cep, const gchar *logradouro, const gchar *bairro, const gchar *cidade);
+
 static GtkWidget *global_progress_bar_widget, *global_progress_bar_window;
 static gint global_progress_bar_active = 0, global_progress_bar_active_changed = 0;
 

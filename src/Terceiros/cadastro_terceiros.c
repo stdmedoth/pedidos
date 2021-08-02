@@ -1,5 +1,4 @@
 #include "campos.c"
-#include "cancela.c"
 #include "consulta.c"
 #include "altera.c"
 #include "exclui.c"
@@ -200,7 +199,7 @@ int  cad_terc()
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurídica");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"2","Física");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"3","Sem CNPJ/CPF");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
 
 	code_frame = gtk_frame_new("Codigo");
 	doc_label = gtk_label_new("Documento:");
@@ -580,7 +579,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(box),separator,0,0,10);
 
 	gtk_box_pack_start(GTK_BOX(vertical_box2),horizontal_box_six,0,0,10);
-	
+
 	gtk_box_pack_start(GTK_BOX(box2),vertical_box2,0,0,0);
 
 	box3 = entrega_campos();

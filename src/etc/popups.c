@@ -129,7 +129,7 @@ void reportar_encerramento_brusco(){
 }
 
 
-int cep_nao_existente_fun(gchar *cep){
+int cep_nao_existente_fun(gchar *cep, const gchar *logradouro, const gchar *bairro, const gchar *cidade){
 
 	int len;
 	GtkWidget *popup, *fields, *fixed, *box;
@@ -157,10 +157,21 @@ int cep_nao_existente_fun(gchar *cep){
 
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
 	if(resultado == GTK_RESPONSE_ACCEPT){
+
 		if(cad_cep())
       return 1;
-    gtk_entry_set_text(GTK_ENTRY(cad_ceps_cep_entry),cep);
+
+		gtk_entry_set_text(GTK_ENTRY(cad_ceps_cep_entry),cep);
+
+		if(logradouro)
+			gtk_entry_set_text(GTK_ENTRY(cad_ceps_descr_entry),logradouro);
+		if(bairro)
+			gtk_entry_set_text(GTK_ENTRY(cad_ceps_bairro_entry),bairro);
+		if(cidade)
+			gtk_entry_set_text(GTK_ENTRY(cad_ceps_cid_descr_entry),cidade);
+
     gtk_widget_grab_focus(cad_ceps_descr_entry);
+		
 	}
 
 	gtk_widget_destroy(popup);

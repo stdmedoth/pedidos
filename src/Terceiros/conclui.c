@@ -37,6 +37,10 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
+	if(strlen(doc_ter)){
+		doc_ter = format_only_num(strdup(doc_ter));
+	}
+
 
 	if(inscr_terc()){
 		concluindo_ter = 0;

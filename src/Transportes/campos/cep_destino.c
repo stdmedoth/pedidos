@@ -31,8 +31,10 @@ int trsp_cad_cepentr_fun(){
   }
 
   if(!(row = mysql_fetch_row(res))){
-    if(!trsp_cad_concluindo  && !trsp_cad_rec_alteracao)
-      cep_nao_existente_fun(trsp_cad_cepentr_gchar);
+    if(!trsp_cad_concluindo  && !trsp_cad_rec_alteracao){
+      cep_nao_existente_fun(trsp_cad_cepentr_gchar, NULL, NULL, NULL);
+    }
+
   }else{
     if(row[0] && row[1] && row[2] && row[3])
     sprintf(endereco_resumido,"%s, %s, %s, %s",row[0],row[1],row[2],row[3]);

@@ -54,7 +54,9 @@
 
 #include "../Parametros/parametros.h"
 
+
 #include "../Terceiros/cadastro_terceiros.h"
+#include "../Terceiros/cancela.h"
 
 #include "../Produtos/cadastro_produtos.h"
 #include "../Produtos/precos/precos.h"
@@ -136,6 +138,7 @@
 #include "../Emissor/CFe/bemasat.h"
 
 #include "../Emissor/ConsultaContrib/consulta_contrib.h"
+#include "../Emissor/ConsultaContrib/receitaws.h"
 
 #include "../Vendas/pdv/pdv_princ_wnd.h"
 #include "../Vendas/pdv/caixa.h"

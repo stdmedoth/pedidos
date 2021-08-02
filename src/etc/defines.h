@@ -329,5 +329,7 @@ enum ID_OPERACOES{
 #define MAX_VERSION_QNT 20
 #define MAX_VERSION_ASSETS 10
 
+#define APP_CONSULT_DOC_URL "https://www.receitaws.com.br/v1/cnpj"
+
 #define NIVEL_TECNICO_THEME "Adwaita"
 #endif

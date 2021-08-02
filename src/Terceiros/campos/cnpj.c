@@ -20,6 +20,25 @@ int cnpj_terc()
 		gtk_widget_grab_focus(GTK_WIDGET(doc_ter_field));
 		return 1;
 	}
+
+	if(!alterando_ter && !concluindo_ter){
+		MYSQL_RES *res;
+		MYSQL_ROW row;
+		char query[MAX_QUERY_LEN];
+		sprintf(query, "select code from terceiros where doc = '%s'", doc_ter);
+		if(!(res = consultar(query))){
+
+		}
+		if((row = mysql_fetch_row(res))){
+			if(PopupBinario("Já existe um cadastro com esse CNPJ, deseja alterar?", "Sim, altere cadastro com o cnpj", "Não! Continuar o cadastro atual")){
+				cancelar_ter();
+				gtk_entry_set_text(GTK_ENTRY(code_ter_field), row[0]);
+				altera_ter();
+				return 1;
+			}
+		}	
+	}
+
 	g_print("CNPJ %s\ncom %i digitos\n",doc_ter,len);
 	if(len==CNPJ_N_LEN)
 	{

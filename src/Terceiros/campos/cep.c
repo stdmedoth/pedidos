@@ -51,8 +51,21 @@ int cep_terc()
 		return 1;
 	}
 	if(!(campos = mysql_fetch_row(vetor))){
-		if(!concluindo_ter)
-			cep_nao_existente_fun(cep_ter);
+		if(!concluindo_ter){
+			const gchar *logradouro = NULL;
+			const gchar *bairro = NULL;
+			const gchar *cidade = NULL;
+
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(address_ter_field))))
+				logradouro = gtk_entry_get_text(GTK_ENTRY(address_ter_field));
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(bairro_ter_field))))
+				bairro = gtk_entry_get_text(GTK_ENTRY(bairro_ter_field));
+			if(strlen(gtk_entry_get_text(GTK_ENTRY(cidade_ter_field))))
+				cidade = gtk_entry_get_text(GTK_ENTRY(cidade_ter_field));
+
+			cep_nao_existente_fun(cep_ter, logradouro, bairro, cidade);
+		}
+
 
 		tipo_log = gtk_combo_box_get_active(GTK_COMBO_BOX(rua_combo));
 		gtk_widget_grab_focus(address_ter_field);

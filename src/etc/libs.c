@@ -78,7 +78,9 @@
 #include "../Canones/gerenciador_janelas/gerenciador_janelas.c"
 #include "../Canones/Vinculos_Chaves.c"
 
+
 #include "../Terceiros/cadastro_terceiros.c"
+#include "../Terceiros/cancela.c"
 
 #include "../Produtos/cadastro_produtos.c"
 #include "../Produtos/precos/precos.c"
@@ -114,6 +116,7 @@
 #include "../Emissor/CFe/bemasat.c"
 
 #include "../Emissor/ConsultaContrib/consulta_contrib.c"
+#include "../Emissor/ConsultaContrib/receitaws.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"
 #include "../Vendas/pdv/caixa.c"
