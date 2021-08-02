@@ -3,18 +3,17 @@
     portable with Win and Linux/GNU
 */
 
-
 #ifdef WIN32
 
 
 
-int scandir(char *folderpath, 
-            struct dirent **namelist, 
-            int (*filter)(const struct dirent *), 
+int scandir(char *folderpath,
+            struct dirent **namelist,
+            int (*filter)(const struct dirent *),
             int (*compar)(const struct dirent **,
             const struct dirent **)){
 
-    
+
 
 }
 
@@ -87,7 +86,7 @@ int remove_directory(const char *path) {
           if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, ".."))
              continue;
 
-          len = path_len + strlen(p->d_name) + 2; 
+          len = path_len + strlen(p->d_name) + 2;
           buf = malloc(len);
 
           if (buf) {

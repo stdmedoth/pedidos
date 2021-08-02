@@ -83,7 +83,12 @@ int desktop(){
 
 	sprintf(sessao_criacao_gchar,"Entrou em : %s", g_date_time_format (sessao_oper->criacao, "%H:%M:%S"));
 	sprintf(sessao_expiracao_gchar,"Expira em : %s", g_date_time_format (sessao_oper->expiracao, "%H:%M:%S"));
+
+	#ifdef APP_32BIT
 	sprintf(sessao_inatividade_gchar,"Limite Inatividade: %ld segundos", (G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND);
+	#else
+	sprintf(sessao_inatividade_gchar,"Limite Inatividade: %lld segundos", faltante);
+	#endif
 
 	sessao_criacao_label = gtk_label_new(sessao_criacao_gchar);
 	gtk_fixed_put(GTK_FIXED(sessao_criacao_fixed), sessao_criacao_label, 100,5);

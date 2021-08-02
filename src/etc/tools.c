@@ -205,7 +205,12 @@ gboolean atualizar_inatividade_label(){
   }
   gint64 faltante =  -(inatividade - G_TIME_SPAN_MINUTE * SESSAO_MAX_INATIVIDADE)/G_TIME_SPAN_SECOND;
 
-  sprintf(sessao_inatividade_gchar,"Limite Inatividade: %li segundos", faltante);
+
+  #ifdef APP_32BIT
+  sprintf(sessao_inatividade_gchar,"Limite Inatividade: %ld segundos", faltante);
+  #else
+  sprintf(sessao_inatividade_gchar,"Limite Inatividade: %lld segundos", faltante);
+  #endif
 
   if(validar_sessao_criada())
     return FALSE;

@@ -42,6 +42,9 @@
 
 int main(int argc, char *argv[])
 {
+
+	load_env();
+	
 	gtk_disable_setlocale();
 	//setlocale(LC_ALL,"");
 	setlocale(LC_COLLATE,"pt_BR");

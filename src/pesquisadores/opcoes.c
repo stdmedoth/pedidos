@@ -41,6 +41,7 @@ int pesquisador_opcoes_create(){
 
 	pesquisador_opcoes_model = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING,GDK_TYPE_PIXBUF,G_TYPE_INT);
 
+	//gtk_tree_model_foreach copia os tree_model do menu para um model pesquisador_opcoes_model
 	if(ativar.cadastro)
 		gtk_tree_model_foreach(GTK_TREE_MODEL(cad_icos_model), gtk_tree_model_append_from_model, pesquisador_opcoes_model);
 

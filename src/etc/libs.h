@@ -7,6 +7,7 @@
 #include "./basic_headers.h"
 #include "./Pedidos.h"
 #include "./defines.h"
+#include "./env.h"
 #include "./init.h"
 #include "./version.h"
 #include "./migrates.h"

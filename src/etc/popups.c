@@ -228,7 +228,12 @@ int PopupBinario(char *mensagem, char *positivo, char *negativo){
 
 	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
 
-	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	GtkWidget *button_acept = gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
+	GtkWidget *button_reject = gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_REJECT);
+	gtk_widget_set_name(button_acept, "button_primary");
+	gtk_widget_set_name(button_reject, "button_danger");
+
+	gtk_widget_grab_focus(button_acept);
 	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
 	gtk_widget_show_all(popup);
 

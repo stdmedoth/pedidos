@@ -2,6 +2,7 @@
 #define PEDIDOS_BASIC_HEADER
 
 #include <stdio.h>
+#include <dirent.h>
 #include <locale.h>
 #include <ctype.h>
 #include <errno.h>
@@ -10,7 +11,7 @@
 #include <gtk/gtk.h>
 #include <libxml/xinclude.h>
 #include <libxml/xpath.h>
-//#include <json-glib-1.0/json-glib/json-glib.h>
+#include <json-glib-1.0/json-glib/json-glib.h>
 #include <cairo/cairo-pdf.h>
 #include <curl/curl.h>
 #include <time.h>

@@ -28,8 +28,8 @@ XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 
 CCFLAGS1=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type -Wno-deprecated-declarations
-CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wfatal-errors -Wformat-overflow  
-CCFLAGS3=-Wunused-variable 
+CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wfatal-errors -Wformat-overflow
+CCFLAGS3=-Wunused-variable
 DEBUG=-g
 ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG) $(SOFLAGS)
 
@@ -59,9 +59,7 @@ DIR_BIN=/bin/
 
 all: $(OBJS) $(COMPILE_ENV)
 
-
 Linux:
-	echo $(detected_OS);
 	$(CC) $(OBJS) -o $(RESULT_FILE) $(ALLFLAGS)
 
 Windows:
