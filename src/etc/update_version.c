@@ -1,5 +1,9 @@
 void update_version_view(GtkWidget *about_dialog){
-  char version_name[strlen(versions[update_choosed_version].name) + 20];
+  if(!versions){
+    return ;
+  }
+
+  char version_name[ strlen(versions[update_choosed_version].name) + strlen(versions[update_choosed_version].created_time) + 60];
   if(! strcmp(GET_APP_VERSION_NAME(), versions[update_choosed_version].name) ){
     sprintf(version_name, "%s,  criado em %s (Versão atual)", versions[update_choosed_version].name, versions[update_choosed_version].created_time);
   }else{

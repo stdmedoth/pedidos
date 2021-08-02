@@ -167,13 +167,15 @@ int check_migrates(){
     if(PopupBinario(msg, "Sim, faça o processo", "Deixar para depois")){
       global_progress_bar_active = 1;
       for(int cont=0; cont < migrates_not_loaded_qnt; cont++){
-        char filepath[MAX_PATH_LEN];
-        sprintf(msg, "Executando arquivo %s", migrates_not_loaded[cont]);
-        global_progress_bar_text = strdup(msg);
-        sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_not_loaded[cont]);
-        if(run_sql_from_file(filepath)){
-          global_progress_bar_active = 0;
-          return 1;
+        if(migrates_not_loaded[cont]){
+          char filepath[MAX_PATH_LEN];
+          sprintf(msg, "Executando arquivo %s", migrates_not_loaded[cont]);
+          global_progress_bar_text = strdup(msg);
+          sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_not_loaded[cont]);
+          if(run_sql_from_file(filepath)){
+            global_progress_bar_active = 0;
+            return 1;
+          }
         }
       }
       global_progress_bar_active = 0;

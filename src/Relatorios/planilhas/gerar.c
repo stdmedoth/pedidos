@@ -41,13 +41,13 @@ int planilhas_gerar(){
 		popup(NULL,"Não foi possível criar a planilha");
 		return 1;
 	}
-	
+
 	GError *error = NULL;
 	char open_path[MAX_PATH_LEN];
-	
+
 	#ifdef WIN32
 		sprintf(open_path, "%s",filename);
-		HINSTANCE result = ShellExecuteA(NULL, "open", open_path, NULL, NULL, SW_SHOWMAXIMIZED);
+		int result = (int) ShellExecuteA(NULL, "open", open_path, NULL, NULL, SW_SHOWMAXIMIZED);
 		if(result <= 32){
 			popup(NULL, "Não foi possível abrir arquivo exportado");
 		    file_logger(open_path);
