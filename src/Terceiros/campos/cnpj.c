@@ -23,11 +23,11 @@ int cnpj_terc()
 		return 1;
 	}
 
-	if(!alterando_ter && !concluindo_ter){
+	if(!concluindo_ter){
 		MYSQL_RES *res;
 		MYSQL_ROW row;
 		char query[MAX_QUERY_LEN];
-		sprintf(query, "select code from terceiros where doc = '%s'", doc_ter);
+		sprintf(query, "select code from terceiros where doc = '%s' and code != %s", doc_ter, codigos_ter);
 		if(!(res = consultar(query))){
 			popup(NULL,"Não foi possível buscar cnpj do terceiro");
 			return 1;

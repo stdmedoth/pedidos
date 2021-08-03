@@ -63,7 +63,6 @@ int desktop(){
 
 	}
 
-
 	if(validar_sessao_criada()){
 		file_logger("desktop() -> validar_sessao_criada()");
 		return 1;
@@ -110,7 +109,6 @@ int desktop(){
 		return 1;
 	}
 	g_object_unref (app);
-	carregar_interface();
 
 	if(sessao_oper->status_sessao == SESSAO_LOGADA){
 		sprintf(query,"select *, data_vencimento - now() from contratos where ativo = 1");

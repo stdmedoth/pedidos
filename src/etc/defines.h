@@ -3,7 +3,7 @@
 #define APP_NAME "pedidos"
 
 #ifdef WIN32
-#define TEMA_PATH	   "../share/themes/"
+#define TEMA_PATH          APP_DIRNAME "/share/themes/"
 #define PDF_GEN            APP_DIRNAME "/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG          APP_DIRNAME "/files/impressao/cp.exe"
 #define APP_BINS_DIR       APP_DIRNAME "/bin"
