@@ -1,4 +1,6 @@
-void load_env(){
+void load_env(int argc, char *argv[]){
+
+  APP_BINEXE_NAME = strdup(argv[0]);
 
   switch (sizeof(void*)){
     case 4:

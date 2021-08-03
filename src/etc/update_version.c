@@ -277,7 +277,13 @@ int download_new_version(void) {
     curl = curl_easy_init();
     if (curl) {
       char path[MAX_PATH_LEN];
-      sprintf(path,"%s/%s", APP_BINS_DIR, versions[version_pos].assets[pos]);
+
+      if(!strcmp(versions[version_pos].assets[pos], APP_BINEXE_NAME)){
+        sprintf(path,"%s/%sNew", APP_BINS_DIR, versions[version_pos].assets[pos]);
+      }else{
+        sprintf(path,"%s/%s", APP_BINS_DIR, versions[version_pos].assets[pos]);
+      }
+
       global_progress_bar_text = strdup(versions[version_pos].name);
       fp = fopen(path,"wb");
       if(!fp){
