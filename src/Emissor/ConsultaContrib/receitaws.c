@@ -93,8 +93,9 @@ struct _consulta_cnpj *consulta_contrib_receitaws(const char *cnpj){
   }
 
   consulta_receitaws->contato = malloc(sizeof(struct _Contato));
+  consulta_receitaws->contatos_qnt = 0;
   const gchar *email = json_object_get_string_member (obj, "email");
-  if(!email){
+  if(!email || !strlen(email)){
     email = "";
   }else{
     consulta_receitaws->contatos_qnt = 1;
@@ -102,7 +103,7 @@ struct _consulta_cnpj *consulta_contrib_receitaws(const char *cnpj){
   }
 
   const gchar *telefone = json_object_get_string_member (obj, "telefone");
-  if(!telefone){
+  if(!telefone || !strlen(telefone)){
     telefone = "";
   }else{
     consulta_receitaws->contatos_qnt = 1;
