@@ -15,6 +15,7 @@ int consulta_contrib(const gchar *formated_cnpj, struct _terc_infos *contrib){
   contrib->c_nro = strdup(consulta_receitaws->nro);
   contrib->xBairro = strdup(consulta_receitaws->xBairro);
   contrib->xMun = strdup(consulta_receitaws->xMun);
+  contrib->UF = strdup(consulta_receitaws->UF);
 
   contrib->contatos = malloc(sizeof(struct _Contato) * consulta_receitaws->contatos_qnt);
   contrib->contatos_qnt = consulta_receitaws->contatos_qnt;

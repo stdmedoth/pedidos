@@ -85,6 +85,12 @@ void ter_consulta_contrib(){
 		popup(NULL,"Não foi possível receber o Município");
 	}
 
+	if(contrib.UF){
+		gtk_entry_set_text(GTK_ENTRY(uf_ter_field), contrib.UF);
+	}else{
+		popup(NULL,"Não foi possível receber a UF");
+	}
+
 	for(int cont=0;cont<contrib.contatos_qnt; cont++){
 		contato_add_item_filled(&contrib.contatos[cont]);
 	}

@@ -92,6 +92,12 @@ struct _consulta_cnpj *consulta_contrib_receitaws(const char *cnpj){
     municipio = "";
   }
 
+  const gchar *uf = json_object_get_string_member (obj, "uf");
+  if(!uf){
+    uf = "";
+  }
+
+
   consulta_receitaws->contato = malloc(sizeof(struct _Contato));
   consulta_receitaws->contatos_qnt = 0;
   const gchar *email = json_object_get_string_member (obj, "email");
@@ -127,6 +133,7 @@ struct _consulta_cnpj *consulta_contrib_receitaws(const char *cnpj){
   consulta_receitaws->nro = strdup(numero);
   consulta_receitaws->xBairro = strdup(bairro);
   consulta_receitaws->xMun = strdup(municipio);
+  consulta_receitaws->UF = strdup(uf);
 
 
   return consulta_receitaws;
