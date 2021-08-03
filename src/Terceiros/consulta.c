@@ -38,12 +38,7 @@ void ter_consulta_contrib(){
 		popup(NULL,"Não foi possível receber o nome fantasia");
 	}
 
-	//if(contrib.doc){
-	//	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
-	//	gtk_entry_set_text(GTK_ENTRY(doc_ter_field), contrib.doc);
-	//}else{
-	//	popup(NULL,"Não foi possível receber o documento");
-	//}
+	gtk_entry_set_text(GTK_ENTRY(doc_ter_field), formated_cnpj);
 
 	if(contrib.ie){
 		gtk_entry_set_text(GTK_ENTRY(inscr_ter_field), contrib.ie);

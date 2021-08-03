@@ -258,6 +258,7 @@ int  cad_terc()
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(code_ter_nfe_field),GTK_ENTRY_ICON_PRIMARY,"network-server");
 
 	doc_ter_field = gtk_entry_new();
+	gtk_entry_set_placeholder_text (GTK_ENTRY(doc_ter_field),"00.000.000/0001-XX");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(doc_ter_field),GTK_ENTRY_ICON_PRIMARY,"user-info");
 	gtk_entry_set_placeholder_text(GTK_ENTRY(doc_ter_field), "CNPJ/CPF");
 

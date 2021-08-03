@@ -31,16 +31,20 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
+
+	printf("Documento antes do escolha doc '%s'\n", doc_ter);
 	if(escolha_doc()){
 		concluindo_ter = 0;
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 		gtk_widget_grab_focus(doc_combo);
 		return 1;
 	}
+	printf("Documento depois do escolha_doc '%s'\n", doc_ter);
+
 	if(strlen(doc_ter)){
 		doc_ter = format_only_num(strdup(doc_ter));
 	}
-
+	printf("Documento depois do format_only_num '%s'\n", doc_ter);
 
 	if(inscr_terc()){
 		concluindo_ter = 0;
