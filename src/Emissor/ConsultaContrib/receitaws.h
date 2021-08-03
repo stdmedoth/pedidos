@@ -1,1 +1,1 @@
-struct _consulta_cnpj *consulta_contrib_receitaws(char *cnpj);
+struct _consulta_cnpj *consulta_contrib_receitaws(const char *cnpj);

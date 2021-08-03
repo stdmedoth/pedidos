@@ -108,11 +108,7 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		gtk_widget_grab_focus(complmt_ter_field);
 		return 1;
 	}
-	if(contatos_update()){
-		concluindo_ter = 0;
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
-		return 1;
-	}
+
 	vinc_transp();
 	if(transp_codigo_fun()){
 		concluindo_ter = 0;
@@ -181,7 +177,6 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 		return 1;
 	}
 
-
 	g_print("iniciando concluir_ter()\n");
 
 	if(alterando_ter==0)
@@ -216,16 +211,16 @@ int conclui_ter(GtkWidget* nome, gpointer *botao)
 	err = enviar_query(query);
 	if(err!=0)
 	{
-		g_print("Query para tabela terceiros\n");
 		autologger("Query para tabela terceiros");
-		g_print("codigo do erro %i\n",err);
-		g_print("%s\n\n",query);
 		autologger(query);
 		return 1;
 	}
 
-	g_print("Query para tabela terceiros\n");
-	g_print("Query envida com sucesso\n");
+	if(contatos_update()){
+		concluindo_ter = 0;
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),1);
+		return 1;
+	}
 
 	gtk_widget_set_sensitive(GTK_WIDGET(code_ter_field),TRUE);
 	cancelar_ter();

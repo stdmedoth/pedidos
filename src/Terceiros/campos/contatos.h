@@ -38,6 +38,8 @@ enum
   NUM_NUMBER_COLUMNS
 };
 
+static int contato_add_item_filled(Contato *contato);
+
 static GArray *cont_lis = NULL, *cont_rem_lis = NULL;
 
 static GtkTreeModel *create_items_model (void);

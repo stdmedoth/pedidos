@@ -116,6 +116,7 @@
 #include "../Emissor/CFe/bemasat.c"
 
 #include "../Emissor/ConsultaContrib/consulta_contrib.c"
+#include "../Emissor/ConsultaContrib/consulta_contrib2.c"
 #include "../Emissor/ConsultaContrib/receitaws.c"
 
 #include "../Vendas/pdv/pdv_princ_wnd.c"

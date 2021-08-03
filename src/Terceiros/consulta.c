@@ -18,13 +18,11 @@ void ter_consulta_contrib(){
 		return ;
 	}
 
-	if(!(cnpj = format_only_num(cnpj))){
-		popup(NULL,"Não foi possível formatar cnpj");
-		return ;
-	}
-	contrib.doc = strdup(cnpj);
+	gchar *formated_cnpj;
+	formated_cnpj = strdup(format_only_num(cnpj));
+	contrib.doc = strdup(formated_cnpj);
 
-	if(consulta_contrib_wnd(&contrib)){
+	if(consulta_contrib(formated_cnpj, &contrib)){
 		return ;
 	}
 
@@ -86,5 +84,10 @@ void ter_consulta_contrib(){
 	}else{
 		popup(NULL,"Não foi possível receber o Município");
 	}
+
+	for(int cont=0;cont<contrib.contatos_qnt; cont++){
+		contato_add_item_filled(&contrib.contatos[cont]);
+	}
+
 
 }

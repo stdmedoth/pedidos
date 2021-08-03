@@ -2,9 +2,6 @@
 #define PEDIDOS_DEFINES
 #define APP_NAME "pedidos"
 
-#define PEDIDOS_DEVELOP_ENV
-//#define PEDIDOS_PRODUCTION_ENV
-
 #ifdef WIN32
 #define TEMA_PATH	   "../share/themes/"
 #define PDF_GEN            APP_DIRNAME "/files/impressao/wkhtmltopdf.exe"

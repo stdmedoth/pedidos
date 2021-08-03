@@ -6,8 +6,8 @@
 
 #include "./basic_headers.h"
 #include "./Pedidos.h"
-#include "./defines.h"
 #include "./env.h"
+#include "./defines.h"
 #include "./init.h"
 #include "./version.h"
 #include "./migrates.h"
@@ -138,6 +138,7 @@
 #include "../Emissor/CFe/bemasat.h"
 
 #include "../Emissor/ConsultaContrib/consulta_contrib.h"
+#include "../Emissor/ConsultaContrib/consulta_contrib2.h"
 #include "../Emissor/ConsultaContrib/receitaws.h"
 
 #include "../Vendas/pdv/pdv_princ_wnd.h"

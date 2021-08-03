@@ -1,3 +1,51 @@
+static int contato_add_item_filled(Contato *contato)
+{
+
+  GtkTreeIter current, iter;
+  GtkTreePath *path;
+  GtkTreeModel *model;
+  GtkTreeViewColumn *column;
+
+  g_array_append_vals (cont_lis, contato, 1);
+
+  gtk_tree_view_get_cursor (GTK_TREE_VIEW(contatos_treeview), &path, NULL);
+  model = gtk_tree_view_get_model (GTK_TREE_VIEW(contatos_treeview));
+  if(!model){
+    return 1;
+  }
+
+  if (path){
+    gtk_tree_model_get_iter (model, &current, path);
+    gtk_tree_path_free (path);
+    gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+  }else{
+    gtk_list_store_insert (GTK_LIST_STORE (model), &iter, -1);
+  }
+
+  /* Set the data for the new row */
+  gtk_list_store_set (GTK_LIST_STORE(model), &iter,
+                      COLUMN_CTTO_ID,
+                      contato->id,
+                      COLUMN_CTTO_NOME,
+                      contato->nome,
+                      COLUMN_CTTO_TEL,
+                      contato->telefone,
+                      COLUMN_CTTO_CEL,
+                      contato->celular,
+                      COLUMN_CTTO_EMAIL,
+                      contato->email,
+                      -1);
+
+  /* Move focus to the new row */
+  path = gtk_tree_model_get_path (model, &iter);
+  column = gtk_tree_view_get_column (GTK_TREE_VIEW(contatos_treeview), 0);
+  gtk_tree_view_set_cursor (GTK_TREE_VIEW(contatos_treeview), path, column, FALSE);
+
+  gtk_tree_path_free (path);
+  return 0;
+}
+
+
 static int add_items (int terceiro)
 {
   MYSQL_RES *res;
@@ -452,11 +500,15 @@ int contatos_update(){
   MYSQL_ROW row;
   char query[MAX_QUERY_LEN];
 
+  if(concluindo_ter){
+    contatos_ter = mysql_insert_id(&conectar);
+  }
+  if(alterando_ter){
+    if(code_terc())
+      return 1;
+    contatos_ter = atoi(codigos_ter);
+  }
 
-  if(code_terc())
-    return 1;
-
-  contatos_ter = atoi(codigos_ter);
   for(int cont=0;cont<cont_lis->len;cont++){
     if(g_array_index(cont_lis, Contato, cont).ativo){
 

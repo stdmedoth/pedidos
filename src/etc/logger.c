@@ -1,4 +1,4 @@
-int file_logger(char *string){
+int file_logger(const char *string){
 	FILE *logger;
   	char *string1;
 	if(!string)
@@ -23,7 +23,7 @@ int file_logger(char *string){
 }
 
 
-int autologger(char *string)
+int autologger(const char *string)
 {
 	GDateTime *data = g_date_time_new_now(g_time_zone_new(NULL));
 	logging = 1;

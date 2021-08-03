@@ -1,6 +1,6 @@
 int PopupBinario(char *mensagem, char *positivo, char *negativo);
 
-void popup(GtkWidget *widget,gchar *string);
+void popup(GtkWidget *widget,const gchar *string);
 
 void reportar_encerramento_brusco();
 

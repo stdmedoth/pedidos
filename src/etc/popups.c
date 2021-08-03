@@ -56,7 +56,7 @@ void progress_bar_init(){
 	gtk_widget_show_all(global_progress_bar_window);
 }
 
-void popup(GtkWidget *widget,gchar *string){
+void popup(GtkWidget *widget,const gchar *string){
 	int len;
 	GtkWidget *popup, *fields, *fixed, *box;
 	int resultado;
@@ -171,7 +171,7 @@ int cep_nao_existente_fun(gchar *cep, const gchar *logradouro, const gchar *bair
 			gtk_entry_set_text(GTK_ENTRY(cad_ceps_cid_descr_entry),cidade);
 
     gtk_widget_grab_focus(cad_ceps_descr_entry);
-		
+
 	}
 
 	gtk_widget_destroy(popup);

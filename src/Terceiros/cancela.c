@@ -31,6 +31,7 @@ void cancelar_ter(){
 	gtk_entry_set_text(GTK_ENTRY(complmt_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(uf_ter_field),"");
 	gtk_entry_set_text(GTK_ENTRY(doc_ter_field),"");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vinc_transporte_flag),FALSE);
 
 	//entrega
