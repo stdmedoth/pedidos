@@ -4,9 +4,16 @@ else
     detected_OS := $(shell uname)  # same as "uname -s"
 endif
 
-MINGWCC=x86_64-w64-mingw32-gcc
+LBITS := $(shell getconf LONG_BIT)
 
 ifeq ($(detected_OS),Windows)
+
+ifeq ($(LBITS),64)
+MINGWCC=x86_64-w64-mingw32-gcc
+else
+MINGWCC=i686-w64-mingw32-gcc
+endif
+
 CC=$(MINGWCC)
 CURLFLAGS=-llibcurl
 BDFLAGS=-llibmysql
