@@ -4,7 +4,7 @@ else
     detected_OS := $(shell uname)  # same as "uname -s"
 endif
 
-LBITS := $(shell getconf LONG_BIT)
+LBITS := $(shell getconf LONG_BIT) # is 64 or 32 bits
 
 ifeq ($(detected_OS),Windows)
 

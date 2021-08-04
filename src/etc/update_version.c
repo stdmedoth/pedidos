@@ -288,6 +288,7 @@ int download_new_version(void) {
       fp = fopen(path,"wb");
       if(!fp){
         global_progress_bar_active = 0;
+        file_logger(strerror(errno));
         popup(NULL,"Não foi possível armazenar versão atual");
         return 1;
       }

@@ -1,3 +1,4 @@
+data/assets/main.css:files/assets/main.css
 data/sql_scripts/migrates/migrate_01.sql:files/sql_scripts/migrates/migrate_01.sql
 data/sql_scripts/migrates/migrate_02.sql:files/sql_scripts/migrates/migrate_02.sql
 data/sql_scripts/migrates/migrate_03.sql:files/sql_scripts/migrates/migrate_03.sql

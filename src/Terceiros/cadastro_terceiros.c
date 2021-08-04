@@ -311,7 +311,7 @@ int  cad_terc()
 	gtk_widget_set_name(doc,"caixa");
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(doc),doc_ter_field,0,0,0);
-	gtk_box_pack_start(GTK_BOX(doc),cnst_cad_button,0,0,0);
+	gtk_box_pack_start(GTK_BOX(doc),cnst_cad_button,0,0,5);
 	gtk_entry_set_width_chars(GTK_ENTRY(doc_ter_field),30);
 
 	inscr = gtk_box_new(1,0);
@@ -325,7 +325,7 @@ int  cad_terc()
 	gtk_widget_set_name(name_ter_box,"name_ter_box");
 	gtk_box_pack_start(GTK_BOX(name_ter_box),name_ter_field,0,0,0);
 	gtk_container_add(GTK_CONTAINER(name_ter_frame),name_ter_box);
-	gtk_entry_set_width_chars(GTK_ENTRY(name_ter_field),80);
+	gtk_entry_set_width_chars(GTK_ENTRY(name_ter_field),85);
 
 	ter_nome_fantasia_entry = gtk_entry_new();
 	ter_nome_fantasia_box = gtk_box_new(0,0);
@@ -333,7 +333,7 @@ int  cad_terc()
 	gtk_widget_set_name(ter_nome_fantasia_box,"ter_nome_fantasia_box");
 	gtk_box_pack_start(GTK_BOX(ter_nome_fantasia_box),ter_nome_fantasia_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ter_nome_fantasia_frame),ter_nome_fantasia_box);
-	gtk_entry_set_width_chars(GTK_ENTRY(ter_nome_fantasia_entry),80);
+	gtk_entry_set_width_chars(GTK_ENTRY(ter_nome_fantasia_entry),85);
 
 	ter_nomes_box = gtk_box_new(1,0);
 	gtk_box_pack_start(GTK_BOX(ter_nomes_box),name_ter_frame,0,0,0);
