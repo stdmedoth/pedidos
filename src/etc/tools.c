@@ -25,10 +25,11 @@ const char *get_filename_from_path(const char *path){
   if(!pathlen)
     return "";
 
-<<<<<<< HEAD
+
   for(int cont=pathlen-1; cont>0; cont--){
 
-    if( ((path[cont] == '/') || (path[cont] == '\\')) && (pos !      pos++;
+    if( ((path[cont] == '/') || (path[cont] == '\\')) && (pos != 0)){
+      pos++;
       break;
     }
 
