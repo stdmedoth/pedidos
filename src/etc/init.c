@@ -88,6 +88,7 @@ int init(){
 				}
 			}
 			file_logger("Arquivos da atualização foram baixados");
+
 			if(remove(ATUALIZA_VERTMP) == -1){
 				file_logger("Erro ao tentar remover gatilho de atualização");
 				file_logger(strerror(errno));

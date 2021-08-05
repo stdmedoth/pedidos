@@ -23,19 +23,19 @@ int check_tables(){
 	sprintf(query, "SHOW TABLES");
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível verificar tabelas");
-		return 1;	
+		return 1;
 	}
-	
+
 	while((getline(&pedidos_db_tables[pos_line], &line_buf_size, fp))>0){
 		remover_barra_n(pedidos_db_tables[pos_line]);
 		int table_exists = 0;
 
 		while((row = mysql_fetch_row(res))){
-			if( !strcmp(row[0], pedidos_db_tables[pos_line]) ){
+			if( !strcmp(lowernize(row[0]), lowernize(pedidos_db_tables[pos_line])) ){
 				table_exists = 1;
 			}
 		}
-		mysql_data_seek(res, 0); 
+		mysql_data_seek(res, 0);
 		if(!table_exists){
 			char msg[27 + strlen(pedidos_db_tables[pos_line])];
 			sprintf(msg, "Tabela %s ausente no sistema!", pedidos_db_tables[pos_line]);
@@ -45,6 +45,6 @@ int check_tables(){
 		pos_line++;
 		pedidos_db_tables[pos_line] = malloc(MAX_TABLE_LEN);
 	}
-	
+
 	return 0;
 }

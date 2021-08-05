@@ -45,6 +45,8 @@ int planilhas_gerar(){
 	GError *error = NULL;
 	char open_path[MAX_PATH_LEN];
 
+	global_progress_bar_active = 1;
+	global_progress_bar_text = strdup("Abrindo aplicação, aguarde...");
 	#ifdef WIN32
 		sprintf(open_path, "%s",filename);
 		int result = (int) ShellExecuteA(NULL, "open", open_path, NULL, NULL, SW_SHOWMAXIMIZED);
@@ -61,7 +63,7 @@ int planilhas_gerar(){
 	    file_logger(error->message);
 	}
 	#endif
-
+	global_progress_bar_active = 0;
 
 	return 0;
 }

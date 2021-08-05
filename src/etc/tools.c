@@ -1,5 +1,26 @@
 #include "sql_tools.c"
 
+
+char *uppernize(char *str){
+  if(!str)
+    return NULL;
+
+  for(int i = 0; i<strlen(str); i++){
+    str[i] = toupper(str[i]);
+  }
+  return strdup(str);
+}
+
+char *lowernize(char *str){
+  if(!str)
+    return NULL;
+
+  for(int i = 0; i<strlen(str); i++){
+    str[i] = tolower(str[i]);
+  }
+  return strdup(str);
+}
+
 char **_3d_array_to_2d_array(char ***array1, int pos, int arrlen){
   char **array2 = malloc(sizeof(char*)*arrlen);
   for(int cont=0;cont<arrlen; cont++){

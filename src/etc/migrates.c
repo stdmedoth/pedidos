@@ -70,7 +70,8 @@ int update_migrates(){
   if(PopupBinario(msg, "Sim, continuar o processo", "Deixar para depois")){
     global_progress_bar_active = 1;
     for(int cont=0; cont < migrates_not_loaded_qnt; cont++){
-      char filepath[MAX_PATH_LEN];
+      int filepath_len = strlen(MIGRATE_FOLDER) + 2 + strlen(migrates_not_loaded[cont]);
+      char filepath[ filepath_len ];
       sprintf(msg, "Executando arquivo %s", migrates_not_loaded[cont]);
       global_progress_bar_text = strdup(msg);
       sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_not_loaded[cont]);
@@ -82,7 +83,6 @@ int update_migrates(){
     global_progress_bar_active = 0;
     popup(NULL,"Migrates atualizados com sucesso");
   }
-
 
   return 0;
 }
@@ -118,7 +118,9 @@ int remove_migrates(){
       global_progress_bar_active = 1;
       for(int cont=migrates_loaded_qnt-1; cont >= 0 ; cont--){
         if(migrates_loaded[cont]){
-          char filepath[MAX_PATH_LEN];
+
+          int filepath_len = strlen(MIGRATE_FOLDER) + 2 + strlen(migrates_loaded[cont]);
+          char filepath[ filepath_len ];
           sprintf(msg, "Executando arquivo %s", migrates_loaded[cont]);
           global_progress_bar_text = strdup(msg);
           sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_loaded[cont]);

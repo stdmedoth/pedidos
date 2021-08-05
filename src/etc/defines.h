@@ -157,7 +157,7 @@
 #define EXIT_IMG           APP_DIRNAME "/files/icones_opc/sair.png"
 #define CUPONS_XMLS_DIR    APP_DIRNAME "/files/xmls/cupom/"
 #define CACHE_DIR          APP_DIRNAME "/files/cache/"
-#define ATUALIZA_VERTMP    APP_DIRNAME "/files/tmp/update_pend"
+#define ATUALIZA_VERTMP    APP_DIRNAME "/files/cache/update_pend"
 #define TMPDIR_PATH        APP_DIRNAME "/files/tmp/"
 #define TMPFILE_PATH       APP_DIRNAME "/files/tmp/tempfile.tmp"
 #define ENCER_FINE_PATH    APP_DIRNAME "/files/tmp/encerr_fine"
@@ -320,11 +320,13 @@ enum ID_OPERACOES{
   OUTRAS_OPERACOES
 };
 
-#define PEDIDOS_APP_URL_FILES "https://calistupedidos.000webhostapp.com"
-#define LAST_VERSION_INFO_URL PEDIDOS_APP_URL_FILES"/last_version.php"
-#define VERSIONS_INFO_URL     PEDIDOS_APP_URL_FILES"/list_all_version.php"
+#define PEDIDOS_APP_VERSION_URL "https://calistupedidos.000webhostapp.com"
+#define LAST_VERSION_INFO_URL PEDIDOS_APP_VERSION_URL"/last_version.php"
+#define VERSIONS_INFO_URL     PEDIDOS_APP_VERSION_URL"/list_all_version.php"
 #define MAX_VERSION_QNT 20
 #define MAX_VERSION_ASSETS 10
+
+#define PEDIDOS_APP_URL_FILES "https://raw.githubusercontent.com/stdmedoth/pedidos/"GET_APP_VERSION_NAME()"/"
 
 #define APP_CONSULT_DOC_URL "https://www.receitaws.com.br/v1/cnpj"
 
