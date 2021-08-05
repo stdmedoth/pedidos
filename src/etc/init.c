@@ -8,7 +8,6 @@ int init(){
 	GtkWidget *layout = gtk_layout_new(NULL,NULL);
 
 	progress_bar_init();
-	printf("%s", get_filename_ext("teste.txt"));
 
 	enum{
 		CODE,

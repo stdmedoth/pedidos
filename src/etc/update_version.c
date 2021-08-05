@@ -319,6 +319,7 @@ int download_new_version(void) {
         }
         if(stop_update){
           global_progress_bar_active = 0;
+          file_logger(path);
           file_logger(strerror(errno));
           popup(NULL,"Não foi possível armazenar versão atual");
           return 1;

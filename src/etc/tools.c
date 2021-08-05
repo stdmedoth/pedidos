@@ -16,6 +16,18 @@ const char *str_array_to_string_delim(char **array, int length, char delim){
   return string;
 }
 
+const char *get_filename_from_path(const char *path){
+  char *ssc;
+  int l = 0;
+  ssc = strstr(path, "/");
+  do{
+      l = strlen(ssc) + 1;
+      path = &path[strlen(path)-l+2];
+      ssc = strstr(path, "/");
+  }while(ssc);
+  return path;
+}
+
 const char *get_filename_ext(const char *filename) {
     const char *dot = strrchr(filename, '.');
     if(!dot || dot == filename) return "";
