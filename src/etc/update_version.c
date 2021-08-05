@@ -271,6 +271,8 @@ int download_new_version(void) {
   }
 
 
+  char **files_not_downloaded = malloc(sizeof(char *) * versions[version_pos].assets_qnt);
+  int files_not_downloaded_qnt = 0;
   for(int pos=0; pos < versions[version_pos].assets_qnt; pos++){
     carregar_interface();
     sprintf(url, "https://github.com/stdmedoth/pedidos/releases/download/%s/%s", versions[version_pos].name, versions[version_pos].assets[pos]);
@@ -278,20 +280,39 @@ int download_new_version(void) {
     if (curl) {
       char path[MAX_PATH_LEN];
 
+      const char *ext_file = get_filename_ext(versions[version_pos].assets[pos]);
+
       if(!strcmp(versions[version_pos].assets[pos], APP_BINEXE_NAME)){
         sprintf(path,"%s/%sNew", APP_BINS_DIR, versions[version_pos].assets[pos]);
       }else{
         sprintf(path,"%s/%s", APP_BINS_DIR, versions[version_pos].assets[pos]);
       }
 
+
       global_progress_bar_text = strdup(versions[version_pos].name);
       fp = fopen(path,"wb");
       if(!fp){
-        global_progress_bar_active = 0;
-        file_logger(strerror(errno));
-        popup(NULL,"Não foi possível armazenar versão atual");
-        return 1;
+
+        /* verifica se o arquivo realmente é primordial para o funcionamento do sistema,
+          de forma que pare a atualização
+          Caso seja apenas uma .dll (em caso de nova atualização)
+        */
+        int stop_update = 1;
+        for(int cont=0; update_ext_files_stopper_exceptions[cont]; cont++){
+          if(!strcmp(ext_file, update_ext_files_stopper_exceptions[cont])){
+            files_not_downloaded[files_not_downloaded_qnt] = strdup(versions[version_pos].assets[pos]);
+            files_not_downloaded_qnt++;
+            stop_update = 0;
+          }
+        }
+        if(stop_update){
+          global_progress_bar_active = 0;
+          file_logger(strerror(errno));
+          popup(NULL,"Não foi possível armazenar versão atual");
+          return 1;
+        }
       }
+
       curl_easy_setopt(curl, CURLOPT_URL, url);
       curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
       curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
@@ -334,7 +355,13 @@ int download_new_version(void) {
   fprintf(tmp_updt_fp,"1");
   fclose(tmp_updt_fp);
 
-
+  if(files_not_downloaded_qnt){
+    const char *not_downloaded_str = str_array_to_string_delim(files_not_downloaded, files_not_downloaded_qnt, '\n');
+    const char *msg_prefix = "Aviso\nSegue abaixo alguns arquivos que não puderam ser baixados\n\n";
+    char msg[ strlen(msg_prefix) + strlen(not_downloaded_str) ];
+    sprintf(msg, "%s%s", msg_prefix, not_downloaded_str);
+    popup(NULL,msg);
+  }
   char msg[2000];
   sprintf(msg,"A versão %s foi transferida com sucesso!\nDeseja fechar o sistema para efetuar a atualização?", next_name_version);
   global_progress_bar_active = 0;

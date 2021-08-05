@@ -1,6 +1,27 @@
 #include "sql_tools.c"
 
 
+const char *str_array_to_string_delim(char **array, int length, char delim){
+  int string_length = 0;
+  for(int cont=0;cont<length; cont++){
+    string_length += strlen(array[cont]);
+    string_length++;
+  }
+
+  char *string = malloc(string_length);
+  strcpy(string, "");
+  for(int cont=0;cont<length; cont++){
+    sprintf(string, "%s%s%c", strdup(string), array[cont], delim);
+  }
+  return string;
+}
+
+const char *get_filename_ext(const char *filename) {
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename) return "";
+    return dot + 1;
+}
+
 char *uppernize(char *str){
   if(!str)
     return NULL;

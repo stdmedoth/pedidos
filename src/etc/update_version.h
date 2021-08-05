@@ -19,6 +19,12 @@ struct _versions {
 
 static struct _versions *versions=NULL;
 
+char *update_ext_files_stopper_exceptions[] = {
+	".dll",
+	".bat",
+	NULL
+};
+
 static int update_choosed_version = NO_VERSION_DEFINED;
 
 int choose_versions_qnt = 0;

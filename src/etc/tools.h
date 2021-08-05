@@ -1,6 +1,10 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 
+const char *str_array_to_string_delim(char **array, int length, char delim);
+
+const char *get_filename_ext(const char *filename);
+
 char *uppernize(char *str);
 char *lowernize(char *str);
 
