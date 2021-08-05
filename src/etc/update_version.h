@@ -1,5 +1,6 @@
 #define NO_VERSION_DEFINED -1
 
+
 int choose_version_for_download();
 
 int download_new_version(void) ;
@@ -20,8 +21,8 @@ struct _versions {
 static struct _versions *versions=NULL;
 
 char *update_ext_files_stopper_exceptions[] = {
-	".dll",
-	".bat",
+	"dll",
+	"bat",
 	NULL
 };
 

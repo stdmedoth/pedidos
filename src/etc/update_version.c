@@ -31,6 +31,11 @@ void choose_version_change_next(GtkWidget *button, GtkWidget *about_dialog){
   update_version_view(about_dialog);
 }
 
+void download_changelog_files_on_updateview(GtkWidget *button, gpointer janela){
+  gtk_widget_hide(janela);
+  download_changelog_files();
+}
+
 int choose_version_for_download(){
 
   GtkWidget *janela = gtk_about_dialog_new ();
@@ -49,6 +54,7 @@ int choose_version_for_download(){
 
   GList *childrens = gtk_container_get_children(GTK_CONTAINER(janela));
   GtkWidget *about_container = childrens->data;
+  GtkWidget *changelog_files_version_button = gtk_button_new_with_label("Transferir arquivos da versão");
   if(about_container){
 
     GtkWidget *migrateversion_button_frame = gtk_frame_new("Banco de Dados");
@@ -56,7 +62,9 @@ int choose_version_for_download(){
     GtkWidget *migrateup_version_button = gtk_button_new_with_label("Up");
     GtkWidget *migratedown_version_button = gtk_button_new_with_label("Down");
 
+
     gtk_widget_set_name(migrateup_version_button, "button_primary");
+    gtk_widget_set_name(changelog_files_version_button, "button_primary");
     gtk_widget_set_name(migratedown_version_button, "button_danger");
     gtk_box_pack_start(GTK_BOX(migrateversion_button_box), migrateup_version_button, 0,0,5);
     gtk_box_pack_start(GTK_BOX(migrateversion_button_box), migratedown_version_button, 0,0,5);
@@ -68,6 +76,7 @@ int choose_version_for_download(){
     gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_anterior,0,0,5);
     gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_posterior,0,0,5);
     gtk_box_pack_start(GTK_BOX(versoes_button_box), migrateversion_button_frame,0,0,5);
+    gtk_box_pack_start(GTK_BOX(versoes_button_box), changelog_files_version_button,0,0,5);
 
     gtk_box_pack_start(GTK_BOX(about_container), versoes_button_box,0,0,5);
 
@@ -76,8 +85,10 @@ int choose_version_for_download(){
 
     g_signal_connect(migrateup_version_button, "clicked", G_CALLBACK(update_migrates), NULL);
     g_signal_connect(migratedown_version_button, "clicked", G_CALLBACK(remove_migrates), NULL);
+    g_signal_connect(changelog_files_version_button, "clicked", G_CALLBACK(download_changelog_files_on_updateview), janela);
 
-
+  }else{
+    file_logger("Não foi possível receber container de gtk_container_get_children() na view de update");
   }
 
   GtkWidget *escolher_versao = gtk_button_new_with_label("Iniciar download da Versão");
@@ -88,6 +99,7 @@ int choose_version_for_download(){
   gtk_dialog_add_action_widget(GTK_DIALOG(janela), cancelar_download, CANCELAR_DOWNLOAD);
 
   gtk_widget_show_all(janela);
+
   int response = gtk_dialog_run(GTK_DIALOG(janela));
   const char *version = NULL;
   switch(response){
