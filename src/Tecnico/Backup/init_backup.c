@@ -66,7 +66,7 @@ int backup_iniciar_exportacao(){
 		char *msg_prefix = "Criando backup para tabela ";
 		char msg[ strlen(msg_prefix) + strlen(backup_objs[i][BACKUP_OBJ_MODULE]) ];
 		sprintf(msg, "%s%s", msg_prefix, backup_objs[i][BACKUP_OBJ_MODULE]);
-		global_progress_bar_text = strdup(msg_prefix);
+		global_progress_bar_text = strdup(msg);
 
 		int file_path_len =
 													strlen(dir_filename) + 2 +
@@ -112,9 +112,9 @@ int backup_iniciar_exportacao(){
 		return 0;
 	}
 
+	global_progress_bar_active = 0;
 	popup(NULL,"Backup feito com sucesso!");
 	if(PopupBinario("Deseja abrir diretório do backup?", "Sim", "Mais tarde eu vejo")){
-
 		global_progress_bar_active = 1;
 		GError *error = NULL;
 		char open_path[MAX_PATH_LEN];
@@ -132,7 +132,6 @@ int backup_iniciar_exportacao(){
 		    popup(NULL, "Não foi possível abrir diretório do backup");
 		    file_logger(error->message);
 		}
-		global_progress_bar_active = 0;
 		#endif
 	}
 	global_progress_bar_active = 0;
