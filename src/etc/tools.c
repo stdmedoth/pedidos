@@ -17,15 +17,37 @@ const char *str_array_to_string_delim(char **array, int length, char delim){
 }
 
 const char *get_filename_from_path(const char *path){
-  char *ssc;
-  int l = 0;
-  ssc = strstr(path, "/");
-  do{
-      l = strlen(ssc) + 1;
-      path = &path[strlen(path)-l+2];
-      ssc = strstr(path, "/");
-  }while(ssc);
-  return path;
+
+  int pos = 0;
+  int pathlen = strlen(path);
+  char filename_i[pathlen];
+
+  if(!pathlen)
+    return "";
+
+  for(int cont=pathlen-1; cont>=0; cont--){
+
+    if( ((path[cont] == '/') || (path[cont] == '\\')) && (cont != pathlen)){
+      pos++;
+      break;
+    }
+
+    filename_i[pos] = path[cont];
+    pos++;
+
+  }
+  filename_i[pos] = '\0';
+
+  pos = 0;
+  int filenamelen = strlen( filename_i );
+  char *filename = malloc( filenamelen + 1 );
+  for(int cont=filenamelen-1; cont>=0; cont--){
+      filename[pos] = filename_i[cont];
+      pos++;
+  }
+  filename[pos] = '\0';
+
+  return filename;
 }
 
 const char *get_filename_ext(const char *filename) {
