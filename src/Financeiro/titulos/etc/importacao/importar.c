@@ -70,7 +70,7 @@ int import_tits_importar(){
 					continue;
 				}
 			}
-			
+
 			if(simp_critica_real(valor)){
 				continue;
 			}
@@ -78,7 +78,7 @@ int import_tits_importar(){
 			if(atof(valor)>=0){
 				titulo->tipo_titulo = TP_TIT_REC;
 				total_recebido += atof(valor);
-				
+
 			}else{
 				titulo->tipo_titulo = TP_TIT_PAG;
 				total_pago += atof(valor);
@@ -112,7 +112,7 @@ int import_tits_importar(){
 			if(!criar_titulo(titulo)){
 				file_logger("Erro ao criar título de importação");
 			}
-			
+
 			pos++;
 		}
 

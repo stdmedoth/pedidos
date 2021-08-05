@@ -187,6 +187,7 @@
 #include "../Relatorios/planilhas/iconview.c"
 #include "../Relatorios/planilhas/init_export.c"
 #include "../Relatorios/planilhas/gerar.c"
+#include "../Relatorios/planilhas/create_querys.c"
 
 #include "../Marketing/analises/analisar.c"
 #include "../Marketing/emails/enviar/envio_emails.c"

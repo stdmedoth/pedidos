@@ -191,6 +191,7 @@
 #include "../Relatorios/planilhas/iconview.h"
 #include "../Relatorios/planilhas/init_export.h"
 #include "../Relatorios/planilhas/gerar.h"
+#include "../Relatorios/planilhas/create_querys.h"
 
 
 #include "../Marketing/analises/analisar.h"
