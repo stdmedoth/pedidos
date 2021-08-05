@@ -3,21 +3,21 @@
 #define APP_NAME "pedidos"
 
 #ifdef WIN32
+#define APP_DIRNAME       "C:/" APP_NAME
 #define TEMA_PATH          APP_DIRNAME "/share/themes/"
 #define PDF_GEN            APP_DIRNAME "/files/impressao/wkhtmltopdf.exe"
 #define COPY_PROG          APP_DIRNAME "/files/impressao/cp.exe"
 #define APP_BINS_DIR       APP_DIRNAME "/bin"
-#define APP_DIRNAME  "C:/" APP_NAME
 #define MIGRATE_BIN_NAME  "/migrate.exe"
 #endif
 
 #ifdef __linux__
+#define APP_DIRNAME       "/usr/share/" APP_NAME
 #define TEMA_PATH	        "/usr/share/themes/"
 #define PDF_GEN           "/usr/bin/wkhtmltopdf"
 #define COPY_PROG         "/usr/bin/cp"
 //#define APP_BINS_DIR    "/usr/bin" //real
 #define APP_BINS_DIR      APP_DIRNAME "/bin"
-#define APP_DIRNAME       "/usr/share/" APP_NAME
 #define MIGRATE_BIN_NAME  "/migrate"
 #endif
 
