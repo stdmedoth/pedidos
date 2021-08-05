@@ -25,10 +25,10 @@ const char *get_filename_from_path(const char *path){
   if(!pathlen)
     return "";
 
+<<<<<<< HEAD
   for(int cont=pathlen-1; cont>0; cont--){
 
-    if( ((path[cont] == '/') || (path[cont] == '\\')) && (pos != 0)){
-      pos++;
+    if( ((path[cont] == '/') || (path[cont] == '\\')) && (pos !      pos++;
       break;
     }
 
@@ -37,7 +37,6 @@ const char *get_filename_from_path(const char *path){
 
   }
   filename_i[pos] = '\0';
-  printf("%s\n", filename_i);
 
   pos = 0;
   int filenamelen = strlen( filename_i );
@@ -47,7 +46,6 @@ const char *get_filename_from_path(const char *path){
       pos++;
   }
   filename[pos] = '\0';
-  printf("%s\n", filename);
 
   return filename;
 }
