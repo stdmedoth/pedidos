@@ -22,10 +22,6 @@ int init(){
 		}
 	}
 
-	criar_terceiro_importador("razao");
-	return 1;
-
-
 	load_styles();
 	param_dev_defs();
 	get_monitor_sizes();
