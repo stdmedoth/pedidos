@@ -25,17 +25,13 @@ const char *get_filename_from_path(const char *path){
   if(!pathlen)
     return "";
 
-
   for(int cont=pathlen-1; cont>0; cont--){
 
     if( ((path[cont] == '/') || (path[cont] == '\\')) && (pos != 0)){
-      pos++;
       break;
     }
-
     filename_i[pos] = path[cont];
     pos++;
-
   }
   filename_i[pos] = '\0';
 
@@ -43,11 +39,11 @@ const char *get_filename_from_path(const char *path){
   int filenamelen = strlen( filename_i );
   char *filename = malloc( filenamelen + 1 );
   for(int cont=filenamelen-1; cont>=0; cont--){
-      filename[pos] = filename_i[cont];
-      pos++;
+    filename[pos] = filename_i[cont];
+    pos++;
   }
   filename[pos] = '\0';
-
+  
   return filename;
 }
 
