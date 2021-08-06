@@ -148,7 +148,6 @@ int remove_migrates(){
       global_progress_bar_active = 1;
       for(int cont=migrates_loaded_qnt-1; cont >= 0 ; cont--){
         if(migrates_loaded[cont]){
-
           int filepath_len = strlen(MIGRATE_FOLDER) + 2 + strlen(migrates_loaded[cont]);
           char filepath[ filepath_len ];
           sprintf(msg, "Executando arquivo %s", migrates_loaded[cont]);
@@ -158,7 +157,6 @@ int remove_migrates(){
             global_progress_bar_active = 0;
             if(error_migrate_popup())
               return 1;
-
           }
         }
       }
