@@ -100,7 +100,7 @@ int update_migrates(){
       sprintf(msg,"%s%s",text, migrates_not_loaded[cont]);
       global_progress_bar_text = strdup(msg);
       sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_not_loaded[cont]);
-      if(run_sql_from_file(filepath)){
+      if(run_sql_from_file(filepath, 0)){
         global_progress_bar_active = 0;
         if(error_migrate_popup()){
           return 1;
@@ -153,7 +153,7 @@ int remove_migrates(){
           sprintf(msg, "Executando arquivo %s", migrates_loaded[cont]);
           global_progress_bar_text = strdup(msg);
           sprintf(filepath, "%s/%s", MIGRATE_FOLDER, migrates_loaded[cont]);
-          if(run_sql_from_file(filepath)){
+          if(run_sql_from_file(filepath, 0)){
             global_progress_bar_active = 0;
             if(error_migrate_popup())
               return 1;

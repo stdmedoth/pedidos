@@ -1,4 +1,4 @@
-int run_sql_from_file(char *sql_path){
+int run_sql_from_file(char *sql_path, int stop_on_error){
 
 	MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -88,7 +88,8 @@ int run_sql_from_file(char *sql_path){
 					break;
 
 				default:
-        	return 1;
+					if(stop_on_error)
+        		return 1;
 			}
     }
 

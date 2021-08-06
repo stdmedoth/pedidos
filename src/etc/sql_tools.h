@@ -1,4 +1,4 @@
-int run_sql_from_file(char *sql_path);
+int run_sql_from_file(char *sql_path, int stop_on_error);
 
 int mysql_res_to_cvs_file(char *filename, MYSQL_RES *res);
 
