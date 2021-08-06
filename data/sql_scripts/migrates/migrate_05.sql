@@ -2,8 +2,8 @@
 
 
 
-ALTER TABLE cheque_finan DROP CONSTRAINT IF EXISTS cheque_finan_ibfk_2;
-ALTER TABLE parcelas_tab DROP CONSTRAINT IF EXISTS parcelas_tab_ibfk_1;
+ALTER TABLE cheque_finan DROP CONSTRAINT cheque_finan_ibfk_2;
+ALTER TABLE parcelas_tab DROP CONSTRAINT parcelas_tab_ibfk_1;
 ALTER TABLE titulos MODIFY code INT AUTO_INCREMENT;
 ALTER TABLE parcelas_tab ADD CONSTRAINT parcelas_tab_ibfk_1 FOREIGN KEY (parcelas_id) REFERENCES titulos(code);
 ALTER TABLE cheque_finan  ADD CONSTRAINT cheque_finan_ibfk_2 FOREIGN KEY (titulo) REFERENCES titulos(code);
