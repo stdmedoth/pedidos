@@ -1,5 +1,6 @@
+int error_migrate_popup();
+int update_migrates();
 int remove_migrates();
-int check_migrates();
 int get_migrate_loaded();
 
 struct _migrate{
@@ -27,11 +28,33 @@ enum VER_MIGRATES_COLS {
 	DOWN_MIGRATE_FILE
 };
 
+#define UP_MIGRATE_PREFIX "migrate_"
+#define DOWN_MIGRATE_PREFIX "migrate_down_"
+
 const char *version_migrates_list[][3] = {
-	{"v1.1.1.1" APP_VERSION_SUFIX APP_ENV_SO, "migrate_01.sql", "migrate_down_01.sql"},
-	{"v1.1.1.2" APP_VERSION_SUFIX APP_ENV_SO, "migrate_02.sql", "migrate_down_02.sql"},
-	{"v1.1.1.3" APP_VERSION_SUFIX APP_ENV_SO, "migrate_03.sql", "migrate_down_03.sql"},
-	{"v1.1.1.4" APP_VERSION_SUFIX APP_ENV_SO, "migrate_04.sql", "migrate_down_04.sql"},
-	{"v1.1.1.5" APP_VERSION_SUFIX APP_ENV_SO, "migrate_05.sql", "migrate_down_05.sql"},
+	{
+		"v1.1.1.1"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"01.sql",
+		DOWN_MIGRATE_PREFIX"01.sql"
+	},
+	{
+		"v1.1.1.2"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"02.sql",
+		DOWN_MIGRATE_PREFIX"02.sql"},
+	{
+		"v1.1.1.3"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"03.sql",
+		DOWN_MIGRATE_PREFIX"03.sql"
+	},
+	{
+		"v1.1.1.4"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"04.sql",
+		DOWN_MIGRATE_PREFIX"04.sql"
+	},
+	{
+		"v1.1.1.5"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"05.sql",
+		DOWN_MIGRATE_PREFIX"05.sql"
+	},
 	{NULL,NULL, NULL}
 };

@@ -34,7 +34,7 @@ int relat_orc_prod_codigo_fun()
 		return 1;
 	}
 
-	cont=0;
+	int cont=0;
 
 	if(relat_orc_prod_gerando==0){
 		gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(relat_orc_prod_ordem_combo));

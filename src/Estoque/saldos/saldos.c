@@ -56,7 +56,8 @@ int cad_est_sld()
 	est_sld_cod_frame = gtk_frame_new("Estoque");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(est_sld_est_combo),"Escolha o estoque");
 	sprintf(query,"select code,nome from estoques");
-	cont=0;
+
+	int cont=0;
 	if((res = consultar(query))==NULL)
 	{
 		popup(NULL,"Erro ao buscar estoques");

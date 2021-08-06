@@ -12,7 +12,7 @@ static int gerar_total_geral(){
 	orc_valores.valor_prds_liquido = 0;
 	orc_valores.valor_frete_liquido = 0;
 
-	for(cont=1;cont<=MAX_PROD_ORC;cont++)
+	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id == 1)
 		{

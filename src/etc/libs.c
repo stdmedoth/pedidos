@@ -1,6 +1,7 @@
 #include "libs.h"
 
 #include "./env.c"
+#include "./command_args.c"
 #include "./init.c"
 #include "./desktop.c"
 #include "./version.c"

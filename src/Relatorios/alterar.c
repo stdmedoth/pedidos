@@ -24,8 +24,8 @@ int cad_relat_alterar()
 	alterando_cad_rel = 1;
 	relat_struct.qnt_campos = 0;
 	relat_campo_atual=1;
-	while(cont<=MAX_RELAT_CAMPOS)
-	{
+	int cont = 0;
+	while(cont<=MAX_RELAT_CAMPOS){
 		relat_struct.status[cont] = FALSE;
 		cont++;
 	}
@@ -71,7 +71,7 @@ int cad_relat_alterar()
 			gtk_widget_set_sensitive(campos_rel_remover_button,TRUE);
 		}
 	}
-	
+
 	gtk_widget_set_sensitive(cad_rel_tabel_combo,FALSE);
 	gtk_widget_set_sensitive(cad_rel_alterar_button,FALSE);
 	gtk_widget_set_sensitive(cad_rel_code_entry,FALSE);

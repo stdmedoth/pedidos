@@ -28,7 +28,7 @@ int relat_ter_codigo_fun()
 		popup(NULL,"Não foi possivel receber nome dos campos do relatorio");
 		return 1;
 	}
-	cont=0;
+	int cont=0;
 
 	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(relat_ter_ordem_combo),2);
 	if(relat_ter_gerando==0){

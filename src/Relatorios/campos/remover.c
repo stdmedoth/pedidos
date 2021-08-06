@@ -22,7 +22,8 @@ void cad_rel_rem_row_fun(GtkWidget *button, GtkTreeView *treeview)
 		popup(NULL,"Não foi possivel remover campo");
 		return ;
 	}
-	cont=0;
+
+	int cont=0;
 	while(cont<=MAX_RELAT_CAMPOS)
 	{
 		if(relat_struct.status[cont] == TRUE)

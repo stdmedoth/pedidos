@@ -74,16 +74,14 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
 
-	cont=1;
 	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
 	{
 		if(ativos[pos].id == 1){
 			gtk_widget_set_sensitive(botao_menos[pos],TRUE);
-			cont = pos;
 		}
 	}
-	if(cont<MAX_PROD_ORC)
-		gtk_widget_set_sensitive(botao_menos[cont],FALSE);
+	if(itens_qnt<MAX_PROD_ORC)
+		gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
 
 	return 0;
 }

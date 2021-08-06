@@ -18,7 +18,7 @@
 
 #define GET_APP_VERSION_NAME() APP_VERSION_PREFIX GET_APP_VERSION() APP_VERSION_SUFIX APP_ENV_SO
 
-char *db_version=NULL;
+const char *db_version=NULL;
 
 char *get_db_version();
 int check_compat_version();

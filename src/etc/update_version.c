@@ -283,7 +283,7 @@ int download_new_version(void) {
   }
 
 
-  char **files_not_downloaded = malloc(sizeof(char *) * versions[version_pos].assets_qnt);
+  const char **files_not_downloaded = malloc(sizeof(char *) * versions[version_pos].assets_qnt);
   int files_not_downloaded_qnt = 0;
   for(int pos=0; pos < versions[version_pos].assets_qnt; pos++){
     carregar_interface();

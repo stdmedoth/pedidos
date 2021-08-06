@@ -204,7 +204,7 @@ int cad_relat()
 
 	g_signal_connect(janela,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_RELAT]);
 
-	cont=0;
+	int cont=0;
 	alterando_cad_rel=0;
 	concluindo_cad_rel=0;
 	while(cont<MAX_RELAT_CAMPOS)

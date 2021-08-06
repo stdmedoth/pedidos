@@ -222,14 +222,12 @@ static int adicionar_linha_orc()
 	aviso_estoque[itens_qnt] = 0;
 	ativos_qnt++;
 
-	cont=1;
 	for(int pos=1;pos<=MAX_PROD_ORC;pos++){
 		if(ativos[pos].id == 1){
 			gtk_widget_set_sensitive(botao_menos[pos],TRUE);
-			cont=pos;
 		}
 	}
-	if(cont<MAX_PROD_ORC)
+	if(itens_qnt<MAX_PROD_ORC)
 		gtk_widget_set_sensitive(botao_menos[itens_qnt],FALSE);
 
 	if(ativos_qnt>2){
@@ -243,7 +241,7 @@ static int adicionar_linha_orc()
 
 	if(param_funcionalidades.retirar_orc_linha_item)
 		g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
-	
+
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);

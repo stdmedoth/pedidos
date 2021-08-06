@@ -1,7 +1,6 @@
 #include "sql_tools.c"
 
-
-const char *str_array_to_string_delim(char **array, int length, char delim){
+const char *str_array_to_string_delim(const char **array, int length, char delim){
   int string_length = 0;
   for(int cont=0;cont<length; cont++){
     string_length += strlen(array[cont]);
@@ -11,8 +10,14 @@ const char *str_array_to_string_delim(char **array, int length, char delim){
   char *string = malloc(string_length);
   strcpy(string, "");
   for(int cont=0;cont<length; cont++){
-    sprintf(string, "%s%s%c", strdup(string), array[cont], delim);
+
+    if(cont == length-1){
+      sprintf(string, "%s%s", strdup(string), array[cont]);
+    }else{
+      sprintf(string, "%s%s%c", strdup(string), array[cont], delim);
+    }
   }
+
   return string;
 }
 
@@ -43,7 +48,7 @@ const char *get_filename_from_path(const char *path){
     pos++;
   }
   filename[pos] = '\0';
-  
+
   return filename;
 }
 

@@ -3,7 +3,7 @@
 
 const char *get_filename_from_path(const char *path);
 
-const char *str_array_to_string_delim(char **array, int length, char delim);
+const char *str_array_to_string_delim(const char **array, int length, char delim);
 
 const char *get_filename_ext(const char *filename);
 

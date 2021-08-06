@@ -35,7 +35,7 @@ XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 
 CCFLAGS1=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type -Wno-deprecated-declarations
-CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wfatal-errors -Wformat-overflow
+CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wformat-overflow
 CCFLAGS3=-Wunused-variable
 DEBUG=-g
 ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG) $(SOFLAGS)
@@ -77,7 +77,9 @@ Pedidos.o:
 	$(CC) $(TARGET_FILE) -c $(ALLFLAGS)
 
 clear:
-	rm *.o *.gcda $(RESULT_FILE) $(RESULT_FILE_CONSOLE)
+	rm *.o *.gcda -rf $(RESULT_FILE) $(RESULT_FILE_CONSOLE)
+
+recompile_all: clear all
 
 install:
 	mkdir -p $(DIR_FILES)

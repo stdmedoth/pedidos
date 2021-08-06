@@ -60,6 +60,10 @@ int main(int argc, char *argv[])
 	if(rec_vars_from_file())
 		return 1;
 
+	if(command_args()){
+		return 1;
+	}
+
 	if(init())
 		return 1;
 

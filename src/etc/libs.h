@@ -7,6 +7,7 @@
 #include "./basic_headers.h"
 #include "./Pedidos.h"
 #include "./env.h"
+#include "./command_args.h"
 #include "./defines.h"
 #include "./init.h"
 #include "./version.h"

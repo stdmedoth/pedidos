@@ -5,6 +5,7 @@ int check_compat_version(){
     file_logger("Sem versão do banco de dados");
     return 1;
   }
+
   if(strcmp(GET_APP_VERSION(), db_version)){
       int cont=0;
       while(compat_db_versions[cont]){

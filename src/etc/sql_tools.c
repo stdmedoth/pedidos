@@ -63,27 +63,32 @@ int run_sql_from_file(char *sql_path){
 			continue;
 		}
 
-    file_logger("Executando migrate : ");
-		file_logger(line);
+    file_logger("Executando run_sql_from_file() : ");
     if(enviar_query(line)){
+			file_logger("Erro run_sql_from_file():");
+			file_logger(line);
+			file_logger(mysql_error(&conectar));
       int error_code = mysql_errno(&conectar);
 			switch(error_code){
 				case 1050:
-				printf("Aviso: %s\n", mysql_error(&conectar));
-				break;
+					printf("Aviso: %s\n", mysql_error(&conectar));
+					break;
+
 				case 1062:
-				printf("Aviso: %s\n", mysql_error(&conectar));
-				break;
+					printf("Aviso: %s\n", mysql_error(&conectar));
+					break;
+
 				case 1065:
-				printf("Aviso: %s\n", mysql_error(&conectar));
-	    			//empty query
-				break;
+					printf("Aviso: %s\n", mysql_error(&conectar));
+		    			//empty query
+					break;
+
 				case 1060:
-				printf("Aviso: %s\n", mysql_error(&conectar));
-				break;
+					printf("Aviso: %s\n", mysql_error(&conectar));
+					break;
+
 				default:
-				popup(NULL,"Erro ao efetuar migrate");
-        return 1;
+        	return 1;
 			}
     }
 

@@ -46,15 +46,21 @@ int init(){
 		}
 	}
 
-	if(check_migrates()){
+	if(update_migrates()){
 		return 1;
 	}
 
 	if(check_compat_version()){
-		char msg[300];
-		sprintf(msg, "Versão do banco de dados não é compativel com a versão do App ( ver. %s )\nVerifique o migrate!", GET_APP_VERSION());
-		popup(NULL,msg);
-		return 1;
+		const char *text = strdup("Versão do banco de dados não é compativel com a versão do App! Deseja efetuar migração?");
+		char msg[ strlen(text) + strlen(GET_APP_VERSION()) + strlen(db_version) + 30 ];
+		sprintf( msg,"%s \n\nApp: %s\nDB: %s", text, GET_APP_VERSION(), db_version );
+		if(!PopupBinario(msg, "Sim! continuar o processo", "Não! aborte")) {
+			return 1;
+		}
+
+		if(update_migrates()){
+			return 1;
+		}
 	}
 
 	if(check_tables()){

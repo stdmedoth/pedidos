@@ -1,5 +1,5 @@
 void orc_prod_saldos_clean(){
-	for(int pos=0; cont<orc_estoque.length; pos++){
+	for(int pos=0; pos<orc_estoque.length; pos++){
 		if(orc_estoque.produtos[pos]){
 			orc_estoque.produtos[pos] = NULL;
 			orc_estoque.length--;
@@ -10,9 +10,9 @@ void orc_prod_saldos_clean(){
 int orc_prod_saldos_get_pos(int produto){
 
 	int pos=0;
-	
-	for(pos=0; cont<orc_estoque.length; pos++){
-		if(orc_estoque.produtos[cont] && orc_estoque.produtos[cont]->code == produto){
+
+	for(pos=0; pos<orc_estoque.length; pos++){
+		if(orc_estoque.produtos[pos] && orc_estoque.produtos[pos]->code == produto){
 			return pos;
 		}
 	}
@@ -38,7 +38,7 @@ int orc_prod_calc_saldo(int posicao){
 	if(strlen(codigo_prod_orc_gchar)){
 		prod_pos = orc_prod_saldos_get_pos(atoi(codigo_prod_orc_gchar));
 	}else{
-		
+
 		produto_inserido[posicao] = 0;
 		if(posicao>1){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -48,7 +48,7 @@ int orc_prod_calc_saldo(int posicao){
 		popup(NULL,"Insira o produto");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
-	
+
 	}
 
 	if(!orc_estoque.produtos[prod_pos]){

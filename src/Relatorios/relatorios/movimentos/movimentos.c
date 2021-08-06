@@ -101,8 +101,8 @@ int relat_mov_fun()
 	relat_mov_tipo_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(relat_mov_tipo_combo),"Todos");
 	sprintf(query,"select nome from tipo_movimentos");
-	cont=0;
 
+	int cont=0;
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possivel receber tipo operações");
 		return 1;

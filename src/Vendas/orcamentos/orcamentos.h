@@ -244,7 +244,6 @@ GtkWidget *caixa_grande,*caixa_orc_infos_d,*caixa_orc_infos_e,*caixa_orc_infos;
 GtkWidget *prod_scroll_window,*prod_scroll_box;
 GtkWidget *img_botao_orc_mais,**img_botao_menos;
 
-static int cont;
 GtkWidget *observacoes_orc,*buffer_orc;
 
 //Botoes

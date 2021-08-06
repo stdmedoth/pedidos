@@ -57,8 +57,6 @@ static int cancela_orc()
 	gtk_widget_set_size_request(prod_scroll_window,1100,400);
 	gtk_widget_set_size_request(prod_scroll_box,1100,400);
 
-	cont=1;
-
 	pag_cond = 0;
 	tipo_pag = 0;
 	itens_qnt = 1;
@@ -106,10 +104,10 @@ static int cancela_orc()
 	gtk_widget_set_sensitive(pedido_orc_button, TRUE);
 	gtk_widget_set_sensitive(copia_orc_button,TRUE);
 	gtk_widget_set_sensitive(gerar_orc_button,FALSE);
-	
+
 	//gtk_widget_set_sensitive(orc_prods_grid, TRUE);
 	gtk_widget_grab_focus(pesquisa_ter);
 	cancelando_orc = 0;
-	
+
 	return 0;
 }
