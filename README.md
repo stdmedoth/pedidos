@@ -89,6 +89,14 @@ https://dev.mysql.com/downloads/connector/cpp/
 Curl C para Windows
 https://curl.se/windows/
 
+# Doação
+
+Este é um projeto totalmente Open Source, para usá-lo, copiá-lo ou modificá-lo você não paga absolutamente nada. Porém para continuarmos a mantê-lo de forma adequada é necessária alguma contribuição seja feita, seja auxiliando na codificação, na documentação, na realização de testes e identificação de falhas e BUGs.
+
+Mas também, caso você ache que qualquer informação obtida aqui, lhe foi útil e que isso vale algum dinheiro e está disposto a doar algo, sinta-se livre para enviar qualquer quantia, seja diretamente ao autor ou através do PayPal.
+
+<a target="_blank" href="https://www.paypal.com/donate?hosted_button_id=3Z3W5RJRZDAY8">
+<img alt="Doar com Paypal" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif"/></a>
 
 Calisto – jovictor210@gmail.com
 
