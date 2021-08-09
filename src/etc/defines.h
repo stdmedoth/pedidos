@@ -22,15 +22,12 @@
 #endif
 
 
-#ifdef PEDIDOS_DEVELOP_ENV
-#define MIGRATE_FOLDER     "data/sql_scripts/migrates"
-#endif
-
-#ifdef PEDIDOS_PRODUCTION_ENV
 #define MIGRATE_FOLDER     APP_DIRNAME "/files/sql_scripts/migrates"
-#endif
-
 #define MIGRATE_BIN        APP_BINS_DIR MIGRATE_BIN_NAME
+#define SQL_SCRIPTS_DIR    APP_DIRNAME "/files/sql_scripts"
+#define SCHEMAS_DIR        APP_DIRNAME "/files/sql_scripts/schemas"
+
+#define SQL_DATA_SCRIPT    SQL_SCRIPTS_DIR "/instalar_base_dados_basico.sql"
 
 #define BKP_PTH_CACHE      APP_DIRNAME "/files/cache/backup_path"
 #define EXP_PTH_CACHE      APP_DIRNAME "/files/cache/backup_path"
@@ -186,6 +183,7 @@
 #define PRINT_SETTING_FILE  APP_DIRNAME "/files/impressao/print.settings"
 #define PRINT_SETUP_FILE    APP_DIRNAME "/files/impressao/page_setup.settings"
 #define DB_TABLES_LIST_FILE APP_DIRNAME "/files/db_tables_list"
+#define INSTALL_FLAG_FILE   APP_DIRNAME "/files/app_installed"
 
 #define CSS_ORC       "orcamento.css"
 #define IMG_IMP_CLI   "imgs/cliente.png"

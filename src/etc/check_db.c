@@ -27,7 +27,12 @@ int check_tables(){
 	}
 
 	while((getline(&pedidos_db_tables[pos_line], &line_buf_size, fp))>0){
+		printf("%s\n", pedidos_db_tables[pos_line]);
+		if(!strcmp(pedidos_db_tables[pos_line], "\n")){
+			continue;
+		}
 		remover_barra_n(pedidos_db_tables[pos_line]);
+
 		int table_exists = 0;
 
 		while((row = mysql_fetch_row(res))){
@@ -44,6 +49,7 @@ int check_tables(){
 		}
 		pos_line++;
 		pedidos_db_tables[pos_line] = malloc(MAX_TABLE_LEN);
+		pedidos_db_tables_qnt++;
 	}
 
 	return 0;

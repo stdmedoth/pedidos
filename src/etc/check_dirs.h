@@ -11,7 +11,8 @@ const char *check_directorys_list[] = {
 	APP_DIRNAME "/files/desktop/",
 	APP_DIRNAME "/files/icones_opc/",
 	APP_DIRNAME "/files/impressao/",
-	APP_DIRNAME "/files/sql_scripts/",
-	APP_DIRNAME "/files/sql_scripts/migrates",
+	SQL_SCRIPTS_DIR,
+	MIGRATE_FOLDER,
+	SCHEMAS_DIR,
 	NULL
 };

@@ -62,8 +62,7 @@ int run_sql_from_file(char *sql_path, int stop_on_error){
 		if(iscomment){
 			continue;
 		}
-
-    file_logger("Executando run_sql_from_file() : ");
+		
     if(enviar_query(line)){
 			file_logger("Erro run_sql_from_file():");
 			file_logger(line);

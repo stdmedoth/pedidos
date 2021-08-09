@@ -5,6 +5,7 @@
 #include "./init.c"
 #include "./desktop.c"
 #include "./version.c"
+#include "./install.c"
 #include "./migrates.c"
 #include "./receber_confs.c"
 #include "./xml_tools.c"

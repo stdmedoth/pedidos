@@ -11,6 +11,7 @@
 #include "./defines.h"
 #include "./init.h"
 #include "./version.h"
+#include "./install.h"
 #include "./migrates.h"
 #include "./desktop.h"
 #include "./receber_confs.h"

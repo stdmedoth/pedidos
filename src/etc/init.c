@@ -38,6 +38,12 @@ int init(){
 		return 1;
 	}
 
+	if(!check_installed_pedidos_db()){
+		if(install_pedidos_db()){
+			return 1;
+		}
+	}
+
 	if( check_updated() ){
 		if(PopupBinario("Para o funcionamento correto, Seu sistema será atualizado agora, ok?", "Ok atualiza agora", "Eu assumo o risco")){
 			if(download_changelog_files()){

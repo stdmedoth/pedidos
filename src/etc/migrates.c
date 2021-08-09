@@ -17,7 +17,7 @@ int get_migrate_loaded(){
 	char query[50];
 	sprintf(query, "SELECT * FROM migrate;");
 	if(!(res = consultar(query))){
-		popup(NULL,"Não foi receber migrates");
+		popup(NULL,"Não foi possível receber migrates");
 		return 1;
 	}
   migrates_loaded_qnt = mysql_num_rows(res);
@@ -117,22 +117,24 @@ int update_migrates(){
 }
 
 int remove_migrates(){
-  int atual_version_pos = 0, versions_qnt;
+  int atual_version_pos = 0, versions_qnt = 0;
   if(get_migrate_loaded()){
     return 1;
   }
 
+
   for(int cont=0; version_migrates_list[cont][VER_MIGRATES_VERSION]; cont++){
-    if(!strcmp(GET_APP_VERSION_NAME(), version_migrates_list[cont][VER_MIGRATES_VERSION])){
-        atual_version_pos = cont;
-    }
+    //if(!strcmp(GET_APP_VERSION_NAME(), version_migrates_list[cont][VER_MIGRATES_VERSION])){
+    //    atual_version_pos = cont;
+    //}
     versions_qnt++;
   }
+
 
   int migrates_loaded_qnt = 0;
   char **migrates_loaded = malloc(sizeof(char*) *versions_qnt);
   for(int cont=0; version_migrates_list[cont][VER_MIGRATES_VERSION]; cont++){
-    if(cont<=atual_version_pos){
+    if(cont<versions_qnt){
       if(!migrate_is_loaded(version_migrates_list[cont][UP_MIGRATE_FILE])){
         continue;
       }
