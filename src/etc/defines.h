@@ -58,6 +58,7 @@
 #define LOGO_MEDIA         APP_DIRNAME "/files/logo_media.png"
 #define LOGO_PDF           APP_DIRNAME "/files/logo_pdf.png"
 #define BACKUP             APP_DIRNAME "/files/backup"
+
 #define DESKTOP            APP_DIRNAME "/files/desktop.png"
 #define DESKTOP1           APP_DIRNAME "/files/desktop/desktop1.png"
 #define DESKTOP2           APP_DIRNAME "/files/desktop/desktop2.png"
@@ -65,12 +66,17 @@
 #define DESKTOP4           APP_DIRNAME "/files/desktop/desktop4.png"
 #define DESKTOP5           APP_DIRNAME "/files/desktop/desktop5.png"
 #define DESKTOP6           APP_DIRNAME "/files/desktop/desktop6.png"
+#define CUSTOM_DESKTOP     APP_DIRNAME "/files/desktop/custom_desktop.png"
+#define CSTM_DSKTP_CACHE   APP_DIRNAME "/files/cache/custom_desktop_path"
+
 #define THUMBDESKTOP1      APP_DIRNAME "/files/thumbs/thumbdesktop1.png"
 #define THUMBDESKTOP2      APP_DIRNAME "/files/thumbs/thumbdesktop2.png"
 #define THUMBDESKTOP3      APP_DIRNAME "/files/thumbs/thumbdesktop3.png"
 #define THUMBDESKTOP4      APP_DIRNAME "/files/thumbs/thumbdesktop4.png"
 #define THUMBDESKTOP5      APP_DIRNAME "/files/thumbs/thumbdesktop5.png"
 #define THUMBDESKTOP6      APP_DIRNAME "/files/thumbs/thumbdesktop6.png"
+#define THUMB_CTM_DESKTOP  APP_DIRNAME "/files/thumbs/thumb_custom_desktop.png"
+
 #define GOD_DESKTOP_IMG    APP_DIRNAME "/files/desktop/god.png"
 #define OPER_DESKTOP_IMG   APP_DIRNAME "/files/desktop/oper.png"
 #define DESKTOP_STYLE      APP_DIRNAME "/files/desktop/style.css"
@@ -237,7 +243,7 @@
 #define MAX_TIPO_LEN 20
 #define ENTRADA 300
 #define MARGEM_D 10
-#define WALLPAPERS_QNT 6
+#define WALLPAPERS_QNT 7
 #define RAZ_ROW_POS 1
 #define END_ROW_POS 7
 #define TEL_ROW_POS 9

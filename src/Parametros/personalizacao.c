@@ -1,3 +1,20 @@
+int personalizacao_copy_image_to_custom_desktop(){
+	const char *image_orig_path = gtk_entry_get_text(GTK_ENTRY(custom_desktop_path_entry));
+
+	FILE *custom_image_path_cache = fopen(CSTM_DSKTP_CACHE, "w");
+	if(custom_image_path_cache){
+		const char custom_image_path[MAX_PATH_LEN];
+		fprintf(custom_image_path_cache, "%s", image_orig_path );
+		fclose(custom_image_path_cache);
+	}
+
+	if(copy_file(image_orig_path, CUSTOM_DESKTOP)){
+		return 1;
+	}
+
+	return 0;
+}
+
 static int ler_personalizacao()
 {
 	//*usar gtk_toggle_button_get_active aqui
@@ -50,6 +67,13 @@ static int receber_personalizacao()
 {
 	MYSQL_RES *res;
 	MYSQL_ROW row;
+
+	FILE *custom_image_path_cache = fopen(CSTM_DSKTP_CACHE, "r");
+	if(custom_image_path_cache){
+		char custom_image_path[MAX_PATH_LEN];
+		fgets(custom_image_path, MAX_PATH_LEN, custom_image_path_cache);
+		gtk_entry_set_text(GTK_ENTRY(custom_desktop_path_entry), custom_image_path);
+	}
 
 	char query[MAX_QUERY_LEN];
 	sprintf(query,"select * from perfil_desktop where code = %i",sessao_oper->operador->code);
@@ -133,7 +157,7 @@ int atualizar_personalizacao()
 	char query[MAX_QUERY_LEN + MAX_PATH_LEN * 4];
 	char navegador_path1[MAX_PATH_LEN],
 		 navegador_path2[MAX_PATH_LEN],
-		 
+
 		 imp_path1[MAX_PATH_LEN],
 		 imp_path2[MAX_PATH_LEN],
 		 imp_path3[MAX_PATH_LEN];
@@ -141,6 +165,9 @@ int atualizar_personalizacao()
 	if(ler_personalizacao())
 		return 1;
 
+	if(personalizacao_copy_image_to_custom_desktop()){
+		return 1;
+	}
 	sprintf(query,"update perfil_desktop set janela_init = %i",personalizacao.janela_init);
 	if((erro = enviar_query(query))!=0)
 	{
@@ -215,6 +242,9 @@ int trocar_desktop(GtkWidget *widget,GtkWidget *event,int posicao)
 		case 5:
 			gtk_image_set_from_file(GTK_IMAGE(imagem_desktop),DESKTOP6);
 			break;
+		case 6:
+				gtk_image_set_from_file(GTK_IMAGE(imagem_desktop),CUSTOM_DESKTOP);
+				break;
 		default:
 			gtk_image_set_from_file(GTK_IMAGE(imagem_desktop),DESKTOP1);
 	}

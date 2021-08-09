@@ -13,6 +13,7 @@
 #endif
 
 #define GET_APP_VERSION() "1.1.1.6"
+
 #define APP_VERSION_PREFIX "v"
 #define APP_VERSION_SUFIX "_"
 

@@ -1,5 +1,35 @@
 #include "sql_tools.c"
 
+int copy_file(const char *orig, const char *dest){
+  FILE *orig_fp = fopen(orig, "r");
+	if(!orig_fp){
+		file_logger(strerror(errno));
+		popup(NULL,"Não foi possível abrir arquivo origem");
+		return 1;
+	}
+  FILE *dest_fp = fopen(dest, "w");
+  if(!dest_fp){
+    fclose(orig_fp);
+  	file_logger(strerror(errno));
+		popup(NULL,"Não foi possível abrir arquivo destino");
+		return 1;
+	}
+
+  int ascii = 0;
+  int char_qnt = 0;
+  printf("Iniciando copia de arquivos %s para %s...\n", orig, dest);
+  while( EOF != (ascii = fgetc(orig_fp)) ){
+    printf("ascii: %c\n", ascii);
+    fputc(ascii, dest_fp);
+    char_qnt++;
+  }
+  printf("Quantidade de bytes movidos %i\n", char_qnt);
+
+  fclose(orig_fp);
+  fclose(dest_fp);
+  return 0;
+}
+
 const char *str_array_to_string_delim(const char **array, int length, char delim){
   int string_length = 0;
   for(int cont=0;cont<length; cont++){

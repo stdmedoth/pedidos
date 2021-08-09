@@ -1,8 +1,8 @@
 static int ler_personalizacao();
 
+int personalizacao_copy_image_to_custom_desktop();
 
 static int receber_personalizacao();
-
 
 int atualizar_personalizacao();
 
@@ -18,7 +18,6 @@ struct _personalizacao
 }personalizacao;
 
 
-
 char *desktop_images_vet[] =
 {
 	THUMBDESKTOP1,
@@ -26,5 +25,6 @@ char *desktop_images_vet[] =
 	THUMBDESKTOP3,
 	THUMBDESKTOP4,
 	THUMBDESKTOP5,
-	THUMBDESKTOP6
+	THUMBDESKTOP6,
+	THUMB_CTM_DESKTOP
 };

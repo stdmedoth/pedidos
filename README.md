@@ -7,6 +7,8 @@
 
 [Trello - Desenvolvimento](https://trello.com/b/kX1scIYM/pedidos-software-v1)
 
+[Documentação das Versões](https://docs.google.com/document/d/1yQltDqRAtqTHOPBLfop2rkSA2kmP1ME4KjcDUXKbldA/edit?usp=sharing)
+
 
 <p>Software gerencial para controle de vendas, compras, financeiro, estoque e marketing</p>
 <ul>

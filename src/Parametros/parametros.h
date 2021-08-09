@@ -5,6 +5,7 @@ GtkWidget **campos_de_critica;
 
 GtkWidget *tecn_param_nav_path1_entry, *tecn_param_nav_path2_entry, *tecn_param_nav_choose1_radio, *tecn_param_nav_choose2_radio;
 GtkWidget *tecn_param_imp_path1_entry, *tecn_param_imp_path2_entry, *tecn_param_imp_path3_entry;
+GtkWidget *custom_desktop_path_file_choose, *custom_desktop_path_entry;
 
 //quantidade de flags/aba
 const int orc_critic_campos_qnt=3;

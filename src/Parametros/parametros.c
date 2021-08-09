@@ -86,7 +86,7 @@ int parametrizar()
 	GtkWidget *geral_criticas_box,*ter_criticas_box,*prod_criticas_box,*orc_criticas_box;
 
 	GtkWidget *personaliza_box,*personaliza_frame;
-	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Grin","Tripo"};
+	char *wallpapers_nome[] = {"Grey","Cascate","Vulcon","Maré","Grin","Tripo", "Customizado"};
 	GtkWidget *tema_combo_box_fixed;
 	GtkWidget **caixa_wallpapers,**image_wallpapers,**label_wallpapers,**event_wallpapers,
 	*wallpapers_box,*wallpapers_scroll,*wallpapers_frame;
@@ -178,6 +178,10 @@ int parametrizar()
 		 * wallpapers_nome  = char
 		 * wallpapers_label = gtk_label
 		 */
+		 if(!fopen(desktop_images_vet[cont], "r")){
+			 continue;
+		 }
+
 		image_wallpapers[cont] = gtk_image_new_from_file(desktop_images_vet[cont]);
 		label_wallpapers[cont] = gtk_label_new(wallpapers_nome[cont]);
 		caixa_wallpapers[cont] = gtk_box_new(1,0);
@@ -187,9 +191,10 @@ int parametrizar()
 		gtk_container_add(GTK_CONTAINER(event_wallpapers[cont]),caixa_wallpapers[cont]);
 		gtk_box_pack_start(GTK_BOX(wallpapers_box),event_wallpapers[cont],0,0,20);
 		vet_pos[cont] = cont;
+
 		//gtk_widget_add_events(event_wallpapers[cont],GDK_ALL_EVENTS_MASK);
 		#pragma GCC diagnostic ignored "-Wint-conversion"
-		g_signal_connect(event_wallpapers[cont],"button-press-event",G_CALLBACK(trocar_desktop),vet_pos[cont]);
+		g_signal_connect(event_wallpapers[cont],"button-press-event",G_CALLBACK(trocar_desktop), vet_pos[cont]);
 		#pragma GCC diagnostic warning "-Wint-conversion"
 	}
 	gtk_widget_set_size_request(wallpapers_box,600,120);
@@ -201,6 +206,16 @@ int parametrizar()
 	gtk_frame_set_shadow_type(GTK_FRAME(wallpapers_frame),GTK_SHADOW_ETCHED_OUT);
 	gtk_container_add(GTK_CONTAINER(wallpapers_frame),wallpapers_scroll);
 	campos_de_critica = malloc(sizeof(GtkCheckButton*)*orc_critic_campos_qnt+1);
+
+	GtkWidget *custom_desktop_path_box = gtk_box_new(0,0);
+	GtkWidget *custom_desktop_path_frame = gtk_frame_new("Imagem Desktop customizada");
+	custom_desktop_path_file_choose = gtk_file_chooser_button_new("Escolher imagem desktop customizada",GTK_FILE_CHOOSER_ACTION_OPEN);
+	custom_desktop_path_entry = gtk_entry_new();
+	gtk_entry_set_width_chars(GTK_ENTRY(custom_desktop_path_entry),50);
+	gtk_box_pack_start(GTK_BOX(custom_desktop_path_box),custom_desktop_path_entry,0,0,0);
+	gtk_box_pack_start(GTK_BOX(custom_desktop_path_box),custom_desktop_path_file_choose,0,0,0);
+	gtk_container_add(GTK_CONTAINER(custom_desktop_path_frame), custom_desktop_path_box);
+	g_signal_connect(custom_desktop_path_file_choose,"file-set",G_CALLBACK(get_filename_to_entry),custom_desktop_path_entry);
 
 	caixona = gtk_box_new(1,0);
 	opcoes_box = gtk_box_new(0,0);
@@ -313,6 +328,7 @@ int parametrizar()
 	gtk_widget_set_size_request(geral_box,580,400);
 
 	gtk_box_pack_start(GTK_BOX(geral_box),wallpapers_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(geral_box),custom_desktop_path_frame,0,0,10);
 	gtk_box_pack_start(GTK_BOX(geral_box),personaliza_frame,0,0,10);
 
 	atualizar_button = gtk_button_new_with_label("Atualizar");

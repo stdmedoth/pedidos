@@ -27,7 +27,6 @@ int check_tables(){
 	}
 
 	while((getline(&pedidos_db_tables[pos_line], &line_buf_size, fp))>0){
-		printf("%s\n", pedidos_db_tables[pos_line]);
 		if(!strcmp(pedidos_db_tables[pos_line], "\n")){
 			continue;
 		}

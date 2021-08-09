@@ -1,6 +1,8 @@
 #define RANDOM_STRING_SIZE 10
 #define DEFAULT_ERROR_CODE 4321
 
+int copy_file(const char *orig, const char *dest);
+
 const char *get_filename_from_path(const char *path);
 
 const char *str_array_to_string_delim(const char **array, int length, char delim);

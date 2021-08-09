@@ -5,8 +5,6 @@ int choose_version_for_download();
 
 int download_new_version(void) ;
 
-char *search_last_version();
-
 struct _versions *search_all_versions();
 
 
