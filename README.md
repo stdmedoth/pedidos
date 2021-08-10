@@ -1,14 +1,6 @@
 # Pedidos (EM DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
-[Pedidos Wiki - Saiba mais sobre o desenvolvimento do Projeto](https://github.com/stdmedoth/pedidos/wiki)
-
-[Pages](https://stdmedoth.github.io/pedidos/)
-
-[Trello - Desenvolvimento](https://trello.com/b/kX1scIYM/pedidos-software-v1)
-
-[Documentação das Versões](https://drive.google.com/drive/folders/1oLtes6nGME0_u5Ye-cu01hSzJUTQAZlz?usp=sharing)
-
 
 <p>Software gerencial para controle de vendas, compras, financeiro, estoque e marketing</p>
 <ul>
@@ -55,10 +47,13 @@
 
 ![Relatórios](data/screenshots/relat_estoque.png)
 
-## Suporte direto
-<p>Comunique o suporte a respeito de erros, dúvidas, solicitações de forma fácil e rápida</p>
+[Pages](https://stdmedoth.github.io/pedidos/)
 
-![Suporte](data/screenshots/suporte_screen.png)
+[Trello - Desenvolvimento](https://trello.com/b/kX1scIYM/pedidos-software-v1)
+
+[Documentação das Versões](https://drive.google.com/drive/folders/1oLtes6nGME0_u5Ye-cu01hSzJUTQAZlz?usp=sharing)
+
+[Pedidos Wiki - Saiba mais sobre o desenvolvimento do Projeto](https://github.com/stdmedoth/pedidos/wiki)
 
 ## Instalação
 
@@ -75,7 +70,7 @@
 
 
 <h3>Windows:</h3>
-<p>instalar mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
+<p>Aplicações/Dependencias: mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
 
 <p>MSYS2</p>
 https://www.msys2.org/
@@ -89,18 +84,20 @@ https://dev.mysql.com/downloads/connector/cpp/
 Curl C para Windows
 https://curl.se/windows/
 
-# Doação
 
-Este é um projeto totalmente Open Source, para usá-lo, copiá-lo ou modificá-lo você não paga absolutamente nada. Porém para continuarmos a mantê-lo de forma adequada é necessária alguma contribuição seja feita, seja auxiliando na codificação, na documentação, na realização de testes e identificação de falhas e BUGs.
+## Doação
 
-Mas também, caso você ache que qualquer informação obtida aqui, lhe foi útil e que isso vale algum dinheiro e está disposto a doar algo, sinta-se livre para enviar qualquer quantia, seja diretamente ao autor ou através do PayPal.
+Caso você ache que qualquer informação obtida aqui, lhe foi útil e que isso vale algum dinheiro e está disposto a doar algo, sinta-se livre para enviar qualquer quantia, seja diretamente ao autor ou através do PayPal.
 
 <a target="_blank" href="https://www.paypal.com/donate?hosted_button_id=3Z3W5RJRZDAY8">
 <img alt="Doar com Paypal" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif"/></a>
 
 Calisto – jovictor210@gmail.com
 
+
 ## Contribuindo
+
+Este é um projeto totalmente Open Source, para usá-lo, copiá-lo ou modificá-lo você não paga absolutamente nada. Porém para continuarmos a mantê-lo de forma adequada é necessária alguma contribuição seja feita, seja auxiliando na codificação, na documentação, na realização de testes e identificação de falhas e BUGs.
 
 ![contribuindo](data/screenshots/versao_view.png)
 

@@ -34,7 +34,8 @@
 
 #define APP_TRACELOG       APP_DIRNAME "/files/trace_log.log"
 #define LOADING_GIF        APP_DIRNAME "/files/gen_imgs/carregando.gif"
-#define SERVER_CONF        APP_DIRNAME "/files/server.xml"
+#define SERVER_CONF_XML    APP_DIRNAME "/files/server.xml"
+#define SERVER_CONF_JSON   APP_DIRNAME "/files/server.json"
 #define ORC_PATH           APP_DIRNAME "/files/impressao/orcs/"
 #define COT_RES_PATH       APP_DIRNAME "/files/impressao/cots"
 #define IMG_REC            APP_DIRNAME "/files/opcoes_padrao/recarregar.png"

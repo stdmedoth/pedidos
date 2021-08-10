@@ -57,8 +57,11 @@ int main(int argc, char *argv[])
 	limpar_sessao();
 	limpar_applicacao();
 
-	if(rec_vars_from_file())
+	if(rec_vars_from_file()){
+		popup(NULL,"Não foi possível receber configurações");
 		return 1;
+	}
+
 
 	if(command_args()){
 		return 1;
