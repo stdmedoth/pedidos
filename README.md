@@ -57,6 +57,12 @@
 
 ## Instalação
 
+Você pode ver mais na Wiki
+
+![Instalando e Configurando o Sistema](https://github.com/stdmedoth/pedidos/wiki/Instalando-e-Configurando-o-Sistema)
+
+![Instalando e Configurando Banco de dados](https://github.com/stdmedoth/pedidos/wiki/Instalando-e-Configurando-Banco-de-dados)
+
 ### dependencias
 <ul>
 <li>Json GLIB</li>
