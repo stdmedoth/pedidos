@@ -59,6 +59,7 @@
 
 ### dependencias
 <ul>
+<li>Json GLIB</li>
 <li>GTK3</li>
 <li>MariaDB</li>
 <li>LibXML2</li>
