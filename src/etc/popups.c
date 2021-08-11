@@ -158,8 +158,11 @@ int cep_nao_existente_fun(gchar *cep, const gchar *logradouro, const gchar *bair
 	resultado = gtk_dialog_run(GTK_DIALOG(popup));
 	if(resultado == GTK_RESPONSE_ACCEPT){
 
-		if(cad_cep())
-      return 1;
+		if(cad_cep()){
+			gtk_widget_destroy(popup);
+			return 1;
+		}
+
 
 		gtk_entry_set_text(GTK_ENTRY(cad_ceps_cep_entry),cep);
 

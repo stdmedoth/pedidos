@@ -1,10 +1,10 @@
 void orc_prod_saldos_clean(){
-	for(int pos=0; pos<orc_estoque.length; pos++){
+	for(int pos=0; pos<MAX_PROD_ORC; pos++){
 		if(orc_estoque.produtos[pos]){
 			orc_estoque.produtos[pos] = NULL;
-			orc_estoque.length--;
 		}
 	}
+	orc_estoque.length = 0;
 }
 
 int orc_prod_saldos_get_pos(int produto){
@@ -12,14 +12,16 @@ int orc_prod_saldos_get_pos(int produto){
 	int pos=0;
 
 	for(pos=0; pos<orc_estoque.length; pos++){
-		if(orc_estoque.produtos[pos] && orc_estoque.produtos[pos]->code == produto){
+		if( (orc_estoque.produtos[pos]) && (orc_estoque.produtos[pos]->code == produto) ){
 			return pos;
 		}
 	}
 
 	if(!pos){
-		if(!orc_estoque.produtos[pos])
-			orc_estoque.produtos[pos] = malloc(sizeof(struct _orc_estoque_prods));
+		if( !orc_estoque.produtos[pos] ){
+			orc_estoque.produtos[pos] = malloc( sizeof(struct _orc_estoque_prods) );
+			orc_estoque.length++;
+		}
 
 		orc_estoque.produtos[pos]->code = produto;
 		return pos;
@@ -35,7 +37,7 @@ int orc_prod_calc_saldo(int posicao){
 	MYSQL_ROW campos;
 
 	int prod_pos=0;
-	if(strlen(codigo_prod_orc_gchar)){
+	if( strlen(codigo_prod_orc_gchar) ){
 		prod_pos = orc_prod_saldos_get_pos(atoi(codigo_prod_orc_gchar));
 	}else{
 
@@ -145,7 +147,12 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	codigo_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]));
 	ativos[posicao].produto = 0;
 
-	orc_estoque.produtos[atoi(codigo_prod_orc_gchar)] = malloc(sizeof(struct _orc_estoque_prods));
+	int pos = orc_prod_saldos_get_pos( atoi(codigo_prod_orc_gchar) );
+
+	if(!orc_estoque.produtos[pos]){
+		orc_estoque.produtos[pos] = malloc(sizeof(struct _orc_estoque_prods));
+		orc_estoque.length = 0;
+	}
 
 	if(adicionando_linha_ignore == 1){
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]),"");

@@ -12,7 +12,8 @@ int run_sql_from_file(char *sql_path, int stop_on_error){
 
 	int line_pos = 0;
 	while(1) {
-		char line[2048];
+		int max_bytes = 2048;
+		char line[max_bytes];
 		int pos = -1;
 		char ascii;
 		int comment_flag[2], iscomment = 0;
@@ -22,6 +23,10 @@ int run_sql_from_file(char *sql_path, int stop_on_error){
 
 		do{
 			pos++;
+			if(pos >= max_bytes){
+				popup(NULL,"Query excede maximo de memoria");
+				break;
+			}
 			ascii = fgetc(fp);
 			line[pos] = ascii;
 
@@ -62,7 +67,7 @@ int run_sql_from_file(char *sql_path, int stop_on_error){
 		if(iscomment){
 			continue;
 		}
-		
+
     if(enviar_query(line)){
 			file_logger("Erro run_sql_from_file():");
 			file_logger(line);

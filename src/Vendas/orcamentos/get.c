@@ -207,6 +207,12 @@ struct _orc *orc_get_orc(int orc_code){
 	}
 	orc->infos->data = strdup(formated_date);
 
+	if(row[ORC_CHEQUE_COL]){
+		orc->infos->cheque = cheque_get_simple_cheque(atoi(row[ORC_CHEQUE_COL]));
+	}else{
+		orc->infos->cheque = NULL;
+	}
+
 	orc->infos->total = atof(row[ORC_TOTAL_COL]);
 	orc->infos->observacoes = strdup(row[ORC_OBS_COL]);
 

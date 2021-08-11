@@ -17,13 +17,14 @@ int copy_file(const char *orig, const char *dest){
 
   int ascii = 0;
   int char_qnt = 0;
-  printf("Iniciando copia de arquivos %s para %s...\n", orig, dest);
+  char text[50 + strlen(orig) + strlen(dest)];
+  sprintf(text, "Iniciando copia de arquivos %s para %s...\n", orig, dest);
+  file_logger(text);
+
   while( EOF != (ascii = fgetc(orig_fp)) ){
-    printf("ascii: %c\n", ascii);
     fputc(ascii, dest_fp);
     char_qnt++;
   }
-  printf("Quantidade de bytes movidos %i\n", char_qnt);
 
   fclose(orig_fp);
   fclose(dest_fp);

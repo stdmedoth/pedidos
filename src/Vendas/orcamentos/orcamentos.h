@@ -6,6 +6,7 @@ enum ORC_COLS{
 	ORC_DATE_COL,
 	ORC_PAGCOND_COL,
 	ORC_BANC_COL,
+	ORC_CHEQUE_COL,
 	ORC_TOTAL_COL,
 	ORC_OBS_COL
 };
@@ -39,10 +40,10 @@ struct _orc_estoque_prods{
 	int mov_qnt;
 };
 
-struct _orc_estoque{
+static struct _orc_estoque{
 	struct _orc_estoque_prods **produtos;
 	int length;
-}static orc_estoque;
+}orc_estoque;
 
 
 static struct _orc_itens
@@ -91,6 +92,7 @@ static struct _orc_infos{
 	int code;
 	struct _terc_infos *cliente;
 	struct _terc_infos * vendedor;
+	struct _cheque *cheque;
 	int tipo_mov;
 	char *data;
 	float total;

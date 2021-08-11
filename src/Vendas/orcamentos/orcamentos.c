@@ -26,6 +26,7 @@ int vnd_orc(){
 	orc_notebook = gtk_notebook_new();
 
 	orc_estoque.produtos = malloc( sizeof(struct _orc_estoque_prods *) * MAX_PROD_ORC);
+	orc_estoque.length = 0;
 
 	item_frame_char = malloc(strlen("Item ")+10);
 
@@ -107,7 +108,7 @@ int vnd_orc(){
 
 
 	orc_cheque_fixed = gtk_fixed_new();
-	GtkWidget *cheque_widget = orc_cheque_get_widget(); 
+	GtkWidget *cheque_widget = orc_cheque_get_widget();
 	gtk_fixed_put(GTK_FIXED(orc_cheque_fixed), cheque_widget, 10 ,10);
 
 	orc_pag_cond_psq_button = gtk_button_new();
