@@ -15,9 +15,7 @@ data/icones_opc/planilha_movimentos.png:files/icones_opc/planilha_movimentos.png
 data/icones_opc/planilha.png:files/icones_opc/planilha.png
 data/icones_opc/planilha_prods.png:files/icones_opc/planilha_prods.png
 data/icones_opc/planilhas.png:files/icones_opc/planilhas.png
-data/icones_opc/planilha_terceiros.png:files/icones_opc/planilha_terceiros.png
-data/icones_opc/planilha_terceiros.png:files/icones_opc/planilha_terceiros.png
-data/db_tables_list:files/db_tables_list
+data/icones_opc/planilhas_orcs.png:files/icones_opc/planilhas_orcs.png
 data/sql_scripts/desinstalar_base_schema.sql:files/sql_scripts/desinstalar_base_schema.sql
 data/sql_scripts/instalar_base_dados.sql:files/sql_scripts/instalar_base_dados.sql
 data/sql_scripts/instalar_base_dados_basico.sql:files/sql_scripts/instalar_base_dados_basico.sql

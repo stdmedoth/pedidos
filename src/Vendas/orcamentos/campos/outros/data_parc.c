@@ -5,15 +5,12 @@ int orc_pag_datas_fun(void){
   GtkTreeIter iter1;
   gchar *data_gchar;
   int ano,mes,dia;
-  char *datas_list_char[MAX_PARC_QNT];
+  char *datas_list_char[MAX_PARCELAS_QNT];
   char valor[MAX_PRECO_LEN],parc_qnt[12];
   float parcela=0;
 
   data_gchar = malloc(MAX_DATE_LEN);
   strcpy(data_gchar,data_sys);
-
-  orc_parcelas.vlrs = malloc(sizeof(float) * MAX_PARC_QNT);
-  orc_parcelas.datas = malloc(sizeof(char) * MAX_DATE_LEN * MAX_PARC_QNT);
 
   if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF)
   {

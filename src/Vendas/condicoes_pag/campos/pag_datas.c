@@ -5,7 +5,7 @@ int pag_datas_fun(void){
   GtkTreeIter iter1;
   gchar *data_gchar;
   int ano,mes,dia;
-  char *datas_list_char[MAX_PARC_QNT];
+  char *datas_list_char[MAX_PARCELAS_QNT];
 
   if(pag_cod_fun()!=0)
     return 1;

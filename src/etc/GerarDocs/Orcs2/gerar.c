@@ -14,12 +14,12 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   }
 
   gchar *paths[] = {
-    "orc/orc_code", 
-    "orc/email", 
-    "orc/nome_cliente", 
-    "orc/cidade_cliente", 
-    "orc/ender_cliente", 
-    "orc/telefone_cliente", 
+    "orc/orc_code",
+    "orc/email",
+    "orc/nome_cliente",
+    "orc/cidade_cliente",
+    "orc/ender_cliente",
+    "orc/telefone_cliente",
     "orc/contato_cliente",
     "orc/img_logo",
     "orc/itens/codigo",
@@ -60,7 +60,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
 
   int img_logo_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/x")));
   int img_logo_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/y")));
-  
+
   cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(300), MM_TO_POINTS(80));
   if(fopen(LOGO_MEDIA, "r")){
     cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_PDF);
@@ -115,7 +115,10 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   int ender_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/ender_cliente/x")));
   int ender_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/ender_cliente/y")));
   cairo_move_to(cairo, ender_cliente_x, ender_cliente_y);
-  gchar *ender_cliente = malloc(20+strlen(orc->infos->cliente->xLgr)+strlen(orc->infos->cliente->xBairro)+strlen(orc->infos->cliente->xCpl)+2);
+
+
+  const int MAX_ENDER_LEN = 70;
+  gchar *ender_cliente = malloc(20 + strlen(orc->infos->cliente->xLgr) + strlen(orc->infos->cliente->xBairro) + strlen(orc->infos->cliente->cep) + strlen(orc->infos->cliente->xCpl)+2);
   gchar *cmplt_cliente;
   if(strlen(orc->infos->cliente->xCpl)){
     cmplt_cliente = malloc(strlen(orc->infos->cliente->xCpl)+2);
@@ -123,8 +126,8 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   }else{
     cmplt_cliente = strdup("");
   }
-  sprintf(ender_cliente, "%s, %s - %s %s", orc->infos->cliente->xLgr, orc->infos->cliente->c_nro ,orc->infos->cliente->xBairro, cmplt_cliente);
-  const int MAX_ENDER_LEN = 80;
+
+  sprintf(ender_cliente, "%s, %s - %s %s, %s", orc->infos->cliente->xLgr, orc->infos->cliente->c_nro ,orc->infos->cliente->xBairro, orc->infos->cliente->cep, cmplt_cliente);
   if(strlen(ender_cliente) >= MAX_ENDER_LEN ){
     ender_cliente[MAX_ENDER_LEN] = '\0';
   }
@@ -170,10 +173,10 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_set_font_size(cairo, ITENS_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
   int interval_pos = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/distancia")));
-  
+
   int code_pos_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/codigo/x")));
   int code_pos_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/codigo/y")));
-  
+
   int descricao_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/descricao/x")));
   int descricao_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/descricao/y")));
 
@@ -277,7 +280,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_fill(cairo);
 
   int total_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/x")));
-  int total_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/y")));  
+  int total_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/y")));
   cairo_move_to(cairo, total_x, total_y);
   sprintf(format, "R$ %.2f", orc->valores->valor_total);
   cairo_show_text(cairo, format);
@@ -290,7 +293,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   sprintf(format, " %s | %i x R$ %.2f", orc->parcelas->condpag->nome, orc->parcelas->condpag->parcelas_qnt, orc->valores->valor_total);
   cairo_show_text(cairo, format);
   cairo_fill(cairo);
-    
+
   const int pdf_parcelas_limit = 12;
   for(int cont=0;cont< orc->parcelas->condpag->parcelas_qnt; cont++){
 

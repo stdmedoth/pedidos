@@ -1,3 +1,11 @@
+struct{
+  int id;
+  GtkWidget *entry1;
+  GtkWidget *entry2;
+  char *datas;
+  float vlrs;
+}datas_lives_str[MAX_PARCELAS_QNT];
+
 GtkWidget *orc_pag_datas_parcqnt;
 int orc_pag_datas_livres();
 

@@ -100,7 +100,7 @@ static int altera_orc()
 			autologger("Erro no código do cliente durante alteracao");
 			cancela_orc();
 			return 1;
-		}	
+		}
 	}else{
 		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),"");
 		gtk_widget_activate(orc_bnc_code_entry);
@@ -181,9 +181,9 @@ static int altera_orc()
 			gtk_entry_set_text(GTK_ENTRY(orc_cheque_numero_entry), cheque->numero);
 			gtk_entry_set_text(GTK_ENTRY(orc_cheque_pagante_entry), inttochar(cheque->pagante->code));
 			gtk_widget_activate(orc_cheque_pagante_entry);
-			gtk_entry_set_text(GTK_ENTRY(orc_cheque_emissao_entry), cheque->data_emissao);	
+			gtk_entry_set_text(GTK_ENTRY(orc_cheque_emissao_entry), cheque->data_emissao);
 		}
-		
+
 	}
 
 	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
@@ -347,9 +347,10 @@ static int altera_orc()
 		return 1;
 	}
 	if(!(row2 = mysql_fetch_row(res2))){
+
 		popup(NULL,"A condição de pagamento do orçamento não existe");
-	}
-	else{
+
+	}else{
 		orc_pag_tipo_int = atoi(row2[TIPO]);
 		if(orc_pag_tipo_int == CONDPAG_DT_LVR){
 
@@ -390,7 +391,7 @@ static int altera_orc()
 		popup(NULL,"Não há produtos no orçamento, Consulte Técnico!");
 		/*
 		popup(NULL,"Não há produtos no orçamento...\ndeletado!");
-		
+
 		sprintf(query,"delete from orcamentos where code = %s",tmp_cod_orc);
 		if( enviar_query(query) ){
 			popup(NULL,"Erro ao tentar excluir orçamento vazio");

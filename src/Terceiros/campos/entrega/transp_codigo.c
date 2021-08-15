@@ -10,39 +10,13 @@ int transp_codigo_fun()
 
 	if( strlen(transp_codigo)<=0 )
 	{
-		if(ter_com_entrega == 1){
-			popup(NULL,"Insira o código da transportadora");
-			return 1;
-		}
+		transp_codigo = strdup("");
+		gtk_entry_set_text(GTK_ENTRY(transp_ie_entry), "");
+		gtk_entry_set_text(GTK_ENTRY(transp_nome_entry), "");
+		gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry), "");
 		return 0;
 	}
-	ter_com_entrega = 1;
-	if(stoi(transp_codigo)==-1)
-	{
-		if(strlen(transp_codigo)>8)
-		{
-			g_print("Codigo terceiro muito grande %s\n",transp_codigo);
-			popup(NULL,"Por favor tente com um código menor\nO código do terceiro está enorme");
-			return -1;
-		}
-		else
-		{
-			g_print("Codigo do terceiro incorreto %s\n",transp_codigo);
-			popup(NULL,"Codigo terceiro deve ser numérico\nCaso não seja necessário, não mude o código padrão");
-			code[0] = '\0';
-			sprintf(code,"%i",tasker("terceiros"));
-			gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),code);
-			gtk_entry_set_text(GTK_ENTRY(transp_nome_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_cnpj_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_ie_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_cidade_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_estado_entry),"");
-			gtk_entry_set_text(GTK_ENTRY(transp_cep_entry),"");
-			gtk_widget_grab_focus(GTK_WIDGET(transp_codigo_entry));
-			return 1;
-		}
-	}
+
 	sprintf(query,"select * from terceiros where code = %s",transp_codigo);
 	res = consultar(query);
 	if(res==NULL)

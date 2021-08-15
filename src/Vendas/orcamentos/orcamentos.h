@@ -105,8 +105,9 @@ static struct _orc_parcelas{
 	float total_geral;
 	float valor_faltante;
 	struct _condpag *condpag;
-	float *vlrs;
-	char **datas;
+	float vlrs[MAX_PARCELAS_QNT];
+	char *datas[MAX_PARCELAS_QNT];
+	int parcelas_qnt;
 }orc_parcelas;
 
 struct _orc{

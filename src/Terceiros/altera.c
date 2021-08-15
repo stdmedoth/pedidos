@@ -122,11 +122,17 @@ int altera_ter()
 	gtk_tree_view_set_model (GTK_TREE_VIEW (contatos_treeview),items_model);
 	add_columns (GTK_TREE_VIEW (contatos_treeview), items_model, numbers_model);
 
-	if(campo[TER_TRSP_COD_COL]){
-		if(atoi(campo[TER_TRSP_COD_COL])!=0){
+
+	if( campo[TER_TRSP_LOGR_COL] || campo[TER_TRSP_CEP_COL] || campo[TER_TRSP_TEL_COL]){
+		if( strlen(campo[TER_TRSP_LOGR_COL]) || strlen(campo[TER_TRSP_CEP_COL]) || strlen(campo[TER_TRSP_TEL_COL]) ) {
+
 			ter_com_entrega = 1;
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(frete_pago_flag), TRUE);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(vinc_transporte_flag),TRUE);
-			gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TER_TRSP_COD_COL]);
+			verifica_frete();
+
+			if(campo[TER_TRSP_COD_COL] && atoi(campo[TER_TRSP_COD_COL]))
+				gtk_entry_set_text(GTK_ENTRY(transp_codigo_entry),campo[TER_TRSP_COD_COL]);
 
 			if(campo[TER_TRSP_LOGR_COL])
 				gtk_entry_set_text(GTK_ENTRY(transp_logradouro_entry),campo[TER_TRSP_LOGR_COL]);
@@ -148,8 +154,13 @@ int altera_ter()
 
 			if(campo[TER_TRSP_TEL_COL])
 				gtk_entry_set_text(GTK_ENTRY(transp_telefone_entry),campo[TER_TRSP_TEL_COL]);
-		}
+		}else{
 
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(frete_pago_flag), FALSE);
+			ter_com_entrega = 1;
+			verifica_frete();
+
+		}
 	}
 
 	gtk_widget_activate(transp_codigo_entry);

@@ -70,16 +70,24 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 		return NULL;
 	}
 
-	parcelas->datas = cond_pag_get_datas(parcelas->condpag, orc->infos->data);
-	if(!parcelas->datas){
+	char **datas = cond_pag_get_datas(parcelas->condpag, orc->infos->data);
+	if(!datas){
 		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get_datas() em orc_get_parcelas()");
 		return NULL;
 	}
-	parcelas->vlrs = cond_pag_get_valores(parcelas->condpag, orc->valores->valor_total );
-	if(!parcelas->vlrs){
+	for(int cont=0;cont<parcelas->condpag->parcelas_qnt; cont++){
+			parcelas->datas[cont] = strdup(datas[cont]);
+	}
+
+	float *vlrs = cond_pag_get_valores(parcelas->condpag, orc->valores->valor_total );
+	if(!vlrs){
 		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get_valores() em orc_get_parcelas()");
 		return NULL;
 	}
+	for(int cont=0;cont<parcelas->condpag->parcelas_qnt; cont++){
+			parcelas->vlrs[cont] = vlrs[cont];
+	}
+
 
 	return parcelas;
 }

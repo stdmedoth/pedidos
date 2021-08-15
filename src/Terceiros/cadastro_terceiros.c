@@ -278,6 +278,7 @@ int  cad_terc()
 	gtk_entry_set_placeholder_text(GTK_ENTRY(complmt_ter_field),"Complemento");
 	gtk_entry_set_icon_from_icon_name(GTK_ENTRY(address_ter_field),GTK_ENTRY_ICON_PRIMARY,"mark-location");
 	gtk_entry_set_width_chars(GTK_ENTRY(address_ter_field),50);
+	gtk_entry_set_width_chars(GTK_ENTRY(bairro_ter_field),40);
 	gtk_entry_set_width_chars(GTK_ENTRY(cep_ter_field),9);
 	gtk_box_pack_start(GTK_BOX(psq_ter_cep_box),cep_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(psq_ter_cep_box),psq_ter_cep_button,0,0,0);

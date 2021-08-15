@@ -1,11 +1,3 @@
-struct{
-  int id;
-  GtkWidget *entry1;
-  GtkWidget *entry2;
-  char *datas;
-  float vlrs;
-}datas_lives_str[MAX_PARCELAS_QNT];
-
 int concluir_datas_livres(){
   gchar *formatado;
   orc_parcelas.total_geral = 0;
@@ -21,7 +13,7 @@ int concluir_datas_livres(){
     if(orc_pag_dl_vlrs_fun(datas_lives_str[cont].entry2, cont))
       return 1;
 
-    strcpy(data,datas_lives_str[cont].datas);
+    strcpy(data, datas_lives_str[cont].datas);
     formatado = formatar_data(data);
     if(!formatado){
       gtk_widget_grab_focus(datas_lives_str[cont].entry2);
@@ -75,6 +67,7 @@ int concluir_datas_livres(){
 }
 
 int orc_pag_dl_dts_vlrs_fun(GtkEntry *entry, int pos){
+
   gchar *formatado;
   gchar *data = (gchar*)gtk_entry_get_text(entry);
 
