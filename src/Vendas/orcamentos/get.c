@@ -53,7 +53,7 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	int itens_qnt = orc_get_itens_qnt(orc->infos->code);
-	sprintf(query, "select pag_cond from orcamentos where code = %i", orc->infos->code);
+	sprintf(query, "select pag_cond, forma_pagamento from orcamentos where code = %i", orc->infos->code);
 
 	if(!(res = consultar(query))){
 		file_logger("Estrutura de parcelas do orçamento não criada! consultar() em orc_get_parcelas()");
@@ -86,6 +86,12 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 	}
 	for(int cont=0;cont<parcelas->condpag->parcelas_qnt; cont++){
 			parcelas->vlrs[cont] = vlrs[cont];
+	}
+
+	parcelas->forma_pagamento = get_forma_pagamento(atoi(row[1]));
+	if(!parcelas->forma_pagamento){
+		file_logger("Estrutura de valores em get_forma_pagamento(orc) retornada nula");
+		return NULL;
 	}
 
 

@@ -12,8 +12,8 @@ int orc_bnc_code_fun(){
     gtk_entry_set_text(GTK_ENTRY(orc_bnc_nome_entry),"Sem Banco");
     return 0;
   }
-  
-  sprintf(query,"select nome from bancos where code = %s",orc_bnc_code_gchar);
+
+  sprintf(query,"select nome from bancos where code = %s", orc_bnc_code_gchar);
   if(!(res = consultar(query))){
     popup(NULL,"Não foi possível consultar Banco");
     return 1;

@@ -1,3 +1,3 @@
 int rec_fat_vist();
 
-int orc_fields_from_condpag(struct _condpag *condpag);
+int orc_fields_from_orc_parcelas();

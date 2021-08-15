@@ -23,7 +23,6 @@ struct _forma_pagamento *get_forma_pagamento(int code_fp){
 }
 
 
-
 struct _forma_pagamento_list *get_formas_pags_list(){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
@@ -40,18 +39,18 @@ struct _forma_pagamento_list *get_formas_pags_list(){
 
 	int fpg_qnt=0;
 	struct _forma_pagamento_list *fpg_list = malloc( sizeof(struct _forma_pagamento_list *));
-	
+
 	fpg_list->fpags = malloc( sizeof(struct _forma_pagamento *) *fpg_num_rows);
 	fpg_list->qnt_fpags = 0;
 
 	while((row = mysql_fetch_row(res))){
 		if(fpg_list->qnt_fpags >= MAX_FORMPG_CAD){
 			return fpg_list;
-		}	
+		}
 		fpg_list->fpags[fpg_list->qnt_fpags] = malloc(sizeof(struct _forma_pagamento));
 		fpg_list->fpags[fpg_list->qnt_fpags]->code = atoi(row[FORMA_PAG_CODE]);
-		fpg_list->fpags[fpg_list->qnt_fpags]->nome = strdup(row[FORMA_PAG_NOME]);		
-		fpg_list->fpags[fpg_list->qnt_fpags]->tipo = atoi(row[FORMA_PAG_TIPO]);		
+		fpg_list->fpags[fpg_list->qnt_fpags]->nome = strdup(row[FORMA_PAG_NOME]);
+		fpg_list->fpags[fpg_list->qnt_fpags]->tipo = atoi(row[FORMA_PAG_TIPO]);
 		fpg_list->qnt_fpags++;
 	}
 

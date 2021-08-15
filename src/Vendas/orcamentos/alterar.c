@@ -53,6 +53,7 @@ static int altera_orc()
 		CLIENTE,
 		TIPO_MOV,
 		PAG_COND,
+		FORM_PAG,
 		DATA,
 		TOTAL,
 		OBS,
@@ -60,7 +61,7 @@ static int altera_orc()
 	};
 
 	//buscando informações basicas de orçamentos
-	sprintf(query,"select cliente, tipo_mov, pag_cond, (%s%s), total, observacoes, banco from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
+	sprintf(query,"select cliente, tipo_mov, pag_cond, forma_pagamento,  (%s%s), total, observacoes, banco from orcamentos where code = %s",DATE_QUERY,tmp_cod_orc,tmp_cod_orc);
 
 	if((res = consultar(query))==NULL){
 		popup(NULL,"Erro ao buscar orçamento");
@@ -88,6 +89,18 @@ static int altera_orc()
 	gtk_widget_activate(cliente_orc_entry);
 	gtk_widget_activate(orc_pag_cond_entry);
 
+	if(row[FORM_PAG]){
+		orc_form_pag_changed = 1;
+		orc_parcelas.forma_pagamento = get_forma_pagamento(atoi(row[FORM_PAG]));
+		if(!orc_parcelas.forma_pagamento){
+			popup(NULL,"Não foi possível receber forma de pagamento");
+			return 1;
+		}
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(orc_form_pag_combo), row[FORM_PAG]);
+	}else if(orc_parcelas.condpag->forma_pag){
+			gtk_combo_box_set_active_id(GTK_COMBO_BOX(orc_form_pag_combo), inttochar(orc_parcelas.condpag->forma_pag->code));
+	}
+
 	if(row[OBS] && strlen(row[OBS])){
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_orc));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),row[OBS],strlen(row[OBS]));
@@ -96,11 +109,6 @@ static int altera_orc()
 
 	if(row[BANCO]){
 		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),row[BANCO]);
-		if(codigo_cli_orc()!=0){
-			autologger("Erro no código do cliente durante alteracao");
-			cancela_orc();
-			return 1;
-		}
 	}else{
 		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry),"");
 		gtk_widget_activate(orc_bnc_code_entry);

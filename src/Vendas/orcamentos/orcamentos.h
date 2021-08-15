@@ -5,6 +5,7 @@ enum ORC_COLS{
 	ORC_CLI_COL,
 	ORC_DATE_COL,
 	ORC_PAGCOND_COL,
+	ORC_FORMPAG_COL,
 	ORC_BANC_COL,
 	ORC_CHEQUE_COL,
 	ORC_TOTAL_COL,
@@ -105,6 +106,7 @@ static struct _orc_parcelas{
 	float total_geral;
 	float valor_faltante;
 	struct _condpag *condpag;
+	struct _forma_pagamento *forma_pagamento;
 	float vlrs[MAX_PARCELAS_QNT];
 	char *datas[MAX_PARCELAS_QNT];
 	int parcelas_qnt;
@@ -116,6 +118,7 @@ struct _orc{
 	struct _transporte *entrega;
 	struct _orc_valores *valores;
 	struct _orc_parcelas *parcelas;
+
 	int itens_qnt;
 };
 
@@ -221,6 +224,8 @@ GtkWidget **codigo_prod_orc_label,
 
 //  ENTRYs
 GtkWidget *codigo_orc_entry,*operacao_orc_combo,*cliente_orc_entry,*cliente_orc_name_entry,*cliente_orc_end_entry,*cliente_orc_tel_entry;
+
+GtkWidget *orc_form_pag_combo;
 
 GtkWidget **codigo_orc_prod_box;
 GtkWidget *orc_bnc_code_entry, *orc_bnc_nome_entry, *orc_bnc_psq_button;

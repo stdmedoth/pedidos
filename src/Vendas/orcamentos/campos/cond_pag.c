@@ -1,38 +1,43 @@
-int orc_fields_from_condpag(struct _condpag *condpag){
+int orc_fields_from_orc_parcelas(){
 
-	if( !condpag->forma_pag ) {
+	const char *nothing = "";
+	//valida se forma de pagamento foi informada
+	if( !orc_parcelas.forma_pagamento ) {
 		//esconder banco
 		gtk_widget_hide(orc_bnc_fixed);
-		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), "");
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), nothing);
 
 		//esconder cheque
 		gtk_widget_hide(orc_cheque_fixed);
-		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), "");
+		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), nothing);
 		popup(NULL,"Forma de pagamento não especificada na condição");
 		return 1;
 	}
 
-	orc_pag_cond_fp = condpag->forma_pag->tipo;
-	if( condpag->forma_pag->tipo != FP_TIPO_TRASNF ){
+	//valida se usa campo banco
+	orc_pag_cond_fp = orc_parcelas.forma_pagamento->tipo;
+	if( (orc_pag_cond_fp != FP_TIPO_TRASNF) ){
 		gtk_widget_hide(orc_bnc_fixed);
-		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), "");
+		gtk_entry_set_text(GTK_ENTRY(orc_bnc_code_entry), nothing);
 	}else{
 		gtk_widget_show_all(orc_bnc_fixed);
 	}
 
-	if( !condpag->forma_pag || (condpag->forma_pag->tipo != FP_TIPO_CHEQUE) ){
+	//valida se usa campo cheque
+	if( orc_pag_cond_fp != FP_TIPO_CHEQUE ){
 		gtk_widget_hide(orc_cheque_fixed);
-		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), "");
+		gtk_entry_set_text( GTK_ENTRY(orc_cheque_code_entry), nothing);
 	}else{
 		gtk_widget_show_all(orc_cheque_fixed);
 	}
+
 	return 0;
 }
 
 int rec_fat_vist()
 {
 	int cont=0,notepage=0;
-	
+
 	char query[MAX_QUERY_LEN];
 	char data_atual[42];
 	strcpy(data_atual,data_sys);
@@ -54,7 +59,16 @@ int rec_fat_vist()
 
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),condpag->nome);
 
-	if(orc_fields_from_condpag(condpag)){
+	if(!orc_form_pag_changed && condpag->forma_pag){
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(orc_form_pag_combo), inttochar(condpag->forma_pag->code));
+	}
+	if(orc_form_pag_changed){
+		condpag->forma_pag = orc_parcelas.forma_pagamento;
+	}else{
+		orc_parcelas.forma_pagamento = condpag->forma_pag;
+	}
+
+	if(orc_fields_from_orc_parcelas()){
 		return 1;
 	}
 
@@ -95,10 +109,10 @@ int rec_fat_vist()
 			}
 		}
 	}
-	
+
 	//condição de pagamento global para o orçamento
 	orc_parcelas.condpag = condpag;
-	
+
 	pag_cond = atoi(orc_pag_cond_gchar);
 	orc_pag_cond_activated=1;
 
@@ -115,7 +129,7 @@ int rec_fat_vist()
 
 	if(orc_pag_tipo_int == CONDPAG_DIAS || orc_pag_tipo_int == CONDPAG_MESES || orc_pag_tipo_int == CONDPAG_DADATA){
 		orc_pag_datas_fun();
-		
+
 	}
 	gtk_widget_show(orc_box_datas);
 

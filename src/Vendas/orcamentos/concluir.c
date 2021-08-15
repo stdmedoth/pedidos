@@ -48,15 +48,22 @@ static int concluir_orc(){
 	if(orc_transp_bairroc())
 	 	return 1;
 
-	if(orc_pag_tipo_int == CONDPAG_DT_LVR)
+	if(orc_pag_tipo_int == CONDPAG_DT_LVR){
 		if(concluir_datas_livres()){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
 			return 1;
 		}
-
-	if(orc_bnc_code_fun()){
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+	}
+	if(orc_form_pag_fun()){
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 		return 1;
+	}
+
+	if( (orc_pag_cond_fp == FP_TIPO_TRASNF) ){
+		if(orc_bnc_code_fun()){
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),2);
+			return 1;
+		}
 	}
 
 	orc_infos.cliente = terceiros_get_terceiro(atoi(cliente_orc_gchar));
@@ -114,8 +121,8 @@ static int concluir_orc(){
 			return 1;
 		}
 
-		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, banco, dia, observacoes) values(%s,%i,1,%s,%i,%s,STR_TO_DATE('%s','%%d/%%m/%%Y'),'%s');",
-		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond, orc_bnc_code_gchar,data_sys,observacoes_orc_gchar);
+		sprintf(query,"insert into orcamentos( code, tipo_mov, vendedor, cliente, pag_cond, forma_pagamento, banco, dia, observacoes) values(%s,%i,1,%s,%i,%s,%s,STR_TO_DATE('%s','%%d/%%m/%%Y'),'%s');",
+		codigo_orc_gchar,operacao_orc_int,cliente_orc_gchar,pag_cond, orc_form_pag_code, orc_bnc_code_gchar,data_sys,observacoes_orc_gchar);
 
 		erro = enviar_query(query);
 		if(erro != 0 )
@@ -237,12 +244,13 @@ static int concluir_orc(){
 			return 1;
 	}
 
-	sprintf(query,"update orcamentos set banco = %s, tipo_mov = %i, cliente = %i, dia = STR_TO_DATE('%s','%%d/%%m/%%Y'), pag_cond = %i, total = %s, observacoes = '%s' where code = %s",
+	sprintf(query,"update orcamentos set banco = %s, tipo_mov = %i, cliente = %i, dia = STR_TO_DATE('%s','%%d/%%m/%%Y'), pag_cond = %i, forma_pagamento = %s,  total = %s, observacoes = '%s' where code = %s",
 	orc_bnc_code_gchar,
 	operacao_orc_int,
 	orc_infos.cliente->code,
 	data_sys,
 	orc_parcelas.condpag->code,
+	orc_form_pag_code,
 	valor,
 	orc_infos.observacoes,
 	codigo_orc_gchar);

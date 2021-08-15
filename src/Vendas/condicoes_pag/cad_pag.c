@@ -29,7 +29,7 @@ struct _condpag *cond_pag_get(int condpag_code){
   condpag->code = atoi(row[PAGCND_COD_COL]);
   condpag->nome = strdup(row[PAGCND_NOM_COL]);
   condpag->tipo_parc = atoi(row[PAGCND_TIP_COL]);
-  
+
   if(row[PAGCND_FORMA_COL])
     condpag->forma_pag = get_forma_pagamento(atoi(row[PAGCND_FORMA_COL]));
   else
@@ -222,7 +222,6 @@ int cad_pag(){
   gtk_entry_set_width_chars(GTK_ENTRY(pag_parc_qnt_spin),10);
 
   pag_fpg_combo = gtk_combo_box_text_new();
-  gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(pag_fpg_combo), "NULL", "Nenhuma");
   struct _forma_pagamento_list *fpg_list = get_formas_pags_list();
   if(fpg_list){
     for (int i = 0; i < fpg_list->qnt_fpags; ++i)
@@ -230,7 +229,7 @@ int cad_pag(){
       gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(pag_fpg_combo), inttochar(fpg_list->fpags[i]->code), fpg_list->fpags[i]->nome);
     }
   }
-  
+
   gtk_combo_box_set_active(GTK_COMBO_BOX(pag_fpg_combo), 0);
 
   pag_psq_cod_button = gtk_button_new();
@@ -282,7 +281,7 @@ int cad_pag(){
   gtk_grid_attach(GTK_GRID(pag_grid),pag_parc_fixed,0,4,1,1);
   gtk_grid_attach(GTK_GRID(pag_grid),pag_parc_qnt_fixed,0,5,1,1);
   gtk_grid_attach(GTK_GRID(pag_grid),pag_fpg_fixed,1,5,1,1);
-  
+
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_confirmar_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_alterar_button,0,0,5);
   gtk_box_pack_start(GTK_BOX(caixa_opcoes),pag_cancelar_button,0,0,5);

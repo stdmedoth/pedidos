@@ -114,6 +114,9 @@ int vnd_orc(){
 	orc_pag_cond_psq_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(orc_pag_cond_psq_button),gtk_image_new_from_file(IMG_PESQ));
 
+	GtkWidget *orc_form_pag_psq_button = gtk_button_new();
+	gtk_button_set_image(GTK_BUTTON(orc_form_pag_psq_button),gtk_image_new_from_file(IMG_PESQ));
+
 	orc_pag_cond_entry = gtk_entry_new();
 	orc_pag_cond_nome = gtk_entry_new();
 	orc_pag_cond_fixed = gtk_fixed_new();
@@ -129,6 +132,22 @@ int vnd_orc(){
 	gtk_fixed_put(GTK_FIXED(orc_pag_cond_fixed),orc_pag_cond_frame,10,10);
 	gtk_widget_set_size_request(orc_pag_cond_box,100,40);
 	gtk_editable_set_editable(GTK_EDITABLE(orc_pag_cond_nome),FALSE);
+
+	orc_form_pag_combo = gtk_combo_box_text_new();
+	struct _forma_pagamento_list *fpg_list = get_formas_pags_list();
+  if(fpg_list){
+    for (int i = 0; i < fpg_list->qnt_fpags; ++i)
+    {
+      gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(orc_form_pag_combo), inttochar(fpg_list->fpags[i]->code), fpg_list->fpags[i]->nome);
+    }
+  }
+	gtk_combo_box_set_active(GTK_COMBO_BOX(orc_form_pag_combo), 0);
+	GtkWidget *orc_form_pag_box = gtk_box_new(0,0);
+	GtkWidget *orc_form_pag_frame = gtk_frame_new("Forma Pagamento");
+
+	gtk_box_pack_start(GTK_BOX(orc_form_pag_box),orc_form_pag_combo,0,0,0);
+	gtk_container_add(GTK_CONTAINER(orc_form_pag_frame),orc_form_pag_box);
+	gtk_widget_set_size_request(orc_form_pag_box,100,40);
 
 	cliente_orc_frame = gtk_frame_new("Informações do Cliente");
 	gtk_box_pack_start(GTK_BOX(cliente_orc_box),cliente_orc_label,0,0,10);
@@ -181,10 +200,12 @@ int vnd_orc(){
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),operacao_orc_frame,0,0,10);
 	gtk_widget_set_name(operacao_orc_frame,"frame");
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,10);
+	gtk_widget_set_name(orc_form_pag_frame,"frame");
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_form_pag_frame,0,0,10);
 
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
-	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,750,90);//-MARGEM_D,90);
+	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),orc_pag_cond_fixed,750,90);
 
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_d),orc_infos_fixed,0,0,0);
 	gtk_box_pack_end(GTK_BOX(caixa_orc_infos_e),observacoes_orc_frame,0,0,10);
@@ -343,6 +364,10 @@ int vnd_orc(){
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(orc_bnc_code_entry,"activate",G_CALLBACK(orc_bnc_code_fun),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
+
+	g_signal_connect(orc_form_pag_combo,"changed",G_CALLBACK(orc_form_pag_fun),NULL);
+
+
 
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 

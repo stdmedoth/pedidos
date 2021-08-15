@@ -12,6 +12,8 @@
 #include "campos/observacoes.c"
 #include "campos/cond_pag.c"
 
+
+#include "campos/form_pag.c"
 #include "campos/outros/data_parc.c"
 #include "campos/outros/campos_de_datas.c"
 #include "campos/outros/datas_livres.c"
