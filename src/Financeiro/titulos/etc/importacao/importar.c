@@ -84,12 +84,71 @@ int import_tits_importar(){
 				total_pago += atof(valor);
 			}
 
-			int terceiro_importador = criar_terceiro_importador(nome);
-			if(terceiro_importador){
-				titulo->cliente = terceiro_importador;
-			}else{
+			int terceiro_importador = 0;
+			int titulo_exists = 0;
+			char query[MAX_QUERY_LEN];
+			MYSQL_RES *res;
+			MYSQL_ROW row;
+			float _valor = atof(valor);
+			if(_valor < 0){
+				_valor = - _valor;
+			}
+			sprintf(query,"SELECT * FROM parcelas_tab WHERE valor = %.2f and data_criacao = '%s' and data_vencimento = '%s'", _valor, set_db_formated_date(data), set_db_formated_date(data));
+
+			if((res = consultar(query))){
+				if((row = mysql_fetch_row(res) )){
+					titulo_exists = 1;
+					continue;
+				}
+			}
+
+			int terceiro_exists = 0;
+
+			sprintf(query,"SELECT code, razao FROM terceiros tc WHERE tc.razao like '%%%s%%'", nome);
+			if(!(res = consultar(query))){
+				popup(NULL,"Erro ao buscar existencia do terceiro");
 				return 1;
 			}
+			if(!mysql_num_rows(res)){
+				char *nome_copy = strdup(nome);
+				char *fist_name = strtok(nome_copy, " ");
+				char *second_name = NULL;
+
+				if(fist_name){
+					if( (second_name = strtok(NULL, " ")) && strlen(second_name) > 3 ){
+						sprintf(query,"SELECT code, razao FROM terceiros tc WHERE tc.razao like '%%%s%%' or tc.razao like '%%%s%%' ", fist_name, second_name);
+					}else{
+						sprintf(query,"SELECT code, razao FROM terceiros tc WHERE tc.razao like '%%%s%%'", fist_name);
+					}
+					if((res = consultar(query))){
+						if((row = mysql_fetch_row(res))){
+							int max_len = strlen(nome) + strlen(row[1]) + 2048;
+							char msg[max_len];
+							sprintf(msg, "O título para %s\ncorresponde a %s?", row[1], nome);
+							if(PopupBinario(msg, "Sim! importar neste cadastro", "Não! cadastrar uma nova pessoa para o título")){
+								terceiro_exists = 1;
+								titulo->cliente = atoi(row[0]);
+							}
+						}
+					}
+				}
+			}else{
+				if((row = mysql_fetch_row(res))){
+					terceiro_exists = 1;
+					titulo->cliente = atoi(row[0]);
+				}
+			}
+
+			if(!terceiro_exists){
+				terceiro_importador = criar_terceiro_importador(nome);
+				if(terceiro_importador){
+					titulo->cliente = terceiro_importador;
+				}else{
+					return 1;
+				}
+			}
+
+
 
 			titulo->parcelas = malloc(sizeof(struct _titulo_parcela));
 			titulo->parcelas[0].posicao = 0;

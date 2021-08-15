@@ -36,7 +36,7 @@
 #define LOADING_GIF        APP_DIRNAME "/files/gen_imgs/carregando.gif"
 #define SERVER_CONF_XML    APP_DIRNAME "/files/server.xml"
 #define SERVER_CONF_JSON   APP_DIRNAME "/files/server.json"
-#define ORC_PATH           APP_DIRNAME "/files/impressao/orcs/"
+#define ORC_PATH           APP_DIRNAME "/files/impressao/orcs"
 #define COT_RES_PATH       APP_DIRNAME "/files/impressao/cots"
 #define IMG_REC            APP_DIRNAME "/files/opcoes_padrao/recarregar.png"
 #define IMG_MONEY          APP_DIRNAME "/files/opcoes_padrao/cash-outline.png"
@@ -135,6 +135,8 @@
 #define REL_PLANL_IMG      APP_DIRNAME "/files/icones_opc/planilhas.png"
 #define REL_PROD_IMG       APP_DIRNAME "/files/icones_opc/relatorio_prod.png"
 #define REL_PLANL_PROD_IMG APP_DIRNAME "/files/icones_opc/planilha_prods.png"
+#define REL_PLANL_ORC_IMG  APP_DIRNAME "/files/icones_opc/planilhas_orcs.png"
+#define REL_PLANL_PED_IMG  APP_DIRNAME "/files/icones_opc/planilhas_peds.png"
 #define REL_PLANL_FINP_IMG APP_DIRNAME "/files/icones_opc/planilha_pagar.png"
 #define REL_PLANL_FLUX_IMG APP_DIRNAME "/files/icones_opc/planilha_fluxo.png"
 #define REL_PLANL_FINR_IMG APP_DIRNAME "/files/icones_opc/planilha_rec.png"
@@ -277,7 +279,7 @@
 #define SESSAO_EXP_MIN 30
 #define S_ANON_EXP_MIN 5
 
-#define MAX_QUERY_LEN 3000
+#define MAX_QUERY_LEN 2048
 #define MAX_ROW_LEN (MAX_QUERY_LEN/5)
 #define MAX_LINHAS (sizeof(GtkBox*)*ROWS_QNT)*TERC_QNT
 

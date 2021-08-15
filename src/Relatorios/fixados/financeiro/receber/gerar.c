@@ -72,8 +72,11 @@ int rel_fix_fin_rec_gerar(){
       if(atoi(row[1]) < atoi(rel_fix_fin_rec_cli_gchar1) || atoi(row[1]) > atoi(rel_fix_fin_rec_cli_gchar2))
         continue;
 
-      if(atoi(row[5]) < atoi(rel_fix_fin_rec_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_rec_ped_gchar2))
-        continue;
+      if(row[5]){
+        if(atoi(row[5]) < atoi(rel_fix_fin_rec_ped_gchar1) || atoi(row[5]) > atoi(rel_fix_fin_rec_ped_gchar2))
+          continue;
+      }
+
 
       sprintf(query,"select posicao,DATE_FORMAT(data_criacao,'%%d/%%m/%%Y'),DATE_FORMAT(data_vencimento,'%%d/%%m/%%Y'),valor from parcelas_tab where parcelas_id = %s", row[0]);
 
@@ -88,10 +91,12 @@ int rel_fix_fin_rec_gerar(){
         fprintf(file_arq,"<td>Título: %s<td/>",row[0]);
         fprintf(file_arq,"<td>Terceiro:  %s/%s<td/>",row[1],row[2]);
         fprintf(file_arq,"<td>CNPJ/CPF: %s<br>IE/RG: %s<td/>",row[3],row[4]);
-        if(atoi(row[5]))
+
+        if(row[5] && atoi(row[5]))
           fprintf(file_arq,"<td>Pedido: %s<td/>",row[5]);
         else
-          fprintf(file_arq,"<td>Pedido: Sem Vínculo<td/>");
+          fprintf(file_arq,"<td>Pedido: Sem Vínculo<td/>");  
+
         fprintf(file_arq,"<td>Status: %s<td/>",status_tit_str(atoi(row[6])));
 
         fprintf(file_arq,"</tr>");

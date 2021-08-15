@@ -3,6 +3,7 @@ int criar_terceiro_importador(char *razao){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
+
 	if(!razao){
 		razao = strdup(TERCEIRO_IMPORTADOR_RAZAO);
 	}

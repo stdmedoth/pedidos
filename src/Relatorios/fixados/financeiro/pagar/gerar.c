@@ -82,8 +82,11 @@ int rel_fix_fin_pag_gerar(){
       if(atoi(row[TER_CODE]) < atoi(rel_fix_fin_pag_cli_gchar1) || atoi(row[TER_CODE]) > atoi(rel_fix_fin_pag_cli_gchar2))
         continue;
 
-      if(atoi(row[TIT_PED]) < atoi(rel_fix_fin_pag_ped_gchar1) || atoi(row[TIT_PED]) > atoi(rel_fix_fin_pag_ped_gchar2))
-        continue;
+      if(row[TIT_PED]){
+        if(atoi(row[TIT_PED]) < atoi(rel_fix_fin_pag_ped_gchar1) || atoi(row[TIT_PED]) > atoi(rel_fix_fin_pag_ped_gchar2))
+          continue;
+      }
+
 
       enum{
         PARC_POS,
@@ -105,7 +108,7 @@ int rel_fix_fin_pag_gerar(){
         fprintf(file_arq,"<td>Título: %s<td/>",row[TIT_CODE]);
         fprintf(file_arq,"<td>Terceiro:  %s/%s<td/>",row[TER_CODE],row[TER_NOME]);
         fprintf(file_arq,"<td>CNPJ/CPF: %s<br>IE/RG: %s<td/>",row[TER_DOC],row[TER_IE]);
-        if(atoi(row[TIT_PED]))
+        if(row[TIT_PED] && atoi(row[TIT_PED]))
           fprintf(file_arq,"<td>Pedido: %s<td/>",row[TIT_PED]);
         else
           fprintf(file_arq,"<td>Pedido: Sem Vínculo<td/>");

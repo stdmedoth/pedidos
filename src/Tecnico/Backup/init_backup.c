@@ -118,6 +118,7 @@ int backup_iniciar_exportacao(){
 		global_progress_bar_active = 1;
 		GError *error = NULL;
 		char open_path[MAX_PATH_LEN];
+
 		#ifdef WIN32
 			sprintf(open_path, "%s",dir_filename);
 			HINSTANCE result = ShellExecuteA(NULL, "explore", open_path, NULL, NULL, SW_SHOWMAXIMIZED);

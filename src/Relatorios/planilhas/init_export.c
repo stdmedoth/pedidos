@@ -24,6 +24,8 @@ int planilha_init_export(int module){
 
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_TERCEIROS, "Cadastros de Terceiros" );
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_PRODUTOS, "Cadastros de Produtos" );
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_PEDIDOS, "Cadastros de Pedidos" );
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_ORCAMENTOS, "Cadastros de Orçamentos" );
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_MOVIMENTOS, "Movimentos de Estoque" );
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_FINAN_REC, "Contas à Receber" );
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(planilha_export_module_combo), PLANL_MOD_FINAN_PAG, "Contas à Pagar" );

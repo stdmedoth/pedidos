@@ -269,9 +269,11 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_REL_FIX_FINPAG_WIN].fun = rel_fix_fin_pag;
   janelas_gerenciadas.vetor_janelas[CAD_TRSP_WND].fun = trsp_cad_fun;
 
-  //relatórios planilhas 
+  //relatórios planilhas
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_ICONS_WIN].fun = planilha_icon_view_wnd;
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_PRODS_WIN].fun = planilha_init_export; //module PLANL_MOD_PRODUTOS
+  janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_PED_WIN].fun = planilha_init_export; //module PLANL_MOD_PRODUTOS
+  janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_ORCS_WIN].fun = planilha_init_export; //module PLANL_MOD_PRODUTOS
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_TER_WIN].fun = planilha_init_export; //module PLANL_MOD_TERCEIROS
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_MOV_WIN].fun = planilha_init_export; //module PLANL_MOD_MOVIMENTOS
   janelas_gerenciadas.vetor_janelas[REG_REL_PLANL_FINR_WIN].fun = planilha_init_export; //module PLANL_MOD_FINAN_REC
@@ -283,6 +285,6 @@ void gerenciador_load_funcs(){
   janelas_gerenciadas.vetor_janelas[REG_CAD_CNTRATS].fun = cad_contratos;
   janelas_gerenciadas.vetor_janelas[REG_TNCLOG_WND].fun = tecn_logger_wnd;
   janelas_gerenciadas.vetor_janelas[REG_BACKUP_WND].fun = backup_fun;
-  
+
 
 }

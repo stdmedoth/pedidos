@@ -41,6 +41,24 @@ int planilha_icon_view_wnd(){
   gtk_tree_store_append(modelo,&iter,NULL);
   gtk_tree_store_set(modelo,
     &iter,
+    0,janelas_nomes[REG_REL_PLANL_PED_WIN],
+    1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_PED_IMG))),
+    2,REG_REL_PLANL_PED_WIN,
+    3,PLANL_MOD_PEDIDOS,
+    -1);
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
+    0,janelas_nomes[REG_REL_PLANL_ORCS_WIN],
+    1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_ORC_IMG))),
+    2,REG_REL_PLANL_ORCS_WIN,
+    3,PLANL_MOD_ORCAMENTOS,
+    -1);
+
+  gtk_tree_store_append(modelo,&iter,NULL);
+  gtk_tree_store_set(modelo,
+    &iter,
     0,janelas_nomes[REG_REL_PLANL_MOV_WIN],
     1,gtk_image_get_pixbuf(GTK_IMAGE(gtk_image_new_from_file(REL_PLANL_MOV_IMG))),
     2,REG_REL_PLANL_MOV_WIN,
