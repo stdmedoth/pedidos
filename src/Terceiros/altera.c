@@ -196,6 +196,12 @@ int altera_ter()
 	else
 		observacoes_ter = strdup("");
 
+	if(campo[DT_MODIF_COL]){
+		gchar *date = get_db_formated_date(campo[DT_MODIF_COL]);
+		gtk_entry_set_text(GTK_ENTRY(cad_ter_dt_modificacao_entry), date);
+	}
+
+
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacoes_ter_field));
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_ter,strlen(observacoes_ter));
 

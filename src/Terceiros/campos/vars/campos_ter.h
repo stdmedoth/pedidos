@@ -54,6 +54,8 @@ static GtkWidget *transp_codigo_entry,
 *transp_telefone_entry,
 *transp_obs_entry;
 
+GtkWidget *cad_ter_dt_modificacao_entry;
+
 GtkWidget *cnst_cad_button;
 
 static GtkWidget *campo_nome_cond_ter,*campo_nome_prod_ter;

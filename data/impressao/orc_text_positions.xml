@@ -1,7 +1,7 @@
 <orc>
 	<img_logo>
 		<x>60</x>
-		<y>40</y>
+		<y>20</y>
 	</img_logo>
 
 	<orc_code>
@@ -10,8 +10,8 @@
 	</orc_code>
 
 	<empresa_email>
-	 	<x>0</x>
-	 	<y>0</y>
+	 	<x>100</x>
+	 	<y>200</y>
 	</empresa_email>
 
 	<data_emissao>
@@ -30,7 +30,7 @@
 	</ender_cliente>
 
 	<cidade_cliente>
-		<x>80</x>	
+		<x>80</x>
 		<y>255</y>
 	</cidade_cliente>
 

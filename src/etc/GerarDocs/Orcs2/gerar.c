@@ -48,8 +48,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   //cairo_t *cairo = cairo_create(surface);
   cairo_t *cairo = gtk_print_context_get_cairo_context(context);
 
-
-  cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(1582), MM_TO_POINTS(1362));
+  cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(0), MM_TO_POINTS(1582), MM_TO_POINTS(1362));
   if(fopen(ORC_MODEL, "r")){
     cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(ORC_MODEL);
     cairo_set_source_surface(cairo, logo_surface ,0,0);
@@ -60,9 +59,8 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
 
   int img_logo_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/x")));
   int img_logo_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/img_logo/y")));
-
   cairo_rectangle(cairo, MM_TO_POINTS(10), MM_TO_POINTS(10), MM_TO_POINTS(300), MM_TO_POINTS(80));
-  if(fopen(LOGO_MEDIA, "r")){
+  if(fopen(LOGO_PDF, "r")){
     cairo_surface_t *logo_surface = cairo_image_surface_create_from_png(LOGO_PDF);
     cairo_set_source_surface(cairo, logo_surface ,img_logo_x, img_logo_y);
   }else{
@@ -71,13 +69,18 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_fill(cairo);
 
   cairo_move_to(cairo, 0,0 );
-  cairo_set_font_size(cairo, TITLE_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
+  /*
+
+  cairo_set_font_size(cairo, ORC_TITLE_TEXT_FONT_SIZE);
+
   gchar *nome_empresa = malloc( strlen(cad_emp_strc.xNome) );
   sprintf(nome_empresa, "%s", cad_emp_strc.xNome);
   cairo_show_text(cairo, nome_empresa);
   cairo_fill(cairo);
+  */
 
+  cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
   int orc_code_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/orc_code/x")));
   int orc_code_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/orc_code/y")));
   cairo_move_to(cairo, orc_code_x, orc_code_y);
@@ -87,6 +90,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, num_orc);
   cairo_fill(cairo);
 
+  /*
   int email_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/empresa_email/x")));
   int email_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/empresa_email/y")));
   cairo_move_to(cairo, email_x, email_y);
@@ -94,6 +98,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   sprintf(email, "%s", cad_emp_strc.email);
   cairo_show_text(cairo, email);
   cairo_fill(cairo);
+  */
 
   int data_emissao_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/data_emissao/x")));
   int data_emissao_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/data_emissao/y")));
@@ -103,7 +108,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, data_emissao);
   cairo_fill(cairo);
 
-
+  cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
   int nome_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/x")));
   int nome_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/y")));
   cairo_move_to(cairo, nome_cliente_x, nome_cliente_y);
@@ -170,7 +175,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, contato_cliente);
   cairo_fill(cairo);
 
-  cairo_set_font_size(cairo, ITENS_TEXT_FONT_SIZE);
+  cairo_set_font_size(cairo, ORC_ITENS_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
   int interval_pos = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/itens/distancia")));
 
@@ -282,7 +287,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   int total_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/x")));
   int total_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/total/y")));
   cairo_move_to(cairo, total_x, total_y);
-  sprintf(format, "R$ %.2f", orc->valores->valor_total);
+  sprintf(format, "R$ %.2f", orc->valores->valor_total_liquido);
   cairo_show_text(cairo, format);
   cairo_fill(cairo);
   free(format);

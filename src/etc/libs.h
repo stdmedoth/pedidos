@@ -28,6 +28,8 @@
 #include "./check_dirs.h"
 #include "./curl_tools.h"
 
+#include "./gtk_entry_masks.h"
+
 #include "./stoi.h"
 #include "./css.h"
 #include "./http.h"

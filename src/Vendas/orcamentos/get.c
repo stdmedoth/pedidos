@@ -42,6 +42,7 @@ struct _orc_valores *orc_get_valores(struct _orc *orc){
 	valores->valor_total = valores->valor_prds + valores->valor_frete;
 	valores->desconto_total = valores->valor_prds_desc + valores->desconto_frete;
 
+	valores->valor_total_liquido = valores->valor_total - valores->desconto_total;
 	return valores;
 }
 
@@ -53,6 +54,11 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	int itens_qnt = orc_get_itens_qnt(orc->infos->code);
+
+	enum{
+		PAG_COND,
+		FORM_PAG
+	};
 	sprintf(query, "select pag_cond, forma_pagamento from orcamentos where code = %i", orc->infos->code);
 
 	if(!(res = consultar(query))){
@@ -64,7 +70,7 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 		return NULL;
 	}
 
-	parcelas->condpag = cond_pag_get(atoi(row[0]));
+	parcelas->condpag = cond_pag_get(atoi(row[PAG_COND]));
 	if(!parcelas->condpag){
 		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get() em orc_get_parcelas()");
 		return NULL;
@@ -88,11 +94,16 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 			parcelas->vlrs[cont] = vlrs[cont];
 	}
 
-	parcelas->forma_pagamento = get_forma_pagamento(atoi(row[1]));
-	if(!parcelas->forma_pagamento){
-		file_logger("Estrutura de valores em get_forma_pagamento(orc) retornada nula");
-		return NULL;
+	if(row[FORM_PAG]){
+		parcelas->forma_pagamento = get_forma_pagamento(atoi(row[1]));
+		if(!parcelas->forma_pagamento){
+			file_logger("Estrutura de valores em get_forma_pagamento(orc) retornada nula");
+			return NULL;
+		}
+	}else{
+		parcelas->forma_pagamento = NULL;
 	}
+
 
 
 	return parcelas;

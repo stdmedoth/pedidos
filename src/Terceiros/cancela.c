@@ -66,6 +66,8 @@ void cancelar_ter(){
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ter_notebook),0);
 
 
+	gtk_entry_set_text(GTK_ENTRY(cad_ter_dt_modificacao_entry), "");
+
 	GtkTreeStore *treestore	=	GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(titulos_cadter.treeview)));
   g_object_ref(G_OBJECT(treestore));
   gtk_tree_view_set_model(GTK_TREE_VIEW(titulos_cadter.treeview),NULL);

@@ -37,6 +37,8 @@
 #include "./check_encerramento.c"
 #include "./portable.c"
 
+#include "./gtk_entry_masks.c"
+
 #include "../Menu/iconview.c"
 #include "../Menu/atalhos.c"
 

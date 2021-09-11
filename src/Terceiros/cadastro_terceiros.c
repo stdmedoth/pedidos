@@ -46,6 +46,8 @@ int  cad_terc()
 	*observacoes_frame,
 	*prazo_ter_label;
 
+	GtkWidget *cad_ter_dt_modificacao_frame;
+
 
 	GtkWidget *horizontal_box_one,
 	*horizontal_box_two,
@@ -473,6 +475,11 @@ int  cad_terc()
 	vinculo_prod_box = gtk_box_new(1,0);
 	vinculo_prod_frame = gtk_frame_new("Vinculo Produto-Cliente");
 
+	cad_ter_dt_modificacao_entry = gtk_entry_new();
+	gtk_editable_set_editable(GTK_EDITABLE(cad_ter_dt_modificacao_entry), FALSE);
+	cad_ter_dt_modificacao_frame = gtk_frame_new("Atualizado em:");
+	gtk_container_add(GTK_CONTAINER(cad_ter_dt_modificacao_frame), cad_ter_dt_modificacao_entry);
+
 	vinculo_prod_scroll = gtk_scrolled_window_new(NULL,NULL);
 	gtk_container_add(GTK_CONTAINER(vinculo_prod_scroll),grid1_ter_preco);
 
@@ -521,6 +528,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(opcoes),alterar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),cancelar_ter_buttom,0,0,10);
 	gtk_box_pack_start(GTK_BOX(opcoes),excluir_ter_buttom,0,0,10);
+	gtk_box_pack_start(GTK_BOX(opcoes),cad_ter_dt_modificacao_frame,0,0,10);
 
 	gtk_widget_set_size_request(GTK_WIDGET(concluir_ter_buttom),100,50);
 	gtk_widget_set_size_request(GTK_WIDGET(alterar_ter_buttom),100,50);

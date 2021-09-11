@@ -1,3 +1,10 @@
+void orc_set_contem_pedido(){
+	orc_contem_ped = 1;
+	gtk_widget_set_sensitive(concluir_orc_button, FALSE);
+	gtk_widget_set_sensitive(pedido_orc_button, FALSE);
+	gtk_widget_set_sensitive(excluir_orc_button, FALSE);
+}
+
 int orc_has_ped(){
 
 	MYSQL_RES *res;
@@ -66,6 +73,7 @@ void gera_orc_ped()
 		return ;
 	}
 
+	orc_set_contem_pedido();
 	sprintf(msg,"Orcamento gerou o pedido %s",row[0]);
 	popup(NULL,msg);
 }

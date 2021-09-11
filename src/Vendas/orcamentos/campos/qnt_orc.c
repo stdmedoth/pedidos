@@ -31,7 +31,8 @@ int qnt_prod_orc(GtkWidget *widget,int posicao)
 		return 1;
 	}
 
-	gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
+	//gtk_widget_grab_focus(orig_preco_prod_orc_combo[posicao]);
+	gtk_widget_grab_focus(botao_orc_mais);
 	qnt_prod_orc_calc = 0;
 	return 0;
 }

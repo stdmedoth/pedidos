@@ -86,6 +86,8 @@ static struct _orc_valores{
 
 	float desconto_total;
 	float valor_total;
+
+	float valor_total_liquido;
 }orc_valores;
 
 static struct _orc_infos{

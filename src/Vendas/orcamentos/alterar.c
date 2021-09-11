@@ -34,10 +34,7 @@ static int altera_orc()
 
 	if((row = mysql_fetch_row(res))){
 		popup(NULL,"Existe um pedido para este orçamento");
-		orc_contem_ped = 1;
-		gtk_widget_set_sensitive(concluir_orc_button, FALSE);
-		gtk_widget_set_sensitive(pedido_orc_button, FALSE);
-		gtk_widget_set_sensitive(excluir_orc_button, FALSE);
+		orc_set_contem_pedido();
 	}
 
 	alterando_orc=1;

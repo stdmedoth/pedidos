@@ -114,7 +114,8 @@ int altera_prod()
 
 
 	if(campo[PROD_OBS_COL]){
-		strcpy(observacoes_prod,campo[PROD_OBS_COL]);
+		observacoes_prod = malloc(strlen(campo[PROD_OBS_COL]));
+		strcpy(observacoes_prod, campo[PROD_OBS_COL]);
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(observacao_prod_field));
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer),observacoes_prod,strlen(observacoes_prod));
 	}
