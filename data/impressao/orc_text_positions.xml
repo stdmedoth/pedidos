@@ -16,7 +16,7 @@
 
 	<data_emissao>
 		<x>980</x>
-		<y>100</y>
+		<y>95</y>
 	</data_emissao>
 
 	<nome_cliente>
@@ -95,6 +95,74 @@
 	</total>
 
 	<transporte>
+		<transportadora_nome>
+			<x>80</x>
+			<y>970</y>
+		</transportadora_nome>
+		<origem>
+			<header>
+				<x>80</x>
+				<y>1000</y>
+			</header>
+			<cep>
+				<x>80</x>
+				<y>1025</y>
+			</cep>
+			<logradouro>
+				<x>80</x>
+				<y>1045</y>
+			</logradouro>
+			<numero>
+				<x>80</x>
+				<y>1065</y>
+			</numero>
+			<bairro>
+				<x>80</x>
+				<y>1085</y>
+			</bairro>
+			<cidade>
+				<x>80</x>
+				<y>1105</y>
+			</cidade>
+			<uf>
+				<x>80</x>
+				<y>1125</y>
+			</uf>
+		</origem>
+		<destino>
+			<header>
+				<x>80</x>
+				<y>1150</y>
+			</header>
+			<cep>
+				<x>80</x>
+				<y>1175</y>
+			</cep>
+			<logradouro>
+				<x>80</x>
+				<y>1195</y>
+			</logradouro>
+			<numero>
+				<x>80</x>
+				<y>1215</y>
+			</numero>
+			<bairro>
+				<x>80</x>
+				<y>1235</y>
+			</bairro>
+			<cidade>
+				<x>80</x>
+				<y>1255</y>
+			</cidade>
+			<uf>
+				<x>80</x>
+				<y>1275</y>
+			</uf>
+		</destino>
+		<observacao>
+			<x>730</x>
+			<y>1205</y>
+		</observacao>
 		<valor>
 			<x>730</x>
 			<y>1075</y>
@@ -104,4 +172,9 @@
 			<y>1105</y>
 		</desconto>
 	</transporte>
+
+	<observacao>
+		<x>730</x>
+		<y>1105</y>
+	</observacao>
 </orc>

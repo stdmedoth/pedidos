@@ -127,8 +127,16 @@ struct _transporte *orc_get_entrega(struct _orc *orc){
 	}
 
 	entrega->code = atoi(row[TRSP_CODE_COL]);
-	entrega->transportador = atoi(row[TRSP_TRANSP_COL]);
-	entrega->cliente = atoi(row[TRSP_CLI_COL]);
+	entrega->transportador = terceiros_get_simp_terceiro(atoi(row[TRSP_TRANSP_COL]));
+	if(!entrega->transportador){
+		file_logger("terceiros_get_simp_terceiro() em orc_get_entrega()");
+		return NULL;
+	}
+	entrega->cliente = terceiros_get_simp_terceiro(atoi(row[TRSP_CLI_COL]));
+	if(!entrega->transportador){
+		file_logger("terceiros_get_simp_terceiro() em orc_get_entrega()");
+		return NULL;
+	}
 	entrega->cep_inicio = strdup(row[TRSP_CEPINI_COL]);
 	entrega->cep_entrega = strdup(row[TRSP_CEPFIM_COL]);
 	entrega->num = atoi(row[TRSP_NUM_COL]);

@@ -31,9 +31,28 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     "orc/subtotal",
     "orc/desconto",
     "orc/total",
+
+    "orc/observacao",
+
+    "orc/transporte/transportadora_nome",
+
+    "orc/transporte/origem/cep",
+    "orc/transporte/origem/logradouro",
+    "orc/transporte/origem/numero",
+    "orc/transporte/origem/bairro",
+    "orc/transporte/origem/cidade",
+    "orc/transporte/origem/uf",
+
+    "orc/transporte/destino/cep",
+    "orc/transporte/destino/logradouro",
+    "orc/transporte/destino/numero",
+    "orc/transporte/destino/bairro",
+    "orc/transporte/destino/cidade",
+    "orc/transporte/destino/uf",
+
     "orc/transporte/valor",
     "orc/transporte/desconto",
-
+    "orc/transporte/observacao",
     NULL
   };
 
@@ -108,7 +127,6 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, data_emissao);
   cairo_fill(cairo);
 
-  cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
   int nome_cliente_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/x")));
   int nome_cliente_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/nome_cliente/y")));
   cairo_move_to(cairo, nome_cliente_x, nome_cliente_y);
@@ -174,6 +192,19 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   }
   cairo_show_text(cairo, contato_cliente);
   cairo_fill(cairo);
+
+
+  int  condpag_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/condicao_pagamento/x")));
+  int  condpag_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/condicao_pagamento/y")));
+  cairo_move_to(cairo, condpag_x, condpag_y);
+  cairo_show_text(cairo, orc->parcelas->condpag->nome);
+  cairo_fill(cairo);
+  if(orc->parcelas->condpag->forma_pag){
+    cairo_move_to(cairo, condpag_x, condpag_y + 20);
+    cairo_show_text(cairo, orc->parcelas->condpag->forma_pag->nome);
+    cairo_fill(cairo);
+  }
+
 
   cairo_set_font_size(cairo, ORC_ITENS_TEXT_FONT_SIZE);
   cairo_set_source_rgb(cairo, WB_TO_RGB(0), WB_TO_RGB(0), WB_TO_RGB(0));
@@ -255,6 +286,119 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
 
   }
 
+  if(orc->entrega){
+    char text[2400];
+    cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
+    int transportadora_nome_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/transportadora_nome/x")));
+    int transportadora_nome_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/transportadora_nome/y")));
+    cairo_move_to(cairo, transportadora_nome_x, transportadora_nome_y);
+    sprintf(text, "Transportadora: %s", orc->entrega->transportador->razao);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    cairo_set_font_size(cairo, ORC_TITLE_TEXT_FONT_SIZE);
+    int header_origem_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/header/x")));
+    int header_origem_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/header/y")));
+    cairo_move_to(cairo, header_origem_x, header_origem_y);
+    sprintf(text, "Origem Transporte:");
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
+    char obs[strlen(orc->entrega->obs)];
+    int transporte_obs_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/observacao/x")));
+    int transporte_obs_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/observacao/y")));
+    cairo_move_to(cairo, transporte_obs_x, transporte_obs_y);
+    sprintf(obs, "%s", orc->entrega->obs);
+    cairo_show_text(cairo, obs);
+    cairo_fill(cairo);
+
+    struct _cad_cep *cep_inicio = get_ender_by_cep(orc->entrega->cep_inicio);
+    if(!cep_inicio){
+      file_logger("Não foi possível receber cep de origem get_ender_by_cep() em gera_doc_orc()");
+      return 1;
+    }
+
+    int cep_origem_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/cep/x")));
+    int cep_origem_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/cep/y")));
+    cairo_move_to(cairo, cep_origem_x, cep_origem_y);
+    sprintf(text, "CEP: %s", orc->entrega->cep_inicio);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int logradouro_origem_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/logradouro/x")));
+    int logradouro_origem_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/logradouro/y")));
+    cairo_move_to(cairo, logradouro_origem_x, logradouro_origem_y);
+    sprintf(text, "Logradouro: %s", cep_inicio->ldescricao);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int bairro_origem_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/bairro/x")));
+    int bairro_origem_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/bairro/y")));
+    cairo_move_to(cairo, bairro_origem_x, bairro_origem_y);
+    sprintf(text, "Bairro: %s", cep_inicio->bairro);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int cidade_origem_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/cidade/x")));
+    int cidade_origem_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/origem/cidade/y")));
+    cairo_move_to(cairo, cidade_origem_x, cidade_origem_y);
+    sprintf(text, "Cidade: %s", cep_inicio->cidade->descricao);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    cairo_set_font_size(cairo, ORC_TITLE_TEXT_FONT_SIZE);
+    int header_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/header/x")));
+    int header_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/header/y")));
+    cairo_move_to(cairo, header_destino_x, header_destino_y);
+    sprintf(text, "Destino Transporte:");
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    struct _cad_cep *cep_entrega = get_ender_by_cep(orc->entrega->cep_entrega);
+    if(!cep_entrega){
+      file_logger("Não foi possível receber cep de destino get_ender_by_cep() em gera_doc_orc()");
+      return 1;
+    }
+
+    cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
+    int cep_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/cep/x")));
+    int cep_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/cep/y")));
+    cairo_move_to(cairo, cep_destino_x, cep_destino_y);
+    sprintf(text, "CEP: %s", orc->entrega->cep_entrega);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int logradouro_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/logradouro/x")));
+    int logradouro_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/logradouro/y")));
+    cairo_move_to(cairo, logradouro_destino_x, logradouro_destino_y);
+    sprintf(text, "Logradouro: %s", cep_entrega->ldescricao);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int numero_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/numero/x")));
+    int numero_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/numero/y")));
+    cairo_move_to(cairo, numero_destino_x, numero_destino_y);
+    sprintf(text, "Número: %i", orc->entrega->num);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int bairro_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/bairro/x")));
+    int bairro_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/bairro/y")));
+    cairo_move_to(cairo, bairro_destino_x, bairro_destino_y);
+    sprintf(text, "Bairro: %s", cep_entrega->bairro);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+    int cidade_destino_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/cidade/x")));
+    int cidade_destino_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/transporte/destino/cidade/y")));
+    cairo_move_to(cairo, cidade_destino_x, cidade_destino_y);
+    sprintf(text, "Cidade: %s", cep_entrega->cidade->descricao);
+    cairo_show_text(cairo, text);
+    cairo_fill(cairo);
+
+  }
+
   gchar *format = malloc(20);
   int subtotal_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/subtotal/x")));
   int subtotal_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/subtotal/y")));
@@ -291,6 +435,14 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, format);
   cairo_fill(cairo);
   free(format);
+
+  char obs[strlen(orc->infos->observacoes)];
+  int obs_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/observacao/x")));
+  int obs_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/observacao/y")));
+  cairo_move_to(cairo, obs_x, obs_y);
+  sprintf(obs, "%s", orc->infos->observacoes);
+  cairo_show_text(cairo, obs);
+  cairo_fill(cairo);
 
   cairo_move_to(cairo, 0, 0);
   cairo_set_source_rgb(cairo, WB_TO_RGB(255), WB_TO_RGB(255), WB_TO_RGB(255));

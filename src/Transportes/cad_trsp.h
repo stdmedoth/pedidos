@@ -16,8 +16,10 @@ enum TRSP_COLS{
 
 struct _transporte{
 	int code;
-	int transportador;
-	int cliente;
+	//int transportador;
+  struct _terc_infos *transportador;
+	//int cliente;
+  struct _terc_infos *cliente;
 	char *cep_inicio;
 	char *cep_entrega;
 	int num;

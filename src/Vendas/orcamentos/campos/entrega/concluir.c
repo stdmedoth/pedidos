@@ -41,7 +41,7 @@ int orc_transp_concluir_fun(){
     orc_transp_frete_pago_int,
     " ");
   }else{
-    sprintf(query,"update servico_transporte set transportador = '%i', cliente = '%i', cep_inicio = '%s', cep_entrega = '%s', num_entrega = '%i', vlr_frete = '%s', valor_desconto_frete = '%s', frete_pago = %i observacoes_entrega = '%s' where orcamento = %i",
+    sprintf(query,"update servico_transporte set transportador = '%i', cliente = '%i', cep_inicio = '%s', cep_entrega = '%s', num_entrega = '%i', vlr_frete = '%s', valor_desconto_frete = '%s', frete_pago = %i , observacoes_entrega = '%s' where orcamento = %i",
     atoi(orc_transp_codigo),
     atoi(cliente_orc_gchar),
     cad_emp_strc.CEP,
