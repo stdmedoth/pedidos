@@ -279,18 +279,20 @@ int gera_doc_ordcmp(struct _ord_cmp *ordem_cmp){
 
     cairo_move_to(cairo, ORD_CMP_CONDPAG_HPOS + 20  + h_pos, ORD_CMP_CONDPAG_VPOS + 50 + v_pos);
 
-    gchar *parc = malloc( strlen(datas[cont]) + 30 );
-    sprintf(parc, "| %iº %s R$ %.2f |", cont+1, datas[cont], valores[cont]);
-    cairo_show_text(cairo, parc);
-    cairo_fill(cairo);
+    if(datas[cont]){
+      gchar *parc = malloc( strlen(datas[cont]) + 30 );
+      sprintf(parc, "| %iº %s R$ %.2f |", cont+1, datas[cont], valores[cont]);
+      cairo_show_text(cairo, parc);
+      cairo_fill(cairo);
 
-    if(i_pos > 1){
-      i_pos = 0;
-      h_pos = 0;
-      v_pos += 50;
-    }else{
-      h_pos+=350;
-      i_pos++;
+      if(i_pos > 1){
+        i_pos = 0;
+        h_pos = 0;
+        v_pos += 50;
+      }else{
+        h_pos+=350;
+        i_pos++;
+      }
     }
   }
 

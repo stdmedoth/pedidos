@@ -13,50 +13,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
     return 1;
   }
 
-  gchar *paths[] = {
-    "orc/orc_code",
-    "orc/email",
-    "orc/nome_cliente",
-    "orc/cidade_cliente",
-    "orc/ender_cliente",
-    "orc/telefone_cliente",
-    "orc/contato_cliente",
-    "orc/img_logo",
-    "orc/itens/codigo",
-    "orc/itens/descricao",
-    "orc/itens/unidade",
-    "orc/itens/quantidade",
-    "orc/itens/valor_unit",
-    "orc/itens/subtotal",
-    "orc/subtotal",
-    "orc/desconto",
-    "orc/total",
-
-    "orc/observacao",
-
-    "orc/transporte/transportadora_nome",
-
-    "orc/transporte/origem/cep",
-    "orc/transporte/origem/logradouro",
-    "orc/transporte/origem/numero",
-    "orc/transporte/origem/bairro",
-    "orc/transporte/origem/cidade",
-    "orc/transporte/origem/uf",
-
-    "orc/transporte/destino/cep",
-    "orc/transporte/destino/logradouro",
-    "orc/transporte/destino/numero",
-    "orc/transporte/destino/bairro",
-    "orc/transporte/destino/cidade",
-    "orc/transporte/destino/uf",
-
-    "orc/transporte/valor",
-    "orc/transporte/desconto",
-    "orc/transporte/observacao",
-    NULL
-  };
-
-  if(validar_coord_xml(doc, paths)){
+  if(validar_coord_xml(doc, gerar_doc_orc_xml_paths)){
     popup(NULL, "Faltam posições de campos para o PDF");
     return 1;
   }
@@ -193,7 +150,29 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_show_text(cairo, contato_cliente);
   cairo_fill(cairo);
 
+  cairo_set_font_size(cairo, ORC_TINY_TEXT_FONT_SIZE);
+  int  parcelas_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/parcelas/x")));
+  int  parcelas_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/parcelas/y")));
+  int h_pos=0, v_pos=50, i_pos=0;
+  printf("Quantidade de parcelas : %i\n", orc->parcelas->parcelas_qnt);
+  for(int cont=0; cont<orc->parcelas->parcelas_qnt; cont++){
+    printf("Data %i : %s\n", cont, orc->parcelas->datas[cont]);
+    cairo_move_to(cairo, parcelas_x  + h_pos, parcelas_y + v_pos);
+    gchar *parc = malloc( strlen(orc->parcelas->datas[cont]) + 20 + 12 );
+    sprintf(parc, "| %iº %s R$ %.2f |", cont+1, orc->parcelas->datas[cont], orc->parcelas->vlrs[cont]);
+    cairo_show_text(cairo, parc);
+    cairo_fill(cairo);
+    if(i_pos > 1){
+      i_pos = 0;
+      h_pos = 0;
+      v_pos += 20;
+    }else{
+      h_pos+=130;
+      i_pos++;
+    }
+  }
 
+  cairo_set_font_size(cairo, ORC_NORMAL_TEXT_FONT_SIZE);
   int  condpag_x = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/condicao_pagamento/x")));
   int  condpag_y = atoi((const char *)xmlNodeGetContent(get_tag_by_namepath(doc,"/orc/condicao_pagamento/y")));
   cairo_move_to(cairo, condpag_x, condpag_y);
@@ -201,7 +180,7 @@ int gera_doc_orc(struct _orc *orc, GtkPrintContext *context){
   cairo_fill(cairo);
   if(orc->parcelas->condpag->forma_pag){
     cairo_move_to(cairo, condpag_x, condpag_y + 20);
-    cairo_show_text(cairo, orc->parcelas->condpag->forma_pag->nome);
+    cairo_show_text(cairo, orc->parcelas->condpag->forma_pag->nome );
     cairo_fill(cairo);
   }
 

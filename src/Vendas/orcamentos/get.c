@@ -75,7 +75,7 @@ struct _orc_parcelas *orc_get_parcelas(struct _orc *orc){
 		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get() em orc_get_parcelas()");
 		return NULL;
 	}
-
+	parcelas->parcelas_qnt = parcelas->condpag->parcelas_qnt;
 	char **datas = cond_pag_get_datas(parcelas->condpag, orc->infos->data);
 	if(!datas){
 		file_logger("Estrutura de condição de pagamento do orçamento não criada! cond_pag_get_datas() em orc_get_parcelas()");

@@ -49,6 +49,17 @@
 		<y>290</y>
 	</email>
 
+	<parcelas>
+		<x>320</x>
+		<y>330</y>
+	</parcelas>
+
+	<condicao_pagamento>
+		<x>780</x>
+		<y>380</y>
+	</condicao_pagamento>
+
+
 	<itens>
 
 		<distancia>20</distancia>
@@ -160,8 +171,8 @@
 			</uf>
 		</destino>
 		<observacao>
-			<x>730</x>
-			<y>1205</y>
+			<x>80</x>
+			<y>1500</y>
 		</observacao>
 		<valor>
 			<x>730</x>
@@ -174,7 +185,7 @@
 	</transporte>
 
 	<observacao>
-		<x>730</x>
-		<y>1105</y>
+		<x>80</x>
+		<y>1380</y>
 	</observacao>
 </orc>

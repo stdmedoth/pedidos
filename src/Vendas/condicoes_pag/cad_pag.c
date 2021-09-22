@@ -59,7 +59,6 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
 
   GDateTime  *gdate;
   GTimeZone *timezone;
-  gchar **parcelas_datas = malloc( sizeof(char*) * parc->parcelas_qnt );
   int dia=0, mes=0, ano=0;
 
   if(!parc)
@@ -68,7 +67,9 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
   if(!data_gchar)
     return NULL;
 
-  if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) == EOF){
+  gchar **parcelas_datas = malloc( sizeof(char*) * parc->parcelas_qnt );
+
+  if(sscanf(data_gchar, "%d/%d/%d", &dia, &mes, &ano) != 3){
     popup(NULL,"Não foi possivel ler data");
     g_print("Erro no parser de data: %s\n",strerror(errno));
     return NULL;
@@ -76,7 +77,11 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
 
   timezone = g_time_zone_new(NULL);
   gdate = g_date_time_new(timezone,ano,mes,dia,0,0,0);
-  for(int cont=0;cont<parc->parcelas_qnt;cont++){
+  if(!gdate){
+    popup(NULL,"Operação impossível para esta data");
+    return NULL;
+  }
+  for(int cont=0; cont<parc->parcelas_qnt; cont++){
 
     if(parc->tipo_parc == CONDPAG_DIAS)
       gdate = g_date_time_add_days(gdate,parc->intervalos);
@@ -84,16 +89,18 @@ char **cond_pag_get_datas(struct _condpag *parc, gchar *data_gchar){
     if(parc->tipo_parc == CONDPAG_MESES)
       gdate = g_date_time_add_months(gdate,parc->intervalos);
 
-    if(!g_date_time_format(gdate,"%d/%m/%Y")){
-      popup(NULL,"Operação impossível para esta data");
+    gchar *data = g_date_time_format(gdate,"%d/%m/%Y");
+    if(!data){
+      popup(NULL,"Não foi possível formatar a data");
       return NULL;
     }
-
-    parcelas_datas[cont] = strdup( g_date_time_format(gdate,"%d/%m/%Y") );
+    parcelas_datas[cont] = data;
+    printf("data %i : %s\n", cont, data);
 
     if(parc->tipo_parc == CONDPAG_DADATA)
       gdate = g_date_time_add_days(gdate,parc->intervalos);
   }
+  printf("\n\n");
   return parcelas_datas;
 }
 
