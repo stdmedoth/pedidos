@@ -32,7 +32,7 @@ int  cad_terc()
 
 	GtkWidget
 	*code_ter_nfe_label,
-	*doc_label,
+	*doc_frame,
 	*inscr_label,
 	*ter_cliente_desde_frame,
 	*name_ter_frame,
@@ -195,7 +195,6 @@ int  cad_terc()
 
 	cnst_cad_button = gtk_button_new();
 	gtk_button_set_image(GTK_BUTTON(cnst_cad_button),gtk_image_new_from_icon_name("emblem-web",GTK_ICON_SIZE_LARGE_TOOLBAR));
-
 	doc_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(doc_combo),0,"Tipo Pessoa:");
 	gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(doc_combo),"1","Jurídica");
@@ -204,7 +203,7 @@ int  cad_terc()
 	gtk_combo_box_set_active(GTK_COMBO_BOX(doc_combo),1);
 
 	code_frame = gtk_frame_new("Codigo");
-	doc_label = gtk_label_new("Documento:");
+	doc_frame = gtk_frame_new("Documento");
 	code_ter_nfe_label = gtk_label_new("Código para NF-e");
 	ter_cliente_desde_frame = gtk_frame_new("Cliente Desde");
 	name_ter_frame = gtk_label_new("Nome: ");
@@ -315,6 +314,7 @@ int  cad_terc()
 	gtk_box_pack_start(GTK_BOX(doc),doc_combo,0,0,0);
 	gtk_box_pack_start(GTK_BOX(doc),doc_ter_field,0,0,0);
 	gtk_box_pack_start(GTK_BOX(doc),cnst_cad_button,0,0,5);
+	gtk_container_add(GTK_CONTAINER(doc_frame), doc);
 	gtk_entry_set_width_chars(GTK_ENTRY(doc_ter_field),30);
 
 	inscr = gtk_box_new(1,0);
@@ -488,7 +488,7 @@ int  cad_terc()
 
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_one),code_frame,0,0,10);
-	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc,0,0,0);
+	gtk_box_pack_start(GTK_BOX(horizontal_box_one),doc_frame,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),inscr,0,0,10);
 	gtk_box_pack_start(GTK_BOX(horizontal_box_two),type,0,0,0);
