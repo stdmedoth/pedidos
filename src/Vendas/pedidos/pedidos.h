@@ -5,6 +5,7 @@ enum PED_COLS{
 	PED_CLI_COL,
 	PED_DATE_COL,
 	PED_PAG_COND,
+	PED_FORMPAG_COL,
 	PED_TOT_COL,
 	PED_STATUS_COL
 };
@@ -16,6 +17,7 @@ GtkWidget *ped_data_entry;
 GtkWidget *ped_pag_entry;
 GtkWidget *ped_est_combo;
 GtkWidget *ped_tipo_combo;
+GtkWidget *ped_form_pag_combo;
 GtkWidget *emiteped_status_combo;
 GtkWidget *ped_bancocod_entry,*ped_banco_entry;
 GtkWidget *ped_psq_cod_button;

@@ -19,19 +19,24 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		return 1;
 	}
 
-	if(strlen(entrada)>=MAX_CODE_LEN){
-		popup(NULL,"Código extenso");
-		return 1;
-	}
-
-	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%y\")), p.pag_cond, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
+	sprintf(query,"select c.razao, (SELECT DATE_FORMAT(p.data_mov, \"%%d/%%m/%%Y\")), p.pag_cond, forma_pagamento, tipo_mov, p.banco, p.status from pedidos as p inner join terceiros as c on p.cliente = c.code where p.code = %s",entrada);
 	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao buscar infomações do pedido");
 		return 1;
 	}
 	if(!(row = mysql_fetch_row(res))){
 		popup(NULL,"Pedido não existente");
 		return 1;
 	}
+	enum {
+		RAZAO,
+		DATA_MOV,
+		PAG_COND,
+		FORM_PAG,
+		TIPO_MOV,
+		BANCO,
+		STATUS
+	};
 
   	GtkTreeStore *treestore = (GtkTreeStore*) gtk_tree_view_get_model(treeview);
 	if(!treestore){
@@ -52,32 +57,39 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
   	gchar *formata_preco3 = malloc(MAX_PRECO_LEN);
 
 	char origem_preco[50],tipo_pag[50];
-	
+
 	GtkTreeIter campos;
 
+	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[RAZAO]);
+	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[DATA_MOV]);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),atoi(row[TIPO_MOV]));
 
-
-	gtk_entry_set_text(GTK_ENTRY(ped_ter_entry),row[0]);
-	gtk_entry_set_text(GTK_ENTRY(ped_data_entry),row[1]);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_tipo_combo),atoi(row[3]));
-
-	sprintf(query,"select code,nome from bancos where code = %s",row[4]);
-	if(!(res2 = consultar(query))){
-		popup(NULL,"Não foi possível consultar Banco");
+	gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),"Sem Banco");
+	struct _condpag *cond_pag = cond_pag_get(atoi(row[PAG_COND]));
+	if(!cond_pag){
+		popup(NULL,"Não foi possível consultar condição de pagamento");
 		return 1;
 	}
-	
-	if((row2 = mysql_fetch_row(res2))){
-		gtk_entry_set_text(GTK_ENTRY(ped_bancocod_entry),row2[0]);
-		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[1]);
+	if(cond_pag->forma_pag->tipo == FP_TIPO_TRASNF){
+		sprintf(query,"select code,nome from bancos where code = %s",row[BANCO]);
+		if(!(res2 = consultar(query))){
+			popup(NULL,"Não foi possível consultar Banco");
+			return 1;
+		}
+		if((row2 = mysql_fetch_row(res2))){
+			gtk_entry_set_text(GTK_ENTRY(ped_bancocod_entry),row2[0]);
+			gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),row2[1]);
+		}
 	}
-	else{
-		gtk_entry_set_text(GTK_ENTRY(ped_banco_entry),"Sem Banco");
+	if(row[FORM_PAG]){
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(ped_form_pag_combo),row[FORM_PAG]);
+	}else{
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(ped_form_pag_combo), inttochar(cond_pag->forma_pag->code));
 	}
 
-	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),atoi(row[5]));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),atoi(row[STATUS]));
 
-	sprintf(query,"select * from pag_cond where code = %s",row[2]);
+	sprintf(query,"select * from pag_cond where code = %s",row[PAG_COND]);
 
 	if(!(res = consultar(query))){
 		return 1;
@@ -273,6 +285,7 @@ int vnd_ped(){
 	GtkWidget *ped_pag_fixed, *ped_pag_box, *ped_pag_frame;
 	GtkWidget *ped_est_fixed, *ped_est_box, *ped_est_frame;
 	GtkWidget *ped_tipo_fixed, *ped_tipo_box, *ped_tipo_frame;
+	GtkWidget *ped_form_pag_fixed, *ped_form_pag_box, *ped_form_pag_frame;
 	GtkWidget *ped_status_fixed,*ped_status_box, *ped_status_frame;
 	GtkWidget *ped_banco_fixed, *ped_banco_box, *ped_banco_frame;
 
@@ -307,7 +320,7 @@ int vnd_ped(){
 
 	cont=0;
 	sprintf(query,"select code,nome from estoques");
-	if((res = consultar(query))==NULL){
+	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar estoques");
 		return 1;
 	}
@@ -372,6 +385,26 @@ int vnd_ped(){
 	gtk_fixed_put(GTK_FIXED(ped_tipo_fixed),ped_tipo_frame,10,10);
 	gtk_widget_set_sensitive(ped_tipo_combo,FALSE);
 
+	ped_form_pag_combo = gtk_combo_box_text_new();
+	sprintf(query,"select code,nome from forma_pagamento");
+	if(!(res = consultar(query))){
+		popup(NULL,"Erro ao buscar Formas de Pagamento");
+		return 1;
+	}
+	while((row = mysql_fetch_row(res))){
+		gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(ped_form_pag_combo),row[0], row[1]);
+		cont++;
+	}
+	ped_form_pag_fixed = gtk_fixed_new();
+	ped_form_pag_box = gtk_box_new(0,0);
+	ped_form_pag_frame = gtk_frame_new("Forma Pagamento");
+	gtk_box_pack_start(GTK_BOX(ped_form_pag_box),ped_form_pag_combo,0,0,10);
+	gtk_container_add(GTK_CONTAINER(ped_form_pag_frame),ped_form_pag_box);
+	gtk_fixed_put(GTK_FIXED(ped_form_pag_fixed),ped_form_pag_frame,10,10);
+	gtk_widget_set_sensitive(ped_form_pag_combo,FALSE);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(ped_form_pag_combo), 0);
+
+
 	linha1 = gtk_box_new(0,0);
 	linha2 = gtk_box_new(0,0);
 	linha3 = gtk_box_new(1,0);
@@ -406,7 +439,7 @@ int vnd_ped(){
 	gtk_box_pack_start(GTK_BOX(ped_ter_box),ped_ter_entry,0,0,0);
 	gtk_container_add(GTK_CONTAINER(ped_ter_frame),ped_ter_box);
 	gtk_fixed_put(GTK_FIXED(ped_ter_fixed),ped_ter_frame,10,10);
-	gtk_entry_set_width_chars(GTK_ENTRY(ped_ter_entry),40);
+	gtk_entry_set_width_chars(GTK_ENTRY(ped_ter_entry),50);
 	gtk_editable_set_editable(GTK_EDITABLE(ped_ter_entry),FALSE);
 
 	ped_pag_entry = gtk_entry_new();
@@ -419,10 +452,11 @@ int vnd_ped(){
 	gtk_entry_set_width_chars(GTK_ENTRY(ped_pag_entry),15);
 	gtk_editable_set_editable(GTK_EDITABLE(ped_pag_entry),FALSE);
 
+
 	emiteped_status_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Pendentes");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Emitidos");
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Cancelados");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Pendente");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Emitido");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(emiteped_status_combo),"Cancelado");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(emiteped_status_combo),0);
 	ped_status_fixed = gtk_fixed_new();
 	ped_status_box = gtk_box_new(0,0);
@@ -457,6 +491,7 @@ int vnd_ped(){
 	gtk_box_pack_start(GTK_BOX(linha1),ped_pag_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_tipo_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha1),ped_status_fixed,0,0,0);
+	gtk_box_pack_start(GTK_BOX(linha1),ped_form_pag_fixed,0,0,0);
 
 	gtk_box_pack_start(GTK_BOX(linha2),ped_ter_fixed,0,0,0);
 	gtk_box_pack_start(GTK_BOX(linha2),ped_est_fixed,0,0,0);
