@@ -59,7 +59,6 @@ int vnd_orc(){
 	gtk_entry_set_width_chars(GTK_ENTRY(codigo_orc_entry),8);
 	gtk_container_add(GTK_CONTAINER(codigo_orc_frame),codigo_orc_box);
 
-	operacao_orc_label = gtk_label_new("Operação:");
 	operacao_orc_combo = gtk_combo_box_text_new();
 	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),0,"Venda");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(operacao_orc_combo),"Devolução Venda");
@@ -69,7 +68,6 @@ int vnd_orc(){
 
 	operacao_orc_box = gtk_box_new(0,0);
 	operacao_orc_frame = gtk_frame_new("Tipo de Operação");
-	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_label,0,0,0);
 	gtk_box_pack_start(GTK_BOX(operacao_orc_box),operacao_orc_combo,0,0,52);
 	gtk_container_add(GTK_CONTAINER(operacao_orc_frame),operacao_orc_box);
 
@@ -88,6 +86,8 @@ int vnd_orc(){
 	gtk_entry_set_placeholder_text(GTK_ENTRY(cliente_orc_tel_entry),"Telefone");
 	gtk_editable_set_editable(GTK_EDITABLE(cliente_orc_tel_entry),FALSE);
 	cliente_orc_box = gtk_box_new(0,0);
+
+	orc_flag_entrega_check = gtk_check_button_new_with_label("Com Entrega?");
 
 	orc_bnc_box = gtk_box_new(0,0);
 	orc_bnc_fixed = gtk_fixed_new();
@@ -202,6 +202,8 @@ int vnd_orc(){
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),data_orc_frame,0,0,10);
 	gtk_widget_set_name(orc_form_pag_frame,"frame");
 	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_form_pag_frame,0,0,10);
+	gtk_box_pack_start(GTK_BOX(caixa_orc_infos_c),orc_flag_entrega_check,0,0,10);
+
 
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),caixa_orc_infos_c,MARGEM_D,10);
 	gtk_fixed_put(GTK_FIXED(orc_infos_fixed),cliente_orc_frame,MARGEM_D,100);
@@ -343,8 +345,9 @@ int vnd_orc(){
 	gtk_box_pack_start(GTK_BOX(itens_orc_box),prod_scroll_window,0,0,0);
 	gtk_box_pack_start(GTK_BOX(caixa_grande),caixa_orc_infos,0,0,0);
 
+	orc_entrega_campos_widget = orc_entrega_campos();
 	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),itens_orc_box,gtk_label_new("Itens"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),orc_entrega_campos(),gtk_label_new("Transporte"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),orc_entrega_campos_widget,gtk_label_new("Transporte"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(orc_notebook),financeiro_scroll,gtk_label_new("Outros"));
 
 	gtk_box_pack_start(GTK_BOX(caixa_grande),orc_notebook,0,0,10);
@@ -366,9 +369,7 @@ int vnd_orc(){
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
 
 	g_signal_connect(orc_form_pag_combo,"changed",G_CALLBACK(orc_form_pag_fun),NULL);
-
-
-
+	g_signal_connect(orc_flag_entrega_check,"toggled",G_CALLBACK(orc_flag_entrega),NULL);
 	g_signal_connect(orc_pag_cond_entry,"activate",G_CALLBACK(rec_fat_vist),NULL);
 
 	g_signal_connect(orc_pag_cond_psq_button,"clicked",G_CALLBACK(psq_pag_cond),orc_pag_cond_entry);

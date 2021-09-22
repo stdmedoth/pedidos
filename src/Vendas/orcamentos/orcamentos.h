@@ -272,6 +272,8 @@ GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;
 
+GtkWidget *orc_entrega_campos_widget;
+
 #include "campos.h"
 #include "get.h"
 

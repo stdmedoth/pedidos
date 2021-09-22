@@ -111,61 +111,22 @@ static int altera_orc()
 		gtk_widget_activate(orc_bnc_code_entry);
 	}
 
-	//buscando informações basicas de transporte
+
 	sprintf(query,"select * from servico_transporte where orcamento = %s",tmp_cod_orc);
-	if(!(res = consultar(query))){
-		popup(NULL,"Erro ao buscar serviço de transporte");
-		cancela_orc();
+	if(!(res = consultar(query)))
+	{
+		popup(NULL,"Não foi possível verificar existencia do transporte");
 		return 1;
 	}
-	if(!(row = mysql_fetch_row(res))){
-		alterando_transp = 0;
-		orc_com_entrega = 0;
-	}else{
-
-		if(row[TRSP_CODE_COL]!=NULL)
-			if(!atoi(row[TRSP_CODE_COL])){
-				alterando_transp = 0;
-				orc_com_entrega = 0;
-				return 1;
-			}
-
-		alterando_transp = 1;
-
-		enum{
-			RAZAO,
-			DOC,
-			IE
-		};
-
-		sprintf(query,"select razao,doc,ie from terceiros where code = %s", row[TRSP_TRANSP_COL]);
-		if(!(res2 = consultar(query))){
-			popup(NULL,"Erro ao buscar serviço de transporte");
-			cancela_orc();
+	if((row= mysql_fetch_row(res)))
+	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_flag_entrega_check), TRUE);
+		gtk_entry_set_text(GTK_ENTRY(orc_srv_transp_entry), row[TRSP_CODE_COL]);
+		if(orc_transp_alterar_fun()){
 			return 1;
 		}
-		if(!(row2 = mysql_fetch_row(res2))){
-			popup(NULL,"Transportadora da entrega não existe, verifique o cadastro");
-		}else{
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),row2[RAZAO]);
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),row2[DOC]);
-			gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),row2[IE]);
-		}
-
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),row[TRSP_CODE_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRSP_CEPFIM_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRSP_NUM_COL]);
-
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_valor_frete_entry),row[TRSP_VLR_COL]);
-		gtk_entry_set_text(GTK_ENTRY(orc_transp_desconto_frete_entry),row[TRSP_DESC_COL]);
-		if(atoi(row[TRSP_FRTPAG_COL])){
-			orc_transp_frete_gratis();
-		}else{
-			orc_transp_frete_ngratis();
-			gtk_widget_activate(orc_transp_valor_frete_entry);
-			gtk_widget_activate(orc_transp_desconto_frete_entry);
-		}
-
+	}else{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_flag_entrega_check), FALSE);
 	}
 
 	sprintf(query,"select * from orcs_cheques where orcamento = %s",tmp_cod_orc);
@@ -411,7 +372,6 @@ static int altera_orc()
 	adicionar_linha_orc();
 	ativos_qnt=1;
 
-	orc_transp_alterar_fun();
 	gtk_entry_set_text(GTK_ENTRY(codigo_orc_entry),tmp_cod_orc);
 	recebendo_prod_orc=0;
 

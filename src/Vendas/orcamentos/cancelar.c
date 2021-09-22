@@ -29,20 +29,10 @@ static int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),"");
 
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_nome_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_cnpj_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_ie_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_logradouro_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_bairro_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_cidade_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_estado_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),"");
-	gtk_entry_set_text(GTK_ENTRY(orc_transp_telefone_entry),"");
+	orc_srv_transp_cancelar_fun();
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_flag_entrega_check), FALSE);
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(orc_form_pag_combo), 0);
-
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button), FALSE);
 	gtk_widget_set_sensitive(orc_transp_valor_frete_entry,TRUE);
 	gtk_widget_set_sensitive(orc_transp_desconto_frete_entry,TRUE);

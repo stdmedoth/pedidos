@@ -30,23 +30,12 @@ static int concluir_orc(){
 	if(codigo_cli_orc())
 	  return 1;
 
-	if(orc_transp_codigo_fun())
-	  return 1;
 
-	if(orc_transp_cepc())
-	  return 1;
-
-	if(orc_transp_logr_fun())
-	  return 1;
-
-	if(orc_transp_estado_fun())
-	  return 1;
-
-	if(orc_transp_cidadec())
-		return 1;
-
-	if(orc_transp_bairroc())
-	 	return 1;
+	if(orc_com_entrega){
+		if(validar_campos_entrega()){
+			return 1;
+		}
+	}
 
 	if(orc_pag_tipo_int == CONDPAG_DT_LVR){
 		if(concluir_datas_livres()){
@@ -196,10 +185,9 @@ static int concluir_orc(){
 		}
 	}
 
-	if(orc_com_entrega){
-		if(orc_transp_concluir_fun())
-			return 1;
-	}
+
+	if(orc_transp_concluir_fun())
+		return 1;
 
 	sprintf(query,"select sum(total),sum(desconto) from Produto_Orcamento where code = %s",codigo_orc_gchar);
 	if(!(res = consultar(query))){
