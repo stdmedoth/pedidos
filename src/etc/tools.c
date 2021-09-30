@@ -232,44 +232,6 @@ gboolean atalho_fechar_sessao(GtkWidget * widget, GdkEventKey * event, gpointer 
   return FALSE;
 }
 
-gboolean only_number_entry(GtkWidget *widget, GdkEventKey  *event, gpointer   user_data){
-
-  int perms[] = {
-    GDK_KEY_Escape,
-    GDK_KEY_BackSpace,
-    GDK_KEY_Tab,
-    GDK_KEY_Return,
-    GDK_KEY_KP_Enter,
-    GDK_KEY_3270_Enter,
-    GDK_KEY_0,
-    GDK_KEY_1,
-    GDK_KEY_2,
-    GDK_KEY_3,
-    GDK_KEY_4,
-    GDK_KEY_5,
-    GDK_KEY_6,
-    GDK_KEY_7,
-    GDK_KEY_8,
-    GDK_KEY_9,
-    -1
-  };
-
-  for(int cont=0; perms[cont] != -1; cont++){
-    if(event->keyval == perms[cont]){
-      return FALSE;
-    }
-  }
-
-  if(event->keyval == ',' || event->keyval == '.'){
-    event->keyval = '.';
-    return FALSE;
-  }
-
-  if(isdigit(event->keyval))
-    return FALSE;
-
-  return TRUE;
-}
 
 void *NOT_NULL(void *pointer){
   if(!pointer){
@@ -923,12 +885,12 @@ void auto_hmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll
 	return ;
 }
 
-void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *null, GtkWidget *scroll_window){
-  carregar_interface();
-  if(scroll_window && GTK_IS_SCROLLED_WINDOW(scroll_window)){
+void auto_vmover_scroll(GtkWidget *widget, GdkRectangle *allocation, GtkWidget *scroll_window){
+  //carregar_interface();
+  if(scroll_window){
     GtkAdjustment *ajuste = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scroll_window));
     if(ajuste){
-      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste));
+      gtk_adjustment_set_value(ajuste, gtk_adjustment_get_upper(ajuste) - gtk_adjustment_get_page_size(ajuste));
     }
   }
 	return ;

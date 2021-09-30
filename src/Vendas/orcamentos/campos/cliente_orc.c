@@ -108,13 +108,15 @@ int codigo_cli_orc()
 		}
 
 		if( !transp_verified ){
-			if( strlen(campos[TRANSP_CODE]) ){
-				gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[TRANSP_CODE]);
-				gtk_widget_activate(orc_transp_codigo_entry);
-			}
+			if(orc_com_entrega) {
+				if( strlen(campos[TRANSP_CODE]) && atoi(campos[TRANSP_CODE]) ){
+					gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry),campos[TRANSP_CODE]);
+					gtk_widget_activate(orc_transp_codigo_entry);
+				}
 
-			if( strlen(campos[TRANSP_CEP]) ){
-				gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[TRANSP_CEP]);
+				if( strlen(campos[TRANSP_CEP]) ){
+					gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),campos[TRANSP_CEP]);
+				}
 			}
 		}
 

@@ -1,5 +1,5 @@
 int calcula_saldo(){
-  char query[MAX_QUERY_LEN],valor[MAX_PRECO_LEN*2];
+  char query[MAX_QUERY_LEN];
   MYSQL_RES *estado;
 	MYSQL_ROW campo;
 
@@ -19,7 +19,7 @@ int calcula_saldo(){
     return 1;
   }
 
-  if((campo = mysql_fetch_row(estado))==NULL)
+  if(!(campo = mysql_fetch_row(estado)))
   {
     popup(NULL,"O produto está sem saldo no estoque");
     gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),"");
@@ -27,24 +27,26 @@ int calcula_saldo(){
     return 1;
   }
   if(campo[0]){
+    char valor[MAX_PRECO_LEN];
     sprintf(valor,"%.3f",atof(campo[0]));
     gtk_entry_set_text(GTK_ENTRY(est_sld_prod_entry),valor);
     gtk_entry_set_text(GTK_ENTRY(est_sld_data_entry),campo[1]);
-  }
-  else
-  {
+  }else{
     popup(NULL,"O produto nunca foi movimentado");
     return 1;
   }
 
   sprintf(query,"select saldo_min from saldo_min where produto = %i",atoi(est_sld_prod_cod_gchar));
   if(!(estado = consultar(query))){
+    popup(NULL,"Erro ao consultar saldo mínimo do item");
     return 1;
   }
   if((campo = mysql_fetch_row(estado))){
+    char valor[MAX_PRECO_LEN];
     sprintf(valor,"%.3f",atof(campo[0]));
     gtk_entry_set_text(GTK_ENTRY(est_sld_min_entry),valor);
   }else{
+    char valor[MAX_PRECO_LEN];
     sprintf(valor,"%.3f",atof("0"));
     gtk_entry_set_text(GTK_ENTRY(est_sld_min_entry),valor);
   }

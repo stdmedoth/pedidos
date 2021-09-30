@@ -68,10 +68,7 @@ int titulos_update_widget(struct _titulo *titulos){
   GtkTreeIter iter;
   GtkTreeStore *modelo = (GtkTreeStore*) gtk_tree_view_get_model(titulos->treeview);
 
-  sprintf(query,"select tit.code, t.razao, tit.pedido, parc.posicao, bnc.nome,"
-  " tit.tipo_titulo, parc.valor, DATE_FORMAT(parc.data_criacao,'%%d/%%m/%%Y'), DATE_FORMAT(parc.data_vencimento,'%%d/%%m/%%Y')"
-  " from titulos as tit inner join parcelas_tab as parc inner join terceiros as t inner join bancos as bnc"
-  " on tit.code = parc.parcelas_id and bnc.code = parc.banco and t.code = tit.cliente where tit.cliente = %i order by parc.data_vencimento",titulos->cliente);
+  sprintf(query, "select tit.code, t.razao, tit.pedido, parc.posicao, IFNULL(bnc.nome, 'Sem Banco'), tit.tipo_titulo, parc.valor, DATE_FORMAT(parc.data_criacao,'%%d/%%m/%%Y'), DATE_FORMAT(parc.data_vencimento,'%%d/%%m/%%Y') from titulos as tit inner join parcelas_tab as parc inner join terceiros as t on tit.code = parc.parcelas_id and t.code = tit.cliente left join bancos as bnc ON bnc.code = parc.banco where tit.cliente = %i order by parc.data_vencimento",titulos->cliente);
 
   if((titulos->result  = consultar(query))){
     while((titulos->row = mysql_fetch_row(titulos->result))){
@@ -118,7 +115,7 @@ int titulos_update_widget(struct _titulo *titulos){
           }else{
             sprintf(color, "yellow");
           }
-          
+
           gtk_tree_store_append(modelo,&iter,NULL);
           gtk_tree_store_set(modelo,&iter,
             TIT_CODE_COL,titulos->row[TIT_CODE_ROW],

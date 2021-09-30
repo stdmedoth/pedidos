@@ -3,7 +3,7 @@ static int cancela_orc()
 	char code[MAX_CODE_LEN];
 	GtkTextBuffer *buffer;
 	cancelando_orc = 1;
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+	for(int cont=1;cont<MAX_PROD_ORC;cont++)
 	{
 		if(ativos[cont].id){
 			tirar_linha(cont);
@@ -28,9 +28,6 @@ static int cancela_orc()
 	gtk_entry_set_text(GTK_ENTRY(cliente_orc_tel_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_entry),"");
 	gtk_entry_set_text(GTK_ENTRY(orc_pag_cond_nome),"");
-
-	orc_srv_transp_cancelar_fun();
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_flag_entrega_check), FALSE);
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(orc_form_pag_combo), 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_transp_frete_pago_button), FALSE);
@@ -88,7 +85,6 @@ static int cancela_orc()
 	orc_pag_sem_finan();
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),0);
 
-
 	gtk_widget_set_sensitive(concluir_orc_button,TRUE);
 	gtk_widget_set_sensitive(alterar_orc_button,TRUE);
 	gtk_widget_set_sensitive(codigo_orc_entry,TRUE);
@@ -100,6 +96,11 @@ static int cancela_orc()
 
 	//gtk_widget_set_sensitive(orc_prods_grid, TRUE);
 	gtk_widget_grab_focus(pesquisa_ter);
+
+	orc_srv_transp_cancelar_fun();
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(orc_flag_entrega_check), FALSE);
+	orc_flag_entrega();
+
 	cancelando_orc = 0;
 
 	return 0;

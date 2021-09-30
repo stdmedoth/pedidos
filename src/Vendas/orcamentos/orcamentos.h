@@ -9,7 +9,9 @@ enum ORC_COLS{
 	ORC_BANC_COL,
 	ORC_CHEQUE_COL,
 	ORC_TOTAL_COL,
-	ORC_OBS_COL
+	ORC_OBS_COL,
+	ORC_DTCRIAC_COL,
+	ORC_DTMODIF_COL,
 };
 
 #define MAX_PROD_ORC 10
@@ -272,6 +274,7 @@ GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;
 
+GtkWidget *orc_flag_entrega_check;
 GtkWidget *orc_entrega_campos_widget;
 
 #include "campos.h"

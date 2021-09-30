@@ -68,6 +68,7 @@
 #include "../Produtos/grupos/cad_grupo.h"
 
 #include "../pesquisadores/pesquisadores.h"
+#include "../pesquisadores/empresas.h"
 #include "../pesquisadores/grupos.h"
 #include "../pesquisadores/datas.h"
 #include "../pesquisadores/subgrupos.h"

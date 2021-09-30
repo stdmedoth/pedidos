@@ -97,7 +97,7 @@ int rec_fat_vist()
 	orc_pag_parc_qnt_int = condpag->parcelas_qnt;
 
 	if(ha_prods()){
-		for(int cont=1;cont<=MAX_PROD_ORC;cont++)
+		for(int cont=1;cont<MAX_PROD_ORC;cont++)
 		{
 			if(ativos[cont].id==1)
 			{
@@ -116,7 +116,7 @@ int rec_fat_vist()
 	pag_cond = atoi(orc_pag_cond_gchar);
 	orc_pag_cond_activated=1;
 
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
+	for(int cont=1;cont<MAX_PROD_ORC;cont++){
 		if(ativos[cont].id == 1){
 			gtk_widget_grab_focus(codigo_prod_orc_entry[cont]);
 			break;

@@ -20,9 +20,13 @@ int finalizacao_orc(){
     return 1;
 
   int orc_code = atoi(codigo_orc_gchar);
-
-  if(orc_has_ped(orc_code))
+  int has_ped = orc_has_ped(orc_code);
+  if(has_ped == -1){
+    return 1;
+  }
+  if(has_ped){
     gtk_widget_set_sensitive(ped_ask,FALSE);
+  }
 
 
 	fields = gtk_bin_get_child(GTK_BIN(finalizacao));
@@ -49,6 +53,8 @@ int finalizacao_orc(){
     }
   }
 
-	gtk_widget_destroy(finalizacao);
+  if(finalizacao){
+    gtk_widget_destroy(finalizacao);
+  }
   return 0;
 }

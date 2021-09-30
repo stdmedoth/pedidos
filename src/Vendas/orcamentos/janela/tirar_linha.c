@@ -74,7 +74,7 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 		gtk_widget_set_sensitive(cliente_orc_entry,TRUE);
 	}
 
-	for(int pos=1;pos<=MAX_PROD_ORC;pos++)
+	for(int pos=1;pos<MAX_PROD_ORC;pos++)
 	{
 		if(ativos[pos].id == 1){
 			gtk_widget_set_sensitive(botao_menos[pos],TRUE);

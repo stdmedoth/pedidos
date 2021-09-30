@@ -19,14 +19,14 @@ int orc_transp_alterar_fun(){
     popup(NULL,"Serviço de transporte não existente");
     return 1;
 	}
+  gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry), row[TRSP_TRANSP_COL]);
+  gtk_widget_activate(orc_transp_codigo_entry);
 
   gtk_entry_set_text(GTK_ENTRY(orc_transp_cep_entry),row[TRSP_CEPFIM_COL]);
   gtk_widget_activate(orc_transp_cep_entry);
 
-  gtk_entry_set_text(GTK_ENTRY(orc_transp_codigo_entry), row[TRSP_TRANSP_COL]);
-  if(orc_transp_codigo_fun()){
-    return 1;
-  }
+  gtk_entry_set_text(GTK_ENTRY(orc_transp_num_entry),row[TRSP_NUM_COL]);
+
 	alterando_transp = 1;
   return 0;
 }

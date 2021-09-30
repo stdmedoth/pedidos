@@ -45,6 +45,7 @@
 #include "../Parametros/parametros.c"
 
 #include "../pesquisadores/pesquisadores.c"
+#include "../pesquisadores/empresas.c"
 #include "../pesquisadores/grupos.c"
 #include "../pesquisadores/datas.c"
 #include "../pesquisadores/subgrupos.c"

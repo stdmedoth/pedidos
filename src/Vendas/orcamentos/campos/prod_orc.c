@@ -74,7 +74,7 @@ int orc_prod_calc_saldo(int posicao){
 	if((campos = mysql_fetch_row(vetor))){
 
 		if(campos[0])
-			orc_estoque.produtos[prod_pos]->saldo = atof(campos[0]);
+		orc_estoque.produtos[prod_pos]->saldo = atof(campos[0]);
 		else{
 			orc_estoque.produtos[prod_pos]->mov_qnt = 0;
 			orc_estoque.produtos[prod_pos]->saldo = 0;
@@ -84,16 +84,16 @@ int orc_prod_calc_saldo(int posicao){
 
 		for(int cont=1;cont<MAX_PROD_ORC;cont++){
 			if(ativos[cont].id)
-				if(produto_inserido[cont])
-					if(ativos[cont].produto == atoi(codigo_prod_orc_gchar))
-						orc_estoque.produtos[prod_pos]->saldo_usado += ativos[cont].qnt_f;
+			if(produto_inserido[cont])
+			if(ativos[cont].produto == atoi(codigo_prod_orc_gchar))
+			orc_estoque.produtos[prod_pos]->saldo_usado += ativos[cont].qnt_f;
 		}
 
 		if(operacao_orc_int == VENDA || operacao_orc_int == DEV_COMPRA)
-			orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo - orc_estoque.produtos[prod_pos]->saldo_usado;
+		orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo - orc_estoque.produtos[prod_pos]->saldo_usado;
 
 		if(operacao_orc_int == DEV_VENDA || operacao_orc_int == COMPRA)
-			orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo + orc_estoque.produtos[prod_pos]->saldo_usado;
+		orc_estoque.produtos[prod_pos]->saldo_liquido = orc_estoque.produtos[prod_pos]->saldo + orc_estoque.produtos[prod_pos]->saldo_usado;
 
 		sprintf(query,"select saldo_min from saldo_min where produto = %s and estoque = %i",
 		codigo_prod_orc_gchar,
@@ -120,7 +120,7 @@ int orc_prod_calc_saldo(int posicao){
 }
 
 int ha_prods(){
-	for(int cont=1;cont<=MAX_PROD_ORC;cont++){
+	for(int cont=1;cont<MAX_PROD_ORC;cont++){
 		if(produto_inserido[cont] == 1)
 			return 1;
 	}
@@ -165,11 +165,10 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		orc_limpar_produto(posicao);
 		if(posicao>1){
 			int ativos_qnt=0;
-			for(int cont=MAX_PROD_ORC;cont>=0;cont--){
+			for(int cont=MAX_PROD_ORC-1;cont>=0;cont--){
 				if(ativos[cont].id){
 					if(ativos_qnt>=2){
 						if(produto_inserido[cont] == 0){
-
 							gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
 							gtk_widget_grab_focus(orc_transp_codigo_entry);
 							break;
@@ -211,16 +210,19 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 
 	ativos[posicao].produto = atoi(codigo_prod_orc_gchar);
 
-	if(campos[0])
+	if(campos[0]){
 		strcpy(ativos[posicao].produto_nome,campos[0]);
-
-	gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
-	if(strlen(campos[1])>15)
-	{
-		campos[1][15] = '.';
-		campos[1][15] = '\0';
+		gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
 	}
-	gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
+
+	if(campos[1]){
+		if(strlen(campos[1])>15)
+		{
+			campos[1][15] = '.';
+			campos[1][15] = '\0';
+		}
+		gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
+	}
 
 	if(orc_prod_calc_saldo(posicao))
 		return 1;

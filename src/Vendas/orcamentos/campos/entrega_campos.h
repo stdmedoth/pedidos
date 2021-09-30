@@ -40,8 +40,7 @@ static GtkWidget *orc_srv_transp_entry,
 *orc_transp_telefone_entry,
 *orc_transp_obs_entry,
 *orc_transp_valor_frete_entry,
-*orc_transp_desconto_frete_entry,
-*orc_flag_entrega_check;
+*orc_transp_desconto_frete_entry;
 
 GtkWidget *psq_orc_srv_transp_button,
 *psq_ter_orc_transp_button,

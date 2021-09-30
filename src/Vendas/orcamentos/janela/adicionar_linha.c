@@ -25,7 +25,8 @@ static int adicionar_linha_orc()
 		return 1;
 	}
 
-	if(ativos[itens_qnt-1].id == 1){
+	int itens_pos = itens_qnt -1;
+	if(ativos[itens_pos].id == 1){
 
 		int cont=0;
 
@@ -35,23 +36,34 @@ static int adicionar_linha_orc()
 		if(codigo_cli_orc()!=0)
 			return 1;
 
-		if(ativos[itens_qnt-1].id==1){
 
-			if(GTK_IS_WIDGET(codigo_prod_orc_entry[itens_qnt-1]))
-				if(codigo_prod_orc(codigo_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
+		if( !codigo_prod_orc_entry[itens_pos] ||
+				!qnt_prod_orc_entry[itens_pos] ||
+				!preco_prod_orc_entry[itens_pos] ||
+				!obs_prod_orc_view[itens_pos] ){
+					popup(NULL,"Provável corrupção de memória ao adicionar novo item");
+					file_logger("adicionar_linha_orc() -> Provável corrupção de memória ao adicionar novo item");
 					return 1;
+				}
 
-			if(GTK_IS_WIDGET(qnt_prod_orc_entry[itens_qnt-1]))
-				if(qnt_prod_orc(qnt_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
-					return 1;
+		if( GTK_IS_WIDGET(codigo_prod_orc_entry[itens_pos])){
+			if(codigo_prod_orc(codigo_prod_orc_entry[itens_pos],itens_pos))
+				return 1;
+		}
 
-			if(GTK_IS_WIDGET(preco_prod_orc_entry[itens_qnt-1]))
-				if(preco_prod_orc(preco_prod_orc_entry[itens_qnt-1],itens_qnt-1)!=0)
-					return 1;
+		if( GTK_IS_WIDGET(qnt_prod_orc_entry[itens_pos]) ){
+			if(qnt_prod_orc(qnt_prod_orc_entry[itens_pos],itens_pos))
+				return 1;
+		}
 
-			if(GTK_IS_WIDGET(obs_prod_orc_view[itens_qnt-1]))
-				if(obs_prod_orc_fun(obs_prod_orc_view[itens_qnt-1],itens_qnt-1)!=0)
-					return 1;
+		if( GTK_IS_WIDGET(preco_prod_orc_entry[itens_pos]) ){
+			if(preco_prod_orc(preco_prod_orc_entry[itens_pos],itens_pos))
+				return 1;
+		}
+
+		if( GTK_IS_WIDGET(obs_prod_orc_view[itens_pos]) ){
+			if(obs_prod_orc_fun(obs_prod_orc_view[itens_pos],itens_pos))
+				return 1;
 		}
 	}
 
@@ -128,9 +140,10 @@ static int adicionar_linha_orc()
 
 	//verifica o tipo de calculo de desconto anterior
 	if(ativos_qnt>1){
-		if(ativos[itens_qnt-1].id == 1)
+		int itens_pos = itens_qnt -1;
+		if(ativos[itens_pos].id == 1)
 			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),
-			gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt-1])));
+			gtk_combo_box_get_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_pos])));
 		else
 			gtk_combo_box_set_active(GTK_COMBO_BOX(tipodesconto_prod_orc_combo[itens_qnt]),0);
 	}
@@ -222,7 +235,7 @@ static int adicionar_linha_orc()
 	aviso_estoque[itens_qnt] = 0;
 	ativos_qnt++;
 
-	for(int pos=1;pos<=MAX_PROD_ORC;pos++){
+	for(int pos=1;pos<MAX_PROD_ORC;pos++){
 		if(ativos[pos].id == 1){
 			gtk_widget_set_sensitive(botao_menos[pos],TRUE);
 		}
@@ -243,19 +256,12 @@ static int adicionar_linha_orc()
 		g_signal_connect(botao_menos[itens_qnt],"clicked",G_CALLBACK(remover_linha_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(codigo_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(pesquisa_prod[itens_qnt],"clicked",G_CALLBACK(psq_prod),codigo_prod_orc_entry[id_vetor[itens_qnt]]);
-
 	g_signal_connect(qnt_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(qnt_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(orig_preco_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(calcula_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(preco_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(preco_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(desconto_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(tipodesconto_prod_orc_combo[itens_qnt],"changed",G_CALLBACK(desconto_prod_orc),id_vetor[itens_qnt]);
-
 	g_signal_connect(total_prod_orc_entry[itens_qnt],"activate",G_CALLBACK(total_prod_orc),id_vetor[itens_qnt]);
 
 	g_signal_connect(codigo_prod_orc_entry[itens_qnt], "key-press-event", G_CALLBACK(only_number_entry), NULL);
@@ -271,6 +277,9 @@ static int adicionar_linha_orc()
 	gtk_widget_grab_focus(codigo_prod_orc_entry[itens_qnt]);
 
 	gtk_widget_show_all(linhas_prod_orc_frame[itens_qnt]);
+
+
+
 	itens_qnt++;
 
 

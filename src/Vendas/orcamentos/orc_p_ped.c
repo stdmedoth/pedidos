@@ -15,13 +15,15 @@ int orc_has_ped(){
 		return -1;
 	}
 
-	sprintf(query,"select code,status from pedidos where code = %s",codigo_orc_gchar);
+	sprintf(query,"select code,status from pedidos where code = %s", codigo_orc_gchar);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar existencia do pedido");
 		return 0;
 	}
-	if((row = mysql_fetch_row(res)))
+
+	if((row = mysql_fetch_row(res))){
 		return 1;
+	}
 
 	return 0;
 }
@@ -31,19 +33,19 @@ void gera_orc_ped()
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
-	char *msg = malloc(200);
+	char msg[200];
 
-	if(codigo_orc()!=0){
+	if(codigo_orc()){
 		return ;
 	}
+
 	sprintf(query,"select code,status from pedidos where code = %s",codigo_orc_gchar);
-	res = consultar(query);
-	if(res==NULL)
+	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro ao buscar existencia do pedido");
 		return ;
 	}
-	if((row = mysql_fetch_row(res))!=NULL)
+	if((row = mysql_fetch_row(res)))
 	{
 		if(atoi(row[1])==STATUS_PED_EMIT)
 			popup(NULL,"Orcamento já é um pedido emitido");

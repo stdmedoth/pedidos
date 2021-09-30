@@ -377,7 +377,7 @@ int vnd_orc(){
 
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
-	//g_signal_connect(caixa_grande,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	g_signal_connect(itens_orc_box,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);
