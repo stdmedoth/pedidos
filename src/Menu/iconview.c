@@ -125,5 +125,6 @@ int menu_icon_views_wnd(){
 
   g_signal_connect(janela,"destroy",G_CALLBACK(chama_menu),NULL);
   gtk_widget_show_all(janela);
+
   return 0;
 }

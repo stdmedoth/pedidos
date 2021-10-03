@@ -83,7 +83,7 @@ int  cad_prod(){
 	GtkWidget *prod_ncm_frame, *prod_cst_frame, *prod_origem_frame;
 	GtkWidget *prod_ncm_fixed, *prod_cst_fixed, *prod_origem_fixed;
 	GtkWidget *prod_ncm_box, *prod_cst_box, *prod_origem_box;
-	
+
 
 	GtkWidget *prod_outros_box1;
 

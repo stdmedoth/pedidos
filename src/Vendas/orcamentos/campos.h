@@ -5,6 +5,7 @@ int preco_prod_orc(GtkWidget *widget,int posicao);
 int qnt_prod_orc(GtkWidget *widget,int posicao);
 int calcula_prod_orc(GtkWidget *widget, int posicao);
 
+#include "campos/orc_date.h"
 #include "campos/form_pag.h"
 #include "campos/orig_preco_orc.h"
 #include "campos/cond_pag.h"

@@ -367,6 +367,7 @@ int vnd_orc(){
 	g_signal_connect(codigo_orc_entry,"activate",G_CALLBACK(codigo_orc),NULL);
 	g_signal_connect(orc_bnc_code_entry,"activate",G_CALLBACK(orc_bnc_code_fun),NULL);
 	g_signal_connect(cliente_orc_entry,"activate",G_CALLBACK(codigo_cli_orc),NULL);
+	g_signal_connect(data_orc_entry,"activate",G_CALLBACK(orc_date),NULL);
 
 	g_signal_connect(orc_form_pag_combo,"changed",G_CALLBACK(orc_form_pag_fun),NULL);
 	g_signal_connect(orc_flag_entrega_check,"toggled",G_CALLBACK(orc_flag_entrega),NULL);
@@ -377,7 +378,9 @@ int vnd_orc(){
 
 
 	g_signal_connect(janela_orcamento,"destroy",G_CALLBACK(ger_janela_fechada),&janelas_gerenciadas.vetor_janelas[REG_CAD_ORC]);
-	g_signal_connect(itens_orc_box,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	orc_auto_mover_signal = g_signal_connect(itens_orc_box,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	g_signal_connect(prod_scroll_window,"edge-overshot",G_CALLBACK(orc_scrolled_item),itens_orc_box);
+	g_signal_connect(prod_scroll_window,"edge-reached",G_CALLBACK(orc_scrolled_item),itens_orc_box);
 
 	gtk_widget_grab_focus(cliente_orc_entry);
 	gtk_widget_show_all(janela_orcamento);

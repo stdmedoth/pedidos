@@ -1,3 +1,4 @@
+/* limpa o saldo dos produtos  */
 void orc_prod_saldos_clean(){
 	for(int pos=0; pos<MAX_PROD_ORC; pos++){
 		if(orc_estoque.produtos[pos]){
@@ -7,6 +8,8 @@ void orc_prod_saldos_clean(){
 	orc_estoque.length = 0;
 }
 
+
+/* pesquisa o saldo de estoque de um produto pelo código */
 int orc_prod_saldos_get_pos(int produto){
 
 	int pos=0;
@@ -30,6 +33,7 @@ int orc_prod_saldos_get_pos(int produto){
 	return pos;
 }
 
+/* calcula o saldo dos produtos pela posicao do item no orçamento */
 int orc_prod_calc_saldo(int posicao){
 
 	char query[MAX_QUERY_LEN];
@@ -40,7 +44,6 @@ int orc_prod_calc_saldo(int posicao){
 	if( strlen(codigo_prod_orc_gchar) ){
 		prod_pos = orc_prod_saldos_get_pos(atoi(codigo_prod_orc_gchar));
 	}else{
-
 		produto_inserido[posicao] = 0;
 		if(posicao>1){
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(orc_notebook),1);
@@ -50,20 +53,15 @@ int orc_prod_calc_saldo(int posicao){
 		popup(NULL,"Insira o produto");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
-
 	}
-
 	if(!orc_estoque.produtos[prod_pos]){
 		orc_estoque.produtos[prod_pos] = malloc(sizeof(struct _orc_estoque_prods));
 		orc_estoque.length++;
 	}
-
 	operacao_orc_orc();
-
 	sprintf(query,"select SUM(entradas) - SUM(saidas) from movimento_estoque where produto = %s and estoque = %i",
 	codigo_prod_orc_gchar,
 	orc_params.est_orc_padrao);
-
 	if(!(vetor = consultar(query))){
 		popup(NULL,"Erro ao consultar saldo do estoque");
 		return 1;
@@ -112,7 +110,6 @@ int orc_prod_calc_saldo(int posicao){
 	}
 
 	char saldo[MAX_PRECO_LEN];
-	g_print("valor a ser inserido : %.2f\n", orc_estoque.produtos[prod_pos]->saldo_liquido);
 	sprintf(saldo,"%.2f", orc_estoque.produtos[prod_pos]->saldo_liquido);
 	gtk_entry_set_text(GTK_ENTRY(saldo_prod_orc_entry[posicao]),saldo);
 
@@ -129,6 +126,7 @@ int ha_prods(){
 
 void orc_limpar_produto(int posicao){
 	if(ativos[posicao].id){
+		produto_inserido[posicao] = 0;
 		gtk_entry_set_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]), "");
 		gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]), "");
 		gtk_entry_set_text(GTK_ENTRY(preco_prod_orc_entry[posicao]), "");
@@ -150,7 +148,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	int pos = orc_prod_saldos_get_pos( atoi(codigo_prod_orc_gchar) );
 
 	if(!orc_estoque.produtos[pos]){
-		orc_estoque.produtos[pos] = malloc(sizeof(struct _orc_estoque_prods));
+		orc_estoque.produtos[pos] = malloc( sizeof(struct _orc_estoque_prods) );
 		orc_estoque.length = 0;
 	}
 
@@ -190,9 +188,14 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}
+
+	enum {
+		PROD_NOME,
+		UND_NOME,
+		GRUPO
+	};
 	sprintf(query,"select p.nome, u.nome, p.grupo from produtos as p inner join unidades as u on p.unidades= u.code where p.code = %s",codigo_prod_orc_gchar);
-	vetor = consultar(query);
-	if(vetor==NULL)
+	if(!(vetor = consultar(query)))
 	{
 		popup(NULL,"Erro na query! Por favor, Consulte com suporte.");
 		autologger("Erro na query de produtos no orcamento\n");
@@ -204,24 +207,26 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	{
 		popup(NULL,"Produto não existente");
 		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
-		gtk_widget_grab_focus(codigo_prod_orc_entry[posicao]);
 		return 1;
 	}
 
 	ativos[posicao].produto = atoi(codigo_prod_orc_gchar);
 
-	if(campos[0]){
-		strcpy(ativos[posicao].produto_nome,campos[0]);
-		gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]),campos[0]);
+	if(campos[PROD_NOME]){
+		strcpy(ativos[posicao].produto_nome,campos[PROD_NOME]);
+		gtk_entry_set_text(GTK_ENTRY(descricao_prod_orc_entry[posicao]), campos[PROD_NOME]);
 	}
 
-	if(campos[1]){
+	if(campos[UND_NOME]){
 		if(strlen(campos[1])>15)
 		{
-			campos[1][15] = '.';
-			campos[1][15] = '\0';
+			campos[UND_NOME][15] = '.';
+			campos[UND_NOME][15] = '\0';
 		}
-		gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]),campos[1]);
+
+		char *und_nome = strdup(campos[UND_NOME]);
+		gtk_label_set_text(GTK_LABEL(qnt_prod_orc_label[posicao]), und_nome);
+		g_print("Unidade : %s\n", gtk_label_get_text(GTK_LABEL(qnt_prod_orc_label[posicao])));
 	}
 
 	if(orc_prod_calc_saldo(posicao))

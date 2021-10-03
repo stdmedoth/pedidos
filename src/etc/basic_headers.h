@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <gtk/gtk.h>
+#include <math.h>
 #include <libxml/xinclude.h>
 #include <libxml/xpath.h>
 #include <json-glib-1.0/json-glib/json-glib.h>

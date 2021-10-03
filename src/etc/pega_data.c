@@ -9,7 +9,8 @@ void get_sysdata_from_calendar(GtkCalendar *calendar, gpointer user_data){
 		sprintf(dia_sys,"%i",dia);
 	}
 
-	if(mes < 10){
+	//será usado tm_mon + 1 na data, por isso a comparação com 9
+	if(mes < 9){
 		sprintf(mes_sys,"0%i",mes+1);
 	}
 	else{
@@ -115,6 +116,7 @@ int pegar_data()
 		sprintf(dia_sys,"%i",tempo_struct->tm_mday);
 	}
 
+	//será usado tm_mon + 1 na data, por isso a comparação com 9
 	if(tempo_struct->tm_mon < 9){
 		sprintf(mes_sys,"0%i",tempo_struct->tm_mon+1);
 	}

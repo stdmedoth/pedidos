@@ -11,4 +11,6 @@ enum ORIGPRC_COLS{
 #define ORC_ORIGPRC_CLI "CLIENTE"
 #define ORC_ORIGPRC_OPER "OPERADOR"
 
+int orc_scrolled_item();
+
 static int adicionar_linha_orc();

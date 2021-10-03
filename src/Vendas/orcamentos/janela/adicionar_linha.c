@@ -1,9 +1,23 @@
+int orc_scrolled_item(GtkScrolledWindow *scrolled_window, GtkPositionType pos, gpointer user_data)
+{
+	if(g_signal_handler_is_connected(user_data,orc_auto_mover_signal)){
+		g_signal_handler_disconnect(user_data,orc_auto_mover_signal);
+	}
+
+	return 0;
+}
+
+
 static int adicionar_linha_orc()
 {
 	GtkAdjustment *ajustar;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 	char *query = malloc(MAX_QUERY_LEN);
+
+	if(!g_signal_handler_is_connected(prod_scroll_window,orc_auto_mover_signal)){
+		orc_auto_mover_signal = g_signal_connect(itens_orc_box,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
+	}
 
 	if(!alterando_orc){
 
@@ -131,8 +145,8 @@ static int adicionar_linha_orc()
 	gtk_container_add(GTK_CONTAINER(obs_prod_orc_scroll[itens_qnt]),obs_prod_orc_view[itens_qnt]);
 	gtk_container_add(GTK_CONTAINER(obs_prod_orc_frame[itens_qnt]),obs_prod_orc_scroll[itens_qnt]);
 	gtk_fixed_put(GTK_FIXED(obs_prod_orc_fixed[itens_qnt]),obs_prod_orc_frame[itens_qnt],10,0);
-	gtk_widget_set_size_request(obs_prod_orc_scroll[itens_qnt],500,30);
-	gtk_widget_set_size_request(obs_prod_orc_view[itens_qnt],500,30);
+	gtk_widget_set_size_request(obs_prod_orc_scroll[itens_qnt],500,20);
+	gtk_widget_set_size_request(obs_prod_orc_view[itens_qnt],500,20);
 
 
 	gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(tipodesconto_prod_orc_combo[itens_qnt]),DESCT_EM_REAIS,"0","R$");
@@ -218,12 +232,12 @@ static int adicionar_linha_orc()
 
 	gtk_box_pack_start(GTK_BOX(linhas2_prod_orc_box[itens_qnt]),obs_prod_orc_fixed[itens_qnt],0,0,2);
 
-	gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[itens_qnt]),linhas_prod_orc_box[itens_qnt],0,0,5);
-	gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[itens_qnt]),linhas2_prod_orc_box[itens_qnt],0,0,5);
+	gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[itens_qnt]),linhas_prod_orc_box[itens_qnt],0,0,2);
+	gtk_box_pack_start(GTK_BOX(juncao_linha_prod_orc_box[itens_qnt]),linhas2_prod_orc_box[itens_qnt],0,0,2);
 
 	gtk_container_add(GTK_CONTAINER(linhas_prod_orc_frame[itens_qnt]),juncao_linha_prod_orc_box[itens_qnt]);
 
-	gtk_widget_set_size_request(linhas_prod_orc_frame[itens_qnt],1100,30);
+	//gtk_widget_set_size_request(linhas_prod_orc_frame[itens_qnt],1100,25);
 
 	gtk_grid_attach(GTK_GRID(orc_prods_grid),linhas_prod_orc_frame[itens_qnt],0,itens_qnt,1,1);
 

@@ -27,6 +27,7 @@
 #include "./check_db.h"
 #include "./check_dirs.h"
 #include "./curl_tools.h"
+#include "./animation.h"
 
 #include "./gtk_entry_masks.h"
 

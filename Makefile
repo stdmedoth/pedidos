@@ -30,7 +30,7 @@ endif
 PEDFLAGS=-I src/etc/
 GTKFLAGS=`pkg-config --libs --cflags gtk+-3.0`
 #BDFLAGS=`pkg-config --libs --cflags mysqlclient`
-
+MATHFLAGS=-lm
 XMLFLAGS=`pkg-config --libs --cflags  libxml-2.0`
 JSONFLAGS=`pkg-config --libs --cflags  json-glib-1.0`
 
@@ -38,7 +38,7 @@ CCFLAGS1=-Wall -Wredundant-decls -Wuninitialized -Wreturn-type -Wno-deprecated-d
 CCFLAGS2=-Wpedantic -O0 -Woverflow -Wno-write-strings -Wformat-overflow
 CCFLAGS3=-Wunused-variable
 DEBUG=-g
-ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG) $(SOFLAGS)
+ALLFLAGS=$(PEDFLAGS) $(GTKFLAGS) $(BDFLAGS) $(XMLFLAGS) $(CURLFLAGS) $(JSONFLAGS) $(CCFLAGS1) $(CCFLAGS2) $(CCFLAGS3) $(DEBUG) $(SOFLAGS) $(MATHFLAGS)
 
 
 TARGET_FILE=src/Pedidos/Pedidos.c

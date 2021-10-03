@@ -274,6 +274,8 @@ GtkTextBuffer  **obs_prod_orc_buffer;
 GtkWidget **obs_prod_orc_view, **obs_prod_orc_frame;
 static gchar **obs_prod_orc_gchar;
 
+int orc_auto_mover_signal = 0;
+
 GtkWidget *orc_flag_entrega_check;
 GtkWidget *orc_entrega_campos_widget;
 

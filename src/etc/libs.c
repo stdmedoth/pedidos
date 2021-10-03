@@ -36,6 +36,7 @@
 #include "./check_updated.c"
 #include "./check_encerramento.c"
 #include "./portable.c"
+#include "./animation.c"
 
 #include "./gtk_entry_masks.c"
 
