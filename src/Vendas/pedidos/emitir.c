@@ -87,7 +87,7 @@ int ped_emitir()
 
 	if(row[PED_CLIENTE])
 		pedidoPtr->infos->cliente_code = atoi(row[PED_CLIENTE]);
-	
+
 	if(row[PED_BNC]){
 		pedidoPtr->infos->banco = atoi(row[PED_BNC]);
 	}else{
@@ -227,7 +227,7 @@ int ped_emitir()
 		pedidoPtr->parcelas->total_geral = 0;
 		char bnc_finan[12];
 		if(pedidoPtr->infos->banco){
-			sprintf(bnc_finan, "%i", pedidoPtr->infos->banco);	
+			sprintf(bnc_finan, "%i", pedidoPtr->infos->banco);
 		}else{
 			sprintf(bnc_finan,"NULL");
 		}
@@ -262,7 +262,7 @@ int ped_emitir()
 
 					pedidoPtr->parcelas->parcelas_vlr[cont] = parcela;
 					pedidoPtr->parcelas->total_geral += pedidoPtr->parcelas->parcelas_vlr[cont];
-					
+
 					sprintf(valor,"%.2f",pedidoPtr->parcelas->parcelas_vlr[cont]);
 					sprintf(query,"insert into parcelas_tab(parcelas_id, posicao, banco, data_criacao, data_vencimento, valor) values(%i, %i, %s, '%s', '%s', '%s')",
 					titulo_code,
@@ -441,12 +441,12 @@ int ped_emitir()
 		}
 
 	}
-	
+
 	if(orcamentos.envia_email){
 		g_print("tamanho do orc_path %li\n",strlen(ORC_PATH));
 		char *orc_path = malloc(sizeof(char) * strlen(ORC_PATH) + 30);
 		sprintf(orc_path,"%simp%i.pdf",ORC_PATH,pedidoPtr->infos->ped_code);
-	
+
 			if(!fopen(orc_path,"rb")){
 				if(PopupBinario("O orcamento ainda não foi gerado em PDF, deseja gerar?","Sim, Gerar o PDF", "Não desejo enviar o email")){
 					//if(!gerar_orcs_html( pedidoPtr->infos->ped_code )){
@@ -461,13 +461,13 @@ int ped_emitir()
 		}
 	}
 
-	emitindo_ped = 0;
 	sprintf(query,"update pedidos set status = %i where code = %i", STATUS_PED_EMIT,pedidoPtr->infos->ped_code);
 	if(enviar_query(query)!=0){
 		popup(NULL,"Erro ao inserir dados para fechar o pedido");
 		return 1;
 	}
 
+	emitindo_ped = 0;
 	popup(NULL,"Pedido emitido com sucesso!");
 	ped_get_status();
 	return 0;
