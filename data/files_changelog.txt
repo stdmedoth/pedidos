@@ -1,3 +1,4 @@
+data/server.json:files/server.json
 data/desktop/god.png:files/desktop/god.png
 data/sql_scripts/migrates/migrate_06.sql:files/sql_scripts/migrates/migrate_06.sql
 data/sql_scripts/migrates/migrate_down_06.sql:files/sql_scripts/migrates/migrate_down_06.sql

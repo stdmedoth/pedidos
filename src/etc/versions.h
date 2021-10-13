@@ -18,6 +18,6 @@ const char *versions_list[] = {
 };
 
 const char *compat_db_versions[] = {
-	"1.1.1.5",
+	"1.1.1.6",
 	NULL
 };
