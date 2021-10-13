@@ -1,6 +1,6 @@
 int prod_cofinscst_fun(){
   prod_cofinscst_gchar = (gchar*) gtk_combo_box_get_active_id (GTK_COMBO_BOX(prod_cofinscst_combo));
-  if(!strlen(prod_cofinscst_gchar)){
+  if(!prod_cofinscst_gchar || !strlen(prod_cofinscst_gchar)){
     prod_cofinscst_gchar = strdup("NULL");
   }
 
