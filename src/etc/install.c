@@ -20,7 +20,7 @@ int install_get_db_tables(){
   	pedidos_db_tables[pos_line] = malloc(MAX_TABLE_LEN);
 
   	while((getline(&pedidos_db_tables[pos_line], &line_buf_size, fp))>0){
-      
+
       if(!strcmp(pedidos_db_tables[pos_line], "\n")){
         continue;
       }
@@ -56,6 +56,7 @@ int install_pedidos_db_tables(){
     sprintf(script_path, "%s/%s.sql", SCHEMAS_DIR, pedidos_db_tables[cont]);
     FILE *fp = fopen(script_path, "r");
     if(!fp){
+      char msg[70 + strlen(pedidos_db_tables[cont])];
       global_progress_bar_active = 0;
       sprintf(msg, "Não foi possível abrir schema para tabela %s", pedidos_db_tables[cont]);
       file_logger(script_path);
@@ -65,6 +66,7 @@ int install_pedidos_db_tables(){
     }
     fclose(fp);
     if(run_sql_from_file(script_path, 0)){
+      char msg[60 + strlen(pedidos_db_tables[cont])];
       sprintf(msg, "Erro durante instalação da tabela %s", pedidos_db_tables[cont]);
       popup(NULL,msg);
       return 1;
