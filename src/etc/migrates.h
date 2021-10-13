@@ -56,5 +56,10 @@ const char *version_migrates_list[][3] = {
 		UP_MIGRATE_PREFIX"05.sql",
 		DOWN_MIGRATE_PREFIX"05.sql"
 	},
+	{
+		"v1.1.1.6"APP_VERSION_SUFIX APP_ENV_SO,
+		UP_MIGRATE_PREFIX"06.sql",
+		DOWN_MIGRATE_PREFIX"06.sql"
+	},
 	{NULL,NULL, NULL}
 };
