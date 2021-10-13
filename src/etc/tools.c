@@ -190,7 +190,7 @@ void menu_icon_view_select(GtkIconView *icon_view, GtkTreePath *path, gpointer d
 
 void remover_barra_n(char *string){
   for(int cont=0;cont<strlen(string);cont++){
-    if(string[cont] == '\n'){
+    if(string[cont] == '\n' || string[cont] == '\r'){
       string[cont] = '\0';
     }
   }
