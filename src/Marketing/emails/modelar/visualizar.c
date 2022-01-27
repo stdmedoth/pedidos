@@ -108,9 +108,9 @@ int mkt_mail_visualizar_fun(){
     editedfooter = strdup(footer);
 
   fprintf(file, "<html>");
-  fprintf(file, editedheader);
-  fprintf(file, editedbody);
-  fprintf(file, editedfooter);
+  fprintf(file, "%s", editedheader);
+  fprintf(file, "%s", editedbody);
+  fprintf(file, "%s", editedfooter);
   fprintf(file, "</html>");
   fclose(file);
 

@@ -80,7 +80,7 @@ int relat_fix_vnd_gerar_fun(){
   relat_fix_vnd_vlrs.totaliza = relat_fix_vnd_totaliza_int;
   relat_fix_vnd_vlrs.sintetiza = relat_fix_vnd_sintetiza_int;
 
-  fprintf(relat_file,html_header);
+  fprintf(relat_file,"%s", html_header);
   fprintf(relat_file,"<body>");
   fprintf(relat_file,"<div style='background: Gainsboro;'>");
   fprintf(relat_file,"<h1>Relatório de Vendas</h1>");

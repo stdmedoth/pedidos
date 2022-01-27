@@ -45,10 +45,10 @@ int relat_orc_prod_gerar_fun()
 
 	sprintf(query,"select b.nome,b.tipo_dado from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s",relat_orc_prod_codigo_gchar);
 
-	fprintf(relatorio_file,html_header);
+	fprintf(relatorio_file,"%s",html_header);
 	fprintf(relatorio_file,"<body>");
 	fprintf(relatorio_file,"<div id=\"div-titulo\">");
-	fprintf(relatorio_file,banner);
+	fprintf(relatorio_file,"%s",banner);
 	fprintf(relatorio_file,"</div>");
 
 	if((res1 = consultar(query))==NULL){

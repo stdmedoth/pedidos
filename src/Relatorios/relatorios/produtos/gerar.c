@@ -29,10 +29,10 @@ int relat_prod_gerar_fun(struct _relat_query *prod_query)
 		return 1;
 	}
 
-	fprintf(relatorio_file,html_header);
+	fprintf(relatorio_file,"%s",html_header);
 	fprintf(relatorio_file,"<body>");
 	fprintf(relatorio_file,"<div id=\"div-titulo\">");
-	fprintf(relatorio_file,banner);
+	fprintf(relatorio_file,"%s",banner);
 	fprintf(relatorio_file,"</div>");
 
 	fprintf(relatorio_file,"<div id=\"div-relat\" align=\"center\">");

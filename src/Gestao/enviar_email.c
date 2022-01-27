@@ -104,7 +104,7 @@ int enviar_email_html(char *assunto, char *nome_destino, char *email_destino, ch
 
   gchar *emptyline = "\r\n";
   mail_payload_text[MAIL_EMPTY_LINE] = malloc( strlen(emptyline) );
-  sprintf(mail_payload_text[MAIL_EMPTY_LINE],emptyline);
+  sprintf(mail_payload_text[MAIL_EMPTY_LINE],"%s",emptyline);
 
   mail_payload_text[MAIL_BODY] = malloc( strlen(conteudo) + 20);
   sprintf(mail_payload_text[MAIL_BODY],"%s\r\n",conteudo);

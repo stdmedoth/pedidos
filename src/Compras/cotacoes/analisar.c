@@ -20,7 +20,7 @@ int cotacao_analize_fun(){
     popup(NULL,"Não foi possível abrir arquivo");
     return 1;
   }
-  fprintf(file_arq,html_header);
+  fprintf(file_arq,"%s", html_header);
   fprintf(file_arq,"<body>");
   fprintf(file_arq,"<div style='background: Gainsboro;'>");
   fprintf(file_arq,"<h1>Vencedores da Cotação</h1>");

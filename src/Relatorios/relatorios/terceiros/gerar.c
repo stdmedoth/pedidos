@@ -25,10 +25,10 @@ int relat_ter_gerar_fun()
 	}
 
 	sprintf(query,"select b.nome from criador_relat as a inner join relat_tab_campos as b on a.campos = b.code where a.code = %s", relat_ter_codigo_gchar);
-	fprintf(relatorio_file,html_header);
+	fprintf(relatorio_file,"%s",html_header);
 	fprintf(relatorio_file,"<body>");
 	fprintf(relatorio_file,"<div id=\"div-titulo\">");
-	fprintf(relatorio_file,banner);
+	fprintf(relatorio_file,"%s",banner);
 	fprintf(relatorio_file,"</div>");
 
 	fprintf(relatorio_file,"<div id=\"div-relat\" align=\"center\">");
