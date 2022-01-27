@@ -1,4 +1,4 @@
-# Pedidos (EM DESENVOLVIMENTO - beta)
+ >= 10.2# >= 10.2 Pedidos (EM >= 10.2 DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
 
@@ -67,7 +67,7 @@ Você pode ver mais na Wiki
 <ul>
 <li>Json GLIB</li>
 <li>GTK3</li>
-<li>MariaDB</li>
+<li>MariaDB >= 10.2</li>
 <li>LibXML2</li>
 </ul>
 
@@ -77,7 +77,7 @@ Você pode ver mais na Wiki
 
 
 <h3>Windows:</h3>
-<p>Aplicações/Dependencias: mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb ou libmysql</p>
+<p>Aplicações/Dependencias: mingw-gcc, mingw-gtk3, mingw-libxml2, mingw-libmariadb >= 10.2 ou libmysql >= 10.2</p>
 
 <p>MSYS2</p>
 https://www.msys2.org/

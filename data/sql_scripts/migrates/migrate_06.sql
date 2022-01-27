@@ -2,6 +2,10 @@
 
 ALTER TABLE orcamentos ADD COLUMN forma_pagamento INT AFTER pag_cond;
 ALTER TABLE orcamentos ADD FOREIGN KEY(forma_pagamento) REFERENCES forma_pagamento(code);
+
+ALTER TABLE pedidos ADD COLUMN forma_pagamento INT AFTER pag_cond;
+ALTER TABLE pedidos ADD FOREIGN KEY(forma_pagamento) REFERENCES forma_pagamento(code);
+
 ALTER TABLE terceiros ADD COLUMN IF NOT EXISTS dt_criacao DATETIME DEFAULT NOW() NOT NULL;
 ALTER TABLE terceiros ADD COLUMN IF NOT EXISTS dt_modificacao DATETIME DEFAULT NOW();
 ALTER TABLE orcamentos MODIFY COLUMN pag_cond int(11) NOT NULL;

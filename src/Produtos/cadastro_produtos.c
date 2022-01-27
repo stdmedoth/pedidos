@@ -30,7 +30,8 @@ struct _cad_produtos *get_cad_prod(int prod_code){
 		return NULL;
 	}
 	produto->grp = atoi(row[PROD_GRP_COL]);
-	produto->NCM = atoi(row[PROD_NCM_COL]);
+	if(row[PROD_NCM_COL])
+		produto->NCM = atoi(row[PROD_NCM_COL]);
 
 	return produto;
 }

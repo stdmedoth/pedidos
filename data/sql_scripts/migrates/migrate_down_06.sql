@@ -1,8 +1,12 @@
 -- downgrade template made with UniversalMigrate script
 
 
-ALTER TABLE orcamentos DROP CONSTRAINT IF EXISTS orcamentos_ibfk_3;
+ALTER TABLE orcamentos DROP CONSTRAINT IF EXISTS orcamentos_ibfk_2;
 ALTER TABLE orcamentos DROP COLUMN IF EXISTS forma_pagamento;
+
+ALTER TABLE pedidos DROP CONSTRAINT IF EXISTS pedidos_ibfk_2;
+ALTER TABLE pedidos DROP COLUMN IF EXISTS forma_pagamento;
+
 ALTER TABLE terceiros DROP COLUMN IF EXISTS dt_criacao;
 ALTER TABLE terceiros DROP COLUMN IF EXISTS dt_modificacao;
 ALTER TABLE orcamentos MODIFY COLUMN pag_cond int(11) DEFAULT 1 NULL;
