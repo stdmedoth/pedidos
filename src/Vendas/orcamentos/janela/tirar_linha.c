@@ -39,7 +39,7 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 		return 1;
 	}
 
-	sprintf(query,"select * from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
+	sprintf(query,"select * from produto_orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
 
 	vetor = consultar(query);
 	if(vetor!=NULL)
@@ -47,7 +47,7 @@ static int remover_linha_orc(GtkWidget *widget,int id_ponteiro)
 		campos = mysql_fetch_row(vetor);
 		if(campos!=NULL)
 		{
-			sprintf(query,"delete from Produto_Orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
+			sprintf(query,"delete from produto_orcamento where code = %s and item = %i",codigo_orc_gchar,id_ponteiro);
 			erro = enviar_query(query);
 			if(erro!=0)
 			{

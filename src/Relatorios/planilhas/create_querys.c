@@ -14,11 +14,11 @@ void planilha_create_querys(){
 
 	planilhas_gerar_querys[PLANL_MOD_PEDIDOS] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_PEDIDOS],
-		"select p2.code as 'Cód. Pedido', CASE WHEN p2.status = 0 THEN  'Pendente' WHEN p2.status = 1 THEN 'emitido' WHEN p2.status THEN 'Cancelado' END as 'Status Pedidos', t.code as 'Cód. Cliente', t.razao as 'Nome/Razão Cliente', po.item as 'Item', p.code as 'Cód. Produto', p.nome as 'Nome Produto', po.unidades as 'Quantidade', po.valor_unit as 'Valor Unitário', po.valor_orig as 'Origem Valor' from Produto_Orcamento po INNER JOIN pedidos p2 ON  po.code = p2.code INNER JOIN produtos p on p.code = po.produto INNER JOIN terceiros t ON p2.cliente = t.code ;");
+		"select p2.code as 'Cód. Pedido', CASE WHEN p2.status = 0 THEN  'Pendente' WHEN p2.status = 1 THEN 'emitido' WHEN p2.status THEN 'Cancelado' END as 'Status Pedidos', t.code as 'Cód. Cliente', t.razao as 'Nome/Razão Cliente', po.item as 'Item', p.code as 'Cód. Produto', p.nome as 'Nome Produto', po.unidades as 'Quantidade', po.valor_unit as 'Valor Unitário', po.valor_orig as 'Origem Valor' from produto_orcamento po INNER JOIN pedidos p2 ON  po.code = p2.code INNER JOIN produtos p on p.code = po.produto INNER JOIN terceiros t ON p2.cliente = t.code ;");
 
 	planilhas_gerar_querys[PLANL_MOD_ORCAMENTOS] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_ORCAMENTOS],
-		"select o.code as 'Cód. Orçamento', t.code as 'Cód. Cliente', t.razao as 'Nome/Razão Cliente', po.item as 'Item', p.code as 'Cód. Produto', p.nome as 'Nome Produto', po.unidades as 'Quantidade', po.valor_unit as 'Valor Unitário', po.valor_orig as 'Origem Valor' from Produto_Orcamento po INNER JOIN orcamentos o ON  po.code = o.code  INNER JOIN produtos p on p.code = po.produto INNER JOIN terceiros t ON o.cliente = t.code ;");
+		"select o.code as 'Cód. Orçamento', t.code as 'Cód. Cliente', t.razao as 'Nome/Razão Cliente', po.item as 'Item', p.code as 'Cód. Produto', p.nome as 'Nome Produto', po.unidades as 'Quantidade', po.valor_unit as 'Valor Unitário', po.valor_orig as 'Origem Valor' from produto_orcamento po INNER JOIN orcamentos o ON  po.code = o.code  INNER JOIN produtos p on p.code = po.produto INNER JOIN terceiros t ON o.cliente = t.code ;");
 
 	planilhas_gerar_querys[PLANL_MOD_FINAN_REC] = malloc(MAX_QUERY_LEN);
 	sprintf(planilhas_gerar_querys[PLANL_MOD_FINAN_REC],

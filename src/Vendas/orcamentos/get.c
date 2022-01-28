@@ -156,7 +156,7 @@ struct _orc_itens **orc_get_itens(struct _orc *orc){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	int cont=0;
-	sprintf(query, "select * from Produto_Orcamento where code = %i", orc->infos->code);
+	sprintf(query, "select * from produto_orcamento where code = %i", orc->infos->code);
 	if(!(res = consultar(query))){
 		file_logger("Estrutura de do orçamento não criada! consultar() em orc_get_itens()");
 		return NULL;
@@ -192,7 +192,7 @@ int orc_get_itens_qnt(int orc_code){
 	MYSQL_ROW row;
 	char query[MAX_QUERY_LEN];
 	int cont=0;
-	sprintf(query, "select * from Produto_Orcamento where code = %i", orc_code);
+	sprintf(query, "select * from produto_orcamento where code = %i", orc_code);
 	if(!(res = consultar(query))){
 		return 0;
 	}

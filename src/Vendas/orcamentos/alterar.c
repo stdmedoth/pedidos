@@ -152,7 +152,7 @@ static int altera_orc()
 
 	}
 
-	sprintf(query,"select * from Produto_Orcamento where code = %i",atoi(tmp_cod_orc));
+	sprintf(query,"select * from produto_orcamento where code = %i",atoi(tmp_cod_orc));
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro nos itens do orçamento");
 		cancela_orc();

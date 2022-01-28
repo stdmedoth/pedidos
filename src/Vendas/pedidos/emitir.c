@@ -119,7 +119,7 @@ int ped_emitir()
 	}
 
 	//calculando financeiro
-	sprintf(query,"select SUM(total),SUM(desconto) from Produto_Orcamento where code = %i",pedidoPtr->infos->ped_code);
+	sprintf(query,"select SUM(total),SUM(desconto) from produto_orcamento where code = %i",pedidoPtr->infos->ped_code);
 	if(!(res = consultar(query))){
 		popup(NULL,"Erro ao buscar valor total dos produtos");
 		return 1;
@@ -347,7 +347,7 @@ int ped_emitir()
 
 	//calculando estoques
 
-	sprintf(query,"select p.produto, p.unidades from Produto_Orcamento as p inner join pedidos as o on p.code = o.code where o.code = %i",pedidoPtr->infos->ped_code);
+	sprintf(query,"select p.produto, p.unidades from produto_orcamento as p inner join pedidos as o on p.code = o.code where o.code = %i",pedidoPtr->infos->ped_code);
 
 	res = consultar(query);
 

@@ -27,7 +27,7 @@ char *backup_objs[][3] = {
 
 	{"orcamentos", "orcamentos", "select * from orcamentos"},
 	{"orcamentos", "orc_datas_livres", "select * from orc_datas_livres"},
-	{"orcamentos", "Produto_Orcamento", "select * from Produto_Orcamento"},
+	{"orcamentos", "produto_orcamento", "select * from produto_orcamento"},
 	{"orcamentos", "orcs_cheques", "select * from orcs_cheques"},
 
 	{"pedidos", "pedidos", "select * from pedidos"},

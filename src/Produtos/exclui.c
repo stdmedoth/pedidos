@@ -9,7 +9,7 @@ int exclui_prod()
 	GtkTextIter inicio,fim;
 
 	gchar *foreign_tables[] = {
-		"Produto_Orcamento",
+		"produto_orcamento",
 		"precos",
 		"saldo_min",
 		"saldo_max",

@@ -141,7 +141,7 @@ int codigo_prod_orc(GtkWidget *widget,int posicao)
 	char query[MAX_QUERY_LEN];
 	MYSQL_RES *vetor;
 	MYSQL_ROW campos;
-	codigo_prod_orc_gchar = malloc(MAX_CODE_LEN);
+	
 	codigo_prod_orc_gchar = (gchar*) gtk_entry_get_text(GTK_ENTRY(codigo_prod_orc_entry[posicao]));
 	ativos[posicao].produto = 0;
 

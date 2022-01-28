@@ -9,7 +9,7 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
   double chartofloat,totalfloat;
   int conta_linhas = 0;
 
-  sprintf(query,"select observacoes from Produto_Orcamento where code = %i and length(observacoes) != 0",orc->infos.code);
+  sprintf(query,"select observacoes from produto_orcamento where code = %i and length(observacoes) != 0",orc->infos.code);
 	if(!(res = consultar(query)))
 	{
 		popup(NULL,"Erro ao consultar existencia de observacoes");
@@ -20,7 +20,7 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 	if((row = mysql_fetch_row(res))==NULL)
 		prods_sem_obs = 1;
 
-	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from Produto_Orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidades where o.code = %i;",orc->infos.code);
+	sprintf(query,"select p.code, p.nome,  o.unidades,  u.nome,  o.valor_unit,  o.tipodesc,  o.desconto,  o.total, o.observacoes from produto_orcamento as o inner join produtos as p on p.code = o.produto join unidades as u on u.code = p.unidades where o.code = %i;",orc->infos.code);
 
 	if(!(res = consultar(query)))
 	{
@@ -110,7 +110,7 @@ int gerar_orc_itens(FILE *file, struct _orc *orc){
 		popup(NULL,"Sem itens no orçamento");
 		return 1;
 	}
-  sprintf(query,"select sum(total) from Produto_Orcamento where code = %i",orc->infos.code);
+  sprintf(query,"select sum(total) from produto_orcamento where code = %i",orc->infos.code);
   res = consultar(query);
   if(res==NULL)
   {

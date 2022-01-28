@@ -33,7 +33,7 @@ static int copia_orc_fun(){
     return 1;
   }
 
-  sprintf(query,"insert into Produto_Orcamento select %i,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes from Produto_Orcamento where code = %s;",task_atual_int,codigo_orc_gchar);
+  sprintf(query,"insert into produto_orcamento select %i,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes from produto_orcamento where code = %s;",task_atual_int,codigo_orc_gchar);
 
   if(enviar_query(query)!=0){
     popup(NULL,"Não foi possivel copiar produtos do orcamento");

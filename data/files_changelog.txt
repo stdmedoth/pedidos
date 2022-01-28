@@ -25,7 +25,7 @@ data/sql_scripts/instalar_base_dados.sql:files/sql_scripts/instalar_base_dados.s
 data/sql_scripts/instalar_base_dados_basico.sql:files/sql_scripts/instalar_base_dados_basico.sql
 data/sql_scripts/schemas/IcmsInterestadual.sql:files/sql_scripts/schemas/IcmsInterestadual.sql
 data/sql_scripts/schemas/PessoasDistribuicao.sql:files/sql_scripts/schemas/PessoasDistribuicao.sql
-data/sql_scripts/schemas/Produto_Orcamento.sql:files/sql_scripts/schemas/Produto_Orcamento.sql
+data/sql_scripts/schemas/produto_orcamento.sql:files/sql_scripts/schemas/produto_orcamento.sql
 data/sql_scripts/schemas/agencia.sql:files/sql_scripts/schemas/agencia.sql
 data/sql_scripts/schemas/baixas_titulos.sql:files/sql_scripts/schemas/baixas_titulos.sql
 data/sql_scripts/schemas/bancos.sql:files/sql_scripts/schemas/bancos.sql

@@ -1,4 +1,4 @@
-create table if not exists Produto_Orcamento(
+create table if not exists produto_orcamento(
   code int,
   item int default 1,
   produto int default 0,

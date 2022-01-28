@@ -156,7 +156,7 @@ static int concluir_orc(){
 
 			if(alterando_orc==0)
 			{
-				sprintf(query,"insert into Produto_Orcamento(code,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes) values(%s,%i,%i,%s,%s,%i,%i,%s,%s,'%s');",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
+				sprintf(query,"insert into produto_orcamento(code,item,produto,unidades,valor_unit,valor_orig,tipodesc,desconto,total,observacoes) values(%s,%i,%i,%s,%s,%i,%i,%s,%s,'%s');",codigo_orc_gchar, cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
 				erro = enviar_query(query);
 				if(erro != 0 )
 				{
@@ -170,7 +170,7 @@ static int concluir_orc(){
 				if(inseridos_na_alteracao<rec_altera_qnt)
 				{
 					g_print("Atualizando %i\n",cont);
-					sprintf(query,"update Produto_Orcamento set produto = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s, observacoes = '%s' where code = %s and item = %i",ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont],codigo_orc_gchar,cont);
+					sprintf(query,"update produto_orcamento set produto = %i, unidades = %s, valor_unit = %s, valor_orig = %i, tipodesc = %i , desconto = %s, total = %s, observacoes = '%s' where code = %s and item = %i",ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].tipodesc, ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont],codigo_orc_gchar,cont);
 					erro = enviar_query(query);
 					if(erro != 0 )
 					{
@@ -181,7 +181,7 @@ static int concluir_orc(){
 				}
 				else
 				{
-					sprintf(query,"insert into Produto_Orcamento(code,item,produto, unidades,valor_unit,valor_orig,desconto,total,observacoes) values(%s,%i,%i,%s,%s,%i,%s,%s,'%s');",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
+					sprintf(query,"insert into produto_orcamento(code,item,produto, unidades,valor_unit,valor_orig,desconto,total,observacoes) values(%s,%i,%i,%s,%s,%i,%s,%s,'%s');",codigo_orc_gchar,cont,ativos[cont].produto, ativos[cont].qnt_c, ativos[cont].preco_c, valor_orig[cont], ativos[cont].desconto_c ,ativos[cont].total_c,obs_prod_orc_gchar[cont]);
 					erro = enviar_query(query);
 				}
 				inseridos_na_alteracao++;
@@ -193,7 +193,7 @@ static int concluir_orc(){
 	if(orc_transp_concluir_fun())
 		return 1;
 
-	sprintf(query,"select sum(total),sum(desconto) from Produto_Orcamento where code = %s",codigo_orc_gchar);
+	sprintf(query,"select sum(total),sum(desconto) from produto_orcamento where code = %s",codigo_orc_gchar);
 	if(!(res = consultar(query))){
 		popup(NULL,"Não foi possível receber valores");
 		return 1;

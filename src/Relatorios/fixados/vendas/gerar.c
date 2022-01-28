@@ -134,7 +134,7 @@ int relat_fix_vnd_gerar_fun(){
         vnd_qnt++;
 
         //total dos produtos
-        sprintf(query, "select SUM(total) from Produto_Orcamento where code = %i",cont);
+        sprintf(query, "select SUM(total) from produto_orcamento where code = %i",cont);
         if(!(res2=consultar(query))){
           popup(NULL,"Erro ao consultar pedido");
           return 1;
@@ -163,7 +163,7 @@ int relat_fix_vnd_gerar_fun(){
         fprintf(relat_file,"</tr>");
         fprintf(relat_file,"</table>");
         fprintf(relat_file,"<table>");
-        sprintf(query, "select po.produto, p.nome, po.unidades, po.valor_unit, po.desconto, po.total from Produto_Orcamento as po inner join produtos as p on p.code = po.produto where po.code = %s",row[0]);
+        sprintf(query, "select po.produto, p.nome, po.unidades, po.valor_unit, po.desconto, po.total from produto_orcamento as po inner join produtos as p on p.code = po.produto where po.code = %s",row[0]);
         if(!(res2=consultar(query))){
           popup(NULL,"Erro ao consultar pedido");
           return 1;

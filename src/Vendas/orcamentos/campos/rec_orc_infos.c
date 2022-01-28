@@ -1,7 +1,7 @@
 int orcamentos_get_orc_itens_qnt(int orc_code){
   MYSQL_RES *res;
   char *query = malloc(MAX_QUERY_LEN);
-  sprintf(query,"select * from Produto_Orcamento where code = %i",orc_code);
+  sprintf(query,"select * from produto_orcamento where code = %i",orc_code);
   if(!(res = consultar(query))){
     popup(NULL,"Erro ao consultar itens do orçamento");
     autologger(query);

@@ -9,7 +9,7 @@ struct _cfe_produto *get_cupom_itens_from_orc(int orc_code){
   sprintf(query,
     " select op.code, op.item, p.nome, ncm.cod_ncm, icms.charIdTrib, pis.cst, p.pisaliq,"
     " cofins.cst, p.cofinsaliq, orig.idOrigem, u.sigla, op.unidades, op.valor_unit, op.desconto,"
-    " ped.tipo_mov from Produto_Orcamento as op join produtos as p join"
+    " ped.tipo_mov from produto_orcamento as op join produtos as p join"
     " unidades as u join pedidos as ped join ncm as ncm join cst_cson"
     " as icms join prod_origem as orig join pis_cofins as pis inner join"
     " pis_cofins as cofins on p.icmscst = icms.code and p.piscst = pis.code and p.cofinscst"

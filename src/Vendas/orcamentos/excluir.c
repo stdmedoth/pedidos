@@ -33,7 +33,7 @@ static int excluir_orc(){
     }
   }
 
-  sprintf(query,"delete from Produto_Orcamento where code = %i",atoi(codigo_orc_gchar));
+  sprintf(query,"delete from produto_orcamento where code = %i",atoi(codigo_orc_gchar));
   if( enviar_query(query) != 0 ){
     popup(NULL,"Erro ao tentar excluir orçamento");
     excluindo_orc = 0;

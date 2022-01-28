@@ -13,7 +13,7 @@ static int adicionar_linha_orc()
 	GtkAdjustment *ajustar;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	char *query = malloc(MAX_QUERY_LEN);
+	char query[MAX_QUERY_LEN];
 
 	if(!g_signal_handler_is_connected(prod_scroll_window,orc_auto_mover_signal)){
 		orc_auto_mover_signal = g_signal_connect(itens_orc_box,"size-allocate",G_CALLBACK(auto_vmover_scroll),prod_scroll_window);
@@ -24,7 +24,7 @@ static int adicionar_linha_orc()
 		if(codigo_orc())
 			return 1;
 
-		sprintf(query,"select * from Produto_Orcamento where code = %s",codigo_orc_gchar);
+		sprintf(query,"select * from produto_orcamento where code = %s",codigo_orc_gchar);
 		res = consultar(query);
 
 		if(!res){

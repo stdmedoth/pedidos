@@ -117,7 +117,7 @@ int produtos_ped_list(GtkEntry *widget, GtkTreeView *treeview)
 		ORIGEM_VLR
 	};
 
-	sprintf(query,"select p.nome, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from Produto_Orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
+	sprintf(query,"select p.nome, o.unidades, o.valor_unit, o.tipodesc, o.desconto, o.total, o.valor_orig from produto_orcamento as o inner join produtos as p on o.produto = p.code where o.code = %s",entrada);
 	if(!(res = consultar(query))){
 		return 1;
 	}

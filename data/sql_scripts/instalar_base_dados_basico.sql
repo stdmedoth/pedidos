@@ -240,7 +240,7 @@ insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 
 insert into relat_tabelas_id(nome, sobre, inner_query, qnt_colunas) values
 ('Produtos por Orçamentos/Pedidos','Tabela responsável por armazenar os produtos contidos em orçamentos',
-' from produtos as p inner join unidades as u inner join terceiros as t inner join tipo_terceiros as tp inner join Produto_Orcamento as p_o inner join orcamentos as o on p.fornecedor = t.code and p.unidades = u.code and t.tipo = tp.code and p_o.produto = p.code and p_o.code = o.code',15);
+' from produtos as p inner join unidades as u inner join terceiros as t inner join tipo_terceiros as tp inner join produto_orcamento as p_o inner join orcamentos as o on p.fornecedor = t.code and p.unidades = u.code and t.tipo = tp.code and p_o.produto = p.code and p_o.code = o.code',15);
 
 
 insert into relat_tab_campos(tabela, nome, sobre, query, tipo_dado) values
