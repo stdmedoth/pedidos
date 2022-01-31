@@ -1,4 +1,4 @@
-# Pedidos (EM >= 10.2 DESENVOLVIMENTO - beta)
+# Pedidos (EM DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
 
