@@ -1,5 +1,8 @@
 int personalizacao_copy_image_to_custom_desktop(){
 	const char *image_orig_path = gtk_entry_get_text(GTK_ENTRY(custom_desktop_path_entry));
+	if(!strlen(image_orig_path)){
+		return 0;
+	}
 
 	FILE *custom_image_path_cache = fopen(CSTM_DSKTP_CACHE, "w");
 	if(custom_image_path_cache){

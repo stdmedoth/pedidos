@@ -4,14 +4,16 @@ int copy_file(const char *orig, const char *dest){
   FILE *orig_fp = fopen(orig, "r");
 	if(!orig_fp){
 		file_logger(strerror(errno));
-		popup(NULL,"Não foi possível abrir arquivo origem");
+    file_logger(orig);
+		popup(NULL,"Não foi possível abrir arquivo origem (cópia)");
 		return 1;
 	}
   FILE *dest_fp = fopen(dest, "w");
   if(!dest_fp){
     fclose(orig_fp);
   	file_logger(strerror(errno));
-		popup(NULL,"Não foi possível abrir arquivo destino");
+    file_logger(dest);
+		popup(NULL,"Não foi possível abrir arquivo destino (cópia)");
 		return 1;
 	}
 
