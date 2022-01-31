@@ -1,4 +1,4 @@
- >= 10.2# >= 10.2 Pedidos (EM >= 10.2 DESENVOLVIMENTO - beta)
+# Pedidos (EM >= 10.2 DESENVOLVIMENTO - beta)
 > Sistema gerencial.
 
 
