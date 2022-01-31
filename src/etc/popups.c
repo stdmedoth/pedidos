@@ -56,6 +56,75 @@ void progress_bar_init(){
 	gtk_widget_show_all(global_progress_bar_window);
 }
 
+
+void show_version_assets(GtkWidget *button, GtkWidget *widget){
+	int len;
+	GtkWidget *popup, *fields, *fixed, *box;
+	int resultado;
+	enum {COLUMN0, N_COLUMNS};
+	GtkTreeIter colunas, campos;
+	GtkWidget *treeview, *scrollwindow;
+	GtkTreeStore *modelo;
+	GtkTreeViewColumn *coluna1;
+	GtkCellRenderer *celula1;
+
+	popup = gtk_dialog_new_with_buttons("Mensagem",NULL,4,"Ok",GTK_RESPONSE_ACCEPT,NULL);
+
+	gtk_window_set_title(GTK_WINDOW(popup),"Anexos Versão");
+	gtk_window_set_icon_name(GTK_WINDOW(popup),"user-availables");
+
+	if(widget)
+		gtk_window_set_transient_for(GTK_WINDOW(popup),GTK_WINDOW(widget));
+	gtk_window_set_keep_above(GTK_WINDOW(popup),TRUE);
+	gtk_window_set_position(GTK_WINDOW(popup),3);
+
+	fields = gtk_bin_get_child(GTK_BIN(popup));
+	fixed = gtk_fixed_new();
+	box = gtk_box_new(0,0);
+	coluna1 = gtk_tree_view_column_new();
+	celula1 = gtk_cell_renderer_text_new();
+	treeview = gtk_tree_view_new();
+	scrollwindow = gtk_scrolled_window_new(NULL,NULL);
+
+	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview),TRUE);
+	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(treeview),30);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(treeview),TRUE);
+	gtk_tree_view_set_search_entry(GTK_TREE_VIEW(treeview),NULL);
+	gtk_tree_view_column_pack_start(coluna1,celula1,TRUE);
+	gtk_tree_view_column_set_title(coluna1,"Arquivo");
+	gtk_tree_view_column_set_spacing(coluna1,5);
+	gtk_tree_view_column_set_visible(coluna1,TRUE);
+	gtk_tree_view_column_add_attribute(coluna1,celula1,"text",COLUMN0);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(treeview),coluna1);
+	modelo = gtk_tree_store_new(N_COLUMNS,G_TYPE_STRING);
+
+	for(int cont=0;cont<versions[update_choosed_version].assets_qnt; cont++){
+		if(versions[update_choosed_version].assets[cont]){
+			gtk_tree_store_append(modelo,&campos,NULL);
+			gtk_tree_store_set(modelo,&campos, COLUMN0, versions[update_choosed_version].assets[cont] , -1);	
+		}
+	}
+
+
+	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview),GTK_TREE_MODEL(modelo));
+	gtk_container_add(GTK_CONTAINER(scrollwindow),treeview);	
+	gtk_box_pack_start(GTK_BOX(box),scrollwindow,0,0,30);
+	gtk_fixed_put(GTK_FIXED(fixed),box,30,0);
+
+	gtk_box_pack_end(GTK_BOX(fields),fixed,0,0,30);
+	
+	gtk_widget_set_size_request(scrollwindow,400,300);
+	gtk_widget_grab_focus(gtk_dialog_get_widget_for_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT));
+	gtk_dialog_set_default_response(GTK_DIALOG(popup),GTK_RESPONSE_ACCEPT);
+	gtk_widget_show_all(popup);
+
+	resultado = gtk_dialog_run(GTK_DIALOG(popup));
+
+	if(popup)
+		gtk_widget_destroy(popup);
+	return ;
+}
+
 void popup(GtkWidget *widget,const gchar *string){
 	int len;
 	GtkWidget *popup, *fields, *fixed, *box;

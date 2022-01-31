@@ -61,9 +61,12 @@ int choose_version_for_download(){
     GtkWidget *migrateversion_button_box = gtk_box_new(0,0);
     GtkWidget *migrateup_version_button = gtk_button_new_with_label("Up");
     GtkWidget *migratedown_version_button = gtk_button_new_with_label("Down");
+    GtkWidget *version_assets_button = gtk_button_new_with_label("Anexos");
+    
 
 
     gtk_widget_set_name(migrateup_version_button, "button_primary");
+    gtk_widget_set_name(version_assets_button, "button_primary");
     gtk_widget_set_name(changelog_files_version_button, "button_primary");
     gtk_widget_set_name(migratedown_version_button, "button_danger");
     gtk_box_pack_start(GTK_BOX(migrateversion_button_box), migrateup_version_button, 0,0,5);
@@ -77,6 +80,7 @@ int choose_version_for_download(){
     gtk_box_pack_start(GTK_BOX(versoes_button_box), versao_posterior,0,0,5);
     gtk_box_pack_start(GTK_BOX(versoes_button_box), migrateversion_button_frame,0,0,5);
     gtk_box_pack_start(GTK_BOX(versoes_button_box), changelog_files_version_button,0,0,5);
+    gtk_box_pack_start(GTK_BOX(versoes_button_box), version_assets_button,0,0,5);
 
     gtk_box_pack_start(GTK_BOX(about_container), versoes_button_box,0,0,5);
 
@@ -86,6 +90,7 @@ int choose_version_for_download(){
     g_signal_connect(migrateup_version_button, "clicked", G_CALLBACK(update_migrates), NULL);
     g_signal_connect(migratedown_version_button, "clicked", G_CALLBACK(remove_migrates), NULL);
     g_signal_connect(changelog_files_version_button, "clicked", G_CALLBACK(download_changelog_files_on_updateview), janela);
+    g_signal_connect(version_assets_button, "clicked", G_CALLBACK(show_version_assets), janela);
 
   }else{
     file_logger("Não foi possível receber container de gtk_container_get_children() na view de update");
@@ -121,77 +126,92 @@ int choose_version_for_download(){
   return NO_VERSION_DEFINED; // apenas para simulação! corrigir isso depois
 }
 
+void iterate_version_assets_array (
+  JsonArray *array, 
+  guint index_,
+  JsonNode *element_node, 
+  gpointer user_data){
+
+
+  if(index_ >= MAX_VERSION_ASSETS){
+    return ;
+  }
+
+  JsonObject *obj = json_node_get_object(element_node);
+  if(!obj){
+    file_logger("Não foi possível receber objeto na iteração dos arquivos enexos (assets)");
+    return ;
+  }
+
+  if(json_object_has_member(obj, "name")){
+    versions[choose_versions_qnt].assets[index_] = strdup(json_object_get_string_member(obj, "name")); 
+  }else{
+    versions[choose_versions_qnt].assets[index_] = "";   
+  }
+  versions[choose_versions_qnt].assets_qnt++;
+}
+
+void iterate_version_array(JsonArray *array,
+                     guint index_,
+                     JsonNode *element_node,
+                     gpointer user_data){
+
+  if(index_ >= MAX_VERSION_QNT){
+    return ;
+  }
+
+  JsonObject *obj = json_node_get_object(element_node);
+  if(!obj){
+    file_logger("Não foi possível receber objeto na iteração da versão");
+    return ;
+  }
+  
+  if(json_object_has_member(obj, "tag_name")){
+    versions[index_].name = strdup(json_object_get_string_member(obj, "tag_name"));  
+  }else{
+    versions[index_].name = "";  
+  }
+
+  if(json_object_has_member(obj, "body")){
+    versions[index_].about = strdup(json_object_get_string_member(obj, "body"));  
+  }else{
+    versions[index_].about = "";
+  }
+
+  if(json_object_has_member(obj, "created_at")){
+    versions[index_].created_time = strdup(json_object_get_string_member(obj, "created_at"));  
+  }else{
+    versions[index_].created_time = "";
+  }
+
+  versions[index_].assets_qnt = 0;
+  versions[index_].assets = malloc(sizeof(char *) * MAX_VERSION_ASSETS);
+  if(json_object_has_member(obj, "assets")){
+    JsonArray *assets = json_object_get_array_member(obj, "assets");
+    json_array_foreach_element(assets, iterate_version_assets_array, NULL);
+  }
+  choose_versions_qnt++;
+}
+
 struct _versions *search_all_versions(){
 
   char url[strlen(VERSIONS_INFO_URL)];
   sprintf(url, "%s", VERSIONS_INFO_URL);
-  char *tmp_fileresponse = get_response(url);
-  if(!tmp_fileresponse){
+  JsonArray *json_array = get_json_array_response(url);
+  if(!json_array){
     popup(NULL,"Não foi possível receber informações com as versões");
     return NULL;
   }
-  xmlDocPtr doc = xmlParseFile(tmp_fileresponse);
-  if(!doc){
-    popup(NULL,"Não foi possível receber informações com as versões");
-    return NULL;
-  }
-
-  xmlNodeSet *name_versoes = get_tags_by_namepath(doc,"/version_list/version/name");
-  if(!name_versoes){
-    popup(NULL,"Não foi possível receber nome das versões");
-    return NULL;
-  }
-  xmlNodeSet *about_versoes = get_tags_by_namepath(doc,"/version_list/version/about");
-  if(!about_versoes){
-    popup(NULL,"Não foi possível receber nome das versões");
-    return NULL;
-  }
-
-  xmlNodeSet *anexos_versoes = get_tags_by_namepath(doc,"/version_list/version/assets");
-  if(!anexos_versoes){
-    popup(NULL,"Não foi possível receber anexos das versões");
-    return NULL;
-  }
-
-  xmlNodeSet *about_dates = get_tags_by_namepath(doc,"/version_list/version/created_at");
-  if(!anexos_versoes){
-    popup(NULL,"Não foi possível receber datas das versões");
-    return NULL;
-  }
-
   if(versions){
     free(versions);
   }
   versions = malloc(sizeof(struct _versions) * MAX_VERSION_QNT);
   update_choosed_version = 0;
   choose_versions_qnt = 0;
+  
+  json_array_foreach_element(json_array, iterate_version_array, NULL);
 
-  for(int cont=0; cont < name_versoes->nodeNr && cont < MAX_VERSION_QNT; cont++){
-
-    if(name_versoes->nodeTab[cont])
-      versions[cont].name = strdup((char*)xmlNodeGetContent(name_versoes->nodeTab[cont]));
-
-    if(about_versoes->nodeTab[cont])
-      versions[cont].about = strdup((char*)xmlNodeGetContent(about_versoes->nodeTab[cont]));
-
-    if(anexos_versoes->nodeTab[cont]){
-      char *assets_stringname = strdup((char*)xmlNodeGetContent(anexos_versoes->nodeTab[cont]));
-      versions[cont].assets_qnt = 0;
-      versions[cont].assets = malloc(sizeof(char *) * MAX_VERSION_ASSETS);
-      char *token = strtok(assets_stringname, ",");
-      while( (token != NULL) && (versions[cont].assets_qnt < MAX_VERSION_ASSETS) ){
-        versions[cont].assets[versions[cont].assets_qnt] = strdup(token);
-        token = strtok(NULL, ",");
-        versions[cont].assets_qnt++;
-      }
-    }
-
-    if(about_dates->nodeTab[cont])
-      versions[cont].created_time = strdup((char*)xmlNodeGetContent(about_dates->nodeTab[cont]));
-
-    choose_versions_qnt++;
-  }
-
+    
   return versions;
 }
 
@@ -254,7 +274,8 @@ int download_new_version(void) {
       fp = fopen(path,"wb");
       if(!fp){
 
-        /* verifica se o arquivo realmente é primordial para o funcionamento do sistema,
+        /* 
+          verifica se o arquivo realmente é primordial para o funcionamento do sistema,
           de forma que pare a atualização
           Caso seja apenas uma .dll (em caso de nova atualização)
         */

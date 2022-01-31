@@ -326,9 +326,7 @@ enum ID_OPERACOES{
   OUTRAS_OPERACOES
 };
 
-#define PEDIDOS_APP_VERSION_URL "https://calistupedidos.000webhostapp.com"
-#define LAST_VERSION_INFO_URL PEDIDOS_APP_VERSION_URL"/last_version.php"
-#define VERSIONS_INFO_URL     PEDIDOS_APP_VERSION_URL"/list_all_version.php"
+#define VERSIONS_INFO_URL "https://api.github.com/repos/stdmedoth/pedidos/releases"
 #define MAX_VERSION_QNT 20
 #define MAX_VERSION_ASSETS 10
 
